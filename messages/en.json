@@ -1,0 +1,194 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Try again",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "viewAll": "View All",
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "contactUs": "Contact Us"
+  },
+  "navigation": {
+    "home": "Home",
+    "products": "Products",
+    "services": "Services",
+    "about": "About Us",
+    "contact": "Contact",
+    "requestQuote": "Request Quote",
+    "blog": "Market Insights",
+    "certifications": "Certifications"
+  },
+  "hero": {
+    "title": "Premium Vietnamese Coffee for Global Markets",
+    "subtitle": "Direct from farm to your business. Discover exceptional Robusta and Arabica beans with full traceability and sustainable sourcing.",
+    "cta": "Request a Quote",
+    "ctaSecondary": "Explore Products",
+    "trustBadge": "Trusted by 500+ importers worldwide"
+  },
+  "products": {
+    "title": "Our Coffee Products",
+    "subtitle": "Premium Vietnamese coffee beans for discerning global markets",
+    "categories": {
+      "robusta": "Robusta",
+      "arabica": "Arabica",
+      "blends": "Specialty Blends",
+      "instant": "Instant Coffee"
+    },
+    "specifications": {
+      "origin": "Origin",
+      "processing": "Processing Method",
+      "grade": "Grade",
+      "moisture": "Moisture Content",
+      "screenSize": "Screen Size",
+      "defects": "Defect Rate",
+      "cupping": "Cupping Score",
+      "certifications": "Certifications"
+    },
+    "requestSample": "Request Sample",
+    "downloadSpec": "Download Specification Sheet",
+    "minimumOrder": "Minimum Order Quantity"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive solutions for your coffee business needs",
+    "oem": {
+      "title": "OEM Manufacturing",
+      "description": "Custom coffee production with your brand specifications"
+    },
+    "privateLabel": {
+      "title": "Private Label",
+      "description": "Complete branding and packaging solutions"
+    },
+    "sourcing": {
+      "title": "Coffee Sourcing",
+      "description": "Expert sourcing from Vietnam's finest coffee regions"
+    },
+    "logistics": {
+      "title": "Logistics & Shipping",
+      "description": "End-to-end logistics solutions with competitive freight rates"
+    },
+    "qualityControl": {
+      "title": "Quality Control",
+      "description": "Rigorous testing and certification processes"
+    },
+    "consulting": {
+      "title": "Market Consulting",
+      "description": "Strategic insights for the Vietnamese coffee market"
+    }
+  },
+  "quote": {
+    "title": "Request a Quote",
+    "subtitle": "Get competitive pricing for your coffee requirements",
+    "form": {
+      "productType": "Product Type",
+      "quantity": "Quantity (MT)",
+      "packaging": "Packaging Preference",
+      "incoterms": "Incoterms",
+      "destination": "Destination Port",
+      "timeline": "Required Timeline",
+      "companyName": "Company Name",
+      "contactPerson": "Contact Person",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "country": "Country",
+      "additionalRequirements": "Additional Requirements",
+      "submit": "Submit Quote Request"
+    },
+    "success": {
+      "title": "Quote Request Submitted",
+      "message": "Thank you for your interest. Our team will respond within 24 hours with a detailed quotation.",
+      "reference": "Reference Number"
+    }
+  },
+  "about": {
+    "title": "About The Great Beans",
+    "subtitle": "Your trusted partner in Vietnamese coffee export",
+    "story": {
+      "title": "Our Story",
+      "content": "Founded with a mission to connect Vietnam's exceptional coffee with global markets, we bridge the gap between local farmers and international buyers."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "content": "To deliver premium Vietnamese coffee while ensuring sustainable practices and fair trade throughout our supply chain."
+    },
+    "values": {
+      "quality": {
+        "title": "Quality Excellence",
+        "description": "Rigorous quality control at every stage"
+      },
+      "sustainability": {
+        "title": "Sustainability",
+        "description": "Environmental and social responsibility"
+      },
+      "transparency": {
+        "title": "Transparency",
+        "description": "Full traceability from farm to port"
+      },
+      "partnership": {
+        "title": "Partnership",
+        "description": "Long-term relationships with clients and farmers"
+      }
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Ready to start your coffee journey with us?",
+    "office": {
+      "title": "Head Office",
+      "address": "Ho Chi Minh City, Vietnam",
+      "phone": "+84 xxx xxx xxx",
+      "email": "info@thegreatbeans.com"
+    },
+    "form": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "company": "Company Name",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message"
+    }
+  },
+  "footer": {
+    "company": {
+      "title": "The Great Beans",
+      "description": "Premium Vietnamese coffee for global markets"
+    },
+    "quickLinks": "Quick Links",
+    "products": "Products",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "cookiePolicy": "Cookie Policy",
+    "followUs": "Follow Us",
+    "newsletter": {
+      "title": "Market Updates",
+      "description": "Subscribe for coffee market insights and product updates",
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe"
+    },
+    "copyright": "© 2024 The Great Beans. All rights reserved."
+  },
+  "seo": {
+    "home": {
+      "title": "Premium Vietnamese Coffee Export | The Great Beans",
+      "description": "Leading Vietnamese coffee exporter offering premium Robusta and Arabica beans. Direct sourcing, competitive pricing, and reliable logistics for global markets."
+    },
+    "products": {
+      "title": "Vietnamese Coffee Products | Premium Robusta & Arabica",
+      "description": "Explore our range of premium Vietnamese coffee products. High-quality Robusta, specialty Arabica, and custom blends for international markets."
+    },
+    "services": {
+      "title": "Coffee Export Services | OEM, Private Label & Sourcing",
+      "description": "Comprehensive coffee export services including OEM manufacturing, private label solutions, and expert sourcing from Vietnam's finest coffee regions."
+    }
+  }
+}

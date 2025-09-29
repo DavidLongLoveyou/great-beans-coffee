@@ -1,0 +1,194 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "error": "Er is een fout opgetreden",
+    "retry": "Opnieuw proberen",
+    "close": "Sluiten",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "submit": "Verzenden",
+    "next": "Volgende",
+    "previous": "Vorige",
+    "search": "Zoeken",
+    "filter": "Filteren",
+    "sort": "Sorteren",
+    "viewAll": "Alles bekijken",
+    "learnMore": "Meer leren",
+    "getStarted": "Aan de slag",
+    "contactUs": "Contact opnemen"
+  },
+  "navigation": {
+    "home": "Home",
+    "products": "Producten",
+    "services": "Diensten",
+    "about": "Over ons",
+    "contact": "Contact",
+    "requestQuote": "Offerte aanvragen",
+    "blog": "Marktinzichten",
+    "certifications": "Certificeringen"
+  },
+  "hero": {
+    "title": "Premium Vietnamese Koffie voor Wereldwijde Markten",
+    "subtitle": "Direct van boerderij naar uw bedrijf. Ontdek uitzonderlijke Robusta en Arabica bonen met volledige traceerbaarheid en duurzame inkoop.",
+    "cta": "Offerte aanvragen",
+    "ctaSecondary": "Producten verkennen",
+    "trustBadge": "Vertrouwd door 500+ importeurs wereldwijd"
+  },
+  "products": {
+    "title": "Onze Koffieproducten",
+    "subtitle": "Premium Vietnamese koffiebonen voor veeleisende wereldwijde markten",
+    "categories": {
+      "robusta": "Robusta",
+      "arabica": "Arabica",
+      "blends": "Specialiteitsmengsels",
+      "instant": "Instantkoffie"
+    },
+    "specifications": {
+      "origin": "Oorsprong",
+      "processing": "Verwerkingsmethode",
+      "grade": "Kwaliteit",
+      "moisture": "Vochtgehalte",
+      "screenSize": "Zeefgrootte",
+      "defects": "Defectpercentage",
+      "cupping": "Cupping score",
+      "certifications": "Certificeringen"
+    },
+    "requestSample": "Monster aanvragen",
+    "downloadSpec": "Specificatieblad downloaden",
+    "minimumOrder": "Minimum bestelhoeveelheid"
+  },
+  "services": {
+    "title": "Onze Diensten",
+    "subtitle": "Uitgebreide oplossingen voor uw koffiebehoeften",
+    "oem": {
+      "title": "OEM Productie",
+      "description": "Aangepaste koffieproductie volgens uw merkspecificaties"
+    },
+    "privateLabel": {
+      "title": "Private Label",
+      "description": "Complete branding en verpakkingsoplossingen"
+    },
+    "sourcing": {
+      "title": "Koffie-inkoop",
+      "description": "Deskundige inkoop uit Vietnam's beste koffieregio's"
+    },
+    "logistics": {
+      "title": "Logistiek & Verzending",
+      "description": "End-to-end logistieke oplossingen met concurrerende vrachttarieven"
+    },
+    "qualityControl": {
+      "title": "Kwaliteitscontrole",
+      "description": "Rigoureuze test- en certificeringsprocessen"
+    },
+    "consulting": {
+      "title": "Marktadvies",
+      "description": "Strategische inzichten voor de Vietnamese koffiemarkt"
+    }
+  },
+  "quote": {
+    "title": "Offerte aanvragen",
+    "subtitle": "Krijg concurrerende prijzen voor uw koffievereisten",
+    "form": {
+      "productType": "Producttype",
+      "quantity": "Hoeveelheid (MT)",
+      "packaging": "Verpakkingsvoorkeur",
+      "incoterms": "Incoterms",
+      "destination": "Bestemmingshaven",
+      "timeline": "Vereiste tijdlijn",
+      "companyName": "Bedrijfsnaam",
+      "contactPerson": "Contactpersoon",
+      "email": "E-mailadres",
+      "phone": "Telefoonnummer",
+      "country": "Land",
+      "additionalRequirements": "Aanvullende vereisten",
+      "submit": "Offerteverzoek verzenden"
+    },
+    "success": {
+      "title": "Offerteverzoek verzonden",
+      "message": "Dank u voor uw interesse. Ons team zal binnen 24 uur reageren met een gedetailleerde offerte.",
+      "reference": "Referentienummer"
+    }
+  },
+  "about": {
+    "title": "Over The Great Beans",
+    "subtitle": "Uw vertrouwde partner in Vietnamese koffie-export",
+    "story": {
+      "title": "Ons verhaal",
+      "content": "Opgericht met de missie om Vietnam's uitzonderlijke koffie te verbinden met wereldwijde markten, overbruggen we de kloof tussen lokale boeren en internationale kopers."
+    },
+    "mission": {
+      "title": "Onze missie",
+      "content": "Premium Vietnamese koffie leveren terwijl we duurzame praktijken en eerlijke handel in onze hele toeleveringsketen waarborgen."
+    },
+    "values": {
+      "quality": {
+        "title": "Kwaliteitsexcellentie",
+        "description": "Rigoureuze kwaliteitscontrole in elke fase"
+      },
+      "sustainability": {
+        "title": "Duurzaamheid",
+        "description": "Milieu- en sociale verantwoordelijkheid"
+      },
+      "transparency": {
+        "title": "Transparantie",
+        "description": "Volledige traceerbaarheid van boerderij tot haven"
+      },
+      "partnership": {
+        "title": "Partnerschap",
+        "description": "Langetermijnrelaties met klanten en boeren"
+      }
+    }
+  },
+  "contact": {
+    "title": "Contact opnemen",
+    "subtitle": "Klaar om uw koffiereis met ons te beginnen?",
+    "office": {
+      "title": "Hoofdkantoor",
+      "address": "Ho Chi Minh Stad, Vietnam",
+      "phone": "+84 xxx xxx xxx",
+      "email": "info@thegreatbeans.com"
+    },
+    "form": {
+      "name": "Volledige naam",
+      "email": "E-mailadres",
+      "company": "Bedrijfsnaam",
+      "subject": "Onderwerp",
+      "message": "Bericht",
+      "send": "Bericht verzenden"
+    }
+  },
+  "footer": {
+    "company": {
+      "title": "The Great Beans",
+      "description": "Premium Vietnamese koffie voor wereldwijde markten"
+    },
+    "quickLinks": "Snelle links",
+    "products": "Producten",
+    "legal": "Juridisch",
+    "privacyPolicy": "Privacybeleid",
+    "termsOfService": "Servicevoorwaarden",
+    "cookiePolicy": "Cookiebeleid",
+    "followUs": "Volg ons",
+    "newsletter": {
+      "title": "Marktupdates",
+      "description": "Abonneer voor koffiemarktinzichten en productupdates",
+      "placeholder": "Voer uw e-mail in",
+      "subscribe": "Abonneren"
+    },
+    "copyright": "© 2024 The Great Beans. Alle rechten voorbehouden."
+  },
+  "seo": {
+    "home": {
+      "title": "Premium Vietnamese Koffie Export | The Great Beans",
+      "description": "Toonaangevende Vietnamese koffie-exporteur die premium Robusta en Arabica bonen aanbiedt. Directe inkoop, concurrerende prijzen en betrouwbare logistiek voor wereldwijde markten."
+    },
+    "products": {
+      "title": "Vietnamese Koffieproducten | Premium Robusta & Arabica",
+      "description": "Verken ons assortiment premium Vietnamese koffieproducten. Hoogwaardige Robusta, specialiteit Arabica en aangepaste mengsels voor internationale markten."
+    },
+    "services": {
+      "title": "Koffie Export Diensten | OEM, Private Label & Inkoop",
+      "description": "Uitgebreide koffie-exportdiensten inclusief OEM-productie, private label oplossingen en deskundige inkoop uit Vietnam's beste koffieregio's."
+    }
+  }
+}

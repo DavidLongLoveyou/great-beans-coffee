@@ -1,0 +1,279 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ================================
+// USER MANAGEMENT
+// ================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  role      UserRole @default(USER)
+  avatar    String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  createdCoffeeProducts CoffeeProduct[] @relation("CreatedBy")
+  updatedCoffeeProducts CoffeeProduct[] @relation("UpdatedBy")
+  assignedRFQs          RFQ[] @relation("AssignedTo")
+  createdRFQs           RFQ[] @relation("RFQCreatedBy")
+
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  SALES
+  CONTENT_MANAGER
+  USER
+}
+
+// ================================
+// COFFEE PRODUCTS
+// ================================
+
+model CoffeeProduct {
+  id          String      @id @default(cuid())
+  sku         String      @unique
+  coffeeType  CoffeeType
+  grade       CoffeeGrade
+  processing  ProcessingMethod
+  isActive    Boolean     @default(true)
+  
+  // Basic specifications (JSON for complex data)
+  specifications String // JSON string for CoffeeSpecifications
+  pricing        String // JSON string for Pricing
+  availability   String // JSON string for Availability
+  originInfo     String // JSON string for OriginInfo
+  
+  // Media (comma-separated strings instead of arrays)
+  images    String? // Comma-separated image URLs
+  documents String? // Comma-separated document URLs
+  
+  // Multilingual Content
+  translations CoffeeProductTranslation[]
+  
+  // SEO
+  seoMetadata String? // JSON string for SEO metadata per locale
+  
+  // System fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String
+  updatedBy String
+  
+  // Relationships
+  creator User @relation("CreatedBy", fields: [createdBy], references: [id])
+  updater User @relation("UpdatedBy", fields: [updatedBy], references: [id])
+  
+  // Related entities
+  rfqProducts RFQProduct[]
+
+  @@map("coffee_products")
+}
+
+model CoffeeProductTranslation {
+  id        String @id @default(cuid())
+  locale    String
+  name      String
+  description String?
+  shortDescription String?
+  features  String? // JSON string for features array
+  benefits  String? // JSON string for benefits array
+  
+  // SEO fields
+  metaTitle       String?
+  metaDescription String?
+  slug            String
+  
+  // Relationships
+  productId String
+  product   CoffeeProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@unique([productId, locale])
+  @@unique([locale, slug])
+  @@map("coffee_product_translations")
+}
+
+enum CoffeeType {
+  ROBUSTA
+  ARABICA
+  BLEND
+}
+
+enum CoffeeGrade {
+  GRADE_1
+  GRADE_2
+  GRADE_3
+  PREMIUM
+  SPECIALTY
+}
+
+enum ProcessingMethod {
+  NATURAL
+  WASHED
+  HONEY
+  WET_HULLED
+  SEMI_WASHED
+}
+
+// ================================
+// RFQ MANAGEMENT
+// ================================
+
+model RFQ {
+  id          String    @id @default(cuid())
+  rfqNumber   String    @unique
+  status      RFQStatus @default(PENDING)
+  priority    RFQPriority @default(MEDIUM)
+  
+  // Company Information
+  companyName    String
+  contactPerson  String
+  email          String
+  phone          String?
+  country        String
+  businessType   String?
+  
+  // Requirements (simplified as JSON strings)
+  productRequirements String // JSON string
+  deliveryRequirements String // JSON string
+  paymentRequirements String? // JSON string
+  
+  // Additional Details
+  additionalRequirements String?
+  sampleRequired        Boolean @default(false)
+  urgency              String @default("medium")
+  
+  // System fields
+  locale    String @default("en")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  assignedTo String?
+  createdBy  String?
+  updatedBy  String?
+  
+  // Relationships
+  assignee User? @relation("AssignedTo", fields: [assignedTo], references: [id])
+  creator  User? @relation("RFQCreatedBy", fields: [createdBy], references: [id])
+  
+  // Related entities
+  products RFQProduct[]
+
+  @@map("rfqs")
+}
+
+
+
+model RFQProduct {
+  id       String @id @default(cuid())
+  rfqId    String
+  productId String?
+  
+  // Product specifications
+  productType       String
+  grade            String?
+  origin           String?
+  processingMethod String?
+  certifications   String? // JSON string for certifications array
+  
+  // Quantity & Pricing
+  quantity     Float
+  quantityUnit String
+  targetPrice  Float?
+  currency     String?
+  
+  // Relationships
+  rfq     RFQ            @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  product CoffeeProduct? @relation(fields: [productId], references: [id])
+  
+  @@map("rfq_products")
+}
+
+enum RFQStatus {
+  PENDING
+  IN_REVIEW
+  QUOTED
+  NEGOTIATING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+enum RFQPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// ================================
+// CONTENT MANAGEMENT (Simplified)
+// ================================
+
+model Content {
+  id          String      @id @default(cuid())
+  type        ContentType
+  status      ContentStatus @default(DRAFT)
+  locale      String
+  
+  // Basic content fields
+  title       String
+  slug        String
+  excerpt     String?
+  content     String      // Main content body
+  
+  // Media (simplified)
+  featuredImage String?
+  media         String? // JSON string for media array
+  
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+  keywords        String? // Comma-separated keywords
+  
+  // Organization
+  tags            String? // Comma-separated tags
+  category        String?
+  
+  // Publishing
+  publishedAt DateTime?
+  scheduledAt DateTime?
+  
+  // System fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+  
+  @@unique([locale, slug])
+  @@map("content")
+}
+
+enum ContentType {
+  BLOG_POST
+  MARKET_REPORT
+  ORIGIN_STORY
+  SERVICE_PAGE
+  LEGAL_PAGE
+  LANDING_PAGE
+}
+
+enum ContentStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}

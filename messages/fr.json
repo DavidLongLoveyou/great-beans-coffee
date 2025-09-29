@@ -1,0 +1,194 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "retry": "Réessayer",
+    "close": "Fermer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "viewAll": "Voir tout",
+    "learnMore": "En savoir plus",
+    "getStarted": "Commencer",
+    "contactUs": "Nous contacter"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "products": "Produits",
+    "services": "Services",
+    "about": "À propos",
+    "contact": "Contact",
+    "requestQuote": "Demander un devis",
+    "blog": "Insights du marché",
+    "certifications": "Certifications"
+  },
+  "hero": {
+    "title": "Café Vietnamien Premium pour les Marchés Mondiaux",
+    "subtitle": "Directement de la ferme à votre entreprise. Découvrez des grains Robusta et Arabica exceptionnels avec une traçabilité complète et un approvisionnement durable.",
+    "cta": "Demander un devis",
+    "ctaSecondary": "Explorer les produits",
+    "trustBadge": "Fait confiance par plus de 500 importateurs dans le monde"
+  },
+  "products": {
+    "title": "Nos Produits de Café",
+    "subtitle": "Grains de café vietnamiens premium pour les marchés mondiaux exigeants",
+    "categories": {
+      "robusta": "Robusta",
+      "arabica": "Arabica",
+      "blends": "Mélanges de spécialité",
+      "instant": "Café instantané"
+    },
+    "specifications": {
+      "origin": "Origine",
+      "processing": "Méthode de traitement",
+      "grade": "Grade",
+      "moisture": "Teneur en humidité",
+      "screenSize": "Taille d'écran",
+      "defects": "Taux de défauts",
+      "cupping": "Score de dégustation",
+      "certifications": "Certifications"
+    },
+    "requestSample": "Demander un échantillon",
+    "downloadSpec": "Télécharger la fiche technique",
+    "minimumOrder": "Quantité minimum de commande"
+  },
+  "services": {
+    "title": "Nos Services",
+    "subtitle": "Solutions complètes pour vos besoins d'affaires de café",
+    "oem": {
+      "title": "Fabrication OEM",
+      "description": "Production de café personnalisée selon vos spécifications de marque"
+    },
+    "privateLabel": {
+      "title": "Marque privée",
+      "description": "Solutions complètes de branding et d'emballage"
+    },
+    "sourcing": {
+      "title": "Approvisionnement en café",
+      "description": "Approvisionnement expert des meilleures régions caféières du Vietnam"
+    },
+    "logistics": {
+      "title": "Logistique et expédition",
+      "description": "Solutions logistiques de bout en bout avec des tarifs de fret compétitifs"
+    },
+    "qualityControl": {
+      "title": "Contrôle qualité",
+      "description": "Processus de test et de certification rigoureux"
+    },
+    "consulting": {
+      "title": "Conseil en marché",
+      "description": "Insights stratégiques pour le marché du café vietnamien"
+    }
+  },
+  "quote": {
+    "title": "Demander un devis",
+    "subtitle": "Obtenez des prix compétitifs pour vos exigences de café",
+    "form": {
+      "productType": "Type de produit",
+      "quantity": "Quantité (MT)",
+      "packaging": "Préférence d'emballage",
+      "incoterms": "Incoterms",
+      "destination": "Port de destination",
+      "timeline": "Délai requis",
+      "companyName": "Nom de l'entreprise",
+      "contactPerson": "Personne de contact",
+      "email": "Adresse e-mail",
+      "phone": "Numéro de téléphone",
+      "country": "Pays",
+      "additionalRequirements": "Exigences supplémentaires",
+      "submit": "Soumettre la demande de devis"
+    },
+    "success": {
+      "title": "Demande de devis soumise",
+      "message": "Merci pour votre intérêt. Notre équipe répondra dans les 24 heures avec un devis détaillé.",
+      "reference": "Numéro de référence"
+    }
+  },
+  "about": {
+    "title": "À propos de The Great Beans",
+    "subtitle": "Votre partenaire de confiance dans l'exportation de café vietnamien",
+    "story": {
+      "title": "Notre histoire",
+      "content": "Fondée avec la mission de connecter le café exceptionnel du Vietnam aux marchés mondiaux, nous comblons le fossé entre les agriculteurs locaux et les acheteurs internationaux."
+    },
+    "mission": {
+      "title": "Notre mission",
+      "content": "Livrer du café vietnamien premium tout en assurant des pratiques durables et un commerce équitable dans toute notre chaîne d'approvisionnement."
+    },
+    "values": {
+      "quality": {
+        "title": "Excellence qualité",
+        "description": "Contrôle qualité rigoureux à chaque étape"
+      },
+      "sustainability": {
+        "title": "Durabilité",
+        "description": "Responsabilité environnementale et sociale"
+      },
+      "transparency": {
+        "title": "Transparence",
+        "description": "Traçabilité complète de la ferme au port"
+      },
+      "partnership": {
+        "title": "Partenariat",
+        "description": "Relations à long terme avec clients et agriculteurs"
+      }
+    }
+  },
+  "contact": {
+    "title": "Nous contacter",
+    "subtitle": "Prêt à commencer votre voyage café avec nous ?",
+    "office": {
+      "title": "Siège social",
+      "address": "Hô Chi Minh-Ville, Vietnam",
+      "phone": "+84 xxx xxx xxx",
+      "email": "info@thegreatbeans.com"
+    },
+    "form": {
+      "name": "Nom complet",
+      "email": "Adresse e-mail",
+      "company": "Nom de l'entreprise",
+      "subject": "Sujet",
+      "message": "Message",
+      "send": "Envoyer le message"
+    }
+  },
+  "footer": {
+    "company": {
+      "title": "The Great Beans",
+      "description": "Café vietnamien premium pour les marchés mondiaux"
+    },
+    "quickLinks": "Liens rapides",
+    "products": "Produits",
+    "legal": "Légal",
+    "privacyPolicy": "Politique de confidentialité",
+    "termsOfService": "Conditions d'utilisation",
+    "cookiePolicy": "Politique des cookies",
+    "followUs": "Suivez-nous",
+    "newsletter": {
+      "title": "Mises à jour du marché",
+      "description": "Abonnez-vous pour les insights du marché du café et les mises à jour produits",
+      "placeholder": "Entrez votre e-mail",
+      "subscribe": "S'abonner"
+    },
+    "copyright": "© 2024 The Great Beans. Tous droits réservés."
+  },
+  "seo": {
+    "home": {
+      "title": "Exportation de Café Vietnamien Premium | The Great Beans",
+      "description": "Principal exportateur de café vietnamien offrant des grains Robusta et Arabica premium. Approvisionnement direct, prix compétitifs et logistique fiable pour les marchés mondiaux."
+    },
+    "products": {
+      "title": "Produits de Café Vietnamiens | Robusta & Arabica Premium",
+      "description": "Explorez notre gamme de produits de café vietnamiens premium. Robusta de haute qualité, Arabica de spécialité et mélanges personnalisés pour les marchés internationaux."
+    },
+    "services": {
+      "title": "Services d'Exportation de Café | OEM, Marque Privée & Approvisionnement",
+      "description": "Services complets d'exportation de café incluant la fabrication OEM, solutions de marque privée et approvisionnement expert des meilleures régions caféières du Vietnam."
+    }
+  }
+}

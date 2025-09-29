@@ -1,0 +1,194 @@
+{
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "retry": "다시 시도",
+    "close": "닫기",
+    "save": "저장",
+    "cancel": "취소",
+    "submit": "제출",
+    "next": "다음",
+    "previous": "이전",
+    "search": "검색",
+    "filter": "필터",
+    "sort": "정렬",
+    "viewAll": "모두 보기",
+    "learnMore": "더 알아보기",
+    "getStarted": "시작하기",
+    "contactUs": "문의하기"
+  },
+  "navigation": {
+    "home": "홈",
+    "products": "제품",
+    "services": "서비스",
+    "about": "회사소개",
+    "contact": "연락처",
+    "requestQuote": "견적요청",
+    "blog": "시장 인사이트",
+    "certifications": "인증서"
+  },
+  "hero": {
+    "title": "글로벌 시장을 위한 프리미엄 베트남 커피",
+    "subtitle": "농장에서 직접 귀하의 비즈니스로. 완전한 추적가능성과 지속가능한 소싱을 통한 뛰어난 로부스타와 아라비카 원두를 발견하세요.",
+    "cta": "견적 요청",
+    "ctaSecondary": "제품 탐색",
+    "trustBadge": "전 세계 500개 이상의 수입업체가 신뢰"
+  },
+  "products": {
+    "title": "우리의 커피 제품",
+    "subtitle": "까다로운 글로벌 시장을 위한 프리미엄 베트남 커피 원두",
+    "categories": {
+      "robusta": "로부스타",
+      "arabica": "아라비카",
+      "blends": "스페셜티 블렌드",
+      "instant": "인스턴트 커피"
+    },
+    "specifications": {
+      "origin": "원산지",
+      "processing": "가공 방법",
+      "grade": "등급",
+      "moisture": "수분 함량",
+      "screenSize": "스크린 사이즈",
+      "defects": "결함률",
+      "cupping": "커핑 점수",
+      "certifications": "인증"
+    },
+    "requestSample": "샘플 요청",
+    "downloadSpec": "사양서 다운로드",
+    "minimumOrder": "최소 주문 수량"
+  },
+  "services": {
+    "title": "우리의 서비스",
+    "subtitle": "귀하의 커피 비즈니스 요구사항을 위한 종합적인 솔루션",
+    "oem": {
+      "title": "OEM 제조",
+      "description": "귀하의 브랜드 사양에 따른 맞춤형 커피 생산"
+    },
+    "privateLabel": {
+      "title": "프라이빗 라벨",
+      "description": "완전한 브랜딩 및 포장 솔루션"
+    },
+    "sourcing": {
+      "title": "커피 소싱",
+      "description": "베트남 최고의 커피 지역에서의 전문 소싱"
+    },
+    "logistics": {
+      "title": "물류 및 배송",
+      "description": "경쟁력 있는 운임으로 엔드투엔드 물류 솔루션"
+    },
+    "qualityControl": {
+      "title": "품질 관리",
+      "description": "엄격한 테스트 및 인증 프로세스"
+    },
+    "consulting": {
+      "title": "시장 컨설팅",
+      "description": "베트남 커피 시장에 대한 전략적 인사이트"
+    }
+  },
+  "quote": {
+    "title": "견적 요청",
+    "subtitle": "귀하의 커피 요구사항에 대한 경쟁력 있는 가격을 받아보세요",
+    "form": {
+      "productType": "제품 유형",
+      "quantity": "수량 (MT)",
+      "packaging": "포장 선호도",
+      "incoterms": "인코텀즈",
+      "destination": "목적지 항구",
+      "timeline": "필요한 일정",
+      "companyName": "회사명",
+      "contactPerson": "담당자",
+      "email": "이메일 주소",
+      "phone": "전화번호",
+      "country": "국가",
+      "additionalRequirements": "추가 요구사항",
+      "submit": "견적 요청 제출"
+    },
+    "success": {
+      "title": "견적 요청이 제출되었습니다",
+      "message": "관심을 가져주셔서 감사합니다. 저희 팀이 24시간 내에 상세한 견적서로 응답드리겠습니다.",
+      "reference": "참조 번호"
+    }
+  },
+  "about": {
+    "title": "The Great Beans 소개",
+    "subtitle": "베트남 커피 수출의 신뢰할 수 있는 파트너",
+    "story": {
+      "title": "우리의 이야기",
+      "content": "베트남의 뛰어난 커피를 글로벌 시장과 연결한다는 사명으로 설립되어, 지역 농부와 국제 구매자 사이의 격차를 해소합니다."
+    },
+    "mission": {
+      "title": "우리의 사명",
+      "content": "공급망 전반에 걸쳐 지속가능한 관행과 공정거래를 보장하면서 프리미엄 베트남 커피를 제공하는 것입니다."
+    },
+    "values": {
+      "quality": {
+        "title": "품질 우수성",
+        "description": "모든 단계에서의 엄격한 품질 관리"
+      },
+      "sustainability": {
+        "title": "지속가능성",
+        "description": "환경적, 사회적 책임"
+      },
+      "transparency": {
+        "title": "투명성",
+        "description": "농장에서 항구까지 완전한 추적가능성"
+      },
+      "partnership": {
+        "title": "파트너십",
+        "description": "고객과 농부와의 장기적인 관계"
+      }
+    }
+  },
+  "contact": {
+    "title": "연락처",
+    "subtitle": "저희와 함께 커피 여정을 시작할 준비가 되셨나요?",
+    "office": {
+      "title": "본사",
+      "address": "베트남 호치민시",
+      "phone": "+84 xxx xxx xxx",
+      "email": "info@thegreatbeans.com"
+    },
+    "form": {
+      "name": "성명",
+      "email": "이메일 주소",
+      "company": "회사명",
+      "subject": "제목",
+      "message": "메시지",
+      "send": "메시지 보내기"
+    }
+  },
+  "footer": {
+    "company": {
+      "title": "The Great Beans",
+      "description": "글로벌 시장을 위한 프리미엄 베트남 커피"
+    },
+    "quickLinks": "빠른 링크",
+    "products": "제품",
+    "legal": "법적 고지",
+    "privacyPolicy": "개인정보 보호정책",
+    "termsOfService": "서비스 약관",
+    "cookiePolicy": "쿠키 정책",
+    "followUs": "팔로우",
+    "newsletter": {
+      "title": "시장 업데이트",
+      "description": "커피 시장 인사이트와 제품 업데이트를 구독하세요",
+      "placeholder": "이메일을 입력하세요",
+      "subscribe": "구독"
+    },
+    "copyright": "© 2024 The Great Beans. 모든 권리 보유."
+  },
+  "seo": {
+    "home": {
+      "title": "프리미엄 베트남 커피 수출 | The Great Beans",
+      "description": "프리미엄 로부스타와 아라비카 원두를 제공하는 선도적인 베트남 커피 수출업체. 직접 소싱, 경쟁력 있는 가격, 글로벌 시장을 위한 신뢰할 수 있는 물류."
+    },
+    "products": {
+      "title": "베트남 커피 제품 | 프리미엄 로부스타 & 아라비카",
+      "description": "프리미엄 베트남 커피 제품 범위를 탐색하세요. 고품질 로부스타, 스페셜티 아라비카, 국제 시장을 위한 맞춤형 블렌드."
+    },
+    "services": {
+      "title": "커피 수출 서비스 | OEM, 프라이빗 라벨 & 소싱",
+      "description": "OEM 제조, 프라이빗 라벨 솔루션, 베트남 최고의 커피 지역에서의 전문 소싱을 포함한 종합적인 커피 수출 서비스."
+    }
+  }
+}

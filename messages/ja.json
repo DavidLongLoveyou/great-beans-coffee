@@ -1,0 +1,194 @@
+{
+  "common": {
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "retry": "再試行",
+    "close": "閉じる",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "submit": "送信",
+    "next": "次へ",
+    "previous": "前へ",
+    "search": "検索",
+    "filter": "フィルター",
+    "sort": "並び替え",
+    "viewAll": "すべて表示",
+    "learnMore": "詳細を見る",
+    "getStarted": "始める",
+    "contactUs": "お問い合わせ"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "products": "製品",
+    "services": "サービス",
+    "about": "会社概要",
+    "contact": "お問い合わせ",
+    "requestQuote": "見積もり依頼",
+    "blog": "市場インサイト",
+    "certifications": "認証"
+  },
+  "hero": {
+    "title": "グローバル市場向けプレミアムベトナムコーヒー",
+    "subtitle": "農園から直接お客様のビジネスへ。完全なトレーサビリティと持続可能な調達による優れたロブスタとアラビカ豆をご発見ください。",
+    "cta": "見積もりを依頼",
+    "ctaSecondary": "製品を探索",
+    "trustBadge": "世界500社以上の輸入業者に信頼されています"
+  },
+  "products": {
+    "title": "当社のコーヒー製品",
+    "subtitle": "厳選されたグローバル市場向けプレミアムベトナムコーヒー豆",
+    "categories": {
+      "robusta": "ロブスタ",
+      "arabica": "アラビカ",
+      "blends": "スペシャルティブレンド",
+      "instant": "インスタントコーヒー"
+    },
+    "specifications": {
+      "origin": "産地",
+      "processing": "加工方法",
+      "grade": "グレード",
+      "moisture": "水分含有量",
+      "screenSize": "スクリーンサイズ",
+      "defects": "欠点率",
+      "cupping": "カッピングスコア",
+      "certifications": "認証"
+    },
+    "requestSample": "サンプル依頼",
+    "downloadSpec": "仕様書ダウンロード",
+    "minimumOrder": "最小注文数量"
+  },
+  "services": {
+    "title": "当社のサービス",
+    "subtitle": "お客様のコーヒービジネスニーズに対する包括的なソリューション",
+    "oem": {
+      "title": "OEM製造",
+      "description": "お客様のブランド仕様に基づくカスタムコーヒー生産"
+    },
+    "privateLabel": {
+      "title": "プライベートラベル",
+      "description": "完全なブランディングとパッケージングソリューション"
+    },
+    "sourcing": {
+      "title": "コーヒー調達",
+      "description": "ベトナム最高のコーヒー産地からの専門調達"
+    },
+    "logistics": {
+      "title": "物流・配送",
+      "description": "競争力のある運賃でのエンドツーエンド物流ソリューション"
+    },
+    "qualityControl": {
+      "title": "品質管理",
+      "description": "厳格なテストと認証プロセス"
+    },
+    "consulting": {
+      "title": "市場コンサルティング",
+      "description": "ベトナムコーヒー市場に関する戦略的インサイト"
+    }
+  },
+  "quote": {
+    "title": "見積もり依頼",
+    "subtitle": "お客様のコーヒー要件に対する競争力のある価格をご提供",
+    "form": {
+      "productType": "製品タイプ",
+      "quantity": "数量（MT）",
+      "packaging": "パッケージング希望",
+      "incoterms": "インコタームズ",
+      "destination": "仕向港",
+      "timeline": "必要な納期",
+      "companyName": "会社名",
+      "contactPerson": "担当者",
+      "email": "メールアドレス",
+      "phone": "電話番号",
+      "country": "国",
+      "additionalRequirements": "追加要件",
+      "submit": "見積もり依頼を送信"
+    },
+    "success": {
+      "title": "見積もり依頼を送信しました",
+      "message": "お問い合わせありがとうございます。当社チームが24時間以内に詳細な見積もりをお送りいたします。",
+      "reference": "参照番号"
+    }
+  },
+  "about": {
+    "title": "The Great Beansについて",
+    "subtitle": "ベトナムコーヒー輸出における信頼できるパートナー",
+    "story": {
+      "title": "当社の歴史",
+      "content": "ベトナムの優れたコーヒーをグローバル市場に繋ぐという使命で設立され、地元農家と国際的なバイヤーの架け橋となっています。"
+    },
+    "mission": {
+      "title": "当社の使命",
+      "content": "サプライチェーン全体で持続可能な実践と公正取引を確保しながら、プレミアムベトナムコーヒーを提供すること。"
+    },
+    "values": {
+      "quality": {
+        "title": "品質の卓越性",
+        "description": "すべての段階での厳格な品質管理"
+      },
+      "sustainability": {
+        "title": "持続可能性",
+        "description": "環境と社会への責任"
+      },
+      "transparency": {
+        "title": "透明性",
+        "description": "農園から港まで完全なトレーサビリティ"
+      },
+      "partnership": {
+        "title": "パートナーシップ",
+        "description": "顧客と農家との長期的な関係"
+      }
+    }
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "subtitle": "私たちとコーヒーの旅を始める準備はできていますか？",
+    "office": {
+      "title": "本社",
+      "address": "ベトナム、ホーチミン市",
+      "phone": "+84 xxx xxx xxx",
+      "email": "info@thegreatbeans.com"
+    },
+    "form": {
+      "name": "氏名",
+      "email": "メールアドレス",
+      "company": "会社名",
+      "subject": "件名",
+      "message": "メッセージ",
+      "send": "メッセージを送信"
+    }
+  },
+  "footer": {
+    "company": {
+      "title": "The Great Beans",
+      "description": "グローバル市場向けプレミアムベトナムコーヒー"
+    },
+    "quickLinks": "クイックリンク",
+    "products": "製品",
+    "legal": "法的事項",
+    "privacyPolicy": "プライバシーポリシー",
+    "termsOfService": "利用規約",
+    "cookiePolicy": "クッキーポリシー",
+    "followUs": "フォローする",
+    "newsletter": {
+      "title": "市場アップデート",
+      "description": "コーヒー市場のインサイトと製品アップデートを購読",
+      "placeholder": "メールアドレスを入力",
+      "subscribe": "購読"
+    },
+    "copyright": "© 2024 The Great Beans. 無断転載禁止。"
+  },
+  "seo": {
+    "home": {
+      "title": "プレミアムベトナムコーヒー輸出 | The Great Beans",
+      "description": "プレミアムロブスタとアラビカ豆を提供する主要ベトナムコーヒー輸出業者。直接調達、競争力のある価格、グローバル市場向け信頼性の高い物流。"
+    },
+    "products": {
+      "title": "ベトナムコーヒー製品 | プレミアムロブスタ＆アラビカ",
+      "description": "プレミアムベトナムコーヒー製品の範囲をご覧ください。国際市場向け高品質ロブスタ、スペシャルティアラビカ、カスタムブレンド。"
+    },
+    "services": {
+      "title": "コーヒー輸出サービス | OEM、プライベートラベル＆調達",
+      "description": "OEM製造、プライベートラベルソリューション、ベトナム最高のコーヒー産地からの専門調達を含む包括的なコーヒー輸出サービス。"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+# Content Directory
+
+This directory contains all MDX content files organized by type and locale.
+
+## Structure
+
+```
+content/
+├── market-reports/
+│   ├── en/
+│   ├── de/
+│   ├── ja/
+│   └── ...
+├── origin-stories/
+│   ├── en/
+│   ├── de/
+│   ├── ja/
+│   └── ...
+├── services/
+│   ├── en/
+│   ├── de/
+│   ├── ja/
+│   └── ...
+├── blog/
+│   ├── en/
+│   ├── de/
+│   ├── ja/
+│   └── ...
+└── legal/
+    ├── en/
+    ├── de/
+    ├── ja/
+    └── ...
+```
+
+## Content Types
+
+- **Market Reports**: Industry analysis, price trends, supply chain insights
+- **Origin Stories**: Stories from Vietnamese coffee farms and regions
+- **Services**: Detailed service pages (OEM, Private Label, etc.)
+- **Blog**: Company news, industry insights, educational content
+- **Legal**: Privacy policy, terms of service, trade terms
