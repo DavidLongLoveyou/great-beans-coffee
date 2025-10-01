@@ -18,6 +18,7 @@
     "sort": "Sort",
     "viewAll": "View All",
     "learnMore": "Learn More",
+    "readMore": "Read More",
     "getStarted": "Get Started",
     "contactUs": "Contact Us",
     "currentLocale": "Current locale",
@@ -290,6 +291,40 @@
         "Quality control and testing at every stage",
         "Regulatory compliance for target markets"
       ]
+    }
+  },
+  "blog": {
+    "title": "Coffee Industry Insights & News",
+    "description": "Stay updated with the latest trends, market analysis, and insights from the Vietnamese coffee industry.",
+    "allCategories": "All Categories",
+    "featured": "Featured Articles",
+    "featuredPosts": "Featured Articles",
+    "posts": "Articles",
+    "allPosts": "All Articles",
+    "latestPosts": "Latest Articles",
+    "readMore": "Read More",
+    "readingTime": "min read",
+    "publishedOn": "Published on",
+    "author": "Author",
+    "category": "Category",
+    "tags": "Tags",
+    "relatedPosts": "Related Articles",
+    "noPostsFound": "No articles found for this category.",
+    "noPostsInCategory": "No articles found in this category",
+    "noPosts": "No articles available",
+    "noPostsInCategoryDescription": "Try browsing other categories or check back later for new content.",
+    "noPostsDescription": "Check back later for new articles and insights.",
+    "viewAllPosts": "View All Articles",
+    "backToBlog": "Back to Blog",
+    "shareArticle": "Share Article",
+    "categories": {
+      "Sustainability": "Sustainability",
+      "MARKET_ANALYSIS": "Market Analysis", 
+      "INDUSTRY_INSIGHTS": "Industry Insights",
+      "Nachhaltigkeit": "Sustainability",
+      "持続可能性": "Sustainability",
+      "Bền Vững": "Sustainability",
+      "Phân Tích Thị Trường": "Market Analysis"
     }
   }
 }

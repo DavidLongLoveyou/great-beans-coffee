@@ -1,6 +1,6 @@
 import { createScopedLogger } from '../../shared/utils/logger';
 
-import { EmailService } from './email.service';
+import { IEmailService } from './email.service';
 
 const logger = createScopedLogger('NotificationService');
 
@@ -21,7 +21,7 @@ export interface NotificationService {
 }
 
 class DefaultNotificationService implements NotificationService {
-  constructor(private emailService: EmailService) {}
+  constructor(private emailService: IEmailService) {}
 
   async sendRfqNotification(
     rfqId: string,
@@ -84,4 +84,4 @@ class DefaultNotificationService implements NotificationService {
   }
 }
 
-export { DefaultNotificationService };
+export { NotificationService, DefaultNotificationService };

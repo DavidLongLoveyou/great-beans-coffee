@@ -39,30 +39,87 @@ export function generateHreflangUrls(
   return hreflangUrls;
 }
 
-// Base SEO configuration
+// Enhanced SEO configuration with comprehensive metadata
 export const seoConfig = {
   siteName: 'The Great Beans',
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://thegreatbeans.com',
-  defaultTitle: 'The Great Beans - Premium Coffee Export & B2B Solutions',
+  defaultTitle: 'The Great Beans - Premium Vietnamese Coffee Export & B2B Solutions',
   defaultDescription:
-    'Leading Vietnamese coffee exporter specializing in premium Robusta and Arabica beans. B2B solutions, private labeling, and sustainable sourcing for global partners.',
+    'Leading Vietnamese coffee exporter specializing in premium Arabica and Robusta beans. B2B solutions, private label manufacturing, and sustainable sourcing for global coffee businesses.',
   defaultKeywords: [
-    'coffee export',
-    'vietnamese coffee',
-    'robusta coffee',
-    'arabica coffee',
-    'b2b coffee',
+    'Vietnamese coffee export',
+    'coffee beans wholesale',
+    'B2B coffee solutions',
+    'premium coffee supplier',
+    'Arabica coffee Vietnam',
+    'Robusta coffee export',
     'private label coffee',
-    'coffee sourcing',
-    'premium coffee beans',
-    'sustainable coffee',
-    'coffee wholesale',
+    'sustainable coffee sourcing',
+    'coffee manufacturing',
+    'international coffee trade',
+    'coffee quality control',
+    'fair trade coffee',
+    'organic coffee export',
+    'coffee supply chain',
+    'coffee roasting services'
   ],
   twitterHandle: '@thegreatbeans',
-  defaultImage: '/images/og-default.jpg',
+  defaultImage: '/images/hero-coffee-beans.jpg',
   favicon: '/favicon.ico',
   appleTouchIcon: '/apple-touch-icon.png',
   manifest: '/site.webmanifest',
+  supportedLocales: ['en', 'vi', 'de', 'ja', 'fr', 'it', 'es', 'nl', 'ko'] as Locale[],
+  
+  // Enhanced metadata for better SEO
+  organization: {
+    name: 'The Great Beans',
+    legalName: 'The Great Beans Coffee Export Co., Ltd.',
+    url: 'https://thegreatbeans.com',
+    logo: 'https://thegreatbeans.com/images/logo.png',
+    foundingDate: '2015-01-01',
+    email: 'info@thegreatbeans.com',
+    telephone: '+84-28-1234-5678',
+    address: {
+      streetAddress: '123 Coffee Export Street',
+      addressLocality: 'Ho Chi Minh City',
+      addressRegion: 'Ho Chi Minh',
+      postalCode: '700000',
+      addressCountry: 'VN',
+    },
+    socialMedia: {
+      facebook: 'https://facebook.com/thegreatbeans',
+      twitter: 'https://twitter.com/thegreatbeans',
+      linkedin: 'https://linkedin.com/company/thegreatbeans',
+      instagram: 'https://instagram.com/thegreatbeans',
+    },
+  },
+  
+  // Industry-specific metadata
+  industry: {
+    sector: 'Coffee Export and Manufacturing',
+    naics: ['311920'], // Coffee and Tea Manufacturing
+    targetMarkets: ['B2B Coffee Buyers', 'Private Label Brands', 'Coffee Roasters', 'Distributors'],
+    servesCountries: ['US', 'CA', 'GB', 'DE', 'FR', 'IT', 'ES', 'NL', 'AU', 'JP', 'KR', 'SG'],
+    certifications: [
+      'ISO 22000:2018 Food Safety Management',
+      'Rainforest Alliance Certified',
+      'Fair Trade Certified',
+      'USDA Organic Certified',
+    ],
+  },
+  
+  // Technical SEO settings
+  technical: {
+    enableStructuredData: true,
+    enableOpenGraph: true,
+    enableTwitterCards: true,
+    enableHreflang: true,
+    enableCanonical: true,
+    enableRobotsMeta: true,
+    enableSitemap: true,
+    enableAnalytics: true,
+    enableCoreWebVitals: true,
+  },
 };
 
 // Generate metadata for pages

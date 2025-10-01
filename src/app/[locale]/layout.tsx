@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import '../globals.css';
 import { NextIntlProvider } from '@/components/providers/NextIntlProvider';
 import { getMessages } from '@/lib/messages';
+import { PerformanceMonitor } from '@/shared/components/performance/PerformanceMonitor';
+import { PerformanceInitializer } from '@/shared/components/performance/PerformanceInitializer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,9 +26,11 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={inter.className}>
+        <PerformanceInitializer />
         <NextIntlProvider messages={messages} locale={locale}>
           {children}
         </NextIntlProvider>
+        <PerformanceMonitor />
       </body>
     </html>
   );

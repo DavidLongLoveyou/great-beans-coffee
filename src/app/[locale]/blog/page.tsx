@@ -7,7 +7,6 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { type Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
@@ -26,7 +25,8 @@ import {
   CardTitle,
 } from '@/presentation/components/ui/card';
 import { generateMetadata as generateSEOMetadata } from '@/shared/utils/seo-utils';
-import { generateBlogCollectionSchema } from '@/shared/utils/structured-data-utils';
+import { OptimizedImage } from '@/shared/components/performance/OptimizedImage';
+import { LazySection, LazyCardGrid } from '@/shared/components/performance/LazySection';
 
 interface BlogPageProps {
   params: Promise<{ locale: Locale }>;
@@ -86,42 +86,20 @@ export default async function BlogPage({
 }: BlogPageProps) {
   const { locale } = await params;
   const { category: categoryFilter } = await searchParams;
-  const t = await getTranslations('blog');
-  const tCommon = await getTranslations('common');
 
-  const featuredPosts = getFeaturedBlogPosts(locale, 3);
-  const allPosts = getBlogPosts(locale);
-  const categories = getBlogCategories(locale);
+  try {
+    const t = await getTranslations('blog');
+    const tCommon = await getTranslations('common');
+    const featuredPosts = getFeaturedBlogPosts(locale, 3);
+    const allPosts = getBlogPosts(locale);
+    const categories = getBlogCategories(locale);
 
-  // Filter posts by category if specified
-  const filteredPosts = categoryFilter
-    ? allPosts.filter(post => post.category === categoryFilter)
-    : allPosts.filter(post => !post.featured);
+    // Filter posts by category if specified
+    const filteredPosts = categoryFilter
+      ? allPosts.filter(post => post.category === categoryFilter)
+      : allPosts.filter(post => !post.featured);
 
-  // Generate structured data for SEO
-  const structuredData = generateBlogCollectionSchema(
-    allPosts.map(post => ({
-      slug: post.slug,
-      title: post.title,
-      description: post.description,
-      publishedAt: post.publishedAt,
-      author: post.author,
-      image: post.image,
-    })),
-    locale,
-    categoryFilter
-  );
-
-  return (
-    <>
-      {/* Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
-        }}
-      />
-
+    return (
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="mb-12 text-center">
@@ -168,12 +146,16 @@ export default async function BlogPage({
 
         {/* Featured Posts */}
         {!categoryFilter && featuredPosts.length > 0 && (
-          <section className="mb-16">
+          <LazySection className="mb-16" minHeight="400px">
             <h2 className="mb-8 flex items-center text-3xl font-semibold text-gray-900">
               <TrendingUp className="mr-3 h-8 w-8 text-amber-600" />
               {t('featured')}
             </h2>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <LazyCardGrid
+              cardCount={featuredPosts.length}
+              columns={3}
+              className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+            >
               {featuredPosts.map(post => (
                 <Card
                   key={post.slug}
@@ -181,11 +163,13 @@ export default async function BlogPage({
                 >
                   {post.coverImage && (
                     <div className="relative aspect-video overflow-hidden rounded-t-lg bg-gray-200">
-                      <Image
+                      <OptimizedImage
                         src={post.coverImage}
                         alt={post.title}
                         fill
                         className="object-cover"
+                        priority={false}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     </div>
                   )}
@@ -228,16 +212,20 @@ export default async function BlogPage({
                   </CardContent>
                 </Card>
               ))}
-            </div>
-          </section>
+            </LazyCardGrid>
+          </LazySection>
         )}
 
         {/* All Posts */}
-        <section>
+        <LazySection minHeight="600px">
           <h2 className="mb-8 text-3xl font-semibold text-gray-900">
             {categoryFilter ? `${categoryFilter} ${t('posts')}` : t('allPosts')}
           </h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <LazyCardGrid
+            cardCount={filteredPosts.length}
+            columns={2}
+            className="grid grid-cols-1 gap-6 md:grid-cols-2"
+          >
             {filteredPosts.map(post => (
               <Card
                 key={post.slug}
@@ -284,8 +272,8 @@ export default async function BlogPage({
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </section>
+          </LazyCardGrid>
+        </LazySection>
 
         {/* Empty State */}
         {filteredPosts.length === 0 && (
@@ -307,6 +295,15 @@ export default async function BlogPage({
           </div>
         )}
       </div>
-    </>
-  );
+    );
+  } catch (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold text-red-600">Error Loading Blog</h1>
+        <pre className="mt-4 p-4 bg-gray-100 rounded">
+          {error instanceof Error ? error.message : String(error)}
+        </pre>
+      </div>
+    );
+  }
 }

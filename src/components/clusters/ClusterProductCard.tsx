@@ -69,7 +69,7 @@ export function ClusterProductCard({
           className="object-cover transition-transform duration-300 hover:scale-105"
         />
         {product.isFeatured && (
-          <Badge className="absolute left-3 top-3 bg-gold-500 text-white">
+          <Badge className="absolute left-3 top-3 bg-emerald-500 text-white shadow-emerald-soft">
             Featured
           </Badge>
         )}
@@ -82,13 +82,13 @@ export function ClusterProductCard({
       </div>
 
       <CardHeader className="pb-4">
-        <CardTitle className="line-clamp-2 text-lg font-semibold text-coffee-800">
+        <CardTitle className="line-clamp-2 text-lg font-semibold text-forest-800">
           {product.name}
         </CardTitle>
         <p className="line-clamp-3 text-sm text-muted-foreground">
           {product.description}
         </p>
-        <div className="text-sm font-medium text-coffee-600">
+        <div className="text-sm font-medium text-forest-600">
           {product.price}
         </div>
       </CardHeader>
@@ -126,24 +126,24 @@ export function ClusterProductCard({
           </div>
         )}
 
-        {/* Key Specifications */}
+        {/* Technical Specifications */}
         <div className="grid grid-cols-2 gap-2 text-xs">
-          <div className="rounded bg-coffee-50 p-2">
-            <span className="font-medium">Moisture:</span>{' '}
-            {product.specifications.moisture}
+          <div className="rounded bg-forest-50 p-2 border border-forest-100">
+            <span className="font-medium text-forest-700">Moisture:</span>{' '}
+            <span className="text-forest-600">{product.specifications.moisture}</span>
           </div>
-          <div className="rounded bg-coffee-50 p-2">
-            <span className="font-medium">Screen:</span>{' '}
-            {product.specifications.screenSize}
+          <div className="rounded bg-forest-50 p-2 border border-forest-100">
+            <span className="font-medium text-forest-700">Screen:</span>{' '}
+            <span className="text-forest-600">{product.specifications.screenSize}</span>
           </div>
-          <div className="rounded bg-coffee-50 p-2">
-            <span className="font-medium">Defects:</span>{' '}
-            {product.specifications.defectRate}
+          <div className="rounded bg-forest-50 p-2 border border-forest-100">
+            <span className="font-medium text-forest-700">Defects:</span>{' '}
+            <span className="text-forest-600">{product.specifications.defectRate}</span>
           </div>
           {product.specifications.cuppingScore && (
-            <div className="rounded bg-coffee-50 p-2">
-              <span className="font-medium">Cupping:</span>{' '}
-              {product.specifications.cuppingScore}
+            <div className="rounded bg-sage-50 p-2 border border-sage-100">
+              <span className="font-medium text-sage-700">Cupping:</span>{' '}
+              <span className="text-sage-600">{product.specifications.cuppingScore}</span>
             </div>
           )}
         </div>
@@ -152,8 +152,8 @@ export function ClusterProductCard({
         <div className="space-y-1">
           {product.features.slice(0, 3).map(feature => (
             <div key={feature} className="flex items-center text-sm">
-              <div className="mr-2 h-1.5 w-1.5 rounded-full bg-coffee-500" />
-              {feature}
+              <div className="mr-2 h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              <span className="text-forest-700">{feature}</span>
             </div>
           ))}
         </div>
@@ -174,17 +174,17 @@ export function ClusterProductCard({
           >
             {t('requestQuote')}
           </RequestQuoteButton>
-          <CoffeeButton variant="outline" size="sm">
+          <Button variant="sage-outline" size="sm" className="shadow-sage-soft">
             <Download className="h-4 w-4" />
-          </CoffeeButton>
+          </Button>
         </div>
         <Link
           href={`/${locale}/products/${product.id}`}
           className="block w-full"
         >
-          <CoffeeButton variant="ghost" size="sm" className="w-full">
+          <Button variant="forest-outline" size="sm" className="w-full hover:shadow-forest-medium">
             {t('viewDetails')}
-          </CoffeeButton>
+          </Button>
         </Link>
       </CardFooter>
     </Card>

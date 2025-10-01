@@ -82,7 +82,50 @@ module.exports = {
           900: 'hsl(var(--gold-900))',
         },
 
-        // Green for coffee beans/sustainability
+        // Professional Forest Green - Primary Brand Color for B2B
+        forest: {
+          50: 'hsl(var(--forest-50))',   // Very light green - backgrounds
+          100: 'hsl(var(--forest-100))', // Light green - subtle backgrounds
+          200: 'hsl(var(--forest-200))', // Soft green - hover states
+          300: 'hsl(var(--forest-300))', // Medium light green - borders
+          400: 'hsl(var(--forest-400))', // Medium green - disabled states
+          500: 'hsl(var(--forest-500))', // Forest Green (#228B22) - Primary brand
+          600: 'hsl(var(--forest-600))', // Dark forest green - hover primary
+          700: 'hsl(var(--forest-700))', // Darker forest green - active states
+          800: 'hsl(var(--forest-800))', // Very dark green - text on light
+          900: 'hsl(var(--forest-900))', // Almost black green - headings
+          950: 'hsl(var(--forest-950))', // Deep forest black - emphasis
+        },
+
+        // Professional Sage Green - Secondary Brand Color
+        sage: {
+          50: 'hsl(var(--sage-50))',   // Very light sage
+          100: 'hsl(var(--sage-100))', // Light sage
+          200: 'hsl(var(--sage-200))', // Soft sage
+          300: 'hsl(var(--sage-300))', // Medium sage
+          400: 'hsl(var(--sage-400))', // Sage
+          500: 'hsl(var(--sage-500))', // Primary sage
+          600: 'hsl(var(--sage-600))', // Dark sage
+          700: 'hsl(var(--sage-700))', // Darker sage
+          800: 'hsl(var(--sage-800))', // Very dark sage
+          900: 'hsl(var(--sage-900))', // Almost black sage
+        },
+
+        // Professional Emerald - Accent Green
+        emerald: {
+          50: 'hsl(var(--emerald-50))',
+          100: 'hsl(var(--emerald-100))',
+          200: 'hsl(var(--emerald-200))',
+          300: 'hsl(var(--emerald-300))',
+          400: 'hsl(var(--emerald-400))',
+          500: 'hsl(var(--emerald-500))', // Emerald accent
+          600: 'hsl(var(--emerald-600))',
+          700: 'hsl(var(--emerald-700))',
+          800: 'hsl(var(--emerald-800))',
+          900: 'hsl(var(--emerald-900))',
+        },
+
+        // Green for coffee beans/sustainability (secondary green)
         bean: {
           50: 'hsl(var(--bean-50))',
           100: 'hsl(var(--bean-100))',
@@ -171,8 +214,33 @@ module.exports = {
         soft: '0 2px 8px 0 rgba(0, 0, 0, 0.05)',
         medium: '0 4px 16px 0 rgba(0, 0, 0, 0.1)',
         strong: '0 8px 32px 0 rgba(0, 0, 0, 0.15)',
+        
+        // Forest Green themed shadows - Primary brand
+        forest: '0 4px 16px 0 rgba(34, 139, 34, 0.15)',
+        'forest-soft': '0 2px 8px 0 rgba(34, 139, 34, 0.08)',
+        'forest-medium': '0 6px 20px 0 rgba(34, 139, 34, 0.12)',
+        'forest-strong': '0 8px 32px 0 rgba(34, 139, 34, 0.2)',
+        'forest-glow': '0 0 20px 0 rgba(34, 139, 34, 0.3)',
+        
+        // Sage Green themed shadows - Secondary brand
+        sage: '0 4px 16px 0 rgba(107, 142, 107, 0.15)',
+        'sage-soft': '0 2px 8px 0 rgba(107, 142, 107, 0.08)',
+        'sage-medium': '0 6px 20px 0 rgba(107, 142, 107, 0.12)',
+        
+        // Emerald themed shadows - Accent
+        emerald: '0 4px 16px 0 rgba(16, 185, 129, 0.15)',
+        'emerald-soft': '0 2px 8px 0 rgba(16, 185, 129, 0.08)',
+        'emerald-glow': '0 0 20px 0 rgba(16, 185, 129, 0.25)',
+        
+        // Legacy shadows
         coffee: '0 4px 16px 0 rgba(139, 69, 19, 0.15)',
         gold: '0 4px 16px 0 rgba(255, 215, 0, 0.2)',
+        
+        // Professional elevation shadows
+        'elevation-1': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        'elevation-2': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'elevation-3': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'elevation-4': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
       },
 
       keyframes: {

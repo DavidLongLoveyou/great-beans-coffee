@@ -10,6 +10,8 @@ import { CoffeeButton } from '@/shared/components/design-system/Button';
 import { HeroSection } from '@/shared/components/design-system/layout';
 import { ContentContainer } from '@/shared/components/design-system/layout';
 import { SectionHeading } from '@/shared/components/design-system/typography/Heading';
+import { SEOHead } from '@/presentation/components/SEO/SEOHead';
+import { generateOrganizationSchema, generateB2BServiceSchema } from '@/shared/utils/seo-utils';
 
 // Define available content clusters
 const CONTENT_CLUSTERS = {
@@ -102,8 +104,53 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
   // Get cluster-specific data
   const clusterData = getClusterData(clusterSlug);
 
+  // Generate structured data
+  const organizationSchema = generateOrganizationSchema();
+  const serviceSchema = generateB2BServiceSchema({
+    name: cluster.title,
+    description: cluster.description,
+    serviceType: cluster.keywords,
+    areaServed: cluster.targetMarkets,
+    url: `https://thegreatbeans.com/${locale}/clusters/${clusterSlug}`,
+  });
+
+  const webPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: cluster.title,
+    description: cluster.description,
+    url: `https://thegreatbeans.com/${locale}/clusters/${clusterSlug}`,
+    mainEntity: serviceSchema,
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `https://thegreatbeans.com/${locale}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Solutions',
+          item: `https://thegreatbeans.com/${locale}/clusters`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: cluster.title,
+          item: `https://thegreatbeans.com/${locale}/clusters/${clusterSlug}`,
+        },
+      ],
+    },
+  };
+
+  const structuredData = [organizationSchema, serviceSchema, webPageSchema];
+
   return (
     <>
+      <SEOHead structuredData={structuredData} />
       {/* Hero Section */}
       <HeroSection className="bg-gradient-to-r from-coffee-900 to-coffee-700 py-20 text-white">
         <ContentContainer>

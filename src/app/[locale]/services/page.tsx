@@ -1,9 +1,11 @@
 import { Package, Truck, Coffee, Factory, ArrowRight } from 'lucide-react';
+import { type Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
 import { getServicePages } from '@/lib/contentlayer';
+import { SEOHead } from '@/presentation/components/seo';
 import { Button } from '@/presentation/components/ui/button';
 import {
   Card,
@@ -12,9 +14,40 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { 
+  generateMetadata as generateSEOMetadata,
+  generateOrganizationSchema,
+} from '@/shared/utils/seo-utils';
+import { generateB2BServiceSchema } from '@/shared/utils/enhanced-structured-data';
 
 interface ServicesPageProps {
   params: Promise<{ locale: Locale }>;
+}
+
+export async function generateMetadata({
+  params,
+}: ServicesPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  
+  return generateSEOMetadata({
+    title: 'B2B Coffee Services - OEM, Private Label & Sourcing Solutions',
+    description: 'Comprehensive B2B coffee services including OEM manufacturing, private label solutions, coffee sourcing, and logistics. Partner with Vietnam\'s leading coffee export company.',
+    keywords: [
+      'b2b coffee services',
+      'oem coffee manufacturing',
+      'private label coffee',
+      'coffee sourcing services',
+      'coffee logistics',
+      'vietnam coffee export',
+      'coffee supply chain',
+      'wholesale coffee services',
+      'coffee processing services',
+      'coffee packaging solutions'
+    ],
+    locale,
+    url: `/${locale}/services`,
+    type: 'website',
+  });
 }
 
 const serviceIcons = {
@@ -32,8 +65,63 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
 
   const services = getServicePages(locale);
 
+  // Generate structured data for the services page
+  const organizationSchema = generateOrganizationSchema();
+  
+  // Generate services collection schema
+  const servicesCollectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'B2B Coffee Services',
+    description: 'Comprehensive B2B coffee services including OEM manufacturing, private label solutions, coffee sourcing, and logistics.',
+    url: `https://thegreatbeans.com/${locale}/services`,
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: services.length,
+      itemListElement: services.map((service, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: generateB2BServiceSchema({
+          name: service.title,
+          description: service.description,
+          category: service.category || 'Coffee Services',
+          features: service.features || [],
+          pricing: service.pricing,
+          url: `https://thegreatbeans.com${service.url}`,
+          provider: 'The Great Beans',
+          areaServed: 'Worldwide',
+        }),
+      })),
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `https://thegreatbeans.com/${locale}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Services',
+          item: `https://thegreatbeans.com/${locale}/services`,
+        },
+      ],
+    },
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+      <SEOHead
+        structuredData={[organizationSchema, servicesCollectionSchema]}
+        breadcrumbs={[
+          { name: 'Home', url: `/${locale}` },
+          { name: 'Services', url: `/${locale}/services` },
+        ]}
+      />
+      <div className="container mx-auto px-4 py-8">
       {/* Hero Section */}
       <div className="mb-16 text-center">
         <h1 className="mb-4 text-4xl font-bold text-gray-900">{t('title')}</h1>
@@ -149,5 +237,6 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
         </div>
       )}
     </div>
+    </>
   );
 }

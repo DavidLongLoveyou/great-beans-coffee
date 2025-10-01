@@ -1,0 +1,16 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="coffeeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#228B22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#006400;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Coffee bean shape -->
+  <ellipse cx="20" cy="20" rx="8" ry="12" fill="url(#coffeeGradient)" transform="rotate(-15 20 20)"/>
+  <path d="M 20 8 Q 20 20 20 32" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.7"/>
+  
+  <!-- Company name -->
+  <text x="35" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#228B22">The Great</text>
+  <text x="35" y="30" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#228B22">Beans</text>
+</svg>

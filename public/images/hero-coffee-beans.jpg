@@ -1,0 +1,52 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="socialBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0FDF4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#DCFCE7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#BBF7D0;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="socialBeanGradient" cx="0.3" cy="0.3" r="0.7">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#A0522D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+    </radialGradient>
+    <filter id="socialShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="3" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#socialBg)"/>
+  
+  <!-- Central focus area -->
+  <circle cx="600" cy="315" r="200" fill="#22C55E" opacity="0.1"/>
+  
+  <!-- Featured coffee beans -->
+  <ellipse cx="450" cy="250" rx="35" ry="50" fill="url(#socialBeanGradient)" filter="url(#socialShadow)" transform="rotate(25 450 250)"/>
+  <path d="M 425 250 Q 450 235 475 250" stroke="#654321" stroke-width="3" fill="none"/>
+  
+  <ellipse cx="750" cy="380" rx="32" ry="46" fill="url(#socialBeanGradient)" filter="url(#socialShadow)" transform="rotate(-35 750 380)"/>
+  <path d="M 728 380 Q 750 368 772 380" stroke="#654321" stroke-width="3" fill="none"/>
+  
+  <ellipse cx="600" cy="315" rx="40" ry="55" fill="url(#socialBeanGradient)" filter="url(#socialShadow)" transform="rotate(10 600 315)"/>
+  <path d="M 575 315 Q 600 298 625 315" stroke="#654321" stroke-width="3" fill="none"/>
+  
+  <!-- Brand text -->
+  <text x="600" y="150" text-anchor="middle" font-family="serif" font-size="64" font-weight="bold" fill="#166534" filter="url(#socialShadow)">
+    The Great Beans
+  </text>
+  
+  <text x="600" y="200" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="600" fill="#15803D">
+    Premium Vietnamese Coffee Export
+  </text>
+  
+  <text x="600" y="500" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="500" fill="#166534">
+    B2B Solutions • Sustainable Sourcing • Global Logistics
+  </text>
+  
+  <!-- Decorative elements -->
+  <circle cx="200" cy="150" r="8" fill="#22C55E" opacity="0.6"/>
+  <circle cx="1000" cy="200" r="6" fill="#16A34A" opacity="0.5"/>
+  <circle cx="150" cy="450" r="7" fill="#15803D" opacity="0.4"/>
+  <circle cx="1050" cy="480" r="9" fill="#166534" opacity="0.6"/>
+</svg>

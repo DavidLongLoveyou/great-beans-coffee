@@ -188,7 +188,7 @@ export const ProductCard = forwardRef<
         </div>
         <CardDescription>{description}</CardDescription>
         {price && (
-          <div className="mt-2 text-lg font-semibold text-coffee-600">
+          <div className="mt-2 text-lg font-semibold text-forest-600">
             {price}
           </div>
         )}
@@ -201,7 +201,7 @@ export const ProductCard = forwardRef<
                 key={`feature-${title}-${feature.slice(0, 20)}`}
                 className="flex items-center text-sm"
               >
-                <div className="mr-3 h-1.5 w-1.5 rounded-full bg-coffee-500" />
+                <div className="mr-3 h-1.5 w-1.5 rounded-full bg-emerald-500" />
                 {feature}
               </li>
             ))}

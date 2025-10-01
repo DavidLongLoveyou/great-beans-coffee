@@ -269,6 +269,22 @@ export const OriginStory = defineDocumentType(() => ({
       description: 'Cup profile and tasting notes',
       required: false,
     },
+    varietals: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Coffee varietals grown in this region',
+      required: false,
+    },
+    cupScore: {
+      type: 'string',
+      description: 'Cupping score range',
+      required: false,
+    },
+    flavorProfile: {
+      type: 'string',
+      description: 'Detailed flavor profile description',
+      required: false,
+    },
   },
   computedFields: {
     url: {
@@ -357,6 +373,26 @@ export const ServicePage = defineDocumentType(() => ({
       description: 'Available processing methods',
       required: false,
     },
+    productionCapacity: {
+      type: 'string',
+      description: 'Production capacity',
+      required: false,
+    },
+    facilitySize: {
+      type: 'string',
+      description: 'Facility size',
+      required: false,
+    },
+    equipmentLines: {
+      type: 'number',
+      description: 'Number of equipment lines',
+      required: false,
+    },
+    qualityLabs: {
+      type: 'number',
+      description: 'Number of quality labs',
+      required: false,
+    },
   },
   computedFields: {
     url: {
@@ -381,6 +417,12 @@ export const BlogPost = defineDocumentType(() => ({
       type: 'list',
       of: { type: 'string' },
       description: 'Related blog posts',
+      required: false,
+    },
+    relatedTopics: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Related topics for categorization',
       required: false,
     },
     tableOfContents: {

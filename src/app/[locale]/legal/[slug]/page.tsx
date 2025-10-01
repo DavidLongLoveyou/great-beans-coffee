@@ -7,6 +7,8 @@ import { type Locale } from '@/i18n';
 import { getLegalPageBySlug, getLegalPages } from '@/lib/contentlayer';
 import { MDXContent } from '@/presentation/components/MDXContent';
 import { Button } from '@/presentation/components/ui/button';
+import { SEOHead } from '@/presentation/components/SEO/SEOHead';
+import { generateOrganizationSchema } from '@/shared/utils/seo-utils';
 
 interface LegalPageProps {
   params: Promise<{ locale: Locale; slug: string }>;
@@ -33,8 +35,54 @@ export default async function LegalPage({ params }: LegalPageProps) {
   const allLegalPages = getLegalPages(locale);
   const otherPages = allLegalPages.filter(p => p.slug !== slug);
 
+  // Generate structured data
+  const organizationSchema = generateOrganizationSchema();
+  const webPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: page.title,
+    description: page.description || `Legal document: ${page.title}`,
+    url: `https://thegreatbeans.com/${locale}/legal/${slug}`,
+    mainEntity: {
+      '@type': 'Article',
+      headline: page.title,
+      datePublished: page.date,
+      dateModified: page.lastModified || page.date,
+      author: organizationSchema,
+      publisher: organizationSchema,
+      articleSection: 'Legal',
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `https://thegreatbeans.com/${locale}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Legal',
+          item: `https://thegreatbeans.com/${locale}/legal`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: page.title,
+          item: `https://thegreatbeans.com/${locale}/legal/${slug}`,
+        },
+      ],
+    },
+  };
+
+  const structuredData = [organizationSchema, webPageSchema];
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+      <SEOHead structuredData={structuredData} />
+      <div className="container mx-auto px-4 py-8">
       {/* Back Navigation */}
       <div className="mb-8">
         <Link href={`/${locale}`}>
@@ -118,6 +166,7 @@ export default async function LegalPage({ params }: LegalPageProps) {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

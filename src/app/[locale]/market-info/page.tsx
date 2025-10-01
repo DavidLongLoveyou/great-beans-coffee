@@ -1,5 +1,7 @@
 import { ArrowLeft, Globe } from 'lucide-react';
 import Link from 'next/link';
+import { type Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
 import { MarketInfo } from '@/presentation/components/features/MarketInfo';
@@ -10,6 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { SEOHead } from '@/presentation/components/SEO/SEOHead';
+import { generateSEOMetadata, generateOrganizationSchema } from '@/shared/utils/seo-utils';
 
 interface MarketInfoPageProps {
   params: Promise<{
@@ -17,10 +21,69 @@ interface MarketInfoPageProps {
   }>;
 }
 
+export async function generateMetadata({
+  params,
+}: MarketInfoPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'marketInfo' });
+
+  return generateSEOMetadata({
+    title: t('title', { default: 'Market Information - Coffee Export Data' }),
+    description: t('description', {
+      default: 'Comprehensive market-specific information for coffee export operations, including currency, shipping details, certifications, and business requirements.'
+    }),
+    locale,
+    path: '/market-info',
+    type: 'website',
+  });
+}
+
 export default async function MarketInfoPage({ params }: MarketInfoPageProps) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'marketInfo' });
+
+  // Generate structured data
+  const organizationSchema = generateOrganizationSchema();
+  const webPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: t('title', { default: 'Market Information - Coffee Export Data' }),
+    description: t('description', {
+      default: 'Comprehensive market-specific information for coffee export operations, including currency, shipping details, certifications, and business requirements.'
+    }),
+    url: `https://thegreatbeans.com/${locale}/market-info`,
+    mainEntity: {
+      '@type': 'Dataset',
+      name: 'Coffee Export Market Information',
+      description: 'Market-specific data for international coffee export operations',
+      keywords: ['coffee export', 'market information', 'shipping data', 'certifications', 'business requirements'],
+      provider: organizationSchema,
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `https://thegreatbeans.com/${locale}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Market Information',
+          item: `https://thegreatbeans.com/${locale}/market-info`,
+        },
+      ],
+    },
+  };
+
+  const structuredData = [organizationSchema, webPageSchema];
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <>
+      <SEOHead structuredData={structuredData} />
+      <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto max-w-6xl px-4">
         {/* Header */}
         <div className="mb-8">
@@ -153,5 +216,6 @@ export default async function MarketInfoPage({ params }: MarketInfoPageProps) {
         </Card>
       </div>
     </div>
+    </>
   );
 }

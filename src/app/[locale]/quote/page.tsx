@@ -152,6 +152,9 @@ export default function QuotePage({
     prevStep,
   } = useMultiStepForm<RFQFormData>(initialFormData, steps.length);
 
+  // Convert 0-based step to 1-based for display
+  const displayStep = currentStep + 1;
+
   // Use the RFQ form hook for submission
   const {
     loading: isSubmitting,
@@ -215,11 +218,11 @@ export default function QuotePage({
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gray-50 py-16">
+      <div className="min-h-screen bg-forest-50 py-16">
         <div className="container mx-auto max-w-2xl px-4">
-          <Card className="text-center">
+          <Card className="text-center shadow-forest">
             <CardContent className="pb-16 pt-16">
-              <CheckCircle className="mx-auto mb-6 h-16 w-16 text-green-500" />
+              <CheckCircle className="mx-auto mb-6 h-16 w-16 text-forest-600" />
               <h1 className="mb-4 text-3xl font-bold text-gray-900">
                 Quote Request Submitted Successfully!
               </h1>
@@ -228,13 +231,14 @@ export default function QuotePage({
                 Our team will review your requirements and respond within 24
                 hours.
               </p>
-              <div className="mb-6 rounded-lg bg-gray-50 p-4">
-                <p className="text-sm text-gray-600">Reference Number</p>
-                <p className="font-mono text-xl font-bold text-gray-900">
+              <div className="mb-6 rounded-lg bg-forest-50 p-4 border border-forest-200">
+                <p className="text-sm text-forest-600">Reference Number</p>
+                <p className="font-mono text-xl font-bold text-forest-800">
                   {rfqNumber || `RFQ-${Date.now()}`}
                 </p>
               </div>
               <Button
+                className="bg-forest-600 hover:bg-forest-700 shadow-forest"
                 onClick={() => (window.location.href = `/${locale}/products`)}
               >
                 Browse Our Products
@@ -247,7 +251,7 @@ export default function QuotePage({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16">
+    <div className="min-h-screen bg-forest-50 py-16">
       <div className="container mx-auto max-w-4xl px-4">
         {/* Header */}
         <div className="mb-12 text-center">
@@ -265,8 +269,8 @@ export default function QuotePage({
           <div className="mb-4 flex items-center justify-between">
             {steps.map(step => {
               const Icon = step.icon;
-              const isActive = currentStep === step.id;
-              const isCompleted = currentStep > step.id;
+              const isActive = displayStep === step.id;
+              const isCompleted = displayStep > step.id;
 
               return (
                 <div key={step.id} className="flex flex-col items-center">
@@ -275,9 +279,9 @@ export default function QuotePage({
                     mb-2 flex h-12 w-12 items-center justify-center rounded-full
                     ${
                       isCompleted
-                        ? 'bg-green-500 text-white'
+                        ? 'bg-forest-600 text-white'
                         : isActive
-                          ? 'bg-amber-500 text-white'
+                          ? 'bg-emerald-500 text-white'
                           : 'bg-gray-200 text-gray-500'
                     }
                   `}
@@ -289,7 +293,7 @@ export default function QuotePage({
                     )}
                   </div>
                   <span
-                    className={`text-sm font-medium ${isActive ? 'text-amber-600' : 'text-gray-500'}`}
+                    className={`text-sm font-medium ${isActive ? 'text-emerald-600' : 'text-gray-500'}`}
                   >
                     {step.title}
                   </span>
@@ -301,21 +305,27 @@ export default function QuotePage({
         </div>
 
         {/* Form Content */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              {React.createElement(steps[currentStep - 1].icon, {
-                className: 'mr-2 h-5 w-5',
-              })}
-              {steps[currentStep - 1].title}
+        <Card className="shadow-forest">
+          <CardHeader className="border-b border-forest-100">
+            <CardTitle className="flex items-center text-forest-800">
+              {displayStep === 1 && <Coffee className="mr-2 h-5 w-5 text-forest-600" />}
+              {displayStep === 2 && <Package className="mr-2 h-5 w-5 text-forest-600" />}
+              {displayStep === 3 && <CreditCard className="mr-2 h-5 w-5 text-forest-600" />}
+              {displayStep === 4 && <Building2 className="mr-2 h-5 w-5 text-forest-600" />}
+              {displayStep === 5 && <FileText className="mr-2 h-5 w-5 text-forest-600" />}
+              {displayStep === 1 && 'Product Requirements'}
+              {displayStep === 2 && 'Quantity & Delivery'}
+              {displayStep === 3 && 'Payment Terms'}
+              {displayStep === 4 && 'Company Information'}
+              {displayStep === 5 && 'Additional Details'}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-forest-600">
               Step {currentStep} of {steps.length}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Step 1: Product Requirements */}
-            {currentStep === 1 && (
+            {displayStep === 1 && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div>
@@ -478,7 +488,7 @@ export default function QuotePage({
             )}
 
             {/* Step 2: Quantity & Delivery */}
-            {currentStep === 2 && (
+            {displayStep === 2 && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                   <div className="md:col-span-2">
@@ -656,7 +666,7 @@ export default function QuotePage({
             )}
 
             {/* Step 3: Payment Terms */}
-            {currentStep === 3 && (
+            {displayStep === 3 && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div>
@@ -728,7 +738,7 @@ export default function QuotePage({
             )}
 
             {/* Step 4: Company Information */}
-            {currentStep === 4 && (
+            {displayStep === 4 && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div>
@@ -889,7 +899,7 @@ export default function QuotePage({
             )}
 
             {/* Step 5: Additional Details */}
-            {currentStep === 5 && (
+            {displayStep === 5 && (
               <div className="space-y-6">
                 <div>
                   <Label htmlFor="additionalRequirements">
@@ -1004,7 +1014,7 @@ export default function QuotePage({
                         variant="outline"
                         size="sm"
                         onClick={clearError}
-                        className="border-red-300 text-red-800 hover:bg-red-50"
+                        className="border-red-300 text-red-800 hover:bg-red-50 hover:border-red-400"
                       >
                         Dismiss
                       </Button>
@@ -1019,14 +1029,19 @@ export default function QuotePage({
               <Button
                 variant="outline"
                 onClick={prevStep}
-                disabled={currentStep === 1 || isSubmitting}
+                disabled={currentStep === 0 || isSubmitting}
+                className="border-forest-300 text-forest-700 hover:bg-forest-50 hover:text-forest-800"
               >
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 Previous
               </Button>
 
-              {currentStep < steps.length ? (
-                <Button onClick={nextStep} disabled={isSubmitting}>
+              {currentStep < steps.length - 1 ? (
+                <Button 
+                  onClick={nextStep} 
+                  disabled={isSubmitting}
+                  className="bg-forest-600 hover:bg-forest-700 text-white shadow-forest"
+                >
                   Next
                   <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -1034,7 +1049,7 @@ export default function QuotePage({
                 <Button
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="min-w-[140px]"
+                  className="min-w-[140px] bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-medium"
                 >
                   {isSubmitting ? (
                     <>

@@ -14,19 +14,19 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 30 67% 25%; /* Coffee brown as primary */
-    --primary-foreground: 30 45% 95%;
-    --secondary: 30 45% 85%;
-    --secondary-foreground: 30 67% 25%;
-    --muted: 30 20% 96%;
-    --muted-foreground: 30 15% 46.9%;
-    --accent: 45 100% 50%;
-    --accent-foreground: 30 67% 25%;
+    --primary: 120 61% 34%; /* Forest Green (#228B22) as primary */
+    --primary-foreground: 120 20% 98%;
+    --secondary: 120 20% 90%;
+    --secondary-foreground: 120 61% 20%;
+    --muted: 120 15% 96%;
+    --muted-foreground: 120 10% 46.9%;
+    --accent: 45 100% 50%; /* Gold accent for premium feel */
+    --accent-foreground: 120 61% 20%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 30 20% 91.4%;
-    --input: 30 20% 91.4%;
-    --ring: 30 67% 25%;
+    --border: 120 15% 91.4%;
+    --input: 120 15% 91.4%;
+    --ring: 120 61% 34%;
     --radius: 0.5rem;
 
     /* Chart colors */
@@ -61,7 +61,20 @@
     --gold-800: 45 100% 35%;
     --gold-900: 45 100% 25%;
 
-    /* Green bean colors */
+    /* Professional Forest Green - Primary Brand Color */
+    --forest-50: 120 40% 97%;   /* Very light green #f8fdf8 */
+    --forest-100: 120 45% 94%;  /* Light green #f0faf0 */
+    --forest-200: 120 50% 88%;  /* Soft green #e0f2e0 */
+    --forest-300: 120 55% 78%;  /* Medium light green #c7e6c7 */
+    --forest-400: 120 58% 65%;  /* Medium green #9dd49d */
+    --forest-500: 120 61% 34%;  /* Forest Green (#228B22) - Primary */
+    --forest-600: 120 65% 28%;  /* Dark forest green #1a6b1a */
+    --forest-700: 120 70% 22%;  /* Darker forest green #145014 */
+    --forest-800: 120 75% 16%;  /* Very dark green #0e3a0e */
+    --forest-900: 120 80% 10%;  /* Almost black green #082508 */
+    --forest-950: 120 85% 6%;   /* Deep forest black #041504 */
+
+    /* Green bean colors (secondary green) */
     --bean-50: 120 60% 97%;
     --bean-100: 120 60% 93%;
     --bean-200: 120 60% 85%;
@@ -73,8 +86,32 @@
     --bean-800: 120 60% 15%;
     --bean-900: 120 60% 10%;
 
+    /* Professional Sage Green - Secondary Brand Color */
+    --sage-50: 120 20% 97%;   /* Very light sage #f7f9f7 */
+    --sage-100: 120 25% 94%;  /* Light sage #f0f4f0 */
+    --sage-200: 120 30% 88%;  /* Soft sage #dde6dd */
+    --sage-300: 120 35% 78%;  /* Medium sage #c2d4c2 */
+    --sage-400: 120 40% 65%;  /* Sage #9bb89b */
+    --sage-500: 120 45% 45%;  /* Primary sage #6b8e6b */
+    --sage-600: 120 50% 35%;  /* Dark sage #4a6b4a */
+    --sage-700: 120 55% 25%;  /* Darker sage #334d33 */
+    --sage-800: 120 60% 18%;  /* Very dark sage #243624 */
+    --sage-900: 120 65% 12%;  /* Almost black sage #172117 */
+
+    /* Professional Emerald - Accent Green */
+    --emerald-50: 160 85% 97%;  /* Very light emerald #f0fdf4 */
+    --emerald-100: 160 85% 93%; /* Light emerald #dcfce7 */
+    --emerald-200: 160 84% 86%; /* Soft emerald #bbf7d0 */
+    --emerald-300: 160 77% 75%; /* Medium emerald #86efac */
+    --emerald-400: 160 69% 58%; /* Emerald #4ade80 */
+    --emerald-500: 160 84% 39%; /* Primary emerald #10b981 */
+    --emerald-600: 160 84% 32%; /* Dark emerald #059669 */
+    --emerald-700: 160 84% 25%; /* Darker emerald #047857 */
+    --emerald-800: 160 84% 20%; /* Very dark emerald #065f46 */
+    --emerald-900: 160 84% 15%; /* Almost black emerald #064e3b */
+
     /* Status colors */
-    --success: 120 60% 30%;
+    --success: 120 61% 34%; /* Forest Green for success */
     --warning: 45 100% 50%;
     --error: 0 84.2% 60.2%;
     --info: 210 100% 50%;
@@ -82,25 +119,25 @@
 
   .dark {
     /* Base shadcn/ui colors - Dark Mode */
-    --background: 30 67% 3%;
-    --foreground: 30 45% 98%;
-    --card: 30 67% 6%;
-    --card-foreground: 30 45% 98%;
-    --popover: 30 67% 6%;
-    --popover-foreground: 30 45% 98%;
-    --primary: 45 100% 50%; /* Gold as primary in dark mode */
-    --primary-foreground: 30 67% 3%;
-    --secondary: 30 67% 10%;
-    --secondary-foreground: 30 45% 98%;
-    --muted: 30 67% 10%;
-    --muted-foreground: 30 20% 65.1%;
-    --accent: 30 67% 15%;
-    --accent-foreground: 30 45% 98%;
+    --background: 120 85% 6%;   /* Deep forest black */
+    --foreground: 120 20% 98%;  /* Light green-tinted white */
+    --card: 120 80% 10%;        /* Dark forest green */
+    --card-foreground: 120 20% 98%;
+    --popover: 120 80% 10%;
+    --popover-foreground: 120 20% 98%;
+    --primary: 120 58% 65%;     /* Lighter forest green for dark mode */
+    --primary-foreground: 120 85% 6%;
+    --secondary: 120 75% 16%;   /* Dark green secondary */
+    --secondary-foreground: 120 20% 98%;
+    --muted: 120 75% 16%;
+    --muted-foreground: 120 15% 65.1%;
+    --accent: 45 100% 60%;      /* Brighter gold for dark mode */
+    --accent-foreground: 120 85% 6%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 30 45% 98%;
-    --border: 30 67% 15%;
-    --input: 30 67% 15%;
-    --ring: 45 100% 50%;
+    --destructive-foreground: 120 20% 98%;
+    --border: 120 70% 22%;      /* Forest green border */
+    --input: 120 70% 22%;
+    --ring: 120 58% 65%;
 
     /* Chart colors - Dark Mode */
     --chart-1: 220 70% 50%;
@@ -145,6 +182,30 @@
     --bean-700: 120 60% 80%;
     --bean-800: 120 60% 85%;
     --bean-900: 120 60% 93%;
+
+    /* Professional Sage Green - Dark Mode */
+    --sage-50: 120 65% 12%;   /* Dark sage base */
+    --sage-100: 120 60% 18%;  /* Slightly lighter */
+    --sage-200: 120 55% 25%;  /* Medium dark sage */
+    --sage-300: 120 50% 35%;  /* Lighter sage */
+    --sage-400: 120 45% 45%;  /* Medium sage */
+    --sage-500: 120 40% 65%;  /* Primary sage for dark mode */
+    --sage-600: 120 35% 78%;  /* Light sage */
+    --sage-700: 120 30% 88%;  /* Lighter sage */
+    --sage-800: 120 25% 94%;  /* Very light sage */
+    --sage-900: 120 20% 97%;  /* Almost white sage */
+
+    /* Professional Emerald - Dark Mode */
+    --emerald-50: 160 84% 15%;  /* Dark emerald base */
+    --emerald-100: 160 84% 20%; /* Slightly lighter */
+    --emerald-200: 160 84% 25%; /* Medium dark emerald */
+    --emerald-300: 160 84% 32%; /* Lighter emerald */
+    --emerald-400: 160 84% 39%; /* Medium emerald */
+    --emerald-500: 160 69% 58%; /* Primary emerald for dark mode */
+    --emerald-600: 160 77% 75%; /* Light emerald */
+    --emerald-700: 160 84% 86%; /* Lighter emerald */
+    --emerald-800: 160 85% 93%; /* Very light emerald */
+    --emerald-900: 160 85% 97%; /* Almost white emerald */
   }
 }
 
@@ -302,4 +363,132 @@
     --coffee-accent: 25 85% 45%;
     --green-bean: 120 40% 40%;
   }
+}
+
+/* Performance Optimization Styles */
+@layer utilities {
+  /* Lazy loading animations */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+
+  /* Performance-optimized transitions */
+  .transition-performance {
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    will-change: transform, opacity;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-up,
+    .animate-scale-in {
+      animation: none;
+    }
+    
+    .transition-performance {
+      transition: none;
+    }
+  }
+
+  /* Image optimization utilities */
+  .image-optimized {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+
+  /* Layout shift prevention */
+  .aspect-ratio-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .aspect-ratio-container::before {
+    content: '';
+    display: block;
+    width: 100%;
+  }
+
+  /* Performance monitoring indicator */
+  .performance-indicator {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+    pointer-events: none;
+  }
+
+  /* Skeleton loading styles */
+  .skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+  }
+
+  /* Content visibility optimization */
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 200px;
+  }
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Critical resource preloading hints */
+@layer base {
+  /* Fonts are loaded via Google Fonts in the import statement above */
+  /* No local font files needed - using Google Fonts CDN for better performance */
 }

@@ -7,6 +7,8 @@ import { type Locale } from '@/i18n';
 import ClusterNavigation from '@/presentation/components/navigation/ClusterNavigation';
 import { Button } from '@/presentation/components/ui';
 import { isValidLocale } from '@/shared/utils/locale';
+import { SEOHead } from '@/presentation/components/SEO/SEOHead';
+import { generateOrganizationSchema } from '@/shared/utils/seo-utils';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -56,13 +58,53 @@ export default async function ClustersPage({ params }: Props) {
     notFound();
   }
 
-  const t = await getTranslations({
-    locale: typedLocale,
-    namespace: 'clusters',
-  });
+  // Temporarily removed getTranslations to fix i18n issue
+  // const t = await getTranslations({
+  //   locale: typedLocale,
+  //   namespace: 'clusters',
+  // });
+
+  // Generate structured data
+  const organizationSchema = generateOrganizationSchema();
+  const webPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Coffee Solutions & Expertise',
+    description: 'Specialized coffee solutions for global businesses. From premium Robusta sourcing to private label manufacturing.',
+    url: `https://thegreatbeans.com/${typedLocale}/clusters`,
+    mainEntity: {
+      '@type': 'Service',
+      name: 'Coffee Business Solutions',
+      description: 'Comprehensive coffee solutions including sourcing, manufacturing, and export services',
+      provider: organizationSchema,
+      serviceType: ['Coffee Sourcing', 'Private Label Manufacturing', 'Export Services'],
+      areaServed: 'Worldwide',
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `https://thegreatbeans.com/${typedLocale}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Solutions',
+          item: `https://thegreatbeans.com/${typedLocale}/clusters`,
+        },
+      ],
+    },
+  };
+
+  const structuredData = [organizationSchema, webPageSchema];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
+    <>
+      <SEOHead structuredData={structuredData} />
+      <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
       {/* Hero Section */}
       <section className="px-4 py-16">
         <div className="container mx-auto max-w-4xl text-center">
@@ -77,7 +119,7 @@ export default async function ClustersPage({ params }: Props) {
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Button asChild size="lg">
-              <Link href={`/${locale}/quote`}>{t('requestQuote')}</Link>
+              <Link href={`/${locale}/quote`}>Request Quote</Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
               <Link href={`/${locale}/contact`}>Learn About Our Process</Link>
@@ -171,16 +213,17 @@ export default async function ClustersPage({ params }: Props) {
       <section className="px-4 py-16">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="mb-4 text-3xl font-bold text-green-800">
-            {t('ctaTitle')}
+            Ready to Start Your Coffee Partnership?
           </h2>
           <p className="mb-8 text-lg text-muted-foreground">
-            {t('ctaDescription')}
+            Join 500+ global partners who trust us for their coffee sourcing needs. Get a custom quote today.
           </p>
           <Button asChild size="lg">
-            <Link href={`/${locale}/quote`}>{t('getStarted')}</Link>
+            <Link href={`/${locale}/quote`}>Get Started</Link>
           </Button>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

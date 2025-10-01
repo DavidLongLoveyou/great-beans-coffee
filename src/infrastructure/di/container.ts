@@ -7,9 +7,10 @@ import { PrismaClient } from '@prisma/client';
 // Application services
 import { AnalyticsService } from '@/application/services/analytics.service';
 import { CacheService } from '@/application/services/cache.service';
-import { EmailService } from '@/application/services/email.service';
+import { createEmailService } from '@/application/services/email.service';
+import type { IEmailService } from '@/application/services/email.service';
 import { FileUploadService } from '@/application/services/file-upload.service';
-import { NotificationService } from '@/application/services/notification.service';
+import { NotificationService, DefaultNotificationService } from '@/application/services/notification.service';
 import { SearchService } from '@/application/services/search.service';
 import { SEOService } from '@/application/services/seo.service';
 import { TranslationService } from '@/application/services/translation.service';
@@ -44,7 +45,7 @@ class DIContainer {
   private _contentRepository: ContentRepository | null = null;
 
   // Services
-  private _emailService: EmailService | null = null;
+  private _emailService: IEmailService | null = null;
   private _notificationService: NotificationService | null = null;
   private _fileUploadService: FileUploadService | null = null;
   private _cacheService: CacheService | null = null;
@@ -109,16 +110,16 @@ class DIContainer {
   }
 
   // Services
-  get emailService(): EmailService {
+  get emailService(): IEmailService {
     if (!this._emailService) {
-      this._emailService = new EmailService();
+      this._emailService = createEmailService();
     }
     return this._emailService;
   }
 
   get notificationService(): NotificationService {
     if (!this._notificationService) {
-      this._notificationService = new NotificationService(this.emailService);
+      this._notificationService = new DefaultNotificationService(this.emailService);
     }
     return this._notificationService;
   }

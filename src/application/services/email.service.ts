@@ -2,11 +2,11 @@ import { createScopedLogger } from '../../shared/utils/logger';
 
 const logger = createScopedLogger('EmailService');
 
-export interface EmailService {
+export interface IEmailService {
   sendEmail(to: string, subject: string, content: string): Promise<boolean>;
 }
 
-class _MockEmailService implements EmailService {
+class EmailServiceImpl implements IEmailService {
   async sendEmail(
     to: string,
     subject: string,
@@ -69,3 +69,11 @@ class _MockEmailService implements EmailService {
     return this.sendEmail(email, subject, content);
   }
 }
+
+// Factory function to create EmailService instances
+export function createEmailService(): IEmailService {
+  return new EmailServiceImpl();
+}
+
+// Export the class as EmailService for backward compatibility
+export const EmailService = EmailServiceImpl;

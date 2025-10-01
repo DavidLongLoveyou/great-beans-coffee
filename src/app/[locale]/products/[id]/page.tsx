@@ -17,9 +17,13 @@ import {
   Globe,
 } from 'lucide-react';
 import Link from 'next/link';
+import { type Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
+import { SEOHead } from '@/presentation/components/SEO/SEOHead';
+import { generateSEOMetadata, generateOrganizationSchema } from '@/shared/utils/seo-utils';
+import { generateB2BProductSchema } from '@/shared/utils/enhanced-structured-data';
 import { Badge } from '@/presentation/components/ui/badge';
 import {
   Card,
@@ -59,6 +63,26 @@ interface ProductDetailPageProps {
     locale: Locale;
     id: string;
   }>;
+}
+
+export async function generateMetadata({
+  params,
+}: ProductDetailPageProps): Promise<Metadata> {
+  const { locale, id } = await params;
+  const t = await getTranslations({ locale, namespace: 'products' });
+
+  // In a real app, you would fetch the product data here
+  // For now, using mock data
+  const productName = 'The Great Beans Premium Robusta Grade 1';
+  const productDescription = 'High-quality natural processed Robusta from Dak Lak province - available green or roasted';
+
+  return generateSEOMetadata({
+    title: `${productName} - Premium Vietnamese Coffee`,
+    description: productDescription,
+    locale,
+    path: `/products/${id}`,
+    type: 'product',
+  });
 }
 
 // Mock product data - will be replaced with real data from repository
@@ -221,8 +245,61 @@ export default async function ProductDetailPage({
   const { locale, id: _id } = await params;
   const _t = await getTranslations('products');
 
+  // Generate structured data
+  const organizationSchema = generateOrganizationSchema();
+  const productSchema = generateB2BProductSchema({
+    name: mockProduct.name,
+    description: mockProduct.shortDescription,
+    sku: mockProduct.sku,
+    category: mockProduct.type,
+    origin: mockProduct.origin,
+    certifications: mockProduct.certifications,
+    specifications: {
+      moisture: mockProduct.moisture,
+      screenSize: mockProduct.screenSize,
+      defects: mockProduct.defects,
+      processing: mockProduct.processing,
+    },
+    pricing: {
+      currency: 'USD',
+      minOrderQuantity: mockProduct.minOrderQuantity,
+      leadTime: mockProduct.leadTime,
+    },
+    availability: mockProduct.availability,
+    locale,
+  });
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: `https://thegreatbeans.com/${locale}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Products',
+        item: `https://thegreatbeans.com/${locale}/products`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: mockProduct.name,
+        item: `https://thegreatbeans.com/${locale}/products/${_id}`,
+      },
+    ],
+  };
+
+  const structuredData = [organizationSchema, productSchema, breadcrumbSchema];
+
   return (
-    <div className="min-h-screen">
+    <>
+      <SEOHead structuredData={structuredData} />
+      <div className="min-h-screen">
       {/* Breadcrumb */}
       <div className="border-b border-coffee-200 bg-coffee-50">
         <ContentContainer className="py-4">
@@ -838,5 +915,6 @@ export default async function ProductDetailPage({
         </ContentContainer>
       </ContentSection>
     </div>
+    </>
   );
 }

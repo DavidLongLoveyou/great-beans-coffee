@@ -226,6 +226,19 @@ export class ContentManager {
   }
 
   /**
+   * Get all unique blog categories for a specific locale
+   */
+  static getBlogCategories(locale: Locale): string[] {
+    const posts = this.getBlogPosts(locale);
+    const categories = posts
+      .map(post => post.category)
+      .filter((category, index, array) => 
+        category && array.indexOf(category) === index
+      );
+    return categories.sort();
+  }
+
+  /**
    * Get all legal pages for a specific locale
    */
   static getLegalPages(locale: Locale): LegalPage[] {
@@ -736,6 +749,7 @@ export const getFeaturedServicePages = ContentManager.getFeaturedServicePages;
 export const getBlogPosts = ContentManager.getBlogPosts;
 export const getBlogPostBySlug = ContentManager.getBlogPostBySlug;
 export const getFeaturedBlogPosts = ContentManager.getFeaturedBlogPosts;
+export const getBlogCategories = ContentManager.getBlogCategories;
 export const getLegalPages = ContentManager.getLegalPages;
 export const getLegalPageBySlug = ContentManager.getLegalPageBySlug;
 export const searchContent = ContentManager.searchContent;

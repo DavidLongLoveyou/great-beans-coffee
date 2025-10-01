@@ -7,6 +7,25 @@ import { cn } from '@/shared/utils/cn';
 import { LoadingSpinner } from './Feedback/LoadingSpinner';
 import { ButtonProps } from './types';
 
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'ghost'
+  | 'link'
+  | 'forest'
+  | 'forest-outline'
+  | 'forest-soft'
+  | 'sage'
+  | 'sage-outline'
+  | 'sage-soft'
+  | 'emerald'
+  | 'emerald-outline'
+  | 'emerald-glow'
+  | 'coffee'
+  | 'gold'
+  | 'destructive';
+
 // Button variant styles
 const buttonVariants = {
   primary: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md',
@@ -16,9 +35,25 @@ const buttonVariants = {
     'border border-input bg-background hover:bg-accent hover:text-accent-foreground shadow-sm',
   ghost: 'hover:bg-accent hover:text-accent-foreground',
   link: 'text-primary underline-offset-4 hover:underline',
+  
+  // Professional Green Variants for B2B
+  forest: 'bg-forest-500 text-white hover:bg-forest-600 active:bg-forest-700 shadow-forest focus:ring-forest-500 font-medium',
+  'forest-outline': 'border-2 border-forest-500 text-forest-500 bg-transparent hover:bg-forest-50 active:bg-forest-100 focus:ring-forest-500',
+  'forest-soft': 'bg-forest-100 text-forest-800 hover:bg-forest-200 active:bg-forest-300 shadow-forest-soft',
+  
+  sage: 'bg-sage-500 text-white hover:bg-sage-600 active:bg-sage-700 shadow-sage focus:ring-sage-500 font-medium',
+  'sage-outline': 'border-2 border-sage-500 text-sage-500 bg-transparent hover:bg-sage-50 active:bg-sage-100 focus:ring-sage-500',
+  'sage-soft': 'bg-sage-100 text-sage-800 hover:bg-sage-200 active:bg-sage-300 shadow-sage-soft',
+  
+  emerald: 'bg-emerald-500 text-white hover:bg-emerald-600 active:bg-emerald-700 shadow-emerald focus:ring-emerald-500 font-medium',
+  'emerald-outline': 'border-2 border-emerald-500 text-emerald-500 bg-transparent hover:bg-emerald-50 active:bg-emerald-100 focus:ring-emerald-500',
+  'emerald-glow': 'bg-emerald-500 text-white hover:bg-emerald-600 active:bg-emerald-700 shadow-emerald-glow focus:ring-emerald-500 font-semibold',
+  
+  // Legacy Coffee Industry Colors
   coffee:
     'bg-coffee-500 text-coffee-50 hover:bg-coffee-600 shadow-coffee focus:ring-coffee-500',
   gold: 'bg-gold-500 text-coffee-900 hover:bg-gold-600 shadow-gold focus:ring-gold-500 font-semibold',
+  
   destructive:
     'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-md',
 };
@@ -131,9 +166,9 @@ export const RequestQuoteButton = forwardRef<
   HTMLButtonElement,
   Omit<ButtonProps, 'variant' | 'children'>
 >(({ size = 'lg', ...props }, ref) => (
-  <GoldButton size={size} ref={ref} {...props}>
+  <Button variant="emerald" size={size} ref={ref} {...props}>
     Request Quote
-  </GoldButton>
+  </Button>
 ));
 
 RequestQuoteButton.displayName = 'RequestQuoteButton';
