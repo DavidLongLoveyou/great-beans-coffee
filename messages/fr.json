@@ -180,15 +180,66 @@
   "seo": {
     "home": {
       "title": "Exportation de Café Vietnamien Premium | The Great Beans",
-      "description": "Principal exportateur de café vietnamien offrant des grains Robusta et Arabica premium. Approvisionnement direct, prix compétitifs et logistique fiable pour les marchés mondiaux."
+      "description": "Exportateur leader de café vietnamien offrant des grains Robusta et Arabica premium. Approvisionnement direct, prix compétitifs et logistique fiable pour les marchés mondiaux."
     },
     "products": {
-      "title": "Produits de Café Vietnamiens | Robusta & Arabica Premium",
-      "description": "Explorez notre gamme de produits de café vietnamiens premium. Robusta de haute qualité, Arabica de spécialité et mélanges personnalisés pour les marchés internationaux."
+      "title": "Produits de Café Vietnamien | Robusta & Arabica Premium",
+      "description": "Découvrez notre gamme de produits de café vietnamien premium. Robusta de haute qualité, Arabica spécialisé et mélanges personnalisés pour les marchés internationaux."
     },
     "services": {
       "title": "Services d'Exportation de Café | OEM, Marque Privée & Approvisionnement",
-      "description": "Services complets d'exportation de café incluant la fabrication OEM, solutions de marque privée et approvisionnement expert des meilleures régions caféières du Vietnam."
+      "description": "Services complets d'exportation de café incluant la fabrication OEM, les solutions de marque privée et l'approvisionnement expert des meilleures régions caféières du Vietnam."
+    }
+  },
+  "aiAnswers": {
+    "title": "Assistant Café IA",
+    "subtitle": "Obtenez des réponses instantanées à vos questions sur le café",
+    "placeholder": "Demandez sur le café vietnamien, les prix, la logistique...",
+    "examples": {
+      "pricing": "Quels sont les prix actuels du café Robusta ?",
+      "logistics": "Combien de temps prend l'expédition vers l'Europe ?",
+      "quality": "Quelle est la différence entre le Robusta et l'Arabica vietnamiens ?",
+      "certifications": "Quelles certifications sont disponibles pour votre café ?"
+    },
+    "thinking": "Réflexion...",
+    "error": "Désolé, je ne peux pas répondre à cette question. Veuillez contacter notre équipe.",
+    "followUp": "Une autre question ?",
+    "sources": "Sources",
+    "disclaimer": "Les informations sont fournies par l'IA et doivent être vérifiées avec notre équipe de vente."
+  },
+  "clusters": {
+    "vietnamRobusta": {
+      "title": "Fournisseurs de Robusta du Vietnam",
+      "description": "Découvrez le réseau de fournisseurs leaders de café Robusta du Vietnam",
+      "keywords": "robusta vietnam, fournisseurs de café, exportation robusta",
+      "content": {
+        "overview": "Le Vietnam est le plus grand producteur mondial de café Robusta",
+        "regions": "Dak Lak, Gia Lai, Dak Nong, Lam Dong",
+        "quality": "Robusta de haute qualité avec une saveur robuste caractéristique",
+        "processing": "Méthodes modernes de traitement à sec et humide"
+      }
+    },
+    "specialtyArabica": {
+      "title": "Approvisionnement en Arabica Spécialisé",
+      "description": "Services d'approvisionnement en café Arabica spécialisé des hautes terres du Vietnam",
+      "keywords": "arabica vietnam, café spécialisé, approvisionnement arabica",
+      "content": {
+        "overview": "Arabica vietnamien des hautes terres avec des profils de saveur délicats",
+        "regions": "Da Lat, Cau Dat, hautes terres de Buon Ma Thuot",
+        "altitude": "Altitudes de 800-1500m créent des saveurs exceptionnelles",
+        "varieties": "Catimor, Bourbon, Typica et variétés locales"
+      }
+    },
+    "privateLabelManufacturing": {
+      "title": "Fabrication de Café de Marque Privée",
+      "description": "Services professionnels de fabrication et d'emballage de café de marque privée",
+      "keywords": "marque privée, fabrication de café, OEM café",
+      "content": {
+        "overview": "Solutions complètes pour les marques de café privées",
+        "services": "Conception d'emballage, torréfaction, emballage, logistique",
+        "capacity": "Capacité de production flexible de 100kg à 1000 tonnes",
+        "customization": "Personnalisation de la saveur, du niveau de torréfaction et de l'emballage selon les exigences"
+      }
     }
   }
 }

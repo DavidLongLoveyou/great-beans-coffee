@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from '../prisma';
+
 import { ContentEntity } from '../../../domain/entities/content.entity';
+import { prisma } from '../prisma';
 
 export interface IContentRepository {
   findById(id: string, locale?: string): Promise<ContentEntity | null>;
@@ -11,13 +12,23 @@ export interface IContentRepository {
   findPublished(locale?: string): Promise<ContentEntity[]>;
   findFeatured(limit?: number, locale?: string): Promise<ContentEntity[]>;
   search(query: string, locale?: string): Promise<ContentEntity[]>;
-  create(data: Omit<ContentEntity, 'id' | 'createdAt' | 'updatedAt'>): Promise<ContentEntity>;
+  create(
+    data: Omit<ContentEntity, 'id' | 'createdAt' | 'updatedAt'>
+  ): Promise<ContentEntity>;
   update(id: string, data: Partial<ContentEntity>): Promise<ContentEntity>;
-  updateTranslation(id: string, locale: string, translation: any): Promise<ContentEntity>;
+  updateTranslation(
+    id: string,
+    locale: string,
+    translation: any
+  ): Promise<ContentEntity>;
   publish(id: string): Promise<ContentEntity>;
   unpublish(id: string): Promise<ContentEntity>;
   delete(id: string): Promise<void>;
-  getRelatedContent(id: string, limit?: number, locale?: string): Promise<ContentEntity[]>;
+  getRelatedContent(
+    id: string,
+    limit?: number,
+    locale?: string
+  ): Promise<ContentEntity[]>;
   getPopularContent(limit?: number, locale?: string): Promise<ContentEntity[]>;
   getSitemapData(locale?: string): Promise<any[]>;
 }
@@ -42,9 +53,10 @@ export class ContentRepository implements IContentRepository {
     // Get the appropriate translation
     let translation = null;
     if (locale && content.translations?.length > 0) {
-      translation = content.translations.find((t: any) => t.locale === locale) ||
-                   content.translations.find((t: any) => t.locale === 'en') ||
-                   content.translations[0];
+      translation =
+        content.translations.find((t: any) => t.locale === locale) ||
+        content.translations.find((t: any) => t.locale === 'en') ||
+        content.translations[0];
     }
 
     return new ContentEntity({
@@ -67,58 +79,66 @@ export class ContentRepository implements IContentRepository {
       title: translation?.title || content.title || '',
       content: translation?.content || content.content || '',
       excerpt: translation?.excerpt || content.excerpt || '',
-      slug: translation?.slug || content.slug || ''
+      slug: translation?.slug || content.slug || '',
     });
   }
 
   private getIncludeClause(locale?: string) {
     return {
-      translations: locale ? {
-        where: { locale }
-      } : true,
+      translations: locale
+        ? {
+            where: { locale },
+          }
+        : true,
       author: {
         select: {
           id: true,
           name: true,
-          email: true
-        }
+          email: true,
+        },
       },
       versions: {
         orderBy: { createdAt: 'desc' },
-        take: 5
-      }
+        take: 5,
+      },
     };
   }
 
   async findById(id: string, locale?: string): Promise<ContentEntity | null> {
     const content = await prisma.content.findUnique({
       where: { id },
-      include: this.getIncludeClause(locale)
+      include: this.getIncludeClause(locale),
     });
 
     return content ? this.mapToEntity(content, locale) : null;
   }
 
-  async findBySlug(slug: string, locale?: string): Promise<ContentEntity | null> {
+  async findBySlug(
+    slug: string,
+    locale?: string
+  ): Promise<ContentEntity | null> {
     const content = await prisma.content.findFirst({
       where: {
         OR: [
           { slug },
           {
             translations: {
-              some: { slug }
-            }
-          }
+              some: { slug },
+            },
+          },
         ],
-        status: 'PUBLISHED'
+        status: 'PUBLISHED',
       },
-      include: this.getIncludeClause(locale)
+      include: this.getIncludeClause(locale),
     });
 
     return content ? this.mapToEntity(content, locale) : null;
   }
 
-  async findAll(filters?: ContentFilters, locale?: string): Promise<ContentEntity[]> {
+  async findAll(
+    filters?: ContentFilters,
+    locale?: string
+  ): Promise<ContentEntity[]> {
     const where: Prisma.ContentWhereInput = {};
 
     if (filters) {
@@ -140,12 +160,12 @@ export class ContentRepository implements IContentRepository {
       if (filters.dateFrom || filters.dateTo) {
         where.publishedAt = {
           ...(filters.dateFrom && { gte: filters.dateFrom }),
-          ...(filters.dateTo && { lte: filters.dateTo })
+          ...(filters.dateTo && { lte: filters.dateTo }),
         };
       }
       if (filters.tags?.length) {
         where.tags = {
-          hasSome: filters.tags
+          hasSome: filters.tags,
         };
       }
     }
@@ -155,7 +175,7 @@ export class ContentRepository implements IContentRepository {
       if (filters.sortBy === 'views') {
         orderBy.analytics = {
           path: ['totalViews'],
-          sort: filters.sortOrder || 'desc'
+          sort: filters.sortOrder || 'desc',
         };
       } else {
         orderBy[filters.sortBy] = filters.sortOrder || 'desc';
@@ -169,46 +189,64 @@ export class ContentRepository implements IContentRepository {
       include: this.getIncludeClause(locale),
       orderBy,
       take: filters?.limit,
-      skip: filters?.offset
+      skip: filters?.offset,
     });
 
     return contents.map(content => this.mapToEntity(content, locale));
   }
 
   async findByType(type: string, locale?: string): Promise<ContentEntity[]> {
-    return this.findAll({
-      type: [type],
-      status: ['PUBLISHED'],
-      sortBy: 'publishedAt',
-      sortOrder: 'desc'
-    }, locale);
+    return this.findAll(
+      {
+        type: [type],
+        status: ['PUBLISHED'],
+        sortBy: 'publishedAt',
+        sortOrder: 'desc',
+      },
+      locale
+    );
   }
 
-  async findByCategory(category: string, locale?: string): Promise<ContentEntity[]> {
-    return this.findAll({
-      category: [category],
-      status: ['PUBLISHED'],
-      sortBy: 'publishedAt',
-      sortOrder: 'desc'
-    }, locale);
+  async findByCategory(
+    category: string,
+    locale?: string
+  ): Promise<ContentEntity[]> {
+    return this.findAll(
+      {
+        category: [category],
+        status: ['PUBLISHED'],
+        sortBy: 'publishedAt',
+        sortOrder: 'desc',
+      },
+      locale
+    );
   }
 
   async findPublished(locale?: string): Promise<ContentEntity[]> {
-    return this.findAll({
-      status: ['PUBLISHED'],
-      sortBy: 'publishedAt',
-      sortOrder: 'desc'
-    }, locale);
+    return this.findAll(
+      {
+        status: ['PUBLISHED'],
+        sortBy: 'publishedAt',
+        sortOrder: 'desc',
+      },
+      locale
+    );
   }
 
-  async findFeatured(limit: number = 6, locale?: string): Promise<ContentEntity[]> {
-    return this.findAll({
-      featured: true,
-      status: ['PUBLISHED'],
-      limit,
-      sortBy: 'publishedAt',
-      sortOrder: 'desc'
-    }, locale);
+  async findFeatured(
+    limit: number = 6,
+    locale?: string
+  ): Promise<ContentEntity[]> {
+    return this.findAll(
+      {
+        featured: true,
+        status: ['PUBLISHED'],
+        limit,
+        sortBy: 'publishedAt',
+        sortOrder: 'desc',
+      },
+      locale
+    );
   }
 
   async search(query: string, locale?: string): Promise<ContentEntity[]> {
@@ -226,27 +264,29 @@ export class ContentRepository implements IContentRepository {
                 OR: [
                   { title: { contains: query, mode: 'insensitive' } },
                   { content: { contains: query, mode: 'insensitive' } },
-                  { excerpt: { contains: query, mode: 'insensitive' } }
-                ]
-              }
-            }
-          }
-        ]
+                  { excerpt: { contains: query, mode: 'insensitive' } },
+                ],
+              },
+            },
+          },
+        ],
       },
       include: this.getIncludeClause(locale),
       take: 20,
       orderBy: {
         analytics: {
           path: ['totalViews'],
-          sort: 'desc'
-        }
-      }
+          sort: 'desc',
+        },
+      },
     });
 
     return contents.map(content => this.mapToEntity(content, locale));
   }
 
-  async create(data: Omit<ContentEntity, 'id' | 'createdAt' | 'updatedAt'>): Promise<ContentEntity> {
+  async create(
+    data: Omit<ContentEntity, 'id' | 'createdAt' | 'updatedAt'>
+  ): Promise<ContentEntity> {
     const content = await prisma.content.create({
       data: {
         type: data.type,
@@ -264,15 +304,18 @@ export class ContentRepository implements IContentRepository {
         tags: data.tags,
         workflow: data.workflow as any,
         analytics: data.analytics as any,
-        relatedContentIds: data.relatedContentIds
+        relatedContentIds: data.relatedContentIds,
       },
-      include: this.getIncludeClause()
+      include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(content);
   }
 
-  async update(id: string, data: Partial<ContentEntity>): Promise<ContentEntity> {
+  async update(
+    id: string,
+    data: Partial<ContentEntity>
+  ): Promise<ContentEntity> {
     const updateData: any = { ...data };
     delete updateData.id;
     delete updateData.createdAt;
@@ -286,8 +329,8 @@ export class ContentRepository implements IContentRepository {
         content: true,
         excerpt: true,
         status: true,
-        authorId: true
-      }
+        authorId: true,
+      },
     });
 
     if (currentContent) {
@@ -299,34 +342,38 @@ export class ContentRepository implements IContentRepository {
           excerpt: currentContent.excerpt,
           status: currentContent.status,
           createdById: currentContent.authorId,
-          changeLog: 'Content updated'
-        }
+          changeLog: 'Content updated',
+        },
       });
     }
 
     const content = await prisma.content.update({
       where: { id },
       data: updateData,
-      include: this.getIncludeClause()
+      include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(content);
   }
 
-  async updateTranslation(id: string, locale: string, translation: any): Promise<ContentEntity> {
+  async updateTranslation(
+    id: string,
+    locale: string,
+    translation: any
+  ): Promise<ContentEntity> {
     await prisma.contentTranslation.upsert({
       where: {
         contentId_locale: {
           contentId: id,
-          locale
-        }
+          locale,
+        },
       },
       update: {
         title: translation.title,
         content: translation.content,
         excerpt: translation.excerpt,
         slug: translation.slug,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       create: {
         contentId: id,
@@ -334,13 +381,13 @@ export class ContentRepository implements IContentRepository {
         title: translation.title,
         content: translation.content,
         excerpt: translation.excerpt,
-        slug: translation.slug
-      }
+        slug: translation.slug,
+      },
     });
 
     const content = await prisma.content.findUnique({
       where: { id },
-      include: this.getIncludeClause(locale)
+      include: this.getIncludeClause(locale),
     });
 
     return this.mapToEntity(content!, locale);
@@ -352,9 +399,9 @@ export class ContentRepository implements IContentRepository {
       data: {
         status: 'PUBLISHED',
         publishedAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
-      include: this.getIncludeClause()
+      include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(content);
@@ -365,9 +412,9 @@ export class ContentRepository implements IContentRepository {
       where: { id },
       data: {
         status: 'DRAFT',
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
-      include: this.getIncludeClause()
+      include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(content);
@@ -375,18 +422,22 @@ export class ContentRepository implements IContentRepository {
 
   async delete(id: string): Promise<void> {
     await prisma.content.delete({
-      where: { id }
+      where: { id },
     });
   }
 
-  async getRelatedContent(id: string, limit: number = 5, locale?: string): Promise<ContentEntity[]> {
+  async getRelatedContent(
+    id: string,
+    limit: number = 5,
+    locale?: string
+  ): Promise<ContentEntity[]> {
     const content = await prisma.content.findUnique({
       where: { id },
       select: {
         category: true,
         tags: true,
-        relatedContentIds: true
-      }
+        relatedContentIds: true,
+      },
     });
 
     if (!content) return [];
@@ -397,10 +448,10 @@ export class ContentRepository implements IContentRepository {
       relatedContents = await prisma.content.findMany({
         where: {
           id: { in: content.relatedContentIds },
-          status: 'PUBLISHED'
+          status: 'PUBLISHED',
         },
         include: this.getIncludeClause(locale),
-        take: limit
+        take: limit,
       });
     }
 
@@ -412,12 +463,12 @@ export class ContentRepository implements IContentRepository {
           status: 'PUBLISHED',
           OR: [
             { category: content.category },
-            { tags: { hasSome: content.tags || [] } }
-          ]
+            { tags: { hasSome: content.tags || [] } },
+          ],
         },
         include: this.getIncludeClause(locale),
         take: limit - relatedContents.length,
-        orderBy: { publishedAt: 'desc' }
+        orderBy: { publishedAt: 'desc' },
       });
 
       relatedContents = [...relatedContents, ...additionalContent];
@@ -426,45 +477,55 @@ export class ContentRepository implements IContentRepository {
     return relatedContents.map(content => this.mapToEntity(content, locale));
   }
 
-  async getPopularContent(limit: number = 10, locale?: string): Promise<ContentEntity[]> {
-    return this.findAll({
-      status: ['PUBLISHED'],
-      limit,
-      sortBy: 'views',
-      sortOrder: 'desc'
-    }, locale);
+  async getPopularContent(
+    limit: number = 10,
+    locale?: string
+  ): Promise<ContentEntity[]> {
+    return this.findAll(
+      {
+        status: ['PUBLISHED'],
+        limit,
+        sortBy: 'views',
+        sortOrder: 'desc',
+      },
+      locale
+    );
   }
 
   async getSitemapData(locale?: string): Promise<any[]> {
     const contents = await prisma.content.findMany({
       where: {
-        status: 'PUBLISHED'
+        status: 'PUBLISHED',
       },
       include: {
-        translations: locale ? {
-          where: { locale }
-        } : true
+        translations: locale
+          ? {
+              where: { locale },
+            }
+          : true,
       },
       select: {
         id: true,
         slug: true,
         type: true,
         updatedAt: true,
-        translations: true
-      }
+        translations: true,
+      },
     });
 
     return contents.map(content => {
-      const translation = locale && content.translations.length > 0 
-        ? content.translations.find(t => t.locale === locale) || content.translations[0]
-        : null;
+      const translation =
+        locale && content.translations.length > 0
+          ? content.translations.find(t => t.locale === locale) ||
+            content.translations[0]
+          : null;
 
       return {
         id: content.id,
         slug: translation?.slug || content.slug,
         type: content.type,
         lastModified: content.updatedAt,
-        locale: locale || 'en'
+        locale: locale || 'en',
       };
     });
   }

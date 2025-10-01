@@ -1,7 +1,9 @@
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
 import { Globe } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
+
+import type { Locale } from '@/i18n';
 import { Button } from '@/presentation/components/ui/button';
 import {
   DropdownMenu,
@@ -9,11 +11,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/presentation/components/ui/dropdown-menu';
-import { 
-  getAllLocales, 
-  getLocaleFromPathname, 
+import {
+  getAllLocales,
+  getLocaleFromPathname,
   addLocaleToPathname,
-  removeLocaleFromPathname 
+  removeLocaleFromPathname,
 } from '@/shared/utils/locale';
 
 export default function LanguageSwitcher() {
@@ -21,21 +23,23 @@ export default function LanguageSwitcher() {
   const pathname = usePathname();
   const currentLocale = getLocaleFromPathname(pathname);
   const allLocales = getAllLocales();
-  
-  const currentLocaleData = allLocales.find(locale => locale.code === currentLocale);
+
+  const currentLocaleData = allLocales.find(
+    locale => locale.code === currentLocale
+  );
 
   const handleLocaleChange = (newLocale: string) => {
     const cleanPathname = removeLocaleFromPathname(pathname);
-    const newPath = addLocaleToPathname(cleanPathname, newLocale as any);
+    const newPath = addLocaleToPathname(cleanPathname, newLocale as Locale);
     router.push(newPath);
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button 
-          variant="ghost" 
-          size="sm" 
+        <Button
+          variant="ghost"
+          size="sm"
           className="h-9 px-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
         >
           <span className="mr-2 text-base">
@@ -44,20 +48,18 @@ export default function LanguageSwitcher() {
           <span className="hidden sm:inline">
             {currentLocaleData?.name || 'Language'}
           </span>
-          <span className="sm:hidden">
-            {currentLocale.toUpperCase()}
-          </span>
+          <span className="sm:hidden">{currentLocale.toUpperCase()}</span>
           <Globe className="ml-2 h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
-        {allLocales.map((locale) => (
+        {allLocales.map(locale => (
           <DropdownMenuItem
             key={locale.code}
             onClick={() => handleLocaleChange(locale.code)}
             className={`cursor-pointer ${
-              locale.code === currentLocale 
-                ? 'bg-accent text-accent-foreground' 
+              locale.code === currentLocale
+                ? 'bg-accent text-accent-foreground'
                 : ''
             }`}
           >

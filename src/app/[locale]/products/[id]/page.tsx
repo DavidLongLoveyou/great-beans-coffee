@@ -1,45 +1,73 @@
-import { useTranslations } from 'next-intl';
-import { type Locale } from '@/i18n';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/presentation/components/ui/card';
-import { Button } from '@/presentation/components/ui/button';
-import { Badge } from '@/presentation/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/presentation/components/ui/tabs';
-import Link from 'next/link';
-import { 
-  Coffee, 
-  MapPin, 
-  Package, 
-  Truck,
+import {
+  Coffee,
+  MapPin,
+  Package,
   Download,
   ShoppingCart,
   Star,
   Award,
   Thermometer,
-  Droplets,
   Scale,
   Clock,
   CheckCircle,
-  AlertCircle,
   ArrowLeft,
   Share2,
   Heart,
   FileText,
-  Globe
+  Globe,
 } from 'lucide-react';
+import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+
+import { type Locale } from '@/i18n';
+import { Badge } from '@/presentation/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from '@/presentation/components/ui/card';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/presentation/components/ui/tabs';
+import {
+  GoldButton,
+  CoffeeButton,
+} from '@/shared/components/design-system/Button';
+import { ProductCard } from '@/shared/components/design-system/Card';
+import {
+  CertificationBadge,
+  CoffeeGradeIndicator,
+  OriginFlag,
+  ProcessingMethodBadge,
+} from '@/shared/components/design-system/coffee';
+import {
+  ContentSection,
+  ContentContainer,
+  ProductGrid,
+} from '@/shared/components/design-system/layout';
+import {
+  CoffeeHeading,
+  SectionHeading,
+} from '@/shared/components/design-system/typography/Heading';
 
 interface ProductDetailPageProps {
-  params: {
+  params: Promise<{
     locale: Locale;
     id: string;
-  };
+  }>;
 }
 
 // Mock product data - will be replaced with real data from repository
 const mockProduct = {
   id: '1',
   sku: 'ROB-G1-NAT-001',
-  name: 'Premium Robusta Grade 1',
-  shortDescription: 'High-quality natural processed Robusta from Dak Lak province',
+  name: 'The Great Beans Premium Robusta Grade 1',
+  shortDescription:
+    'High-quality natural processed Robusta from Dak Lak province - available green or roasted',
   longDescription: `Our Premium Robusta Grade 1 represents the finest quality Robusta coffee beans sourced directly from the fertile highlands of Dak Lak province, Vietnam. These beans are carefully selected from farms that practice sustainable agriculture and are processed using traditional natural methods that enhance the coffee's inherent characteristics.
 
 This exceptional coffee offers a full-bodied flavor profile with notes of dark chocolate, nuts, and a hint of earthiness. The natural processing method allows the beans to develop their unique flavor complexity while maintaining the robust characteristics that make Vietnamese Robusta world-renowned.
@@ -54,11 +82,11 @@ Perfect for espresso blends, instant coffee production, and commercial roasting 
     province: 'Dak Lak',
     altitude: 500,
     coordinates: {
-      latitude: 12.7100,
-      longitude: 108.2378
+      latitude: 12.71,
+      longitude: 108.2378,
     },
     harvestSeason: 'October - February',
-    farmingMethod: 'Sustainable Agriculture'
+    farmingMethod: 'Sustainable Agriculture',
   },
   pricing: {
     basePrice: 2850,
@@ -67,45 +95,45 @@ Perfect for espresso blends, instant coffee production, and commercial roasting 
     minimumOrder: 20,
     priceValidUntil: '2024-12-31',
     paymentTerms: 'T/T, L/C at sight',
-    incoterms: ['FOB', 'CIF', 'CFR']
+    incoterms: ['FOB', 'CIF', 'CFR'],
   },
   availability: {
     inStock: true,
     stockQuantity: 150,
     leadTime: 14,
     productionCapacity: '500 MT/month',
-    nextHarvest: '2024-10-01'
+    nextHarvest: '2024-10-01',
   },
   certifications: [
     {
       name: 'ORGANIC',
       issuer: 'USDA Organic',
       validUntil: '2025-06-30',
-      certificateNumber: 'ORG-2024-001'
+      certificateNumber: 'ORG-2024-001',
     },
     {
       name: 'RAINFOREST_ALLIANCE',
       issuer: 'Rainforest Alliance',
       validUntil: '2025-12-31',
-      certificateNumber: 'RA-2024-VN-001'
-    }
+      certificateNumber: 'RA-2024-VN-001',
+    },
   ],
   images: [
     {
       url: '/images/products/robusta-grade1-1.jpg',
       alt: 'Premium Robusta Grade 1 Coffee Beans - Main View',
-      isPrimary: true
+      isPrimary: true,
     },
     {
       url: '/images/products/robusta-grade1-2.jpg',
       alt: 'Premium Robusta Grade 1 Coffee Beans - Close Up',
-      isPrimary: false
+      isPrimary: false,
     },
     {
       url: '/images/products/robusta-grade1-3.jpg',
       alt: 'Premium Robusta Grade 1 Coffee Beans - Packaging',
-      isPrimary: false
-    }
+      isPrimary: false,
+    },
   ],
   isFeatured: true,
   specifications: {
@@ -117,419 +145,698 @@ Perfect for espresso blends, instant coffee production, and commercial roasting 
     ash: '3.5-4.5%',
     lipids: '10-12%',
     proteins: '11-13%',
-    chlorogenicAcid: '7-10%'
+    chlorogenicAcid: '7-10%',
   },
   packaging: {
     options: [
       {
         type: 'Jute Bags',
         weight: '60kg',
-        description: 'Traditional jute bags with inner plastic lining'
+        description: 'Traditional jute bags with inner plastic lining',
       },
       {
         type: 'PP Bags',
         weight: '60kg',
-        description: 'Polypropylene bags with moisture barrier'
+        description: 'Polypropylene bags with moisture barrier',
       },
       {
         type: 'Bulk Container',
         weight: '20MT',
-        description: 'Food-grade bulk containers for large shipments'
-      }
+        description: 'Food-grade bulk containers for large shipments',
+      },
     ],
-    customPackaging: true
+    customPackaging: true,
   },
   qualityTests: [
     {
       parameter: 'Moisture Content',
       value: '12.5%',
       standard: '≤ 12.5%',
-      status: 'PASS'
+      status: 'PASS',
     },
     {
       parameter: 'Defect Rate',
       value: '0.5%',
       standard: '≤ 1%',
-      status: 'PASS'
+      status: 'PASS',
     },
     {
       parameter: 'Screen Size',
       value: '18+',
       standard: '≥ 18',
-      status: 'PASS'
+      status: 'PASS',
     },
     {
       parameter: 'Foreign Matter',
       value: '0.1%',
       standard: '≤ 0.5%',
-      status: 'PASS'
-    }
+      status: 'PASS',
+    },
   ],
   documents: [
     {
       name: 'Product Specification Sheet',
       type: 'PDF',
       size: '2.3 MB',
-      downloadUrl: '/documents/robusta-g1-specs.pdf'
+      downloadUrl: '/documents/robusta-g1-specs.pdf',
     },
     {
       name: 'Quality Certificate',
       type: 'PDF',
       size: '1.8 MB',
-      downloadUrl: '/documents/robusta-g1-quality.pdf'
+      downloadUrl: '/documents/robusta-g1-quality.pdf',
     },
     {
       name: 'Organic Certificate',
       type: 'PDF',
       size: '1.2 MB',
-      downloadUrl: '/documents/robusta-g1-organic.pdf'
-    }
-  ]
+      downloadUrl: '/documents/robusta-g1-organic.pdf',
+    },
+  ],
 };
 
-export default function ProductDetailPage({ params: { locale, id } }: ProductDetailPageProps) {
-  const t = useTranslations('products');
+export default async function ProductDetailPage({
+  params,
+}: ProductDetailPageProps) {
+  const { locale, id: _id } = await params;
+  const _t = await getTranslations('products');
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {/* Breadcrumb */}
-      <div className="bg-white border-b">
-        <div className="container mx-auto px-4 py-4">
+      <div className="border-b border-coffee-200 bg-coffee-50">
+        <ContentContainer className="py-4">
           <div className="flex items-center space-x-2 text-sm">
-            <Link href={`/${locale}`} className="text-gray-500 hover:text-gray-700">
+            <Link
+              href={`/${locale}`}
+              className="text-coffee-600 hover:text-coffee-800"
+            >
               Home
             </Link>
-            <span className="text-gray-400">/</span>
-            <Link href={`/${locale}/products`} className="text-gray-500 hover:text-gray-700">
+            <span className="text-coffee-400">/</span>
+            <Link
+              href={`/${locale}/products`}
+              className="text-coffee-600 hover:text-coffee-800"
+            >
               Products
             </Link>
-            <span className="text-gray-400">/</span>
-            <span className="text-gray-900">{mockProduct.name}</span>
+            <span className="text-coffee-400">/</span>
+            <span className="font-medium text-coffee-900">
+              {mockProduct.name}
+            </span>
           </div>
-        </div>
+        </ContentContainer>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Back Button */}
-        <Link href={`/${locale}/products`}>
-          <Button variant="outline" className="mb-6">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Products
-          </Button>
-        </Link>
+      <ContentSection className="py-8">
+        <ContentContainer>
+          {/* Back Button */}
+          <Link href={`/${locale}/products`}>
+            <CoffeeButton variant="outline" className="mb-6">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Products
+            </CoffeeButton>
+          </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Product Images */}
-          <div className="lg:col-span-1">
-            <Card>
-              <CardContent className="p-6">
-                {/* Main Product Image */}
-                <div className="w-full h-80 bg-gradient-to-br from-amber-100 to-amber-200 rounded-lg flex items-center justify-center mb-4">
-                  <Coffee className="h-24 w-24 text-amber-600" />
-                </div>
-                
-                {/* Thumbnail Images */}
-                <div className="grid grid-cols-3 gap-2">
-                  {mockProduct.images.map((image, index) => (
-                    <div key={index} className="w-full h-20 bg-gradient-to-br from-amber-50 to-amber-100 rounded border-2 border-transparent hover:border-green-500 cursor-pointer flex items-center justify-center">
-                      <Coffee className="h-8 w-8 text-amber-500" />
-                    </div>
-                  ))}
-                </div>
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            {/* Left Column - Product Images */}
+            <div className="lg:col-span-1">
+              <Card>
+                <CardContent className="p-6">
+                  {/* Main Product Image */}
+                  <div className="mb-4 flex h-80 w-full items-center justify-center rounded-lg bg-gradient-to-br from-amber-100 to-amber-200">
+                    <Coffee className="h-24 w-24 text-amber-600" />
+                  </div>
 
-                {/* Action Buttons */}
-                <div className="mt-6 space-y-3">
-                  <Button className="w-full" size="lg">
-                    <ShoppingCart className="mr-2 h-5 w-5" />
-                    Request Quote
-                  </Button>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button variant="outline" size="sm">
-                      <Heart className="mr-2 h-4 w-4" />
-                      Save
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Share2 className="mr-2 h-4 w-4" />
-                      Share
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Right Column - Product Information */}
-          <div className="lg:col-span-2">
-            {/* Product Header */}
-            <Card className="mb-6">
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="text-2xl mb-2">{mockProduct.name}</CardTitle>
-                    <CardDescription className="text-lg">
-                      {mockProduct.shortDescription}
-                    </CardDescription>
-                    <p className="text-sm text-gray-500 mt-2">SKU: {mockProduct.sku}</p>
-                  </div>
-                  <div className="text-right">
-                    {mockProduct.isFeatured && (
-                      <Badge className="mb-2 bg-amber-500">
-                        <Star className="mr-1 h-3 w-3" />
-                        Featured
-                      </Badge>
-                    )}
-                    <Badge 
-                      variant={mockProduct.availability.inStock ? "default" : "destructive"}
-                      className="block"
-                    >
-                      {mockProduct.availability.inStock ? 'In Stock' : 'Out of Stock'}
-                    </Badge>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                {/* Key Details */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                  <div className="text-center p-3 bg-gray-50 rounded-lg">
-                    <Coffee className="h-6 w-6 mx-auto mb-2 text-green-600" />
-                    <p className="text-sm font-medium">{mockProduct.type}</p>
-                    <p className="text-xs text-gray-600">Type</p>
-                  </div>
-                  <div className="text-center p-3 bg-gray-50 rounded-lg">
-                    <Award className="h-6 w-6 mx-auto mb-2 text-green-600" />
-                    <p className="text-sm font-medium">{mockProduct.grade}</p>
-                    <p className="text-xs text-gray-600">Grade</p>
-                  </div>
-                  <div className="text-center p-3 bg-gray-50 rounded-lg">
-                    <Droplets className="h-6 w-6 mx-auto mb-2 text-green-600" />
-                    <p className="text-sm font-medium">{mockProduct.processingMethod}</p>
-                    <p className="text-xs text-gray-600">Processing</p>
-                  </div>
-                  <div className="text-center p-3 bg-gray-50 rounded-lg">
-                    <MapPin className="h-6 w-6 mx-auto mb-2 text-green-600" />
-                    <p className="text-sm font-medium">{mockProduct.origin.region}</p>
-                    <p className="text-xs text-gray-600">Origin</p>
-                  </div>
-                </div>
-
-                {/* Pricing */}
-                <div className="bg-green-50 p-4 rounded-lg">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-lg font-medium">Price:</span>
-                    <span className="text-2xl font-bold text-green-600">
-                      ${mockProduct.pricing.basePrice.toLocaleString()}/{mockProduct.pricing.unit}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
-                    <div>Minimum Order: {mockProduct.pricing.minimumOrder} MT</div>
-                    <div>Lead Time: {mockProduct.availability.leadTime} days</div>
-                    <div>Payment: {mockProduct.pricing.paymentTerms}</div>
-                    <div>Valid Until: {mockProduct.pricing.priceValidUntil}</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Detailed Information Tabs */}
-            <Card>
-              <CardContent className="p-6">
-                <Tabs defaultValue="description" className="w-full">
-                  <TabsList className="grid w-full grid-cols-5">
-                    <TabsTrigger value="description">Description</TabsTrigger>
-                    <TabsTrigger value="specifications">Specifications</TabsTrigger>
-                    <TabsTrigger value="origin">Origin</TabsTrigger>
-                    <TabsTrigger value="quality">Quality</TabsTrigger>
-                    <TabsTrigger value="documents">Documents</TabsTrigger>
-                  </TabsList>
-
-                  <TabsContent value="description" className="mt-6">
-                    <div className="prose max-w-none">
-                      <h3 className="text-lg font-semibold mb-4">Product Description</h3>
-                      <div className="whitespace-pre-line text-gray-700">
-                        {mockProduct.longDescription}
+                  {/* Thumbnail Images */}
+                  <div className="grid grid-cols-3 gap-2">
+                    {mockProduct.images.map((image, index) => (
+                      <div
+                        key={index}
+                        className="flex h-20 w-full cursor-pointer items-center justify-center rounded border-2 border-transparent bg-gradient-to-br from-amber-50 to-amber-100 hover:border-green-500"
+                      >
+                        <Coffee className="h-8 w-8 text-amber-500" />
                       </div>
-                      
-                      <h4 className="text-md font-semibold mt-6 mb-3">Certifications</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {mockProduct.certifications.map((cert, index) => (
-                          <div key={index} className="flex items-center p-3 bg-green-50 rounded-lg">
-                            <CheckCircle className="h-5 w-5 text-green-600 mr-3" />
-                            <div>
-                              <p className="font-medium">{cert.name.replace('_', ' ')}</p>
-                              <p className="text-sm text-gray-600">
-                                {cert.issuer} • Valid until {cert.validUntil}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </TabsContent>
+                    ))}
+                  </div>
 
-                  <TabsContent value="specifications" className="mt-6">
-                    <h3 className="text-lg font-semibold mb-4">Technical Specifications</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <h4 className="font-medium mb-3">Physical Properties</h4>
-                        <div className="space-y-3">
-                          <div className="flex justify-between">
-                            <span>Moisture Content:</span>
-                            <span className="font-medium">{mockProduct.specifications.moisture}%</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Screen Size:</span>
-                            <span className="font-medium">{mockProduct.specifications.screenSize}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Defect Rate:</span>
-                            <span className="font-medium">{mockProduct.specifications.defectRate}%</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Density:</span>
-                            <span className="font-medium">{mockProduct.specifications.density}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <h4 className="font-medium mb-3">Chemical Composition</h4>
-                        <div className="space-y-3">
-                          <div className="flex justify-between">
-                            <span>Caffeine:</span>
-                            <span className="font-medium">{mockProduct.specifications.caffeine}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Ash:</span>
-                            <span className="font-medium">{mockProduct.specifications.ash}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Lipids:</span>
-                            <span className="font-medium">{mockProduct.specifications.lipids}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span>Proteins:</span>
-                            <span className="font-medium">{mockProduct.specifications.proteins}</span>
-                          </div>
-                        </div>
-                      </div>
+                  {/* Action Buttons */}
+                  <div className="mt-6 space-y-3">
+                    <GoldButton className="w-full" size="lg">
+                      <ShoppingCart className="mr-2 h-5 w-5" />
+                      Request Quote
+                    </GoldButton>
+                    <div className="grid grid-cols-2 gap-2">
+                      <CoffeeButton variant="outline" size="sm">
+                        <Heart className="mr-2 h-4 w-4" />
+                        Save
+                      </CoffeeButton>
+                      <CoffeeButton variant="outline" size="sm">
+                        <Share2 className="mr-2 h-4 w-4" />
+                        Share
+                      </CoffeeButton>
                     </div>
-
-                    <h4 className="font-medium mt-6 mb-3">Packaging Options</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {mockProduct.packaging.options.map((option, index) => (
-                        <div key={index} className="p-4 border rounded-lg">
-                          <div className="flex items-center mb-2">
-                            <Package className="h-5 w-5 text-green-600 mr-2" />
-                            <span className="font-medium">{option.type}</span>
-                          </div>
-                          <p className="text-sm text-gray-600 mb-1">{option.weight}</p>
-                          <p className="text-xs text-gray-500">{option.description}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="origin" className="mt-6">
-                    <h3 className="text-lg font-semibold mb-4">Origin Information</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <h4 className="font-medium mb-3">Location Details</h4>
-                        <div className="space-y-3">
-                          <div className="flex items-center">
-                            <Globe className="h-4 w-4 text-green-600 mr-2" />
-                            <span>Country: {mockProduct.origin.country}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <MapPin className="h-4 w-4 text-green-600 mr-2" />
-                            <span>Region: {mockProduct.origin.region}, {mockProduct.origin.province}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <Thermometer className="h-4 w-4 text-green-600 mr-2" />
-                            <span>Altitude: {mockProduct.origin.altitude}m above sea level</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <h4 className="font-medium mb-3">Farming Information</h4>
-                        <div className="space-y-3">
-                          <div className="flex items-center">
-                            <Clock className="h-4 w-4 text-green-600 mr-2" />
-                            <span>Harvest Season: {mockProduct.origin.harvestSeason}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <Award className="h-4 w-4 text-green-600 mr-2" />
-                            <span>Farming Method: {mockProduct.origin.farmingMethod}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <Scale className="h-4 w-4 text-green-600 mr-2" />
-                            <span>Production Capacity: {mockProduct.availability.productionCapacity}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="quality" className="mt-6">
-                    <h3 className="text-lg font-semibold mb-4">Quality Test Results</h3>
-                    <div className="space-y-4">
-                      {mockProduct.qualityTests.map((test, index) => (
-                        <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                          <div>
-                            <p className="font-medium">{test.parameter}</p>
-                            <p className="text-sm text-gray-600">Standard: {test.standard}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="font-medium">{test.value}</p>
-                            <div className="flex items-center">
-                              <CheckCircle className="h-4 w-4 text-green-600 mr-1" />
-                              <span className="text-sm text-green-600">{test.status}</span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="documents" className="mt-6">
-                    <h3 className="text-lg font-semibold mb-4">Available Documents</h3>
-                    <div className="space-y-3">
-                      {mockProduct.documents.map((doc, index) => (
-                        <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                          <div className="flex items-center">
-                            <FileText className="h-5 w-5 text-green-600 mr-3" />
-                            <div>
-                              <p className="font-medium">{doc.name}</p>
-                              <p className="text-sm text-gray-600">{doc.type} • {doc.size}</p>
-                            </div>
-                          </div>
-                          <Button variant="outline" size="sm">
-                            <Download className="mr-2 h-4 w-4" />
-                            Download
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Related Products */}
-        <Card className="mt-12">
-          <CardHeader>
-            <CardTitle>Related Products</CardTitle>
-            <CardDescription>
-              Other products you might be interested in
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-center py-8 text-gray-500">
-              Related products will be displayed here
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+
+            {/* Right Column - Product Information */}
+            <div className="lg:col-span-2">
+              {/* Product Header */}
+              <Card className="mb-6 shadow-lg">
+                <CardHeader className="bg-gradient-to-r from-coffee-50 to-gold-50">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CoffeeHeading
+                        size="2xl"
+                        className="mb-2 text-coffee-800"
+                      >
+                        {mockProduct.name}
+                      </CoffeeHeading>
+                      <CardDescription className="text-lg text-coffee-600">
+                        {mockProduct.shortDescription}
+                      </CardDescription>
+                      <p className="mt-2 font-mono text-sm text-coffee-500">
+                        SKU: {mockProduct.sku}
+                      </p>
+                    </div>
+                    <div className="space-y-2 text-right">
+                      {mockProduct.isFeatured && (
+                        <Badge className="mb-2 bg-gold-500 text-white">
+                          <Star className="mr-1 h-3 w-3" />
+                          Featured
+                        </Badge>
+                      )}
+                      <Badge
+                        variant={
+                          mockProduct.availability.inStock
+                            ? 'default'
+                            : 'destructive'
+                        }
+                        className="block"
+                      >
+                        {mockProduct.availability.inStock
+                          ? 'In Stock'
+                          : 'Out of Stock'}
+                      </Badge>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-6">
+                  {/* Key Details with Design System Components */}
+                  <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+                    <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
+                      <Coffee className="mx-auto mb-2 h-6 w-6 text-coffee-600" />
+                      <CoffeeGradeIndicator grade={mockProduct.grade} />
+                      <p className="mt-1 text-xs text-coffee-600">Grade</p>
+                    </div>
+                    <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
+                      <ProcessingMethodBadge
+                        method={mockProduct.processingMethod}
+                      />
+                      <p className="mt-1 text-xs text-coffee-600">Processing</p>
+                    </div>
+                    <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
+                      <OriginFlag
+                        country="Vietnam"
+                        region={mockProduct.origin.region}
+                      />
+                      <p className="mt-1 text-xs text-coffee-600">Origin</p>
+                    </div>
+                    <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
+                      <MapPin className="mx-auto mb-2 h-6 w-6 text-coffee-600" />
+                      <p className="text-sm font-medium text-coffee-800">
+                        {mockProduct.origin.altitude}m
+                      </p>
+                      <p className="text-xs text-coffee-600">Altitude</p>
+                    </div>
+                  </div>
+
+                  {/* Pricing */}
+                  <div className="rounded-lg border border-gold-200 bg-gradient-to-r from-gold-50 to-coffee-50 p-6 shadow-sm">
+                    <div className="mb-4 flex items-center justify-between">
+                      <SectionHeading size="lg" className="text-coffee-800">
+                        Price:
+                      </SectionHeading>
+                      <span className="text-3xl font-bold text-gold-600">
+                        ${mockProduct.pricing.basePrice.toLocaleString()}/
+                        {mockProduct.pricing.unit}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="rounded-lg bg-white/50 p-3">
+                        <p className="text-sm font-medium text-coffee-800">
+                          Minimum Order
+                        </p>
+                        <p className="text-sm text-coffee-600">
+                          {mockProduct.pricing.minimumOrder} MT
+                        </p>
+                      </div>
+                      <div className="rounded-lg bg-white/50 p-3">
+                        <p className="text-sm font-medium text-coffee-800">
+                          Lead Time
+                        </p>
+                        <p className="text-sm text-coffee-600">
+                          {mockProduct.availability.leadTime} days
+                        </p>
+                      </div>
+                      <div className="rounded-lg bg-white/50 p-3">
+                        <p className="text-sm font-medium text-coffee-800">
+                          Payment Terms
+                        </p>
+                        <p className="text-sm text-coffee-600">
+                          {mockProduct.pricing.paymentTerms}
+                        </p>
+                      </div>
+                      <div className="rounded-lg bg-white/50 p-3">
+                        <p className="text-sm font-medium text-coffee-800">
+                          Valid Until
+                        </p>
+                        <p className="text-sm text-coffee-600">
+                          {mockProduct.pricing.priceValidUntil}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Detailed Information Tabs */}
+              <Card>
+                <CardContent className="p-6">
+                  <Tabs defaultValue="description" className="w-full">
+                    <TabsList className="grid w-full grid-cols-5 border border-coffee-200 bg-coffee-50">
+                      <TabsTrigger
+                        value="description"
+                        className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
+                      >
+                        Description
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="specifications"
+                        className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
+                      >
+                        Specifications
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="origin"
+                        className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
+                      >
+                        Origin
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="quality"
+                        className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
+                      >
+                        Quality
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="documents"
+                        className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
+                      >
+                        Documents
+                      </TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="description" className="mt-6">
+                      <Card className="shadow-md">
+                        <CardContent className="p-6">
+                          <SectionHeading
+                            size="lg"
+                            className="mb-4 text-coffee-800"
+                          >
+                            Product Description
+                          </SectionHeading>
+                          <div className="mb-6 whitespace-pre-line leading-relaxed text-coffee-700">
+                            {mockProduct.longDescription}
+                          </div>
+
+                          <SectionHeading
+                            size="md"
+                            className="mb-4 mt-6 text-coffee-800"
+                          >
+                            Certifications
+                          </SectionHeading>
+                          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            {mockProduct.certifications.map((cert, index) => (
+                              <CertificationBadge
+                                key={index}
+                                certification={cert.name}
+                                issuer={cert.issuer}
+                                validUntil={cert.validUntil}
+                                className="p-4"
+                              />
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+
+                    <TabsContent value="specifications" className="mt-6">
+                      <Card className="shadow-md">
+                        <CardContent className="p-6">
+                          <SectionHeading
+                            size="lg"
+                            className="mb-6 text-coffee-800"
+                          >
+                            Technical Specifications
+                          </SectionHeading>
+                          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                            <div>
+                              <SectionHeading
+                                size="md"
+                                className="mb-4 text-coffee-700"
+                              >
+                                Physical Properties
+                              </SectionHeading>
+                              <div className="space-y-4">
+                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                  <span className="text-coffee-700">
+                                    Moisture Content:
+                                  </span>
+                                  <span className="font-semibold text-coffee-800">
+                                    {mockProduct.specifications.moisture}%
+                                  </span>
+                                </div>
+                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                  <span className="text-coffee-700">
+                                    Screen Size:
+                                  </span>
+                                  <span className="font-semibold text-coffee-800">
+                                    {mockProduct.specifications.screenSize}
+                                  </span>
+                                </div>
+                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                  <span className="text-coffee-700">
+                                    Defect Rate:
+                                  </span>
+                                  <span className="font-semibold text-coffee-800">
+                                    {mockProduct.specifications.defectRate}%
+                                  </span>
+                                </div>
+                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                  <span className="text-coffee-700">
+                                    Density:
+                                  </span>
+                                  <span className="font-semibold text-coffee-800">
+                                    {mockProduct.specifications.density}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div>
+                              <SectionHeading
+                                size="md"
+                                className="mb-4 text-coffee-700"
+                              >
+                                Chemical Composition
+                              </SectionHeading>
+                              <div className="space-y-4">
+                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                  <span className="text-coffee-700">
+                                    Caffeine:
+                                  </span>
+                                  <span className="font-semibold text-coffee-800">
+                                    {mockProduct.specifications.caffeine}
+                                  </span>
+                                </div>
+                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                  <span className="text-coffee-700">Ash:</span>
+                                  <span className="font-semibold text-coffee-800">
+                                    {mockProduct.specifications.ash}
+                                  </span>
+                                </div>
+                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                  <span className="text-coffee-700">
+                                    Lipids:
+                                  </span>
+                                  <span className="font-semibold text-coffee-800">
+                                    {mockProduct.specifications.lipids}
+                                  </span>
+                                </div>
+                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                  <span className="text-coffee-700">
+                                    Proteins:
+                                  </span>
+                                  <span className="font-semibold text-coffee-800">
+                                    {mockProduct.specifications.proteins}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <SectionHeading
+                            size="md"
+                            className="mb-4 mt-8 text-coffee-700"
+                          >
+                            Packaging Options
+                          </SectionHeading>
+                          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                            {mockProduct.packaging.options.map(
+                              (option, index) => (
+                                <div
+                                  key={index}
+                                  className="rounded-lg border border-coffee-200 bg-gradient-to-br from-coffee-50 to-gold-50 p-4"
+                                >
+                                  <div className="mb-3 flex items-center">
+                                    <Package className="mr-2 h-5 w-5 text-coffee-600" />
+                                    <span className="font-semibold text-coffee-800">
+                                      {option.type}
+                                    </span>
+                                  </div>
+                                  <p className="mb-1 text-sm font-medium text-coffee-700">
+                                    {option.weight}
+                                  </p>
+                                  <p className="text-xs text-coffee-600">
+                                    {option.description}
+                                  </p>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+
+                    <TabsContent value="origin" className="mt-6">
+                      <Card className="shadow-md">
+                        <CardContent className="p-6">
+                          <SectionHeading
+                            size="lg"
+                            className="mb-6 text-coffee-800"
+                          >
+                            Origin Information
+                          </SectionHeading>
+                          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                            <div>
+                              <SectionHeading
+                                size="md"
+                                className="mb-4 text-coffee-700"
+                              >
+                                Location Details
+                              </SectionHeading>
+                              <div className="space-y-4">
+                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                  <Globe className="mr-3 h-5 w-5 text-coffee-600" />
+                                  <span className="text-coffee-800">
+                                    Country:{' '}
+                                    <span className="font-semibold">
+                                      {mockProduct.origin.country}
+                                    </span>
+                                  </span>
+                                </div>
+                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                  <MapPin className="mr-3 h-5 w-5 text-coffee-600" />
+                                  <span className="text-coffee-800">
+                                    Region:{' '}
+                                    <span className="font-semibold">
+                                      {mockProduct.origin.region},{' '}
+                                      {mockProduct.origin.province}
+                                    </span>
+                                  </span>
+                                </div>
+                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                  <Thermometer className="mr-3 h-5 w-5 text-coffee-600" />
+                                  <span className="text-coffee-800">
+                                    Altitude:{' '}
+                                    <span className="font-semibold">
+                                      {mockProduct.origin.altitude}m above sea
+                                      level
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div>
+                              <SectionHeading
+                                size="md"
+                                className="mb-4 text-coffee-700"
+                              >
+                                Farming Information
+                              </SectionHeading>
+                              <div className="space-y-4">
+                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                  <Clock className="mr-3 h-5 w-5 text-coffee-600" />
+                                  <span className="text-coffee-800">
+                                    Harvest Season:{' '}
+                                    <span className="font-semibold">
+                                      {mockProduct.origin.harvestSeason}
+                                    </span>
+                                  </span>
+                                </div>
+                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                  <Award className="mr-3 h-5 w-5 text-coffee-600" />
+                                  <span className="text-coffee-800">
+                                    Farming Method:{' '}
+                                    <span className="font-semibold">
+                                      {mockProduct.origin.farmingMethod}
+                                    </span>
+                                  </span>
+                                </div>
+                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                  <Scale className="mr-3 h-5 w-5 text-coffee-600" />
+                                  <span className="text-coffee-800">
+                                    Production Capacity:{' '}
+                                    <span className="font-semibold">
+                                      {
+                                        mockProduct.availability
+                                          .productionCapacity
+                                      }
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+
+                    <TabsContent value="quality" className="mt-6">
+                      <Card className="shadow-md">
+                        <CardContent className="p-6">
+                          <SectionHeading
+                            size="lg"
+                            className="mb-6 text-coffee-800"
+                          >
+                            Quality Test Results
+                          </SectionHeading>
+                          <div className="space-y-4">
+                            {mockProduct.qualityTests.map((test, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between rounded-lg border border-coffee-200 bg-gradient-to-r from-coffee-50 to-gold-50 p-4"
+                              >
+                                <div>
+                                  <p className="font-semibold text-coffee-800">
+                                    {test.parameter}
+                                  </p>
+                                  <p className="text-sm text-coffee-600">
+                                    Standard: {test.standard}
+                                  </p>
+                                </div>
+                                <div className="text-right">
+                                  <p className="font-semibold text-coffee-800">
+                                    {test.value}
+                                  </p>
+                                  <div className="flex items-center">
+                                    <CheckCircle className="mr-1 h-4 w-4 text-green-600" />
+                                    <span className="text-sm font-medium text-green-600">
+                                      {test.status}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+
+                    <TabsContent value="documents" className="mt-6">
+                      <Card className="shadow-md">
+                        <CardContent className="p-6">
+                          <SectionHeading
+                            size="lg"
+                            className="mb-6 text-coffee-800"
+                          >
+                            Available Documents
+                          </SectionHeading>
+                          <div className="space-y-4">
+                            {mockProduct.documents.map(doc => (
+                              <div
+                                key={`doc-${doc.name}`}
+                                className="flex items-center justify-between rounded-lg border border-coffee-200 bg-gradient-to-r from-coffee-50 to-gold-50 p-4"
+                              >
+                                <div className="flex items-center">
+                                  <FileText className="mr-3 h-5 w-5 text-coffee-600" />
+                                  <div>
+                                    <p className="font-semibold text-coffee-800">
+                                      {doc.name}
+                                    </p>
+                                    <p className="text-sm text-coffee-600">
+                                      {doc.type} • {doc.size}
+                                    </p>
+                                  </div>
+                                </div>
+                                <CoffeeButton variant="outline" size="sm">
+                                  <Download className="mr-2 h-4 w-4" />
+                                  Download
+                                </CoffeeButton>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                  </Tabs>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </ContentContainer>
+      </ContentSection>
+
+      {/* Related Products */}
+      <ContentSection className="mt-12">
+        <ContentContainer>
+          <SectionHeading
+            size="xl"
+            className="mb-8 text-center text-coffee-800"
+          >
+            Related Products
+          </SectionHeading>
+          <ProductGrid>
+            {[1, 2, 3].map(i => (
+              <ProductCard
+                key={i}
+                product={{
+                  id: `related-${i}`,
+                  name: 'The Great Beans Premium Robusta Grade 1',
+                  type: 'Robusta',
+                  grade: 'Grade 1',
+                  origin: 'Dak Lak Province',
+                  price: 2.85,
+                  currency: 'USD',
+                  unit: 'kg',
+                  availability: 'In Stock',
+                  image: '/images/coffee-beans-placeholder.jpg',
+                  certifications: ['Organic', 'Fair Trade'],
+                  processingMethod: 'Wet Process',
+                }}
+              />
+            ))}
+          </ProductGrid>
+
+          <div className="mt-8 text-center">
+            <Link href={`/${locale}/products`}>
+              <CoffeeButton size="lg">View All Products</CoffeeButton>
+            </Link>
+          </div>
+        </ContentContainer>
+      </ContentSection>
     </div>
   );
 }

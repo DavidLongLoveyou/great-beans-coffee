@@ -21,7 +21,7 @@ export class GetRfqByIdUseCase {
         return {
           rfq: null,
           success: false,
-          message: 'RFQ ID is required'
+          message: 'RFQ ID is required',
         };
       }
 
@@ -32,21 +32,22 @@ export class GetRfqByIdUseCase {
         return {
           rfq: null,
           success: false,
-          message: 'RFQ not found'
+          message: 'RFQ not found',
         };
       }
 
       return {
         rfq,
         success: true,
-        message: 'RFQ retrieved successfully'
+        message: 'RFQ retrieved successfully',
       };
     } catch (error) {
       console.error('Error getting RFQ by ID:', error);
       return {
         rfq: null,
         success: false,
-        message: error instanceof Error ? error.message : 'Failed to retrieve RFQ'
+        message:
+          error instanceof Error ? error.message : 'Failed to retrieve RFQ',
       };
     }
   }

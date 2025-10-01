@@ -1,17 +1,17 @@
-import { Locale, locales, localeNames, localeFlags } from '@/i18n';
+import { Locale, locales, localeConfig } from '@/i18n';
 
 /**
  * Get the display name for a locale
  */
-export function getLocaleDisplayName(locale: Locale): string {
-  return localeNames[locale] || locale;
+export function getLocaleName(locale: Locale): string {
+  return localeConfig[locale]?.label || locale;
 }
 
 /**
  * Get the flag emoji for a locale
  */
 export function getLocaleFlag(locale: Locale): string {
-  return localeFlags[locale] || '🌐';
+  return localeConfig[locale]?.flag || '🌐';
 }
 
 /**
@@ -34,7 +34,7 @@ export function getDefaultLocale(): Locale {
 export function getAllLocales() {
   return locales.map(locale => ({
     code: locale,
-    name: getLocaleDisplayName(locale),
+    name: getLocaleName(locale),
     flag: getLocaleFlag(locale),
   }));
 }
@@ -45,11 +45,11 @@ export function getAllLocales() {
 export function getLocaleFromPathname(pathname: string): Locale {
   const segments = pathname.split('/');
   const potentialLocale = segments[1];
-  
+
   if (potentialLocale && isValidLocale(potentialLocale)) {
     return potentialLocale;
   }
-  
+
   return getDefaultLocale();
 }
 
@@ -59,11 +59,11 @@ export function getLocaleFromPathname(pathname: string): Locale {
 export function removeLocaleFromPathname(pathname: string): string {
   const segments = pathname.split('/');
   const potentialLocale = segments[1];
-  
+
   if (potentialLocale && isValidLocale(potentialLocale)) {
     return '/' + segments.slice(2).join('/');
   }
-  
+
   return pathname;
 }
 

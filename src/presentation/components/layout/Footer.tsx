@@ -1,8 +1,9 @@
 'use client';
 
+import { Coffee, Mail, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Coffee, Mail, Phone, MapPin } from 'lucide-react';
+
 import { type Locale } from '@/i18n';
 
 type Props = {
@@ -11,7 +12,6 @@ type Props = {
 
 export default function Footer({ locale }: Props) {
   const t = useTranslations('navigation');
-  const tCommon = useTranslations('common');
 
   return (
     <footer className="bg-green-900 text-white">
@@ -24,7 +24,8 @@ export default function Footer({ locale }: Props) {
               <span className="text-xl font-bold">The Great Beans</span>
             </div>
             <p className="text-green-100">
-              Premium Vietnamese coffee export company connecting global markets with exceptional coffee beans.
+              Premium Vietnamese coffee export company connecting global markets
+              with exceptional coffee beans.
             </p>
             <div className="space-y-2">
               <div className="flex items-center space-x-2 text-sm">
@@ -44,25 +45,39 @@ export default function Footer({ locale }: Props) {
 
           {/* Products */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-green-400">{t('products')}</h3>
+            <h3 className="text-lg font-semibold text-green-400">
+              {t('products')}
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href={`/${locale}/products/robusta`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/products/robusta`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   Robusta Coffee
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/products/arabica`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/products/arabica`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   Arabica Coffee
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/products/blends`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/products/blends`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   Specialty Blends
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/products/instant`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/products/instant`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   Instant Coffee
                 </Link>
               </li>
@@ -71,25 +86,39 @@ export default function Footer({ locale }: Props) {
 
           {/* Services */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-green-400">{t('services')}</h3>
+            <h3 className="text-lg font-semibold text-green-400">
+              {t('services')}
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href={`/${locale}/services/oem`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/services/oem`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   OEM Manufacturing
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/services/private-label`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/services/private-label`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   Private Label
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/services/sourcing`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/services/sourcing`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   Coffee Sourcing
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/services/logistics`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/services/logistics`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   Logistics & Shipping
                 </Link>
               </li>
@@ -101,22 +130,34 @@ export default function Footer({ locale }: Props) {
             <h3 className="text-lg font-semibold text-green-400">Company</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href={`/${locale}/about`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/about`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   {t('about')}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/certifications`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/certifications`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   {t('certifications')}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/blog`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/blog`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   {t('blog')}
                 </Link>
               </li>
               <li>
-                <Link href={`/${locale}/contact`} className="text-green-100 hover:text-white transition-colors">
+                <Link
+                  href={`/${locale}/contact`}
+                  className="text-green-100 transition-colors hover:text-white"
+                >
                   {t('contact')}
                 </Link>
               </li>
@@ -130,10 +171,16 @@ export default function Footer({ locale }: Props) {
               © 2024 The Great Beans. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
-              <Link href={`/${locale}/privacy`} className="text-green-100 hover:text-white transition-colors">
+              <Link
+                href={`/${locale}/privacy`}
+                className="text-green-100 transition-colors hover:text-white"
+              >
                 Privacy Policy
               </Link>
-              <Link href={`/${locale}/terms`} className="text-green-100 hover:text-white transition-colors">
+              <Link
+                href={`/${locale}/terms`}
+                className="text-green-100 transition-colors hover:text-white"
+              >
                 Terms of Service
               </Link>
             </div>

@@ -43,7 +43,7 @@ export class GetRfqsUseCase {
           limit,
           totalPages: 0,
           success: false,
-          message: 'Page number must be greater than 0'
+          message: 'Page number must be greater than 0',
         };
       }
 
@@ -55,28 +55,28 @@ export class GetRfqsUseCase {
           limit: 10,
           totalPages: 0,
           success: false,
-          message: 'Limit must be between 1 and 100'
+          message: 'Limit must be between 1 and 100',
         };
       }
 
       // Build filter criteria
       const filters: any = {};
-      
+
       if (request.status) {
         filters.status = request.status;
       }
-      
+
       if (request.priority) {
         filters.priority = request.priority;
       }
-      
+
       if (request.companyName) {
         filters.companyName = {
           contains: request.companyName,
-          mode: 'insensitive'
+          mode: 'insensitive',
         };
       }
-      
+
       if (request.dateFrom || request.dateTo) {
         filters.submittedAt = {};
         if (request.dateFrom) {
@@ -93,7 +93,7 @@ export class GetRfqsUseCase {
         page,
         limit,
         sortBy,
-        sortOrder
+        sortOrder,
       });
 
       const totalPages = Math.ceil(result.total / limit);
@@ -105,7 +105,7 @@ export class GetRfqsUseCase {
         limit,
         totalPages,
         success: true,
-        message: 'RFQs retrieved successfully'
+        message: 'RFQs retrieved successfully',
       };
     } catch (error) {
       console.error('Error getting RFQs:', error);
@@ -116,7 +116,8 @@ export class GetRfqsUseCase {
         limit: request.limit || 10,
         totalPages: 0,
         success: false,
-        message: error instanceof Error ? error.message : 'Failed to retrieve RFQs'
+        message:
+          error instanceof Error ? error.message : 'Failed to retrieve RFQs',
       };
     }
   }

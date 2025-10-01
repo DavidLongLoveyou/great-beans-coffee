@@ -1,40 +1,38 @@
 // Dependency Injection Container
 // This file wires up all dependencies for the application
 
-// Repositories
-import { CoffeeProductRepository } from '@/infrastructure/database/repositories/coffee-product.repository';
-import { RfqRepository } from '@/infrastructure/database/repositories/rfq.repository';
-import { ContentRepository } from '@/infrastructure/database/repositories/content.repository';
+// External libraries
+import { PrismaClient } from '@prisma/client';
 
-// Services
-import { EmailService } from '@/application/services/email.service';
-import { NotificationService } from '@/application/services/notification.service';
-import { FileUploadService } from '@/application/services/file-upload.service';
-import { CacheService } from '@/application/services/cache.service';
-import { SearchService } from '@/application/services/search.service';
-import { TranslationService } from '@/application/services/translation.service';
+// Application services
 import { AnalyticsService } from '@/application/services/analytics.service';
-import { SeoService } from '@/application/services/seo.service';
-
-// Use Cases - Coffee Products
+import { CacheService } from '@/application/services/cache.service';
+import { EmailService } from '@/application/services/email.service';
+import { FileUploadService } from '@/application/services/file-upload.service';
+import { NotificationService } from '@/application/services/notification.service';
+import { SearchService } from '@/application/services/search.service';
+import { SEOService } from '@/application/services/seo.service';
+import { TranslationService } from '@/application/services/translation.service';
+// Use cases
 import {
   GetCoffeeProductsUseCase,
   GetCoffeeProductBySlugUseCase,
   SearchCoffeeProductsUseCase,
   GetFeaturedProductsUseCase,
-  GetProductsByCategoryUseCase
+  GetProductsByCategoryUseCase,
 } from '@/application/use-cases/coffee-products';
-
-// Use Cases - RFQ Management
 import {
   SubmitRfqUseCase,
   GetRfqByIdUseCase,
   GetRfqsUseCase,
-  UpdateRfqStatusUseCase
+  UpdateRfqStatusUseCase,
 } from '@/application/use-cases/rfq-management';
+// Infrastructure repositories
+import { CoffeeProductRepository } from '@/infrastructure/database/repositories/coffee-product.repository';
+import { ContentRepository } from '@/infrastructure/database/repositories/content.repository';
+import { RFQRepository } from '@/infrastructure/database/repositories/rfq.repository';
 
 // Database connection
-import { PrismaClient } from '@prisma/client';
 
 class DIContainer {
   private static instance: DIContainer;
@@ -42,7 +40,7 @@ class DIContainer {
 
   // Repositories
   private _coffeeProductRepository: CoffeeProductRepository | null = null;
-  private _rfqRepository: RfqRepository | null = null;
+  private _rfqRepository: RFQRepository | null = null;
   private _contentRepository: ContentRepository | null = null;
 
   // Services
@@ -53,14 +51,17 @@ class DIContainer {
   private _searchService: SearchService | null = null;
   private _translationService: TranslationService | null = null;
   private _analyticsService: AnalyticsService | null = null;
-  private _seoService: SeoService | null = null;
+  private _seoService: SEOService | null = null;
 
   // Use Cases - Coffee Products
   private _getCoffeeProductsUseCase: GetCoffeeProductsUseCase | null = null;
-  private _getCoffeeProductBySlugUseCase: GetCoffeeProductBySlugUseCase | null = null;
-  private _searchCoffeeProductsUseCase: SearchCoffeeProductsUseCase | null = null;
+  private _getCoffeeProductBySlugUseCase: GetCoffeeProductBySlugUseCase | null =
+    null;
+  private _searchCoffeeProductsUseCase: SearchCoffeeProductsUseCase | null =
+    null;
   private _getFeaturedProductsUseCase: GetFeaturedProductsUseCase | null = null;
-  private _getProductsByCategoryUseCase: GetProductsByCategoryUseCase | null = null;
+  private _getProductsByCategoryUseCase: GetProductsByCategoryUseCase | null =
+    null;
 
   // Use Cases - RFQ Management
   private _submitRfqUseCase: SubmitRfqUseCase | null = null;
@@ -93,9 +94,9 @@ class DIContainer {
     return this._coffeeProductRepository;
   }
 
-  get rfqRepository(): RfqRepository {
+  get rfqRepository(): RFQRepository {
     if (!this._rfqRepository) {
-      this._rfqRepository = new RfqRepository(this.prisma);
+      this._rfqRepository = new RFQRepository();
     }
     return this._rfqRepository;
   }
@@ -157,9 +158,9 @@ class DIContainer {
     return this._analyticsService;
   }
 
-  get seoService(): SeoService {
+  get seoService(): SEOService {
     if (!this._seoService) {
-      this._seoService = new SeoService();
+      this._seoService = new SEOService();
     }
     return this._seoService;
   }
@@ -224,18 +225,14 @@ class DIContainer {
 
   get getRfqByIdUseCase(): GetRfqByIdUseCase {
     if (!this._getRfqByIdUseCase) {
-      this._getRfqByIdUseCase = new GetRfqByIdUseCase(
-        this.rfqRepository
-      );
+      this._getRfqByIdUseCase = new GetRfqByIdUseCase(this.rfqRepository);
     }
     return this._getRfqByIdUseCase;
   }
 
   get getRfqsUseCase(): GetRfqsUseCase {
     if (!this._getRfqsUseCase) {
-      this._getRfqsUseCase = new GetRfqsUseCase(
-        this.rfqRepository
-      );
+      this._getRfqsUseCase = new GetRfqsUseCase(this.rfqRepository);
     }
     return this._getRfqsUseCase;
   }
@@ -268,7 +265,7 @@ export const {
   coffeeProductRepository,
   rfqRepository,
   contentRepository,
-  
+
   // Services
   emailService,
   notificationService,
@@ -278,17 +275,17 @@ export const {
   translationService,
   analyticsService,
   seoService,
-  
+
   // Use Cases - Coffee Products
   getCoffeeProductsUseCase,
   getCoffeeProductBySlugUseCase,
   searchCoffeeProductsUseCase,
   getFeaturedProductsUseCase,
   getProductsByCategoryUseCase,
-  
+
   // Use Cases - RFQ Management
   submitRfqUseCase,
   getRfqByIdUseCase,
   getRfqsUseCase,
-  updateRfqStatusUseCase
+  updateRfqStatusUseCase,
 } = container;

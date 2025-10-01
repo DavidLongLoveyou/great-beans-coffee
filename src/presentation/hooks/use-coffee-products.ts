@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+
 import { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
 import { CoffeeProductFilters } from '@/infrastructure/database/repositories/coffee-product.repository';
-import { 
+import {
   getCoffeeProductsUseCase,
   getFeaturedProductsUseCase,
   searchCoffeeProductsUseCase,
-  getProductsByCategoryUseCase
+  getProductsByCategoryUseCase,
 } from '@/infrastructure/di/container';
 
 interface UseCoffeeProductsState {
@@ -26,47 +27,54 @@ interface UseCoffeeProductsOptions {
 
 export function useCoffeeProducts(options: UseCoffeeProductsOptions = {}) {
   const { filters, locale, autoFetch = true } = options;
-  
+
   const [state, setState] = useState<UseCoffeeProductsState>({
     products: [],
     loading: false,
     error: null,
     total: 0,
-    hasMore: false
+    hasMore: false,
   });
 
-  const fetchProducts = useCallback(async (newFilters?: CoffeeProductFilters) => {
-    setState(prev => ({ ...prev, loading: true, error: null }));
+  const fetchProducts = useCallback(
+    async (newFilters?: CoffeeProductFilters) => {
+      setState(prev => ({ ...prev, loading: true, error: null }));
 
-    try {
-      const response = await getCoffeeProductsUseCase.execute({
-        filters: newFilters || filters,
-        locale
-      });
+      try {
+        const response = await getCoffeeProductsUseCase.execute({
+          filters: newFilters || filters,
+          locale,
+        });
 
-      setState(prev => ({
-        ...prev,
-        products: response.products,
-        total: response.total,
-        hasMore: response.hasMore,
-        loading: false
-      }));
-    } catch (error) {
-      setState(prev => ({
-        ...prev,
-        error: error instanceof Error ? error.message : 'Failed to fetch products',
-        loading: false
-      }));
-    }
-  }, [filters, locale]);
+        setState(prev => ({
+          ...prev,
+          products: response.products,
+          total: response.total,
+          hasMore: response.hasMore,
+          loading: false,
+        }));
+      } catch (error) {
+        setState(prev => ({
+          ...prev,
+          error:
+            error instanceof Error ? error.message : 'Failed to fetch products',
+          loading: false,
+        }));
+      }
+    },
+    [filters, locale]
+  );
 
   const refetch = useCallback(() => {
     return fetchProducts();
   }, [fetchProducts]);
 
-  const updateFilters = useCallback((newFilters: CoffeeProductFilters) => {
-    return fetchProducts(newFilters);
-  }, [fetchProducts]);
+  const updateFilters = useCallback(
+    (newFilters: CoffeeProductFilters) => {
+      return fetchProducts(newFilters);
+    },
+    [fetchProducts]
+  );
 
   // Auto-fetch on mount and when dependencies change
   useEffect(() => {
@@ -79,7 +87,7 @@ export function useCoffeeProducts(options: UseCoffeeProductsOptions = {}) {
     ...state,
     refetch,
     updateFilters,
-    fetchProducts
+    fetchProducts,
   };
 }
 
@@ -92,7 +100,7 @@ export function useFeaturedProducts(limit = 6, locale?: string) {
   }>({
     products: [],
     loading: false,
-    error: null
+    error: null,
   });
 
   const fetchFeaturedProducts = useCallback(async () => {
@@ -101,19 +109,22 @@ export function useFeaturedProducts(limit = 6, locale?: string) {
     try {
       const response = await getFeaturedProductsUseCase.execute({
         limit,
-        locale
+        locale,
       });
 
       setState(prev => ({
         ...prev,
         products: response.products,
-        loading: false
+        loading: false,
       }));
     } catch (error) {
       setState(prev => ({
         ...prev,
-        error: error instanceof Error ? error.message : 'Failed to fetch featured products',
-        loading: false
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Failed to fetch featured products',
+        loading: false,
       }));
     }
   }, [limit, locale]);
@@ -124,7 +135,7 @@ export function useFeaturedProducts(limit = 6, locale?: string) {
 
   return {
     ...state,
-    refetch: fetchFeaturedProducts
+    refetch: fetchFeaturedProducts,
   };
 }
 
@@ -141,33 +152,39 @@ export function useSearchCoffeeProducts() {
     loading: false,
     error: null,
     query: '',
-    total: 0
+    total: 0,
   });
 
-  const search = useCallback(async (query: string, locale?: string, limit?: number) => {
-    setState(prev => ({ ...prev, loading: true, error: null, query }));
+  const search = useCallback(
+    async (query: string, locale?: string, limit?: number) => {
+      setState(prev => ({ ...prev, loading: true, error: null, query }));
 
-    try {
-      const response = await searchCoffeeProductsUseCase.execute({
-        query,
-        locale,
-        limit
-      });
+      try {
+        const response = await searchCoffeeProductsUseCase.execute({
+          query,
+          locale,
+          limit,
+        });
 
-      setState(prev => ({
-        ...prev,
-        products: response.products,
-        total: response.total,
-        loading: false
-      }));
-    } catch (error) {
-      setState(prev => ({
-        ...prev,
-        error: error instanceof Error ? error.message : 'Failed to search products',
-        loading: false
-      }));
-    }
-  }, []);
+        setState(prev => ({
+          ...prev,
+          products: response.products,
+          total: response.total,
+          loading: false,
+        }));
+      } catch (error) {
+        setState(prev => ({
+          ...prev,
+          error:
+            error instanceof Error
+              ? error.message
+              : 'Failed to search products',
+          loading: false,
+        }));
+      }
+    },
+    []
+  );
 
   const clearSearch = useCallback(() => {
     setState({
@@ -175,14 +192,14 @@ export function useSearchCoffeeProducts() {
       loading: false,
       error: null,
       query: '',
-      total: 0
+      total: 0,
     });
   }, []);
 
   return {
     ...state,
     search,
-    clearSearch
+    clearSearch,
   };
 }
 
@@ -201,42 +218,54 @@ export function useProductsByCategory() {
     error: null,
     category: '',
     value: '',
-    total: 0
+    total: 0,
   });
 
-  const fetchByCategory = useCallback(async (
-    category: 'type' | 'grade' | 'origin' | 'processing',
-    value: string,
-    filters?: any,
-    locale?: string
-  ) => {
-    setState(prev => ({ ...prev, loading: true, error: null, category, value }));
-
-    try {
-      const response = await getProductsByCategoryUseCase.execute({
+  const fetchByCategory = useCallback(
+    async (
+      category: 'type' | 'grade' | 'origin' | 'processing',
+      value: string,
+      filters?: CoffeeProductFilters,
+      locale?: string
+    ) => {
+      setState(prev => ({
+        ...prev,
+        loading: true,
+        error: null,
         category,
         value,
-        filters,
-        locale
-      });
+      }));
 
-      setState(prev => ({
-        ...prev,
-        products: response.products,
-        total: response.total,
-        loading: false
-      }));
-    } catch (error) {
-      setState(prev => ({
-        ...prev,
-        error: error instanceof Error ? error.message : 'Failed to fetch products by category',
-        loading: false
-      }));
-    }
-  }, []);
+      try {
+        const response = await getProductsByCategoryUseCase.execute({
+          category,
+          value,
+          filters,
+          locale,
+        });
+
+        setState(prev => ({
+          ...prev,
+          products: response.products,
+          total: response.total,
+          loading: false,
+        }));
+      } catch (error) {
+        setState(prev => ({
+          ...prev,
+          error:
+            error instanceof Error
+              ? error.message
+              : 'Failed to fetch products by category',
+          loading: false,
+        }));
+      }
+    },
+    []
+  );
 
   return {
     ...state,
-    fetchByCategory
+    fetchByCategory,
   };
 }

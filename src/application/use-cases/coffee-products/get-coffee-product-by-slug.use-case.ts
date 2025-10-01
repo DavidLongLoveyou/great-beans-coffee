@@ -14,17 +14,22 @@ export interface GetCoffeeProductBySlugResponse {
 export class GetCoffeeProductBySlugUseCase {
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
-  async execute(request: GetCoffeeProductBySlugRequest): Promise<GetCoffeeProductBySlugResponse> {
+  async execute(
+    request: GetCoffeeProductBySlugRequest
+  ): Promise<GetCoffeeProductBySlugResponse> {
     const { slug, locale } = request;
 
     try {
       // Get the main product
-      const product = await this.coffeeProductRepository.findBySlug(slug, locale);
+      const product = await this.coffeeProductRepository.findBySlug(
+        slug,
+        locale
+      );
 
       if (!product) {
         return {
           product: null,
-          relatedProducts: []
+          relatedProducts: [],
         };
       }
 
@@ -33,7 +38,7 @@ export class GetCoffeeProductBySlugUseCase {
 
       return {
         product,
-        relatedProducts
+        relatedProducts,
       };
     } catch (error) {
       console.error('Error fetching coffee product by slug:', error);
@@ -42,31 +47,34 @@ export class GetCoffeeProductBySlugUseCase {
   }
 
   private async getRelatedProducts(
-    product: CoffeeProductEntity, 
+    product: CoffeeProductEntity,
     locale?: string
   ): Promise<CoffeeProductEntity[]> {
     try {
       // First try to get products of the same type
-      let relatedProducts = await this.coffeeProductRepository.getProductsByType(
-        product.type, 
-        locale
-      );
+      let relatedProducts =
+        await this.coffeeProductRepository.getProductsByType(
+          product.type,
+          locale
+        );
 
       // Filter out the current product
       relatedProducts = relatedProducts.filter(p => p.id !== product.id);
 
       // If we don't have enough, add products from the same origin
       if (relatedProducts.length < 4 && product.origin) {
-        const originProducts = await this.coffeeProductRepository.getProductsByOrigin(
-          product.origin, 
-          locale
-        );
-        
+        const originProducts =
+          await this.coffeeProductRepository.getProductsByOrigin(
+            product.origin,
+            locale
+          );
+
         // Add products that aren't already in the list
         const additionalProducts = originProducts.filter(
-          p => p.id !== product.id && !relatedProducts.some(rp => rp.id === p.id)
+          p =>
+            p.id !== product.id && !relatedProducts.some(rp => rp.id === p.id)
         );
-        
+
         relatedProducts = [...relatedProducts, ...additionalProducts];
       }
 

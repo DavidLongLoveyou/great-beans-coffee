@@ -52,6 +52,7 @@ src/
 ## 🎯 Domain Layer (Core Business Logic)
 
 ### Entities
+
 - `CoffeeProduct` - Core coffee product with specifications
 - `BusinessService` - Services offered (OEM, Private Label, etc.)
 - `RFQ` - Request for Quote with business rules
@@ -59,6 +60,7 @@ src/
 - `Content` - Multilingual content management
 
 ### Value Objects
+
 - `CoffeeGrade` - Quality grades and standards
 - `ProcessingMethod` - Coffee processing techniques
 - `Certification` - Quality certifications
@@ -66,6 +68,7 @@ src/
 - `Quantity` - Measurements and units
 
 ### Domain Services
+
 - `PricingService` - Complex pricing calculations
 - `QualityAssessmentService` - Coffee quality evaluation
 - `ShippingCalculatorService` - Logistics calculations
@@ -74,12 +77,14 @@ src/
 ## 🔄 Application Layer (Use Cases)
 
 ### Use Cases
+
 - **Coffee Products**: Get, search, filter products
 - **RFQ Management**: Submit, process, respond to RFQs
 - **Content Management**: Multilingual content operations
 - **SEO Management**: Automated SEO optimization
 
 ### Application Services
+
 - `EmailService` - Email notifications
 - `TranslationService` - Content localization
 - `AnalyticsService` - Business intelligence
@@ -88,11 +93,13 @@ src/
 ## 🔌 Infrastructure Layer (External Concerns)
 
 ### Database
+
 - **Prisma ORM** with PostgreSQL
 - Repository pattern implementations
 - Database migrations and seeders
 
 ### External Services
+
 - **Cloudinary** - Image optimization
 - **SendGrid** - Email delivery
 - **Google Analytics** - Web analytics
@@ -101,6 +108,7 @@ src/
 ## 🎨 Presentation Layer (UI)
 
 ### Components Structure
+
 ```
 components/
 ├── ui/           # Reusable UI primitives (shadcn/ui)
@@ -111,6 +119,7 @@ components/
 ```
 
 ### Custom Hooks
+
 - `useCoffeeProducts` - Product data management
 - `useRFQForm` - RFQ form logic
 - `useLocalization` - Internationalization
@@ -126,12 +135,14 @@ components/
 ## 🔍 SEO Strategy
 
 ### Technical SEO
+
 - **Schema.org** JSON-LD for B2B
 - **hreflang** for international targeting
 - **Core Web Vitals** optimization
 - **Structured Data** for coffee products
 
 ### Content SEO
+
 - **Content Clusters** for coffee types
 - **Market-Specific** landing pages
 - **Automated Sitemaps** for all locales
@@ -140,16 +151,19 @@ components/
 ## 🧪 Testing Strategy
 
 ### Unit Tests
+
 - Domain entities and value objects
 - Use cases and domain services
 - Utility functions
 
 ### Integration Tests
+
 - API endpoints
 - Database operations
 - External service integrations
 
 ### E2E Tests
+
 - Critical user journeys
 - RFQ submission flow
 - Multilingual navigation

@@ -2,8 +2,11 @@
 
 import { type ReactElement } from 'react';
 
+// Type for structured data objects
+type StructuredDataObject = Record<string, unknown>;
+
 interface StructuredDataProps {
-  data: Record<string, any> | Array<Record<string, any>>;
+  data: StructuredDataObject | Array<StructuredDataObject>;
 }
 
 /**
@@ -12,15 +15,15 @@ interface StructuredDataProps {
  */
 export function StructuredData({ data }: StructuredDataProps): ReactElement {
   const jsonLd = Array.isArray(data) ? data : [data];
-  
+
   return (
     <>
-      {jsonLd.map((item, index) => (
+      {jsonLd.map(item => (
         <script
-          key={index}
+          key={`structured-data-${item['@type'] || 'unknown'}-${JSON.stringify(item).slice(0, 50)}`}
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(item, null, 2)
+            __html: JSON.stringify(item, null, 2),
           }}
         />
       ))}

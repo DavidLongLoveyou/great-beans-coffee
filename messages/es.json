@@ -180,15 +180,66 @@
   "seo": {
     "home": {
       "title": "Exportación de Café Vietnamita Premium | The Great Beans",
-      "description": "Principal exportador de café vietnamita que ofrece granos Robusta y Arábica premium. Abastecimiento directo, precios competitivos y logística confiable para mercados globales."
+      "description": "Exportador líder de café vietnamita con granos Robusta y Arábica premium. Abastecimiento directo, precios competitivos y logística confiable para mercados globales."
     },
     "products": {
-      "title": "Productos de Café Vietnamitas | Robusta & Arábica Premium",
-      "description": "Explore nuestra gama de productos de café vietnamitas premium. Robusta de alta calidad, Arábica especial y mezclas personalizadas para mercados internacionales."
+      "title": "Productos de Café Vietnamita | Robusta y Arábica Premium",
+      "description": "Descubra nuestra gama de productos de café vietnamita premium. Robusta de alta calidad, Arábica especial y mezclas personalizadas para mercados internacionales."
     },
     "services": {
       "title": "Servicios de Exportación de Café | OEM, Marca Privada y Abastecimiento",
       "description": "Servicios integrales de exportación de café incluyendo fabricación OEM, soluciones de marca privada y abastecimiento experto de las mejores regiones cafeteras de Vietnam."
+    }
+  },
+  "aiAnswers": {
+    "title": "Asistente de Café IA",
+    "subtitle": "Obtenga respuestas instantáneas a sus preguntas sobre café",
+    "placeholder": "Pregunte sobre café vietnamita, precios, logística...",
+    "examples": {
+      "pricing": "¿Cuáles son los precios actuales del café Robusta?",
+      "logistics": "¿Cuánto tiempo tarda el envío a Europa?",
+      "quality": "¿Cuál es la diferencia entre Robusta y Arábica vietnamita?",
+      "certifications": "¿Qué certificaciones están disponibles para su café?"
+    },
+    "thinking": "Pensando...",
+    "error": "Lo siento, no puedo responder esta pregunta. Por favor contacte a nuestro equipo.",
+    "followUp": "¿Otra pregunta?",
+    "sources": "Fuentes",
+    "disclaimer": "La información es proporcionada por IA y debe ser verificada con nuestro equipo de ventas."
+  },
+  "clusters": {
+    "vietnamRobusta": {
+      "title": "Proveedores de Robusta de Vietnam",
+      "description": "Descubra la red de proveedores líderes de café Robusta de Vietnam",
+      "keywords": "robusta vietnam, proveedores de café, exportación robusta",
+      "content": {
+        "overview": "Vietnam es el mayor productor mundial de café Robusta",
+        "regions": "Dak Lak, Gia Lai, Dak Nong, Lam Dong",
+        "quality": "Robusta de alta calidad con sabor robusto característico",
+        "processing": "Métodos modernos de procesamiento seco y húmedo"
+      }
+    },
+    "specialtyArabica": {
+      "title": "Abastecimiento de Arábica Especial",
+      "description": "Servicios de abastecimiento de café Arábica especial de las tierras altas de Vietnam",
+      "keywords": "arabica vietnam, café especial, abastecimiento arabica",
+      "content": {
+        "overview": "Arábica vietnamita de tierras altas con perfiles de sabor delicados",
+        "regions": "Da Lat, Cau Dat, tierras altas de Buon Ma Thuot",
+        "altitude": "Altitudes de 800-1500m crean sabores excepcionales",
+        "varieties": "Catimor, Bourbon, Typica y variedades locales"
+      }
+    },
+    "privateLabelManufacturing": {
+      "title": "Fabricación de Café de Marca Privada",
+      "description": "Servicios profesionales de fabricación y envasado de café de marca privada",
+      "keywords": "marca privada, fabricación de café, OEM café",
+      "content": {
+        "overview": "Soluciones integrales para marcas de café privadas",
+        "services": "Diseño de empaque, tostado, envasado, logística",
+        "capacity": "Capacidad de producción flexible de 100kg a 1000 toneladas",
+        "customization": "Personalización de sabor, nivel de tostado y empaque según requisitos"
+      }
     }
   }
 }

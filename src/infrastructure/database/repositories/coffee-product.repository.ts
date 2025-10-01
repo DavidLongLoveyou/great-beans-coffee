@@ -1,22 +1,43 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from '../prisma';
+
 import { CoffeeProductEntity } from '../../../domain/entities/coffee-product.entity';
+import { prisma } from '../prisma';
 
 export interface ICoffeeProductRepository {
   findById(id: string, locale?: string): Promise<CoffeeProductEntity | null>;
-  findBySlug(slug: string, locale?: string): Promise<CoffeeProductEntity | null>;
+  findBySlug(
+    slug: string,
+    locale?: string
+  ): Promise<CoffeeProductEntity | null>;
   findBySKU(sku: string): Promise<CoffeeProductEntity | null>;
-  findAll(filters?: CoffeeProductFilters, locale?: string): Promise<CoffeeProductEntity[]>;
+  findAll(
+    filters?: CoffeeProductFilters,
+    locale?: string
+  ): Promise<CoffeeProductEntity[]>;
   findFeatured(limit?: number, locale?: string): Promise<CoffeeProductEntity[]>;
   search(query: string, locale?: string): Promise<CoffeeProductEntity[]>;
-  create(data: Omit<CoffeeProductEntity, 'id' | 'createdAt' | 'updatedAt'>): Promise<CoffeeProductEntity>;
-  update(id: string, data: Partial<CoffeeProductEntity>): Promise<CoffeeProductEntity>;
+  create(
+    data: Omit<CoffeeProductEntity, 'id' | 'createdAt' | 'updatedAt'>
+  ): Promise<CoffeeProductEntity>;
+  update(
+    id: string,
+    data: Partial<CoffeeProductEntity>
+  ): Promise<CoffeeProductEntity>;
   delete(id: string): Promise<void>;
   updateStock(id: string, quantity: number): Promise<CoffeeProductEntity>;
   getAvailableProducts(locale?: string): Promise<CoffeeProductEntity[]>;
-  getProductsByOrigin(region: string, locale?: string): Promise<CoffeeProductEntity[]>;
-  getProductsByGrade(grade: string, locale?: string): Promise<CoffeeProductEntity[]>;
-  getProductsByType(type: string, locale?: string): Promise<CoffeeProductEntity[]>;
+  getProductsByOrigin(
+    region: string,
+    locale?: string
+  ): Promise<CoffeeProductEntity[]>;
+  getProductsByGrade(
+    grade: string,
+    locale?: string
+  ): Promise<CoffeeProductEntity[]>;
+  getProductsByType(
+    type: string,
+    locale?: string
+  ): Promise<CoffeeProductEntity[]>;
 }
 
 export interface CoffeeProductFilters {
@@ -56,22 +77,27 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       featured: product.featured,
       isActive: product.isActive,
       createdAt: product.createdAt,
-      updatedAt: product.updatedAt
+      updatedAt: product.updatedAt,
     });
   }
 
   private getIncludeClause(locale?: string) {
     return {
-      translations: locale ? {
-        where: { locale }
-      } : true
+      translations: locale
+        ? {
+            where: { locale },
+          }
+        : true,
     };
   }
 
-  async findById(id: string, locale?: string): Promise<CoffeeProductEntity | null> {
+  async findById(
+    id: string,
+    locale?: string
+  ): Promise<CoffeeProductEntity | null> {
     const product = await prisma.coffeeProduct.findUnique({
       where: { id },
-      include: this.getIncludeClause(locale)
+      include: this.getIncludeClause(locale),
     });
 
     if (!product) return null;
@@ -82,26 +108,29 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       return this.mapToEntity({
         ...product,
         name: translation.name || product.name,
-        description: translation.description || product.description
+        description: translation.description || product.description,
       });
     }
 
     return this.mapToEntity(product);
   }
 
-  async findBySlug(slug: string, locale?: string): Promise<CoffeeProductEntity | null> {
+  async findBySlug(
+    slug: string,
+    locale?: string
+  ): Promise<CoffeeProductEntity | null> {
     const product = await prisma.coffeeProduct.findFirst({
       where: {
         OR: [
           { slug },
           {
             translations: {
-              some: { slug }
-            }
-          }
-        ]
+              some: { slug },
+            },
+          },
+        ],
       },
-      include: this.getIncludeClause(locale)
+      include: this.getIncludeClause(locale),
     });
 
     if (!product) return null;
@@ -111,7 +140,7 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       return this.mapToEntity({
         ...product,
         name: translation.name || product.name,
-        description: translation.description || product.description
+        description: translation.description || product.description,
       });
     }
 
@@ -121,15 +150,18 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
   async findBySKU(sku: string): Promise<CoffeeProductEntity | null> {
     const product = await prisma.coffeeProduct.findUnique({
       where: { sku },
-      include: { translations: true }
+      include: { translations: true },
     });
 
     return product ? this.mapToEntity(product) : null;
   }
 
-  async findAll(filters?: CoffeeProductFilters, locale?: string): Promise<CoffeeProductEntity[]> {
+  async findAll(
+    filters?: CoffeeProductFilters,
+    locale?: string
+  ): Promise<CoffeeProductEntity[]> {
     const where: Prisma.CoffeeProductWhereInput = {
-      isActive: true
+      isActive: true,
     };
 
     if (filters) {
@@ -144,26 +176,26 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       }
       if (filters.certifications?.length) {
         where.certifications = {
-          hasSome: filters.certifications
+          hasSome: filters.certifications,
         };
       }
       if (filters.region?.length) {
         where.originInfo = {
           path: ['region'],
-          in: filters.region
+          in: filters.region,
         };
       }
       if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
         where.pricing = {
           path: ['basePrice'],
           ...(filters.minPrice !== undefined && { gte: filters.minPrice }),
-          ...(filters.maxPrice !== undefined && { lte: filters.maxPrice })
+          ...(filters.maxPrice !== undefined && { lte: filters.maxPrice }),
         };
       }
       if (filters.inStock !== undefined) {
         where.availability = {
           path: ['inStock'],
-          equals: filters.inStock
+          equals: filters.inStock,
         };
       }
       if (filters.featured !== undefined) {
@@ -183,7 +215,7 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       include: this.getIncludeClause(locale),
       orderBy,
       take: filters?.limit,
-      skip: filters?.offset
+      skip: filters?.offset,
     });
 
     return products.map(product => {
@@ -192,20 +224,26 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
         return this.mapToEntity({
           ...product,
           name: translation.name || product.name,
-          description: translation.description || product.description
+          description: translation.description || product.description,
         });
       }
       return this.mapToEntity(product);
     });
   }
 
-  async findFeatured(limit: number = 6, locale?: string): Promise<CoffeeProductEntity[]> {
-    return this.findAll({
-      featured: true,
-      limit,
-      sortBy: 'updatedAt',
-      sortOrder: 'desc'
-    }, locale);
+  async findFeatured(
+    limit: number = 6,
+    locale?: string
+  ): Promise<CoffeeProductEntity[]> {
+    return this.findAll(
+      {
+        featured: true,
+        limit,
+        sortBy: 'updatedAt',
+        sortOrder: 'desc',
+      },
+      locale
+    );
   }
 
   async search(query: string, locale?: string): Promise<CoffeeProductEntity[]> {
@@ -221,15 +259,15 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
               some: {
                 OR: [
                   { name: { contains: query, mode: 'insensitive' } },
-                  { description: { contains: query, mode: 'insensitive' } }
-                ]
-              }
-            }
-          }
-        ]
+                  { description: { contains: query, mode: 'insensitive' } },
+                ],
+              },
+            },
+          },
+        ],
       },
       include: this.getIncludeClause(locale),
-      take: 20
+      take: 20,
     });
 
     return products.map(product => {
@@ -238,14 +276,16 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
         return this.mapToEntity({
           ...product,
           name: translation.name || product.name,
-          description: translation.description || product.description
+          description: translation.description || product.description,
         });
       }
       return this.mapToEntity(product);
     });
   }
 
-  async create(data: Omit<CoffeeProductEntity, 'id' | 'createdAt' | 'updatedAt'>): Promise<CoffeeProductEntity> {
+  async create(
+    data: Omit<CoffeeProductEntity, 'id' | 'createdAt' | 'updatedAt'>
+  ): Promise<CoffeeProductEntity> {
     const product = await prisma.coffeeProduct.create({
       data: {
         sku: data.sku,
@@ -263,15 +303,18 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
         documents: data.documents,
         seoMetadata: data.seoMetadata as any,
         featured: data.featured,
-        isActive: data.isActive
+        isActive: data.isActive,
       },
-      include: { translations: true }
+      include: { translations: true },
     });
 
     return this.mapToEntity(product);
   }
 
-  async update(id: string, data: Partial<CoffeeProductEntity>): Promise<CoffeeProductEntity> {
+  async update(
+    id: string,
+    data: Partial<CoffeeProductEntity>
+  ): Promise<CoffeeProductEntity> {
     const updateData: any = { ...data };
     delete updateData.id;
     delete updateData.createdAt;
@@ -280,7 +323,7 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
     const product = await prisma.coffeeProduct.update({
       where: { id },
       data: updateData,
-      include: { translations: true }
+      include: { translations: true },
     });
 
     return this.mapToEntity(product);
@@ -289,13 +332,16 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
   async delete(id: string): Promise<void> {
     await prisma.coffeeProduct.update({
       where: { id },
-      data: { isActive: false }
+      data: { isActive: false },
     });
   }
 
-  async updateStock(id: string, quantity: number): Promise<CoffeeProductEntity> {
+  async updateStock(
+    id: string,
+    quantity: number
+  ): Promise<CoffeeProductEntity> {
     const product = await prisma.coffeeProduct.findUnique({
-      where: { id }
+      where: { id },
     });
 
     if (!product) {
@@ -308,46 +354,67 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
 
     const updatedProduct = await prisma.coffeeProduct.update({
       where: { id },
-      data: { 
+      data: {
         availability,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
-      include: { translations: true }
+      include: { translations: true },
     });
 
     return this.mapToEntity(updatedProduct);
   }
 
   async getAvailableProducts(locale?: string): Promise<CoffeeProductEntity[]> {
-    return this.findAll({
-      inStock: true,
-      sortBy: 'name',
-      sortOrder: 'asc'
-    }, locale);
+    return this.findAll(
+      {
+        inStock: true,
+        sortBy: 'name',
+        sortOrder: 'asc',
+      },
+      locale
+    );
   }
 
-  async getProductsByOrigin(region: string, locale?: string): Promise<CoffeeProductEntity[]> {
-    return this.findAll({
-      region: [region],
-      sortBy: 'name',
-      sortOrder: 'asc'
-    }, locale);
+  async getProductsByOrigin(
+    region: string,
+    locale?: string
+  ): Promise<CoffeeProductEntity[]> {
+    return this.findAll(
+      {
+        region: [region],
+        sortBy: 'name',
+        sortOrder: 'asc',
+      },
+      locale
+    );
   }
 
-  async getProductsByGrade(grade: string, locale?: string): Promise<CoffeeProductEntity[]> {
-    return this.findAll({
-      grade: [grade],
-      sortBy: 'name',
-      sortOrder: 'asc'
-    }, locale);
+  async getProductsByGrade(
+    grade: string,
+    locale?: string
+  ): Promise<CoffeeProductEntity[]> {
+    return this.findAll(
+      {
+        grade: [grade],
+        sortBy: 'name',
+        sortOrder: 'asc',
+      },
+      locale
+    );
   }
 
-  async getProductsByType(type: string, locale?: string): Promise<CoffeeProductEntity[]> {
-    return this.findAll({
-      type: [type],
-      sortBy: 'name',
-      sortOrder: 'asc'
-    }, locale);
+  async getProductsByType(
+    type: string,
+    locale?: string
+  ): Promise<CoffeeProductEntity[]> {
+    return this.findAll(
+      {
+        type: [type],
+        sortBy: 'name',
+        sortOrder: 'asc',
+      },
+      locale
+    );
   }
 }
 

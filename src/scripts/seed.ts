@@ -2,47 +2,50 @@
 
 /**
  * Database Seeding Script
- * 
+ *
  * This script populates the database with initial data for development and testing.
  * Run with: npm run db:seed
  */
 
-import { databaseSeeders } from '../infrastructure/database/seeders';
 import { prisma } from '../infrastructure/database/prisma';
+import { seedDatabase } from '../infrastructure/database/seeders';
+import { createScopedLogger } from '../shared/utils/logger';
+
+const logger = createScopedLogger('Seed');
 
 async function main() {
-  console.log('🌱 Starting database seeding process...');
-  console.log('Environment:', process.env.NODE_ENV || 'development');
-  
+  logger.info('🌱 Starting database seeding process...');
+  logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
+
   try {
     // Check database connection
     await prisma.$connect();
-    console.log('✅ Database connection established');
-    
+    logger.info('✅ Database connection established');
+
     // Run all seeders
-    const result = await databaseSeeders.runAllSeeders();
-    
+    const result = await seedDatabase();
+
     if (result.success) {
-      console.log('\n🎉 Database seeding completed successfully!');
-      console.log('📊 Seeded data:');
+      logger.info('\n🎉 Database seeding completed successfully!');
+      logger.info('📊 Seeded data:');
       result.seeded.forEach(item => {
-        console.log(`   ✓ ${item}`);
+        logger.info(`   ✓ ${item}`);
       });
-      
-      console.log('\n📝 Next steps:');
-      console.log('   1. Run "npm run dev" to start the development server');
-      console.log('   2. Visit http://localhost:3000 to see your application');
-      console.log('   3. Run "npm run db:studio" to view data in Prisma Studio');
-      
+
+      logger.info('\n📝 Next steps:');
+      logger.info('   1. Run "npm run dev" to start the development server');
+      logger.info('   2. Visit http://localhost:3000 to see your application');
+      logger.info(
+        '   3. Run "npm run db:studio" to view data in Prisma Studio'
+      );
+
       process.exit(0);
     } else {
-      console.error('\n❌ Database seeding failed!');
-      console.error('Error:', result.error);
+      logger.error('\n❌ Database seeding failed!', result.error);
       process.exit(1);
     }
   } catch (error) {
-    console.error('\n💥 Unexpected error during seeding:');
-    console.error(error);
+    logger.error('\n💥 Unexpected error during seeding:', error);
     process.exit(1);
   } finally {
     await prisma.$disconnect();
@@ -53,7 +56,7 @@ async function main() {
 const args = process.argv.slice(2);
 
 if (args.includes('--help') || args.includes('-h')) {
-  console.log(`
+  logger.info(`
 Database Seeding Script
 
 Usage:
@@ -72,20 +75,21 @@ Examples:
 }
 
 if (args.includes('--clear')) {
-  console.log('🧹 Clearing existing data first...');
-  
-  databaseSeeders.clearAllData()
+  logger.info('🧹 Clearing existing data first...');
+
+  databaseSeeders
+    .clearAllData()
     .then(result => {
       if (result.success) {
-        console.log('✅ Data cleared successfully');
+        logger.info('✅ Data cleared successfully');
         return main();
       } else {
-        console.error('❌ Failed to clear data:', result.error);
+        logger.error('❌ Failed to clear data:', result.error);
         process.exit(1);
       }
     })
     .catch(error => {
-      console.error('💥 Error clearing data:', error);
+      logger.error('💥 Error clearing data:', error);
       process.exit(1);
     });
 } else {

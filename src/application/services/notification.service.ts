@@ -1,63 +1,87 @@
-import { IEmailService } from './email.service';
+import { createScopedLogger } from '../../shared/utils/logger';
 
-export interface INotificationService {
-  sendRfqNotification(rfqId: string, status: string, email: string): Promise<boolean>;
+import { EmailService } from './email.service';
+
+const logger = createScopedLogger('NotificationService');
+
+export interface NotificationService {
+  sendRfqNotification(
+    rfqId: string,
+    status: string,
+    recipientEmail: string
+  ): Promise<boolean>;
   sendAdminNotification(message: string): Promise<boolean>;
-  sendStatusChangeNotification(rfqId: string, oldStatus: string, newStatus: string, email: string): Promise<boolean>;
+  sendStatusChangeNotification(
+    entityType: string,
+    entityId: string,
+    oldStatus: string,
+    newStatus: string,
+    recipientEmail: string
+  ): Promise<boolean>;
 }
 
-export class NotificationService implements INotificationService {
-  constructor(private emailService: IEmailService) {}
+class DefaultNotificationService implements NotificationService {
+  constructor(private emailService: EmailService) {}
 
-  async sendRfqNotification(rfqId: string, status: string, email: string): Promise<boolean> {
+  async sendRfqNotification(
+    rfqId: string,
+    status: string,
+    recipientEmail: string
+  ): Promise<boolean> {
     try {
-      const success = await this.emailService.sendRfqStatusUpdate(email, rfqId, status);
-      
-      if (success) {
-        console.log(`RFQ notification sent for ${rfqId} with status ${status}`);
-      }
-      
+      const subject = `RFQ ${rfqId} Status Update`;
+      const content = `Your RFQ ${rfqId} status has been updated to: ${status}`;
+
+      const success = await this.emailService.sendEmail(
+        recipientEmail,
+        subject,
+        content
+      );
+
+      logger.info(`RFQ notification sent for ${rfqId} with status ${status}`);
       return success;
     } catch (error) {
-      console.error('Failed to send RFQ notification:', error);
+      logger.error('Failed to send RFQ notification:', error);
       return false;
     }
   }
 
   async sendAdminNotification(message: string): Promise<boolean> {
     try {
-      // In a real implementation, this would send to admin email or Slack
-      console.log(`Admin notification: ${message}`);
-      
-      // Simulate notification sending
-      await new Promise(resolve => setTimeout(resolve, 50));
-      
+      logger.info(`Admin notification: ${message}`);
+
+      // In a real implementation, this would send to admin email addresses
+      // For now, we'll just log it
       return true;
     } catch (error) {
-      console.error('Failed to send admin notification:', error);
+      logger.error('Failed to send admin notification:', error);
       return false;
     }
   }
 
   async sendStatusChangeNotification(
-    rfqId: string, 
-    oldStatus: string, 
-    newStatus: string, 
-    email: string
+    entityType: string,
+    entityId: string,
+    oldStatus: string,
+    newStatus: string,
+    recipientEmail: string
   ): Promise<boolean> {
     try {
-      const message = `RFQ ${rfqId} status changed from ${oldStatus} to ${newStatus}`;
-      
-      // Send notification to customer
-      const customerNotified = await this.emailService.sendRfqStatusUpdate(email, rfqId, newStatus);
-      
-      // Send notification to admin
-      const adminNotified = await this.sendAdminNotification(message);
-      
-      return customerNotified && adminNotified;
+      const subject = `${entityType} ${entityId} Status Changed`;
+      const content = `Your ${entityType} ${entityId} status has changed from ${oldStatus} to ${newStatus}`;
+
+      const success = await this.emailService.sendEmail(
+        recipientEmail,
+        subject,
+        content
+      );
+
+      return success;
     } catch (error) {
-      console.error('Failed to send status change notification:', error);
+      logger.error('Failed to send status change notification:', error);
       return false;
     }
   }
 }
+
+export { DefaultNotificationService };

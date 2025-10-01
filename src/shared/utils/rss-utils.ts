@@ -1,11 +1,17 @@
-import { ContentManager } from '@/lib/contentlayer';
 import type { Locale } from '@/i18n';
-import type { BlogPost, MarketReport, OriginStory, ServicePage } from 'contentlayer/generated';
+import { ContentManager } from '@/lib/contentlayer';
+import type {
+  BlogPost,
+  MarketReport,
+  OriginStory,
+  ServicePage,
+} from 'contentlayer/generated';
 
 // RSS Configuration
 export const rssConfig = {
   title: 'The Great Beans - Premium Coffee Export Platform',
-  description: 'Latest insights, market reports, and origin stories from Vietnam\'s leading coffee export platform',
+  description:
+    "Latest insights, market reports, and origin stories from Vietnam's leading coffee export platform",
   link: 'https://greatbeans.coffee',
   language: 'en-US',
   copyright: `© ${new Date().getFullYear()} The Great Beans Coffee Export Platform`,
@@ -71,14 +77,16 @@ function contentToRSSItem(
 ): RSSItem {
   const baseUrl = 'https://greatbeans.coffee';
   const link = `${baseUrl}/${locale}/${type}/${content.slug}`;
-  
+
   return {
     title: content.seoTitle || content.title,
-    description: content.seoDescription || content.description || content.excerpt || '',
+    description:
+      content.seoDescription || content.description || content.excerpt || '',
     link,
     guid: link,
     pubDate: new Date(content.publishedAt).toUTCString(),
-    category: content.tags || (content.category ? [content.category] : undefined),
+    category:
+      content.tags || (content.category ? [content.category] : undefined),
     author: 'info@greatbeans.coffee (The Great Beans Team)',
     ...(content.coverImage && {
       enclosure: {
@@ -95,7 +103,7 @@ function contentToRSSItem(
  */
 export function generateRSSXML(channel: RSSChannel): string {
   const xmlHeader = '<?xml version="1.0" encoding="UTF-8"?>';
-  
+
   const rssXML = `${xmlHeader}
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
@@ -118,7 +126,9 @@ export function generateRSSXML(channel: RSSChannel): string {
       <height>${channel.image.height}</height>
     </image>
     <atom:link href="${channel.link}/rss.xml" rel="self" type="application/rss+xml" />
-    ${channel.items.map(item => `
+    ${channel.items
+      .map(
+        item => `
     <item>
       <title><![CDATA[${item.title}]]></title>
       <description><![CDATA[${item.description}]]></description>
@@ -128,7 +138,9 @@ export function generateRSSXML(channel: RSSChannel): string {
       ${item.author ? `<author>${item.author}</author>` : ''}
       ${item.category ? item.category.map(cat => `<category><![CDATA[${cat}]]></category>`).join('\n      ') : ''}
       ${item.enclosure ? `<enclosure url="${item.enclosure.url}" type="${item.enclosure.type}" length="${item.enclosure.length}" />` : ''}
-    </item>`).join('')}
+    </item>`
+      )
+      .join('')}
   </channel>
 </rss>`;
 
@@ -141,11 +153,12 @@ export function generateRSSXML(channel: RSSChannel): string {
 export function generateBlogRSS(locale: Locale = 'en'): string {
   const blogPosts = ContentManager.getBlogPosts(locale).slice(0, 20); // Latest 20 posts
   const items = blogPosts.map(post => contentToRSSItem(post, 'blog', locale));
-  
+
   const channel: RSSChannel = {
     ...rssConfig,
     title: `${rssConfig.title} - Blog`,
-    description: 'Latest blog posts about coffee industry insights, market trends, and export strategies',
+    description:
+      'Latest blog posts about coffee industry insights, market trends, and export strategies',
     link: `${rssConfig.link}/${locale}/blog`,
     language: locale === 'vi' ? 'vi-VN' : 'en-US',
     lastBuildDate: new Date().toUTCString(),
@@ -161,12 +174,15 @@ export function generateBlogRSS(locale: Locale = 'en'): string {
  */
 export function generateMarketReportsRSS(locale: Locale = 'en'): string {
   const reports = ContentManager.getMarketReports(locale).slice(0, 20);
-  const items = reports.map(report => contentToRSSItem(report, 'market-reports', locale));
-  
+  const items = reports.map(report =>
+    contentToRSSItem(report, 'market-reports', locale)
+  );
+
   const channel: RSSChannel = {
     ...rssConfig,
     title: `${rssConfig.title} - Market Reports`,
-    description: 'Latest market analysis and reports on Vietnam coffee export industry',
+    description:
+      'Latest market analysis and reports on Vietnam coffee export industry',
     link: `${rssConfig.link}/${locale}/market-reports`,
     language: locale === 'vi' ? 'vi-VN' : 'en-US',
     lastBuildDate: new Date().toUTCString(),
@@ -182,12 +198,15 @@ export function generateMarketReportsRSS(locale: Locale = 'en'): string {
  */
 export function generateOriginStoriesRSS(locale: Locale = 'en'): string {
   const stories = ContentManager.getOriginStories(locale).slice(0, 20);
-  const items = stories.map(story => contentToRSSItem(story, 'origin-stories', locale));
-  
+  const items = stories.map(story =>
+    contentToRSSItem(story, 'origin-stories', locale)
+  );
+
   const channel: RSSChannel = {
     ...rssConfig,
     title: `${rssConfig.title} - Origin Stories`,
-    description: 'Discover the stories behind Vietnam\'s finest coffee regions and farmers',
+    description:
+      "Discover the stories behind Vietnam's finest coffee regions and farmers",
     link: `${rssConfig.link}/${locale}/origin-stories`,
     language: locale === 'vi' ? 'vi-VN' : 'en-US',
     lastBuildDate: new Date().toUTCString(),
@@ -205,24 +224,30 @@ export function generateAllContentRSS(locale: Locale = 'en'): string {
   const blogPosts = ContentManager.getBlogPosts(locale).slice(0, 10);
   const reports = ContentManager.getMarketReports(locale).slice(0, 10);
   const stories = ContentManager.getOriginStories(locale).slice(0, 10);
-  
+
   const allItems: RSSItem[] = [
     ...blogPosts.map(post => contentToRSSItem(post, 'blog', locale)),
-    ...reports.map(report => contentToRSSItem(report, 'market-reports', locale)),
+    ...reports.map(report =>
+      contentToRSSItem(report, 'market-reports', locale)
+    ),
     ...stories.map(story => contentToRSSItem(story, 'origin-stories', locale)),
   ];
 
   // Sort by publication date (newest first)
-  allItems.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
-  
+  allItems.sort(
+    (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
+  );
+
   const channel: RSSChannel = {
     ...rssConfig,
     title: `${rssConfig.title} - All Content`,
-    description: 'Latest content from The Great Beans: blog posts, market reports, and origin stories',
+    description:
+      'Latest content from The Great Beans: blog posts, market reports, and origin stories',
     link: `${rssConfig.link}/${locale}`,
     language: locale === 'vi' ? 'vi-VN' : 'en-US',
     lastBuildDate: new Date().toUTCString(),
-    pubDate: allItems.length > 0 ? allItems[0].pubDate : new Date().toUTCString(),
+    pubDate:
+      allItems.length > 0 ? allItems[0].pubDate : new Date().toUTCString(),
     items: allItems.slice(0, 20), // Latest 20 items across all content types
   };
 
@@ -238,52 +263,92 @@ export function generateContentClusterRSS(
 ): string {
   let items: RSSItem[] = [];
   let description = '';
-  
+
   switch (clusterName.toLowerCase()) {
     case 'vietnam-robusta-suppliers':
-      const robustaStories = ContentManager.getOriginStoriesByVariety(locale, 'Robusta');
-      const robustaReports = ContentManager.getMarketReports(locale)
-        .filter(report => report.tags?.some(tag => tag.toLowerCase().includes('robusta')));
-      
+      const robustaStories = ContentManager.getOriginStoriesByVariety(
+        locale,
+        'Robusta'
+      );
+      const robustaReports = ContentManager.getMarketReports(locale).filter(
+        report =>
+          report.tags?.some(tag => tag.toLowerCase().includes('robusta'))
+      );
+
       items = [
-        ...robustaStories.map(story => contentToRSSItem(story, 'origin-stories', locale)),
-        ...robustaReports.map(report => contentToRSSItem(report, 'market-reports', locale)),
+        ...robustaStories.map(story =>
+          contentToRSSItem(story, 'origin-stories', locale)
+        ),
+        ...robustaReports.map(report =>
+          contentToRSSItem(report, 'market-reports', locale)
+        ),
       ];
-      description = 'Latest content about Vietnam Robusta coffee suppliers, market trends, and origin stories';
+      description =
+        'Latest content about Vietnam Robusta coffee suppliers, market trends, and origin stories';
       break;
-      
+
     case 'specialty-arabica-sourcing':
-      const arabicaStories = ContentManager.getOriginStoriesByVariety(locale, 'Arabica');
-      const arabicaReports = ContentManager.getMarketReports(locale)
-        .filter(report => report.tags?.some(tag => tag.toLowerCase().includes('arabica')));
-      
+      const arabicaStories = ContentManager.getOriginStoriesByVariety(
+        locale,
+        'Arabica'
+      );
+      const arabicaReports = ContentManager.getMarketReports(locale).filter(
+        report =>
+          report.tags?.some(tag => tag.toLowerCase().includes('arabica'))
+      );
+
       items = [
-        ...arabicaStories.map(story => contentToRSSItem(story, 'origin-stories', locale)),
-        ...arabicaReports.map(report => contentToRSSItem(report, 'market-reports', locale)),
+        ...arabicaStories.map(story =>
+          contentToRSSItem(story, 'origin-stories', locale)
+        ),
+        ...arabicaReports.map(report =>
+          contentToRSSItem(report, 'market-reports', locale)
+        ),
       ];
-      description = 'Latest content about specialty Arabica coffee sourcing, quality standards, and premium origins';
+      description =
+        'Latest content about specialty Arabica coffee sourcing, quality standards, and premium origins';
       break;
-      
+
     case 'private-label-coffee-manufacturing':
-      const privateServices = ContentManager.getServicePages(locale)
-        .filter(service => service.tags?.some(tag => tag.toLowerCase().includes('private') || tag.toLowerCase().includes('oem')));
-      const manufacturingReports = ContentManager.getMarketReports(locale)
-        .filter(report => report.tags?.some(tag => tag.toLowerCase().includes('manufacturing') || tag.toLowerCase().includes('private')));
-      
+      const privateServices = ContentManager.getServicePages(locale).filter(
+        service =>
+          service.tags?.some(
+            tag =>
+              tag.toLowerCase().includes('private') ||
+              tag.toLowerCase().includes('oem')
+          )
+      );
+      const manufacturingReports = ContentManager.getMarketReports(
+        locale
+      ).filter(report =>
+        report.tags?.some(
+          tag =>
+            tag.toLowerCase().includes('manufacturing') ||
+            tag.toLowerCase().includes('private')
+        )
+      );
+
       items = [
-        ...privateServices.map(service => contentToRSSItem(service, 'services', locale)),
-        ...manufacturingReports.map(report => contentToRSSItem(report, 'market-reports', locale)),
+        ...privateServices.map(service =>
+          contentToRSSItem(service, 'services', locale)
+        ),
+        ...manufacturingReports.map(report =>
+          contentToRSSItem(report, 'market-reports', locale)
+        ),
       ];
-      description = 'Latest content about private label coffee manufacturing, OEM services, and custom branding solutions';
+      description =
+        'Latest content about private label coffee manufacturing, OEM services, and custom branding solutions';
       break;
-      
+
     default:
       return generateAllContentRSS(locale);
   }
-  
+
   // Sort by publication date
-  items.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
-  
+  items.sort(
+    (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
+  );
+
   const channel: RSSChannel = {
     ...rssConfig,
     title: `${rssConfig.title} - ${clusterName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`,

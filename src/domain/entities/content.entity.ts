@@ -15,7 +15,7 @@ export const ContentTypeSchema = z.enum([
   'PRESS_RELEASE',
   'LANDING_PAGE',
   'EMAIL_TEMPLATE',
-  'SOCIAL_MEDIA_POST'
+  'SOCIAL_MEDIA_POST',
 ]);
 
 // Content Status Enum
@@ -25,7 +25,7 @@ export const ContentStatusSchema = z.enum([
   'APPROVED',
   'PUBLISHED',
   'ARCHIVED',
-  'REJECTED'
+  'REJECTED',
 ]);
 
 // Content Category Enum
@@ -43,7 +43,7 @@ export const ContentCategorySchema = z.enum([
   'TECHNICAL_GUIDES',
   'CUSTOMER_SUCCESS',
   'PRODUCT_UPDATES',
-  'REGULATORY_UPDATES'
+  'REGULATORY_UPDATES',
 ]);
 
 // SEO Metadata Schema
@@ -60,7 +60,7 @@ export const SEOMetadataSchema = z.object({
   twitterImage: z.string().url().optional(),
   structuredData: z.record(z.string(), z.any()).optional(), // JSON-LD schema
   noIndex: z.boolean().default(false),
-  noFollow: z.boolean().default(false)
+  noFollow: z.boolean().default(false),
 });
 
 // Content Media Schema
@@ -73,13 +73,15 @@ export const ContentMediaSchema = z.object({
   caption: z.string().optional(),
   credits: z.string().optional(),
   fileSize: z.number().positive().optional(),
-  dimensions: z.object({
-    width: z.number().positive(),
-    height: z.number().positive()
-  }).optional(),
+  dimensions: z
+    .object({
+      width: z.number().positive(),
+      height: z.number().positive(),
+    })
+    .optional(),
   duration: z.number().positive().optional(), // For video/audio in seconds
   mimeType: z.string().optional(),
-  cloudinaryPublicId: z.string().optional()
+  cloudinaryPublicId: z.string().optional(),
 });
 
 // Content Translation Schema
@@ -95,7 +97,7 @@ export const ContentTranslationSchema = z.object({
   translatedAt: z.date().optional(),
   reviewedBy: z.string().uuid().optional(),
   reviewedAt: z.date().optional(),
-  qualityScore: z.number().min(0).max(100).optional()
+  qualityScore: z.number().min(0).max(100).optional(),
 });
 
 // Content Author Schema
@@ -106,11 +108,13 @@ export const ContentAuthorSchema = z.object({
   bio: z.string().optional(),
   avatar: z.string().url().optional(),
   expertise: z.array(z.string()).optional(),
-  socialLinks: z.object({
-    linkedin: z.string().url().optional(),
-    twitter: z.string().url().optional(),
-    website: z.string().url().optional()
-  }).optional()
+  socialLinks: z
+    .object({
+      linkedin: z.string().url().optional(),
+      twitter: z.string().url().optional(),
+      website: z.string().url().optional(),
+    })
+    .optional(),
 });
 
 // Content Workflow Schema
@@ -121,9 +125,18 @@ export const ContentWorkflowSchema = z.object({
   dueDate: z.date().optional(),
   publishDate: z.date().optional(),
   expiryDate: z.date().optional(),
-  workflowStage: z.enum(['WRITING', 'EDITING', 'REVIEW', 'APPROVAL', 'TRANSLATION', 'PUBLISHING']).optional(),
+  workflowStage: z
+    .enum([
+      'WRITING',
+      'EDITING',
+      'REVIEW',
+      'APPROVAL',
+      'TRANSLATION',
+      'PUBLISHING',
+    ])
+    .optional(),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']).default('MEDIUM'),
-  estimatedReadTime: z.number().positive().optional() // in minutes
+  estimatedReadTime: z.number().positive().optional(), // in minutes
 });
 
 // Content Analytics Schema
@@ -137,7 +150,7 @@ export const ContentAnalyticsSchema = z.object({
   bounceRate: z.number().min(0).max(100).optional(),
   conversionRate: z.number().min(0).max(100).optional(),
   leadGenerated: z.number().min(0).default(0),
-  lastAnalyticsUpdate: z.date().optional()
+  lastAnalyticsUpdate: z.date().optional(),
 });
 
 // Content Version Schema
@@ -147,60 +160,64 @@ export const ContentVersionSchema = z.object({
   changes: z.string(),
   createdBy: z.string().uuid(),
   createdAt: z.date(),
-  isPublished: z.boolean().default(false)
+  isPublished: z.boolean().default(false),
 });
 
 // Content Entity Schema
 export const ContentSchema = z.object({
   id: z.string().uuid(),
   contentId: z.string().min(1), // Human-readable ID
-  
+
   // Basic Information
   type: ContentTypeSchema,
   category: ContentCategorySchema,
   status: ContentStatusSchema,
-  
+
   // Content Data
   translations: z.array(ContentTranslationSchema).min(1),
   media: z.array(ContentMediaSchema).optional(),
-  
+
   // Authoring
   author: ContentAuthorSchema,
   contributors: z.array(ContentAuthorSchema).optional(),
-  
+
   // Workflow & Publishing
   workflow: ContentWorkflowSchema.optional(),
-  
+
   // Organization
   tags: z.array(z.string()).optional(),
   relatedContent: z.array(z.string().uuid()).optional(),
   parentContent: z.string().uuid().optional(), // For hierarchical content
-  
+
   // Analytics & Performance
   analytics: ContentAnalyticsSchema.optional(),
-  
+
   // Versioning
   versions: z.array(ContentVersionSchema).optional(),
   currentVersion: z.string().optional(),
-  
+
   // Technical
   template: z.string().optional(), // Template used for rendering
   customFields: z.record(z.string(), z.any()).optional(),
-  
+
   // Targeting
-  targetAudience: z.array(z.enum(['IMPORTERS', 'ROASTERS', 'DISTRIBUTORS', 'RETAILERS', 'GENERAL'])).optional(),
+  targetAudience: z
+    .array(
+      z.enum(['IMPORTERS', 'ROASTERS', 'DISTRIBUTORS', 'RETAILERS', 'GENERAL'])
+    )
+    .optional(),
   targetMarkets: z.array(z.string()).optional(), // Country codes
-  
+
   // Content Relationships
   coffeeProducts: z.array(z.string().uuid()).optional(), // Related coffee products
   businessServices: z.array(z.string().uuid()).optional(), // Related services
-  
+
   // System Fields
   createdAt: z.date(),
   updatedAt: z.date(),
   publishedAt: z.date().optional(),
   lastModifiedBy: z.string().uuid(),
-  createdBy: z.string().uuid()
+  createdBy: z.string().uuid(),
 });
 
 // Type Exports
@@ -223,13 +240,27 @@ export class ContentEntity {
   }
 
   // Getters
-  get id(): string { return this.data.id; }
-  get contentId(): string { return this.data.contentId; }
-  get type(): ContentType { return this.data.type; }
-  get category(): ContentCategory { return this.data.category; }
-  get status(): ContentStatus { return this.data.status; }
-  get translations(): ContentTranslation[] { return this.data.translations; }
-  get author(): ContentAuthor { return this.data.author; }
+  get id(): string {
+    return this.data.id;
+  }
+  get contentId(): string {
+    return this.data.contentId;
+  }
+  get type(): ContentType {
+    return this.data.type;
+  }
+  get category(): ContentCategory {
+    return this.data.category;
+  }
+  get status(): ContentStatus {
+    return this.data.status;
+  }
+  get translations(): ContentTranslation[] {
+    return this.data.translations;
+  }
+  get author(): ContentAuthor {
+    return this.data.author;
+  }
 
   // Business Logic Methods
   isPublished(): boolean {
@@ -258,7 +289,9 @@ export class ContentEntity {
   }
 
   getDefaultTranslation(): ContentTranslation {
-    return this.data.translations.find(t => t.isDefault) || this.data.translations[0];
+    return (
+      this.data.translations.find(t => t.isDefault) || this.data.translations[0]
+    );
   }
 
   getAvailableLocales(): string[] {
@@ -293,7 +326,7 @@ export class ContentEntity {
     if (this.data.workflow?.estimatedReadTime) {
       return this.data.workflow.estimatedReadTime;
     }
-    
+
     // Calculate based on word count (average 200 words per minute)
     const defaultTranslation = this.getDefaultTranslation();
     const wordCount = defaultTranslation.content.split(/\s+/).length;
@@ -323,7 +356,7 @@ export class ContentEntity {
   getEngagementRate(): number {
     const analytics = this.getAnalytics();
     if (!analytics || analytics.views === 0) return 0;
-    
+
     const engagements = analytics.shares + analytics.likes + analytics.comments;
     return (engagements / analytics.views) * 100;
   }
@@ -332,29 +365,32 @@ export class ContentEntity {
     // Ensure only one default translation
     const updatedTranslations = this.data.translations.map(t => ({
       ...t,
-      isDefault: translation.isDefault ? false : t.isDefault
+      isDefault: translation.isDefault ? false : t.isDefault,
     }));
-    
+
     const updatedData: Content = {
       ...this.data,
       translations: [...updatedTranslations, translation],
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new ContentEntity(updatedData);
   }
 
-  updateTranslation(locale: string, updates: Partial<ContentTranslation>): ContentEntity {
-    const updatedTranslations = this.data.translations.map(t => 
+  updateTranslation(
+    locale: string,
+    updates: Partial<ContentTranslation>
+  ): ContentEntity {
+    const updatedTranslations = this.data.translations.map(t =>
       t.locale === locale ? { ...t, ...updates } : t
     );
-    
+
     const updatedData: Content = {
       ...this.data,
       translations: updatedTranslations,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new ContentEntity(updatedData);
   }
 
@@ -364,9 +400,9 @@ export class ContentEntity {
       status,
       publishedAt: status === 'PUBLISHED' ? new Date() : this.data.publishedAt,
       updatedAt: new Date(),
-      lastModifiedBy: updatedBy
+      lastModifiedBy: updatedBy,
     };
-    
+
     return new ContentEntity(updatedData);
   }
 
@@ -374,9 +410,9 @@ export class ContentEntity {
     const updatedData: Content = {
       ...this.data,
       media: [...(this.data.media || []), media],
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new ContentEntity(updatedData);
   }
 
@@ -386,11 +422,11 @@ export class ContentEntity {
       analytics: {
         ...this.data.analytics,
         ...analytics,
-        lastAnalyticsUpdate: new Date()
+        lastAnalyticsUpdate: new Date(),
       } as ContentAnalytics,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new ContentEntity(updatedData);
   }
 
@@ -401,16 +437,18 @@ export class ContentEntity {
       shares: 0,
       likes: 0,
       comments: 0,
-      leadGenerated: 0
+      leadGenerated: 0,
     };
-    
+
     const updatedAnalytics: ContentAnalytics = {
       ...currentAnalytics,
       views: currentAnalytics.views + 1,
-      uniqueViews: unique ? currentAnalytics.uniqueViews + 1 : currentAnalytics.uniqueViews,
-      lastAnalyticsUpdate: new Date()
+      uniqueViews: unique
+        ? currentAnalytics.uniqueViews + 1
+        : currentAnalytics.uniqueViews,
+      lastAnalyticsUpdate: new Date(),
     };
-    
+
     return this.updateAnalytics(updatedAnalytics);
   }
 
@@ -421,16 +459,16 @@ export class ContentEntity {
       changes,
       createdBy,
       createdAt: new Date(),
-      isPublished: this.data.status === 'PUBLISHED'
+      isPublished: this.data.status === 'PUBLISHED',
     };
-    
+
     const updatedData: Content = {
       ...this.data,
       versions: [...(this.data.versions || []), newVersion],
       currentVersion: newVersion.versionNumber,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new ContentEntity(updatedData);
   }
 
@@ -438,10 +476,12 @@ export class ContentEntity {
     if (!this.data.versions || this.data.versions.length === 0) {
       return '1.0.0';
     }
-    
+
     const lastVersion = this.data.versions[this.data.versions.length - 1];
-    const [major, minor, patch] = lastVersion.versionNumber.split('.').map(Number);
-    
+    const [major, minor, patch] = lastVersion.versionNumber
+      .split('.')
+      .map(Number);
+
     // Increment patch version
     return `${major}.${minor}.${patch + 1}`;
   }
@@ -461,16 +501,18 @@ export class ContentEntity {
   }
 
   // Factory Methods
-  static create(data: Omit<Content, 'id' | 'createdAt' | 'updatedAt'>): ContentEntity {
+  static create(
+    data: Omit<Content, 'id' | 'createdAt' | 'updatedAt'>
+  ): ContentEntity {
     const now = new Date();
-    
+
     const contentData: Content = {
       ...data,
       id: crypto.randomUUID(),
       createdAt: now,
-      updatedAt: now
+      updatedAt: now,
     };
-    
+
     return new ContentEntity(contentData);
   }
 
@@ -479,10 +521,10 @@ export class ContentEntity {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '');
-    
+
     const typePrefix = type.toLowerCase().replace('_', '-');
     const timestamp = Date.now().toString().slice(-6);
-    
+
     return `${typePrefix}-${slug}-${timestamp}`;
   }
 

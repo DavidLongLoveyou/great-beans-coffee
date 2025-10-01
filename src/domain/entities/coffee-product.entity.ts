@@ -3,22 +3,22 @@ import { z } from 'zod';
 // Coffee Grade Enum
 export const CoffeeGradeSchema = z.enum([
   'GRADE_1',
-  'GRADE_2', 
+  'GRADE_2',
   'GRADE_3',
   'SCREEN_18',
   'SCREEN_16',
   'SCREEN_13',
   'SPECIALTY',
-  'COMMERCIAL'
+  'COMMERCIAL',
 ]);
 
 // Processing Method Enum
 export const ProcessingMethodSchema = z.enum([
   'NATURAL',
-  'WASHED', 
+  'WASHED',
   'HONEY',
   'WET_HULLED',
-  'SEMI_WASHED'
+  'SEMI_WASHED',
 ]);
 
 // Coffee Type Enum
@@ -26,7 +26,7 @@ export const CoffeeTypeSchema = z.enum([
   'ROBUSTA',
   'ARABICA',
   'BLEND',
-  'INSTANT'
+  'INSTANT',
 ]);
 
 // Certification Enum
@@ -39,7 +39,7 @@ export const CertificationSchema = z.enum([
   'ISO_22000',
   'HACCP',
   'KOSHER',
-  'HALAL'
+  'HALAL',
 ]);
 
 // Coffee Specifications Schema
@@ -62,10 +62,14 @@ export const PricingSchema = z.object({
   incoterms: z.enum(['FOB', 'CIF', 'CFR', 'EXW', 'FCA']),
   minimumOrder: z.number().positive(),
   priceValidUntil: z.date(),
-  discountTiers: z.array(z.object({
-    quantity: z.number().positive(),
-    discountPercentage: z.number().min(0).max(100)
-  })).optional()
+  discountTiers: z
+    .array(
+      z.object({
+        quantity: z.number().positive(),
+        discountPercentage: z.number().min(0).max(100),
+      })
+    )
+    .optional(),
 });
 
 // Availability Schema
@@ -76,7 +80,7 @@ export const AvailabilitySchema = z.object({
   availableFrom: z.date(),
   availableUntil: z.date().optional(),
   leadTime: z.number().positive(), // Days
-  productionCapacity: z.number().positive() // MT per month
+  productionCapacity: z.number().positive(), // MT per month
 });
 
 // Origin Information Schema
@@ -86,12 +90,14 @@ export const OriginInfoSchema = z.object({
   altitude: z.number().positive().optional(), // Meters above sea level
   farmSize: z.string().optional(), // e.g., "Small holder", "Estate"
   cooperativeName: z.string().optional(),
-  coordinates: z.object({
-    latitude: z.number(),
-    longitude: z.number()
-  }).optional(),
+  coordinates: z
+    .object({
+      latitude: z.number(),
+      longitude: z.number(),
+    })
+    .optional(),
   soilType: z.string().optional(),
-  climate: z.string().optional()
+  climate: z.string().optional(),
 });
 
 // Multilingual Content Schema
@@ -103,7 +109,7 @@ export const MultilingualContentSchema = z.object({
   it: z.string().optional(),
   es: z.string().optional(),
   nl: z.string().optional(),
-  ko: z.string().optional()
+  ko: z.string().optional(),
 });
 
 // Coffee Product Entity Schema
@@ -113,40 +119,46 @@ export const CoffeeProductSchema = z.object({
   name: MultilingualContentSchema,
   description: MultilingualContentSchema,
   shortDescription: MultilingualContentSchema.optional(),
-  
+
   // Core Product Information
   type: CoffeeTypeSchema,
   grade: CoffeeGradeSchema,
   processingMethod: ProcessingMethodSchema,
   specifications: CoffeeSpecificationsSchema,
-  
+
   // Business Information
   pricing: PricingSchema,
   availability: AvailabilitySchema,
   certifications: z.array(CertificationSchema),
-  
+
   // Origin & Traceability
   origin: OriginInfoSchema,
   traceabilityCode: z.string().optional(),
-  
+
   // Media & Documentation
-  images: z.array(z.object({
-    url: z.string().url(),
-    alt: MultilingualContentSchema,
-    isPrimary: z.boolean().default(false)
-  })),
-  documents: z.array(z.object({
-    type: z.enum(['SPECIFICATION', 'CERTIFICATE', 'SAMPLE_REPORT', 'COA']),
-    url: z.string().url(),
-    name: MultilingualContentSchema,
-    language: z.string().optional()
-  })).optional(),
-  
+  images: z.array(
+    z.object({
+      url: z.string().url(),
+      alt: MultilingualContentSchema,
+      isPrimary: z.boolean().default(false),
+    })
+  ),
+  documents: z
+    .array(
+      z.object({
+        type: z.enum(['SPECIFICATION', 'CERTIFICATE', 'SAMPLE_REPORT', 'COA']),
+        url: z.string().url(),
+        name: MultilingualContentSchema,
+        language: z.string().optional(),
+      })
+    )
+    .optional(),
+
   // SEO & Marketing
   seoTitle: MultilingualContentSchema.optional(),
   seoDescription: MultilingualContentSchema.optional(),
   keywords: z.array(z.string()).optional(),
-  
+
   // System Fields
   isActive: z.boolean().default(true),
   isFeatured: z.boolean().default(false),
@@ -154,7 +166,7 @@ export const CoffeeProductSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   createdBy: z.string().uuid(),
-  updatedBy: z.string().uuid()
+  updatedBy: z.string().uuid(),
 });
 
 // Type Exports
@@ -176,45 +188,79 @@ export class CoffeeProductEntity {
   }
 
   // Getters
-  get id(): string { return this.data.id; }
-  get sku(): string { return this.data.sku; }
-  get name(): MultilingualContent { return this.data.name; }
-  get type(): CoffeeType { return this.data.type; }
-  get grade(): CoffeeGrade { return this.data.grade; }
-  get pricing(): Pricing { return this.data.pricing; }
-  get availability(): Availability { return this.data.availability; }
-  get isActive(): boolean { return this.data.isActive; }
+  get id(): string {
+    return this.data.id;
+  }
+  get sku(): string {
+    return this.data.sku;
+  }
+  get name(): MultilingualContent {
+    return this.data.name;
+  }
+  get type(): CoffeeType {
+    return this.data.type;
+  }
+  get grade(): CoffeeGrade {
+    return this.data.grade;
+  }
+  get pricing(): Pricing {
+    return this.data.pricing;
+  }
+  get availability(): Availability {
+    return this.data.availability;
+  }
+  get isActive(): boolean {
+    return this.data.isActive;
+  }
 
   // Business Logic Methods
   isAvailable(): boolean {
     const now = new Date();
-    return this.data.isActive && 
-           this.data.availability.inStock && 
-           this.data.availability.availableFrom <= now &&
-           (this.data.availability.availableUntil === undefined || 
-            this.data.availability.availableUntil >= now);
+    return (
+      this.data.isActive &&
+      this.data.availability.inStock &&
+      this.data.availability.availableFrom <= now &&
+      (this.data.availability.availableUntil === undefined ||
+        this.data.availability.availableUntil >= now)
+    );
   }
 
   canFulfillOrder(quantity: number): boolean {
-    return this.isAvailable() && 
-           quantity >= this.data.pricing.minimumOrder &&
-           quantity <= this.data.availability.stockQuantity;
+    return (
+      this.isAvailable() &&
+      quantity >= this.data.pricing.minimumOrder &&
+      quantity <= this.data.availability.stockQuantity
+    );
   }
 
   calculatePrice(quantity: number, incoterms?: string): number {
     let basePrice = this.data.pricing.basePrice;
-    
+
     // Apply quantity discounts
     if (this.data.pricing.discountTiers) {
       const applicableDiscount = this.data.pricing.discountTiers
         .filter(tier => quantity >= tier.quantity)
         .sort((a, b) => b.quantity - a.quantity)[0];
-      
+
       if (applicableDiscount) {
-        basePrice *= (1 - applicableDiscount.discountPercentage / 100);
+        basePrice *= 1 - applicableDiscount.discountPercentage / 100;
       }
     }
-    
+
+    // Adjust price based on incoterms if different from default
+    if (incoterms && incoterms !== this.data.pricing.incoterms) {
+      const incotermAdjustments: Record<string, number> = {
+        EXW: 0.95, // Ex Works - buyer handles all shipping
+        FCA: 0.97, // Free Carrier - minimal seller responsibility
+        FOB: 1.0, // Free on Board - baseline
+        CFR: 1.03, // Cost and Freight - seller pays freight
+        CIF: 1.05, // Cost, Insurance and Freight - seller pays freight + insurance
+      };
+
+      const adjustment = incotermAdjustments[incoterms] || 1.0;
+      basePrice *= adjustment;
+    }
+
     return basePrice * quantity;
   }
 
@@ -233,14 +279,18 @@ export class CoffeeProductEntity {
   }
 
   isSpecialtyGrade(): boolean {
-    return this.data.grade === 'SPECIALTY' || 
-           (this.data.specifications.cuppingScore !== undefined && 
-            this.data.specifications.cuppingScore >= 80);
+    return (
+      this.data.grade === 'SPECIALTY' ||
+      (this.data.specifications.cuppingScore !== undefined &&
+        this.data.specifications.cuppingScore >= 80)
+    );
   }
 
   getEstimatedDeliveryDate(): Date {
     const deliveryDate = new Date();
-    deliveryDate.setDate(deliveryDate.getDate() + this.data.availability.leadTime);
+    deliveryDate.setDate(
+      deliveryDate.getDate() + this.data.availability.leadTime
+    );
     return deliveryDate;
   }
 
@@ -259,15 +309,17 @@ export class CoffeeProductEntity {
   }
 
   // Factory Methods
-  static create(data: Omit<CoffeeProduct, 'id' | 'createdAt' | 'updatedAt'>): CoffeeProductEntity {
+  static create(
+    data: Omit<CoffeeProduct, 'id' | 'createdAt' | 'updatedAt'>
+  ): CoffeeProductEntity {
     const now = new Date();
     const productData: CoffeeProduct = {
       ...data,
       id: crypto.randomUUID(),
       createdAt: now,
-      updatedAt: now
+      updatedAt: now,
     };
-    
+
     return new CoffeeProductEntity(productData);
   }
 
@@ -276,9 +328,9 @@ export class CoffeeProductEntity {
     const updatedData: CoffeeProduct = {
       ...this.data,
       pricing,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new CoffeeProductEntity(updatedData);
   }
 
@@ -286,9 +338,9 @@ export class CoffeeProductEntity {
     const updatedData: CoffeeProduct = {
       ...this.data,
       availability,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new CoffeeProductEntity(updatedData);
   }
 

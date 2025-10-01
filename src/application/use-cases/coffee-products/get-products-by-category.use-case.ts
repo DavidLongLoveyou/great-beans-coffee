@@ -1,10 +1,16 @@
 import { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
-import { ICoffeeProductRepository, CoffeeProductFilters } from '@/infrastructure/database/repositories/coffee-product.repository';
+import {
+  ICoffeeProductRepository,
+  CoffeeProductFilters,
+} from '@/infrastructure/database/repositories/coffee-product.repository';
 
 export interface GetProductsByCategoryRequest {
   category: 'type' | 'grade' | 'origin' | 'processing';
   value: string;
-  filters?: Omit<CoffeeProductFilters, 'type' | 'grade' | 'region' | 'processingMethod'>;
+  filters?: Omit<
+    CoffeeProductFilters,
+    'type' | 'grade' | 'region' | 'processingMethod'
+  >;
   locale?: string;
 }
 
@@ -18,7 +24,9 @@ export interface GetProductsByCategoryResponse {
 export class GetProductsByCategoryUseCase {
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
-  async execute(request: GetProductsByCategoryRequest): Promise<GetProductsByCategoryResponse> {
+  async execute(
+    request: GetProductsByCategoryRequest
+  ): Promise<GetProductsByCategoryResponse> {
     const { category, value, filters = {}, locale } = request;
 
     try {
@@ -30,22 +38,34 @@ export class GetProductsByCategoryUseCase {
       switch (category) {
         case 'type':
           categoryFilters.type = [value];
-          products = await this.coffeeProductRepository.findAll(categoryFilters, locale);
+          products = await this.coffeeProductRepository.findAll(
+            categoryFilters,
+            locale
+          );
           break;
 
         case 'grade':
           categoryFilters.grade = [value];
-          products = await this.coffeeProductRepository.findAll(categoryFilters, locale);
+          products = await this.coffeeProductRepository.findAll(
+            categoryFilters,
+            locale
+          );
           break;
 
         case 'origin':
           categoryFilters.region = [value];
-          products = await this.coffeeProductRepository.findAll(categoryFilters, locale);
+          products = await this.coffeeProductRepository.findAll(
+            categoryFilters,
+            locale
+          );
           break;
 
         case 'processing':
           categoryFilters.processingMethod = [value];
-          products = await this.coffeeProductRepository.findAll(categoryFilters, locale);
+          products = await this.coffeeProductRepository.findAll(
+            categoryFilters,
+            locale
+          );
           break;
 
         default:
@@ -56,7 +76,7 @@ export class GetProductsByCategoryUseCase {
         products,
         total: products.length,
         category,
-        value
+        value,
       };
     } catch (error) {
       console.error('Error fetching products by category:', error);

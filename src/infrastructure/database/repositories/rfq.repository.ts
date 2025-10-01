@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from '../prisma';
+
 import { RFQEntity } from '../../../domain/entities/rfq.entity';
+import { prisma } from '../prisma';
 
 export interface IRFQRepository {
   findById(id: string): Promise<RFQEntity | null>;
@@ -10,7 +11,9 @@ export interface IRFQRepository {
   findByCompany(companyId: string): Promise<RFQEntity[]>;
   findPending(): Promise<RFQEntity[]>;
   findExpiringSoon(days?: number): Promise<RFQEntity[]>;
-  create(data: Omit<RFQEntity, 'id' | 'createdAt' | 'updatedAt'>): Promise<RFQEntity>;
+  create(
+    data: Omit<RFQEntity, 'id' | 'createdAt' | 'updatedAt'>
+  ): Promise<RFQEntity>;
   update(id: string, data: Partial<RFQEntity>): Promise<RFQEntity>;
   updateStatus(id: string, status: string, notes?: string): Promise<RFQEntity>;
   delete(id: string): Promise<void>;
@@ -56,7 +59,7 @@ export class RFQRepository implements IRFQRepository {
       clientCompanyId: rfq.clientCompanyId,
       assignedToId: rfq.assignedToId,
       createdAt: rfq.createdAt,
-      updatedAt: rfq.updatedAt
+      updatedAt: rfq.updatedAt,
     });
   }
 
@@ -68,19 +71,19 @@ export class RFQRepository implements IRFQRepository {
           name: true,
           email: true,
           country: true,
-          relationshipStatus: true
-        }
+          relationshipStatus: true,
+        },
       },
       assignedTo: {
         select: {
           id: true,
           name: true,
-          email: true
-        }
+          email: true,
+        },
       },
       documents: true,
       communications: {
-        orderBy: { createdAt: 'desc' }
+        orderBy: { createdAt: 'desc' },
       },
       products: {
         include: {
@@ -90,10 +93,10 @@ export class RFQRepository implements IRFQRepository {
               name: true,
               sku: true,
               type: true,
-              grade: true
-            }
-          }
-        }
+              grade: true,
+            },
+          },
+        },
       },
       services: {
         include: {
@@ -102,27 +105,29 @@ export class RFQRepository implements IRFQRepository {
               id: true,
               name: true,
               type: true,
-              category: true
-            }
-          }
-        }
-      }
+              category: true,
+            },
+          },
+        },
+      },
     };
   }
 
   async findById(id: string): Promise<RFQEntity | null> {
     const rfq = await prisma.rFQ.findUnique({
       where: { id },
-      include: this.getIncludeClause()
+      include: this.getIncludeClause(),
     });
 
     return rfq ? this.mapToEntity(rfq) : null;
   }
 
-  async findByReferenceNumber(referenceNumber: string): Promise<RFQEntity | null> {
+  async findByReferenceNumber(
+    referenceNumber: string
+  ): Promise<RFQEntity | null> {
     const rfq = await prisma.rFQ.findUnique({
       where: { referenceNumber },
-      include: this.getIncludeClause()
+      include: this.getIncludeClause(),
     });
 
     return rfq ? this.mapToEntity(rfq) : null;
@@ -147,19 +152,19 @@ export class RFQRepository implements IRFQRepository {
       if (filters.productType?.length) {
         where.productRequirements = {
           path: ['type'],
-          in: filters.productType
+          in: filters.productType,
         };
       }
       if (filters.minValue !== undefined || filters.maxValue !== undefined) {
         where.estimatedValue = {
           ...(filters.minValue !== undefined && { gte: filters.minValue }),
-          ...(filters.maxValue !== undefined && { lte: filters.maxValue })
+          ...(filters.maxValue !== undefined && { lte: filters.maxValue }),
         };
       }
       if (filters.dateFrom || filters.dateTo) {
         where.createdAt = {
           ...(filters.dateFrom && { gte: filters.dateFrom }),
-          ...(filters.dateTo && { lte: filters.dateTo })
+          ...(filters.dateTo && { lte: filters.dateTo }),
         };
       }
     }
@@ -176,7 +181,7 @@ export class RFQRepository implements IRFQRepository {
       include: this.getIncludeClause(),
       orderBy,
       take: filters?.limit,
-      skip: filters?.offset
+      skip: filters?.offset,
     });
 
     return rfqs.map(rfq => this.mapToEntity(rfq));
@@ -186,7 +191,7 @@ export class RFQRepository implements IRFQRepository {
     return this.findAll({
       status: [status],
       sortBy: 'createdAt',
-      sortOrder: 'desc'
+      sortOrder: 'desc',
     });
   }
 
@@ -194,7 +199,7 @@ export class RFQRepository implements IRFQRepository {
     return this.findAll({
       companyId,
       sortBy: 'createdAt',
-      sortOrder: 'desc'
+      sortOrder: 'desc',
     });
   }
 
@@ -202,7 +207,7 @@ export class RFQRepository implements IRFQRepository {
     return this.findAll({
       status: ['PENDING', 'IN_REVIEW'],
       sortBy: 'createdAt',
-      sortOrder: 'asc'
+      sortOrder: 'asc',
     });
   }
 
@@ -215,17 +220,19 @@ export class RFQRepository implements IRFQRepository {
         status: { in: ['PENDING', 'IN_REVIEW', 'QUOTED'] },
         validUntil: {
           lte: expiryDate,
-          gte: new Date()
-        }
+          gte: new Date(),
+        },
       },
       include: this.getIncludeClause(),
-      orderBy: { validUntil: 'asc' }
+      orderBy: { validUntil: 'asc' },
     });
 
     return rfqs.map(rfq => this.mapToEntity(rfq));
   }
 
-  async create(data: Omit<RFQEntity, 'id' | 'createdAt' | 'updatedAt'>): Promise<RFQEntity> {
+  async create(
+    data: Omit<RFQEntity, 'id' | 'createdAt' | 'updatedAt'>
+  ): Promise<RFQEntity> {
     const rfq = await prisma.rFQ.create({
       data: {
         referenceNumber: data.referenceNumber,
@@ -243,9 +250,9 @@ export class RFQRepository implements IRFQRepository {
         validUntil: data.validUntil,
         internalNotes: data.internalNotes,
         clientCompanyId: data.clientCompanyId,
-        assignedToId: data.assignedToId
+        assignedToId: data.assignedToId,
       },
-      include: this.getIncludeClause()
+      include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(rfq);
@@ -260,16 +267,20 @@ export class RFQRepository implements IRFQRepository {
     const rfq = await prisma.rFQ.update({
       where: { id },
       data: updateData,
-      include: this.getIncludeClause()
+      include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(rfq);
   }
 
-  async updateStatus(id: string, status: string, notes?: string): Promise<RFQEntity> {
+  async updateStatus(
+    id: string,
+    status: string,
+    notes?: string
+  ): Promise<RFQEntity> {
     const updateData: any = {
       status,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
     if (notes) {
@@ -279,7 +290,7 @@ export class RFQRepository implements IRFQRepository {
     const rfq = await prisma.rFQ.update({
       where: { id },
       data: updateData,
-      include: this.getIncludeClause()
+      include: this.getIncludeClause(),
     });
 
     // Add status change communication
@@ -289,7 +300,7 @@ export class RFQRepository implements IRFQRepository {
       subject: `Status changed to ${status}`,
       content: notes || `RFQ status updated to ${status}`,
       userId: null, // System generated
-      isInternal: true
+      isInternal: true,
     });
 
     return this.mapToEntity(rfq);
@@ -297,7 +308,7 @@ export class RFQRepository implements IRFQRepository {
 
   async delete(id: string): Promise<void> {
     await prisma.rFQ.delete({
-      where: { id }
+      where: { id },
     });
   }
 
@@ -311,8 +322,8 @@ export class RFQRepository implements IRFQRepository {
         content: communication.content,
         attachments: communication.attachments || [],
         userId: communication.userId,
-        isInternal: communication.isInternal || false
-      }
+        isInternal: communication.isInternal || false,
+      },
     });
   }
 
@@ -324,18 +335,21 @@ export class RFQRepository implements IRFQRepository {
         type: document.type,
         url: document.url,
         size: document.size,
-        uploadedById: document.uploadedById
-      }
+        uploadedById: document.uploadedById,
+      },
     });
   }
 
   async getAnalytics(startDate?: Date, endDate?: Date): Promise<any> {
-    const whereClause = startDate && endDate ? {
-      createdAt: {
-        gte: startDate,
-        lte: endDate
-      }
-    } : {};
+    const whereClause =
+      startDate && endDate
+        ? {
+            createdAt: {
+              gte: startDate,
+              lte: endDate,
+            },
+          }
+        : {};
 
     const [
       totalRFQs,
@@ -344,7 +358,7 @@ export class RFQRepository implements IRFQRepository {
       sourceBreakdown,
       averageValue,
       conversionRate,
-      averageResponseTime
+      averageResponseTime,
     ] = await Promise.all([
       // Total RFQs
       prisma.rFQ.count({ where: whereClause }),
@@ -353,32 +367,32 @@ export class RFQRepository implements IRFQRepository {
       prisma.rFQ.groupBy({
         by: ['status'],
         where: whereClause,
-        _count: true
+        _count: true,
       }),
 
       // Priority breakdown
       prisma.rFQ.groupBy({
         by: ['priority'],
         where: whereClause,
-        _count: true
+        _count: true,
       }),
 
       // Source breakdown
       prisma.rFQ.groupBy({
         by: ['source'],
         where: whereClause,
-        _count: true
+        _count: true,
       }),
 
       // Average estimated value
       prisma.rFQ.aggregate({
         where: {
           ...whereClause,
-          estimatedValue: { not: null }
+          estimatedValue: { not: null },
         },
         _avg: {
-          estimatedValue: true
-        }
+          estimatedValue: true,
+        },
       }),
 
       // Conversion rate (quoted/accepted vs total)
@@ -386,11 +400,13 @@ export class RFQRepository implements IRFQRepository {
         prisma.rFQ.count({
           where: {
             ...whereClause,
-            status: { in: ['QUOTED', 'ACCEPTED'] }
-          }
+            status: { in: ['QUOTED', 'ACCEPTED'] },
+          },
         }),
-        prisma.rFQ.count({ where: whereClause })
-      ]).then(([converted, total]) => total > 0 ? (converted / total) * 100 : 0),
+        prisma.rFQ.count({ where: whereClause }),
+      ]).then(([converted, total]) =>
+        total > 0 ? (converted / total) * 100 : 0
+      ),
 
       // Average response time (first communication after creation)
       prisma.$queryRaw`
@@ -403,26 +419,35 @@ export class RFQRepository implements IRFQRepository {
           GROUP BY rfq_id
         ) c ON r.id = c.rfq_id
         ${startDate && endDate ? Prisma.sql`WHERE r.created_at BETWEEN ${startDate} AND ${endDate}` : Prisma.empty}
-      `
+      `,
     ]);
 
     return {
       totalRFQs,
-      statusBreakdown: statusBreakdown.reduce((acc, item) => {
-        acc[item.status] = item._count;
-        return acc;
-      }, {} as Record<string, number>),
-      priorityBreakdown: priorityBreakdown.reduce((acc, item) => {
-        acc[item.priority] = item._count;
-        return acc;
-      }, {} as Record<string, number>),
-      sourceBreakdown: sourceBreakdown.reduce((acc, item) => {
-        acc[item.source] = item._count;
-        return acc;
-      }, {} as Record<string, number>),
+      statusBreakdown: statusBreakdown.reduce(
+        (acc, item) => {
+          acc[item.status] = item._count;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
+      priorityBreakdown: priorityBreakdown.reduce(
+        (acc, item) => {
+          acc[item.priority] = item._count;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
+      sourceBreakdown: sourceBreakdown.reduce(
+        (acc, item) => {
+          acc[item.source] = item._count;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
       averageValue: averageValue._avg.estimatedValue,
       conversionRate,
-      averageResponseTimeHours: averageResponseTime[0]?.avg_hours || 0
+      averageResponseTimeHours: averageResponseTime[0]?.avg_hours || 0,
     };
   }
 }

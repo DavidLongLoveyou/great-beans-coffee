@@ -1,7 +1,7 @@
-import { RfqEntity } from '@/domain/entities/rfq.entity';
-import { IRfqRepository } from '@/infrastructure/database/repositories/rfq.repository';
 import { IEmailService } from '@/application/services/email.service';
 import { INotificationService } from '@/application/services/notification.service';
+import { RfqEntity } from '@/domain/entities/rfq.entity';
+import { IRfqRepository } from '@/infrastructure/database/repositories/rfq.repository';
 
 export interface SubmitRfqRequest {
   // Product Requirements
@@ -10,7 +10,7 @@ export interface SubmitRfqRequest {
   origin: string[];
   processingMethod: string[];
   certifications: string[];
-  
+
   // Quantity & Delivery
   quantity: number;
   quantityUnit: string;
@@ -19,11 +19,11 @@ export interface SubmitRfqRequest {
   currency: string;
   deliveryDate: Date;
   deliveryLocation: string;
-  
+
   // Payment Terms
   paymentTerms: string;
   paymentMethod: string[];
-  
+
   // Company Information
   companyName: string;
   contactPerson: string;
@@ -31,12 +31,12 @@ export interface SubmitRfqRequest {
   phone: string;
   country: string;
   businessType: string;
-  
+
   // Additional Details
   additionalRequirements?: string;
   sampleRequired: boolean;
   urgency: 'low' | 'medium' | 'high';
-  
+
   // Metadata
   locale?: string;
 }
@@ -91,7 +91,7 @@ export class SubmitRfqUseCase {
         urgency: request.urgency,
         status: 'pending',
         submittedAt: new Date(),
-        locale: request.locale || 'en'
+        locale: request.locale || 'en',
       };
 
       // Save RFQ to database
@@ -110,7 +110,7 @@ export class SubmitRfqUseCase {
         rfq: savedRfq,
         rfqNumber,
         success: true,
-        message: 'RFQ submitted successfully'
+        message: 'RFQ submitted successfully',
       };
     } catch (error) {
       console.error('Error submitting RFQ:', error);
@@ -120,8 +120,15 @@ export class SubmitRfqUseCase {
 
   private validateRequest(request: SubmitRfqRequest): void {
     const requiredFields = [
-      'productType', 'quantity', 'quantityUnit', 'deliveryTerms',
-      'companyName', 'contactPerson', 'email', 'phone', 'country'
+      'productType',
+      'quantity',
+      'quantityUnit',
+      'deliveryTerms',
+      'companyName',
+      'contactPerson',
+      'email',
+      'phone',
+      'country',
     ];
 
     for (const field of requiredFields) {
@@ -147,11 +154,11 @@ export class SubmitRfqUseCase {
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
-    
+
     // Get count of RFQs today for sequential numbering
     const todayCount = await this.rfqRepository.getCountByDate(now);
     const sequence = String(todayCount + 1).padStart(3, '0');
-    
+
     return `RFQ-${year}${month}${day}-${sequence}`;
   }
 
@@ -162,7 +169,7 @@ export class SubmitRfqUseCase {
         customerName: rfq.contactPerson,
         rfqNumber: rfq.rfqNumber,
         rfqDetails: rfq,
-        locale: rfq.locale
+        locale: rfq.locale,
       });
     } catch (error) {
       console.error('Failed to send customer confirmation email:', error);
@@ -174,7 +181,7 @@ export class SubmitRfqUseCase {
     try {
       await this.emailService.sendRfqAdminNotification({
         rfq,
-        adminEmail: process.env.ADMIN_EMAIL || 'admin@greatbeans.com'
+        adminEmail: process.env.ADMIN_EMAIL || 'admin@greatbeans.com',
       });
     } catch (error) {
       console.error('Failed to send admin notification email:', error);

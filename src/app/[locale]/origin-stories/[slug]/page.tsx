@@ -1,30 +1,49 @@
+import {
+  CalendarDays,
+  MapPin,
+  Coffee,
+  Mountain,
+  ArrowLeft,
+  User,
+  Clock,
+} from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+
+import { type Locale } from '@/i18n';
 import { getOriginStoryBySlug, getOriginStories } from '@/lib/contentlayer';
 import { MDXContent } from '@/presentation/components/MDXContent';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/presentation/components/ui/card';
 import { Button } from '@/presentation/components/ui/button';
-import { type Locale } from '@/i18n';
-import Link from 'next/link';
-import { CalendarDays, MapPin, Coffee, Mountain, ArrowLeft, User, Clock } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/presentation/components/ui/card';
 
 interface OriginStoryPageProps {
-  params: { locale: Locale; slug: string };
+  params: Promise<{ locale: Locale; slug: string }>;
 }
 
 export async function generateStaticParams() {
   const stories = getOriginStories('en');
-  return stories.map((story) => ({
+  return stories.map(story => ({
     slug: story.slug,
   }));
 }
 
-export default function OriginStoryPage({ params: { locale, slug } }: OriginStoryPageProps) {
-  const t = useTranslations('originStories');
-  const tCommon = useTranslations('common');
-  
+export default async function OriginStoryPage({
+  params,
+}: OriginStoryPageProps) {
+  const { locale, slug } = await params;
+  const t = await getTranslations('originStories');
+  const tCommon = await getTranslations('common');
+
   const story = getOriginStoryBySlug(slug, locale);
-  
+
   if (!story) {
     notFound();
   }
@@ -48,17 +67,18 @@ export default function OriginStoryPage({ params: { locale, slug } }: OriginStor
       {/* Hero Section */}
       <div className="mb-12">
         {story.coverImage && (
-          <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden mb-8">
-            <img 
-              src={story.coverImage} 
+          <div className="relative mb-8 aspect-video overflow-hidden rounded-lg bg-gray-200">
+            <Image
+              src={story.coverImage}
               alt={story.title}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           </div>
         )}
-        
-        <div className="max-w-4xl mx-auto">
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
+
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
             <div className="flex items-center">
               <MapPin className="mr-1 h-4 w-4" />
               {story.region}
@@ -85,26 +105,26 @@ export default function OriginStoryPage({ params: { locale, slug } }: OriginStor
               </div>
             )}
           </div>
-          
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+
+          <h1 className="mb-4 text-4xl font-bold text-gray-900">
             {story.title}
           </h1>
-          
-          <p className="text-xl text-gray-600 mb-6">
-            {story.description}
-          </p>
-          
+
+          <p className="mb-6 text-xl text-gray-600">{story.description}</p>
+
           {story.author && (
             <div className="flex items-center text-gray-600">
               <User className="mr-2 h-4 w-4" />
-              <span>{tCommon('by')} {story.author}</span>
+              <span>
+                {tCommon('by')} {story.author}
+              </span>
             </div>
           )}
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto max-w-4xl">
         <div className="prose prose-lg max-w-none">
           <MDXContent code={story.body.code} />
         </div>
@@ -112,24 +132,28 @@ export default function OriginStoryPage({ params: { locale, slug } }: OriginStor
 
       {/* Related Stories */}
       {relatedStories.length > 0 && (
-        <div className="mt-16 max-w-6xl mx-auto">
-          <h2 className="text-3xl font-semibold text-gray-900 mb-8">
+        <div className="mx-auto mt-16 max-w-6xl">
+          <h2 className="mb-8 text-3xl font-semibold text-gray-900">
             {t('relatedStories')}
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {relatedStories.map((relatedStory) => (
-              <Card key={relatedStory.slug} className="hover:shadow-md transition-shadow">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {relatedStories.map(relatedStory => (
+              <Card
+                key={relatedStory.slug}
+                className="transition-shadow hover:shadow-md"
+              >
                 {relatedStory.coverImage && (
-                  <div className="aspect-video bg-gray-200 rounded-t-lg overflow-hidden">
-                    <img 
-                      src={relatedStory.coverImage} 
+                  <div className="relative aspect-video overflow-hidden rounded-t-lg bg-gray-200">
+                    <Image
+                      src={relatedStory.coverImage}
                       alt={relatedStory.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 )}
                 <CardHeader>
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
+                  <div className="mb-2 flex items-center justify-between text-sm text-gray-500">
                     <div className="flex items-center">
                       <MapPin className="mr-1 h-4 w-4" />
                       {relatedStory.region}
@@ -139,7 +163,9 @@ export default function OriginStoryPage({ params: { locale, slug } }: OriginStor
                       {relatedStory.coffeeVariety}
                     </div>
                   </div>
-                  <CardTitle className="line-clamp-2">{relatedStory.title}</CardTitle>
+                  <CardTitle className="line-clamp-2">
+                    {relatedStory.title}
+                  </CardTitle>
                   <CardDescription className="line-clamp-2">
                     {relatedStory.description}
                   </CardDescription>

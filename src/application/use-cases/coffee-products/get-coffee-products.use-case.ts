@@ -1,5 +1,8 @@
 import { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
-import { ICoffeeProductRepository, CoffeeProductFilters } from '@/infrastructure/database/repositories/coffee-product.repository';
+import {
+  ICoffeeProductRepository,
+  CoffeeProductFilters,
+} from '@/infrastructure/database/repositories/coffee-product.repository';
 
 export interface GetCoffeeProductsRequest {
   filters?: CoffeeProductFilters;
@@ -15,12 +18,17 @@ export interface GetCoffeeProductsResponse {
 export class GetCoffeeProductsUseCase {
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
-  async execute(request: GetCoffeeProductsRequest): Promise<GetCoffeeProductsResponse> {
+  async execute(
+    request: GetCoffeeProductsRequest
+  ): Promise<GetCoffeeProductsResponse> {
     const { filters, locale } = request;
 
     try {
       // Get products with filters
-      const products = await this.coffeeProductRepository.findAll(filters, locale);
+      const products = await this.coffeeProductRepository.findAll(
+        filters,
+        locale
+      );
 
       // Calculate pagination info
       const total = products.length;
@@ -29,7 +37,7 @@ export class GetCoffeeProductsUseCase {
       return {
         products,
         total,
-        hasMore
+        hasMore,
       };
     } catch (error) {
       console.error('Error fetching coffee products:', error);

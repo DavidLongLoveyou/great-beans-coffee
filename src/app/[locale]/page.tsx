@@ -1,45 +1,37 @@
+import { getTranslations } from '@/lib/translations';
+import { locales, localeLabels } from '@/i18n';
+
 interface PageProps {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }
 
-// Simple translation function
-async function getTranslation(locale: string) {
-  try {
-    const messages = await import(`../../../messages/${locale}.json`);
-    return messages.default;
-  } catch (error) {
-    // Fallback to English
-    const messages = await import(`../../../messages/en.json`);
-    return messages.default;
-  }
-}
-
-export default async function HomePage({ params }: PageProps) {
+export default async function Page({ params }: PageProps) {
   const { locale } = await params;
-  
-  const messages = await getTranslation(locale);
-  const heroMessages = messages.hero || {};
+  const t = await getTranslations(locale);
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center">
-          <h1 className="text-5xl font-bold text-amber-900 mb-6">
-            {heroMessages.title || 'The Great Beans'}
-          </h1>
-          <p className="text-xl text-amber-700 mb-8 max-w-2xl mx-auto">
-            {heroMessages.subtitle || 'Premium Coffee Export Solutions'}
-          </p>
-          <div className="flex justify-center space-x-4">
-            <button className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
-              Explore Our Coffee
-            </button>
-            <button className="border-2 border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white px-8 py-3 rounded-lg font-semibold transition-colors">
-              Contact Us
-            </button>
-          </div>
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <h1 className="text-4xl font-bold">{t('homepage.title')}</h1>
+        <p className="text-lg">{t('homepage.description')}</p>
+        <p className="text-sm text-gray-600">Current locale: {locale}</p>
+        
+        <div className="flex gap-4">
+          {locales.map((loc) => (
+            <a 
+              key={loc} 
+              href={`/${loc}`} 
+              className={`px-4 py-2 rounded ${
+                loc === locale 
+                  ? 'bg-blue-700 text-white' 
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+              }`}
+            >
+              {localeLabels[loc]}
+            </a>
+          ))}
         </div>
-      </div>
+      </main>
     </div>
   );
 }

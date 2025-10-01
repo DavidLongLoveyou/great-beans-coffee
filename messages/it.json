@@ -183,12 +183,63 @@
       "description": "Principale esportatore di caffè vietnamita che offre chicchi Robusta e Arabica premium. Approvvigionamento diretto, prezzi competitivi e logistica affidabile per mercati globali."
     },
     "products": {
-      "title": "Prodotti Caffè Vietnamiti | Robusta & Arabica Premium",
-      "description": "Esplora la nostra gamma di prodotti di caffè vietnamiti premium. Robusta di alta qualità, Arabica speciali e miscele personalizzate per mercati internazionali."
+      "title": "Prodotti Caffè Vietnamita | Robusta & Arabica Premium",
+      "description": "Esplora la nostra gamma di prodotti di caffè vietnamita premium. Robusta di alta qualità, Arabica speciale e miscele personalizzate per mercati internazionali."
     },
     "services": {
       "title": "Servizi Esportazione Caffè | OEM, Marchio Privato & Approvvigionamento",
       "description": "Servizi completi di esportazione caffè inclusa produzione OEM, soluzioni marchio privato e approvvigionamento esperto dalle migliori regioni del caffè del Vietnam."
+    }
+  },
+  "aiAnswers": {
+    "title": "Assistente Caffè IA",
+    "subtitle": "Ottieni risposte istantanee alle tue domande sul caffè",
+    "placeholder": "Chiedi del caffè vietnamita, prezzi, logistica...",
+    "examples": {
+      "pricing": "Quali sono i prezzi attuali del caffè Robusta?",
+      "logistics": "Quanto tempo richiede la spedizione in Europa?",
+      "quality": "Qual è la differenza tra Robusta e Arabica vietnamiti?",
+      "certifications": "Quali certificazioni sono disponibili per il vostro caffè?"
+    },
+    "thinking": "Pensando...",
+    "error": "Spiacente, non posso rispondere a questa domanda. Si prega di contattare il nostro team.",
+    "followUp": "Un'altra domanda?",
+    "sources": "Fonti",
+    "disclaimer": "Le informazioni sono fornite dall'IA e dovrebbero essere verificate con il nostro team vendite."
+  },
+  "clusters": {
+    "vietnamRobusta": {
+      "title": "Fornitori Robusta Vietnam",
+      "description": "Scopri la rete di fornitori leader di caffè Robusta del Vietnam",
+      "keywords": "robusta vietnam, fornitori caffè, esportazione robusta",
+      "content": {
+        "overview": "Il Vietnam è il più grande produttore mondiale di caffè Robusta",
+        "regions": "Dak Lak, Gia Lai, Dak Nong, Lam Dong",
+        "quality": "Robusta di alta qualità con sapore robusto caratteristico",
+        "processing": "Metodi moderni di lavorazione a secco e umido"
+      }
+    },
+    "specialtyArabica": {
+      "title": "Approvvigionamento Arabica Speciale",
+      "description": "Servizi di approvvigionamento caffè Arabica speciale dalle terre alte del Vietnam",
+      "keywords": "arabica vietnam, caffè speciale, approvvigionamento arabica",
+      "content": {
+        "overview": "Arabica vietnamita delle terre alte con profili di sapore delicati",
+        "regions": "Da Lat, Cau Dat, terre alte di Buon Ma Thuot",
+        "altitude": "Altitudini di 800-1500m creano sapori eccezionali",
+        "varieties": "Catimor, Bourbon, Typica e varietà locali"
+      }
+    },
+    "privateLabelManufacturing": {
+      "title": "Produzione Caffè Marchio Privato",
+      "description": "Servizi professionali di produzione e confezionamento caffè marchio privato",
+      "keywords": "marchio privato, produzione caffè, OEM caffè",
+      "content": {
+        "overview": "Soluzioni complete per marchi di caffè privati",
+        "services": "Design packaging, tostatura, confezionamento, logistica",
+        "capacity": "Capacità produttiva flessibile da 100kg a 1000 tonnellate",
+        "customization": "Personalizzazione di sapore, livello di tostatura e packaging secondo requisiti"
+      }
     }
   }
 }

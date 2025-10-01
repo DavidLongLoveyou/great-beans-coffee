@@ -1,5 +1,9 @@
 import { z } from 'zod';
-import { MultilingualContentSchema, type MultilingualContent } from './coffee-product.entity';
+
+import {
+  MultilingualContentSchema,
+  type MultilingualContent,
+} from './coffee-product.entity';
 
 // Service Type Enum
 export const ServiceTypeSchema = z.enum([
@@ -12,7 +16,7 @@ export const ServiceTypeSchema = z.enum([
   'CUSTOM_BLENDING',
   'PACKAGING_DESIGN',
   'CERTIFICATION_SUPPORT',
-  'SUPPLY_CHAIN_MANAGEMENT'
+  'SUPPLY_CHAIN_MANAGEMENT',
 ]);
 
 // Service Category Enum
@@ -22,7 +26,7 @@ export const ServiceCategorySchema = z.enum([
   'LOGISTICS',
   'CONSULTING',
   'QUALITY_ASSURANCE',
-  'BRANDING'
+  'BRANDING',
 ]);
 
 // Service Pricing Model Enum
@@ -32,7 +36,7 @@ export const PricingModelSchema = z.enum([
   'VOLUME_BASED',
   'HOURLY_RATE',
   'PROJECT_BASED',
-  'CUSTOM_QUOTE'
+  'CUSTOM_QUOTE',
 ]);
 
 // Service Delivery Timeline Schema
@@ -41,7 +45,7 @@ export const DeliveryTimelineSchema = z.object({
   maximumDays: z.number().positive(),
   averageDays: z.number().positive(),
   rushAvailable: z.boolean().default(false),
-  rushSurcharge: z.number().min(0).optional()
+  rushSurcharge: z.number().min(0).optional(),
 });
 
 // Service Pricing Schema
@@ -51,11 +55,15 @@ export const ServicePricingSchema = z.object({
   currency: z.enum(['USD', 'EUR', 'JPY', 'GBP']),
   minimumOrder: z.number().positive().optional(),
   maximumOrder: z.number().positive().optional(),
-  volumeDiscounts: z.array(z.object({
-    threshold: z.number().positive(),
-    discountPercentage: z.number().min(0).max(100)
-  })).optional(),
-  customQuoteRequired: z.boolean().default(false)
+  volumeDiscounts: z
+    .array(
+      z.object({
+        threshold: z.number().positive(),
+        discountPercentage: z.number().min(0).max(100),
+      })
+    )
+    .optional(),
+  customQuoteRequired: z.boolean().default(false),
 });
 
 // Service Requirements Schema
@@ -64,7 +72,7 @@ export const ServiceRequirementsSchema = z.object({
   leadTimeRequired: z.number().positive(), // Days
   documentsRequired: z.array(z.string()),
   certificationsRequired: z.array(z.string()).optional(),
-  technicalSpecs: z.record(z.string(), z.any()).optional()
+  technicalSpecs: z.record(z.string(), z.any()).optional(),
 });
 
 // Service Capabilities Schema
@@ -74,7 +82,7 @@ export const ServiceCapabilitiesSchema = z.object({
   supportedCertifications: z.array(z.string()),
   qualityStandards: z.array(z.string()),
   geographicCoverage: z.array(z.string()), // Countries/regions
-  languageSupport: z.array(z.string())
+  languageSupport: z.array(z.string()),
 });
 
 // Service Process Steps Schema
@@ -84,7 +92,7 @@ export const ProcessStepSchema = z.object({
   description: MultilingualContentSchema,
   estimatedDuration: z.number().positive(), // Days
   deliverables: z.array(z.string()),
-  clientInvolvementRequired: z.boolean().default(false)
+  clientInvolvementRequired: z.boolean().default(false),
 });
 
 // Business Service Entity Schema
@@ -94,65 +102,75 @@ export const BusinessServiceSchema = z.object({
   name: MultilingualContentSchema,
   description: MultilingualContentSchema,
   shortDescription: MultilingualContentSchema.optional(),
-  
+
   // Service Classification
   type: ServiceTypeSchema,
   category: ServiceCategorySchema,
   subCategory: z.string().optional(),
-  
+
   // Service Details
   pricing: ServicePricingSchema,
   timeline: DeliveryTimelineSchema,
   requirements: ServiceRequirementsSchema,
   capabilities: ServiceCapabilitiesSchema,
-  
+
   // Process Information
   processSteps: z.array(ProcessStepSchema),
-  
+
   // Features & Benefits
   keyFeatures: z.array(MultilingualContentSchema),
   benefits: z.array(MultilingualContentSchema),
-  
+
   // Media & Documentation
-  images: z.array(z.object({
-    url: z.string().url(),
-    alt: MultilingualContentSchema,
-    isPrimary: z.boolean().default(false)
-  })),
-  documents: z.array(z.object({
-    type: z.enum(['BROCHURE', 'CASE_STUDY', 'SPECIFICATION', 'TEMPLATE']),
-    url: z.string().url(),
-    name: MultilingualContentSchema,
-    language: z.string().optional()
-  })).optional(),
-  
+  images: z.array(
+    z.object({
+      url: z.string().url(),
+      alt: MultilingualContentSchema,
+      isPrimary: z.boolean().default(false),
+    })
+  ),
+  documents: z
+    .array(
+      z.object({
+        type: z.enum(['BROCHURE', 'CASE_STUDY', 'SPECIFICATION', 'TEMPLATE']),
+        url: z.string().url(),
+        name: MultilingualContentSchema,
+        language: z.string().optional(),
+      })
+    )
+    .optional(),
+
   // Case Studies & Portfolio
-  caseStudies: z.array(z.object({
-    id: z.string().uuid(),
-    title: MultilingualContentSchema,
-    summary: MultilingualContentSchema,
-    industry: z.string(),
-    results: z.array(z.string()),
-    imageUrl: z.string().url().optional()
-  })).optional(),
-  
+  caseStudies: z
+    .array(
+      z.object({
+        id: z.string().uuid(),
+        title: MultilingualContentSchema,
+        summary: MultilingualContentSchema,
+        industry: z.string(),
+        results: z.array(z.string()),
+        imageUrl: z.string().url().optional(),
+      })
+    )
+    .optional(),
+
   // SEO & Marketing
   seoTitle: MultilingualContentSchema.optional(),
   seoDescription: MultilingualContentSchema.optional(),
   keywords: z.array(z.string()).optional(),
-  
+
   // Business Rules
   isActive: z.boolean().default(true),
   isFeatured: z.boolean().default(false),
   requiresConsultation: z.boolean().default(false),
   availableForQuote: z.boolean().default(true),
   sortOrder: z.number().default(0),
-  
+
   // System Fields
   createdAt: z.date(),
   updatedAt: z.date(),
   createdBy: z.string().uuid(),
-  updatedBy: z.string().uuid()
+  updatedBy: z.string().uuid(),
 });
 
 // Type Exports
@@ -173,14 +191,30 @@ export class BusinessServiceEntity {
   }
 
   // Getters
-  get id(): string { return this.data.id; }
-  get serviceCode(): string { return this.data.serviceCode; }
-  get name(): MultilingualContent { return this.data.name; }
-  get type(): ServiceType { return this.data.type; }
-  get category(): ServiceCategory { return this.data.category; }
-  get pricing(): ServicePricing { return this.data.pricing; }
-  get timeline(): DeliveryTimeline { return this.data.timeline; }
-  get isActive(): boolean { return this.data.isActive; }
+  get id(): string {
+    return this.data.id;
+  }
+  get serviceCode(): string {
+    return this.data.serviceCode;
+  }
+  get name(): MultilingualContent {
+    return this.data.name;
+  }
+  get type(): ServiceType {
+    return this.data.type;
+  }
+  get category(): ServiceCategory {
+    return this.data.category;
+  }
+  get pricing(): ServicePricing {
+    return this.data.pricing;
+  }
+  get timeline(): DeliveryTimeline {
+    return this.data.timeline;
+  }
+  get isActive(): boolean {
+    return this.data.isActive;
+  }
 
   // Business Logic Methods
   isAvailableForQuote(): boolean {
@@ -188,21 +222,27 @@ export class BusinessServiceEntity {
   }
 
   requiresCustomQuote(): boolean {
-    return this.data.pricing.customQuoteRequired || this.data.requiresConsultation;
+    return (
+      this.data.pricing.customQuoteRequired || this.data.requiresConsultation
+    );
   }
 
   canHandleVolume(quantity: number): boolean {
     const { minimumOrder, maximumOrder } = this.data.pricing;
     const { maxCapacityPerMonth } = this.data.capabilities;
-    
+
     const meetsMinimum = !minimumOrder || quantity >= minimumOrder;
     const meetsMaximum = !maximumOrder || quantity <= maximumOrder;
-    const withinCapacity = !maxCapacityPerMonth || quantity <= maxCapacityPerMonth;
-    
+    const withinCapacity =
+      !maxCapacityPerMonth || quantity <= maxCapacityPerMonth;
+
     return meetsMinimum && meetsMaximum && withinCapacity;
   }
 
-  calculateEstimatedPrice(quantity?: number, rushDelivery = false): number | null {
+  calculateEstimatedPrice(
+    quantity?: number,
+    rushDelivery = false
+  ): number | null {
     if (this.data.pricing.customQuoteRequired) {
       return null; // Requires custom quote
     }
@@ -221,35 +261,43 @@ export class BusinessServiceEntity {
         const applicableDiscount = this.data.pricing.volumeDiscounts
           .filter(discount => quantity >= discount.threshold)
           .sort((a, b) => b.threshold - a.threshold)[0];
-        
+
         if (applicableDiscount) {
-          totalPrice *= (1 - applicableDiscount.discountPercentage / 100);
+          totalPrice *= 1 - applicableDiscount.discountPercentage / 100;
         }
       }
     }
 
     // Apply rush surcharge
-    if (rushDelivery && this.data.timeline.rushAvailable && this.data.timeline.rushSurcharge) {
-      totalPrice *= (1 + this.data.timeline.rushSurcharge / 100);
+    if (
+      rushDelivery &&
+      this.data.timeline.rushAvailable &&
+      this.data.timeline.rushSurcharge
+    ) {
+      totalPrice *= 1 + this.data.timeline.rushSurcharge / 100;
     }
 
     return totalPrice;
   }
 
-  getEstimatedDeliveryTime(rushDelivery = false): { min: number; max: number; average: number } {
+  getEstimatedDeliveryTime(rushDelivery = false): {
+    min: number;
+    max: number;
+    average: number;
+  } {
     if (rushDelivery && this.data.timeline.rushAvailable) {
       // Assume rush delivery is 50% faster
       return {
         min: Math.ceil(this.data.timeline.minimumDays * 0.5),
         max: Math.ceil(this.data.timeline.maximumDays * 0.5),
-        average: Math.ceil(this.data.timeline.averageDays * 0.5)
+        average: Math.ceil(this.data.timeline.averageDays * 0.5),
       };
     }
 
     return {
       min: this.data.timeline.minimumDays,
       max: this.data.timeline.maximumDays,
-      average: this.data.timeline.averageDays
+      average: this.data.timeline.averageDays,
     };
   }
 
@@ -264,12 +312,16 @@ export class BusinessServiceEntity {
   }
 
   supportsGeography(country: string): boolean {
-    return this.data.capabilities.geographicCoverage.includes(country) ||
-           this.data.capabilities.geographicCoverage.includes('GLOBAL');
+    return (
+      this.data.capabilities.geographicCoverage.includes(country) ||
+      this.data.capabilities.geographicCoverage.includes('GLOBAL')
+    );
   }
 
   supportsCertification(certification: string): boolean {
-    return this.data.capabilities.supportedCertifications.includes(certification);
+    return this.data.capabilities.supportedCertifications.includes(
+      certification
+    );
   }
 
   getProcessStepsByLocale(locale: string): Array<{
@@ -281,14 +333,14 @@ export class BusinessServiceEntity {
     clientInvolvementRequired: boolean;
   }> {
     const localeKey = locale.split('-')[0] as keyof MultilingualContent;
-    
+
     return this.data.processSteps.map(step => ({
       stepNumber: step.stepNumber,
       name: step.name[localeKey] || step.name.en,
       description: step.description[localeKey] || step.description.en,
       estimatedDuration: step.estimatedDuration,
       deliverables: step.deliverables,
-      clientInvolvementRequired: step.clientInvolvementRequired
+      clientInvolvementRequired: step.clientInvolvementRequired,
     }));
   }
 
@@ -307,15 +359,17 @@ export class BusinessServiceEntity {
   }
 
   // Factory Methods
-  static create(data: Omit<BusinessService, 'id' | 'createdAt' | 'updatedAt'>): BusinessServiceEntity {
+  static create(
+    data: Omit<BusinessService, 'id' | 'createdAt' | 'updatedAt'>
+  ): BusinessServiceEntity {
     const now = new Date();
     const serviceData: BusinessService = {
       ...data,
       id: crypto.randomUUID(),
       createdAt: now,
-      updatedAt: now
+      updatedAt: now,
     };
-    
+
     return new BusinessServiceEntity(serviceData);
   }
 
@@ -324,9 +378,9 @@ export class BusinessServiceEntity {
     const updatedData: BusinessService = {
       ...this.data,
       pricing,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new BusinessServiceEntity(updatedData);
   }
 
@@ -334,19 +388,21 @@ export class BusinessServiceEntity {
     const updatedData: BusinessService = {
       ...this.data,
       timeline,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new BusinessServiceEntity(updatedData);
   }
 
-  addCaseStudy(caseStudy: BusinessService['caseStudies'][0]): BusinessServiceEntity {
+  addCaseStudy(
+    caseStudy: BusinessService['caseStudies'][0]
+  ): BusinessServiceEntity {
     const updatedData: BusinessService = {
       ...this.data,
       caseStudies: [...(this.data.caseStudies || []), caseStudy],
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new BusinessServiceEntity(updatedData);
   }
 

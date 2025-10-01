@@ -1,4 +1,8 @@
 {
+  "homepage": {
+    "title": "The Great Beans - Premium Vietnamesischer Kaffee",
+    "description": "Führende B2B-Plattform für vietnamesische Kaffeeexporte"
+  },
   "common": {
     "loading": "Wird geladen...",
     "error": "Ein Fehler ist aufgetreten",
@@ -180,15 +184,66 @@
   "seo": {
     "home": {
       "title": "Premium Vietnamesischer Kaffeeexport | The Great Beans",
-      "description": "Führender vietnamesischer Kaffeeexporteur mit premium Robusta- und Arabica-Bohnen. Direkte Beschaffung, wettbewerbsfähige Preise und zuverlässige Logistik für globale Märkte."
+      "description": "Führender vietnamesischer Kaffeeexporteur für Premium Robusta und Arabica Bohnen. Direkte Beschaffung, wettbewerbsfähige Preise und zuverlässige Logistik für globale Märkte."
     },
     "products": {
       "title": "Vietnamesische Kaffeeprodukte | Premium Robusta & Arabica",
-      "description": "Entdecken Sie unser Sortiment an premium vietnamesischen Kaffeeprodukten. Hochwertige Robusta, Spezialitäten-Arabica und maßgeschneiderte Mischungen für internationale Märkte."
+      "description": "Entdecken Sie unsere Premium vietnamesischen Kaffeeprodukte. Hochwertige Robusta, Spezialitäten Arabica und maßgeschneiderte Mischungen für internationale Märkte."
     },
     "services": {
       "title": "Kaffeeexport-Dienstleistungen | OEM, Private Label & Beschaffung",
-      "description": "Umfassende Kaffeeexport-Dienstleistungen einschließlich OEM-Herstellung, Private-Label-Lösungen und Expertenbeschaffung aus Vietnams besten Kaffeeregionen."
+      "description": "Umfassende Kaffeeexport-Dienstleistungen einschließlich OEM-Produktion, Private Label-Lösungen und professionelle Beschaffung aus Vietnams besten Kaffeeregionen."
+    }
+  },
+  "aiAnswers": {
+    "title": "KI-Kaffee-Assistent",
+    "subtitle": "Erhalten Sie sofortige Antworten auf Ihre Kaffeefragen",
+    "placeholder": "Fragen Sie nach vietnamesischem Kaffee, Preisen, Logistik...",
+    "examples": {
+      "pricing": "Wie hoch sind die aktuellen Robusta-Kaffeepreise?",
+      "logistics": "Wie lange dauert der Versand nach Europa?",
+      "quality": "Was ist der Unterschied zwischen vietnamesischem Robusta und Arabica?",
+      "certifications": "Welche Zertifizierungen sind für Ihren Kaffee verfügbar?"
+    },
+    "thinking": "Denke nach...",
+    "error": "Entschuldigung, ich kann diese Frage nicht beantworten. Bitte kontaktieren Sie unser Team.",
+    "followUp": "Weitere Frage?",
+    "sources": "Quellen",
+    "disclaimer": "Informationen werden von KI bereitgestellt und sollten mit unserem Verkaufsteam verifiziert werden."
+  },
+  "clusters": {
+    "vietnamRobusta": {
+      "title": "Vietnam Robusta Lieferanten",
+      "description": "Entdecken Sie Vietnams führende Robusta-Kaffeelieferanten-Netzwerk",
+      "keywords": "vietnam robusta, kaffeelieferanten, robusta export",
+      "content": {
+        "overview": "Vietnam ist der weltweit größte Robusta-Kaffeeproduzent",
+        "regions": "Dak Lak, Gia Lai, Dak Nong, Lam Dong",
+        "quality": "Hochwertiger Robusta mit charakteristischem kräftigem Geschmack",
+        "processing": "Moderne Trocken- und Nassverarbeitungsmethoden"
+      }
+    },
+    "specialtyArabica": {
+      "title": "Spezialitäten Arabica Beschaffung",
+      "description": "Spezialitäten Arabica-Kaffee-Beschaffungsdienste aus Vietnams Hochland",
+      "keywords": "vietnam arabica, spezialitätenkaffee, arabica beschaffung",
+      "content": {
+        "overview": "Vietnamesischer Arabica aus dem Hochland mit delikaten Geschmacksprofilen",
+        "regions": "Da Lat, Cau Dat, Buon Ma Thuot Hochland",
+        "altitude": "Höhenlagen von 800-1500m schaffen außergewöhnliche Aromen",
+        "varieties": "Catimor, Bourbon, Typica und lokale Sorten"
+      }
+    },
+    "privateLabelManufacturing": {
+      "title": "Private Label Kaffeeherstellung",
+      "description": "Professionelle Private Label Kaffeeherstellung und Verpackungsdienstleistungen",
+      "keywords": "private label, kaffeeherstellung, OEM kaffee",
+      "content": {
+        "overview": "Umfassende Lösungen für private Kaffeemarken",
+        "services": "Verpackungsdesign, Röstung, Verpackung, Logistik",
+        "capacity": "Flexible Produktionskapazität von 100kg bis 1000 Tonnen",
+        "customization": "Anpassung von Geschmack, Röstgrad und Verpackung nach Anforderungen"
+      }
     }
   }
 }

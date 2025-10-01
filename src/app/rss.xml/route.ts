@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateAllContentRSS } from '@/shared/utils/rss-utils';
+
 import type { Locale } from '@/i18n';
+import { generateAllContentRSS } from '@/shared/utils/rss-utils';
 
 export async function GET(request: NextRequest) {
   try {
     // Get locale from query params or default to 'en'
     const { searchParams } = new URL(request.url);
     const locale = (searchParams.get('locale') as Locale) || 'en';
-    
+
     // Generate RSS feed
     const rssXML = generateAllContentRSS(locale);
-    
+
     // Return RSS response with proper headers
     return new NextResponse(rssXML, {
       status: 200,
@@ -21,8 +22,9 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error generating RSS feed:', error);
-    return new NextResponse('Internal Server Error', { status: 500 });
+    return new NextResponse('Error generating RSS feed', { status: 500 });
   }
 }
 

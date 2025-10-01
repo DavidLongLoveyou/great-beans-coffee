@@ -50,7 +50,7 @@ const commonFields = {
   },
   locale: {
     type: 'string',
-    description: 'Content locale (en, vi, etc.)',
+    description: 'Content locale (en, vi, de, ja, fr, it, es, nl, ko)',
     required: true,
   },
   featured: {
@@ -89,6 +89,35 @@ const commonFields = {
     description: 'SEO keywords',
     required: false,
   },
+  // Enhanced internationalization fields
+  translationKey: {
+    type: 'string',
+    description: 'Unique key to link translations across locales',
+    required: false,
+  },
+  alternateLanguages: {
+    type: 'list',
+    of: { type: 'string' },
+    description: 'Available alternate language versions',
+    required: false,
+  },
+  // AI optimization fields
+  aiSummary: {
+    type: 'string',
+    description: 'AI-optimized summary for search engines and AI assistants',
+    required: false,
+  },
+  aiKeywords: {
+    type: 'list',
+    of: { type: 'string' },
+    description: 'AI-optimized keywords for better discoverability',
+    required: false,
+  },
+  structuredData: {
+    type: 'json',
+    description: 'Structured data for rich snippets and AI understanding',
+    required: false,
+  },
 } as const;
 
 export const MarketReport = defineDocumentType(() => ({
@@ -119,15 +148,27 @@ export const MarketReport = defineDocumentType(() => ({
       description: 'Type of report (QUARTERLY, ANNUAL, etc.)',
       required: false,
     },
+    hasDataVisualization: {
+      type: 'boolean',
+      description: 'Whether the report includes data visualizations',
+      required: false,
+    },
+    chartTypes: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Types of charts included in the report',
+      required: false,
+    },
   },
   computedFields: {
     url: {
       type: 'string',
-      resolve: (doc) => `/market-reports/${doc._raw.flattenedPath.replace('market-reports/', '')}`,
+      resolve: doc =>
+        `/market-reports/${doc._raw.flattenedPath.replace('market-reports/', '')}`,
     },
     slug: {
       type: 'string',
-      resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+      resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
     },
   },
 }));
@@ -202,15 +243,42 @@ export const OriginStory = defineDocumentType(() => ({
       description: 'Related origin stories',
       required: false,
     },
+    elevation: {
+      type: 'string',
+      description: 'Growing elevation range',
+      required: false,
+    },
+    climate: {
+      type: 'string',
+      description: 'Climate conditions',
+      required: false,
+    },
+    soilType: {
+      type: 'string',
+      description: 'Soil type and characteristics',
+      required: false,
+    },
+    processingMethods: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Available processing methods',
+      required: false,
+    },
+    cupProfile: {
+      type: 'string',
+      description: 'Cup profile and tasting notes',
+      required: false,
+    },
   },
   computedFields: {
     url: {
       type: 'string',
-      resolve: (doc) => `/origin-stories/${doc._raw.flattenedPath.replace('origin-stories/', '')}`,
+      resolve: doc =>
+        `/origin-stories/${doc._raw.flattenedPath.replace('origin-stories/', '')}`,
     },
     slug: {
       type: 'string',
-      resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+      resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
     },
   },
 }));
@@ -271,15 +339,34 @@ export const ServicePage = defineDocumentType(() => ({
       description: 'Related services',
       required: false,
     },
+    regions: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Available regions for this service',
+      required: false,
+    },
+    varieties: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Coffee varieties available',
+      required: false,
+    },
+    processingMethods: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Available processing methods',
+      required: false,
+    },
   },
   computedFields: {
     url: {
       type: 'string',
-      resolve: (doc) => `/services/${doc._raw.flattenedPath.replace('services/', '')}`,
+      resolve: doc =>
+        `/services/${doc._raw.flattenedPath.replace('services/', '')}`,
     },
     slug: {
       type: 'string',
-      resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+      resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
     },
   },
 }));
@@ -305,11 +392,11 @@ export const BlogPost = defineDocumentType(() => ({
   computedFields: {
     url: {
       type: 'string',
-      resolve: (doc) => `/blog/${doc._raw.flattenedPath.replace('blog/', '')}`,
+      resolve: doc => `/blog/${doc._raw.flattenedPath.replace('blog/', '')}`,
     },
     slug: {
       type: 'string',
-      resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+      resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
     },
   },
 }));
@@ -359,17 +446,308 @@ export const LegalPage = defineDocumentType(() => ({
   computedFields: {
     url: {
       type: 'string',
-      resolve: (doc) => `/legal/${doc._raw.flattenedPath.replace('legal/', '')}`,
+      resolve: doc => `/legal/${doc._raw.flattenedPath.replace('legal/', '')}`,
     },
     slug: {
       type: 'string',
-      resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+      resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+    },
+  },
+}));
+
+// Company News content type
+export const CompanyNews = defineDocumentType(() => ({
+  name: 'CompanyNews',
+  filePathPattern: `company-news/**/*.mdx`,
+  contentType: 'mdx',
+  fields: {
+    ...commonFields,
+    newsType: {
+      type: 'string',
+      description: 'Type of news (ANNOUNCEMENT, PARTNERSHIP, EXPANSION, etc.)',
+      required: false,
+    },
+    priority: {
+      type: 'string',
+      description: 'News priority (HIGH, MEDIUM, LOW)',
+      required: false,
+    },
+    targetAudience: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Target audience for this news',
+      required: false,
+    },
+    relatedNews: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Related company news',
+      required: false,
+    },
+    pressRelease: {
+      type: 'boolean',
+      description: 'Whether this is a press release',
+      required: false,
+    },
+    mediaContacts: {
+      type: 'json',
+      description: 'Media contact information',
+      required: false,
+    },
+  },
+  computedFields: {
+    url: {
+      type: 'string',
+      resolve: doc =>
+        `/company-news/${doc._raw.flattenedPath.replace('company-news/', '')}`,
+    },
+    slug: {
+      type: 'string',
+      resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+    },
+  },
+}));
+
+// Case Studies content type
+export const CaseStudy = defineDocumentType(() => ({
+  name: 'CaseStudy',
+  filePathPattern: `case-studies/**/*.mdx`,
+  contentType: 'mdx',
+  fields: {
+    ...commonFields,
+    clientName: {
+      type: 'string',
+      description: 'Client company name',
+      required: false,
+    },
+    clientIndustry: {
+      type: 'string',
+      description: 'Client industry',
+      required: false,
+    },
+    clientCountry: {
+      type: 'string',
+      description: 'Client country',
+      required: false,
+    },
+    projectDuration: {
+      type: 'string',
+      description: 'Project duration',
+      required: false,
+    },
+    challenge: {
+      type: 'string',
+      description: 'Main challenge addressed',
+      required: false,
+    },
+    solution: {
+      type: 'string',
+      description: 'Solution provided',
+      required: false,
+    },
+    results: {
+      type: 'json',
+      description: 'Quantifiable results achieved',
+      required: false,
+    },
+    testimonial: {
+      type: 'json',
+      description: 'Client testimonial with quote and attribution',
+      required: false,
+    },
+    servicesUsed: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Services used in this case study',
+      required: false,
+    },
+    productsUsed: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Products used in this case study',
+      required: false,
+    },
+    relatedCaseStudies: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Related case studies',
+      required: false,
+    },
+  },
+  computedFields: {
+    url: {
+      type: 'string',
+      resolve: doc =>
+        `/case-studies/${doc._raw.flattenedPath.replace('case-studies/', '')}`,
+    },
+    slug: {
+      type: 'string',
+      resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+    },
+  },
+}));
+
+// Product Guides content type
+export const ProductGuide = defineDocumentType(() => ({
+  name: 'ProductGuide',
+  filePathPattern: `product-guides/**/*.mdx`,
+  contentType: 'mdx',
+  fields: {
+    ...commonFields,
+    guideType: {
+      type: 'string',
+      description:
+        'Type of guide (BUYING_GUIDE, TECHNICAL_SPEC, COMPARISON, etc.)',
+      required: false,
+    },
+    difficulty: {
+      type: 'string',
+      description: 'Guide difficulty level (BEGINNER, INTERMEDIATE, ADVANCED)',
+      required: false,
+    },
+    estimatedTime: {
+      type: 'string',
+      description: 'Estimated time to complete/read',
+      required: false,
+    },
+    prerequisites: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Prerequisites for this guide',
+      required: false,
+    },
+    relatedProducts: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Related coffee products',
+      required: false,
+    },
+    relatedServices: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Related services',
+      required: false,
+    },
+    downloadableResources: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Downloadable resources (PDFs, checklists, etc.)',
+      required: false,
+    },
+    relatedGuides: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Related product guides',
+      required: false,
+    },
+  },
+  computedFields: {
+    url: {
+      type: 'string',
+      resolve: doc =>
+        `/product-guides/${doc._raw.flattenedPath.replace('product-guides/', '')}`,
+    },
+    slug: {
+      type: 'string',
+      resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+    },
+  },
+}));
+
+// Landing Pages content type
+export const LandingPage = defineDocumentType(() => ({
+  name: 'LandingPage',
+  filePathPattern: `landing-pages/**/*.mdx`,
+  contentType: 'mdx',
+  fields: {
+    ...commonFields,
+    pageType: {
+      type: 'string',
+      description: 'Type of landing page (PRODUCT, SERVICE, CAMPAIGN, etc.)',
+      required: false,
+    },
+    campaignName: {
+      type: 'string',
+      description: 'Marketing campaign name',
+      required: false,
+    },
+    targetKeywords: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Primary target keywords for SEO',
+      required: false,
+    },
+    conversionGoal: {
+      type: 'string',
+      description: 'Primary conversion goal (LEAD_GENERATION, SALES, etc.)',
+      required: false,
+    },
+    ctaText: {
+      type: 'string',
+      description: 'Primary call-to-action text',
+      required: false,
+    },
+    ctaUrl: {
+      type: 'string',
+      description: 'Primary call-to-action URL',
+      required: false,
+    },
+    heroSection: {
+      type: 'json',
+      description: 'Hero section configuration',
+      required: false,
+    },
+    featuresSection: {
+      type: 'json',
+      description: 'Features section configuration',
+      required: false,
+    },
+    testimonialsSection: {
+      type: 'json',
+      description: 'Testimonials section configuration',
+      required: false,
+    },
+    faqSection: {
+      type: 'json',
+      description: 'FAQ section configuration',
+      required: false,
+    },
+    relatedPages: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Related landing pages',
+      required: false,
+    },
+  },
+  computedFields: {
+    url: {
+      type: 'string',
+      resolve: doc =>
+        `/landing/${doc._raw.flattenedPath.replace('landing-pages/', '')}`,
+    },
+    slug: {
+      type: 'string',
+      resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
     },
   },
 }));
 
 export default makeSource({
   contentDirPath: './content',
-  documentTypes: [MarketReport, OriginStory, ServicePage, BlogPost, LegalPage],
+  documentTypes: [
+    MarketReport,
+    OriginStory,
+    ServicePage,
+    BlogPost,
+    LegalPage,
+    CompanyNews,
+    CaseStudy,
+    ProductGuide,
+    LandingPage,
+  ],
   disableImportAliasWarning: true,
+  mdx: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+  },
 });

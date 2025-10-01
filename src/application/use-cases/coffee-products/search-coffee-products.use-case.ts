@@ -16,7 +16,9 @@ export interface SearchCoffeeProductsResponse {
 export class SearchCoffeeProductsUseCase {
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
-  async execute(request: SearchCoffeeProductsRequest): Promise<SearchCoffeeProductsResponse> {
+  async execute(
+    request: SearchCoffeeProductsRequest
+  ): Promise<SearchCoffeeProductsResponse> {
     const { query, locale, limit = 20 } = request;
 
     try {
@@ -25,20 +27,23 @@ export class SearchCoffeeProductsUseCase {
         return {
           products: [],
           total: 0,
-          query: query.trim()
+          query: query.trim(),
         };
       }
 
       // Search products
-      const allProducts = await this.coffeeProductRepository.search(query.trim(), locale);
-      
+      const allProducts = await this.coffeeProductRepository.search(
+        query.trim(),
+        locale
+      );
+
       // Apply limit
       const products = limit ? allProducts.slice(0, limit) : allProducts;
 
       return {
         products,
         total: allProducts.length,
-        query: query.trim()
+        query: query.trim(),
       };
     } catch (error) {
       console.error('Error searching coffee products:', error);

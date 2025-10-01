@@ -180,15 +180,66 @@
   "seo": {
     "home": {
       "title": "Premium Vietnamese Koffie Export | The Great Beans",
-      "description": "Toonaangevende Vietnamese koffie-exporteur die premium Robusta en Arabica bonen aanbiedt. Directe inkoop, concurrerende prijzen en betrouwbare logistiek voor wereldwijde markten."
+      "description": "Toonaangevende Vietnamese koffie-exporteur die premium robusta en arabica bonen levert. Directe sourcing, concurrerende prijzen, betrouwbare logistiek voor wereldwijde markten."
     },
     "products": {
       "title": "Vietnamese Koffieproducten | Premium Robusta & Arabica",
-      "description": "Verken ons assortiment premium Vietnamese koffieproducten. Hoogwaardige Robusta, specialiteit Arabica en aangepaste mengsels voor internationale markten."
+      "description": "Ontdek ons assortiment premium Vietnamese koffieproducten. Hoogwaardige robusta, specialty arabica, en aangepaste blends voor internationale markten."
     },
     "services": {
-      "title": "Koffie Export Diensten | OEM, Private Label & Inkoop",
-      "description": "Uitgebreide koffie-exportdiensten inclusief OEM-productie, private label oplossingen en deskundige inkoop uit Vietnam's beste koffieregio's."
+      "title": "Koffie Export Services | OEM, Private Label & Sourcing",
+      "description": "Uitgebreide koffie export services inclusief OEM manufacturing, private label oplossingen, en gespecialiseerde sourcing uit Vietnam's beste koffieregio's."
+    }
+  },
+  "aiAnswers": {
+    "title": "AI Koffie Assistent",
+    "subtitle": "Krijg directe antwoorden op uw koffievragen",
+    "placeholder": "Vraag over Vietnamese koffie, prijzen, logistiek...",
+    "examples": {
+      "pricing": "Wat zijn de huidige robusta koffieprijzen?",
+      "logistics": "Hoe lang duurt verzending naar Europa?",
+      "quality": "Wat is het verschil tussen Vietnamese robusta en arabica?",
+      "certifications": "Welke certificeringen heeft uw koffie?"
+    },
+    "thinking": "Aan het denken...",
+    "error": "Sorry, ik kan deze vraag niet beantwoorden. Neem contact op met ons team.",
+    "followUp": "Heeft u nog andere vragen?",
+    "sources": "Bronnen",
+    "disclaimer": "Informatie wordt verstrekt door AI en moet worden bevestigd met ons verkoopteam."
+  },
+  "clusters": {
+    "vietnamRobusta": {
+      "title": "Vietnam Robusta Leveranciers",
+      "description": "Ontdek Vietnam's toonaangevende netwerk van robusta koffie leveranciers",
+      "keywords": "Vietnam robusta, koffie leveranciers, robusta export",
+      "content": {
+        "overview": "Vietnam is 's werelds grootste producent van robusta koffie",
+        "regions": "Dak Lak, Gia Lai, Dak Nong, Lam Dong",
+        "quality": "Hoogwaardige robusta met kenmerkende sterke smaak",
+        "processing": "Moderne droge en natte verwerkingsmethoden"
+      }
+    },
+    "specialtyArabica": {
+      "title": "Specialty Arabica Sourcing",
+      "description": "Specialty arabica koffie sourcing services uit Vietnam's hooglanden",
+      "keywords": "Vietnam arabica, specialty koffie, arabica sourcing",
+      "content": {
+        "overview": "Vietnamese hoogland arabica met delicate smaakprofielen",
+        "regions": "Dalat, Cau Dat, Buon Ma Thuot hooglanden",
+        "altitude": "800-1500m hoogte creëert uitzonderlijke smaken",
+        "varieties": "Catimor, Bourbon, Typica en lokale variëteiten"
+      }
+    },
+    "privateLabelManufacturing": {
+      "title": "Private Label Koffie Manufacturing",
+      "description": "Professionele private label koffie manufacturing en verpakkingsservices",
+      "keywords": "private label, koffie manufacturing, OEM koffie",
+      "content": {
+        "overview": "Uitgebreide oplossingen voor private koffiemerken",
+        "services": "Verpakkingsontwerp, branden, verpakking, logistiek",
+        "capacity": "Flexibele productiecapaciteit van 100kg tot 1000 ton",
+        "customization": "Aangepaste smaken, brandniveaus, verpakking naar wens"
+      }
     }
   }
 }

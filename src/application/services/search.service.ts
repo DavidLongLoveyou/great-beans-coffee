@@ -22,7 +22,12 @@ export interface SearchResult<T> {
 }
 
 export interface ISearchService {
-  searchProducts(query: string, filters?: SearchFilters, page?: number, limit?: number): Promise<SearchResult<CoffeeProductEntity>>;
+  searchProducts(
+    query: string,
+    filters?: SearchFilters,
+    page?: number,
+    limit?: number
+  ): Promise<SearchResult<CoffeeProductEntity>>;
   getSearchSuggestions(query: string): Promise<string[]>;
   getPopularSearchTerms(): Promise<string[]>;
 }
@@ -31,81 +36,97 @@ export class SearchService implements ISearchService {
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
   async searchProducts(
-    query: string, 
-    filters: SearchFilters = {}, 
-    page: number = 1, 
+    query: string,
+    filters: SearchFilters = {},
+    page: number = 1,
     limit: number = 20
   ): Promise<SearchResult<CoffeeProductEntity>> {
     try {
       console.log(`Searching products with query: "${query}"`);
-      
+
       // Get all products first (in a real implementation, this would be optimized)
       const allProducts = await this.coffeeProductRepository.findAll();
-      
+
       // Filter products based on query and filters
       let filteredProducts = allProducts.filter(product => {
         // Text search
-        const matchesQuery = !query || 
+        const matchesQuery =
+          !query ||
           product.name.toLowerCase().includes(query.toLowerCase()) ||
           product.description.toLowerCase().includes(query.toLowerCase()) ||
           product.origin.toLowerCase().includes(query.toLowerCase());
-        
+
         // Category filter
-        const matchesCategory = !filters.category || 
+        const matchesCategory =
+          !filters.category ||
           product.category.toLowerCase() === filters.category.toLowerCase();
-        
+
         // Origin filter
-        const matchesOrigin = !filters.origin?.length || 
-          filters.origin.some(origin => 
+        const matchesOrigin =
+          !filters.origin?.length ||
+          filters.origin.some(origin =>
             product.origin.toLowerCase().includes(origin.toLowerCase())
           );
-        
+
         // Grade filter
-        const matchesGrade = !filters.grade?.length || 
-          filters.grade.some(grade => 
+        const matchesGrade =
+          !filters.grade?.length ||
+          filters.grade.some(grade =>
             product.grade.toLowerCase().includes(grade.toLowerCase())
           );
-        
+
         // Processing method filter
-        const matchesProcessing = !filters.processingMethod?.length || 
-          filters.processingMethod.some(method => 
-            product.processingMethod.toLowerCase().includes(method.toLowerCase())
+        const matchesProcessing =
+          !filters.processingMethod?.length ||
+          filters.processingMethod.some(method =>
+            product.processingMethod
+              .toLowerCase()
+              .includes(method.toLowerCase())
           );
-        
+
         // Certifications filter
-        const matchesCertifications = !filters.certifications?.length || 
-          filters.certifications.some(cert => 
-            product.certifications.some(productCert => 
+        const matchesCertifications =
+          !filters.certifications?.length ||
+          filters.certifications.some(cert =>
+            product.certifications.some(productCert =>
               productCert.toLowerCase().includes(cert.toLowerCase())
             )
           );
-        
+
         // Price range filter
-        const matchesPrice = !filters.priceRange || 
-          (product.pricePerKg >= filters.priceRange.min && 
-           product.pricePerKg <= filters.priceRange.max);
-        
-        return matchesQuery && matchesCategory && matchesOrigin && 
-               matchesGrade && matchesProcessing && matchesCertifications && matchesPrice;
+        const matchesPrice =
+          !filters.priceRange ||
+          (product.pricePerKg >= filters.priceRange.min &&
+            product.pricePerKg <= filters.priceRange.max);
+
+        return (
+          matchesQuery &&
+          matchesCategory &&
+          matchesOrigin &&
+          matchesGrade &&
+          matchesProcessing &&
+          matchesCertifications &&
+          matchesPrice
+        );
       });
-      
+
       // Calculate pagination
       const total = filteredProducts.length;
       const totalPages = Math.ceil(total / limit);
       const startIndex = (page - 1) * limit;
       const endIndex = startIndex + limit;
-      
+
       // Get paginated results
       const items = filteredProducts.slice(startIndex, endIndex);
-      
+
       console.log(`Found ${total} products matching search criteria`);
-      
+
       return {
         items,
         total,
         page,
         limit,
-        totalPages
+        totalPages,
       };
     } catch (error) {
       console.error('Search failed:', error);
@@ -114,7 +135,7 @@ export class SearchService implements ISearchService {
         total: 0,
         page,
         limit,
-        totalPages: 0
+        totalPages: 0,
       };
     }
   }
@@ -124,10 +145,10 @@ export class SearchService implements ISearchService {
       if (!query || query.length < 2) {
         return [];
       }
-      
+
       const allProducts = await this.coffeeProductRepository.findAll();
       const suggestions = new Set<string>();
-      
+
       // Extract suggestions from product names, origins, and categories
       allProducts.forEach(product => {
         if (product.name.toLowerCase().includes(query.toLowerCase())) {
@@ -140,7 +161,7 @@ export class SearchService implements ISearchService {
           suggestions.add(product.category);
         }
       });
-      
+
       return Array.from(suggestions).slice(0, 10);
     } catch (error) {
       console.error('Failed to get search suggestions:', error);
@@ -161,9 +182,9 @@ export class SearchService implements ISearchService {
         'Premium',
         'Specialty',
         'Instant Coffee',
-        'Green Beans'
+        'Green Beans',
       ];
-      
+
       return popularTerms;
     } catch (error) {
       console.error('Failed to get popular search terms:', error);

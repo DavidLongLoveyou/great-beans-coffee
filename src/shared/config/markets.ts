@@ -167,7 +167,7 @@ export const marketConfigs: Record<Locale, MarketConfig> = {
         code: 'JPYOK',
         city: 'Yokohama',
         country: 'Japan',
-        coordinates: { lat: 35.4437, lng: 139.6380 },
+        coordinates: { lat: 35.4437, lng: 139.638 },
       },
       {
         name: 'Port of Kobe',
@@ -452,7 +452,9 @@ export function getAllMarkets(): MarketConfig[] {
  * Get markets by region
  */
 export function getMarketsByRegion(region: string): MarketConfig[] {
-  return Object.values(marketConfigs).filter(config => config.region === region);
+  return Object.values(marketConfigs).filter(
+    config => config.region === region
+  );
 }
 
 /**
@@ -479,7 +481,11 @@ export function formatDate(date: Date, locale: Locale): string {
 /**
  * Get business hours in local time
  */
-export function getBusinessHours(locale: Locale): { start: string; end: string; timezone: string } {
+export function getBusinessHours(locale: Locale): {
+  start: string;
+  end: string;
+  timezone: string;
+} {
   const config = getMarketConfig(locale);
   return config.businessHours;
 }
@@ -487,9 +493,14 @@ export function getBusinessHours(locale: Locale): { start: string; end: string; 
 /**
  * Calculate estimated delivery date
  */
-export function getEstimatedDelivery(locale: Locale, shipDate: Date = new Date()): Date {
+export function getEstimatedDelivery(
+  locale: Locale,
+  shipDate: Date = new Date()
+): Date {
   const config = getMarketConfig(locale);
   const deliveryDate = new Date(shipDate);
-  deliveryDate.setDate(deliveryDate.getDate() + config.shippingInfo.averageTransitDays);
+  deliveryDate.setDate(
+    deliveryDate.getDate() + config.shippingInfo.averageTransitDays
+  );
   return deliveryDate;
 }

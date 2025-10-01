@@ -11,20 +11,17 @@ export type {
   GetRfqsRequest,
   GetRfqsResponse,
   UpdateRfqStatusRequest,
-  UpdateRfqStatusResponse
+  UpdateRfqStatusResponse,
 } from './submit-rfq.use-case';
 
 export type {
   GetRfqByIdRequest,
-  GetRfqByIdResponse
+  GetRfqByIdResponse,
 } from './get-rfq-by-id.use-case';
 
-export type {
-  GetRfqsRequest,
-  GetRfqsResponse
-} from './get-rfqs.use-case';
+export type { GetRfqsRequest, GetRfqsResponse } from './get-rfqs.use-case';
 
 export type {
   UpdateRfqStatusRequest,
-  UpdateRfqStatusResponse
+  UpdateRfqStatusResponse,
 } from './update-rfq-status.use-case';

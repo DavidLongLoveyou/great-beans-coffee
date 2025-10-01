@@ -6,7 +6,7 @@ export const CompanyStatusSchema = z.enum([
   'ACTIVE',
   'INACTIVE',
   'SUSPENDED',
-  'BLACKLISTED'
+  'BLACKLISTED',
 ]);
 
 // Company Type Enum
@@ -20,21 +20,31 @@ export const CompanyTypeSchema = z.enum([
   'BROKER',
   'COOPERATIVE',
   'GOVERNMENT',
-  'NGO'
+  'NGO',
 ]);
 
 // Company Size Enum
 export const CompanySizeSchema = z.enum([
-  'STARTUP',      // < 10 employees
-  'SMALL',        // 10-50 employees
-  'MEDIUM',       // 50-250 employees
-  'LARGE',        // 250-1000 employees
-  'ENTERPRISE'    // > 1000 employees
+  'STARTUP', // < 10 employees
+  'SMALL', // 10-50 employees
+  'MEDIUM', // 50-250 employees
+  'LARGE', // 250-1000 employees
+  'ENTERPRISE', // > 1000 employees
 ]);
 
 // Credit Rating Enum
 export const CreditRatingSchema = z.enum([
-  'AAA', 'AA', 'A', 'BBB', 'BB', 'B', 'CCC', 'CC', 'C', 'D', 'NR' // NR = Not Rated
+  'AAA',
+  'AA',
+  'A',
+  'BBB',
+  'BB',
+  'B',
+  'CCC',
+  'CC',
+  'C',
+  'D',
+  'NR', // NR = Not Rated
 ]);
 
 // Relationship Status Enum
@@ -45,7 +55,7 @@ export const RelationshipStatusSchema = z.enum([
   'STRATEGIC_PARTNER',
   'KEY_ACCOUNT',
   'AT_RISK',
-  'DORMANT'
+  'DORMANT',
 ]);
 
 // Contact Person Schema
@@ -64,7 +74,7 @@ export const ContactPersonSchema = z.object({
   notes: z.string().optional(),
   linkedInProfile: z.string().url().optional(),
   createdAt: z.date(),
-  updatedAt: z.date()
+  updatedAt: z.date(),
 });
 
 // Company Address Schema
@@ -78,13 +88,15 @@ export const CompanyAddressSchema = z.object({
   country: z.string(),
   countryCode: z.string().length(2), // ISO 3166-1 alpha-2
   isPrimary: z.boolean().default(false),
-  coordinates: z.object({
-    latitude: z.number(),
-    longitude: z.number()
-  }).optional(),
+  coordinates: z
+    .object({
+      latitude: z.number(),
+      longitude: z.number(),
+    })
+    .optional(),
   timeZone: z.string().optional(),
   createdAt: z.date(),
-  updatedAt: z.date()
+  updatedAt: z.date(),
 });
 
 // Financial Information Schema
@@ -95,18 +107,22 @@ export const FinancialInfoSchema = z.object({
   creditRating: CreditRatingSchema.optional(),
   paymentTerms: z.string().optional(), // e.g., "NET 30", "LC at sight"
   preferredPaymentMethod: z.enum(['LC', 'TT', 'CAD', 'DP', 'DA']).optional(),
-  bankReferences: z.array(z.object({
-    bankName: z.string(),
-    accountNumber: z.string().optional(),
-    swiftCode: z.string().optional(),
-    contactPerson: z.string().optional(),
-    phone: z.string().optional()
-  })).optional(),
+  bankReferences: z
+    .array(
+      z.object({
+        bankName: z.string(),
+        accountNumber: z.string().optional(),
+        swiftCode: z.string().optional(),
+        contactPerson: z.string().optional(),
+        phone: z.string().optional(),
+      })
+    )
+    .optional(),
   dAndBNumber: z.string().optional(), // Dun & Bradstreet number
   taxId: z.string().optional(),
   vatNumber: z.string().optional(),
   lastCreditCheck: z.date().optional(),
-  creditCheckScore: z.number().min(0).max(100).optional()
+  creditCheckScore: z.number().min(0).max(100).optional(),
 });
 
 // Business Profile Schema
@@ -116,19 +132,36 @@ export const BusinessProfileSchema = z.object({
   annualCoffeeVolume: z.number().positive().optional(), // in MT
   primaryMarkets: z.array(z.string()), // Countries/regions they serve
   businessModel: z.array(z.enum(['B2B', 'B2C', 'BOTH'])),
-  certifications: z.array(z.enum([
-    'ORGANIC', 'FAIRTRADE', 'RAINFOREST_ALLIANCE', 'UTZ', 'C_CAFE_PRACTICES',
-    'BIRD_FRIENDLY', 'SHADE_GROWN', 'DIRECT_TRADE', 'ISO_22000', 'HACCP',
-    'BRC', 'SQF', 'KOSHER', 'HALAL'
-  ])).optional(),
+  certifications: z
+    .array(
+      z.enum([
+        'ORGANIC',
+        'FAIRTRADE',
+        'RAINFOREST_ALLIANCE',
+        'UTZ',
+        'C_CAFE_PRACTICES',
+        'BIRD_FRIENDLY',
+        'SHADE_GROWN',
+        'DIRECT_TRADE',
+        'ISO_22000',
+        'HACCP',
+        'BRC',
+        'SQF',
+        'KOSHER',
+        'HALAL',
+      ])
+    )
+    .optional(),
   specializations: z.array(z.string()).optional(), // e.g., ["Specialty Coffee", "Instant Coffee"]
-  equipmentCapacity: z.object({
-    roastingCapacity: z.number().positive().optional(), // kg per hour
-    packagingCapacity: z.number().positive().optional(), // units per hour
-    storageCapacity: z.number().positive().optional() // MT
-  }).optional(),
+  equipmentCapacity: z
+    .object({
+      roastingCapacity: z.number().positive().optional(), // kg per hour
+      packagingCapacity: z.number().positive().optional(), // units per hour
+      storageCapacity: z.number().positive().optional(), // MT
+    })
+    .optional(),
   qualityStandards: z.array(z.string()).optional(),
-  sustainabilityInitiatives: z.array(z.string()).optional()
+  sustainabilityInitiatives: z.array(z.string()).optional(),
 });
 
 // Trading History Schema
@@ -142,12 +175,14 @@ export const TradingHistorySchema = z.object({
   averageOrderVolume: z.number().min(0).default(0),
   preferredProducts: z.array(z.string()).optional(),
   seasonalPatterns: z.record(z.string(), z.any()).optional(),
-  paymentHistory: z.object({
-    onTimePayments: z.number().int().min(0).default(0),
-    latePayments: z.number().int().min(0).default(0),
-    averagePaymentDays: z.number().min(0).optional(),
-    outstandingAmount: z.number().min(0).default(0)
-  }).optional()
+  paymentHistory: z
+    .object({
+      onTimePayments: z.number().int().min(0).default(0),
+      latePayments: z.number().int().min(0).default(0),
+      averagePaymentDays: z.number().min(0).optional(),
+      outstandingAmount: z.number().min(0).default(0),
+    })
+    .optional(),
 });
 
 // Company Document Schema
@@ -165,7 +200,7 @@ export const CompanyDocumentSchema = z.object({
     'COMPANY_PROFILE',
     'FINANCIAL_STATEMENT',
     'TRADE_REFERENCE',
-    'OTHER'
+    'OTHER',
   ]),
   fileName: z.string(),
   fileUrl: z.string().url(),
@@ -176,13 +211,20 @@ export const CompanyDocumentSchema = z.object({
   verifiedAt: z.date().optional(),
   notes: z.string().optional(),
   uploadedAt: z.date(),
-  uploadedBy: z.string().uuid()
+  uploadedBy: z.string().uuid(),
 });
 
 // Company Note Schema
 export const CompanyNoteSchema = z.object({
   id: z.string().uuid(),
-  type: z.enum(['GENERAL', 'SALES', 'CREDIT', 'QUALITY', 'LOGISTICS', 'COMPLIANCE']),
+  type: z.enum([
+    'GENERAL',
+    'SALES',
+    'CREDIT',
+    'QUALITY',
+    'LOGISTICS',
+    'COMPLIANCE',
+  ]),
   subject: z.string(),
   content: z.string(),
   isPrivate: z.boolean().default(false),
@@ -190,64 +232,76 @@ export const CompanyNoteSchema = z.object({
   tags: z.array(z.string()).optional(),
   createdBy: z.string().uuid(),
   createdAt: z.date(),
-  updatedAt: z.date()
+  updatedAt: z.date(),
 });
 
 // Client Company Entity Schema
 export const ClientCompanySchema = z.object({
   id: z.string().uuid(),
   companyCode: z.string().min(1), // Auto-generated unique code
-  
+
   // Basic Information
   legalName: z.string().min(1),
   tradingName: z.string().optional(),
   website: z.string().url().optional(),
   description: z.string().optional(),
   logo: z.string().url().optional(),
-  
+
   // Classification
   status: CompanyStatusSchema,
   type: CompanyTypeSchema,
   size: CompanySizeSchema.optional(),
   relationshipStatus: RelationshipStatusSchema,
-  
+
   // Contact Information
   contacts: z.array(ContactPersonSchema),
   addresses: z.array(CompanyAddressSchema),
-  
+
   // Business Information
   businessProfile: BusinessProfileSchema.optional(),
   financialInfo: FinancialInfoSchema.optional(),
   tradingHistory: TradingHistorySchema.optional(),
-  
+
   // Preferences
   preferredLanguages: z.array(z.string()).optional(),
-  preferredCommunicationMethod: z.enum(['EMAIL', 'PHONE', 'WHATSAPP', 'TEAMS', 'ZOOM']).optional(),
+  preferredCommunicationMethod: z
+    .enum(['EMAIL', 'PHONE', 'WHATSAPP', 'TEAMS', 'ZOOM'])
+    .optional(),
   timeZone: z.string().optional(),
-  
+
   // Internal Management
   assignedSalesRep: z.string().uuid().optional(),
   accountManager: z.string().uuid().optional(),
   riskLevel: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).default('MEDIUM'),
-  
+
   // Documents & Notes
   documents: z.array(CompanyDocumentSchema).optional(),
   notes: z.array(CompanyNoteSchema).optional(),
-  
+
   // Marketing & Communication
   marketingConsent: z.boolean().default(false),
   newsletterSubscription: z.boolean().default(false),
   eventInvitations: z.boolean().default(false),
-  
+
   // System Fields
-  source: z.enum(['WEBSITE', 'TRADE_SHOW', 'REFERRAL', 'COLD_OUTREACH', 'SOCIAL_MEDIA', 'PARTNER', 'OTHER']).optional(),
+  source: z
+    .enum([
+      'WEBSITE',
+      'TRADE_SHOW',
+      'REFERRAL',
+      'COLD_OUTREACH',
+      'SOCIAL_MEDIA',
+      'PARTNER',
+      'OTHER',
+    ])
+    .optional(),
   tags: z.array(z.string()).optional(),
   lastContactDate: z.date().optional(),
   nextFollowUpDate: z.date().optional(),
   createdAt: z.date(),
   updatedAt: z.date(),
   createdBy: z.string().uuid(),
-  updatedBy: z.string().uuid()
+  updatedBy: z.string().uuid(),
 });
 
 // Type Exports
@@ -272,15 +326,33 @@ export class ClientCompanyEntity {
   }
 
   // Getters
-  get id(): string { return this.data.id; }
-  get companyCode(): string { return this.data.companyCode; }
-  get legalName(): string { return this.data.legalName; }
-  get tradingName(): string | undefined { return this.data.tradingName; }
-  get status(): CompanyStatus { return this.data.status; }
-  get type(): CompanyType { return this.data.type; }
-  get relationshipStatus(): RelationshipStatus { return this.data.relationshipStatus; }
-  get contacts(): ContactPerson[] { return this.data.contacts; }
-  get addresses(): CompanyAddress[] { return this.data.addresses; }
+  get id(): string {
+    return this.data.id;
+  }
+  get companyCode(): string {
+    return this.data.companyCode;
+  }
+  get legalName(): string {
+    return this.data.legalName;
+  }
+  get tradingName(): string | undefined {
+    return this.data.tradingName;
+  }
+  get status(): CompanyStatus {
+    return this.data.status;
+  }
+  get type(): CompanyType {
+    return this.data.type;
+  }
+  get relationshipStatus(): RelationshipStatus {
+    return this.data.relationshipStatus;
+  }
+  get contacts(): ContactPerson[] {
+    return this.data.contacts;
+  }
+  get addresses(): CompanyAddress[] {
+    return this.data.addresses;
+  }
 
   // Business Logic Methods
   isActive(): boolean {
@@ -296,13 +368,19 @@ export class ClientCompanyEntity {
   }
 
   getPrimaryContact(): ContactPerson | null {
-    return this.data.contacts.find(contact => contact.isPrimary) || 
-           this.data.contacts[0] || null;
+    return (
+      this.data.contacts.find(contact => contact.isPrimary) ||
+      this.data.contacts[0] ||
+      null
+    );
   }
 
   getPrimaryAddress(): CompanyAddress | null {
-    return this.data.addresses.find(address => address.isPrimary) || 
-           this.data.addresses[0] || null;
+    return (
+      this.data.addresses.find(address => address.isPrimary) ||
+      this.data.addresses[0] ||
+      null
+    );
   }
 
   getDecisionMakers(): ContactPerson[] {
@@ -323,11 +401,10 @@ export class ClientCompanyEntity {
 
   hasValidDocuments(): boolean {
     if (!this.data.documents) return false;
-    
+
     const now = new Date();
-    return this.data.documents.some(doc => 
-      doc.isVerified && 
-      (!doc.expiryDate || doc.expiryDate > now)
+    return this.data.documents.some(
+      doc => doc.isVerified && (!doc.expiryDate || doc.expiryDate > now)
     );
   }
 
@@ -338,40 +415,41 @@ export class ClientCompanyEntity {
 
   calculateRelationshipScore(): number {
     let score = 0;
-    
+
     // Base score by relationship status
     const statusScores = {
-      'NEW': 10,
-      'DEVELOPING': 30,
-      'ESTABLISHED': 60,
-      'STRATEGIC_PARTNER': 90,
-      'KEY_ACCOUNT': 100,
-      'AT_RISK': 20,
-      'DORMANT': 5
+      NEW: 10,
+      DEVELOPING: 30,
+      ESTABLISHED: 60,
+      STRATEGIC_PARTNER: 90,
+      KEY_ACCOUNT: 100,
+      AT_RISK: 20,
+      DORMANT: 5,
     };
     score += statusScores[this.data.relationshipStatus];
-    
+
     // Trading history bonus
     if (this.data.tradingHistory) {
       const { totalOrders, totalValue } = this.data.tradingHistory;
       score += Math.min(totalOrders * 2, 20); // Max 20 points for orders
       score += Math.min(totalValue / 10000, 30); // Max 30 points for value
     }
-    
+
     // Payment history bonus
     const paymentHistory = this.data.tradingHistory?.paymentHistory;
     if (paymentHistory) {
-      const totalPayments = paymentHistory.onTimePayments + paymentHistory.latePayments;
+      const totalPayments =
+        paymentHistory.onTimePayments + paymentHistory.latePayments;
       if (totalPayments > 0) {
         const onTimeRate = paymentHistory.onTimePayments / totalPayments;
         score += onTimeRate * 20; // Max 20 points for payment reliability
       }
     }
-    
+
     // Risk penalty
-    const riskPenalties = { 'LOW': 0, 'MEDIUM': -5, 'HIGH': -15, 'CRITICAL': -30 };
+    const riskPenalties = { LOW: 0, MEDIUM: -5, HIGH: -15, CRITICAL: -30 };
     score += riskPenalties[this.data.riskLevel];
-    
+
     return Math.max(0, Math.min(100, score));
   }
 
@@ -380,40 +458,46 @@ export class ClientCompanyEntity {
   }
 
   isStrategicAccount(): boolean {
-    return ['STRATEGIC_PARTNER', 'KEY_ACCOUNT'].includes(this.data.relationshipStatus);
+    return ['STRATEGIC_PARTNER', 'KEY_ACCOUNT'].includes(
+      this.data.relationshipStatus
+    );
   }
 
-  addContact(contact: Omit<ContactPerson, 'id' | 'createdAt' | 'updatedAt'>): ClientCompanyEntity {
+  addContact(
+    contact: Omit<ContactPerson, 'id' | 'createdAt' | 'updatedAt'>
+  ): ClientCompanyEntity {
     const newContact: ContactPerson = {
       ...contact,
       id: crypto.randomUUID(),
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     const updatedData: ClientCompany = {
       ...this.data,
       contacts: [...this.data.contacts, newContact],
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new ClientCompanyEntity(updatedData);
   }
 
-  addNote(note: Omit<CompanyNote, 'id' | 'createdAt' | 'updatedAt'>): ClientCompanyEntity {
+  addNote(
+    note: Omit<CompanyNote, 'id' | 'createdAt' | 'updatedAt'>
+  ): ClientCompanyEntity {
     const newNote: CompanyNote = {
       ...note,
       id: crypto.randomUUID(),
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     const updatedData: ClientCompany = {
       ...this.data,
       notes: [...(this.data.notes || []), newNote],
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new ClientCompanyEntity(updatedData);
   }
 
@@ -422,20 +506,23 @@ export class ClientCompanyEntity {
       ...this.data,
       status,
       updatedAt: new Date(),
-      updatedBy
+      updatedBy,
     };
-    
+
     return new ClientCompanyEntity(updatedData);
   }
 
-  updateRelationshipStatus(relationshipStatus: RelationshipStatus, updatedBy: string): ClientCompanyEntity {
+  updateRelationshipStatus(
+    relationshipStatus: RelationshipStatus,
+    updatedBy: string
+  ): ClientCompanyEntity {
     const updatedData: ClientCompany = {
       ...this.data,
       relationshipStatus,
       updatedAt: new Date(),
-      updatedBy
+      updatedBy,
     };
-    
+
     return new ClientCompanyEntity(updatedData);
   }
 
@@ -444,9 +531,9 @@ export class ClientCompanyEntity {
       ...this.data,
       nextFollowUpDate: date,
       updatedAt: new Date(),
-      updatedBy
+      updatedBy,
     };
-    
+
     return new ClientCompanyEntity(updatedData);
   }
 
@@ -465,18 +552,20 @@ export class ClientCompanyEntity {
   }
 
   // Factory Methods
-  static create(data: Omit<ClientCompany, 'id' | 'companyCode' | 'createdAt' | 'updatedAt'>): ClientCompanyEntity {
+  static create(
+    data: Omit<ClientCompany, 'id' | 'companyCode' | 'createdAt' | 'updatedAt'>
+  ): ClientCompanyEntity {
     const now = new Date();
     const companyCode = ClientCompanyEntity.generateCompanyCode(data.legalName);
-    
+
     const companyData: ClientCompany = {
       ...data,
       id: crypto.randomUUID(),
       companyCode,
       createdAt: now,
-      updatedAt: now
+      updatedAt: now,
     };
-    
+
     return new ClientCompanyEntity(companyData);
   }
 
@@ -486,7 +575,7 @@ export class ClientCompanyEntity {
       .replace(/[^a-zA-Z0-9]/g, '')
       .substring(0, 4)
       .toUpperCase();
-    
+
     const timestamp = Date.now().toString().slice(-6);
     return `${namePrefix}${timestamp}`;
   }

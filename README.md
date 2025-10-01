@@ -18,6 +18,7 @@ A world-class B2B Coffee Export Platform built with Next.js 15, TypeScript, and 
 ## 🛠 Tech Stack
 
 ### Frontend
+
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript (Strict Mode)
 - **Styling**: Tailwind CSS
@@ -27,12 +28,14 @@ A world-class B2B Coffee Export Platform built with Next.js 15, TypeScript, and 
 - **Internationalization**: next-intl
 
 ### Backend & Database
+
 - **Database**: PostgreSQL (Development: SQLite)
 - **ORM**: Prisma
 - **Architecture**: Clean Architecture (Domain-Driven Design)
 - **Dependency Injection**: Custom DI Container
 
 ### Development & Quality
+
 - **Testing**: Jest + React Testing Library (Unit), Playwright (E2E)
 - **Linting**: ESLint + Prettier
 - **Git Hooks**: Husky
@@ -41,29 +44,34 @@ A world-class B2B Coffee Export Platform built with Next.js 15, TypeScript, and 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 - Git
 
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/DavidLongLoveyou/great-beans-coffee.git
 cd great-beans-coffee
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
 
 3. **Environment Setup**
+
 ```bash
 cp .env.example .env
 ```
 
 4. **Database Setup**
+
 ```bash
 # Generate Prisma client
 npx prisma generate
@@ -76,6 +84,7 @@ npm run seed
 ```
 
 5. **Start development server**
+
 ```bash
 npm run dev
 ```
@@ -115,23 +124,27 @@ src/
 ## 🎯 Development Phases
 
 ### ✅ Phase 0: Foundation (COMPLETED)
+
 - [x] Database setup and seeding
 - [x] Dependency injection container
 - [x] Use cases and services implementation
 - [x] Development environment setup
 
 ### 🔄 Phase 1: Content Management (IN PROGRESS)
+
 - [ ] MDX content structure setup
 - [ ] Blog posts about coffee industry insights
 - [ ] Market reports with data visualization
 - [ ] Origin stories content
 
 ### 📋 Phase 2: Technical SEO
+
 - [ ] Schema.org JSON-LD implementation
 - [ ] Core Web Vitals optimization
 - [ ] Automated sitemap generation
 
 ### 💼 Phase 3: Business Services Enhancement
+
 - [ ] OEM services with process flow
 - [ ] Private Label customization options
 - [ ] Consulting services booking system
@@ -168,6 +181,7 @@ npm run format
 ## 🌍 Internationalization
 
 The platform supports multiple languages:
+
 - English (en)
 - Vietnamese (vi)
 - German (de)
@@ -181,6 +195,7 @@ The platform supports multiple languages:
 ## 📊 Database Schema
 
 Key entities:
+
 - **Users**: Customer accounts and authentication
 - **CoffeeProducts**: Product catalog with specifications
 - **RFQs**: Request for Quote system
@@ -216,6 +231,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 For business inquiries or support:
+
 - Website: [The Great Beans](https://great-beans-coffee.vercel.app)
 - Email: contact@greatbeans.com
 - GitHub: [@DavidLongLoveyou](https://github.com/DavidLongLoveyou)

@@ -1,29 +1,32 @@
-import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../globals.css';
+import { NextIntlProvider } from '@/components/providers/NextIntlProvider';
+import { getMessages } from '@/lib/messages';
 
 const inter = Inter({ subsets: ['latin'] });
 
-type Props = {
-  children: React.ReactNode;
-  params: { locale: string };
+export const metadata: Metadata = {
+  title: 'The Great Beans - Premium Vietnamese Coffee Exports',
+  description: 'Leading B2B platform for Vietnamese coffee exports. Premium Robusta, Arabica, and specialty blends for global importers, roasters, and distributors.',
 };
 
-export default async function LocaleLayout({
+export default async function RootLayout({
   children,
   params
-}: Props) {
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
   const { locale } = await params;
-  
-  // Validate that the incoming `locale` parameter is valid
-  if (!['en', 'de', 'ja', 'fr', 'it', 'es', 'nl', 'ko'].includes(locale)) {
-    notFound();
-  }
+  const messages = await getMessages(locale);
 
   return (
     <html lang={locale}>
       <body className={inter.className}>
-        {children}
+        <NextIntlProvider messages={messages} locale={locale}>
+          {children}
+        </NextIntlProvider>
       </body>
     </html>
   );

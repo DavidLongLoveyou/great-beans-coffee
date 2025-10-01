@@ -1,5 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 
+import { createScopedLogger } from '../../shared/utils/logger';
+
+const logger = createScopedLogger('Database');
+
 // Global variable to store the Prisma client instance
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -9,8 +13,7 @@ const globalForPrisma = globalThis as unknown as {
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
-    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-    errorFormat: 'pretty',
+    log: ['query'],
   });
 
 // Prevent multiple instances in development
@@ -20,9 +23,9 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 export async function connectDatabase() {
   try {
     await prisma.$connect();
-    console.log('✅ Database connected successfully');
+    logger.info('✅ Database connected successfully');
   } catch (error) {
-    console.error('❌ Database connection failed:', error);
+    logger.error('❌ Database connection failed:', error);
     throw error;
   }
 }
@@ -31,9 +34,9 @@ export async function connectDatabase() {
 export async function disconnectDatabase() {
   try {
     await prisma.$disconnect();
-    console.log('✅ Database disconnected successfully');
+    logger.info('✅ Database disconnected successfully');
   } catch (error) {
-    console.error('❌ Database disconnection failed:', error);
+    logger.error('❌ Database disconnection failed:', error);
     throw error;
   }
 }
@@ -44,10 +47,10 @@ export async function checkDatabaseHealth() {
     await prisma.$queryRaw`SELECT 1`;
     return { status: 'healthy', timestamp: new Date().toISOString() };
   } catch (error) {
-    return { 
-      status: 'unhealthy', 
+    return {
+      status: 'unhealthy',
       error: error instanceof Error ? error.message : 'Unknown error',
-      timestamp: new Date().toISOString() 
+      timestamp: new Date().toISOString(),
     };
   }
 }
@@ -65,13 +68,13 @@ export async function softDelete(model: string, id: string) {
   if (!modelDelegate) {
     throw new Error(`Model ${model} not found`);
   }
-  
+
   return await modelDelegate.update({
     where: { id },
-    data: { 
+    data: {
       isActive: false,
-      updatedAt: new Date()
-    }
+      updatedAt: new Date(),
+    },
   });
 }
 
@@ -86,11 +89,11 @@ export async function bulkUpsert<T>(
     throw new Error(`Model ${model} not found`);
   }
 
-  const operations = data.map((item: any) => 
+  const operations = data.map((item: any) =>
     modelDelegate.upsert({
       where: { [uniqueField]: item[uniqueField] },
       update: item,
-      create: item
+      create: item,
     })
   );
 
@@ -109,11 +112,11 @@ export async function searchContent(
       OR: [
         { title: { contains: query, mode: 'insensitive' } },
         { content: { contains: query, mode: 'insensitive' } },
-        { excerpt: { contains: query, mode: 'insensitive' } }
+        { excerpt: { contains: query, mode: 'insensitive' } },
       ],
       contentItem: {
-        status: 'PUBLISHED'
-      }
+        status: 'PUBLISHED',
+      },
     },
     include: {
       contentItem: {
@@ -121,16 +124,16 @@ export async function searchContent(
           id: true,
           type: true,
           category: true,
-          publishedAt: true
-        }
-      }
+          publishedAt: true,
+        },
+      },
     },
     take: limit,
     orderBy: {
       contentItem: {
-        publishedAt: 'desc'
-      }
-    }
+        publishedAt: 'desc',
+      },
+    },
   });
 }
 
@@ -140,6 +143,16 @@ export async function getContentAnalytics(
   startDate?: Date,
   endDate?: Date
 ) {
+  const whereClause =
+    startDate && endDate
+      ? {
+          createdAt: {
+            gte: startDate,
+            lte: endDate,
+          },
+        }
+      : {};
+
   const content = await prisma.content.findUnique({
     where: { id: contentId },
     select: {
@@ -147,13 +160,27 @@ export async function getContentAnalytics(
       translations: {
         select: {
           locale: true,
-          title: true
-        }
-      }
-    }
+          title: true,
+        },
+      },
+    },
   });
 
-  return content;
+  // Get analytics data within date range if specified
+  const analyticsData =
+    startDate && endDate
+      ? await prisma.contentAnalytics.findMany({
+          where: {
+            contentId,
+            ...whereClause,
+          },
+        })
+      : content?.analytics;
+
+  return {
+    ...content,
+    analytics: analyticsData,
+  };
 }
 
 // Multi-language content helper
@@ -167,83 +194,77 @@ export async function getLocalizedContent(
     include: {
       translations: {
         where: {
-          OR: [
-            { locale },
-            { locale: fallbackLocale }
-          ]
-        }
+          OR: [{ locale }, { locale: fallbackLocale }],
+        },
       },
       author: {
         select: {
           id: true,
           name: true,
-          email: true
-        }
-      }
-    }
+          email: true,
+        },
+      },
+    },
   });
 
   if (!content) return null;
 
   // Prefer requested locale, fallback to default
-  const translation = content.translations.find(t => t.locale === locale) ||
-                     content.translations.find(t => t.locale === fallbackLocale) ||
-                     content.translations[0];
+  const translation =
+    content.translations.find(t => t.locale === locale) ||
+    content.translations.find(t => t.locale === fallbackLocale) ||
+    content.translations[0];
 
   return {
     ...content,
-    translation
+    translation,
   };
 }
 
 // RFQ analytics helper
-export async function getRFQAnalytics(
-  startDate?: Date,
-  endDate?: Date
-) {
-  const whereClause = startDate && endDate ? {
-    createdAt: {
-      gte: startDate,
-      lte: endDate
-    }
-  } : {};
+export async function getRFQAnalytics(startDate?: Date, endDate?: Date) {
+  const whereClause =
+    startDate && endDate
+      ? {
+          createdAt: {
+            gte: startDate,
+            lte: endDate,
+          },
+        }
+      : {};
 
-  const [
-    totalRFQs,
-    statusBreakdown,
-    sourceBreakdown,
-    averageValue
-  ] = await Promise.all([
-    prisma.rFQ.count({ where: whereClause }),
-    
-    prisma.rFQ.groupBy({
-      by: ['status'],
-      where: whereClause,
-      _count: true
-    }),
-    
-    prisma.rFQ.groupBy({
-      by: ['source'],
-      where: whereClause,
-      _count: true
-    }),
-    
-    prisma.rFQ.aggregate({
-      where: {
-        ...whereClause,
-        estimatedValue: { not: null }
-      },
-      _avg: {
-        estimatedValue: true
-      }
-    })
-  ]);
+  const [totalRFQs, statusBreakdown, sourceBreakdown, averageValue] =
+    await Promise.all([
+      prisma.rFQ.count({ where: whereClause }),
+
+      prisma.rFQ.groupBy({
+        by: ['status'],
+        where: whereClause,
+        _count: true,
+      }),
+
+      prisma.rFQ.groupBy({
+        by: ['source'],
+        where: whereClause,
+        _count: true,
+      }),
+
+      prisma.rFQ.aggregate({
+        where: {
+          ...whereClause,
+          estimatedValue: { not: null },
+        },
+        _avg: {
+          estimatedValue: true,
+        },
+      }),
+    ]);
 
   return {
     totalRFQs,
     statusBreakdown,
     sourceBreakdown,
-    averageValue: averageValue._avg.estimatedValue
+    averageValue: averageValue._avg.estimatedValue,
   };
 }
 
@@ -256,49 +277,52 @@ export async function calculateCompanyScore(companyId: string) {
         select: {
           totalAmount: true,
           status: true,
-          createdAt: true
-        }
+          createdAt: true,
+        },
       },
       notes: {
         where: {
-          type: 'SALES'
+          type: 'SALES',
         },
         select: {
-          priority: true
-        }
-      }
-    }
+          priority: true,
+        },
+      },
+    },
   });
 
   if (!company) return null;
 
   // Calculate score based on various factors
   let score = 0;
-  
+
   // Base score by relationship status
   const statusScores = {
-    'NEW': 10,
-    'DEVELOPING': 30,
-    'ESTABLISHED': 60,
-    'STRATEGIC_PARTNER': 90,
-    'KEY_ACCOUNT': 100,
-    'AT_RISK': 20,
-    'DORMANT': 5
+    NEW: 10,
+    DEVELOPING: 30,
+    ESTABLISHED: 60,
+    STRATEGIC_PARTNER: 90,
+    KEY_ACCOUNT: 100,
+    AT_RISK: 20,
+    DORMANT: 5,
   };
-  
+
   score += statusScores[company.relationshipStatus] || 0;
-  
+
   // Order history bonus
   const totalOrders = company.orders.length;
-  const totalValue = company.orders.reduce((sum, order) => sum + order.totalAmount, 0);
-  
+  const totalValue = company.orders.reduce(
+    (sum, order) => sum + order.totalAmount,
+    0
+  );
+
   score += Math.min(totalOrders * 2, 20); // Max 20 points for orders
   score += Math.min(totalValue / 10000, 30); // Max 30 points for value
-  
+
   // Risk penalty
-  const riskPenalties = { 'LOW': 0, 'MEDIUM': -5, 'HIGH': -15, 'CRITICAL': -30 };
+  const riskPenalties = { LOW: 0, MEDIUM: -5, HIGH: -15, CRITICAL: -30 };
   score += riskPenalties[company.riskLevel] || 0;
-  
+
   return Math.max(0, Math.min(100, score));
 }
 

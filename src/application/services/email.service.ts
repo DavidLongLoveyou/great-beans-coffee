@@ -1,28 +1,38 @@
-export interface IEmailService {
+import { createScopedLogger } from '../../shared/utils/logger';
+
+const logger = createScopedLogger('EmailService');
+
+export interface EmailService {
   sendEmail(to: string, subject: string, content: string): Promise<boolean>;
-  sendRfqConfirmation(email: string, rfqNumber: string): Promise<boolean>;
-  sendRfqStatusUpdate(email: string, rfqNumber: string, status: string): Promise<boolean>;
 }
 
-export class EmailService implements IEmailService {
-  async sendEmail(to: string, subject: string, content: string): Promise<boolean> {
+class _MockEmailService implements EmailService {
+  async sendEmail(
+    to: string,
+    subject: string,
+    content: string
+  ): Promise<boolean> {
+    // Mock implementation for development
+    logger.info(`Sending email to: ${to}`);
+    logger.info(`Subject: ${subject}`);
+    logger.debug(`Content: ${content}`);
+
+    // Simulate async operation
+    await new Promise(resolve => setTimeout(resolve, 100));
+
     try {
-      // In a real implementation, this would integrate with an email service like SendGrid, AWS SES, etc.
-      console.log(`Sending email to: ${to}`);
-      console.log(`Subject: ${subject}`);
-      console.log(`Content: ${content}`);
-      
-      // Simulate email sending
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
+      // In a real implementation, this would integrate with SendGrid, AWS SES, etc.
       return true;
     } catch (error) {
-      console.error('Failed to send email:', error);
+      logger.error('Failed to send email:', error);
       return false;
     }
   }
 
-  async sendRfqConfirmation(email: string, rfqNumber: string): Promise<boolean> {
+  async sendRfqConfirmation(
+    email: string,
+    rfqNumber: string
+  ): Promise<boolean> {
     const subject = `RFQ Confirmation - ${rfqNumber}`;
     const content = `
       Dear Customer,
@@ -35,11 +45,15 @@ export class EmailService implements IEmailService {
       Best regards,
       The Great Beans Team
     `;
-    
+
     return this.sendEmail(email, subject, content);
   }
 
-  async sendRfqStatusUpdate(email: string, rfqNumber: string, status: string): Promise<boolean> {
+  async sendRfqStatusUpdate(
+    email: string,
+    rfqNumber: string,
+    status: string
+  ): Promise<boolean> {
     const subject = `RFQ Status Update - ${rfqNumber}`;
     const content = `
       Dear Customer,
@@ -51,7 +65,7 @@ export class EmailService implements IEmailService {
       Best regards,
       The Great Beans Team
     `;
-    
+
     return this.sendEmail(email, subject, content);
   }
 }

@@ -10,9 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ================================
+// ============================================================================
 // USER MANAGEMENT
-// ================================
+// ============================================================================
 
 model User {
   id        String   @id @default(cuid())
@@ -27,6 +27,8 @@ model User {
   // Relationships
   createdCoffeeProducts CoffeeProduct[] @relation("CreatedBy")
   updatedCoffeeProducts CoffeeProduct[] @relation("UpdatedBy")
+  createdServices       BusinessService[] @relation("ServiceCreatedBy")
+  updatedServices       BusinessService[] @relation("ServiceUpdatedBy")
   assignedRFQs          RFQ[] @relation("AssignedTo")
   createdRFQs           RFQ[] @relation("RFQCreatedBy")
 
@@ -41,9 +43,9 @@ enum UserRole {
   USER
 }
 
-// ================================
-// COFFEE PRODUCTS
-// ================================
+// ============================================================================
+// COFFEE PRODUCTS & CATALOG
+// ============================================================================
 
 model CoffeeProduct {
   id          String      @id @default(cuid())
@@ -51,23 +53,36 @@ model CoffeeProduct {
   coffeeType  CoffeeType
   grade       CoffeeGrade
   processing  ProcessingMethod
+  origin      String
+  region      String?
+  farm        String?
+  altitude    String?
+  harvestSeason String?
   isActive    Boolean     @default(true)
+  isFeatured  Boolean     @default(false)
+  sortOrder   Int         @default(0)
   
-  // Basic specifications (JSON for complex data)
-  specifications String // JSON string for CoffeeSpecifications
-  pricing        String // JSON string for Pricing
-  availability   String // JSON string for Availability
-  originInfo     String // JSON string for OriginInfo
+  // Quality & Specifications
+  cuppingScore   Float?
+  moisture       String?
+  screenSize     String?
+  defectRate     String?
   
-  // Media (comma-separated strings instead of arrays)
-  images    String? // Comma-separated image URLs
-  documents String? // Comma-separated document URLs
+  // Business Information
+  leadTime       String? // e.g., "15-20 days"
+  inStock        Boolean @default(true)
+  minimumOrder   String? // e.g., "1 container (19.2 MT)"
   
-  // Multilingual Content
-  translations CoffeeProductTranslation[]
+  // Specifications (JSON for complex data)
+  specifications Json? // CoffeeSpecifications
+  pricing        Json? // Pricing information
+  availability   Json? // Availability details
+  originInfo     Json? // Origin information
+  features       Json? // Array of product features
   
-  // SEO
-  seoMetadata String? // JSON string for SEO metadata per locale
+  // Media
+  images    Json? // Array of image URLs
+  documents Json? // Array of document URLs
   
   // System fields
   createdAt DateTime @default(now())
@@ -80,7 +95,11 @@ model CoffeeProduct {
   updater User @relation("UpdatedBy", fields: [updatedBy], references: [id])
   
   // Related entities
-  rfqProducts RFQProduct[]
+  translations    CoffeeProductTranslation[]
+  certifications  ProductCertification[]
+  specifications_rel ProductSpecification[]
+  rfqProducts     RFQProduct[]
+  pricingModels   ProductPricing[]
 
   @@map("coffee_products")
 }
@@ -91,12 +110,15 @@ model CoffeeProductTranslation {
   name      String
   description String?
   shortDescription String?
-  features  String? // JSON string for features array
-  benefits  String? // JSON string for benefits array
+  tastingNotes String?
+  processingNotes String?
+  features  Json? // Array of features
+  benefits  Json? // Array of benefits
   
   // SEO fields
   metaTitle       String?
   metaDescription String?
+  metaKeywords    Json?
   slug            String
   
   // Relationships
@@ -108,10 +130,26 @@ model CoffeeProductTranslation {
   @@map("coffee_product_translations")
 }
 
+model ProductSpecification {
+  id        String @id @default(cuid())
+  productId String
+  name      String
+  value     String
+  unit      String?
+  category  String?
+  sortOrder Int    @default(0)
+
+  // Relations
+  product CoffeeProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_specifications")
+}
+
 enum CoffeeType {
   ROBUSTA
   ARABICA
   BLEND
+  SPECIALTY
 }
 
 enum CoffeeGrade {
@@ -120,6 +158,7 @@ enum CoffeeGrade {
   GRADE_3
   PREMIUM
   SPECIALTY
+  CUSTOM
 }
 
 enum ProcessingMethod {
@@ -128,16 +167,315 @@ enum ProcessingMethod {
   HONEY
   WET_HULLED
   SEMI_WASHED
+  MIXED
 }
 
-// ================================
-// RFQ MANAGEMENT
-// ================================
+// ============================================================================
+// CERTIFICATIONS
+// ============================================================================
+
+model Certification {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  code        String   @unique
+  description String?
+  issuer      String?
+  website     String?
+  logo        String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  translations CertificationTranslation[]
+  products     ProductCertification[]
+
+  @@map("certifications")
+}
+
+model CertificationTranslation {
+  id              String @id @default(cuid())
+  certificationId String
+  locale          String
+  name            String
+  description     String?
+
+  // Relations
+  certification Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+
+  @@unique([certificationId, locale])
+  @@map("certification_translations")
+}
+
+model ProductCertification {
+  id              String    @id @default(cuid())
+  productId       String
+  certificationId String
+  certificateNumber String?
+  issueDate       DateTime?
+  expiryDate      DateTime?
+  isActive        Boolean   @default(true)
+
+  // Relations
+  product       CoffeeProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  certification Certification @relation(fields: [certificationId], references: [id])
+
+  @@unique([productId, certificationId])
+  @@map("product_certifications")
+}
+
+// ============================================================================
+// BUSINESS SERVICES
+// ============================================================================
+
+model BusinessService {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  type        ServiceType
+  category    String?
+  price       Float?
+  currency    String      @default("USD")
+  pricingType PricingType @default(QUOTE)
+  minOrder    Int?
+  leadTime    Int?        // days
+  leadTimeText String?    // e.g., "15-30 days"
+  isActive    Boolean     @default(true)
+  isFeatured  Boolean     @default(false)
+  isPopular   Boolean     @default(false)
+  sortOrder   Int         @default(0)
+  
+  // Service Capabilities
+  minimumOrder String?    // e.g., "1 container (19.2 MT)"
+  maximumOrder String?    // e.g., "500+ containers/month"
+  capabilities Json?      // Service capabilities object
+  
+  // System fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String
+  updatedBy String
+
+  // Relations
+  creator User @relation("ServiceCreatedBy", fields: [createdBy], references: [id])
+  updater User @relation("ServiceUpdatedBy", fields: [updatedBy], references: [id])
+  
+  translations   BusinessServiceTranslation[]
+  specifications ServiceSpecification[]
+  rfqServices    RFQService[]
+  pricingModels  ServicePricing[]
+
+  @@map("business_services")
+}
+
+model BusinessServiceTranslation {
+  id          String @id @default(cuid())
+  serviceId   String
+  locale      String
+  name        String
+  description String?
+  shortDescription String?
+  features    Json?
+  benefits    Json?
+  process     Json?
+  
+  // SEO fields
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    Json?
+  slug            String
+
+  // Relations
+  service BusinessService @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([serviceId, locale])
+  @@unique([locale, slug])
+  @@map("business_service_translations")
+}
+
+model ServiceSpecification {
+  id        String @id @default(cuid())
+  serviceId String
+  name      String
+  value     String
+  unit      String?
+  category  String?
+  sortOrder Int    @default(0)
+
+  // Relations
+  service BusinessService @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@map("service_specifications")
+}
+
+enum ServiceType {
+  OEM_MANUFACTURING
+  PRIVATE_LABEL
+  SOURCING
+  QUALITY_CONTROL
+  LOGISTICS
+  CONSULTING
+  CUSTOM_BLENDING
+  PACKAGING
+}
+
+enum PricingType {
+  FIXED
+  QUOTE
+  TIERED
+  CUSTOM
+  FOB
+  PREMIUM
+  VOLUME_BASED
+}
+
+// ============================================================================
+// PRICING MODELS
+// ============================================================================
+
+model PricingModel {
+  id          String      @id @default(cuid())
+  name        String
+  type        PricingType
+  description String?
+  
+  // Pricing Configuration
+  basePrice      Float?
+  currency       String    @default("USD")
+  unit           String?   // e.g., "MT", "kg", "container"
+  minimumOrder   Float?
+  maximumOrder   Float?
+  
+  // Pricing Tiers (JSON for complex structures)
+  tiers          Json?     // Volume-based pricing tiers
+  modifiers      Json?     // Price modifiers (quality, certification, etc.)
+  
+  // Terms
+  paymentTerms   String?
+  deliveryTerms  String?   // Incoterms
+  validityPeriod Int?      // days
+  
+  // System fields
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  products ProductPricing[]
+  services ServicePricing[]
+
+  @@map("pricing_models")
+}
+
+model ProductPricing {
+  id             String        @id @default(cuid())
+  productId      String
+  pricingModelId String
+  
+  // Override fields
+  customPrice    Float?
+  customTerms    String?
+  isActive       Boolean       @default(true)
+  
+  // Relations
+  product      CoffeeProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  pricingModel PricingModel  @relation(fields: [pricingModelId], references: [id])
+  
+  @@unique([productId, pricingModelId])
+  @@map("product_pricing")
+}
+
+model ServicePricing {
+  id             String          @id @default(cuid())
+  serviceId      String
+  pricingModelId String
+  
+  // Override fields
+  customPrice    Float?
+  customTerms    String?
+  isActive       Boolean         @default(true)
+  
+  // Relations
+  service      BusinessService @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  pricingModel PricingModel    @relation(fields: [pricingModelId], references: [id])
+  
+  @@unique([serviceId, pricingModelId])
+  @@map("service_pricing")
+}
+
+// ============================================================================
+// CLIENT MANAGEMENT
+// ============================================================================
+
+model ClientCompany {
+  id          String      @id @default(cuid())
+  name        String
+  email       String      @unique
+  phone       String?
+  website     String?
+  industry    String?
+  companySize CompanySize?
+  country     String?
+  city        String?
+  address     String?
+  postalCode  String?
+  taxId       String?
+  notes       String?
+  status      ClientStatus @default(ACTIVE)
+  source      String?     // How they found us
+  assignedTo  String?     // Sales rep ID
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  contacts ClientContact[]
+  rfqs     RFQ[]
+
+  @@map("client_companies")
+}
+
+model ClientContact {
+  id        String  @id @default(cuid())
+  companyId String
+  firstName String
+  lastName  String
+  email     String
+  phone     String?
+  position  String?
+  isPrimary Boolean @default(false)
+  isActive  Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  company ClientCompany @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("client_contacts")
+}
+
+enum CompanySize {
+  STARTUP
+  SMALL
+  MEDIUM
+  LARGE
+  ENTERPRISE
+}
+
+enum ClientStatus {
+  ACTIVE
+  INACTIVE
+  PROSPECT
+  BLACKLISTED
+}
+
+// ============================================================================
+// RFQ (REQUEST FOR QUOTE) MANAGEMENT
+// ============================================================================
 
 model RFQ {
-  id          String    @id @default(cuid())
-  rfqNumber   String    @unique
-  status      RFQStatus @default(PENDING)
+  id          String      @id @default(cuid())
+  rfqNumber   String      @unique
+  clientId    String?
+  status      RFQStatus   @default(PENDING)
   priority    RFQPriority @default(MEDIUM)
   
   // Company Information
@@ -148,15 +486,20 @@ model RFQ {
   country        String
   businessType   String?
   
-  // Requirements (simplified as JSON strings)
-  productRequirements String // JSON string
-  deliveryRequirements String // JSON string
-  paymentRequirements String? // JSON string
+  // Requirements
+  productRequirements  Json? // Product requirements
+  deliveryRequirements Json? // Delivery requirements
+  paymentRequirements  Json? // Payment requirements
   
   // Additional Details
   additionalRequirements String?
   sampleRequired        Boolean @default(false)
   urgency              String @default("medium")
+  totalValue           Float?
+  currency             String @default("USD")
+  incoterms            String?
+  destination          String?
+  deadline             DateTime?
   
   // System fields
   locale    String @default("en")
@@ -165,18 +508,19 @@ model RFQ {
   assignedTo String?
   createdBy  String?
   updatedBy  String?
+  notes     String? // Internal notes
   
   // Relationships
+  client   ClientCompany? @relation(fields: [clientId], references: [id])
   assignee User? @relation("AssignedTo", fields: [assignedTo], references: [id])
   creator  User? @relation("RFQCreatedBy", fields: [createdBy], references: [id])
   
   // Related entities
   products RFQProduct[]
+  services RFQService[]
 
   @@map("rfqs")
 }
-
-
 
 model RFQProduct {
   id       String @id @default(cuid())
@@ -188,19 +532,42 @@ model RFQProduct {
   grade            String?
   origin           String?
   processingMethod String?
-  certifications   String? // JSON string for certifications array
+  certifications   Json? // Array of certifications
   
   // Quantity & Pricing
   quantity     Float
   quantityUnit String
   targetPrice  Float?
+  unitPrice    Float?
+  totalPrice   Float?
   currency     String?
+  notes        String?
   
   // Relationships
   rfq     RFQ            @relation(fields: [rfqId], references: [id], onDelete: Cascade)
   product CoffeeProduct? @relation(fields: [productId], references: [id])
   
   @@map("rfq_products")
+}
+
+model RFQService {
+  id        String @id @default(cuid())
+  rfqId     String
+  serviceId String?
+  
+  // Service details
+  serviceType String
+  description String?
+  quantity    Int    @default(1)
+  unitPrice   Float?
+  totalPrice  Float?
+  notes       String?
+
+  // Relations
+  rfq     RFQ             @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  service BusinessService? @relation(fields: [serviceId], references: [id])
+
+  @@map("rfq_services")
 }
 
 enum RFQStatus {
@@ -220,9 +587,9 @@ enum RFQPriority {
   URGENT
 }
 
-// ================================
-// CONTENT MANAGEMENT (Simplified)
-// ================================
+// ============================================================================
+// CONTENT MANAGEMENT
+// ============================================================================
 
 model Content {
   id          String      @id @default(cuid())
@@ -236,17 +603,17 @@ model Content {
   excerpt     String?
   content     String      // Main content body
   
-  // Media (simplified)
+  // Media
   featuredImage String?
-  media         String? // JSON string for media array
+  media         Json? // Media array
   
   // SEO
   metaTitle       String?
   metaDescription String?
-  keywords        String? // Comma-separated keywords
+  metaKeywords    Json?
   
   // Organization
-  tags            String? // Comma-separated tags
+  tags            Json? // Array of tags
   category        String?
   
   // Publishing
@@ -276,4 +643,55 @@ enum ContentStatus {
   REVIEW
   PUBLISHED
   ARCHIVED
+}
+
+// ============================================================================
+// CLUSTER CONTENT MANAGEMENT
+// ============================================================================
+
+model ClusterContent {
+  id          String @id @default(cuid())
+  clusterId   String @unique // e.g., "vietnam-robusta-suppliers"
+  locale      String
+  
+  // Basic Information
+  title       String
+  subtitle    String?
+  description String
+  
+  // Hero Section
+  heroTitle       String?
+  heroSubtitle    String?
+  heroDescription String?
+  heroImage       String?
+  heroVideo       String?
+  
+  // Content Sections
+  aboutSection    Json? // About section content
+  benefitsSection Json? // Benefits/features section
+  processSection  Json? // Process/methodology section
+  
+  // SEO & Meta
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    Json?
+  slug            String
+  
+  // Schema.org data
+  schemaData      Json? // Structured data for SEO
+  
+  // Display Configuration
+  featuredProducts Json? // Array of featured product IDs
+  featuredServices Json? // Array of featured service IDs
+  featuredArticles Json? // Array of featured article IDs
+  
+  // System fields
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([clusterId, locale])
+  @@unique([locale, slug])
+  @@map("cluster_content")
 }

@@ -1,12 +1,51 @@
 import { type Metadata } from 'next';
-import { type Locale } from '@/i18n';
+
+import { type Locale, locales } from '@/i18n';
+
+// Utility function to generate clean path without locale prefix
+export function generateCleanPath(url: string | undefined): string {
+  let cleanPath = url || '';
+  // Remove any existing locale prefix from the path
+  for (const existingLocale of locales) {
+    if (cleanPath.startsWith(`/${existingLocale}`)) {
+      cleanPath = cleanPath.replace(`/${existingLocale}`, '');
+      break;
+    }
+  }
+  // Ensure path starts with / if not empty
+  if (cleanPath && !cleanPath.startsWith('/')) {
+    cleanPath = `/${cleanPath}`;
+  }
+  return cleanPath;
+}
+
+// Utility function to generate hreflang URLs for all locales
+export function generateHreflangUrls(
+  url: string | undefined,
+  baseUrl: string = seoConfig.siteUrl,
+  alternateLocales: Locale[] = locales
+): Record<string, string> {
+  const cleanPath = generateCleanPath(url);
+  const hreflangUrls: Record<string, string> = {};
+
+  // Generate URLs for all locales
+  for (const locale of alternateLocales) {
+    hreflangUrls[locale] = `${baseUrl}/${locale}${cleanPath}`;
+  }
+
+  // Add x-default for international targeting (defaults to English)
+  hreflangUrls['x-default'] = `${baseUrl}/en${cleanPath}`;
+
+  return hreflangUrls;
+}
 
 // Base SEO configuration
 export const seoConfig = {
   siteName: 'The Great Beans',
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://thegreatbeans.com',
   defaultTitle: 'The Great Beans - Premium Coffee Export & B2B Solutions',
-  defaultDescription: 'Leading Vietnamese coffee exporter specializing in premium Robusta and Arabica beans. B2B solutions, private labeling, and sustainable sourcing for global partners.',
+  defaultDescription:
+    'Leading Vietnamese coffee exporter specializing in premium Robusta and Arabica beans. B2B solutions, private labeling, and sustainable sourcing for global partners.',
   defaultKeywords: [
     'coffee export',
     'vietnamese coffee',
@@ -17,13 +56,13 @@ export const seoConfig = {
     'coffee sourcing',
     'premium coffee beans',
     'sustainable coffee',
-    'coffee wholesale'
+    'coffee wholesale',
   ],
   twitterHandle: '@thegreatbeans',
   defaultImage: '/images/og-default.jpg',
   favicon: '/favicon.ico',
   appleTouchIcon: '/apple-touch-icon.png',
-  manifest: '/site.webmanifest'
+  manifest: '/site.webmanifest',
 };
 
 // Generate metadata for pages
@@ -58,17 +97,19 @@ export function generateMetadata({
   section,
   tags,
   locale = 'en',
-  alternateLocales = ['en', 'de', 'es', 'fr', 'it', 'ja', 'ko', 'nl'],
+  alternateLocales = locales,
   noIndex = false,
-  canonical
+  canonical,
 }: SEOProps = {}): Metadata {
-  const fullTitle = title 
+  const fullTitle = title
     ? `${title} | ${seoConfig.siteName}`
     : seoConfig.defaultTitle;
-  
+
   const fullUrl = url ? `${seoConfig.siteUrl}${url}` : seoConfig.siteUrl;
-  const fullImage = image.startsWith('http') ? image : `${seoConfig.siteUrl}${image}`;
-  
+  const fullImage = image.startsWith('http')
+    ? image
+    : `${seoConfig.siteUrl}${image}`;
+
   const metadata: Metadata = {
     title: fullTitle,
     description,
@@ -78,7 +119,7 @@ export function generateMetadata({
     publisher: seoConfig.siteName,
     robots: noIndex ? 'noindex, nofollow' : 'index, follow',
     canonical: canonical || fullUrl,
-    
+
     // Open Graph
     openGraph: {
       type,
@@ -92,7 +133,7 @@ export function generateMetadata({
           width: 1200,
           height: 630,
           alt: title || seoConfig.defaultTitle,
-        }
+        },
       ],
       locale,
       ...(type === 'article' && {
@@ -100,10 +141,10 @@ export function generateMetadata({
         modifiedTime,
         authors: author ? [author] : undefined,
         section,
-        tags
-      })
+        tags,
+      }),
     },
-    
+
     // Twitter
     twitter: {
       card: 'summary_large_image',
@@ -111,42 +152,33 @@ export function generateMetadata({
       creator: seoConfig.twitterHandle,
       title: fullTitle,
       description,
-      images: [fullImage]
+      images: [fullImage],
     },
-    
-    // Alternate languages
+
+    // Alternate languages (hreflang)
     alternates: {
       canonical: canonical || fullUrl,
-      languages: {
-        ...alternateLocales.reduce((acc, loc) => {
-          // Remove duplicate locale from URL path
-          const cleanUrl = url?.replace(`/${loc}`, '') || '';
-          acc[loc] = `${seoConfig.siteUrl}/${loc}${cleanUrl}`;
-          return acc;
-        }, {} as Record<string, string>),
-        // Add x-default for international targeting
-        'x-default': `${seoConfig.siteUrl}/en${url?.replace('/en', '') || ''}`
-      }
+      languages: generateHreflangUrls(url, seoConfig.siteUrl, alternateLocales),
     },
-    
+
     // Icons
     icons: {
       icon: seoConfig.favicon,
-      apple: seoConfig.appleTouchIcon
+      apple: seoConfig.appleTouchIcon,
     },
-    
+
     // Manifest
     manifest: seoConfig.manifest,
-    
+
     // Additional meta tags
     other: {
       'theme-color': '#d97706', // amber-600
       'msapplication-TileColor': '#d97706',
       'apple-mobile-web-app-capable': 'yes',
-      'apple-mobile-web-app-status-bar-style': 'default'
-    }
+      'apple-mobile-web-app-status-bar-style': 'default',
+    },
   };
-  
+
   return metadata;
 }
 
@@ -299,36 +331,45 @@ export interface ServiceSchema {
   };
 }
 
+// Base schema interface
+interface BaseSchema {
+  '@context': string;
+  '@type': string;
+  [key: string]: unknown;
+}
+
 // Schema validation function
-export function validateSchema(schema: any): boolean {
+export function validateSchema(schema: BaseSchema): boolean {
   try {
     // Basic validation checks
     if (!schema['@context'] || !schema['@type']) {
-      console.warn('Schema missing required @context or @type');
       return false;
     }
-    
+
     // Validate JSON structure
     JSON.stringify(schema);
-    
+
     // Additional validation for specific schema types
     if (schema['@type'] === 'Product') {
-      if (!schema.name || !schema.description) {
-        console.warn('Product schema missing required name or description');
+      const productSchema = schema as ProductSchema;
+      if (!productSchema.name || !productSchema.description) {
         return false;
       }
     }
-    
+
     if (schema['@type'] === 'Article') {
-      if (!schema.headline || !schema.author || !schema.datePublished) {
-        console.warn('Article schema missing required fields');
+      const articleSchema = schema as ArticleSchema;
+      if (
+        !articleSchema.headline ||
+        !articleSchema.author ||
+        !articleSchema.datePublished
+      ) {
         return false;
       }
     }
-    
+
     return true;
-  } catch (error) {
-    console.error('Schema validation failed:', error);
+  } catch {
     return false;
   }
 }
@@ -348,19 +389,19 @@ export function generateOrganizationSchema(): OrganizationSchema {
       addressLocality: 'Ho Chi Minh City',
       addressRegion: 'Ho Chi Minh',
       postalCode: '700000',
-      addressCountry: 'VN'
+      addressCountry: 'VN',
     },
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+84-123-456-789',
       contactType: 'customer service',
-      email: 'info@thegreatbeans.com'
+      email: 'info@thegreatbeans.com',
     },
     sameAs: [
       'https://www.facebook.com/thegreatbeans',
       'https://www.linkedin.com/company/thegreatbeans',
-      'https://twitter.com/thegreatbeans'
-    ]
+      'https://twitter.com/thegreatbeans',
+    ],
   };
 }
 
@@ -378,14 +419,16 @@ export function generateProductSchema(product: {
     '@type': 'Product',
     name: product.name,
     description: product.description,
-    image: product.images.map(img => img.startsWith('http') ? img : `${seoConfig.siteUrl}${img}`),
+    image: product.images.map(img =>
+      img.startsWith('http') ? img : `${seoConfig.siteUrl}${img}`
+    ),
     brand: {
       '@type': 'Brand',
-      name: seoConfig.siteName
+      name: seoConfig.siteName,
     },
     manufacturer: {
       '@type': 'Organization',
-      name: seoConfig.siteName
+      name: seoConfig.siteName,
     },
     category: product.category,
     ...(product.price && {
@@ -396,10 +439,10 @@ export function generateProductSchema(product: {
         availability: 'https://schema.org/InStock',
         seller: {
           '@type': 'Organization',
-          name: seoConfig.siteName
-        }
-      }
-    })
+          name: seoConfig.siteName,
+        },
+      },
+    }),
   };
 }
 
@@ -418,25 +461,27 @@ export function generateArticleSchema(article: {
     '@type': 'Article',
     headline: article.title,
     description: article.description,
-    image: article.images.map(img => img.startsWith('http') ? img : `${seoConfig.siteUrl}${img}`),
+    image: article.images.map(img =>
+      img.startsWith('http') ? img : `${seoConfig.siteUrl}${img}`
+    ),
     author: {
       '@type': 'Person',
-      name: article.author
+      name: article.author,
     },
     publisher: {
       '@type': 'Organization',
       name: seoConfig.siteName,
       logo: {
         '@type': 'ImageObject',
-        url: `${seoConfig.siteUrl}/images/logo.png`
-      }
+        url: `${seoConfig.siteUrl}/images/logo.png`,
+      },
     },
     datePublished: article.publishedAt,
     dateModified: article.modifiedAt || article.publishedAt,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${seoConfig.siteUrl}${article.url}`
-    }
+      '@id': `${seoConfig.siteUrl}${article.url}`,
+    },
   };
 }
 
@@ -455,7 +500,7 @@ export function generateServiceSchema(service: {
     description: service.description,
     provider: {
       '@type': 'Organization',
-      name: seoConfig.siteName
+      name: seoConfig.siteName,
     },
     serviceType: service.serviceType,
     areaServed: 'Worldwide',
@@ -464,14 +509,27 @@ export function generateServiceSchema(service: {
         '@type': 'Offer',
         price: service.price,
         priceCurrency: service.currency || 'USD',
-        availability: 'https://schema.org/Available'
-      }
-    })
+        availability: 'https://schema.org/Available',
+      },
+    }),
   };
 }
 
 // Generate breadcrumb schema
-export function generateBreadcrumbSchema(breadcrumbs: Array<{ name: string; url: string }>): any {
+export interface BreadcrumbSchema {
+  '@context': 'https://schema.org';
+  '@type': 'BreadcrumbList';
+  itemListElement: Array<{
+    '@type': 'ListItem';
+    position: number;
+    name: string;
+    item: string;
+  }>;
+}
+
+export function generateBreadcrumbSchema(
+  breadcrumbs: Array<{ name: string; url: string }>
+): BreadcrumbSchema {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -479,7 +537,7 @@ export function generateBreadcrumbSchema(breadcrumbs: Array<{ name: string; url:
       '@type': 'ListItem',
       position: index + 1,
       name: crumb.name,
-      item: `${seoConfig.siteUrl}${crumb.url}`
-    }))
+      item: `${seoConfig.siteUrl}${crumb.url}`,
+    })),
   };
 }

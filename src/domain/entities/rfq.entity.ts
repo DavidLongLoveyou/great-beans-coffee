@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { CoffeeTypeSchema, CertificationSchema, type CoffeeType, type Certification } from './coffee-product.entity';
+
+import { CoffeeTypeSchema, CertificationSchema } from './coffee-product.entity';
 
 // RFQ Status Enum
 export const RFQStatusSchema = z.enum([
@@ -11,16 +12,11 @@ export const RFQStatusSchema = z.enum([
   'ACCEPTED',
   'REJECTED',
   'EXPIRED',
-  'CANCELLED'
+  'CANCELLED',
 ]);
 
 // RFQ Priority Enum
-export const RFQPrioritySchema = z.enum([
-  'LOW',
-  'MEDIUM',
-  'HIGH',
-  'URGENT'
-]);
+export const RFQPrioritySchema = z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']);
 
 // Packaging Type Enum
 export const PackagingTypeSchema = z.enum([
@@ -29,7 +25,7 @@ export const PackagingTypeSchema = z.enum([
   'PP_BAGS_60KG',
   'BULK_CONTAINER',
   'VACUUM_BAGS',
-  'CUSTOM_PACKAGING'
+  'CUSTOM_PACKAGING',
 ]);
 
 // Incoterms Enum
@@ -44,7 +40,7 @@ export const IncotermsSchema = z.enum([
   'FAS', // Free Alongside Ship
   'FOB', // Free on Board
   'CFR', // Cost and Freight
-  'CIF'  // Cost, Insurance and Freight
+  'CIF', // Cost, Insurance and Freight
 ]);
 
 // Product Requirements Schema
@@ -59,7 +55,7 @@ export const ProductRequirementsSchema = z.object({
   certifications: z.array(CertificationSchema).optional(),
   origin: z.string().optional(), // Specific region/province
   harvestYear: z.string().optional(),
-  additionalSpecs: z.record(z.string(), z.any()).optional()
+  additionalSpecs: z.record(z.string(), z.any()).optional(),
 });
 
 // Quantity Requirements Schema
@@ -68,8 +64,10 @@ export const QuantityRequirementsSchema = z.object({
   unit: z.enum(['MT', 'KG', 'LB', 'BAGS']),
   tolerance: z.number().min(0).max(100).optional(), // Percentage tolerance
   isRecurringOrder: z.boolean().default(false),
-  recurringFrequency: z.enum(['MONTHLY', 'QUARTERLY', 'SEMI_ANNUAL', 'ANNUAL']).optional(),
-  contractDuration: z.number().positive().optional() // Months
+  recurringFrequency: z
+    .enum(['MONTHLY', 'QUARTERLY', 'SEMI_ANNUAL', 'ANNUAL'])
+    .optional(),
+  contractDuration: z.number().positive().optional(), // Months
 });
 
 // Delivery Requirements Schema
@@ -82,7 +80,7 @@ export const DeliveryRequirementsSchema = z.object({
   latestDeliveryDate: z.date(),
   packaging: PackagingTypeSchema,
   customPackagingSpecs: z.string().optional(),
-  shippingInstructions: z.string().optional()
+  shippingInstructions: z.string().optional(),
 });
 
 // Payment Terms Schema
@@ -91,10 +89,12 @@ export const PaymentTermsSchema = z.object({
   paymentMethod: z.enum(['LC', 'TT', 'CAD', 'DP', 'DA']), // Letter of Credit, Telegraphic Transfer, Cash Against Documents, Documents against Payment, Documents against Acceptance
   paymentTerms: z.string(), // e.g., "30% advance, 70% against shipping documents"
   creditPeriod: z.number().min(0).optional(), // Days
-  budgetRange: z.object({
-    min: z.number().positive().optional(),
-    max: z.number().positive().optional()
-  }).optional()
+  budgetRange: z
+    .object({
+      min: z.number().positive().optional(),
+      max: z.number().positive().optional(),
+    })
+    .optional(),
 });
 
 // Company Information Schema
@@ -111,77 +111,106 @@ export const CompanyInfoSchema = z.object({
     city: z.string(),
     state: z.string().optional(),
     postalCode: z.string(),
-    country: z.string()
+    country: z.string(),
   }),
-  businessType: z.enum(['IMPORTER', 'DISTRIBUTOR', 'ROASTER', 'RETAILER', 'MANUFACTURER', 'TRADER']),
-  companySize: z.enum(['STARTUP', 'SMALL', 'MEDIUM', 'LARGE', 'ENTERPRISE']).optional(),
+  businessType: z.enum([
+    'IMPORTER',
+    'DISTRIBUTOR',
+    'ROASTER',
+    'RETAILER',
+    'MANUFACTURER',
+    'TRADER',
+  ]),
+  companySize: z
+    .enum(['STARTUP', 'SMALL', 'MEDIUM', 'LARGE', 'ENTERPRISE'])
+    .optional(),
   annualVolume: z.string().optional(), // e.g., "100-500 MT"
   businessLicense: z.string().optional(),
-  taxId: z.string().optional()
+  taxId: z.string().optional(),
 });
 
 // RFQ Documents Schema
 export const RFQDocumentSchema = z.object({
   id: z.string().uuid(),
-  type: z.enum(['COMPANY_PROFILE', 'BUSINESS_LICENSE', 'IMPORT_LICENSE', 'SPECIFICATION_SHEET', 'OTHER']),
+  type: z.enum([
+    'COMPANY_PROFILE',
+    'BUSINESS_LICENSE',
+    'IMPORT_LICENSE',
+    'SPECIFICATION_SHEET',
+    'OTHER',
+  ]),
   fileName: z.string(),
   fileUrl: z.string().url(),
   fileSize: z.number().positive(),
-  uploadedAt: z.date()
+  uploadedAt: z.date(),
 });
 
 // RFQ Communication Schema
 export const RFQCommunicationSchema = z.object({
   id: z.string().uuid(),
-  type: z.enum(['NOTE', 'EMAIL', 'PHONE_CALL', 'MEETING', 'QUOTE_SENT', 'SAMPLE_SENT']),
+  type: z.enum([
+    'NOTE',
+    'EMAIL',
+    'PHONE_CALL',
+    'MEETING',
+    'QUOTE_SENT',
+    'SAMPLE_SENT',
+  ]),
   subject: z.string().optional(),
   content: z.string(),
   isInternal: z.boolean().default(false),
   createdBy: z.string().uuid(),
   createdAt: z.date(),
-  attachments: z.array(z.string().url()).optional()
+  attachments: z.array(z.string().url()).optional(),
 });
 
 // RFQ Entity Schema
 export const RFQSchema = z.object({
   id: z.string().uuid(),
   rfqNumber: z.string().min(1), // Auto-generated unique number
-  
+
   // RFQ Status & Metadata
   status: RFQStatusSchema,
   priority: RFQPrioritySchema,
-  source: z.enum(['WEBSITE', 'EMAIL', 'PHONE', 'TRADE_SHOW', 'REFERRAL', 'SOCIAL_MEDIA']),
-  
+  source: z.enum([
+    'WEBSITE',
+    'EMAIL',
+    'PHONE',
+    'TRADE_SHOW',
+    'REFERRAL',
+    'SOCIAL_MEDIA',
+  ]),
+
   // Requirements
   productRequirements: ProductRequirementsSchema,
   quantityRequirements: QuantityRequirementsSchema,
   deliveryRequirements: DeliveryRequirementsSchema,
   paymentTerms: PaymentTermsSchema,
-  
+
   // Company Information
   companyInfo: CompanyInfoSchema,
-  
+
   // Additional Information
   additionalRequirements: z.string().optional(),
   sampleRequired: z.boolean().default(false),
   sampleAddress: z.string().optional(),
   urgencyReason: z.string().optional(),
-  
+
   // Internal Fields
   assignedTo: z.string().uuid().optional(),
   estimatedValue: z.number().positive().optional(),
   probability: z.number().min(0).max(100).optional(), // Closing probability
   competitorInfo: z.string().optional(),
-  
+
   // Documents & Communications
   documents: z.array(RFQDocumentSchema).optional(),
   communications: z.array(RFQCommunicationSchema).optional(),
-  
+
   // Quotes & Follow-ups
   quoteSentAt: z.date().optional(),
   quoteValidUntil: z.date().optional(),
   followUpDate: z.date().optional(),
-  
+
   // System Fields
   submittedAt: z.date(),
   lastActivityAt: z.date(),
@@ -189,7 +218,7 @@ export const RFQSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   createdBy: z.string().uuid().optional(), // Optional for public submissions
-  updatedBy: z.string().uuid()
+  updatedBy: z.string().uuid(),
 });
 
 // Type Exports
@@ -213,15 +242,33 @@ export class RFQEntity {
   }
 
   // Getters
-  get id(): string { return this.data.id; }
-  get rfqNumber(): string { return this.data.rfqNumber; }
-  get status(): RFQStatus { return this.data.status; }
-  get priority(): RFQPriority { return this.data.priority; }
-  get companyInfo(): CompanyInfo { return this.data.companyInfo; }
-  get productRequirements(): ProductRequirements { return this.data.productRequirements; }
-  get quantityRequirements(): QuantityRequirements { return this.data.quantityRequirements; }
-  get deliveryRequirements(): DeliveryRequirements { return this.data.deliveryRequirements; }
-  get submittedAt(): Date { return this.data.submittedAt; }
+  get id(): string {
+    return this.data.id;
+  }
+  get rfqNumber(): string {
+    return this.data.rfqNumber;
+  }
+  get status(): RFQStatus {
+    return this.data.status;
+  }
+  get priority(): RFQPriority {
+    return this.data.priority;
+  }
+  get companyInfo(): CompanyInfo {
+    return this.data.companyInfo;
+  }
+  get productRequirements(): ProductRequirements {
+    return this.data.productRequirements;
+  }
+  get quantityRequirements(): QuantityRequirements {
+    return this.data.quantityRequirements;
+  }
+  get deliveryRequirements(): DeliveryRequirements {
+    return this.data.deliveryRequirements;
+  }
+  get submittedAt(): Date {
+    return this.data.submittedAt;
+  }
 
   // Business Logic Methods
   isActive(): boolean {
@@ -234,26 +281,30 @@ export class RFQEntity {
   }
 
   canBeQuoted(): boolean {
-    return this.isActive() && 
-           !this.isExpired() && 
-           ['SUBMITTED', 'UNDER_REVIEW'].includes(this.data.status);
+    return (
+      this.isActive() &&
+      !this.isExpired() &&
+      ['SUBMITTED', 'UNDER_REVIEW'].includes(this.data.status)
+    );
   }
 
   requiresUrgentAttention(): boolean {
-    return this.data.priority === 'URGENT' || 
-           (this.data.followUpDate && new Date() >= this.data.followUpDate);
+    return (
+      this.data.priority === 'URGENT' ||
+      (this.data.followUpDate && new Date() >= this.data.followUpDate)
+    );
   }
 
   calculateEstimatedValue(): number | null {
     if (this.data.estimatedValue) return this.data.estimatedValue;
-    
+
     // Basic estimation based on quantity and market prices
     const { quantity, unit } = this.data.quantityRequirements;
     const { budgetRange } = this.data.paymentTerms;
-    
+
     if (budgetRange?.max) return budgetRange.max;
     if (budgetRange?.min) return budgetRange.min;
-    
+
     // Fallback estimation (would use market data in real implementation)
     let estimatedPricePerUnit = 0;
     switch (this.data.productRequirements.coffeeType) {
@@ -269,20 +320,22 @@ export class RFQEntity {
       default:
         estimatedPricePerUnit = 3000;
     }
-    
+
     // Convert to MT if needed
     let quantityInMT = quantity;
     if (unit === 'KG') quantityInMT = quantity / 1000;
     if (unit === 'LB') quantityInMT = quantity / 2204.62;
     if (unit === 'BAGS') quantityInMT = quantity * 0.06; // Assuming 60kg bags
-    
+
     return quantityInMT * estimatedPricePerUnit;
   }
 
   getDaysUntilDelivery(): number {
     const now = new Date();
     const deliveryDate = this.data.deliveryRequirements.preferredDeliveryDate;
-    return Math.ceil((deliveryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    return Math.ceil(
+      (deliveryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+    );
   }
 
   isRecurringBusiness(): boolean {
@@ -291,34 +344,36 @@ export class RFQEntity {
 
   getAnnualVolumePotential(): number | null {
     if (!this.isRecurringBusiness()) return null;
-    
+
     const { quantity, recurringFrequency } = this.data.quantityRequirements;
     if (!recurringFrequency) return null;
-    
+
     const multipliers = {
-      'MONTHLY': 12,
-      'QUARTERLY': 4,
-      'SEMI_ANNUAL': 2,
-      'ANNUAL': 1
+      MONTHLY: 12,
+      QUARTERLY: 4,
+      SEMI_ANNUAL: 2,
+      ANNUAL: 1,
     };
-    
+
     return quantity * multipliers[recurringFrequency];
   }
 
-  addCommunication(communication: Omit<RFQCommunication, 'id' | 'createdAt'>): RFQEntity {
+  addCommunication(
+    communication: Omit<RFQCommunication, 'id' | 'createdAt'>
+  ): RFQEntity {
     const newCommunication: RFQCommunication = {
       ...communication,
       id: crypto.randomUUID(),
-      createdAt: new Date()
+      createdAt: new Date(),
     };
-    
+
     const updatedData: RFQ = {
       ...this.data,
       communications: [...(this.data.communications || []), newCommunication],
       lastActivityAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     return new RFQEntity(updatedData);
   }
 
@@ -328,14 +383,14 @@ export class RFQEntity {
       status,
       lastActivityAt: new Date(),
       updatedAt: new Date(),
-      updatedBy
+      updatedBy,
     };
-    
+
     // Set quote sent timestamp
     if (status === 'QUOTED' && !this.data.quoteSentAt) {
       updatedData.quoteSentAt = new Date();
     }
-    
+
     return new RFQEntity(updatedData);
   }
 
@@ -345,9 +400,9 @@ export class RFQEntity {
       assignedTo: userId,
       lastActivityAt: new Date(),
       updatedAt: new Date(),
-      updatedBy
+      updatedBy,
     };
-    
+
     return new RFQEntity(updatedData);
   }
 
@@ -356,9 +411,9 @@ export class RFQEntity {
       ...this.data,
       followUpDate,
       updatedAt: new Date(),
-      updatedBy
+      updatedBy,
     };
-    
+
     return new RFQEntity(updatedData);
   }
 
@@ -377,10 +432,20 @@ export class RFQEntity {
   }
 
   // Factory Methods
-  static create(data: Omit<RFQ, 'id' | 'rfqNumber' | 'createdAt' | 'updatedAt' | 'submittedAt' | 'lastActivityAt'>): RFQEntity {
+  static create(
+    data: Omit<
+      RFQ,
+      | 'id'
+      | 'rfqNumber'
+      | 'createdAt'
+      | 'updatedAt'
+      | 'submittedAt'
+      | 'lastActivityAt'
+    >
+  ): RFQEntity {
     const now = new Date();
     const rfqNumber = RFQEntity.generateRFQNumber();
-    
+
     const rfqData: RFQ = {
       ...data,
       id: crypto.randomUUID(),
@@ -388,9 +453,9 @@ export class RFQEntity {
       submittedAt: now,
       lastActivityAt: now,
       createdAt: now,
-      updatedAt: now
+      updatedAt: now,
     };
-    
+
     return new RFQEntity(rfqData);
   }
 
@@ -400,7 +465,7 @@ export class RFQEntity {
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
     const timestamp = now.getTime().toString().slice(-6);
-    
+
     return `RFQ-${year}${month}${day}-${timestamp}`;
   }
 

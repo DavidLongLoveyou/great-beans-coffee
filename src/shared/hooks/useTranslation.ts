@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+
 import { getLocaleFromPathname } from '@/shared/utils/locale';
 
 /**
@@ -30,7 +31,7 @@ export function useTranslation(namespace: string = '') {
   const t = (key: string): string => {
     try {
       const translation = getTranslationData(locale);
-      
+
       if (namespace) {
         const namespaceData = translation[namespace];
         return namespaceData?.[key] || key;

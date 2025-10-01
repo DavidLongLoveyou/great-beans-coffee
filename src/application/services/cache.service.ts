@@ -1,3 +1,7 @@
+import { createScopedLogger } from '../../shared/utils/logger';
+
+const logger = createScopedLogger('CacheService');
+
 export interface ICacheService {
   get<T>(key: string): Promise<T | null>;
   set<T>(key: string, value: T, ttlSeconds?: number): Promise<boolean>;
@@ -11,34 +15,38 @@ export class CacheService implements ICacheService {
   async get<T>(key: string): Promise<T | null> {
     try {
       const item = this.cache.get(key);
-      
+
       if (!item) {
         return null;
       }
-      
+
       // Check if item has expired
       if (Date.now() > item.expiry) {
         this.cache.delete(key);
         return null;
       }
-      
-      console.log(`Cache hit for key: ${key}`);
+
+      logger.debug(`Cache hit for key: ${key}`);
       return item.value as T;
     } catch (error) {
-      console.error('Failed to get from cache:', error);
+      logger.error('Failed to get from cache:', error);
       return null;
     }
   }
 
-  async set<T>(key: string, value: T, ttlSeconds: number = 3600): Promise<boolean> {
+  async set<T>(
+    key: string,
+    value: T,
+    ttlSeconds: number = 3600
+  ): Promise<boolean> {
     try {
-      const expiry = Date.now() + (ttlSeconds * 1000);
+      const expiry = Date.now() + ttlSeconds * 1000;
       this.cache.set(key, { value, expiry });
-      
-      console.log(`Cache set for key: ${key}, TTL: ${ttlSeconds}s`);
+
+      logger.debug(`Cache set for key: ${key}, TTL: ${ttlSeconds}s`);
       return true;
     } catch (error) {
-      console.error('Failed to set cache:', error);
+      logger.error('Failed to set cache:', error);
       return false;
     }
   }
@@ -46,14 +54,14 @@ export class CacheService implements ICacheService {
   async delete(key: string): Promise<boolean> {
     try {
       const deleted = this.cache.delete(key);
-      
+
       if (deleted) {
-        console.log(`Cache deleted for key: ${key}`);
+        logger.debug(`Cache deleted for key: ${key}`);
       }
-      
+
       return deleted;
     } catch (error) {
-      console.error('Failed to delete from cache:', error);
+      logger.error('Failed to delete from cache:', error);
       return false;
     }
   }
@@ -61,10 +69,10 @@ export class CacheService implements ICacheService {
   async clear(): Promise<boolean> {
     try {
       this.cache.clear();
-      console.log('Cache cleared');
+      logger.info('Cache cleared');
       return true;
     } catch (error) {
-      console.error('Failed to clear cache:', error);
+      logger.error('Failed to clear cache:', error);
       return false;
     }
   }

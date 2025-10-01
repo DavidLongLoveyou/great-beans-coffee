@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { RfqEntity } from '@/domain/entities/rfq.entity';
+
 import { SubmitRfqRequest } from '@/application/use-cases/rfq-management';
+import { RfqEntity } from '@/domain/entities/rfq.entity';
 import { submitRfqUseCase } from '@/infrastructure/di/container';
 
 interface UseRfqFormState {
@@ -19,15 +20,15 @@ export function useRfqForm() {
     error: null,
     success: false,
     submittedRfq: null,
-    rfqNumber: null
+    rfqNumber: null,
   });
 
   const submitRfq = useCallback(async (rfqData: SubmitRfqRequest) => {
-    setState(prev => ({ 
-      ...prev, 
-      loading: true, 
-      error: null, 
-      success: false 
+    setState(prev => ({
+      ...prev,
+      loading: true,
+      error: null,
+      success: false,
     }));
 
     try {
@@ -38,18 +39,19 @@ export function useRfqForm() {
         loading: false,
         success: true,
         submittedRfq: response.rfq,
-        rfqNumber: response.rfqNumber
+        rfqNumber: response.rfqNumber,
       }));
 
       return response;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to submit RFQ';
-      
+      const errorMessage =
+        error instanceof Error ? error.message : 'Failed to submit RFQ';
+
       setState(prev => ({
         ...prev,
         loading: false,
         error: errorMessage,
-        success: false
+        success: false,
       }));
 
       throw error;
@@ -62,7 +64,7 @@ export function useRfqForm() {
       error: null,
       success: false,
       submittedRfq: null,
-      rfqNumber: null
+      rfqNumber: null,
     });
   }, []);
 
@@ -74,7 +76,7 @@ export function useRfqForm() {
     ...state,
     submitRfq,
     resetForm,
-    clearError
+    clearError,
   };
 }
 
@@ -101,24 +103,36 @@ export function useMultiStepForm<T>(initialData: T, totalSteps: number) {
     }
   }, [currentStep]);
 
-  const goToStep = useCallback((step: number) => {
-    if (step >= 1 && step <= totalSteps) {
-      setCurrentStep(step);
-    }
-  }, [totalSteps]);
+  const goToStep = useCallback(
+    (step: number) => {
+      if (step >= 1 && step <= totalSteps) {
+        setCurrentStep(step);
+      }
+    },
+    [totalSteps]
+  );
 
   const markStepComplete = useCallback((step: number) => {
     setCompletedSteps(prev => new Set([...prev, step]));
   }, []);
 
-  const isStepComplete = useCallback((step: number) => {
-    return completedSteps.has(step);
-  }, [completedSteps]);
+  const isStepComplete = useCallback(
+    (step: number) => {
+      return completedSteps.has(step);
+    },
+    [completedSteps]
+  );
 
-  const canGoToStep = useCallback((step: number) => {
-    // Can go to current step, previous steps, or next step if current is complete
-    return step <= currentStep || (step === currentStep + 1 && isStepComplete(currentStep));
-  }, [currentStep, isStepComplete]);
+  const canGoToStep = useCallback(
+    (step: number) => {
+      // Can go to current step, previous steps, or next step if current is complete
+      return (
+        step <= currentStep ||
+        (step === currentStep + 1 && isStepComplete(currentStep))
+      );
+    },
+    [currentStep, isStepComplete]
+  );
 
   const progress = (currentStep / totalSteps) * 100;
 
@@ -142,7 +156,7 @@ export function useMultiStepForm<T>(initialData: T, totalSteps: number) {
     canGoToStep,
     reset,
     isFirstStep: currentStep === 1,
-    isLastStep: currentStep === totalSteps
+    isLastStep: currentStep === totalSteps,
   };
 }
 
@@ -152,15 +166,18 @@ export function useFormValidation<T>(
 ) {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validate = useCallback((data: T): boolean => {
-    const validationErrors = validationSchema(data);
-    const filteredErrors = Object.entries(validationErrors)
-      .filter(([, error]) => error !== undefined)
-      .reduce((acc, [key, error]) => ({ ...acc, [key]: error }), {});
+  const validate = useCallback(
+    (data: T): boolean => {
+      const validationErrors = validationSchema(data);
+      const filteredErrors = Object.entries(validationErrors)
+        .filter(([, error]) => error !== undefined)
+        .reduce((acc, [key, error]) => ({ ...acc, [key]: error }), {});
 
-    setErrors(filteredErrors);
-    return Object.keys(filteredErrors).length === 0;
-  }, [validationSchema]);
+      setErrors(filteredErrors);
+      return Object.keys(filteredErrors).length === 0;
+    },
+    [validationSchema]
+  );
 
   const clearErrors = useCallback(() => {
     setErrors({});
@@ -179,6 +196,6 @@ export function useFormValidation<T>(
     validate,
     clearErrors,
     clearFieldError,
-    hasErrors: Object.keys(errors).length > 0
+    hasErrors: Object.keys(errors).length > 0,
   };
 }

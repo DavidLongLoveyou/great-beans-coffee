@@ -14,16 +14,21 @@ export interface GetFeaturedProductsResponse {
 export class GetFeaturedProductsUseCase {
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
-  async execute(request: GetFeaturedProductsRequest): Promise<GetFeaturedProductsResponse> {
+  async execute(
+    request: GetFeaturedProductsRequest
+  ): Promise<GetFeaturedProductsResponse> {
     const { limit = 6, locale } = request;
 
     try {
       // Get featured products
-      const products = await this.coffeeProductRepository.findFeatured(limit, locale);
+      const products = await this.coffeeProductRepository.findFeatured(
+        limit,
+        locale
+      );
 
       return {
         products,
-        total: products.length
+        total: products.length,
       };
     } catch (error) {
       console.error('Error fetching featured products:', error);

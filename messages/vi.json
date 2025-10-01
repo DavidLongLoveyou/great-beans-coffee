@@ -1,0 +1,249 @@
+{
+  "homepage": {
+    "title": "The Great Beans - Cà Phê Việt Nam Cao Cấp",
+    "description": "Nền tảng B2B hàng đầu cho xuất khẩu cà phê Việt Nam"
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "retry": "Thử lại",
+    "close": "Đóng",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "submit": "Gửi",
+    "next": "Tiếp theo",
+    "previous": "Trước đó",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "sort": "Sắp xếp",
+    "viewAll": "Xem tất cả",
+    "learnMore": "Tìm hiểu thêm",
+    "getStarted": "Bắt đầu",
+    "contactUs": "Liên hệ"
+  },
+  "navigation": {
+    "home": "Trang chủ",
+    "products": "Sản phẩm",
+    "services": "Dịch vụ",
+    "about": "Về chúng tôi",
+    "contact": "Liên hệ",
+    "requestQuote": "Yêu cầu báo giá",
+    "blog": "Thông tin thị trường",
+    "certifications": "Chứng nhận"
+  },
+  "hero": {
+    "title": "Cà Phê Việt Nam Cao Cấp Cho Thị Trường Toàn Cầu",
+    "subtitle": "Trực tiếp từ trang trại đến doanh nghiệp của bạn. Khám phá hạt cà phê Robusta và Arabica đặc biệt với khả năng truy xuất nguồn gốc đầy đủ và nguồn cung bền vững.",
+    "cta": "Yêu cầu báo giá",
+    "ctaSecondary": "Khám phá sản phẩm",
+    "trustBadge": "Được tin tưởng bởi hơn 500 nhà nhập khẩu trên toàn thế giới"
+  },
+  "products": {
+    "title": "Sản Phẩm Cà Phê",
+    "subtitle": "Hạt cà phê Việt Nam cao cấp cho thị trường toàn cầu khó tính",
+    "categories": {
+      "robusta": "Robusta",
+      "arabica": "Arabica",
+      "blends": "Hỗn hợp đặc biệt",
+      "instant": "Cà phê hòa tan"
+    },
+    "specifications": {
+      "origin": "Xuất xứ",
+      "processing": "Phương pháp chế biến",
+      "grade": "Cấp độ",
+      "moisture": "Độ ẩm",
+      "screenSize": "Kích thước sàng",
+      "defects": "Tỷ lệ khuyết tật",
+      "cupping": "Điểm cupping",
+      "certifications": "Chứng nhận"
+    },
+    "requestSample": "Yêu cầu mẫu",
+    "downloadSpec": "Tải bảng thông số kỹ thuật",
+    "minimumOrder": "Số lượng đặt hàng tối thiểu"
+  },
+  "services": {
+    "title": "Dịch Vụ Của Chúng Tôi",
+    "subtitle": "Giải pháp toàn diện cho nhu cầu kinh doanh cà phê của bạn",
+    "oem": {
+      "title": "Sản xuất OEM",
+      "description": "Sản xuất cà phê tùy chỉnh theo thông số thương hiệu của bạn"
+    },
+    "privateLabel": {
+      "title": "Nhãn hiệu riêng",
+      "description": "Giải pháp thương hiệu và đóng gói hoàn chỉnh"
+    },
+    "sourcing": {
+      "title": "Tìm nguồn cà phê",
+      "description": "Tìm nguồn chuyên nghiệp từ các vùng cà phê tốt nhất Việt Nam"
+    },
+    "logistics": {
+      "title": "Logistics & Vận chuyển",
+      "description": "Giải pháp logistics từ đầu đến cuối với giá cước cạnh tranh"
+    },
+    "qualityControl": {
+      "title": "Kiểm soát chất lượng",
+      "description": "Quy trình kiểm tra và chứng nhận nghiêm ngặt"
+    },
+    "consulting": {
+      "title": "Tư vấn thị trường",
+      "description": "Thông tin chiến lược về thị trường cà phê Việt Nam"
+    }
+  },
+  "quote": {
+    "title": "Yêu Cầu Báo Giá",
+    "subtitle": "Nhận giá cạnh tranh cho nhu cầu cà phê của bạn",
+    "form": {
+      "productType": "Loại sản phẩm",
+      "quantity": "Số lượng (MT)",
+      "packaging": "Tùy chọn đóng gói",
+      "incoterms": "Điều kiện Incoterms",
+      "destination": "Cảng đích",
+      "timeline": "Thời gian yêu cầu",
+      "companyName": "Tên công ty",
+      "contactPerson": "Người liên hệ",
+      "email": "Địa chỉ email",
+      "phone": "Số điện thoại",
+      "country": "Quốc gia",
+      "additionalRequirements": "Yêu cầu bổ sung",
+      "submit": "Gửi yêu cầu báo giá"
+    },
+    "success": {
+      "title": "Đã Gửi Yêu Cầu Báo Giá",
+      "message": "Cảm ơn bạn đã quan tâm. Đội ngũ của chúng tôi sẽ phản hồi trong vòng 24 giờ với báo giá chi tiết.",
+      "reference": "Số tham chiếu"
+    }
+  },
+  "about": {
+    "title": "Về The Great Beans",
+    "subtitle": "Đối tác đáng tin cậy trong xuất khẩu cà phê Việt Nam",
+    "story": {
+      "title": "Câu Chuyện Của Chúng Tôi",
+      "content": "Được thành lập với sứ mệnh kết nối cà phê đặc biệt của Việt Nam với thị trường toàn cầu, chúng tôi là cầu nối giữa nông dân địa phương và người mua quốc tế."
+    },
+    "mission": {
+      "title": "Sứ Mệnh",
+      "content": "Cung cấp cà phê Việt Nam cao cấp đồng thời đảm bảo thực hành bền vững và thương mại công bằng trong toàn bộ chuỗi cung ứng."
+    },
+    "values": {
+      "quality": {
+        "title": "Chất lượng xuất sắc",
+        "description": "Kiểm soát chất lượng nghiêm ngặt ở mọi giai đoạn"
+      },
+      "sustainability": {
+        "title": "Bền vững",
+        "description": "Trách nhiệm môi trường và xã hội"
+      },
+      "transparency": {
+        "title": "Minh bạch",
+        "description": "Truy xuất nguồn gốc đầy đủ từ trang trại đến cảng"
+      },
+      "partnership": {
+        "title": "Đối tác",
+        "description": "Mối quan hệ dài hạn với khách hàng và nông dân"
+      }
+    }
+  },
+  "contact": {
+    "title": "Liên Hệ",
+    "subtitle": "Sẵn sàng bắt đầu hành trình cà phê với chúng tôi?",
+    "office": {
+      "title": "Văn phòng chính",
+      "address": "Thành phố Hồ Chí Minh, Việt Nam",
+      "phone": "+84 xxx xxx xxx",
+      "email": "info@thegreatbeans.com"
+    },
+    "form": {
+      "name": "Họ và tên",
+      "email": "Địa chỉ email",
+      "company": "Tên công ty",
+      "subject": "Chủ đề",
+      "message": "Tin nhắn",
+      "send": "Gửi tin nhắn"
+    }
+  },
+  "footer": {
+    "company": {
+      "title": "The Great Beans",
+      "description": "Cà phê Việt Nam cao cấp cho thị trường toàn cầu"
+    },
+    "quickLinks": "Liên kết nhanh",
+    "products": "Sản phẩm",
+    "legal": "Pháp lý",
+    "privacyPolicy": "Chính sách bảo mật",
+    "termsOfService": "Điều khoản dịch vụ",
+    "cookiePolicy": "Chính sách cookie",
+    "followUs": "Theo dõi chúng tôi",
+    "newsletter": {
+      "title": "Cập nhật thị trường",
+      "description": "Đăng ký để nhận thông tin thị trường cà phê và cập nhật sản phẩm",
+      "placeholder": "Nhập email của bạn",
+      "subscribe": "Đăng ký"
+    },
+    "copyright": "© 2024 The Great Beans. Tất cả quyền được bảo lưu."
+  },
+  "seo": {
+    "home": {
+      "title": "Xuất Khẩu Cà Phê Việt Nam Cao Cấp | The Great Beans",
+      "description": "Nhà xuất khẩu cà phê Việt Nam hàng đầu cung cấp hạt Robusta và Arabica cao cấp. Tìm nguồn trực tiếp, giá cạnh tranh và logistics đáng tin cậy cho thị trường toàn cầu."
+    },
+    "products": {
+      "title": "Sản Phẩm Cà Phê Việt Nam | Robusta & Arabica Cao Cấp",
+      "description": "Khám phá dòng sản phẩm cà phê Việt Nam cao cấp. Robusta chất lượng cao, Arabica đặc biệt và hỗn hợp tùy chỉnh cho thị trường quốc tế."
+    },
+    "services": {
+      "title": "Dịch Vụ Xuất Khẩu Cà Phê | OEM, Nhãn Hiệu Riêng & Tìm Nguồn",
+      "description": "Dịch vụ xuất khẩu cà phê toàn diện bao gồm sản xuất OEM, giải pháp nhãn hiệu riêng và tìm nguồn chuyên nghiệp từ các vùng cà phê tốt nhất Việt Nam."
+    }
+  },
+  "aiAnswers": {
+    "title": "Trợ Lý AI Cà Phê",
+    "subtitle": "Nhận câu trả lời tức thì cho các câu hỏi về cà phê của bạn",
+    "placeholder": "Hỏi về cà phê Việt Nam, giá cả, logistics...",
+    "examples": {
+      "pricing": "Giá cà phê Robusta hiện tại là bao nhiêu?",
+      "logistics": "Thời gian vận chuyển đến châu Âu là bao lâu?",
+      "quality": "Sự khác biệt giữa cà phê Robusta và Arabica Việt Nam?",
+      "certifications": "Những chứng nhận nào có sẵn cho cà phê của bạn?"
+    },
+    "thinking": "Đang suy nghĩ...",
+    "error": "Xin lỗi, tôi không thể trả lời câu hỏi này. Vui lòng liên hệ với đội ngũ của chúng tôi.",
+    "followUp": "Câu hỏi tiếp theo?",
+    "sources": "Nguồn thông tin",
+    "disclaimer": "Thông tin được cung cấp bởi AI và nên được xác minh với đội ngũ bán hàng của chúng tôi."
+  },
+  "clusters": {
+    "vietnamRobusta": {
+      "title": "Nhà Cung Cấp Robusta Việt Nam",
+      "description": "Khám phá mạng lưới nhà cung cấp cà phê Robusta hàng đầu Việt Nam",
+      "keywords": "robusta việt nam, nhà cung cấp cà phê, xuất khẩu robusta",
+      "content": {
+        "overview": "Việt Nam là nhà sản xuất cà phê Robusta lớn nhất thế giới",
+        "regions": "Đắk Lắk, Gia Lai, Đắk Nông, Lâm Đồng",
+        "quality": "Robusta chất lượng cao với hương vị đậm đà đặc trưng",
+        "processing": "Phương pháp chế biến khô và ướt hiện đại"
+      }
+    },
+    "specialtyArabica": {
+      "title": "Tìm Nguồn Arabica Đặc Biệt",
+      "description": "Dịch vụ tìm nguồn cà phê Arabica đặc biệt từ vùng cao Việt Nam",
+      "keywords": "arabica việt nam, cà phê đặc biệt, tìm nguồn arabica",
+      "content": {
+        "overview": "Arabica Việt Nam từ vùng cao với hương vị tinh tế",
+        "regions": "Đà Lạt, Cầu Đất, Buôn Ma Thuột vùng cao",
+        "altitude": "Độ cao từ 800-1500m tạo nên hương vị đặc biệt",
+        "varieties": "Catimor, Bourbon, Typica và các giống địa phương"
+      }
+    },
+    "privateLabelManufacturing": {
+      "title": "Sản Xuất Cà Phê Nhãn Hiệu Riêng",
+      "description": "Dịch vụ sản xuất và đóng gói cà phê nhãn hiệu riêng chuyên nghiệp",
+      "keywords": "nhãn hiệu riêng, sản xuất cà phê, OEM cà phê",
+      "content": {
+        "overview": "Giải pháp toàn diện cho thương hiệu cà phê riêng",
+        "services": "Thiết kế bao bì, rang xay, đóng gói, logistics",
+        "capacity": "Công suất sản xuất linh hoạt từ 100kg đến 1000 tấn",
+        "customization": "Tùy chỉnh hương vị, độ rang và bao bì theo yêu cầu"
+      }
+    }
+  }
+}
