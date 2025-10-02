@@ -6,7 +6,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
-import { CoffeeButton } from '@/shared/components/design-system/Button';
+import { Button, CoffeeButton } from '@/shared/components/design-system/Button';
 import {
   Card,
   CardContent,
@@ -132,10 +132,10 @@ export function ClusterArticleCard({
 
       <CardContent className="pt-0">
         <Link href={article.url} className="block">
-          <CoffeeButton variant="ghost" size="sm" className="group w-full">
+          <Button variant="ghost" size="sm" className="group w-full">
             Read Article
             <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
-          </CoffeeButton>
+          </Button>
         </Link>
       </CardContent>
     </Card>

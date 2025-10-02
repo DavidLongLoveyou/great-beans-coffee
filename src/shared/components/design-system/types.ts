@@ -1,7 +1,7 @@
 // Design System Types
 // Professional B2B Coffee Industry Design System
 
-import { ReactNode, HTMLAttributes } from 'react';
+import { ReactNode, HTMLAttributes, CSSProperties } from 'react';
 
 // Base Design System Props
 export interface DesignSystemProps {
@@ -10,9 +10,10 @@ export interface DesignSystemProps {
 }
 
 // Component Props Base
-export interface ComponentProps extends HTMLAttributes<HTMLElement> {
+export interface ComponentProps extends Omit<HTMLAttributes<HTMLElement>, 'style'> {
   className?: string;
   children?: ReactNode;
+  style?: CSSProperties;
 }
 
 // Color Variants
@@ -162,7 +163,8 @@ export type CoffeeOrigin =
   | 'ecuador'
   | 'mexico'
   | 'panama'
-  | 'jamaica';
+  | 'jamaica'
+  | 'kenya';
 
 // Coffee Varieties
 export type CoffeeVariety =
@@ -185,7 +187,10 @@ export type ProcessingMethod =
   | 'semi-washed'
   | 'wet-hulled'
   | 'anaerobic'
-  | 'carbonic-maceration';
+  | 'carbonic-maceration'
+  | 'black-honey'
+  | 'white-honey'
+  | 'red-honey';
 
 // Coffee Grades
 export type CoffeeGrade =
@@ -308,9 +313,12 @@ export interface ContainerProps extends ComponentProps {
 }
 
 export interface SectionProps extends ComponentProps {
-  padding?: SpacingVariant;
+  spacing?: SpacingVariant;
   background?: ColorVariant;
-  pattern?: boolean;
+  containerSize?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '6xl' | 'full';
+  containerPadding?: SpacingVariant;
+  fullWidth?: boolean;
+  as?: React.ElementType;
 }
 
 export interface GridProps extends ComponentProps {
@@ -340,6 +348,9 @@ export interface OriginFlagProps extends ComponentProps {
 
 export interface ProcessingMethodBadgeProps extends ComponentProps {
   method: ProcessingMethod;
+  size?: SizeVariant;
+  showIcon?: boolean;
+  showDescription?: boolean;
   variant?: BadgeVariant;
 }
 

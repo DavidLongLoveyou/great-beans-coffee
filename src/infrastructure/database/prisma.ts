@@ -57,7 +57,7 @@ export async function checkDatabaseHealth() {
 
 // Transaction helper
 export async function withTransaction<T>(
-  callback: (tx: PrismaClient) => Promise<T>
+  callback: (tx: Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$extends'>) => Promise<T>
 ): Promise<T> {
   return await prisma.$transaction(callback);
 }
@@ -106,33 +106,18 @@ export async function searchContent(
   locale: string = 'en',
   limit: number = 10
 ) {
-  return await prisma.contentTranslation.findMany({
+  return await prisma.content.findMany({
     where: {
-      locale,
       OR: [
-        { title: { contains: query, mode: 'insensitive' } },
-        { content: { contains: query, mode: 'insensitive' } },
-        { excerpt: { contains: query, mode: 'insensitive' } },
+        { title: { contains: query } },
+        { content: { contains: query } },
+        { excerpt: { contains: query } },
       ],
-      contentItem: {
-        status: 'PUBLISHED',
-      },
-    },
-    include: {
-      contentItem: {
-        select: {
-          id: true,
-          type: true,
-          category: true,
-          publishedAt: true,
-        },
-      },
+      status: 'PUBLISHED',
     },
     take: limit,
     orderBy: {
-      contentItem: {
-        publishedAt: 'desc',
-      },
+      publishedAt: 'desc',
     },
   });
 }
@@ -143,44 +128,19 @@ export async function getContentAnalytics(
   startDate?: Date,
   endDate?: Date
 ) {
-  const whereClause =
-    startDate && endDate
-      ? {
-          createdAt: {
-            gte: startDate,
-            lte: endDate,
-          },
-        }
-      : {};
-
   const content = await prisma.content.findUnique({
     where: { id: contentId },
     select: {
-      analytics: true,
-      translations: {
-        select: {
-          locale: true,
-          title: true,
-        },
-      },
+      id: true,
+      title: true,
+      type: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 
-  // Get analytics data within date range if specified
-  const analyticsData =
-    startDate && endDate
-      ? await prisma.contentAnalytics.findMany({
-          where: {
-            contentId,
-            ...whereClause,
-          },
-        })
-      : content?.analytics;
-
-  return {
-    ...content,
-    analytics: analyticsData,
-  };
+  return content;
 }
 
 // Multi-language content helper
@@ -191,34 +151,9 @@ export async function getLocalizedContent(
 ) {
   const content = await prisma.content.findUnique({
     where: { id: contentId },
-    include: {
-      translations: {
-        where: {
-          OR: [{ locale }, { locale: fallbackLocale }],
-        },
-      },
-      author: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-        },
-      },
-    },
   });
 
-  if (!content) return null;
-
-  // Prefer requested locale, fallback to default
-  const translation =
-    content.translations.find(t => t.locale === locale) ||
-    content.translations.find(t => t.locale === fallbackLocale) ||
-    content.translations[0];
-
-  return {
-    ...content,
-    translation,
-  };
+  return content;
 }
 
 // RFQ analytics helper
@@ -233,7 +168,7 @@ export async function getRFQAnalytics(startDate?: Date, endDate?: Date) {
         }
       : {};
 
-  const [totalRFQs, statusBreakdown, sourceBreakdown, averageValue] =
+  const [totalRFQs, statusBreakdown, averageValue] =
     await Promise.all([
       prisma.rFQ.count({ where: whereClause }),
 
@@ -243,19 +178,13 @@ export async function getRFQAnalytics(startDate?: Date, endDate?: Date) {
         _count: true,
       }),
 
-      prisma.rFQ.groupBy({
-        by: ['source'],
-        where: whereClause,
-        _count: true,
-      }),
-
       prisma.rFQ.aggregate({
         where: {
           ...whereClause,
-          estimatedValue: { not: null },
+          totalValue: { not: null },
         },
         _avg: {
-          estimatedValue: true,
+          totalValue: true,
         },
       }),
     ]);
@@ -263,8 +192,7 @@ export async function getRFQAnalytics(startDate?: Date, endDate?: Date) {
   return {
     totalRFQs,
     statusBreakdown,
-    sourceBreakdown,
-    averageValue: averageValue._avg.estimatedValue,
+    averageValue: averageValue._avg.totalValue,
   };
 }
 
@@ -273,19 +201,11 @@ export async function calculateCompanyScore(companyId: string) {
   const company = await prisma.clientCompany.findUnique({
     where: { id: companyId },
     include: {
-      orders: {
+      rfqs: {
         select: {
-          totalAmount: true,
+          totalValue: true,
           status: true,
           createdAt: true,
-        },
-      },
-      notes: {
-        where: {
-          type: 'SALES',
-        },
-        select: {
-          priority: true,
         },
       },
     },
@@ -296,32 +216,25 @@ export async function calculateCompanyScore(companyId: string) {
   // Calculate score based on various factors
   let score = 0;
 
-  // Base score by relationship status
+  // Base score by status
   const statusScores = {
-    NEW: 10,
-    DEVELOPING: 30,
-    ESTABLISHED: 60,
-    STRATEGIC_PARTNER: 90,
-    KEY_ACCOUNT: 100,
-    AT_RISK: 20,
-    DORMANT: 5,
+    ACTIVE: 50,
+    INACTIVE: 10,
+    PROSPECT: 30,
+    BLACKLISTED: 0,
   };
 
-  score += statusScores[company.relationshipStatus] || 0;
+  score += statusScores[company.status] || 0;
 
-  // Order history bonus
-  const totalOrders = company.orders.length;
-  const totalValue = company.orders.reduce(
-    (sum, order) => sum + order.totalAmount,
+  // RFQ history bonus
+  const totalRFQs = company.rfqs.length;
+  const totalValue = company.rfqs.reduce(
+    (sum, rfq) => sum + (rfq.totalValue || 0),
     0
   );
 
-  score += Math.min(totalOrders * 2, 20); // Max 20 points for orders
+  score += Math.min(totalRFQs * 2, 20); // Max 20 points for RFQs
   score += Math.min(totalValue / 10000, 30); // Max 30 points for value
-
-  // Risk penalty
-  const riskPenalties = { LOW: 0, MEDIUM: -5, HIGH: -15, CRITICAL: -30 };
-  score += riskPenalties[company.riskLevel] || 0;
 
   return Math.max(0, Math.min(100, score));
 }

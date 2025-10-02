@@ -1,34 +1,62 @@
 'use client';
 
-import Image, { type ImageProps } from 'next/image';
-import { useState, useCallback, useEffect } from 'react';
-import { cn } from '@/lib/utils';
+import Image, { type ImageProps, type StaticImport, type ImageLoader } from 'next/image';
+import { useState, useCallback, useEffect, type CSSProperties } from 'react';
+import { cn } from '@/shared/utils/cn';
 import { cloudinaryService } from '@/infrastructure/external-services/cloudinary.service';
 import { coreWebVitalsOptimizer } from '@/shared/utils/core-web-vitals';
 
-interface OptimizedImageProps extends Omit<ImageProps, 'onLoad' | 'onError'> {
+// Define explicit props interface to work with exactOptionalPropertyTypes
+export interface OptimizedImageProps {
+  // Required props
+  src: string | StaticImport;
+  alt: string;
+  
+  // Next.js Image props (all optional with explicit undefined)
+  width?: number | `${number}` | undefined;
+  height?: number | `${number}` | undefined;
+  fill?: boolean | undefined;
+  loader?: ImageLoader | undefined;
+  quality?: number | `${number}` | undefined;
+  priority?: boolean | undefined;
+  loading?: "eager" | "lazy" | undefined;
+  placeholder?: "blur" | "empty" | `data:image/${string}` | undefined;
+  blurDataURL?: string | undefined;
+  unoptimized?: boolean | undefined;
+  overrideSrc?: string | undefined;
+  onLoadingComplete?: ((result: { naturalWidth: number; naturalHeight: number }) => void) | undefined;
+  decoding?: "async" | "auto" | "sync" | undefined;
+  className?: string | undefined;
+  style?: CSSProperties | undefined;
+  sizes?: string | undefined;
+  lazyBoundary?: string | undefined;
+  lazyRoot?: string | undefined;
+  
+  // Custom optimization options
   /** Whether to show a blur placeholder while loading */
-  showBlurPlaceholder?: boolean;
-  /** Custom blur data URL */
-  blurDataURL?: string;
+  showBlurPlaceholder?: boolean | undefined;
   /** Whether to use lazy loading (default: true) */
-  lazy?: boolean;
+  lazy?: boolean | undefined;
   /** Custom loading state component */
-  loadingComponent?: React.ReactNode;
+  loadingComponent?: React.ReactNode | undefined;
   /** Custom error state component */
-  errorComponent?: React.ReactNode;
+  errorComponent?: React.ReactNode | undefined;
   /** Callback when image loads successfully */
-  onLoadComplete?: () => void;
+  onLoadComplete?: (() => void) | undefined;
   /** Callback when image fails to load */
-  onLoadError?: () => void;
+  onLoadError?: (() => void) | undefined;
   /** Whether to optimize for LCP (Largest Contentful Paint) */
-  optimizeForLCP?: boolean;
+  optimizeForLCP?: boolean | undefined;
+  
+  // Cloudinary integration
   /** Cloudinary public ID (if using Cloudinary) */
-  cloudinaryId?: string;
+  cloudinaryId?: string | undefined;
   /** Whether to use Cloudinary optimization */
-  useCloudinary?: boolean;
+  useCloudinary?: boolean | undefined;
+  
+  // Analytics and monitoring
   /** Whether to track performance metrics */
-  trackPerformance?: boolean;
+  trackPerformance?: boolean | undefined;
 }
 
 /**
@@ -58,7 +86,23 @@ export function OptimizedImage({
   useCloudinary = false,
   trackPerformance = false,
   priority,
-  ...props
+  // Extract Next.js Image props
+  width,
+  height,
+  fill,
+  sizes,
+  quality,
+  placeholder,
+  style,
+  loader,
+  unoptimized,
+  overrideSrc,
+  onLoadingComplete,
+  decoding,
+  loading,
+  lazyBoundary,
+  lazyRoot,
+  ...restProps
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -184,6 +228,19 @@ export function OptimizedImage({
       <Image
         src={imageSource}
         alt={alt}
+        width={width}
+        height={height}
+        fill={fill}
+        sizes={sizes}
+        quality={quality}
+        style={style}
+        loader={loader}
+        unoptimized={unoptimized}
+        overrideSrc={overrideSrc}
+        onLoadingComplete={onLoadingComplete}
+        decoding={decoding}
+        lazyBoundary={lazyBoundary}
+        lazyRoot={lazyRoot}
         className={cn(
           'transition-opacity duration-300',
           isLoading && showBlurPlaceholder ? 'opacity-0' : 'opacity-100',
@@ -192,10 +249,9 @@ export function OptimizedImage({
         onLoad={handleLoad}
         onError={handleError}
         priority={optimizeForLCP || priority}
-        loading={lazy && !optimizeForLCP && !priority ? 'lazy' : 'eager'}
-        placeholder={showBlurPlaceholder ? 'blur' : 'empty'}
+        loading={loading || (lazy && !optimizeForLCP && !priority ? 'lazy' : 'eager')}
+        placeholder={placeholder || (showBlurPlaceholder ? 'blur' : 'empty')}
         blurDataURL={imageBlurDataURL}
-        {...props}
       />
       
       {/* Loading overlay with blur placeholder */}
@@ -221,7 +277,9 @@ export function OptimizedImage({
  * Optimized Image component specifically for hero/above-the-fold images
  * Automatically sets priority and optimizes for LCP
  */
-export function HeroImage(props: OptimizedImageProps) {
+export function HeroImage({ 
+  ...props 
+}: OptimizedImageProps) {
   return (
     <OptimizedImage
       {...props}
@@ -245,7 +303,7 @@ export function CardImage({
   return (
     <OptimizedImage
       {...props}
-      className={cn('object-cover', className)}
+      className={cn('rounded-lg shadow-sm', className)}
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       useCloudinary={props.cloudinaryId ? true : props.useCloudinary}
       trackPerformance={true}

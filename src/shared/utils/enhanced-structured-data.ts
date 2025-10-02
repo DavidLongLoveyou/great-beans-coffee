@@ -86,6 +86,8 @@ export interface B2BProductSchema {
     value: string;
     unitText?: string;
   }>;
+  // Index signature for compatibility with StructuredDataObject
+  [key: string]: unknown;
 }
 
 // Enhanced Service Schema for B2B services
@@ -144,6 +146,8 @@ export interface B2BServiceSchema {
     name: string;
     credentialCategory: string;
   }>;
+  // Index signature for compatibility with StructuredDataObject
+  [key: string]: unknown;
 }
 
 // Enhanced Article Schema with multilingual support
@@ -205,6 +209,8 @@ export interface MultilingualArticleSchema {
     '@type': 'SpeakableSpecification';
     cssSelector: string[];
   };
+  // Index signature for compatibility with StructuredDataObject
+  [key: string]: unknown;
 }
 
 // WebSite schema with search functionality

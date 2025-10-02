@@ -4,7 +4,7 @@ import { TrendIndicator, PriceTrend, PercentageTrend, VolumeTrend } from '../Tre
 
 describe('TrendIndicator Component', () => {
   it('renders positive trend correctly', () => {
-    render(<TrendIndicator value={15.5} previousValue={10} />)
+    render(<TrendIndicator value={15.5} previousValue={10} label="Test Value" />)
     
     expect(screen.getByText('15.5')).toBeInTheDocument()
     expect(screen.getByText('+5.5')).toBeInTheDocument()
@@ -15,7 +15,7 @@ describe('TrendIndicator Component', () => {
   })
 
   it('renders negative trend correctly', () => {
-    render(<TrendIndicator value={8} previousValue={12} />)
+    render(<TrendIndicator value={8} previousValue={12} label="Test Value" />)
     
     expect(screen.getByText('8')).toBeInTheDocument()
     expect(screen.getByText('-4')).toBeInTheDocument()
@@ -26,7 +26,7 @@ describe('TrendIndicator Component', () => {
   })
 
   it('renders neutral trend correctly', () => {
-    render(<TrendIndicator value={10} previousValue={10} />)
+    render(<TrendIndicator value={10} previousValue={10} label="Test Value" />)
     
     expect(screen.getByText('10')).toBeInTheDocument()
     expect(screen.getByText('0')).toBeInTheDocument()
@@ -37,7 +37,7 @@ describe('TrendIndicator Component', () => {
   })
 
   it('handles zero previous value', () => {
-    render(<TrendIndicator value={5} previousValue={0} />)
+    render(<TrendIndicator value={5} previousValue={0} label="Test Value" />)
     
     expect(screen.getByText('5')).toBeInTheDocument()
     expect(screen.getByText('+5')).toBeInTheDocument()
@@ -45,7 +45,7 @@ describe('TrendIndicator Component', () => {
   })
 
   it('renders with custom format - currency', () => {
-    render(<TrendIndicator value={25.99} previousValue={20.50} format="currency" />)
+    render(<TrendIndicator value={25.99} previousValue={20.50} format="currency" label="Price" />)
     
     expect(screen.getByText('$25.99')).toBeInTheDocument()
     expect(screen.getByText('+$5.49')).toBeInTheDocument()

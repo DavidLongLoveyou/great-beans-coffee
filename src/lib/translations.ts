@@ -1,18 +1,19 @@
 import { getMessages } from './messages';
 
-export async function getTranslations(locale?: string, namespace?: string) {
+export async function getTranslations(locale: string) {
   const messages = await getMessages(locale);
   
-  return function t(key: string) {
+  return function t(key: string): string {
     const keys = key.split('.');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let value: any = messages;
     
     for (const k of keys) {
-      if (value && typeof value === 'object' && k in value) {
-        value = value[k];
-      } else {
-        console.warn(`Translation key not found: ${key}`);
-        return key; // Return the key if translation not found
+      value = value?.[k];
+      if (value === undefined) {
+        // eslint-disable-next-line no-console
+        console.warn(`Translation key "${key}" not found for locale "${locale}"`);
+        return key; // Return the key as fallback
       }
     }
     

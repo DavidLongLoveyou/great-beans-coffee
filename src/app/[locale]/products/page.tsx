@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
+import type { CoffeeGrade, ProcessingMethod, CoffeeCertification } from '@/shared/components/design-system/types';
+
 import { type Locale } from '@/i18n';
 import { SEOHead } from '@/presentation/components/seo';
 import { Badge } from '@/presentation/components/ui/badge';
@@ -33,7 +35,7 @@ import {
   ContentSection,
   ContentContainer,
   ProductGrid,
-} from '@/shared/components/design-system/layout';
+} from '@/shared/components/design-system/Layout';
 import { 
   generateMetadata as generateSEOMetadata,
   generateOrganizationSchema,
@@ -81,8 +83,8 @@ const mockProducts = [
     shortDescription:
       'High-quality natural processed Robusta from Dak Lak province',
     type: 'ROBUSTA',
-    grade: 'GRADE_1',
-    processingMethod: 'NATURAL',
+    grade: 'grade-1' as CoffeeGrade,
+    processingMethod: 'natural' as ProcessingMethod,
     origin: {
       region: 'Dak Lak',
       province: 'Dak Lak',
@@ -98,7 +100,7 @@ const mockProducts = [
       stockQuantity: 150,
       leadTime: 14,
     },
-    certifications: ['ORGANIC', 'RAINFOREST_ALLIANCE'],
+    certifications: ['organic', 'rainforest-alliance'] as CoffeeCertification[],
     images: [
       {
         url: '/images/products/robusta-grade1.jpg',
@@ -119,8 +121,8 @@ const mockProducts = [
     name: 'Specialty Arabica Washed',
     shortDescription: 'Premium washed Arabica from Lam Dong highlands',
     type: 'ARABICA',
-    grade: 'SPECIALTY',
-    processingMethod: 'WASHED',
+    grade: 'specialty' as CoffeeGrade,
+    processingMethod: 'washed' as ProcessingMethod,
     origin: {
       region: 'Lam Dong',
       province: 'Lam Dong',
@@ -136,7 +138,7 @@ const mockProducts = [
       stockQuantity: 80,
       leadTime: 21,
     },
-    certifications: ['ORGANIC', 'FAIR_TRADE'],
+    certifications: ['organic', 'fair-trade'] as CoffeeCertification[],
     images: [
       {
         url: '/images/products/arabica-specialty.jpg',
@@ -158,8 +160,8 @@ const mockProducts = [
     name: 'Robusta Grade 2 Honey',
     shortDescription: 'Honey processed Robusta with unique flavor profile',
     type: 'ROBUSTA',
-    grade: 'GRADE_2',
-    processingMethod: 'HONEY',
+    grade: 'grade-2' as CoffeeGrade,
+    processingMethod: 'honey' as ProcessingMethod,
     origin: {
       region: 'Gia Lai',
       province: 'Gia Lai',
@@ -175,7 +177,7 @@ const mockProducts = [
       stockQuantity: 200,
       leadTime: 10,
     },
-    certifications: ['RAINFOREST_ALLIANCE'],
+    certifications: ['rainforest-alliance'] as CoffeeCertification[],
     images: [
       {
         url: '/images/products/robusta-honey.jpg',
@@ -224,20 +226,24 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
         '@type': 'ListItem',
         position: index + 1,
         item: generateB2BProductSchema({
+          id: product.id,
           name: product.name,
           description: product.shortDescription,
-          sku: product.sku,
-          price: product.pricing.basePrice,
-          currency: product.pricing.currency,
-          availability: product.availability.inStock ? 'InStock' : 'OutOfStock',
-          category: `${product.type} Coffee`,
-          brand: 'The Great Beans',
-          origin: `${product.origin.region}, Vietnam`,
-          certifications: product.certifications,
-          specifications: product.specifications,
           images: product.images.map(img => img.url),
-          url: `https://thegreatbeans.com/${locale}/products/${product.id}`,
-        }),
+          category: `${product.type} Coffee`,
+          sku: product.sku,
+          origin: `${product.origin.region}, Vietnam`,
+          certifications: product.certifications.map(cert => ({
+            name: cert,
+            identifier: cert,
+            issuer: 'Certification Authority'
+          })),
+          minOrderQuantity: 1000, // 1 MT minimum
+          unitOfMeasure: 'kg',
+          leadTime: { min: product.availability.leadTime, max: product.availability.leadTime + 7 },
+          targetMarkets: ['Global'],
+          incoterms: ['FOB', 'CIF', 'CFR']
+        }, locale),
       })),
     },
     breadcrumb: {
@@ -272,7 +278,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
       {/* Hero Section */}
       <HeroSection className="bg-gradient-to-r from-forest-600 to-forest-700 py-20 text-white">
         <ContentContainer className="text-center">
-          <CoffeeHeading size="4xl" className="mb-6 text-white">
+          <CoffeeHeading className="mb-6 text-white">
             Premium Vietnamese Coffee Products
           </CoffeeHeading>
           <p className="mx-auto mb-8 max-w-3xl text-xl text-forest-50 md:text-2xl">
@@ -284,14 +290,14 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
               <Coffee className="mr-2 h-5 w-5" />
               Browse Catalog
             </GoldButton>
-            <CoffeeButton
+            <Button
               size="lg"
               variant="outline"
               className="border-white text-white hover:bg-white hover:text-forest-600"
             >
               <ShoppingCart className="mr-2 h-5 w-5" />
               Request Quote
-            </CoffeeButton>
+            </Button>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="text-center">
@@ -385,9 +391,9 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
                   Showing {mockProducts.length} products
                 </p>
                 <div className="flex gap-2">
-                  <CoffeeButton variant="outline" size="sm">
+                  <Button variant="outline" size="sm">
                     Reset Filters
-                  </CoffeeButton>
+                  </Button>
                   <GoldButton size="sm">Apply Filters</GoldButton>
                 </div>
               </div>
@@ -426,8 +432,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
                     <CoffeeGradeIndicator grade={product.grade} />
                     <ProcessingMethodBadge method={product.processingMethod} />
                     <OriginFlag
-                      country="Vietnam"
-                      region={product.origin.region}
+                      origin="vietnam"
                     />
                   </div>
                   <CardTitle className="text-lg text-forest-800">{product.name}</CardTitle>
@@ -466,7 +471,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
                         {product.pricing.unit}
                       </span>
                       <div className="flex gap-2">
-                        <Button variant="forest-outline" size="sm" asChild className="hover:shadow-forest-medium">
+                        <Button variant="outline" size="sm" asChild className="hover:shadow-forest-medium">
                           <Link href={`/${locale}/products/${product.id}`}>
                             <Eye className="mr-1 h-4 w-4" />
                             View
@@ -488,7 +493,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
 
           {/* Load More / Pagination */}
           <div className="mt-12 text-center">
-            <Button variant="forest" size="lg" className="shadow-forest-medium">
+            <Button variant="default" size="lg" className="shadow-forest-medium">
               Load More Products
             </Button>
           </div>
@@ -498,7 +503,7 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
       {/* CTA Section */}
       <ContentSection className="bg-gradient-to-r from-forest-600 to-forest-700 py-16 text-white">
         <ContentContainer className="text-center">
-          <SectionHeading size="2xl" className="mb-4 text-white">
+          <SectionHeading size="xl" className="mb-4 text-white">
             Can&apos;t Find What You&apos;re Looking For?
           </SectionHeading>
           <p className="mx-auto mb-8 max-w-2xl text-lg text-forest-50">
@@ -510,14 +515,14 @@ export default async function ProductsPage({ params }: ProductsPageProps) {
               <Coffee className="mr-2 h-5 w-5" />
               Custom Sourcing
             </GoldButton>
-            <CoffeeButton
+            <Button
               size="lg"
               variant="outline"
               className="border-white text-white hover:bg-white hover:text-forest-600"
             >
               <ShoppingCart className="mr-2 h-5 w-5" />
               Contact Sales Team
-            </CoffeeButton>
+            </Button>
           </div>
         </ContentContainer>
       </ContentSection>

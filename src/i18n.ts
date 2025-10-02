@@ -35,6 +35,8 @@ export const localeLabels: Record<Locale, string> = {
 export const localeConfig: Record<
   Locale,
   {
+    label: string;
+    flag: string;
     currency: string;
     dateFormat: string;
     numberFormat: string;
@@ -42,54 +44,72 @@ export const localeConfig: Record<
   }
 > = {
   en: {
+    label: 'English',
+    flag: '🇺🇸',
     currency: 'USD',
     dateFormat: 'MM/dd/yyyy',
     numberFormat: 'en-US',
     rtl: false,
   },
   de: {
+    label: 'Deutsch',
+    flag: '🇩🇪',
     currency: 'EUR',
     dateFormat: 'dd.MM.yyyy',
     numberFormat: 'de-DE',
     rtl: false,
   },
   ja: {
+    label: '日本語',
+    flag: '🇯🇵',
     currency: 'JPY',
     dateFormat: 'yyyy/MM/dd',
     numberFormat: 'ja-JP',
     rtl: false,
   },
   fr: {
+    label: 'Français',
+    flag: '🇫🇷',
     currency: 'EUR',
     dateFormat: 'dd/MM/yyyy',
     numberFormat: 'fr-FR',
     rtl: false,
   },
   it: {
+    label: 'Italiano',
+    flag: '🇮🇹',
     currency: 'EUR',
     dateFormat: 'dd/MM/yyyy',
     numberFormat: 'it-IT',
     rtl: false,
   },
   es: {
+    label: 'Español',
+    flag: '🇪🇸',
     currency: 'EUR',
     dateFormat: 'dd/MM/yyyy',
     numberFormat: 'es-ES',
     rtl: false,
   },
   nl: {
+    label: 'Nederlands',
+    flag: '🇳🇱',
     currency: 'EUR',
     dateFormat: 'dd-MM-yyyy',
     numberFormat: 'nl-NL',
     rtl: false,
   },
   ko: {
+    label: '한국어',
+    flag: '🇰🇷',
     currency: 'KRW',
     dateFormat: 'yyyy. MM. dd.',
     numberFormat: 'ko-KR',
     rtl: false,
   },
   vi: {
+    label: 'Tiếng Việt',
+    flag: '🇻🇳',
     currency: 'VND',
     dateFormat: 'dd/MM/yyyy',
     numberFormat: 'vi-VN',
@@ -106,7 +126,10 @@ export default getRequestConfig(async ({ locale }) => {
 
   try {
     return {
-      messages: (await import(`../messages/${locale}.json`)).default
+      locale: locale as string,
+      messages: (await import(`../messages/${locale}.json`)).default,
+      timeZone: 'UTC', // Default timezone to prevent environment mismatches
+      now: new Date(),
     };
   } catch (error) {
     console.error(`Failed to load messages for locale: ${locale}`, error);

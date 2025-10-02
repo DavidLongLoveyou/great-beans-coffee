@@ -395,7 +395,7 @@ export class BusinessServiceEntity {
   }
 
   addCaseStudy(
-    caseStudy: BusinessService['caseStudies'][0]
+    caseStudy: NonNullable<BusinessService['caseStudies']>[0]
   ): BusinessServiceEntity {
     const updatedData: BusinessService = {
       ...this.data,

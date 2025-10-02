@@ -4,7 +4,22 @@ import {
   type RFQStatus,
   type RFQPriority,
   type Incoterms,
+  type RFQCommunication,
+  type RFQDocument,
 } from '../entities/rfq.entity';
+
+// Quote type for RFQ management
+export interface RFQQuote {
+  id: string;
+  rfqId: string;
+  status: 'DRAFT' | 'SENT' | 'VIEWED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
+  totalAmount: number;
+  currency: string;
+  validUntil: Date;
+  createdAt: Date;
+  createdBy: string;
+  notes?: string;
+}
 
 // Search and filter criteria
 export interface RFQSearchCriteria {
@@ -169,9 +184,9 @@ export interface IRFQRepository {
   // Communication management
   addCommunication(
     id: string,
-    communication: Omit<RFQ['communications'][0], 'id' | 'timestamp'>
+    communication: Omit<RFQCommunication, 'id' | 'timestamp'>
   ): Promise<RFQEntity>;
-  getCommunicationHistory(id: string): Promise<RFQ['communications']>;
+  getCommunicationHistory(id: string): Promise<RFQCommunication[]>;
   markAsRead(
     id: string,
     communicationId: string,
@@ -181,12 +196,12 @@ export interface IRFQRepository {
   // Quote management
   addQuote(
     id: string,
-    quote: Omit<RFQ['quotes'][0], 'id' | 'createdAt'>
+    quote: Omit<RFQQuote, 'id' | 'createdAt'>
   ): Promise<RFQEntity>;
   updateQuote(
     id: string,
     quoteId: string,
-    updates: Partial<RFQ['quotes'][0]>
+    updates: Partial<RFQQuote>
   ): Promise<RFQEntity>;
   acceptQuote(
     id: string,
@@ -203,10 +218,10 @@ export interface IRFQRepository {
   // Document management
   addDocument(
     id: string,
-    document: Omit<RFQ['documents'][0], 'id' | 'uploadedAt'>
+    document: Omit<RFQDocument, 'id' | 'uploadedAt'>
   ): Promise<RFQEntity>;
   removeDocument(id: string, documentId: string): Promise<RFQEntity>;
-  getDocuments(id: string): Promise<RFQ['documents']>;
+  getDocuments(id: string): Promise<RFQDocument[]>;
 
   // Deadline management
   findByResponseDeadline(before: Date): Promise<RFQEntity[]>;

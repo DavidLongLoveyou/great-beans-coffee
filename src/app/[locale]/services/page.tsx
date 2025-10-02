@@ -17,8 +17,8 @@ import {
 import { 
   generateMetadata as generateSEOMetadata,
   generateOrganizationSchema,
+  generateServiceSchema,
 } from '@/shared/utils/seo-utils';
-import { generateB2BServiceSchema } from '@/shared/utils/enhanced-structured-data';
 
 interface ServicesPageProps {
   params: Promise<{ locale: Locale }>;
@@ -81,15 +81,10 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
       itemListElement: services.map((service, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        item: generateB2BServiceSchema({
+        item: generateServiceSchema({
           name: service.title,
           description: service.description,
-          category: service.category || 'Coffee Services',
-          features: service.features || [],
-          pricing: service.pricing,
-          url: `https://thegreatbeans.com${service.url}`,
-          provider: 'The Great Beans',
-          areaServed: 'Worldwide',
+          serviceType: service.category || 'Coffee Services',
         }),
       })),
     },

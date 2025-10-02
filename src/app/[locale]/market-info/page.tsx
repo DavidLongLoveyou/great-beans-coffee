@@ -12,8 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { SEOHead } from '@/presentation/components/SEO/SEOHead';
-import { generateSEOMetadata, generateOrganizationSchema } from '@/shared/utils/seo-utils';
+import { SEOHead } from '@/presentation/components/seo/SEOHead';
+import { generateMetadata as generateSEOMetadata, generateOrganizationSchema } from '@/shared/utils/seo-utils';
 
 interface MarketInfoPageProps {
   params: Promise<{
@@ -33,7 +33,7 @@ export async function generateMetadata({
       default: 'Comprehensive market-specific information for coffee export operations, including currency, shipping details, certifications, and business requirements.'
     }),
     locale,
-    path: '/market-info',
+    url: '/market-info',
     type: 'website',
   });
 }

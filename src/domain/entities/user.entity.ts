@@ -315,7 +315,7 @@ export class UserEntity {
   isAccountLocked(): boolean {
     return (
       this.data.status === 'LOCKED' ||
-      (this.data.security.lockedUntil &&
+      Boolean(this.data.security.lockedUntil &&
         this.data.security.lockedUntil > new Date())
     );
   }
@@ -481,7 +481,7 @@ export class UserEntity {
   }
 
   // Security-safe version without sensitive data
-  toSafeJSON(): Omit<UserData, 'security'> {
+  toSafeJSON(): Omit<User, 'security'> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { security: _security, ...safeData } = this.data;
     return safeData;

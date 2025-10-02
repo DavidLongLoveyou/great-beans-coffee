@@ -189,8 +189,8 @@ ContactSalesButton.displayName = 'ContactSalesButton';
 export const DownloadCatalogButton = forwardRef<
   HTMLButtonElement,
   Omit<ButtonProps, 'variant' | 'children'>
->(({ variant = 'outline', ...props }, ref) => (
-  <Button variant={variant} ref={ref} {...props}>
+>(({ ...props }, ref) => (
+  <Button variant="outline" ref={ref} {...props}>
     Download Catalog
   </Button>
 ));

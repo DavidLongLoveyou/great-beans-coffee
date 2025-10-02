@@ -5,6 +5,9 @@ import {
   type PaymentStatus,
   type ShipmentStatus,
   type OrderPriority,
+  type OrderDocument,
+  type OrderCommunication,
+  type OrderItem,
 } from '../entities/order.entity';
 
 // Search and filter criteria
@@ -197,12 +200,12 @@ export interface IOrderRepository {
   // Order items management
   addItem(
     id: string,
-    item: Omit<Order['items'][0], 'id'>
+    item: Omit<OrderItem, 'id'>
   ): Promise<OrderEntity>;
   updateItem(
     id: string,
     itemId: string,
-    updates: Partial<Order['items'][0]>
+    updates: Partial<OrderItem>
   ): Promise<OrderEntity>;
   removeItem(id: string, itemId: string): Promise<OrderEntity>;
   updateItemStatus(
@@ -256,12 +259,12 @@ export interface IOrderRepository {
   // Document management
   addDocument(
     id: string,
-    document: Omit<Order['documents'][0], 'id' | 'uploadedAt'>
+    document: Omit<OrderDocument, 'id' | 'uploadedAt'>
   ): Promise<OrderEntity>;
   updateDocument(
     id: string,
     documentId: string,
-    updates: Partial<Order['documents'][0]>
+    updates: Partial<OrderDocument>
   ): Promise<OrderEntity>;
   removeDocument(id: string, documentId: string): Promise<OrderEntity>;
   verifyDocument(
@@ -276,9 +279,9 @@ export interface IOrderRepository {
   // Communication management
   addCommunication(
     id: string,
-    communication: Omit<Order['communications'][0], 'id' | 'createdAt'>
+    communication: Omit<OrderCommunication, 'id' | 'createdAt'>
   ): Promise<OrderEntity>;
-  getCommunicationHistory(id: string): Promise<Order['communications']>;
+  getCommunicationHistory(id: string): Promise<OrderCommunication[]>;
   markCommunicationAsRead(
     id: string,
     communicationId: string,

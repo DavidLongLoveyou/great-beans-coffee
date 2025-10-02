@@ -323,7 +323,7 @@ export const coffeeProductsData: SeedCoffeeProduct[] = [
     coffeeType: 'ARABICA',
     grade: 'PREMIUM',
     processing: 'WASHED',
-    certifications: ['ORGANIC', 'SPECIALTY_COFFEE'],
+    certifications: ['ORGANIC', 'UTZ'],
     specifications: {
       moisture: '11.5%',
       defects: '< 3%',

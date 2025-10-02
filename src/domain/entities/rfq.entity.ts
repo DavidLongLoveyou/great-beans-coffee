@@ -291,7 +291,7 @@ export class RFQEntity {
   requiresUrgentAttention(): boolean {
     return (
       this.data.priority === 'URGENT' ||
-      (this.data.followUpDate && new Date() >= this.data.followUpDate)
+      Boolean(this.data.followUpDate && new Date() >= this.data.followUpDate)
     );
   }
 
@@ -314,7 +314,10 @@ export class RFQEntity {
       case 'ARABICA':
         estimatedPricePerUnit = 4000; // USD per MT
         break;
-      case 'SPECIALTY':
+      case 'BLEND':
+        estimatedPricePerUnit = 3500; // USD per MT
+        break;
+      case 'INSTANT':
         estimatedPricePerUnit = 6000; // USD per MT
         break;
       default:

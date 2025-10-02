@@ -34,7 +34,7 @@ export interface RFQFilters {
   dateTo?: Date;
   limit?: number;
   offset?: number;
-  sortBy?: 'createdAt' | 'updatedAt' | 'validUntil' | 'estimatedValue';
+  sortBy?: 'createdAt' | 'updatedAt';
   sortOrder?: 'asc' | 'desc';
 }
 
@@ -42,74 +42,75 @@ export class RFQRepository implements IRFQRepository {
   private mapToEntity(rfq: any): RFQEntity {
     return new RFQEntity({
       id: rfq.id,
-      referenceNumber: rfq.referenceNumber,
+      rfqNumber: rfq.rfqNumber,
       status: rfq.status,
       priority: rfq.priority,
-      source: rfq.source,
-      companyInfo: rfq.companyInfo,
-      contactPerson: rfq.contactPerson,
-      productRequirements: rfq.productRequirements,
-      quantityRequirements: rfq.quantityRequirements,
-      deliveryRequirements: rfq.deliveryRequirements,
-      paymentTerms: rfq.paymentTerms,
+      source: rfq.businessType || 'WEBSITE',
+      companyInfo: {
+        companyName: rfq.companyName,
+        contactPerson: rfq.contactPerson,
+        email: rfq.email,
+        phone: rfq.phone,
+        address: {
+          street: '',
+          city: '',
+          postalCode: '',
+          country: rfq.country,
+        },
+        businessType: rfq.businessType || 'IMPORTER',
+      },
+      productRequirements: rfq.productRequirements || {
+        coffeeType: 'ARABICA',
+      },
+      quantityRequirements: {
+        quantity: 1,
+        unit: 'MT',
+        isRecurringOrder: false,
+      },
+      deliveryRequirements: rfq.deliveryRequirements || {
+        incoterms: 'FOB',
+        destinationPort: '',
+        destinationCountry: rfq.country || '',
+        preferredDeliveryDate: new Date(),
+        latestDeliveryDate: new Date(),
+        packaging: 'JUTE_BAGS_60KG',
+      },
+      paymentTerms: rfq.paymentRequirements || {
+        preferredCurrency: 'USD',
+        paymentMethod: 'LC',
+        paymentTerms: '',
+      },
       additionalRequirements: rfq.additionalRequirements,
-      estimatedValue: rfq.estimatedValue,
-      validUntil: rfq.validUntil,
-      internalNotes: rfq.internalNotes,
-      clientCompanyId: rfq.clientCompanyId,
-      assignedToId: rfq.assignedToId,
+      sampleRequired: rfq.sampleRequired || false,
+      estimatedValue: rfq.totalValue,
+      assignedTo: rfq.assignedTo,
+      submittedAt: rfq.createdAt,
+      lastActivityAt: rfq.updatedAt,
       createdAt: rfq.createdAt,
       updatedAt: rfq.updatedAt,
+      updatedBy: rfq.updatedBy || rfq.createdBy || '',
     });
   }
 
   private getIncludeClause() {
     return {
-      clientCompany: {
+      client: {
         select: {
           id: true,
           name: true,
           email: true,
           country: true,
-          relationshipStatus: true,
         },
       },
-      assignedTo: {
+      assignee: {
         select: {
           id: true,
           name: true,
           email: true,
         },
       },
-      documents: true,
-      communications: {
-        orderBy: { createdAt: 'desc' },
-      },
-      products: {
-        include: {
-          product: {
-            select: {
-              id: true,
-              name: true,
-              sku: true,
-              type: true,
-              grade: true,
-            },
-          },
-        },
-      },
-      services: {
-        include: {
-          service: {
-            select: {
-              id: true,
-              name: true,
-              type: true,
-              category: true,
-            },
-          },
-        },
-      },
+      products: true,
+      services: true,
     };
   }
 
@@ -126,7 +127,7 @@ export class RFQRepository implements IRFQRepository {
     referenceNumber: string
   ): Promise<RFQEntity | null> {
     const rfq = await prisma.rFQ.findUnique({
-      where: { referenceNumber },
+      where: { rfqNumber: referenceNumber },
       include: this.getIncludeClause(),
     });
 
@@ -143,20 +144,13 @@ export class RFQRepository implements IRFQRepository {
       if (filters.priority?.length) {
         where.priority = { in: filters.priority as any[] };
       }
-      if (filters.source?.length) {
-        where.source = { in: filters.source };
-      }
+
       if (filters.companyId) {
-        where.clientCompanyId = filters.companyId;
+        where.clientId = filters.companyId;
       }
-      if (filters.productType?.length) {
-        where.productRequirements = {
-          path: ['type'],
-          in: filters.productType,
-        };
-      }
+
       if (filters.minValue !== undefined || filters.maxValue !== undefined) {
-        where.estimatedValue = {
+        where.totalValue = {
           ...(filters.minValue !== undefined && { gte: filters.minValue }),
           ...(filters.maxValue !== undefined && { lte: filters.maxValue }),
         };
@@ -196,19 +190,21 @@ export class RFQRepository implements IRFQRepository {
   }
 
   async findByCompany(companyId: string): Promise<RFQEntity[]> {
-    return this.findAll({
-      companyId,
-      sortBy: 'createdAt',
-      sortOrder: 'desc',
+    const rfqs = await prisma.rFQ.findMany({
+      where: { clientId: companyId },
+      include: this.getIncludeClause(),
+      orderBy: { createdAt: 'desc' },
     });
+    return rfqs.map(rfq => this.mapToEntity(rfq));
   }
 
   async findPending(): Promise<RFQEntity[]> {
-    return this.findAll({
-      status: ['PENDING', 'IN_REVIEW'],
-      sortBy: 'createdAt',
-      sortOrder: 'asc',
+    const rfqs = await prisma.rFQ.findMany({
+      where: { status: 'PENDING' },
+      include: this.getIncludeClause(),
+      orderBy: { createdAt: 'asc' },
     });
+    return rfqs.map(rfq => this.mapToEntity(rfq));
   }
 
   async findExpiringSoon(days: number = 7): Promise<RFQEntity[]> {

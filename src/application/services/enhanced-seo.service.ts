@@ -62,7 +62,7 @@ export interface SEOPageData {
     currency: string;
     unit?: string;
   };
-  availability?: 'InStock' | 'OutOfStock' | 'PreOrder' | 'Seasonal';
+  availability?: 'InStock' | 'OutOfStock' | 'PreOrder' | 'Discontinued';
   
   // Navigation
   breadcrumbs?: Array<{ name: string; url: string }>;
@@ -150,15 +150,15 @@ export class EnhancedSEOService {
       keywords: pageData.keywords,
       contentType: this.mapPageTypeToContentType(pageData.pageType),
       locale: pageData.locale,
-      alternateLocales: options.alternateLocales,
-      author: pageData.author,
-      publishedTime: pageData.publishedDate,
-      modifiedTime: pageData.modifiedDate,
-      section: pageData.category,
-      tags: pageData.tags,
-      price: pageData.price,
-      availability: pageData.availability,
-      images: pageData.images,
+      alternateLocales: options.alternateLocales || [],
+      ...(pageData.author && { author: pageData.author }),
+      ...(pageData.publishedDate && { publishedTime: pageData.publishedDate }),
+      ...(pageData.modifiedDate && { modifiedTime: pageData.modifiedDate }),
+      ...(pageData.category && { section: pageData.category }),
+      ...(pageData.tags && { tags: pageData.tags }),
+      ...(pageData.price && { price: pageData.price }),
+      ...(pageData.availability && { availability: pageData.availability }),
+      ...(pageData.images && { images: pageData.images }),
       canonical: this.generateCanonicalUrl(pageData),
       priority: this.calculatePagePriority(pageData.pageType),
       changeFrequency: this.getChangeFrequency(pageData.pageType),
@@ -235,8 +235,8 @@ export class EnhancedSEOService {
         'wholesale coffee',
       ],
       images: productData.images,
-      price: productData.price,
-      availability: productData.availability,
+      ...(productData.price && { price: productData.price }),
+      availability: this.mapAvailabilityToSEOFormat(productData.availability),
       breadcrumbs: [
         { name: 'Home', url: `/${locale}` },
         { name: 'Products', url: `/${locale}/products` },
@@ -332,11 +332,11 @@ export class EnhancedSEOService {
       ],
       content: articleData.content,
       images: articleData.images,
-      publishedDate: articleData.publishedDate,
-      modifiedDate: articleData.modifiedDate,
-      author: articleData.author,
-      category: articleData.category,
-      tags: articleData.tags,
+      ...(articleData.publishedDate && { publishedDate: articleData.publishedDate }),
+      ...(articleData.modifiedDate && { modifiedDate: articleData.modifiedDate }),
+      ...(articleData.author && { author: articleData.author }),
+      ...(articleData.category && { category: articleData.category }),
+      ...(articleData.tags && { tags: articleData.tags }),
       breadcrumbs: [
         { name: 'Home', url: `/${articleData.locale}` },
         { name: 'Blog', url: `/${articleData.locale}/blog` },
@@ -490,24 +490,32 @@ export class EnhancedSEOService {
     priority: number;
     images?: Array<{ url: string; caption?: string; title?: string }>;
   } {
-    return {
+    const sitemapEntry = {
       url: this.generateCanonicalUrl(pageData),
       lastModified: lastModified || pageData.modifiedDate || pageData.publishedDate || new Date().toISOString(),
       changeFrequency: this.getChangeFrequency(pageData.pageType),
       priority: this.calculatePagePriority(pageData.pageType),
-      images: pageData.images?.map(img => ({
-        url: img.url.startsWith('http') ? img.url : `${this.baseUrl}${img.url}`,
-        caption: img.caption || img.alt,
-        title: img.alt,
-      })),
     };
+
+    if (pageData.images && pageData.images.length > 0) {
+      return {
+        ...sitemapEntry,
+        images: pageData.images.map(img => ({
+          url: img.url.startsWith('http') ? img.url : `${this.baseUrl}${img.url}`,
+          caption: img.caption || img.alt,
+          title: img.alt,
+        })),
+      };
+    }
+
+    return sitemapEntry;
   }
 
   /**
    * Helper methods
    */
   private mapPageTypeToContentType(pageType: string): AdvancedSEOMetadata['contentType'] {
-    const mapping = {
+    const mapping: Record<string, AdvancedSEOMetadata['contentType']> = {
       home: 'website',
       product: 'product',
       service: 'service',
@@ -519,7 +527,7 @@ export class EnhancedSEOService {
       'origin-story': 'article',
     };
     
-    return mapping[pageType as keyof typeof mapping] || 'website';
+    return mapping[pageType] || 'website';
   }
 
   private generateCanonicalUrl(pageData: SEOPageData): string {
@@ -561,7 +569,7 @@ export class EnhancedSEOService {
     return priorities[pageType as keyof typeof priorities] || 0.5;
   }
 
-  private getChangeFrequency(pageType: string): string {
+  private getChangeFrequency(pageType: string): 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never' {
     const frequencies = {
       home: 'weekly',
       product: 'monthly',
@@ -574,7 +582,7 @@ export class EnhancedSEOService {
       contact: 'yearly',
     };
     
-    return frequencies[pageType as keyof typeof frequencies] || 'monthly';
+    return (frequencies[pageType as keyof typeof frequencies] || 'monthly') as 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
   }
 
   private async addPageSpecificSchemas(
@@ -637,6 +645,27 @@ export class EnhancedSEOService {
     if (metadata.twitter) count += Object.keys(metadata.twitter).length;
     
     return count;
+  }
+
+  private mapAvailabilityToSEOFormat(availability: any): 'InStock' | 'OutOfStock' | 'PreOrder' | 'Discontinued' {
+    if (typeof availability === 'string') {
+      const normalizedAvailability = availability.toLowerCase();
+      if (normalizedAvailability.includes('stock') || normalizedAvailability === 'available') {
+        return 'InStock';
+      }
+      if (normalizedAvailability.includes('out') || normalizedAvailability === 'unavailable') {
+        return 'OutOfStock';
+      }
+      if (normalizedAvailability.includes('preorder') || normalizedAvailability.includes('pre-order')) {
+        return 'PreOrder';
+      }
+      if (normalizedAvailability.includes('discontinued')) {
+        return 'Discontinued';
+      }
+    }
+    
+    // Default fallback
+    return 'InStock';
   }
 }
 

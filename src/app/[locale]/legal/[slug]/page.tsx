@@ -7,7 +7,7 @@ import { type Locale } from '@/i18n';
 import { getLegalPageBySlug, getLegalPages } from '@/lib/contentlayer';
 import { MDXContent } from '@/presentation/components/MDXContent';
 import { Button } from '@/presentation/components/ui/button';
-import { SEOHead } from '@/presentation/components/SEO/SEOHead';
+import { SEOHead } from '@/presentation/components/seo/SEOHead';
 import { generateOrganizationSchema } from '@/shared/utils/seo-utils';
 
 interface LegalPageProps {

@@ -525,7 +525,7 @@ export class OrderEntity {
     return (
       this.data.status === 'READY_FOR_SHIPMENT' &&
       this.hasRequiredDocuments() &&
-      (!this.requiresQualityCheck() || this.data.qualityControl?.passed)
+      (!this.requiresQualityCheck() || Boolean(this.data.qualityControl?.passed))
     );
   }
 

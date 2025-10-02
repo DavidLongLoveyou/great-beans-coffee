@@ -49,23 +49,27 @@ export class SearchService implements ISearchService {
 
       // Filter products based on query and filters
       let filteredProducts = allProducts.filter(product => {
-        // Text search
+        // Text search - handle multilingual properties using getters
+        const productName = product.name?.en || Object.values(product.name || {})[0] || '';
+        const productDescription = product.description?.en || Object.values(product.description || {})[0] || '';
+        const productOrigin = product.origin?.region || '';
+        
         const matchesQuery =
           !query ||
-          product.name.toLowerCase().includes(query.toLowerCase()) ||
-          product.description.toLowerCase().includes(query.toLowerCase()) ||
-          product.origin.toLowerCase().includes(query.toLowerCase());
+          productName.toLowerCase().includes(query.toLowerCase()) ||
+          productDescription.toLowerCase().includes(query.toLowerCase()) ||
+          productOrigin.toLowerCase().includes(query.toLowerCase());
 
-        // Category filter
+        // Category filter (using type instead of category)
         const matchesCategory =
           !filters.category ||
-          product.category.toLowerCase() === filters.category.toLowerCase();
+          product.type.toLowerCase() === filters.category.toLowerCase();
 
         // Origin filter
         const matchesOrigin =
           !filters.origin?.length ||
           filters.origin.some(origin =>
-            product.origin.toLowerCase().includes(origin.toLowerCase())
+            productOrigin.toLowerCase().includes(origin.toLowerCase())
           );
 
         // Grade filter
@@ -93,11 +97,11 @@ export class SearchService implements ISearchService {
             )
           );
 
-        // Price range filter
+        // Price range filter (using pricing.basePrice)
         const matchesPrice =
           !filters.priceRange ||
-          (product.pricePerKg >= filters.priceRange.min &&
-            product.pricePerKg <= filters.priceRange.max);
+          (product.pricing.basePrice >= filters.priceRange.min &&
+            product.pricing.basePrice <= filters.priceRange.max);
 
         return (
           matchesQuery &&
@@ -151,14 +155,17 @@ export class SearchService implements ISearchService {
 
       // Extract suggestions from product names, origins, and categories
       allProducts.forEach(product => {
-        if (product.name.toLowerCase().includes(query.toLowerCase())) {
-          suggestions.add(product.name);
+        const productName = product.name?.en || Object.values(product.name || {})[0] || '';
+        const productOrigin = product.origin?.region || '';
+        
+        if (productName.toLowerCase().includes(query.toLowerCase())) {
+          suggestions.add(productName);
         }
-        if (product.origin.toLowerCase().includes(query.toLowerCase())) {
-          suggestions.add(product.origin);
+        if (productOrigin.toLowerCase().includes(query.toLowerCase())) {
+          suggestions.add(productOrigin);
         }
-        if (product.category.toLowerCase().includes(query.toLowerCase())) {
-          suggestions.add(product.category);
+        if (product.type.toLowerCase().includes(query.toLowerCase())) {
+          suggestions.add(product.type);
         }
       });
 

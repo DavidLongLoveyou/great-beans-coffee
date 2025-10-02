@@ -7,6 +7,47 @@
 - **Current Phase**: Phase 0 ✅ COMPLETED
 - **Development Server**: http://localhost:3000
 
+## Phase 0.1 - RFQ Repository Bug Fixes 🔧 IN PROGRESS
+
+### 🔧 Current Session - RFQ Repository TypeScript Fixes
+
+**Date**: January 2025
+**Focus**: Fixing TypeScript compilation errors in RFQ repository implementation
+
+#### Issues Identified & Fixed:
+
+1. **Field Mapping Issues**:
+   - ✅ Fixed `referenceNumber` → `rfqNumber` mapping in Prisma schema
+   - ✅ Updated `clientCompanyId` → `clientId` field references
+   - ✅ Corrected `estimatedValue` → `totalValue` field mapping
+   - ✅ Fixed `companyInfo` structure to use `companyName` instead of `name`
+
+2. **Entity Structure Alignment**:
+   - ✅ Added missing `sampleRequired` field to RFQEntity mapping
+   - ✅ Fixed `quantityRequirements` to provide valid object instead of null
+   - ✅ Updated `mapToEntity` method to align with RFQSchema requirements
+   - ✅ Added required fields: `productRequirements`, `deliveryRequirements`, `paymentTerms`
+
+3. **Prisma Query Fixes**:
+   - ✅ Simplified `getIncludeClause` to only include existing relations (`client`, `assignee`)
+   - ✅ Removed non-existent includes: `documents`, `communications`, detailed selections
+   - ✅ Fixed `findByReferenceNumber` to use `rfqNumber` in where clause
+   - ✅ Updated `findByCompany` to use `clientId` instead of `clientCompanyId`
+
+4. **Filter & Query Optimization**:
+   - ✅ Removed non-existent `source` field from filters
+   - ✅ Removed complex JSON field queries for `productType`
+   - ✅ Updated `sortBy` options to only include available fields (`createdAt`, `updatedAt`)
+   - ✅ Fixed `findPending` method to directly query PENDING status
+
+#### Current Status:
+- 🔧 Build process encountering TypeScript compilation errors
+- 🔧 Multiple iterations of fixes applied to align with Prisma schema
+- 🔧 Repository methods updated to match actual database structure
+
+#### Files Modified:
+- `src/infrastructure/database/repositories/rfq.repository.ts` - Major refactoring for schema alignment
+
 ## Phase 0 - Database & Foundation Setup ✅ COMPLETED
 
 ### ✅ Completed Tasks:

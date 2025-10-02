@@ -288,9 +288,9 @@ export class ContentEntity {
     return this.data.translations.find(t => t.locale === locale) || null;
   }
 
-  getDefaultTranslation(): ContentTranslation {
+  getDefaultTranslation(): ContentTranslation | null {
     return (
-      this.data.translations.find(t => t.isDefault) || this.data.translations[0]
+      this.data.translations.find(t => t.isDefault) || this.data.translations[0] || null
     );
   }
 
@@ -304,22 +304,31 @@ export class ContentEntity {
 
   getLocalizedTitle(locale: string): string {
     const translation = this.getTranslation(locale);
-    return translation?.title || this.getDefaultTranslation().title;
+    const defaultTranslation = this.getDefaultTranslation();
+    return translation?.title || defaultTranslation?.title || '';
   }
 
   getLocalizedContent(locale: string): string {
     const translation = this.getTranslation(locale);
-    return translation?.content || this.getDefaultTranslation().content;
+    const defaultTranslation = this.getDefaultTranslation();
+    return translation?.content || defaultTranslation?.content || '';
   }
 
   getLocalizedSlug(locale: string): string {
     const translation = this.getTranslation(locale);
-    return translation?.slug || this.getDefaultTranslation().slug;
+    const defaultTranslation = this.getDefaultTranslation();
+    return translation?.slug || defaultTranslation?.slug || '';
   }
 
   getSEOMetadata(locale: string): SEOMetadata {
     const translation = this.getTranslation(locale);
-    return translation?.seoMetadata || this.getDefaultTranslation().seoMetadata;
+    const defaultTranslation = this.getDefaultTranslation();
+    return translation?.seoMetadata || defaultTranslation?.seoMetadata || {
+      title: '',
+      description: '',
+      noIndex: false,
+      noFollow: false
+    };
   }
 
   getEstimatedReadTime(): number {
@@ -329,6 +338,9 @@ export class ContentEntity {
 
     // Calculate based on word count (average 200 words per minute)
     const defaultTranslation = this.getDefaultTranslation();
+    if (!defaultTranslation?.content) {
+      return 1; // Default to 1 minute if no content
+    }
     const wordCount = defaultTranslation.content.split(/\s+/).length;
     return Math.ceil(wordCount / 200);
   }
@@ -478,9 +490,16 @@ export class ContentEntity {
     }
 
     const lastVersion = this.data.versions[this.data.versions.length - 1];
-    const [major, minor, patch] = lastVersion.versionNumber
+    if (!lastVersion) {
+      return '1.0.0';
+    }
+    const versionParts = lastVersion.versionNumber
       .split('.')
       .map(Number);
+    
+    const major = versionParts[0] || 1;
+    const minor = versionParts[1] || 0;
+    const patch = versionParts[2] || 0;
 
     // Increment patch version
     return `${major}.${minor}.${patch + 1}`;

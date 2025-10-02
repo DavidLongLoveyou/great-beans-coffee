@@ -84,4 +84,4 @@ class DefaultNotificationService implements NotificationService {
   }
 }
 
-export { NotificationService, DefaultNotificationService };
+export { DefaultNotificationService };

@@ -185,6 +185,10 @@ export default function QuotePage({
         deliveryDate: new Date(formData.preferredDeliveryDate || Date.now()),
         deliveryLocation: `${formData.destinationPort}, ${formData.destinationCountry}`,
 
+        // Recurring Order
+        isRecurringOrder: formData.isRecurringOrder,
+        recurringFrequency: formData.isRecurringOrder ? formData.recurringFrequency as any : undefined,
+
         // Payment Terms
         paymentTerms: formData.paymentTerms,
         paymentMethod: [formData.paymentMethod],
@@ -333,7 +337,7 @@ export default function QuotePage({
                     <Select
                       value={formData.coffeeType}
                       onValueChange={value =>
-                        updateFormData('coffeeType', value)
+                        updateFormData({ coffeeType: value })
                       }
                     >
                       <SelectTrigger>
@@ -351,7 +355,7 @@ export default function QuotePage({
                     <Label htmlFor="grade">Grade</Label>
                     <Select
                       value={formData.grade}
-                      onValueChange={value => updateFormData('grade', value)}
+                      onValueChange={value => updateFormData({ grade: value })}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select grade" />
@@ -373,7 +377,7 @@ export default function QuotePage({
                     <Select
                       value={formData.processingMethod}
                       onValueChange={value =>
-                        updateFormData('processingMethod', value)
+                        updateFormData({ processingMethod: value })
                       }
                     >
                       <SelectTrigger>
@@ -392,7 +396,7 @@ export default function QuotePage({
                     <Label htmlFor="origin">Origin Region</Label>
                     <Select
                       value={formData.origin}
-                      onValueChange={value => updateFormData('origin', value)}
+                      onValueChange={value => updateFormData({ origin: value })}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select origin" />
@@ -419,10 +423,9 @@ export default function QuotePage({
                       max="20"
                       value={formData.moistureMax || ''}
                       onChange={e =>
-                        updateFormData(
-                          'moistureMax',
-                          e.target.value ? parseFloat(e.target.value) : null
-                        )
+                        updateFormData({
+                          moistureMax: e.target.value ? parseFloat(e.target.value) : null
+                        })
                       }
                       placeholder="e.g., 12.5"
                     />
@@ -438,10 +441,9 @@ export default function QuotePage({
                       max="100"
                       value={formData.defectRateMax || ''}
                       onChange={e =>
-                        updateFormData(
-                          'defectRateMax',
-                          e.target.value ? parseFloat(e.target.value) : null
-                        )
+                        updateFormData({
+                          defectRateMax: e.target.value ? parseFloat(e.target.value) : null
+                        })
                       }
                       placeholder="e.g., 5.0"
                     />
@@ -465,15 +467,14 @@ export default function QuotePage({
                           checked={formData.certifications.includes(cert)}
                           onCheckedChange={checked => {
                             if (checked) {
-                              updateFormData('certifications', [
+                              updateFormData({ certifications: [
                                 ...formData.certifications,
                                 cert,
-                              ]);
+                              ] });
                             } else {
-                              updateFormData(
-                                'certifications',
-                                formData.certifications.filter(c => c !== cert)
-                              );
+                              updateFormData({
+                                certifications: formData.certifications.filter(c => c !== cert)
+                              });
                             }
                           }}
                         />
@@ -497,10 +498,9 @@ export default function QuotePage({
                       type="number"
                       value={formData.quantity || ''}
                       onChange={e =>
-                        updateFormData(
-                          'quantity',
-                          e.target.value ? parseFloat(e.target.value) : null
-                        )
+                        updateFormData({
+                          quantity: e.target.value ? parseFloat(e.target.value) : null
+                        })
                       }
                       placeholder="Enter quantity"
                     />
@@ -510,7 +510,7 @@ export default function QuotePage({
                     <Label htmlFor="unit">Unit</Label>
                     <Select
                       value={formData.unit}
-                      onValueChange={value => updateFormData('unit', value)}
+                      onValueChange={value => updateFormData({ unit: value })}
                     >
                       <SelectTrigger>
                         <SelectValue />
@@ -530,7 +530,7 @@ export default function QuotePage({
                     id="isRecurringOrder"
                     checked={formData.isRecurringOrder}
                     onCheckedChange={checked =>
-                      updateFormData('isRecurringOrder', checked)
+                      updateFormData({ isRecurringOrder: checked === true })
                     }
                   />
                   <Label htmlFor="isRecurringOrder">
@@ -546,7 +546,7 @@ export default function QuotePage({
                     <Select
                       value={formData.recurringFrequency}
                       onValueChange={value =>
-                        updateFormData('recurringFrequency', value)
+                        updateFormData({ recurringFrequency: value })
                       }
                     >
                       <SelectTrigger>
@@ -568,7 +568,7 @@ export default function QuotePage({
                     <Select
                       value={formData.incoterms}
                       onValueChange={value =>
-                        updateFormData('incoterms', value)
+                        updateFormData({ incoterms: value })
                       }
                     >
                       <SelectTrigger>
@@ -596,7 +596,7 @@ export default function QuotePage({
                     <Select
                       value={formData.packaging}
                       onValueChange={value =>
-                        updateFormData('packaging', value)
+                        updateFormData({ packaging: value })
                       }
                     >
                       <SelectTrigger>
@@ -632,7 +632,7 @@ export default function QuotePage({
                     <Input
                       value={formData.destinationCountry}
                       onChange={e =>
-                        updateFormData('destinationCountry', e.target.value)
+                        updateFormData({ destinationCountry: e.target.value })
                       }
                       placeholder="Enter destination country"
                     />
@@ -643,7 +643,7 @@ export default function QuotePage({
                     <Input
                       value={formData.destinationPort}
                       onChange={e =>
-                        updateFormData('destinationPort', e.target.value)
+                        updateFormData({ destinationPort: e.target.value })
                       }
                       placeholder="Enter destination port"
                     />
@@ -658,7 +658,7 @@ export default function QuotePage({
                     type="date"
                     value={formData.preferredDeliveryDate}
                     onChange={e =>
-                      updateFormData('preferredDeliveryDate', e.target.value)
+                      updateFormData({ preferredDeliveryDate: e.target.value })
                     }
                   />
                 </div>
@@ -676,7 +676,7 @@ export default function QuotePage({
                     <Select
                       value={formData.preferredCurrency}
                       onValueChange={value =>
-                        updateFormData('preferredCurrency', value)
+                        updateFormData({ preferredCurrency: value })
                       }
                     >
                       <SelectTrigger>
@@ -696,7 +696,7 @@ export default function QuotePage({
                     <Select
                       value={formData.paymentMethod}
                       onValueChange={value =>
-                        updateFormData('paymentMethod', value)
+                        updateFormData({ paymentMethod: value })
                       }
                     >
                       <SelectTrigger>
@@ -728,7 +728,7 @@ export default function QuotePage({
                   <Textarea
                     value={formData.paymentTerms}
                     onChange={e =>
-                      updateFormData('paymentTerms', e.target.value)
+                      updateFormData({ paymentTerms: e.target.value })
                     }
                     placeholder="e.g., 30% advance payment, 70% against shipping documents"
                     rows={3}
@@ -746,7 +746,7 @@ export default function QuotePage({
                     <Input
                       value={formData.companyName}
                       onChange={e =>
-                        updateFormData('companyName', e.target.value)
+                        updateFormData({ companyName: e.target.value })
                       }
                       placeholder="Enter company name"
                     />
@@ -757,7 +757,7 @@ export default function QuotePage({
                     <Select
                       value={formData.businessType}
                       onValueChange={value =>
-                        updateFormData('businessType', value)
+                        updateFormData({ businessType: value })
                       }
                     >
                       <SelectTrigger>
@@ -783,7 +783,7 @@ export default function QuotePage({
                     <Input
                       value={formData.contactPerson}
                       onChange={e =>
-                        updateFormData('contactPerson', e.target.value)
+                        updateFormData({ contactPerson: e.target.value })
                       }
                       placeholder="Enter contact person name"
                     />
@@ -793,7 +793,7 @@ export default function QuotePage({
                     <Label htmlFor="position">Position</Label>
                     <Input
                       value={formData.position}
-                      onChange={e => updateFormData('position', e.target.value)}
+                      onChange={e => updateFormData({ position: e.target.value })}
                       placeholder="Enter position/title"
                     />
                   </div>
@@ -805,7 +805,7 @@ export default function QuotePage({
                     <Input
                       type="email"
                       value={formData.email}
-                      onChange={e => updateFormData('email', e.target.value)}
+                      onChange={e => updateFormData({ email: e.target.value })}
                       placeholder="Enter email address"
                     />
                   </div>
@@ -814,7 +814,7 @@ export default function QuotePage({
                     <Label htmlFor="phone">Phone Number *</Label>
                     <Input
                       value={formData.phone}
-                      onChange={e => updateFormData('phone', e.target.value)}
+                      onChange={e => updateFormData({ phone: e.target.value })}
                       placeholder="Enter phone number"
                     />
                   </div>
@@ -825,7 +825,7 @@ export default function QuotePage({
                   <Input
                     type="url"
                     value={formData.website}
-                    onChange={e => updateFormData('website', e.target.value)}
+                    onChange={e => updateFormData({ website: e.target.value })}
                     placeholder="https://www.company.com"
                   />
                 </div>
@@ -835,31 +835,31 @@ export default function QuotePage({
                   <div className="grid grid-cols-1 gap-4">
                     <Input
                       value={formData.street}
-                      onChange={e => updateFormData('street', e.target.value)}
+                      onChange={e => updateFormData({ street: e.target.value })}
                       placeholder="Street address"
                     />
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                       <Input
                         value={formData.city}
-                        onChange={e => updateFormData('city', e.target.value)}
+                        onChange={e => updateFormData({ city: e.target.value })}
                         placeholder="City"
                       />
                       <Input
                         value={formData.state}
-                        onChange={e => updateFormData('state', e.target.value)}
+                        onChange={e => updateFormData({ state: e.target.value })}
                         placeholder="State/Province"
                       />
                       <Input
                         value={formData.postalCode}
                         onChange={e =>
-                          updateFormData('postalCode', e.target.value)
+                          updateFormData({ postalCode: e.target.value })
                         }
                         placeholder="Postal code"
                       />
                     </div>
                     <Input
                       value={formData.country}
-                      onChange={e => updateFormData('country', e.target.value)}
+                      onChange={e => updateFormData({ country: e.target.value })}
                       placeholder="Country"
                     />
                   </div>
@@ -870,7 +870,7 @@ export default function QuotePage({
                   <Select
                     value={formData.companySize}
                     onValueChange={value =>
-                      updateFormData('companySize', value)
+                      updateFormData({ companySize: value })
                     }
                   >
                     <SelectTrigger>
@@ -908,7 +908,7 @@ export default function QuotePage({
                   <Textarea
                     value={formData.additionalRequirements}
                     onChange={e =>
-                      updateFormData('additionalRequirements', e.target.value)
+                      updateFormData({ additionalRequirements: e.target.value })
                     }
                     placeholder="Please specify any additional requirements, quality standards, or special instructions..."
                     rows={4}
@@ -920,7 +920,7 @@ export default function QuotePage({
                     id="sampleRequired"
                     checked={formData.sampleRequired}
                     onCheckedChange={checked =>
-                      updateFormData('sampleRequired', checked)
+                      updateFormData({ sampleRequired: checked === true })
                     }
                   />
                   <Label htmlFor="sampleRequired">
@@ -936,7 +936,7 @@ export default function QuotePage({
                     <Textarea
                       value={formData.sampleAddress}
                       onChange={e =>
-                        updateFormData('sampleAddress', e.target.value)
+                        updateFormData({ sampleAddress: e.target.value })
                       }
                       placeholder="Enter complete address for sample delivery..."
                       rows={3}
@@ -951,7 +951,7 @@ export default function QuotePage({
                   <Textarea
                     value={formData.urgencyReason}
                     onChange={e =>
-                      updateFormData('urgencyReason', e.target.value)
+                      updateFormData({ urgencyReason: e.target.value })
                     }
                     placeholder="If this is an urgent request, please explain the reason..."
                     rows={3}

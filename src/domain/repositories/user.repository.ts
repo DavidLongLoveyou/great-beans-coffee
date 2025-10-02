@@ -4,6 +4,8 @@ import {
   type UserRole,
   type UserStatus,
   type UserDepartment,
+  type Permission,
+  type UserActivity,
 } from '../entities/user.entity';
 
 // Search and filter criteria
@@ -177,12 +179,12 @@ export interface IUserRepository {
   // Permission management
   addPermission(
     id: string,
-    permission: User['permissions'][0]
+    permission: Permission
   ): Promise<UserEntity>;
   removePermission(id: string, permissionId: string): Promise<UserEntity>;
   updatePermissions(
     id: string,
-    permissions: User['permissions']
+    permissions: Permission[]
   ): Promise<UserEntity>;
   findByPermission(permission: string): Promise<UserEntity[]>;
   hasPermission(id: string, permission: string): Promise<boolean>;
@@ -205,9 +207,9 @@ export interface IUserRepository {
   // Activity tracking
   recordActivity(
     id: string,
-    activity: Omit<User['activities'][0], 'id' | 'timestamp'>
+    activity: Omit<UserActivity, 'id' | 'timestamp'>
   ): Promise<UserEntity>;
-  getActivityHistory(id: string, limit?: number): Promise<User['activities']>;
+  getActivityHistory(id: string, limit?: number): Promise<UserActivity[]>;
   getActivitySummary(id: string): Promise<UserActivitySummary>;
   updateLastActivity(id: string): Promise<UserEntity>;
 

@@ -915,5 +915,232 @@ export enum CustomizationType {
   PROCESSING = 'PROCESSING',
 }
 
+// ================================
+// MISSING TYPE DEFINITIONS
+// ================================
+
+// SEO Metadata Types
+export interface ProductSEOMetadata {
+  metaTitle: string;
+  metaDescription: string;
+  keywords: string[];
+  canonicalUrl?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+  structuredData?: Record<string, unknown>;
+}
+
+export interface ServiceSEOMetadata {
+  metaTitle: string;
+  metaDescription: string;
+  keywords: string[];
+  canonicalUrl?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+  structuredData?: Record<string, unknown>;
+}
+
+// Shipping and Logistics Types
+export interface ShippingOption {
+  id: string;
+  name: string;
+  method: ShippingMethod;
+  estimatedDays: number;
+  cost: number;
+  currency: Currency;
+  description?: string;
+  restrictions?: string[];
+}
+
+export interface PackagingDetails {
+  type: PackagingType;
+  size: PackagingSize;
+  weight: number;
+  dimensions: {
+    length: number;
+    width: number;
+    height: number;
+    unit: 'cm' | 'inch';
+  };
+  material: string;
+  customization?: string;
+}
+
+// Company Profile Types
+export enum EmployeeRange {
+  SMALL = '1-10',
+  MEDIUM = '11-50',
+  LARGE = '51-200',
+  ENTERPRISE = '200+',
+}
+
+export enum VolumeRange {
+  LOW = '0-100MT',
+  MEDIUM = '100-500MT',
+  HIGH = '500-1000MT',
+  VERY_HIGH = '1000MT+',
+}
+
+export enum DistributionChannel {
+  RETAIL = 'RETAIL',
+  WHOLESALE = 'WHOLESALE',
+  ONLINE = 'ONLINE',
+  FOOD_SERVICE = 'FOOD_SERVICE',
+  EXPORT = 'EXPORT',
+}
+
+// Quality and Requirements Types
+export interface QualityRequirement {
+  parameter: string;
+  requirement: string;
+  priority: 'HIGH' | 'MEDIUM' | 'LOW';
+  testMethod?: string;
+}
+
+export interface VolumeProfile {
+  annualVolume: number;
+  unit: QuantityUnit;
+  seasonalVariation: number;
+  growthRate: number;
+}
+
+export interface SeasonalityProfile {
+  peakMonths: string[];
+  lowMonths: string[];
+  variationPercentage: number;
+}
+
+export enum OrderFrequency {
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+  QUARTERLY = 'QUARTERLY',
+  ANNUALLY = 'ANNUALLY',
+  IRREGULAR = 'IRREGULAR',
+}
+
+export enum PaymentStatus {
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  OVERDUE = 'OVERDUE',
+  PARTIAL = 'PARTIAL',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum ContactFrequency {
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+  QUARTERLY = 'QUARTERLY',
+  AS_NEEDED = 'AS_NEEDED',
+}
+
+export enum QualityPriority {
+  PREMIUM = 'PREMIUM',
+  STANDARD = 'STANDARD',
+  COMMERCIAL = 'COMMERCIAL',
+}
+
+export enum PriceSensitivity {
+  HIGH = 'HIGH',
+  MEDIUM = 'MEDIUM',
+  LOW = 'LOW',
+}
+
+export enum QualityAssuranceLevel {
+  BASIC = 'BASIC',
+  STANDARD = 'STANDARD',
+  PREMIUM = 'PREMIUM',
+  CUSTOM = 'CUSTOM',
+}
+
+export enum ReportingRequirement {
+  MONTHLY = 'MONTHLY',
+  QUARTERLY = 'QUARTERLY',
+  ANNUALLY = 'ANNUALLY',
+  ON_DEMAND = 'ON_DEMAND',
+}
+
+export enum ConsolidationPreference {
+  FULL_CONTAINER = 'FULL_CONTAINER',
+  LCL_ACCEPTABLE = 'LCL_ACCEPTABLE',
+  FLEXIBLE = 'FLEXIBLE',
+}
+
+export enum InsuranceRequirement {
+  BASIC = 'BASIC',
+  COMPREHENSIVE = 'COMPREHENSIVE',
+  CUSTOM = 'CUSTOM',
+  NOT_REQUIRED = 'NOT_REQUIRED',
+}
+
+// Credit and Risk Types
+export enum CreditRating {
+  AAA = 'AAA',
+  AA = 'AA',
+  A = 'A',
+  BBB = 'BBB',
+  BB = 'BB',
+  B = 'B',
+  CCC = 'CCC',
+  CC = 'CC',
+  C = 'C',
+  D = 'D',
+}
+
+export enum CreditEventType {
+  PAYMENT = 'PAYMENT',
+  LATE_PAYMENT = 'LATE_PAYMENT',
+  DEFAULT = 'DEFAULT',
+  CREDIT_INCREASE = 'CREDIT_INCREASE',
+  CREDIT_DECREASE = 'CREDIT_DECREASE',
+}
+
+export enum CreditImpact {
+  POSITIVE = 'POSITIVE',
+  NEGATIVE = 'NEGATIVE',
+  NEUTRAL = 'NEUTRAL',
+}
+
+export enum GuaranteeType {
+  BANK_GUARANTEE = 'BANK_GUARANTEE',
+  LETTER_OF_CREDIT = 'LETTER_OF_CREDIT',
+  INSURANCE = 'INSURANCE',
+  CORPORATE_GUARANTEE = 'CORPORATE_GUARANTEE',
+}
+
+export enum RiskLevel {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  CRITICAL = 'CRITICAL',
+}
+
+export enum RiskImpact {
+  MINIMAL = 'MINIMAL',
+  MODERATE = 'MODERATE',
+  SIGNIFICANT = 'SIGNIFICANT',
+  SEVERE = 'SEVERE',
+}
+
+// Document Types
+export enum DocumentType {
+  BUSINESS_LICENSE = 'BUSINESS_LICENSE',
+  TAX_CERTIFICATE = 'TAX_CERTIFICATE',
+  IMPORT_LICENSE = 'IMPORT_LICENSE',
+  QUALITY_CERTIFICATE = 'QUALITY_CERTIFICATE',
+  INSURANCE_CERTIFICATE = 'INSURANCE_CERTIFICATE',
+  BANK_REFERENCE = 'BANK_REFERENCE',
+  TRADE_REFERENCE = 'TRADE_REFERENCE',
+  OTHER = 'OTHER',
+}
+
 // Additional supporting types and interfaces would continue here...
 // This represents a comprehensive foundation for The Great Beans business domain

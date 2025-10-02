@@ -24,7 +24,7 @@ function generateAlternateRefs(
   // Add x-default
   alternates.push({
     url: `${baseUrl}/en${path}`,
-    hreflang: 'x-default',
+    hreflang: 'x-default' as any,
   });
 
   return alternates;
@@ -216,7 +216,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         // Add x-default (prefer English if available, otherwise first available)
         const defaultLocale =
           localeVersions.find(v => v.locale === 'en')?.locale ||
-          localeVersions[0].locale;
+          localeVersions[0]?.locale ||
+          'en';
         alternateLanguages['x-default'] =
           `${baseUrl}/${defaultLocale}/${contentType}/${slug}`;
 

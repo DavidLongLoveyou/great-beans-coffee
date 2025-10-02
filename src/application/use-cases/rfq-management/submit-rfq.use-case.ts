@@ -1,7 +1,7 @@
 import { IEmailService } from '@/application/services/email.service';
-import { INotificationService } from '@/application/services/notification.service';
-import { RfqEntity } from '@/domain/entities/rfq.entity';
-import { IRfqRepository } from '@/infrastructure/database/repositories/rfq.repository';
+import { NotificationService } from '@/application/services/notification.service';
+import { RFQEntity, type RFQ } from '@/domain/entities/rfq.entity';
+import { IRFQRepository } from '@/domain/repositories/rfq.repository';
 
 export interface SubmitRfqRequest {
   // Product Requirements
@@ -19,6 +19,10 @@ export interface SubmitRfqRequest {
   currency: string;
   deliveryDate: Date;
   deliveryLocation: string;
+
+  // Recurring Order
+  isRecurringOrder?: boolean;
+  recurringFrequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
 
   // Payment Terms
   paymentTerms: string;
@@ -42,7 +46,7 @@ export interface SubmitRfqRequest {
 }
 
 export interface SubmitRfqResponse {
-  rfq: RfqEntity;
+  rfq: RFQEntity;
   rfqNumber: string;
   success: boolean;
   message: string;
@@ -50,9 +54,9 @@ export interface SubmitRfqResponse {
 
 export class SubmitRfqUseCase {
   constructor(
-    private rfqRepository: IRfqRepository,
+    private rfqRepository: IRFQRepository,
     private emailService: IEmailService,
-    private notificationService: INotificationService
+    private notificationService: NotificationService
   ) {}
 
   async execute(request: SubmitRfqRequest): Promise<SubmitRfqResponse> {
@@ -61,41 +65,76 @@ export class SubmitRfqUseCase {
       this.validateRequest(request);
 
       // Generate RFQ number
-      const rfqNumber = await this.generateRfqNumber();
+      const rfqNumber = this.generateRfqNumber();
 
       // Create RFQ entity
-      const rfqData: Partial<RfqEntity> = {
+      const now = new Date();
+      const rfqData: RFQ = {
+        id: crypto.randomUUID(),
         rfqNumber,
-        productType: request.productType,
-        grade: request.grade,
-        origin: request.origin,
-        processingMethod: request.processingMethod,
-        certifications: request.certifications,
-        quantity: request.quantity,
-        quantityUnit: request.quantityUnit,
-        deliveryTerms: request.deliveryTerms,
-        targetPrice: request.targetPrice,
-        currency: request.currency,
-        deliveryDate: request.deliveryDate,
-        deliveryLocation: request.deliveryLocation,
-        paymentTerms: request.paymentTerms,
-        paymentMethod: request.paymentMethod,
-        companyName: request.companyName,
-        contactPerson: request.contactPerson,
-        email: request.email,
-        phone: request.phone,
-        country: request.country,
-        businessType: request.businessType,
+        status: 'SUBMITTED',
+        priority: request.urgency === 'high' ? 'HIGH' : request.urgency === 'medium' ? 'MEDIUM' : 'LOW',
+        source: 'WEBSITE',
+        
+        productRequirements: {
+          coffeeType: request.productType[0] as any, // Take first type
+          grade: request.grade[0],
+          processingMethod: request.processingMethod[0],
+          origin: request.origin[0],
+          certifications: request.certifications as any[],
+        },
+        
+        quantityRequirements: {
+          quantity: request.quantity,
+          unit: request.quantityUnit as any,
+          isRecurringOrder: request.isRecurringOrder || false,
+          recurringFrequency: request.isRecurringOrder ? request.recurringFrequency as any : undefined,
+        },
+        
+        deliveryRequirements: {
+          incoterms: request.deliveryTerms as any,
+          destinationPort: request.deliveryLocation,
+          destinationCountry: request.country,
+          preferredDeliveryDate: request.deliveryDate,
+          latestDeliveryDate: request.deliveryDate,
+          packaging: 'JUTE_BAGS_60KG' as any, // Default packaging
+        },
+        
+        paymentTerms: {
+          preferredCurrency: request.currency as any,
+          paymentMethod: request.paymentMethod[0] as any,
+          paymentTerms: request.paymentTerms,
+        },
+        
+        companyInfo: {
+          companyName: request.companyName,
+          contactPerson: request.contactPerson,
+          email: request.email,
+          phone: request.phone,
+          address: {
+            street: '',
+            city: '',
+            postalCode: '',
+            country: request.country,
+          },
+          businessType: request.businessType as any,
+        },
+        
         additionalRequirements: request.additionalRequirements,
         sampleRequired: request.sampleRequired,
-        urgency: request.urgency,
-        status: 'pending',
-        submittedAt: new Date(),
-        locale: request.locale || 'en',
+        submittedAt: now,
+        lastActivityAt: now,
+        createdAt: now,
+        updatedAt: now,
+        updatedBy: crypto.randomUUID(), // System user ID
       };
 
-      // Save RFQ to database
-      const savedRfq = await this.rfqRepository.create(rfqData as RfqEntity);
+      // Create RFQ entity and prepare data for repository
+      const rfqEntity = new RFQEntity(rfqData);
+      
+      // Extract data without id, createdAt, updatedAt for repository
+      const { id, createdAt, updatedAt, ...entityDataForRepo } = rfqEntity.toJSON();
+      const savedRfq = await this.rfqRepository.create(entityDataForRepo as any);
 
       // Send confirmation email to customer
       await this.sendCustomerConfirmation(savedRfq);
@@ -104,7 +143,9 @@ export class SubmitRfqUseCase {
       await this.sendAdminNotification(savedRfq);
 
       // Send internal notification
-      await this.notificationService.sendRfqSubmissionNotification(savedRfq);
+      await this.notificationService.sendAdminNotification(
+        `New RFQ submitted: ${rfqNumber} from ${request.companyName}`
+      );
 
       return {
         rfq: savedRfq,
@@ -149,43 +190,66 @@ export class SubmitRfqUseCase {
     }
   }
 
-  private async generateRfqNumber(): Promise<string> {
+  private generateRfqNumber(): string {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
 
-    // Get count of RFQs today for sequential numbering
-    const todayCount = await this.rfqRepository.getCountByDate(now);
-    const sequence = String(todayCount + 1).padStart(3, '0');
-
-    return `RFQ-${year}${month}${day}-${sequence}`;
+    // Use timestamp for unique numbering
+    return `RFQ-${year}${month}${day}-${hours}${minutes}${seconds}`;
   }
 
-  private async sendCustomerConfirmation(rfq: RfqEntity): Promise<void> {
+  private async sendCustomerConfirmation(rfq: RFQEntity): Promise<void> {
     try {
-      await this.emailService.sendRfqConfirmation({
-        to: rfq.email,
-        customerName: rfq.contactPerson,
-        rfqNumber: rfq.rfqNumber,
-        rfqDetails: rfq,
-        locale: rfq.locale,
-      });
+      const subject = `RFQ Confirmation - ${rfq.rfqNumber}`;
+      const content = `
+        Dear ${rfq.companyInfo.contactPerson},
+        
+        Thank you for submitting your RFQ ${rfq.rfqNumber}.
+        
+        Company: ${rfq.companyInfo.companyName}
+        Product Type: ${rfq.productRequirements.coffeeType}
+        Quantity: ${rfq.quantityRequirements.quantity} ${rfq.quantityRequirements.unit}
+        
+        We will review your request and get back to you within 24 hours.
+        
+        Best regards,
+        The Great Beans Team
+      `;
+      
+      await this.emailService.sendEmail(rfq.companyInfo.email, subject, content);
     } catch (error) {
-      console.error('Failed to send customer confirmation email:', error);
-      // Don't throw error - RFQ submission should still succeed
+      console.error('Failed to send customer confirmation:', error);
+      // Don't throw error to prevent RFQ submission failure
     }
   }
 
-  private async sendAdminNotification(rfq: RfqEntity): Promise<void> {
+  private async sendAdminNotification(rfq: RFQEntity): Promise<void> {
     try {
-      await this.emailService.sendRfqAdminNotification({
-        rfq,
-        adminEmail: process.env.ADMIN_EMAIL || 'admin@greatbeans.com',
-      });
+      const adminEmail = process.env.ADMIN_EMAIL || 'admin@greatbeans.com';
+      const subject = `New RFQ Submitted - ${rfq.rfqNumber}`;
+      const content = `
+        New RFQ has been submitted:
+        
+        RFQ Number: ${rfq.rfqNumber}
+        Company: ${rfq.companyInfo.companyName}
+        Contact: ${rfq.companyInfo.contactPerson}
+        Email: ${rfq.companyInfo.email}
+        Product: ${rfq.productRequirements.coffeeType}
+        Quantity: ${rfq.quantityRequirements.quantity} ${rfq.quantityRequirements.unit}
+        Priority: ${rfq.priority}
+        
+        Please review and assign to appropriate team member.
+      `;
+      
+      await this.emailService.sendEmail(adminEmail, subject, content);
     } catch (error) {
-      console.error('Failed to send admin notification email:', error);
-      // Don't throw error - RFQ submission should still succeed
+      console.error('Failed to send admin notification:', error);
+      // Don't throw error to prevent RFQ submission failure
     }
   }
 }

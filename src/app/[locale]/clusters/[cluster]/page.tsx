@@ -7,11 +7,11 @@ import { ClusterProductCard } from '@/components/clusters/ClusterProductCard';
 import { ClusterServiceCard } from '@/components/clusters/ClusterServiceCard';
 import { getClusterData } from '@/lib/cluster-data';
 import { CoffeeButton } from '@/shared/components/design-system/Button';
-import { HeroSection } from '@/shared/components/design-system/layout';
-import { ContentContainer } from '@/shared/components/design-system/layout';
-import { SectionHeading } from '@/shared/components/design-system/typography/Heading';
-import { SEOHead } from '@/presentation/components/SEO/SEOHead';
-import { generateOrganizationSchema, generateB2BServiceSchema } from '@/shared/utils/seo-utils';
+import { HeroSection } from '@/shared/components/design-system/Layout';
+import { ContentContainer } from '@/shared/components/design-system/Layout';
+import { SectionHeading } from '@/shared/components/design-system/Typography/Heading';
+import { SEOHead } from '@/presentation/components/seo/SEOHead';
+import { generateOrganizationSchema, generateServiceSchema } from '@/shared/utils/seo-utils';
 
 // Define available content clusters
 const CONTENT_CLUSTERS = {
@@ -106,12 +106,10 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
 
   // Generate structured data
   const organizationSchema = generateOrganizationSchema();
-  const serviceSchema = generateB2BServiceSchema({
+  const serviceSchema = generateServiceSchema({
     name: cluster.title,
     description: cluster.description,
-    serviceType: cluster.keywords,
-    areaServed: cluster.targetMarkets,
-    url: `https://thegreatbeans.com/${locale}/clusters/${clusterSlug}`,
+    serviceType: cluster.keywords.join(', '),
   });
 
   const webPageSchema = {
@@ -178,7 +176,7 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
       {clusterData.products.length > 0 && (
         <section className="bg-white py-16">
           <ContentContainer>
-            <SectionHeading size="2xl" className="mb-8 text-center">
+            <SectionHeading size="xl" className="mb-8 text-center">
               {t('relatedProducts')}
             </SectionHeading>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -198,7 +196,7 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
       {clusterData.services.length > 0 && (
         <section className="bg-gray-50 py-16">
           <ContentContainer>
-            <SectionHeading size="2xl" className="mb-8 text-center">
+            <SectionHeading size="xl" className="mb-8 text-center">
               {t('relatedServices')}
             </SectionHeading>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -218,7 +216,7 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
       {clusterData.articles.length > 0 && (
         <section className="bg-white py-16">
           <ContentContainer>
-            <SectionHeading size="2xl" className="mb-8 text-center">
+            <SectionHeading size="xl" className="mb-8 text-center">
               {t('relatedArticles')}
             </SectionHeading>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -238,7 +236,7 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
       <section className="bg-coffee-800 py-16 text-white">
         <ContentContainer>
           <div className="mx-auto max-w-3xl text-center">
-            <SectionHeading size="2xl" className="mb-6 text-white">
+            <SectionHeading size="xl" className="mb-6 text-white">
               {t('cta.title')}
             </SectionHeading>
             <p className="mb-8 text-xl text-coffee-100">

@@ -6,6 +6,45 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    './src/app/**/*.{ts,tsx}',
+    './src/components/**/*.{ts,tsx}',
+    './src/presentation/**/*.{ts,tsx}',
+  ],
+  safelist: [
+    // Ensure basic utility classes are always generated
+    'flex',
+    'min-h-screen',
+    'flex-col',
+    'py-24',
+    'bg-gradient-to-br',
+    'from-forest-50',
+    'via-white',
+    'to-emerald-50',
+    'relative',
+    'overflow-hidden',
+    'absolute',
+    'inset-0',
+    'opacity-5',
+    'container',
+    'mx-auto',
+    'px-4',
+    'max-w-7xl',
+    'z-10',
+    'text-center',
+    'mb-20',
+    'text-4xl',
+    'md:text-5xl',
+    'font-bold',
+    'text-forest-900',
+    'mb-6',
+    'leading-tight',
+    'block',
+    'text-gradient-forest',
+    'bg-gradient-to-r',
+    'from-forest-600',
+    'to-emerald-600',
+    'bg-clip-text',
+    'text-transparent',
   ],
   prefix: '',
   theme: {
@@ -53,34 +92,7 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
 
-        // Coffee Industry Brand Colors
-        coffee: {
-          50: 'hsl(var(--coffee-50))', // Cream
-          100: 'hsl(var(--coffee-100))', // Light cream
-          200: 'hsl(var(--coffee-200))', // Beige
-          300: 'hsl(var(--coffee-300))', // Light brown
-          400: 'hsl(var(--coffee-400))', // Medium brown
-          500: 'hsl(var(--coffee-500))', // Coffee brown (primary)
-          600: 'hsl(var(--coffee-600))', // Dark brown
-          700: 'hsl(var(--coffee-700))', // Espresso
-          800: 'hsl(var(--coffee-800))', // Dark espresso
-          900: 'hsl(var(--coffee-900))', // Almost black
-          950: 'hsl(var(--coffee-950))', // Rich black
-        },
 
-        // Accent colors for coffee industry
-        gold: {
-          50: 'hsl(var(--gold-50))',
-          100: 'hsl(var(--gold-100))',
-          200: 'hsl(var(--gold-200))',
-          300: 'hsl(var(--gold-300))',
-          400: 'hsl(var(--gold-400))',
-          500: 'hsl(var(--gold-500))', // Premium gold
-          600: 'hsl(var(--gold-600))',
-          700: 'hsl(var(--gold-700))',
-          800: 'hsl(var(--gold-800))',
-          900: 'hsl(var(--gold-900))',
-        },
 
         // Professional Forest Green - Primary Brand Color for B2B
         forest: {
@@ -232,9 +244,7 @@ module.exports = {
         'emerald-soft': '0 2px 8px 0 rgba(16, 185, 129, 0.08)',
         'emerald-glow': '0 0 20px 0 rgba(16, 185, 129, 0.25)',
         
-        // Legacy shadows
-        coffee: '0 4px 16px 0 rgba(139, 69, 19, 0.15)',
-        gold: '0 4px 16px 0 rgba(255, 215, 0, 0.2)',
+
         
         // Professional elevation shadows
         'elevation-1': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
@@ -268,7 +278,7 @@ module.exports = {
           from: { opacity: '0', transform: 'scale(0.95)' },
           to: { opacity: '1', transform: 'scale(1)' },
         },
-        'coffee-steam': {
+        'forest-steam': {
           '0%': { transform: 'translateY(0) rotate(0deg)', opacity: '0.7' },
           '50%': {
             transform: 'translateY(-10px) rotate(5deg)',
@@ -288,15 +298,15 @@ module.exports = {
         'slide-in-left': 'slide-in-left 0.5s ease-out',
         'slide-in-right': 'slide-in-right 0.5s ease-out',
         'scale-in': 'scale-in 0.3s ease-out',
-        'coffee-steam': 'coffee-steam 2s ease-in-out infinite',
+        'forest-steam': 'forest-steam 2s ease-in-out infinite',
       },
 
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'coffee-texture':
-          'url(\'data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23000000" fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\')',
+        'forest-texture':
+          'url(\'data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23228B22" fill-opacity="0.03"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\')',
       },
     },
   },

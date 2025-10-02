@@ -4,6 +4,13 @@ import {
   type ContentType,
   type ContentStatus,
   type ContentCategory,
+  type ContentTranslation,
+  type ContentAuthor,
+  type ContentWorkflow,
+  type ContentAnalytics,
+  type SEOMetadata,
+  type ContentMedia,
+  type ContentVersion,
 } from '../entities/content.entity';
 
 // Search and filter criteria
@@ -81,7 +88,7 @@ export interface ContentSearchResult {
   hasPrevious: boolean;
 }
 
-export interface ContentAnalytics {
+export interface ContentRepositoryAnalytics {
   totalContent: number;
   contentByType: Record<ContentType, number>;
   contentByStatus: Record<ContentStatus, number>;
@@ -179,7 +186,7 @@ export interface IContentRepository {
   // SEO management
   updateSEOMetadata(
     id: string,
-    seoData: Content['seoMetadata']
+    seoData: SEOMetadata
   ): Promise<ContentEntity>;
   findBySEOKeyword(keyword: string): Promise<ContentEntity[]>;
   findWithMissingSEO(): Promise<ContentEntity[]>;
@@ -190,12 +197,12 @@ export interface IContentRepository {
   addTranslation(
     id: string,
     locale: string,
-    translation: Content['translations'][string]
+    translation: ContentTranslation
   ): Promise<ContentEntity>;
   updateTranslation(
     id: string,
     locale: string,
-    updates: Partial<Content['translations'][string]>
+    updates: Partial<ContentTranslation>
   ): Promise<ContentEntity>;
   removeTranslation(id: string, locale: string): Promise<ContentEntity>;
   findByLocale(locale: string): Promise<ContentEntity[]>;
@@ -207,12 +214,12 @@ export interface IContentRepository {
   // Media management
   addMedia(
     id: string,
-    media: Omit<Content['media'][0], 'id' | 'uploadedAt'>
+    media: Omit<ContentMedia, 'id' | 'uploadedAt'>
   ): Promise<ContentEntity>;
   updateMedia(
     id: string,
     mediaId: string,
-    updates: Partial<Content['media'][0]>
+    updates: Partial<ContentMedia>
   ): Promise<ContentEntity>;
   removeMedia(id: string, mediaId: string): Promise<ContentEntity>;
   findByMediaType(mediaType: string): Promise<ContentEntity[]>;
@@ -221,9 +228,9 @@ export interface IContentRepository {
   // Version management
   createVersion(
     id: string,
-    versionData: Omit<Content['versions'][0], 'id' | 'createdAt'>
+    versionData: Omit<ContentVersion, 'id' | 'createdAt'>
   ): Promise<ContentEntity>;
-  getVersionHistory(id: string): Promise<Content['versions']>;
+  getVersionHistory(id: string): Promise<ContentVersion[]>;
   restoreVersion(
     id: string,
     versionId: string,
@@ -352,7 +359,7 @@ export interface IContentRepository {
   getAnalytics(dateRange?: {
     start: Date;
     end: Date;
-  }): Promise<ContentAnalytics>;
+  }): Promise<ContentRepositoryAnalytics>;
   getAuthorPerformance(authorId: string): Promise<{
     totalContent: number;
     publishedContent: number;

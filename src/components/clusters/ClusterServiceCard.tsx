@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
-import { CoffeeButton } from '@/shared/components/design-system/Button';
+import { Button, CoffeeButton } from '@/shared/components/design-system/Button';
 import {
   Card,
   CardContent,
@@ -158,9 +158,9 @@ export function ClusterServiceCard({
       <CardContent className="pt-0">
         <div className="flex gap-2">
           <Link href={`/${locale}/services/${service.id}`} className="flex-1">
-            <CoffeeButton variant="outline" size="sm" className="w-full">
+            <Button variant="outline" size="sm" className="w-full">
               {t('learnMore')}
-            </CoffeeButton>
+            </Button>
           </Link>
           <Link
             href={`/${locale}/quote?service=${service.id}`}

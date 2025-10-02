@@ -2,7 +2,7 @@ import { ContentManager } from '@/lib/contentlayer';
 
 import { seoConfig } from './seo-utils';
 
-import { Locale } from '@/shared/types/locale';
+import { Locale } from '@/i18n';
 
 interface RSSItem {
   title: string;

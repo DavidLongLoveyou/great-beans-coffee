@@ -3,14 +3,14 @@
 import { useState, useCallback } from 'react';
 
 import { SubmitRfqRequest } from '@/application/use-cases/rfq-management';
-import { RfqEntity } from '@/domain/entities/rfq.entity';
+import { RFQEntity } from '@/domain/entities/rfq.entity';
 import { submitRfqUseCase } from '@/infrastructure/di/container';
 
 interface UseRfqFormState {
   loading: boolean;
   error: string | null;
   success: boolean;
-  submittedRfq: RfqEntity | null;
+  submittedRfq: RFQEntity | null;
   rfqNumber: string | null;
 }
 

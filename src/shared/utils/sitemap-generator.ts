@@ -1,5 +1,5 @@
 import { allBlogPosts } from 'contentlayer/generated';
-import { site } from '@/shared/config/site';
+import { siteConfig } from '@/shared/config/site';
 
 export interface SitemapEntry {
   url: string;
@@ -35,7 +35,7 @@ export class SitemapGenerator {
   private defaultLocale: string;
 
   constructor(options: SitemapOptions = {}) {
-    this.baseUrl = options.baseUrl || site.url;
+    this.baseUrl = options.baseUrl || siteConfig.url;
     this.supportedLocales = ['en', 'de', 'ja', 'vi']; // Based on content structure
     this.defaultLocale = 'en';
   }
@@ -427,7 +427,7 @@ Allow: /origin-stories/`;
  * Create sitemap generator instance
  */
 export const sitemapGenerator = new SitemapGenerator({
-  baseUrl: site.url,
+  baseUrl: siteConfig.url,
   includeImages: true,
   includeAlternateLanguages: true,
 });

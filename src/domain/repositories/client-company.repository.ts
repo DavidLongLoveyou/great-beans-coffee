@@ -6,7 +6,12 @@ import {
   type CompanySize,
   type CreditRating,
   type RelationshipStatus,
+  type ContactPerson,
+  type CompanyAddress,
+  type CompanyDocument,
+  type CompanyNote,
 } from '../entities/client-company.entity';
+import { type PaymentHistoryRecord } from '../../shared/types/business.types';
 
 // Search and filter criteria
 export interface ClientCompanySearchCriteria {
@@ -138,12 +143,12 @@ export interface IClientCompanyRepository {
   // Contact management
   addContact(
     companyId: string,
-    contact: Omit<ClientCompany['contacts'][0], 'id' | 'createdAt'>
+    contact: Omit<ContactPerson, 'id' | 'createdAt'>
   ): Promise<ClientCompanyEntity>;
   updateContact(
     companyId: string,
     contactId: string,
-    updates: Partial<ClientCompany['contacts'][0]>
+    updates: Partial<ContactPerson>
   ): Promise<ClientCompanyEntity>;
   removeContact(
     companyId: string,
@@ -159,12 +164,12 @@ export interface IClientCompanyRepository {
   // Address management
   addAddress(
     companyId: string,
-    address: Omit<ClientCompany['addresses'][0], 'id' | 'createdAt'>
+    address: Omit<CompanyAddress, 'id' | 'createdAt'>
   ): Promise<ClientCompanyEntity>;
   updateAddress(
     companyId: string,
     addressId: string,
-    updates: Partial<ClientCompany['addresses'][0]>
+    updates: Partial<CompanyAddress>
   ): Promise<ClientCompanyEntity>;
   removeAddress(
     companyId: string,
@@ -206,12 +211,12 @@ export interface IClientCompanyRepository {
   // Trading history
   addTradingRecord(
     companyId: string,
-    record: Omit<ClientCompany['tradingHistory'][0], 'id' | 'createdAt'>
+    record: Omit<PaymentHistoryRecord, 'orderId'>
   ): Promise<ClientCompanyEntity>;
   updateTradingRecord(
     companyId: string,
     recordId: string,
-    updates: Partial<ClientCompany['tradingHistory'][0]>
+    updates: Partial<PaymentHistoryRecord>
   ): Promise<ClientCompanyEntity>;
   getTradingHistory(
     companyId: string,
@@ -223,7 +228,7 @@ export interface IClientCompanyRepository {
   // Document management
   addDocument(
     companyId: string,
-    document: Omit<ClientCompany['documents'][0], 'id' | 'uploadedAt'>
+    document: Omit<CompanyDocument, 'id' | 'uploadedAt'>
   ): Promise<ClientCompanyEntity>;
   removeDocument(
     companyId: string,
@@ -232,7 +237,7 @@ export interface IClientCompanyRepository {
   getDocuments(
     companyId: string,
     type?: string
-  ): Promise<ClientCompany['documents']>;
+  ): Promise<CompanyDocument[]>;
   verifyDocument(
     companyId: string,
     documentId: string,
@@ -242,15 +247,15 @@ export interface IClientCompanyRepository {
   // Notes and communication
   addNote(
     companyId: string,
-    note: Omit<ClientCompany['notes'][0], 'id' | 'createdAt'>
+    note: Omit<CompanyNote, 'id' | 'createdAt'>
   ): Promise<ClientCompanyEntity>;
   updateNote(
     companyId: string,
     noteId: string,
-    updates: Partial<ClientCompany['notes'][0]>
+    updates: Partial<CompanyNote>
   ): Promise<ClientCompanyEntity>;
   removeNote(companyId: string, noteId: string): Promise<ClientCompanyEntity>;
-  getNotes(companyId: string, type?: string): Promise<ClientCompany['notes']>;
+  getNotes(companyId: string, type?: string): Promise<CompanyNote[]>;
 
   // Status management
   activate(

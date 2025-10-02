@@ -62,10 +62,10 @@ export class GetCoffeeProductBySlugUseCase {
       relatedProducts = relatedProducts.filter(p => p.id !== product.id);
 
       // If we don't have enough, add products from the same origin
-      if (relatedProducts.length < 4 && product.origin) {
+      if (relatedProducts.length < 4 && product.origin?.region) {
         const originProducts =
           await this.coffeeProductRepository.getProductsByOrigin(
-            product.origin,
+            product.origin.region,
             locale
           );
 

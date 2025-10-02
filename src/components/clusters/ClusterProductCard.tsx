@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
 import {
   CoffeeButton,
   Card,
@@ -98,8 +99,7 @@ export function ClusterProductCard({
         <div className="flex flex-wrap gap-2">
           <CoffeeGradeIndicator grade={product.grade as any} size="sm" />
           <OriginFlag
-            country={product.origin.country}
-            region={product.origin.region}
+            origin="vietnam"
             size="sm"
           />
           <ProcessingMethodBadge
@@ -167,14 +167,12 @@ export function ClusterProductCard({
 
       <CardFooter className="space-y-2 pt-4">
         <div className="flex w-full gap-2">
-          <RequestQuoteButton
-            size="sm"
-            className="flex-1"
-            productId={product.id}
-          >
-            {t('requestQuote')}
-          </RequestQuoteButton>
-          <Button variant="sage-outline" size="sm" className="shadow-sage-soft">
+          <Button asChild variant="default" size="sm" className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white">
+            <Link href={`/${locale}/quote?product=${product.id}`}>
+              {t('requestQuote')}
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" className="shadow-sage-soft">
             <Download className="h-4 w-4" />
           </Button>
         </div>
@@ -182,7 +180,7 @@ export function ClusterProductCard({
           href={`/${locale}/products/${product.id}`}
           className="block w-full"
         >
-          <Button variant="forest-outline" size="sm" className="w-full hover:shadow-forest-medium">
+          <Button variant="outline" size="sm" className="w-full hover:shadow-forest-medium">
             {t('viewDetails')}
           </Button>
         </Link>

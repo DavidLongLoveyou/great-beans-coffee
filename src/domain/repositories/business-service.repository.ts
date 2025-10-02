@@ -5,6 +5,7 @@ import {
   type ServiceCategory,
   type PricingModel,
 } from '../entities/business-service.entity';
+import { type MultilingualContent } from '../entities/coffee-product.entity';
 
 // Search and filter criteria
 export interface BusinessServiceSearchCriteria {
@@ -149,7 +150,7 @@ export interface IBusinessServiceRepository {
   findByLeadTime(maxDays: number): Promise<BusinessServiceEntity[]>;
   updateDeliveryTimeline(
     id: string,
-    timeline: BusinessService['deliveryTimeline']
+    timeline: BusinessService['timeline']
   ): Promise<BusinessServiceEntity>;
   getAvailableSlots(
     id: string,
@@ -171,7 +172,7 @@ export interface IBusinessServiceRepository {
   updateTranslation(
     id: string,
     locale: string,
-    content: BusinessService['multilingualContent'][string]
+    content: MultilingualContent
   ): Promise<BusinessServiceEntity>;
 
   // Service status management

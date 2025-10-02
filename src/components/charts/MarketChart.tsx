@@ -17,6 +17,9 @@ import {
   Cell,
 } from 'recharts';
 
+// Type for Recharts data - compatible with their internal types
+type ChartDataPoint = Record<string, any>;
+
 interface MarketDataPoint {
   period: string;
   value: number;
@@ -25,7 +28,7 @@ interface MarketDataPoint {
 }
 
 interface MarketChartProps {
-  data: MarketDataPoint[];
+  data: ChartDataPoint[];
   type?: 'line' | 'bar' | 'pie';
   title?: string;
   description?: string;
@@ -79,18 +82,26 @@ export const MarketChart: React.FC<MarketChartProps> = ({
     return value.toLocaleString();
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: {
+    active?: boolean;
+    payload?: Array<{
+      name?: string;
+      value?: number;
+      color?: string;
+    }>;
+    label?: string;
+  }) => {
     if (active && payload && payload.length) {
       return (
         <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-lg">
           <p className="font-medium text-gray-900">{label}</p>
-          {payload.map((entry: any) => (
+          {payload.map((entry, index) => (
             <p
-              key={`tooltip-${entry.name}`}
+              key={`tooltip-${entry.name || index}`}
               className="text-sm"
               style={{ color: entry.color }}
             >
-              {entry.name}: {formatValue(entry.value)}
+              {entry.name}: {formatValue(entry.value || 0)}
             </p>
           ))}
         </div>
@@ -129,8 +140,8 @@ export const MarketChart: React.FC<MarketChartProps> = ({
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }) =>
-                  `${name} ${(percent * 100).toFixed(0)}%`
+                label={({ name, percent }: { name?: string | undefined; percent?: number | undefined }) =>
+                  `${name ?? ''} ${((percent ?? 0) * 100).toFixed(0)}%`
                 }
                 outerRadius={80}
                 fill="#8884d8"
@@ -150,6 +161,8 @@ export const MarketChart: React.FC<MarketChartProps> = ({
         );
 
       default: // line
+        const lineColor = colors?.[0] ?? defaultColors[0] ?? '#8B4513';
+        
         return (
           <ResponsiveContainer width="100%" height={height}>
             <LineChart
@@ -166,10 +179,10 @@ export const MarketChart: React.FC<MarketChartProps> = ({
               <Line
                 type="monotone"
                 dataKey={yAxisKey}
-                stroke={colors[0]}
+                stroke={lineColor}
                 strokeWidth={3}
-                dot={{ fill: colors[0], strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, stroke: colors[0], strokeWidth: 2 }}
+                dot={{ fill: lineColor, strokeWidth: 2, r: 4 }}
+                activeDot={{ r: 6, stroke: lineColor, strokeWidth: 2, fill: lineColor }}
               />
             </LineChart>
           </ResponsiveContainer>

@@ -252,7 +252,7 @@ export const DataTable: React.FC<DataTableProps> = ({
           <tbody className="divide-y divide-gray-200 bg-white">
             {paginatedData.map((row, index) => (
               <tr
-                key={`row-${row[columns[0]?.key] || index}-${index}`}
+                key={`row-${columns[0]?.key ? row[columns[0].key] : index}-${index}`}
                 className={`${striped && index % 2 === 1 ? 'bg-gray-50' : ''} transition-colors hover:bg-gray-100`}
               >
                 {showRowNumbers && (
@@ -345,7 +345,7 @@ export const PriceTable: React.FC<
   }
 > = ({ priceColumn, currency = 'USD', ...props }) => {
   const columns: Column[] = [
-    ...(props.data.length > 0
+    ...(props.data.length > 0 && props.data[0]
       ? Object.keys(props.data[0])
           .filter(key => key !== priceColumn)
           .map(key => ({
@@ -374,7 +374,7 @@ export const VolumeTable: React.FC<
   }
 > = ({ volumeColumn, unit = 'MT', ...props }) => {
   const columns: Column[] = [
-    ...(props.data.length > 0
+    ...(props.data.length > 0 && props.data[0]
       ? Object.keys(props.data[0])
           .filter(key => key !== volumeColumn)
           .map(key => ({

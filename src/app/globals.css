@@ -14,14 +14,14 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 120 61% 34%; /* Forest Green (#228B22) as primary */
-    --primary-foreground: 120 20% 98%;
+    --primary: 120 67% 25%; /* Forest Green */
+    --primary-foreground: 0 0% 98%;
     --secondary: 120 20% 90%;
     --secondary-foreground: 120 61% 20%;
     --muted: 120 15% 96%;
     --muted-foreground: 120 10% 46.9%;
-    --accent: 45 100% 50%; /* Gold accent for premium feel */
-    --accent-foreground: 120 61% 20%;
+    --accent: 160 84% 39%; /* Emerald */
+    --accent-foreground: 120 67% 6%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 120 15% 91.4%;
@@ -36,30 +36,7 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
-    /* Coffee Industry Brand Colors - Light Mode */
-    --coffee-50: 30 45% 98%; /* Cream */
-    --coffee-100: 30 45% 95%; /* Light cream */
-    --coffee-200: 30 40% 88%; /* Beige */
-    --coffee-300: 30 35% 75%; /* Light brown */
-    --coffee-400: 30 45% 60%; /* Medium brown */
-    --coffee-500: 30 67% 25%; /* Coffee brown (primary) */
-    --coffee-600: 30 67% 20%; /* Dark brown */
-    --coffee-700: 30 67% 15%; /* Espresso */
-    --coffee-800: 30 67% 10%; /* Dark espresso */
-    --coffee-900: 30 67% 6%; /* Almost black */
-    --coffee-950: 30 67% 3%; /* Rich black */
 
-    /* Gold accent colors */
-    --gold-50: 45 100% 97%;
-    --gold-100: 45 100% 93%;
-    --gold-200: 45 100% 85%;
-    --gold-300: 45 100% 75%;
-    --gold-400: 45 100% 65%;
-    --gold-500: 45 100% 50%; /* Premium gold */
-    --gold-600: 45 100% 45%;
-    --gold-700: 45 100% 40%;
-    --gold-800: 45 100% 35%;
-    --gold-900: 45 100% 25%;
 
     /* Professional Forest Green - Primary Brand Color */
     --forest-50: 120 40% 97%;   /* Very light green #f8fdf8 */
@@ -131,8 +108,8 @@
     --secondary-foreground: 120 20% 98%;
     --muted: 120 75% 16%;
     --muted-foreground: 120 15% 65.1%;
-    --accent: 45 100% 60%;      /* Brighter gold for dark mode */
-    --accent-foreground: 120 85% 6%;
+    --accent: 160 84% 50%;      /* Brighter emerald for dark mode */
+    --accent-foreground: 160 84% 15%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 120 20% 98%;
     --border: 120 70% 22%;      /* Forest green border */
@@ -146,30 +123,7 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
-    /* Coffee Industry Brand Colors - Dark Mode */
-    --coffee-50: 30 67% 6%;
-    --coffee-100: 30 67% 10%;
-    --coffee-200: 30 67% 15%;
-    --coffee-300: 30 67% 20%;
-    --coffee-400: 30 67% 25%;
-    --coffee-500: 30 45% 75%; /* Lighter in dark mode */
-    --coffee-600: 30 45% 80%;
-    --coffee-700: 30 45% 85%;
-    --coffee-800: 30 45% 90%;
-    --coffee-900: 30 45% 95%;
-    --coffee-950: 30 45% 98%;
 
-    /* Gold accent colors - Dark Mode */
-    --gold-50: 45 100% 25%;
-    --gold-100: 45 100% 35%;
-    --gold-200: 45 100% 40%;
-    --gold-300: 45 100% 45%;
-    --gold-400: 45 100% 50%;
-    --gold-500: 45 100% 60%;
-    --gold-600: 45 100% 70%;
-    --gold-700: 45 100% 80%;
-    --gold-800: 45 100% 85%;
-    --gold-900: 45 100% 93%;
 
     /* Green bean colors - Dark Mode */
     --bean-50: 120 60% 10%;
@@ -259,44 +213,44 @@
 
   /* Professional selection styles */
   ::selection {
-    @apply bg-coffee-200 text-coffee-800;
+    @apply bg-forest-200 text-forest-800;
   }
 
   .dark ::selection {
-    @apply bg-coffee-700 text-coffee-100;
+    @apply bg-forest-700 text-forest-100;
   }
 }
 
 @layer components {
   /* Professional button variants */
-  .btn-coffee {
-    @apply bg-coffee-500 text-coffee-50 hover:bg-coffee-600 focus:ring-coffee-500;
+  .btn-forest {
+    @apply bg-forest-500 text-forest-50 hover:bg-forest-600 focus:ring-forest-500;
   }
 
-  .btn-gold {
-    @apply bg-gold-500 text-coffee-900 hover:bg-gold-600 focus:ring-gold-500;
+  .btn-emerald {
+    @apply bg-emerald-500 text-forest-900 hover:bg-emerald-600 focus:ring-emerald-500;
   }
 
-  .btn-outline-coffee {
-    @apply border-coffee-500 text-coffee-500 hover:bg-coffee-500 hover:text-coffee-50;
+  .btn-outline-forest {
+    @apply border-forest-500 text-forest-500 hover:bg-forest-500 hover:text-forest-50;
   }
 
   /* Professional card styles */
-  .card-coffee {
-    @apply rounded-lg border border-coffee-200 bg-card shadow-coffee;
+  .card-forest {
+    @apply rounded-lg border border-forest-200 bg-card shadow-forest;
   }
 
   .card-premium {
-    @apply rounded-lg border border-gold-200 bg-gradient-to-br from-gold-50 to-coffee-50 shadow-gold;
+    @apply rounded-lg border border-emerald-200 bg-gradient-to-br from-emerald-50 to-forest-50 shadow-emerald;
   }
 
   /* Professional text styles */
-  .text-gradient-coffee {
-    @apply bg-gradient-to-r from-coffee-600 to-coffee-800 bg-clip-text text-transparent;
+  .text-gradient-forest {
+    @apply bg-gradient-to-r from-forest-600 to-forest-800 bg-clip-text text-transparent;
   }
 
-  .text-gradient-gold {
-    @apply bg-gradient-to-r from-gold-600 to-gold-800 bg-clip-text text-transparent;
+  .text-gradient-emerald {
+    @apply bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent;
   }
 
   /* Professional layout utilities */
@@ -317,15 +271,15 @@
     @apply translate-y-0 opacity-100;
   }
 
-  /* Coffee-specific decorative elements */
-  .coffee-bean-decoration::before {
+  /* Forest-themed decorative elements */
+  .forest-bean-decoration::before {
     content: '';
-    @apply absolute -left-2 -top-2 h-4 w-4 rounded-full bg-coffee-400 opacity-20;
+    @apply absolute -left-2 -top-2 h-4 w-4 rounded-full bg-forest-400 opacity-20;
   }
 
-  .coffee-steam::after {
+  .forest-steam::after {
     content: '';
-    @apply absolute left-1/2 top-0 h-8 w-1 bg-gradient-to-t from-coffee-300 to-transparent opacity-60;
+    @apply absolute left-1/2 top-0 h-8 w-1 bg-gradient-to-t from-forest-300 to-transparent opacity-60;
     animation: coffee-steam 2s ease-in-out infinite;
   }
 }
@@ -342,26 +296,45 @@
   }
 
   /* Professional shadow utilities */
-  .shadow-coffee-soft {
-    box-shadow: 0 2px 8px 0 rgba(139, 69, 19, 0.08);
+  .shadow-forest-soft {
+    box-shadow: 0 2px 8px 0 rgba(34, 139, 34, 0.08);
   }
 
-  .shadow-coffee-medium {
-    box-shadow: 0 4px 16px 0 rgba(139, 69, 19, 0.12);
+  .shadow-forest-medium {
+    box-shadow: 0 4px 16px 0 rgba(34, 139, 34, 0.12);
   }
 
-  .shadow-coffee-strong {
-    box-shadow: 0 8px 32px 0 rgba(139, 69, 19, 0.16);
+  .shadow-forest-strong {
+    box-shadow: 0 8px 32px 0 rgba(34, 139, 34, 0.16);
   }
 }
 
-/* Coffee-specific brand colors */
+/* Brand-specific color utilities */
+@layer utilities {
+  .brand-forest {
+    color: hsl(var(--forest-600));
+  }
+
+  .brand-emerald {
+    color: hsl(var(--emerald-600));
+  }
+
+  .bg-brand-forest {
+    background-color: hsl(var(--forest-600));
+  }
+
+  .bg-brand-emerald {
+    background-color: hsl(var(--emerald-600));
+  }
+}
+
+/* Forest-themed brand colors */
 @layer base {
   :root {
-    --coffee-brown: 30 30% 20%;
-    --coffee-light: 30 25% 85%;
-    --coffee-accent: 25 85% 45%;
-    --green-bean: 120 40% 40%;
+    --forest-brown: 120 30% 20%;
+    --forest-light: 120 25% 85%;
+    --forest-accent: 140 85% 45%;
+    --emerald-bean: 140 40% 40%;
   }
 }
 
@@ -491,4 +464,72 @@
 @layer base {
   /* Fonts are loaded via Google Fonts in the import statement above */
   /* No local font files needed - using Google Fonts CDN for better performance */
+}
+
+/* Theme Configuration CSS Variables - Converted from TypeScript config */
+@layer base {
+  :root {
+    /* Coffee Brand Colors - Primary Palette */
+    --coffee-50: 44 100% 97%;   /* #fefdf8 */
+    --coffee-100: 44 100% 88%;  /* #fef7e0 */
+    --coffee-200: 44 95% 78%;   /* #fdecc8 */
+    --coffee-300: 44 85% 68%;   /* #fbd9a5 */
+    --coffee-400: 44 75% 58%;   /* #f7c373 */
+    --coffee-500: 44 65% 48%;   /* #f2a74b */
+    --coffee-600: 44 55% 38%;   /* #e88c30 */
+    --coffee-700: 44 45% 28%;   /* #d97326 */
+    --coffee-800: 44 35% 18%;   /* #b45d23 */
+    --coffee-900: 44 25% 13%;   /* #924d22 */
+    --coffee-950: 44 15% 8%;    /* #4f2611 */
+
+    /* Custom Spacing Values */
+    --spacing-18: 4.5rem;  /* 72px */
+    --spacing-88: 22rem;   /* 352px */
+    --spacing-128: 32rem;  /* 512px */
+
+    /* Custom Border Radius */
+    --radius-4xl: 2rem;    /* 32px */
+
+    /* Animation Durations */
+    --duration-fast: 150ms;
+    --duration-normal: 300ms;
+    --duration-slow: 500ms;
+
+    /* Animation Easing Functions */
+    --ease-in-out-cubic: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-back: cubic-bezier(0.36, 0, 0.66, -0.56);
+    --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+/* Utility classes for theme values */
+@layer utilities {
+  .animate-fast {
+    animation-duration: var(--duration-fast);
+  }
+  
+  .animate-normal {
+    animation-duration: var(--duration-normal);
+  }
+  
+  .animate-slow {
+    animation-duration: var(--duration-slow);
+  }
+  
+  .ease-in-out-cubic {
+    animation-timing-function: var(--ease-in-out-cubic);
+  }
+  
+  .ease-out-expo {
+    animation-timing-function: var(--ease-out-expo);
+  }
+  
+  .ease-in-back {
+    animation-timing-function: var(--ease-in-back);
+  }
+  
+  .ease-out-back {
+    animation-timing-function: var(--ease-out-back);
+  }
 }

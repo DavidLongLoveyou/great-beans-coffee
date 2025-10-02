@@ -5,6 +5,7 @@ import {
   type CoffeeGrade,
   type ProcessingMethod,
   type Certification,
+  type MultilingualContent,
 } from '../entities/coffee-product.entity';
 
 // Search and filter criteria
@@ -152,7 +153,7 @@ export interface ICoffeeProductRepository {
   updateTranslation(
     id: string,
     locale: string,
-    content: CoffeeProduct['multilingualContent'][string]
+    content: MultilingualContent
   ): Promise<CoffeeProductEntity>;
 
   // Bulk operations

@@ -630,19 +630,29 @@ model Content {
 }
 
 enum ContentType {
+  PAGE
   BLOG_POST
   MARKET_REPORT
   ORIGIN_STORY
   SERVICE_PAGE
-  LEGAL_PAGE
+  PRODUCT_DESCRIPTION
+  FAQ
+  TESTIMONIAL
+  CASE_STUDY
+  NEWS_ARTICLE
+  PRESS_RELEASE
   LANDING_PAGE
+  EMAIL_TEMPLATE
+  SOCIAL_MEDIA_POST
 }
 
 enum ContentStatus {
   DRAFT
-  REVIEW
+  IN_REVIEW
+  APPROVED
   PUBLISHED
   ARCHIVED
+  REJECTED
 }
 
 // ============================================================================

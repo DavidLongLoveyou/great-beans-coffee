@@ -212,6 +212,45 @@ export class CoffeeProductEntity {
   get isActive(): boolean {
     return this.data.isActive;
   }
+  get description(): MultilingualContent {
+    return this.data.description;
+  }
+  get origin(): OriginInfo {
+    return this.data.origin;
+  }
+  get processingMethod(): ProcessingMethod {
+    return this.data.processingMethod;
+  }
+  get certifications(): Certification[] {
+    return this.data.certifications;
+  }
+  get specifications(): CoffeeSpecifications {
+    return this.data.specifications;
+  }
+  get images(): Array<{ url: string; alt: MultilingualContent; isPrimary: boolean }> {
+    return this.data.images;
+  }
+  get documents() {
+    return this.data.documents;
+  }
+  get isFeatured(): boolean {
+    return this.data.isFeatured;
+  }
+  get sortOrder(): number {
+    return this.data.sortOrder;
+  }
+  get createdAt(): Date {
+    return this.data.createdAt;
+  }
+  get updatedAt(): Date {
+    return this.data.updatedAt;
+  }
+  get createdBy(): string {
+    return this.data.createdBy;
+  }
+  get updatedBy(): string {
+    return this.data.updatedBy;
+  }
 
   // Business Logic Methods
   isAvailable(): boolean {

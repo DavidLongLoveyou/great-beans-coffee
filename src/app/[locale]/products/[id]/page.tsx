@@ -21,8 +21,8 @@ import { type Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
-import { SEOHead } from '@/presentation/components/SEO/SEOHead';
-import { generateSEOMetadata, generateOrganizationSchema } from '@/shared/utils/seo-utils';
+import { SEOHead } from '@/presentation/components/seo/SEOHead';
+import { generateMetadata as generateSEOMetadata, generateOrganizationSchema } from '@/shared/utils/seo-utils';
 import { generateB2BProductSchema } from '@/shared/utils/enhanced-structured-data';
 import { Badge } from '@/presentation/components/ui/badge';
 import {
@@ -38,6 +38,7 @@ import {
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
 import {
+  Button,
   GoldButton,
   CoffeeButton,
 } from '@/shared/components/design-system/Button';
@@ -47,16 +48,16 @@ import {
   CoffeeGradeIndicator,
   OriginFlag,
   ProcessingMethodBadge,
-} from '@/shared/components/design-system/coffee';
+} from '@/shared/components/design-system/Coffee';
 import {
   ContentSection,
   ContentContainer,
   ProductGrid,
-} from '@/shared/components/design-system/layout';
+} from '@/shared/components/design-system/Layout';
 import {
   CoffeeHeading,
   SectionHeading,
-} from '@/shared/components/design-system/typography/Heading';
+} from '@/shared/components/design-system/Typography/Heading';
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -80,7 +81,7 @@ export async function generateMetadata({
     title: `${productName} - Premium Vietnamese Coffee`,
     description: productDescription,
     locale,
-    path: `/products/${id}`,
+    url: `/products/${id}`,
     type: 'product',
   });
 }
@@ -239,6 +240,29 @@ Perfect for espresso blends, instant coffee production, and commercial roasting 
   ],
 };
 
+// Certification mapping function to convert domain format to design system format
+const mapCertificationToDesignSystem = (domainCert: string): string => {
+  const certificationMap: Record<string, string> = {
+    'ORGANIC': 'organic',
+    'FAIR_TRADE': 'fair-trade',
+    'RAINFOREST_ALLIANCE': 'rainforest-alliance',
+    'UTZ': 'utz',
+    'C_CAFE': 'c-cafe',
+    'ISO_22000': 'iso-22000',
+    'HACCP': 'haccp',
+    'KOSHER': 'kosher',
+    'HALAL': 'halal',
+    'BRC': 'brc',
+    'IFS': 'ifs',
+    '4C': '4c',
+    'BIRD_FRIENDLY': 'bird-friendly',
+    'SHADE_GROWN': 'shade-grown',
+    'DIRECT_TRADE': 'direct-trade',
+  };
+  
+  return certificationMap[domainCert] || domainCert.toLowerCase().replace(/_/g, '-');
+};
+
 export default async function ProductDetailPage({
   params,
 }: ProductDetailPageProps) {
@@ -248,26 +272,24 @@ export default async function ProductDetailPage({
   // Generate structured data
   const organizationSchema = generateOrganizationSchema();
   const productSchema = generateB2BProductSchema({
+    id: mockProduct.id,
     name: mockProduct.name,
     description: mockProduct.shortDescription,
-    sku: mockProduct.sku,
+    images: mockProduct.images.map(img => img.url),
     category: mockProduct.type,
-    origin: mockProduct.origin,
-    certifications: mockProduct.certifications,
-    specifications: {
-      moisture: mockProduct.moisture,
-      screenSize: mockProduct.screenSize,
-      defects: mockProduct.defects,
-      processing: mockProduct.processing,
-    },
-    pricing: {
-      currency: 'USD',
-      minOrderQuantity: mockProduct.minOrderQuantity,
-      leadTime: mockProduct.leadTime,
-    },
-    availability: mockProduct.availability,
-    locale,
-  });
+    sku: mockProduct.sku,
+    origin: `${mockProduct.origin.region}, ${mockProduct.origin.country}`,
+    certifications: mockProduct.certifications.map(cert => ({
+      name: cert.name,
+      identifier: cert.certificateNumber,
+      issuer: cert.issuer
+    })),
+    minOrderQuantity: mockProduct.pricing.minimumOrder * 1000, // Convert MT to kg
+    unitOfMeasure: 'kg',
+    leadTime: { min: mockProduct.availability.leadTime, max: mockProduct.availability.leadTime + 7 },
+    targetMarkets: ['Global'],
+    incoterms: mockProduct.pricing.incoterms
+  }, locale);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -329,10 +351,10 @@ export default async function ProductDetailPage({
         <ContentContainer>
           {/* Back Button */}
           <Link href={`/${locale}/products`}>
-            <CoffeeButton variant="outline" className="mb-6">
+            <Button variant="outline" className="mb-6">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Products
-            </CoffeeButton>
+            </Button>
           </Link>
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
@@ -364,14 +386,14 @@ export default async function ProductDetailPage({
                       Request Quote
                     </GoldButton>
                     <div className="grid grid-cols-2 gap-2">
-                      <CoffeeButton variant="outline" size="sm">
+                      <Button variant="outline" size="sm">
                         <Heart className="mr-2 h-4 w-4" />
                         Save
-                      </CoffeeButton>
-                      <CoffeeButton variant="outline" size="sm">
+                      </Button>
+                      <Button variant="outline" size="sm">
                         <Share2 className="mr-2 h-4 w-4" />
                         Share
-                      </CoffeeButton>
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
@@ -386,7 +408,7 @@ export default async function ProductDetailPage({
                   <div className="flex items-start justify-between">
                     <div>
                       <CoffeeHeading
-                        size="2xl"
+                        variant="heading-xl"
                         className="mb-2 text-coffee-800"
                       >
                         {mockProduct.name}
@@ -425,19 +447,18 @@ export default async function ProductDetailPage({
                   <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
                     <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
                       <Coffee className="mx-auto mb-2 h-6 w-6 text-coffee-600" />
-                      <CoffeeGradeIndicator grade={mockProduct.grade} />
+                      <CoffeeGradeIndicator grade="grade-1" />
                       <p className="mt-1 text-xs text-coffee-600">Grade</p>
                     </div>
                     <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
                       <ProcessingMethodBadge
-                        method={mockProduct.processingMethod}
+                        method="natural"
                       />
                       <p className="mt-1 text-xs text-coffee-600">Processing</p>
                     </div>
                     <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
                       <OriginFlag
-                        country="Vietnam"
-                        region={mockProduct.origin.region}
+                        origin="vietnam"
                       />
                       <p className="mt-1 text-xs text-coffee-600">Origin</p>
                     </div>
@@ -555,16 +576,15 @@ export default async function ProductDetailPage({
                           >
                             Certifications
                           </SectionHeading>
-                          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                            {mockProduct.certifications.map((cert, index) => (
-                              <CertificationBadge
-                                key={index}
-                                certification={cert.name}
-                                issuer={cert.issuer}
-                                validUntil={cert.validUntil}
-                                className="p-4"
-                              />
-                            ))}
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                              {mockProduct.certifications.map((cert, index) => (
+                                <CertificationBadge
+                                  key={index}
+                                  certification={mapCertificationToDesignSystem(cert.name) as any}
+                                  size="md"
+                                  className="mr-2 mb-2"
+                                />
+                              ))}
                           </div>
                         </CardContent>
                       </Card>
@@ -858,10 +878,10 @@ export default async function ProductDetailPage({
                                     </p>
                                   </div>
                                 </div>
-                                <CoffeeButton variant="outline" size="sm">
+                                <Button variant="outline" size="sm">
                                   <Download className="mr-2 h-4 w-4" />
                                   Download
-                                </CoffeeButton>
+                                </Button>
                               </div>
                             ))}
                           </div>
@@ -889,20 +909,22 @@ export default async function ProductDetailPage({
             {[1, 2, 3].map(i => (
               <ProductCard
                 key={i}
-                product={{
-                  id: `related-${i}`,
-                  name: 'The Great Beans Premium Robusta Grade 1',
-                  type: 'Robusta',
-                  grade: 'Grade 1',
-                  origin: 'Dak Lak Province',
-                  price: 2.85,
-                  currency: 'USD',
-                  unit: 'kg',
-                  availability: 'In Stock',
-                  image: '/images/coffee-beans-placeholder.jpg',
-                  certifications: ['Organic', 'Fair Trade'],
-                  processingMethod: 'Wet Process',
-                }}
+                title="The Great Beans Premium Robusta Grade 1"
+                description="High-quality natural processed Robusta from Dak Lak province"
+                image="/images/coffee-beans-placeholder.jpg"
+                price="$2.85/kg"
+                features={[
+                  'Grade 1 Quality',
+                  'Dak Lak Province Origin',
+                  'Organic Certified',
+                  'Fair Trade Certified',
+                  'Wet Process Method'
+                ]}
+                badges={
+                  <div className="flex gap-1">
+                    <Badge variant="secondary" className="text-xs">In Stock</Badge>
+                  </div>
+                }
               />
             ))}
           </ProductGrid>

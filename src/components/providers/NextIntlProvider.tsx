@@ -11,7 +11,12 @@ interface NextIntlProviderProps {
 
 export function NextIntlProvider({ children, messages, locale }: NextIntlProviderProps) {
   return (
-    <NextIntlClientProvider messages={messages} locale={locale}>
+    <NextIntlClientProvider 
+      messages={messages} 
+      locale={locale}
+      timeZone="UTC"
+      now={new Date()}
+    >
       {children}
     </NextIntlClientProvider>
   );

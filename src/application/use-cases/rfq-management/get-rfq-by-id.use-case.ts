@@ -1,5 +1,5 @@
 import { RFQEntity } from '@/domain/entities/rfq.entity';
-import { IRFQRepository } from '@/infrastructure/database/repositories/rfq.repository';
+import { IRFQRepository } from '@/domain/repositories/rfq.repository';
 
 export interface GetRfqByIdRequest {
   id: string;

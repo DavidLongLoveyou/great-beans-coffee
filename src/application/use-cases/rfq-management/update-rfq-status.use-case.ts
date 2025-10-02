@@ -1,7 +1,7 @@
 import { RFQEntity, RFQStatus } from '@/domain/entities/rfq.entity';
-import { IRFQRepository } from '@/infrastructure/database/repositories/rfq.repository';
+import { IRFQRepository } from '@/domain/repositories/rfq.repository';
 
-import { INotificationService } from '@/infrastructure/services/notification.service';
+import { NotificationService } from '@/application/services/notification.service';
 
 export interface UpdateRfqStatusRequest {
   id: string;
@@ -11,7 +11,7 @@ export interface UpdateRfqStatusRequest {
 }
 
 export interface UpdateRfqStatusResponse {
-  rfq: RFQEntity;
+  rfq: RFQEntity | null;
   success: boolean;
   message: string;
 }
@@ -19,7 +19,7 @@ export interface UpdateRfqStatusResponse {
 export class UpdateRfqStatusUseCase {
   constructor(
     private rfqRepository: IRFQRepository,
-    private notificationService: INotificationService
+    private notificationService: NotificationService
   ) {}
 
   async execute(
@@ -101,11 +101,9 @@ export class UpdateRfqStatusUseCase {
       // Send notification if status changed significantly
       if (this.shouldNotifyStatusChange(existingRfq.status, request.status)) {
         try {
-          await this.notificationService.sendRfqStatusUpdate({
-            rfq: updatedRfq,
-            previousStatus: existingRfq.status,
-            newStatus: request.status,
-          });
+          await this.notificationService.sendAdminNotification(
+            `RFQ ${updatedRfq.rfqNumber} status changed from ${existingRfq.status} to ${request.status}`
+          );
         } catch (notificationError) {
           console.error(
             'Failed to send status update notification:',

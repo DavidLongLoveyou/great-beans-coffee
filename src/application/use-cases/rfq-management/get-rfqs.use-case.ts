@@ -1,5 +1,5 @@
 import { RFQEntity } from '@/domain/entities/rfq.entity';
-import { IRFQRepository } from '@/infrastructure/database/repositories/rfq.repository';
+import { IRFQRepository } from '@/domain/repositories/rfq.repository';
 
 export interface GetRfqsRequest {
   page?: number;
@@ -88,13 +88,23 @@ export class GetRfqsUseCase {
       }
 
       // Get RFQs from repository
-      const result = await this.rfqRepository.findMany({
-        filters,
+      const searchCriteria: any = {
+        status: request.status as any,
+        priority: request.priority as any,
+        submittedAfter: request.dateFrom,
+        submittedBefore: request.dateTo,
         page,
         limit,
         sortBy,
         sortOrder,
-      });
+      };
+
+      // Only add clientCompany if companyName is provided
+      if (request.companyName) {
+        searchCriteria.clientCompany = request.companyName;
+      }
+
+      const result = await this.rfqRepository.search(searchCriteria);
 
       const totalPages = Math.ceil(result.total / limit);
 

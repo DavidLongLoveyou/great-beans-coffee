@@ -262,6 +262,8 @@ export interface OrganizationSchema {
     email: string;
   };
   sameAs: string[];
+  // Index signature for compatibility with StructuredDataObject
+  [key: string]: unknown;
 }
 
 export interface ProductSchema {
@@ -322,6 +324,8 @@ export interface ProductSchema {
       unitCode: string;
     };
   };
+  // Index signature for compatibility with StructuredDataObject
+  [key: string]: unknown;
 }
 
 export interface ArticleSchema {
@@ -367,6 +371,8 @@ export interface ArticleSchema {
     name: string;
     sameAs?: string;
   }>;
+  // Index signature for compatibility with StructuredDataObject
+  [key: string]: unknown;
 }
 
 export interface ServiceSchema {
@@ -386,6 +392,8 @@ export interface ServiceSchema {
     priceCurrency?: string;
     availability: string;
   };
+  // Index signature for compatibility with StructuredDataObject
+  [key: string]: unknown;
 }
 
 // Base schema interface
@@ -582,6 +590,8 @@ export interface BreadcrumbSchema {
     name: string;
     item: string;
   }>;
+  // Index signature for compatibility with StructuredDataObject
+  [key: string]: unknown;
 }
 
 export function generateBreadcrumbSchema(

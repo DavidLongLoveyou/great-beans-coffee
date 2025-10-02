@@ -98,6 +98,15 @@ export interface SalesMetrics {
   targetAchievement: number;
 }
 
+// Extract individual types for better type safety
+export type SalesRepPerformance = {
+  repId: string;
+  name: string;
+  sales: number;
+  orders: number;
+  conversionRate: number;
+};
+
 export interface MarketingMetrics {
   // Website analytics
   websiteVisitors: number;
@@ -308,7 +317,7 @@ export interface IAnalyticsRepository {
   getSalesPerformance(
     salesRepId?: string,
     filter?: AnalyticsFilter
-  ): Promise<SalesMetrics['salesByRep'][0]>;
+  ): Promise<SalesRepPerformance>;
   getPipelineAnalytics(
     filter?: AnalyticsFilter
   ): Promise<Partial<SalesMetrics>>;

@@ -310,6 +310,23 @@ export const ServicePage = defineDocumentType(() => ({
       description: 'Type of service',
       required: false,
     },
+    features: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Service features list',
+      required: false,
+    },
+    benefits: {
+      type: 'list',
+      of: { type: 'string' },
+      description: 'Service benefits list',
+      required: false,
+    },
+    image: {
+      type: 'string',
+      description: 'Service image URL',
+      required: false,
+    },
     gallery: {
       type: 'list',
       of: { type: 'string' },
@@ -413,6 +430,11 @@ export const BlogPost = defineDocumentType(() => ({
   contentType: 'mdx',
   fields: {
     ...commonFields,
+    image: {
+      type: 'string',
+      description: 'Blog post image URL (alias for coverImage)',
+      required: false,
+    },
     relatedPosts: {
       type: 'list',
       of: { type: 'string' },
@@ -493,6 +515,14 @@ export const LegalPage = defineDocumentType(() => ({
     slug: {
       type: 'string',
       resolve: doc => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+    },
+    date: {
+      type: 'string',
+      resolve: doc => doc.publishedAt,
+    },
+    lastModified: {
+      type: 'string',
+      resolve: doc => doc.updatedAt || doc.publishedAt,
     },
   },
 }));
@@ -788,6 +818,8 @@ export default makeSource({
     LandingPage,
   ],
   disableImportAliasWarning: true,
+  // Performance optimizations
+  onUnknownDocuments: 'skip-warn',
   mdx: {
     remarkPlugins: [],
     rehypePlugins: [],

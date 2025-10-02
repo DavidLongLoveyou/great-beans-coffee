@@ -64,7 +64,7 @@ function getClientIP(request: NextRequest): string {
   const clientIP = request.headers.get('x-client-ip');
   
   if (forwarded) {
-    return forwarded.split(',')[0].trim();
+    return forwarded.split(',')[0]?.trim() || 'unknown';
   }
   
   return realIP || clientIP || 'unknown';
@@ -152,10 +152,13 @@ export async function POST(request: NextRequest) {
     }
     
     // Enrich payload with server-side data
+    const sessionId = request.headers.get('x-session-id');
+    const userId = request.headers.get('x-user-id');
+    
     const enrichedPayload: AnalyticsPayload = {
       ...payload,
-      sessionId: request.headers.get('x-session-id') || undefined,
-      userId: request.headers.get('x-user-id') || undefined,
+      ...(sessionId && { sessionId }),
+      ...(userId && { userId }),
     };
     
     // Store the metric (in production, save to database)
@@ -280,9 +283,9 @@ export async function GET(request: NextRequest) {
       aggregated.metrics[name] = {
         count: values.length,
         average: values.reduce((sum, val) => sum + val, 0) / values.length,
-        median: values[Math.floor(values.length / 2)],
-        p75: values[Math.floor(values.length * 0.75)],
-        p95: values[Math.floor(values.length * 0.95)],
+        median: values[Math.floor(values.length / 2)] ?? 0,
+        p75: values[Math.floor(values.length * 0.75)] ?? 0,
+        p95: values[Math.floor(values.length * 0.95)] ?? 0,
         good: ratings.filter(r => r === 'good').length,
         needsImprovement: ratings.filter(r => r === 'needs-improvement').length,
         poor: ratings.filter(r => r === 'poor').length,

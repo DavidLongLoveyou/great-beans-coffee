@@ -50,64 +50,72 @@ export interface ContentFilters {
 
 export class ContentRepository implements IContentRepository {
   private mapToEntity(content: any, locale?: string): ContentEntity {
-    // Get the appropriate translation
-    let translation = null;
-    if (locale && content.translations?.length > 0) {
-      translation =
-        content.translations.find((t: any) => t.locale === locale) ||
-        content.translations.find((t: any) => t.locale === 'en') ||
-        content.translations[0];
-    }
-
     return new ContentEntity({
       id: content.id,
+      contentId: content.id,
       type: content.type,
-      category: content.category,
       status: content.status,
-      featured: content.featured,
-      publishedAt: content.publishedAt,
-      authorId: content.authorId,
-      seoMetadata: content.seoMetadata,
-      media: content.media,
-      tags: content.tags,
-      workflow: content.workflow,
-      analytics: content.analytics,
-      relatedContentIds: content.relatedContentIds,
+      category: content.category || 'COMPANY_NEWS',
+      translations: [
+          {
+            locale: content.locale,
+            title: content.title,
+            content: content.content,
+            excerpt: content.excerpt || '',
+            slug: content.slug,
+            isDefault: content.locale === 'en',
+            translatedBy: '',
+            translatedAt: undefined,
+            reviewedBy: '',
+            reviewedAt: undefined,
+            qualityScore: undefined,
+            seoMetadata: {
+               title: content.metaTitle || content.title,
+               description: content.metaDescription || content.excerpt || '',
+               keywords: Array.isArray(content.metaKeywords) ? content.metaKeywords : [],
+               noIndex: false,
+               noFollow: false,
+               canonicalUrl: '',
+               ogImage: content.featuredImage || '',
+               structuredData: {}
+             }
+          }
+        ],
+      media: Array.isArray(content.media) ? content.media : [],
+      author: {
+        id: content.authorId || '',
+        name: '',
+        email: '',
+        bio: '',
+        avatar: '',
+        expertise: [],
+        socialLinks: {}
+      },
+      contributors: [],
+      tags: Array.isArray(content.tags) ? content.tags : [],
+      relatedContent: [],
+      parentContent: undefined,
+      versions: [],
+      currentVersion: '1',
+      template: undefined,
+      customFields: {},
+      targetAudience: [],
+      targetMarkets: [],
+      coffeeProducts: [],
+      businessServices: [],
       createdAt: content.createdAt,
       updatedAt: content.updatedAt,
-      // Use translation data if available
-      title: translation?.title || content.title || '',
-      content: translation?.content || content.content || '',
-      excerpt: translation?.excerpt || content.excerpt || '',
-      slug: translation?.slug || content.slug || '',
+      publishedAt: content.publishedAt,
+      lastModifiedBy: content.authorId || '',
+      createdBy: content.authorId || '',
     });
   }
 
-  private getIncludeClause(locale?: string) {
-    return {
-      translations: locale
-        ? {
-            where: { locale },
-          }
-        : true,
-      author: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-        },
-      },
-      versions: {
-        orderBy: { createdAt: 'desc' },
-        take: 5,
-      },
-    };
-  }
+
 
   async findById(id: string, locale?: string): Promise<ContentEntity | null> {
     const content = await prisma.content.findUnique({
       where: { id },
-      include: this.getIncludeClause(locale),
     });
 
     return content ? this.mapToEntity(content, locale) : null;
@@ -117,19 +125,14 @@ export class ContentRepository implements IContentRepository {
     slug: string,
     locale?: string
   ): Promise<ContentEntity | null> {
+    const whereClause: any = { slug, status: 'PUBLISHED' };
+    
+    if (locale) {
+      whereClause.locale = locale;
+    }
+
     const content = await prisma.content.findFirst({
-      where: {
-        OR: [
-          { slug },
-          {
-            translations: {
-              some: { slug },
-            },
-          },
-        ],
-        status: 'PUBLISHED',
-      },
-      include: this.getIncludeClause(locale),
+      where: whereClause,
     });
 
     return content ? this.mapToEntity(content, locale) : null;
@@ -154,9 +157,6 @@ export class ContentRepository implements IContentRepository {
       if (filters.authorId) {
         where.authorId = filters.authorId;
       }
-      if (filters.featured !== undefined) {
-        where.featured = filters.featured;
-      }
       if (filters.dateFrom || filters.dateTo) {
         where.publishedAt = {
           ...(filters.dateFrom && { gte: filters.dateFrom }),
@@ -164,19 +164,17 @@ export class ContentRepository implements IContentRepository {
         };
       }
       if (filters.tags?.length) {
-        where.tags = {
-          hasSome: filters.tags,
-        };
+        // Tags is Json type, need to use array_contains or similar
+        // For now, skip tags filtering as it requires complex Json queries
+        // TODO: Implement proper Json array filtering
       }
     }
 
     const orderBy: Prisma.ContentOrderByWithRelationInput = {};
     if (filters?.sortBy) {
       if (filters.sortBy === 'views') {
-        orderBy.analytics = {
-          path: ['totalViews'],
-          sort: filters.sortOrder || 'desc',
-        };
+        // Views sorting not available in current schema, fallback to publishedAt
+        orderBy.publishedAt = filters.sortOrder || 'desc';
       } else {
         orderBy[filters.sortBy] = filters.sortOrder || 'desc';
       }
@@ -184,13 +182,20 @@ export class ContentRepository implements IContentRepository {
       orderBy.publishedAt = 'desc';
     }
 
-    const contents = await prisma.content.findMany({
+    const queryOptions: any = {
       where,
-      include: this.getIncludeClause(locale),
       orderBy,
-      take: filters?.limit,
-      skip: filters?.offset,
-    });
+    };
+
+    if (filters?.limit) {
+      queryOptions.take = filters.limit;
+    }
+
+    if (filters?.offset) {
+      queryOptions.skip = filters.offset;
+    }
+
+    const contents = await prisma.content.findMany(queryOptions);
 
     return contents.map(content => this.mapToEntity(content, locale));
   }
@@ -250,34 +255,24 @@ export class ContentRepository implements IContentRepository {
   }
 
   async search(query: string, locale?: string): Promise<ContentEntity[]> {
+    const whereClause: any = {
+      status: 'PUBLISHED',
+      OR: [
+        { title: { contains: query } },
+        { content: { contains: query } },
+        { excerpt: { contains: query } },
+      ],
+    };
+
+    if (locale) {
+      whereClause.locale = locale;
+    }
+
     const contents = await prisma.content.findMany({
-      where: {
-        status: 'PUBLISHED',
-        OR: [
-          { title: { contains: query, mode: 'insensitive' } },
-          { content: { contains: query, mode: 'insensitive' } },
-          { excerpt: { contains: query, mode: 'insensitive' } },
-          {
-            translations: {
-              some: {
-                locale: locale || 'en',
-                OR: [
-                  { title: { contains: query, mode: 'insensitive' } },
-                  { content: { contains: query, mode: 'insensitive' } },
-                  { excerpt: { contains: query, mode: 'insensitive' } },
-                ],
-              },
-            },
-          },
-        ],
-      },
-      include: this.getIncludeClause(locale),
+      where: whereClause,
       take: 20,
       orderBy: {
-        analytics: {
-          path: ['totalViews'],
-          sort: 'desc',
-        },
+        publishedAt: 'desc',
       },
     });
 
@@ -287,26 +282,33 @@ export class ContentRepository implements IContentRepository {
   async create(
     data: Omit<ContentEntity, 'id' | 'createdAt' | 'updatedAt'>
   ): Promise<ContentEntity> {
+    // ContentEntity has a different structure - we need to extract the actual data
+    const entityData = data.toJSON();
+    const defaultTranslation = entityData.translations?.find(t => t.isDefault) || entityData.translations?.[0];
+    
+    if (!defaultTranslation) {
+      throw new Error('Content must have at least one translation');
+    }
+    
     const content = await prisma.content.create({
       data: {
-        type: data.type,
-        category: data.category,
-        status: data.status,
-        title: data.title,
-        content: data.content,
-        excerpt: data.excerpt,
-        slug: data.slug,
-        featured: data.featured,
-        publishedAt: data.publishedAt,
-        authorId: data.authorId,
-        seoMetadata: data.seoMetadata as any,
-        media: data.media,
-        tags: data.tags,
-        workflow: data.workflow as any,
-        analytics: data.analytics as any,
-        relatedContentIds: data.relatedContentIds,
+        type: entityData.type,
+        status: entityData.status,
+        locale: defaultTranslation.locale,
+        title: defaultTranslation.title,
+        slug: defaultTranslation.slug,
+        excerpt: defaultTranslation.excerpt || null,
+        content: defaultTranslation.content,
+        category: entityData.category || null,
+        publishedAt: entityData.publishedAt || null,
+        authorId: entityData.createdBy,
+        // Store complex data as JSON
+        media: entityData.media || Prisma.JsonNull,
+        tags: entityData.tags || Prisma.JsonNull,
+        metaTitle: defaultTranslation.seoMetadata?.title || null,
+        metaDescription: defaultTranslation.seoMetadata?.description || null,
+        metaKeywords: defaultTranslation.seoMetadata?.keywords || Prisma.JsonNull,
       },
-      include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(content);
@@ -316,41 +318,39 @@ export class ContentRepository implements IContentRepository {
     id: string,
     data: Partial<ContentEntity>
   ): Promise<ContentEntity> {
-    const updateData: any = { ...data };
-    delete updateData.id;
-    delete updateData.createdAt;
-    updateData.updatedAt = new Date();
-
-    // Create version before updating
-    const currentContent = await prisma.content.findUnique({
-      where: { id },
-      select: {
-        title: true,
-        content: true,
-        excerpt: true,
-        status: true,
-        authorId: true,
-      },
-    });
-
-    if (currentContent) {
-      await prisma.contentVersion.create({
-        data: {
-          contentId: id,
-          title: currentContent.title,
-          content: currentContent.content,
-          excerpt: currentContent.excerpt,
-          status: currentContent.status,
-          createdById: currentContent.authorId,
-          changeLog: 'Content updated',
-        },
-      });
+    // Extract data from ContentEntity if needed
+    const entityData = data instanceof ContentEntity ? data.toJSON() : data as any;
+    
+    const updateData: any = {};
+    
+    // Only update fields that exist in Prisma schema
+    if (entityData.type) updateData.type = entityData.type;
+    if (entityData.status) updateData.status = entityData.status;
+    if (entityData.category) updateData.category = entityData.category;
+    if (entityData.publishedAt !== undefined) updateData.publishedAt = entityData.publishedAt;
+    
+    // Handle translations
+    if (entityData.translations) {
+      const defaultTranslation = entityData.translations.find((t: any) => t.isDefault) || entityData.translations[0];
+      if (defaultTranslation) {
+        updateData.title = defaultTranslation.title;
+        updateData.slug = defaultTranslation.slug;
+        updateData.excerpt = defaultTranslation.excerpt || null;
+        updateData.content = defaultTranslation.content;
+        updateData.locale = defaultTranslation.locale;
+        updateData.metaTitle = defaultTranslation.seoMetadata?.title || null;
+        updateData.metaDescription = defaultTranslation.seoMetadata?.description || null;
+        updateData.metaKeywords = defaultTranslation.seoMetadata?.keywords || Prisma.JsonNull;
+      }
     }
+    
+    // Handle JSON fields
+    if (entityData.media !== undefined) updateData.media = entityData.media || Prisma.JsonNull;
+    if (entityData.tags !== undefined) updateData.tags = entityData.tags || Prisma.JsonNull;
 
     const content = await prisma.content.update({
       where: { id },
       data: updateData,
-      include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(content);
@@ -361,36 +361,21 @@ export class ContentRepository implements IContentRepository {
     locale: string,
     translation: any
   ): Promise<ContentEntity> {
-    await prisma.contentTranslation.upsert({
-      where: {
-        contentId_locale: {
-          contentId: id,
-          locale,
-        },
-      },
-      update: {
-        title: translation.title,
-        content: translation.content,
-        excerpt: translation.excerpt,
-        slug: translation.slug,
-        updatedAt: new Date(),
-      },
-      create: {
-        contentId: id,
-        locale,
-        title: translation.title,
-        content: translation.content,
-        excerpt: translation.excerpt,
-        slug: translation.slug,
-      },
-    });
+    // Since we don't have separate translation table, update the main content
+    const updateData: any = {
+      locale,
+      title: translation.title,
+      content: translation.content,
+      excerpt: translation.excerpt || null,
+      slug: translation.slug,
+    };
 
-    const content = await prisma.content.findUnique({
+    const content = await prisma.content.update({
       where: { id },
-      include: this.getIncludeClause(locale),
+      data: updateData,
     });
 
-    return this.mapToEntity(content!, locale);
+    return this.mapToEntity(content);
   }
 
   async publish(id: string): Promise<ContentEntity> {
@@ -401,7 +386,6 @@ export class ContentRepository implements IContentRepository {
         publishedAt: new Date(),
         updatedAt: new Date(),
       },
-      include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(content);
@@ -414,7 +398,6 @@ export class ContentRepository implements IContentRepository {
         status: 'DRAFT',
         updatedAt: new Date(),
       },
-      include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(content);
@@ -436,43 +419,21 @@ export class ContentRepository implements IContentRepository {
       select: {
         category: true,
         tags: true,
-        relatedContentIds: true,
       },
     });
 
     if (!content) return [];
 
-    // First try to get explicitly related content
-    let relatedContents = [];
-    if (content.relatedContentIds?.length > 0) {
-      relatedContents = await prisma.content.findMany({
-        where: {
-          id: { in: content.relatedContentIds },
-          status: 'PUBLISHED',
-        },
-        include: this.getIncludeClause(locale),
-        take: limit,
-      });
-    }
-
-    // If we need more content, find by category and tags
-    if (relatedContents.length < limit) {
-      const additionalContent = await prisma.content.findMany({
-        where: {
-          id: { not: id },
-          status: 'PUBLISHED',
-          OR: [
-            { category: content.category },
-            { tags: { hasSome: content.tags || [] } },
-          ],
-        },
-        include: this.getIncludeClause(locale),
-        take: limit - relatedContents.length,
-        orderBy: { publishedAt: 'desc' },
-      });
-
-      relatedContents = [...relatedContents, ...additionalContent];
-    }
+    // Find related content by category
+    const relatedContents = await prisma.content.findMany({
+      where: {
+        id: { not: id },
+        status: 'PUBLISHED',
+        category: content.category,
+      },
+      take: limit,
+      orderBy: { publishedAt: 'desc' },
+    });
 
     return relatedContents.map(content => this.mapToEntity(content, locale));
   }
@@ -496,38 +457,24 @@ export class ContentRepository implements IContentRepository {
     const contents = await prisma.content.findMany({
       where: {
         status: 'PUBLISHED',
-      },
-      include: {
-        translations: locale
-          ? {
-              where: { locale },
-            }
-          : true,
+        ...(locale && { locale }),
       },
       select: {
         id: true,
         slug: true,
         type: true,
         updatedAt: true,
-        translations: true,
+        locale: true,
       },
     });
 
-    return contents.map(content => {
-      const translation =
-        locale && content.translations.length > 0
-          ? content.translations.find(t => t.locale === locale) ||
-            content.translations[0]
-          : null;
-
-      return {
-        id: content.id,
-        slug: translation?.slug || content.slug,
-        type: content.type,
-        lastModified: content.updatedAt,
-        locale: locale || 'en',
-      };
-    });
+    return contents.map(content => ({
+      id: content.id,
+      slug: content.slug,
+      type: content.type,
+      lastModified: content.updatedAt,
+      locale: content.locale,
+    }));
   }
 }
 

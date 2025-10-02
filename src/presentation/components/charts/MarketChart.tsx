@@ -95,9 +95,13 @@ export function MarketChart({
 
   // Calculate overall trend
   const overallTrend =
-    data.length > 1 ? data[data.length - 1].value - data[0].value : 0;
+    data.length > 1 && data[data.length - 1] && data[0] 
+      ? data[data.length - 1].value - data[0].value 
+      : 0;
   const trendPercentage =
-    data.length > 1 ? (overallTrend / data[0].value) * 100 : 0;
+    data.length > 1 && data[0] && data[0].value !== 0
+      ? (overallTrend / data[0].value) * 100 
+      : 0;
 
   return (
     <Card className={`w-full ${className}`}>

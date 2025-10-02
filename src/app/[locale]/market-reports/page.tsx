@@ -74,7 +74,7 @@ export default async function MarketReportsPage({
       description: report.description,
       publishedAt: report.publishedAt,
       author: report.author,
-      coverImage: report.coverImage,
+      ...(report.coverImage && { coverImage: report.coverImage }),
     })),
     locale
   );

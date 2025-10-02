@@ -7,7 +7,7 @@ import { type Locale } from '@/i18n';
 import ClusterNavigation from '@/presentation/components/navigation/ClusterNavigation';
 import { Button } from '@/presentation/components/ui';
 import { isValidLocale } from '@/shared/utils/locale';
-import { SEOHead } from '@/presentation/components/SEO/SEOHead';
+import { SEOHead } from '@/presentation/components/seo/SEOHead';
 import { generateOrganizationSchema } from '@/shared/utils/seo-utils';
 
 type Props = {

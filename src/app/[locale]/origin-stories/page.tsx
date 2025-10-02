@@ -70,14 +70,16 @@ export default async function OriginStoriesPage({
 
   // Generate structured data for SEO
   const structuredData = generateOriginStoriesCollectionSchema(
-    allStories.map(story => ({
-      slug: story.slug,
-      title: story.title,
-      description: story.description,
-      region: story.region,
-      province: story.province,
-      coverImage: story.coverImage,
-    })),
+    allStories
+      .filter(story => story.province) // Only include stories with province
+      .map(story => ({
+        slug: story.slug,
+        title: story.title,
+        description: story.description,
+        region: story.region,
+        province: story.province!,
+        ...(story.coverImage && { coverImage: story.coverImage }),
+      })),
     locale
   );
 

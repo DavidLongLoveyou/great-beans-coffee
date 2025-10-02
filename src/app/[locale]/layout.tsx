@@ -5,6 +5,9 @@ import { NextIntlProvider } from '@/components/providers/NextIntlProvider';
 import { getMessages } from '@/lib/messages';
 import { PerformanceMonitor } from '@/shared/components/performance/PerformanceMonitor';
 import { PerformanceInitializer } from '@/shared/components/performance/PerformanceInitializer';
+import Header from '@/presentation/components/layout/Header';
+import Footer from '@/presentation/components/layout/Footer';
+import { type Locale } from '@/i18n';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,7 +31,13 @@ export default async function RootLayout({
       <body className={inter.className}>
         <PerformanceInitializer />
         <NextIntlProvider messages={messages} locale={locale}>
-          {children}
+          <div className="flex min-h-screen flex-col">
+            <Header locale={locale as Locale} />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer locale={locale as Locale} />
+          </div>
         </NextIntlProvider>
         <PerformanceMonitor />
       </body>

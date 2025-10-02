@@ -114,24 +114,14 @@ export class DatabaseMigrations {
       console.log('🔄 Resetting database...');
 
       // Delete all data in reverse dependency order
-      await this.prisma.contentTranslation.deleteMany();
-      await this.prisma.contentVersion.deleteMany();
       await this.prisma.content.deleteMany();
+      await this.prisma.clusterContent.deleteMany();
 
-      await this.prisma.rFQCommunication.deleteMany();
-      await this.prisma.rFQDocument.deleteMany();
       await this.prisma.rFQProduct.deleteMany();
       await this.prisma.rFQService.deleteMany();
       await this.prisma.rFQ.deleteMany();
 
-      await this.prisma.companyContact.deleteMany();
-      await this.prisma.companyAddress.deleteMany();
-      await this.prisma.companyDocument.deleteMany();
-      await this.prisma.companyNote.deleteMany();
       await this.prisma.clientCompany.deleteMany();
-
-      await this.prisma.orderItem.deleteMany();
-      await this.prisma.order.deleteMany();
 
       await this.prisma.coffeeProductTranslation.deleteMany();
       await this.prisma.coffeeProduct.deleteMany();
