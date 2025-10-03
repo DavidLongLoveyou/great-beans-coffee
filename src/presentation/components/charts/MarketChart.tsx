@@ -94,13 +94,16 @@ export function MarketChart({
   };
 
   // Calculate overall trend
+  const lastItem = data[data.length - 1];
+  const firstItem = data[0];
   const overallTrend =
-    data.length > 1 && data[data.length - 1] && data[0] 
-      ? data[data.length - 1].value - data[0].value 
+    data.length > 1 && lastItem && firstItem && 
+    typeof lastItem.value === 'number' && typeof firstItem.value === 'number'
+      ? lastItem.value - firstItem.value 
       : 0;
   const trendPercentage =
-    data.length > 1 && data[0] && data[0].value !== 0
-      ? (overallTrend / data[0].value) * 100 
+    data.length > 1 && firstItem && typeof firstItem.value === 'number' && firstItem.value !== 0
+      ? (overallTrend / firstItem.value) * 100 
       : 0;
 
   return (

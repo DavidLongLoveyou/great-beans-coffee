@@ -58,6 +58,12 @@ export const RelationshipStatusSchema = z.enum([
   'DORMANT',
 ]);
 
+// Business Model Schema
+export const BusinessModelSchema = z.enum(['B2B', 'B2C', 'BOTH']);
+
+// Risk Level Schema
+export const RiskLevelSchema = z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']);
+
 // Contact Person Schema
 export const ContactPersonSchema = z.object({
   id: z.string().uuid(),
@@ -131,7 +137,7 @@ export const BusinessProfileSchema = z.object({
   employeeCount: z.number().int().positive().optional(),
   annualCoffeeVolume: z.number().positive().optional(), // in MT
   primaryMarkets: z.array(z.string()), // Countries/regions they serve
-  businessModel: z.array(z.enum(['B2B', 'B2C', 'BOTH'])),
+  businessModel: z.array(BusinessModelSchema),
   certifications: z
     .array(
       z.enum([
@@ -272,7 +278,7 @@ export const ClientCompanySchema = z.object({
   // Internal Management
   assignedSalesRep: z.string().uuid().optional(),
   accountManager: z.string().uuid().optional(),
-  riskLevel: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).default('MEDIUM'),
+  riskLevel: RiskLevelSchema.default('MEDIUM'),
 
   // Documents & Notes
   documents: z.array(CompanyDocumentSchema).optional(),
@@ -318,6 +324,8 @@ export type TradingHistory = z.infer<typeof TradingHistorySchema>;
 export type CompanyDocument = z.infer<typeof CompanyDocumentSchema>;
 export type CompanyNote = z.infer<typeof CompanyNoteSchema>;
 export type ClientCompany = z.infer<typeof ClientCompanySchema>;
+export type BusinessModel = z.infer<typeof BusinessModelSchema>;
+export type RiskLevel = z.infer<typeof RiskLevelSchema>;
 
 // Client Company Entity Class
 export class ClientCompanyEntity {

@@ -13,12 +13,13 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'The Great Beans - Premium Vietnamese Coffee Exports',
-  description: 'Leading B2B platform for Vietnamese coffee exports. Premium Robusta, Arabica, and specialty blends for global importers, roasters, and distributors.',
+  description:
+    'Leading B2B platform for Vietnamese coffee exports. Premium Robusta, Arabica, and specialty blends for global importers, roasters, and distributors.',
 };
 
 export default async function RootLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -33,9 +34,7 @@ export default async function RootLayout({
         <NextIntlProvider messages={messages} locale={locale}>
           <div className="flex min-h-screen flex-col">
             <Header locale={locale as Locale} />
-            <main className="flex-1">
-              {children}
-            </main>
+            <main className="flex-1">{children}</main>
             <Footer locale={locale as Locale} />
           </div>
         </NextIntlProvider>

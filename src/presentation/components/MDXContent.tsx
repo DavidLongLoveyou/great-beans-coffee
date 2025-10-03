@@ -148,16 +148,19 @@ const mdxComponents = {
   ),
 
   // Image component
-  img: ({ src, alt, ...props }: ComponentProps<'img'>) => (
-    <Image
-      src={src || ''}
-      alt={alt || ''}
-      width={800}
-      height={600}
-      className="mb-4 h-auto max-w-full rounded-lg shadow-md"
-      {...props}
-    />
-  ),
+  img: ({ src, alt, width, height, ...props }: ComponentProps<'img'>) => {
+    if (!src) return null;
+    return (
+      <Image
+        src={src}
+        alt={alt || ''}
+        width={800}
+        height={600}
+        className="mb-4 h-auto max-w-full rounded-lg shadow-md"
+        {...props}
+      />
+    );
+  },
 
   // Link component
   a: ({ href, children, ...props }: ComponentProps<'a'>) => (

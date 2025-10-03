@@ -72,9 +72,8 @@ export class SubmitRfqUseCase {
       const rfqData: RFQ = {
         id: crypto.randomUUID(),
         rfqNumber,
-        status: 'SUBMITTED',
+        status: 'PENDING',
         priority: request.urgency === 'high' ? 'HIGH' : request.urgency === 'medium' ? 'MEDIUM' : 'LOW',
-        source: 'WEBSITE',
         
         productRequirements: {
           coffeeType: request.productType[0] as any, // Take first type

@@ -1,0 +1,696 @@
+﻿src/components/ui/__tests__/TrendIndicator.test.tsx(55,13): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; format: "percentage"; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(62,13): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; unit: string; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(69,13): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; precision: number; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(76,58): error TS2322: Type '{ value: number; previousValue: number; compact: true; }' is not assignable to type 'IntrinsicAttributes & TrendIndicatorProps'.
+  Property 'compact' does not exist on type 'IntrinsicAttributes & TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(85,58): error TS2322: Type '{ value: number; previousValue: number; showPercentage: boolean; }' is not assignable to type 'IntrinsicAttributes & TrendIndicatorProps'.
+  Property 'showPercentage' does not exist on type 'IntrinsicAttributes & TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(93,13): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; className: string; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(100,34): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; size: "sm"; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(105,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; size: "lg"; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(111,34): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; showIcon: true; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(116,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; showIcon: true; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(120,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; showIcon: true; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(127,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; }' but required in type 'Omit<TrendIndicatorProps, "format">'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(134,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; }' but required in type 'Omit<TrendIndicatorProps, "format">'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(141,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; }' but required in type 'Omit<TrendIndicatorProps, "format" | "unit">'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(150,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(158,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; precision: number; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(165,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(173,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(181,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; }' but required in type 'TrendIndicatorProps'.
+src/components/ui/__tests__/TrendIndicator.test.tsx(189,15): error TS2741: Property 'label' is missing in type '{ value: number; previousValue: number; }' but required in type 'TrendIndicatorProps'.
+src/infrastructure/database/repositories/rfq.repository.ts(173,44): error TS2379: Argument of type '{ where: Prisma.RFQWhereInput; include: { client: { select: { id: boolean; name: boolean; email: boolean; country: boolean; }; }; assignee: { select: { id: boolean; name: boolean; email: boolean; }; }; products: boolean; services: boolean; }; orderBy: Prisma.RFQOrderByWithRelationInput; take: number | undefined; ski...' is not assignable to parameter of type '{ select?: RFQSelect<DefaultArgs> | null; omit?: RFQOmit<DefaultArgs> | null; include?: RFQInclude<DefaultArgs> | null; ... 5 more ...; distinct?: RFQScalarFieldEnum | RFQScalarFieldEnum[]; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'take' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+src/infrastructure/database/repositories/rfq.repository.ts(217,9): error TS2353: Object literal may only specify known properties, and 'validUntil' does not exist in type 'RFQWhereInput'.
+src/infrastructure/database/repositories/rfq.repository.ts(223,18): error TS2353: Object literal may only specify known properties, and 'validUntil' does not exist in type 'RFQOrderByWithRelationInput | RFQOrderByWithRelationInput[]'.
+src/infrastructure/database/repositories/rfq.repository.ts(234,31): error TS2339: Property 'referenceNumber' does not exist on type 'Omit<RFQEntity, "updatedAt" | "id" | "createdAt">'.
+src/infrastructure/database/repositories/rfq.repository.ts(235,9): error TS2322: Type '"DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"' is not assignable to type 'RFQStatus'.
+  Type '"DRAFT"' is not assignable to type 'RFQStatus'.
+src/infrastructure/database/repositories/rfq.repository.ts(237,22): error TS2339: Property 'source' does not exist on type 'Omit<RFQEntity, "updatedAt" | "id" | "createdAt">'.
+src/infrastructure/database/repositories/rfq.repository.ts(239,29): error TS2339: Property 'contactPerson' does not exist on type 'Omit<RFQEntity, "updatedAt" | "id" | "createdAt">'.
+src/infrastructure/database/repositories/rfq.repository.ts(243,28): error TS2339: Property 'paymentTerms' does not exist on type 'Omit<RFQEntity, "updatedAt" | "id" | "createdAt">'.
+src/infrastructure/database/repositories/rfq.repository.ts(244,38): error TS2339: Property 'additionalRequirements' does not exist on type 'Omit<RFQEntity, "updatedAt" | "id" | "createdAt">'.
+src/infrastructure/database/repositories/rfq.repository.ts(245,30): error TS2339: Property 'estimatedValue' does not exist on type 'Omit<RFQEntity, "updatedAt" | "id" | "createdAt">'.
+src/infrastructure/database/repositories/rfq.repository.ts(246,26): error TS2339: Property 'validUntil' does not exist on type 'Omit<RFQEntity, "updatedAt" | "id" | "createdAt">'.
+src/infrastructure/database/repositories/rfq.repository.ts(247,29): error TS2339: Property 'internalNotes' does not exist on type 'Omit<RFQEntity, "updatedAt" | "id" | "createdAt">'.
+src/infrastructure/database/repositories/rfq.repository.ts(248,31): error TS2339: Property 'clientCompanyId' does not exist on type 'Omit<RFQEntity, "updatedAt" | "id" | "createdAt">'.
+src/infrastructure/database/repositories/rfq.repository.ts(249,28): error TS2551: Property 'assignedToId' does not exist on type 'Omit<RFQEntity, "updatedAt" | "id" | "createdAt">'. Did you mean 'assignTo'?
+src/infrastructure/database/repositories/rfq.repository.ts(312,18): error TS2339: Property 'rFQCommunication' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+src/infrastructure/database/repositories/rfq.repository.ts(327,18): error TS2339: Property 'rFQDocument' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+src/infrastructure/database/repositories/rfq.repository.ts(378,9): error TS2322: Type '"source"[]' is not assignable to type 'RFQScalarFieldEnum | RFQScalarFieldEnum[]'.
+  Type '"source"[]' is not assignable to type 'RFQScalarFieldEnum[]'.
+    Type '"source"' is not assignable to type 'RFQScalarFieldEnum'.
+src/infrastructure/database/repositories/rfq.repository.ts(387,11): error TS2375: Type '{ estimatedValue: { not: null; }; createdAt: { gte: Date; lte: Date; }; } | { estimatedValue: { not: null; }; createdAt?: never; }' is not assignable to type 'RFQWhereInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Object literal may only specify known properties, and 'estimatedValue' does not exist in type 'RFQWhereInput'.
+src/infrastructure/database/repositories/rfq.repository.ts(390,11): error TS2353: Object literal may only specify known properties, and 'estimatedValue' does not exist in type 'RFQAvgAggregateInputType'.
+src/infrastructure/database/repositories/rfq.repository.ts(439,11): error TS2322: Type 'true | { id?: number; rfqNumber?: number; clientId?: number; status?: number; priority?: number; companyName?: number; contactPerson?: number; email?: number; phone?: number; country?: number; businessType?: number; ... 18 more ...; _all?: number; } | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
+src/infrastructure/database/repositories/rfq.repository.ts(439,20): error TS2339: Property 'source' does not exist on type 'PickEnumerable<RFQGroupByOutputType, RFQScalarFieldEnum | RFQScalarFieldEnum[]> & { _count: true | ... 1 more ... | undefined; _avg: { ...; } | undefined; _sum: { ...; } | undefined; _min: { ...; } | undefined; _max: { ...; } | undefined; }'.
+src/infrastructure/database/repositories/rfq.repository.ts(444,21): error TS18048: 'averageValue._avg' is possibly 'undefined'.
+src/infrastructure/database/repositories/rfq.repository.ts(444,39): error TS2339: Property 'estimatedValue' does not exist on type '{ totalValue?: number | null; }'.
+src/infrastructure/database/repositories/rfq.repository.ts(446,33): error TS18046: 'averageResponseTime' is of type 'unknown'.
+src/infrastructure/database/seed-data/business-services.ts(70,5): error TS2322: Type '"OEM"' is not assignable to type '"PRIVATE_LABEL" | "OEM_MANUFACTURING" | "QUALITY_CONTROL" | "CUSTOM_BLENDING" | "COFFEE_SOURCING" | "LOGISTICS_SHIPPING" | "MARKET_CONSULTING" | "PACKAGING_DESIGN" | "CERTIFICATION_SUPPORT" | "SUPPLY_CHAIN_MANAGEMENT"'.
+src/infrastructure/database/seed-data/business-services.ts(326,5): error TS2322: Type '"TIERED"' is not assignable to type '"VOLUME_BASED" | "FIXED_RATE" | "PERCENTAGE_BASED" | "HOURLY_RATE" | "PROJECT_BASED" | "CUSTOM_QUOTE"'.
+src/infrastructure/database/seed-data/business-services.ts(531,5): error TS2322: Type '"CONSULTING"' is not assignable to type '"PRIVATE_LABEL" | "OEM_MANUFACTURING" | "QUALITY_CONTROL" | "CUSTOM_BLENDING" | "COFFEE_SOURCING" | "LOGISTICS_SHIPPING" | "MARKET_CONSULTING" | "PACKAGING_DESIGN" | "CERTIFICATION_SUPPORT" | "SUPPLY_CHAIN_MANAGEMENT"'.
+src/infrastructure/database/seed-data/client-companies.ts(4,3): error TS2305: Module '"../../../domain/entities/client-company.entity"' has no exported member 'BusinessModel'.
+src/infrastructure/database/seed-data/client-companies.ts(5,3): error TS2305: Module '"../../../domain/entities/client-company.entity"' has no exported member 'RiskLevel'.
+src/infrastructure/database/seed-data/client-companies.ts(655,5): error TS2322: Type '"CAFE_CHAIN"' is not assignable to type '"IMPORTER" | "ROASTER" | "DISTRIBUTOR" | "RETAILER" | "MANUFACTURER" | "TRADER" | "BROKER" | "COOPERATIVE" | "GOVERNMENT" | "NGO"'.
+src/infrastructure/database/seed-data/coffee-products.ts(324,5): error TS2322: Type '"PREMIUM"' is not assignable to type '"GRADE_1" | "GRADE_2" | "GRADE_3" | "SCREEN_18" | "SCREEN_16" | "SCREEN_13" | "SPECIALTY" | "COMMERCIAL"'.
+src/infrastructure/database/seed-data/coffee-products.ts(450,5): error TS2322: Type '"PREMIUM"' is not assignable to type '"GRADE_1" | "GRADE_2" | "GRADE_3" | "SCREEN_18" | "SCREEN_16" | "SCREEN_13" | "SPECIALTY" | "COMMERCIAL"'.
+src/infrastructure/database/seed-data/coffee-products.ts(451,5): error TS2322: Type '"MIXED"' is not assignable to type '"NATURAL" | "WASHED" | "HONEY" | "WET_HULLED" | "SEMI_WASHED"'.
+src/infrastructure/database/seed-data/content.ts(60,5): error TS2322: Type '"CULTURE"' is not assignable to type '"QUALITY_ASSURANCE" | "COFFEE_EDUCATION" | "MARKET_INSIGHTS" | "SUSTAINABILITY" | "ORIGIN_STORIES" | "PROCESSING_METHODS" | "CERTIFICATIONS" | "TRADE_INFORMATION" | "COMPANY_NEWS" | ... 4 more ... | "REGULATORY_UPDATES"'.
+src/infrastructure/database/seed-data/content.ts(234,5): error TS2322: Type '"MARKET_ANALYSIS"' is not assignable to type '"QUALITY_ASSURANCE" | "COFFEE_EDUCATION" | "MARKET_INSIGHTS" | "SUSTAINABILITY" | "ORIGIN_STORIES" | "PROCESSING_METHODS" | "CERTIFICATIONS" | "TRADE_INFORMATION" | "COMPANY_NEWS" | ... 4 more ... | "REGULATORY_UPDATES"'.
+src/infrastructure/database/seed-data/content.ts(501,5): error TS2322: Type '"ORIGIN"' is not assignable to type '"QUALITY_ASSURANCE" | "COFFEE_EDUCATION" | "MARKET_INSIGHTS" | "SUSTAINABILITY" | "ORIGIN_STORIES" | "PROCESSING_METHODS" | "CERTIFICATIONS" | "TRADE_INFORMATION" | "COMPANY_NEWS" | ... 4 more ... | "REGULATORY_UPDATES"'.
+src/infrastructure/database/seed-data/content.ts(799,5): error TS2322: Type '"COMPANY_NEWS"' is not assignable to type '"BLOG_POST" | "MARKET_REPORT" | "ORIGIN_STORY" | "SERVICE_PAGE" | "LANDING_PAGE" | "PAGE" | "PRODUCT_DESCRIPTION" | "FAQ" | "TESTIMONIAL" | "CASE_STUDY" | "NEWS_ARTICLE" | "PRESS_RELEASE" | "EMAIL_TEMPLATE" | "SOCIAL_MEDIA_POST"'.
+src/infrastructure/database/seed-data/index.ts(92,11): error TS2551: Property 'clientCompany' does not exist on type 'SeedRFQ'. Did you mean 'clientCompanyId'?
+src/infrastructure/database/seed-data/index.ts(93,51): error TS2551: Property 'clientCompany' does not exist on type 'SeedRFQ'. Did you mean 'clientCompanyId'?
+src/infrastructure/database/seed-data/index.ts(96,70): error TS2551: Property 'clientCompany' does not exist on type 'SeedRFQ'. Did you mean 'clientCompanyId'?
+src/infrastructure/database/seed-data/rfqs.ts(3,3): error TS2305: Module '"../../../domain/entities/rfq.entity"' has no exported member 'Priority'.
+src/infrastructure/database/seed-data/rfqs.ts(4,3): error TS2305: Module '"../../../domain/entities/rfq.entity"' has no exported member 'ShippingTerms'.
+src/infrastructure/database/seed-data/rfqs.ts(82,5): error TS2322: Type '"PENDING"' is not assignable to type '"DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"'.
+src/infrastructure/database/seed-data/rfqs.ts(106,7): error TS2322: Type 'string' is not assignable to type '{ preferredCurrency: "USD" | "EUR" | "JPY" | "GBP"; paymentMethod: "TT" | "LC" | "CAD" | "DP" | "DA"; paymentTerms: string; creditPeriod?: number | undefined; budgetRange?: { min?: number | undefined; max?: number | undefined; } | undefined; }'.
+src/infrastructure/database/seed-data/rfqs.ts(174,5): error TS2322: Type '"IN_PROGRESS"' is not assignable to type '"DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"'.
+src/infrastructure/database/seed-data/rfqs.ts(222,7): error TS2322: Type 'string' is not assignable to type '{ preferredCurrency: "USD" | "EUR" | "JPY" | "GBP"; paymentMethod: "TT" | "LC" | "CAD" | "DP" | "DA"; paymentTerms: string; creditPeriod?: number | undefined; budgetRange?: { min?: number | undefined; max?: number | undefined; } | undefined; }'.
+src/infrastructure/database/seed-data/rfqs.ts(318,7): error TS2322: Type 'string' is not assignable to type '{ preferredCurrency: "USD" | "EUR" | "JPY" | "GBP"; paymentMethod: "TT" | "LC" | "CAD" | "DP" | "DA"; paymentTerms: string; creditPeriod?: number | undefined; budgetRange?: { min?: number | undefined; max?: number | undefined; } | undefined; }'.
+src/infrastructure/database/seed-data/rfqs.ts(391,5): error TS2322: Type '"PENDING"' is not assignable to type '"DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"'.
+src/infrastructure/database/seed-data/rfqs.ts(408,7): error TS2322: Type 'string' is not assignable to type '{ preferredCurrency: "USD" | "EUR" | "JPY" | "GBP"; paymentMethod: "TT" | "LC" | "CAD" | "DP" | "DA"; paymentTerms: string; creditPeriod?: number | undefined; budgetRange?: { min?: number | undefined; max?: number | undefined; } | undefined; }'.
+src/infrastructure/database/seed-data/rfqs.ts(464,5): error TS2322: Type '"COMPLETED"' is not assignable to type '"DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"'.
+src/infrastructure/database/seed-data/rfqs.ts(494,7): error TS2322: Type 'string' is not assignable to type '{ preferredCurrency: "USD" | "EUR" | "JPY" | "GBP"; paymentMethod: "TT" | "LC" | "CAD" | "DP" | "DA"; paymentTerms: string; creditPeriod?: number | undefined; budgetRange?: { min?: number | undefined; max?: number | undefined; } | undefined; }'.
+src/infrastructure/database/seed-data/users.ts(418,5): error TS2322: Type '"CLIENT"' is not assignable to type '"ADMIN" | "SALES_MANAGER" | "SALES_REP" | "CONTENT_MANAGER" | "VIEWER" | "SUPER_ADMIN" | "ACCOUNT_MANAGER" | "QUALITY_MANAGER" | "LOGISTICS_COORDINATOR" | "MARKETING_MANAGER" | "FINANCE_MANAGER" | "CUSTOMER_SERVICE"'.
+src/infrastructure/database/seed-data/users.ts(470,5): error TS2322: Type '"CLIENT"' is not assignable to type '"ADMIN" | "SALES_MANAGER" | "SALES_REP" | "CONTENT_MANAGER" | "VIEWER" | "SUPER_ADMIN" | "ACCOUNT_MANAGER" | "QUALITY_MANAGER" | "LOGISTICS_COORDINATOR" | "MARKETING_MANAGER" | "FINANCE_MANAGER" | "CUSTOMER_SERVICE"'.
+src/infrastructure/database/seed-data/users.ts(523,5): error TS2322: Type '"CLIENT"' is not assignable to type '"ADMIN" | "SALES_MANAGER" | "SALES_REP" | "CONTENT_MANAGER" | "VIEWER" | "SUPER_ADMIN" | "ACCOUNT_MANAGER" | "QUALITY_MANAGER" | "LOGISTICS_COORDINATOR" | "MARKETING_MANAGER" | "FINANCE_MANAGER" | "CUSTOMER_SERVICE"'.
+src/infrastructure/database/seed-data/users.ts(632,5): error TS2322: Type '"ANALYST"' is not assignable to type '"ADMIN" | "SALES_MANAGER" | "SALES_REP" | "CONTENT_MANAGER" | "VIEWER" | "SUPER_ADMIN" | "ACCOUNT_MANAGER" | "QUALITY_MANAGER" | "LOGISTICS_COORDINATOR" | "MARKETING_MANAGER" | "FINANCE_MANAGER" | "CUSTOMER_SERVICE"'.
+src/infrastructure/database/seed-data/users.ts(634,5): error TS2322: Type '"RESEARCH"' is not assignable to type '"IT" | "LOGISTICS" | "SALES" | "QUALITY_CONTROL" | "CUSTOMER_SERVICE" | "ADMINISTRATION" | "MARKETING" | "OPERATIONS" | "FINANCE" | "MANAGEMENT"'.
+src/infrastructure/database/seeders.ts(167,9): error TS2375: Type '{ id: string; email: string; name: string; role: string; avatar: string | undefined; isActive: boolean; createdAt: Date; updatedAt: Date; }' is not assignable to type '(Without<UserUpdateInput, UserUncheckedUpdateInput> & UserUncheckedUpdateInput) | (Without<...> & UserUpdateInput)' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ id: string; email: string; name: string; role: string; avatar: string | undefined; isActive: boolean; createdAt: Date; updatedAt: Date; }' is not assignable to type 'Without<UserUncheckedUpdateInput, UserUpdateInput> & UserUpdateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Type '{ id: string; email: string; name: string; role: string; avatar: string | undefined; isActive: boolean; createdAt: Date; updatedAt: Date; }' is not assignable to type 'UserUpdateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'avatar' are incompatible.
+        Type 'string | undefined' is not assignable to type 'string | NullableStringFieldUpdateOperationsInput | null'.
+          Type 'undefined' is not assignable to type 'string | NullableStringFieldUpdateOperationsInput | null'.
+src/infrastructure/database/seeders.ts(168,9): error TS2375: Type '{ id: string; email: string; name: string; role: string; avatar: string | undefined; isActive: boolean; createdAt: Date; updatedAt: Date; }' is not assignable to type '(Without<UserCreateInput, UserUncheckedCreateInput> & UserUncheckedCreateInput) | (Without<...> & UserCreateInput)' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ id: string; email: string; name: string; role: string; avatar: string | undefined; isActive: boolean; createdAt: Date; updatedAt: Date; }' is not assignable to type 'Without<UserUncheckedCreateInput, UserCreateInput> & UserCreateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Type '{ id: string; email: string; name: string; role: string; avatar: string | undefined; isActive: boolean; createdAt: Date; updatedAt: Date; }' is not assignable to type 'UserCreateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'role' are incompatible.
+        Type 'string' is not assignable to type 'UserRole'.
+src/infrastructure/database/seeders.ts(207,9): error TS2375: Type '{ id: string; name: string; email: string; phone: string; website: string | undefined; industry: string; companySize: "MEDIUM" | "STARTUP" | "SMALL" | "LARGE" | "ENTERPRISE"; country: string | undefined; ... 8 more ...; updatedAt: Date; }' is not assignable to type '(Without<ClientCompanyUpdateInput, ClientCompanyUncheckedUpdateInput> & ClientCompanyUncheckedUpdateInput) | (Without<...> & ClientCompanyUpdateInput)' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ id: string; name: string; email: string; phone: string; website: string | undefined; industry: string; companySize: "MEDIUM" | "STARTUP" | "SMALL" | "LARGE" | "ENTERPRISE"; country: string | undefined; ... 8 more ...; updatedAt: Date; }' is not assignable to type 'Without<ClientCompanyUncheckedUpdateInput, ClientCompanyUpdateInput> & ClientCompanyUpdateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Type '{ id: string; name: string; email: string; phone: string; website: string | undefined; industry: string; companySize: "MEDIUM" | "STARTUP" | "SMALL" | "LARGE" | "ENTERPRISE"; country: string | undefined; ... 8 more ...; updatedAt: Date; }' is not assignable to type 'ClientCompanyUpdateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'website' are incompatible.
+        Type 'string | undefined' is not assignable to type 'string | NullableStringFieldUpdateOperationsInput | null'.
+          Type 'undefined' is not assignable to type 'string | NullableStringFieldUpdateOperationsInput | null'.
+src/infrastructure/database/seeders.ts(208,9): error TS2375: Type '{ id: string; name: string; email: string; phone: string; website: string | undefined; industry: string; companySize: "MEDIUM" | "STARTUP" | "SMALL" | "LARGE" | "ENTERPRISE"; country: string | undefined; ... 8 more ...; updatedAt: Date; }' is not assignable to type '(Without<ClientCompanyCreateInput, ClientCompanyUncheckedCreateInput> & ClientCompanyUncheckedCreateInput) | (Without<...> & ClientCompanyCreateInput)' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ id: string; name: string; email: string; phone: string; website: string | undefined; industry: string; companySize: "MEDIUM" | "STARTUP" | "SMALL" | "LARGE" | "ENTERPRISE"; country: string | undefined; ... 8 more ...; updatedAt: Date; }' is not assignable to type 'Without<ClientCompanyUncheckedCreateInput, ClientCompanyCreateInput> & ClientCompanyCreateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Type '{ id: string; name: string; email: string; phone: string; website: string | undefined; industry: string; companySize: "MEDIUM" | "STARTUP" | "SMALL" | "LARGE" | "ENTERPRISE"; country: string | undefined; ... 8 more ...; updatedAt: Date; }' is not assignable to type 'ClientCompanyCreateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'website' are incompatible.
+        Type 'string | undefined' is not assignable to type 'string | null'.
+          Type 'undefined' is not assignable to type 'string | null'.
+src/infrastructure/database/seeders.ts(228,27): error TS2339: Property 'name' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(229,27): error TS2339: Property 'slug' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(232,34): error TS2339: Property 'description' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(233,39): error TS2339: Property 'shortDescription' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(234,31): error TS2339: Property 'features' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(235,31): error TS2339: Property 'benefits' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(241,39): error TS2339: Property 'qualityStandards' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(242,37): error TS2339: Property 'certifications' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(247,38): error TS2339: Property 'relatedServices' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(250,32): error TS2339: Property 'sortOrder' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(251,26): error TS2339: Property 'seo' does not exist on type 'SeedBusinessService'.
+src/infrastructure/database/seeders.ts(260,9): error TS2322: Type '{ id: string; name: any; slug: any; type: "PRIVATE_LABEL" | "OEM_MANUFACTURING" | "QUALITY_CONTROL" | "CUSTOM_BLENDING" | "COFFEE_SOURCING" | "LOGISTICS_SHIPPING" | "MARKET_CONSULTING" | "PACKAGING_DESIGN" | "CERTIFICATION_SUPPORT" | "SUPPLY_CHAIN_MANAGEMENT"; ... 24 more ...; updatedAt: Date; }' is not assignable to type '(Without<BusinessServiceUpdateInput, BusinessServiceUncheckedUpdateInput> & BusinessServiceUncheckedUpdateInput) | (Without<...> & BusinessServiceUpdateInput)'.
+  Type '{ id: string; name: any; slug: any; type: "PRIVATE_LABEL" | "OEM_MANUFACTURING" | "QUALITY_CONTROL" | "CUSTOM_BLENDING" | "COFFEE_SOURCING" | "LOGISTICS_SHIPPING" | "MARKET_CONSULTING" | "PACKAGING_DESIGN" | "CERTIFICATION_SUPPORT" | "SUPPLY_CHAIN_MANAGEMENT"; ... 24 more ...; updatedAt: Date; }' is not assignable to type 'Without<BusinessServiceUpdateInput, BusinessServiceUncheckedUpdateInput> & BusinessServiceUncheckedUpdateInput'.
+    Types of property 'type' are incompatible.
+      Type '"PRIVATE_LABEL" | "OEM_MANUFACTURING" | "QUALITY_CONTROL" | "CUSTOM_BLENDING" | "COFFEE_SOURCING" | "LOGISTICS_SHIPPING" | "MARKET_CONSULTING" | "PACKAGING_DESIGN" | "CERTIFICATION_SUPPORT" | "SUPPLY_CHAIN_MANAGEMENT"' is not assignable to type 'ServiceType | EnumServiceTypeFieldUpdateOperationsInput'.
+        Type '"COFFEE_SOURCING"' is not assignable to type 'ServiceType | EnumServiceTypeFieldUpdateOperationsInput'.
+src/infrastructure/database/seeders.ts(261,9): error TS2322: Type '{ id: string; name: any; slug: any; type: "PRIVATE_LABEL" | "OEM_MANUFACTURING" | "QUALITY_CONTROL" | "CUSTOM_BLENDING" | "COFFEE_SOURCING" | "LOGISTICS_SHIPPING" | "MARKET_CONSULTING" | "PACKAGING_DESIGN" | "CERTIFICATION_SUPPORT" | "SUPPLY_CHAIN_MANAGEMENT"; ... 24 more ...; updatedAt: Date; }' is not assignable to type '(Without<BusinessServiceCreateInput, BusinessServiceUncheckedCreateInput> & BusinessServiceUncheckedCreateInput) | (Without<...> & BusinessServiceCreateInput)'.
+  Type '{ id: string; name: any; slug: any; type: "PRIVATE_LABEL" | "OEM_MANUFACTURING" | "QUALITY_CONTROL" | "CUSTOM_BLENDING" | "COFFEE_SOURCING" | "LOGISTICS_SHIPPING" | "MARKET_CONSULTING" | "PACKAGING_DESIGN" | "CERTIFICATION_SUPPORT" | "SUPPLY_CHAIN_MANAGEMENT"; ... 24 more ...; updatedAt: Date; }' is not assignable to type 'Without<BusinessServiceCreateInput, BusinessServiceUncheckedCreateInput> & BusinessServiceUncheckedCreateInput'.
+    Type '{ id: string; name: any; slug: any; type: "PRIVATE_LABEL" | "OEM_MANUFACTURING" | "QUALITY_CONTROL" | "CUSTOM_BLENDING" | "COFFEE_SOURCING" | "LOGISTICS_SHIPPING" | "MARKET_CONSULTING" | "PACKAGING_DESIGN" | "CERTIFICATION_SUPPORT" | "SUPPLY_CHAIN_MANAGEMENT"; ... 24 more ...; updatedAt: Date; }' is not assignable to type 'BusinessServiceUncheckedCreateInput'.
+      Types of property 'type' are incompatible.
+        Type '"PRIVATE_LABEL" | "OEM_MANUFACTURING" | "QUALITY_CONTROL" | "CUSTOM_BLENDING" | "COFFEE_SOURCING" | "LOGISTICS_SHIPPING" | "MARKET_CONSULTING" | "PACKAGING_DESIGN" | "CERTIFICATION_SUPPORT" | "SUPPLY_CHAIN_MANAGEMENT"' is not assignable to type 'ServiceType'.
+          Type '"COFFEE_SOURCING"' is not assignable to type 'ServiceType'.
+src/infrastructure/database/seeders.ts(284,41): error TS2339: Property 'country' does not exist on type '{ region: string; province: string; farm: string; altitude: string; coordinates: { lat: number; lng: number; }; soilType: string; climate: string; harvestMethod: string; }'.
+src/infrastructure/database/seeders.ts(288,48): error TS2339: Property 'harvestSeason' does not exist on type '{ region: string; province: string; farm: string; altitude: string; coordinates: { lat: number; lng: number; }; soilType: string; climate: string; harvestMethod: string; }'.
+src/infrastructure/database/seeders.ts(291,32): error TS2339: Property 'sortOrder' does not exist on type 'SeedCoffeeProduct'.
+src/infrastructure/database/seeders.ts(312,9): error TS2322: Type '{ id: string; sku: string; coffeeType: "ROBUSTA" | "ARABICA" | "BLEND" | "INSTANT"; grade: "GRADE_1" | "GRADE_2" | "GRADE_3" | "SCREEN_18" | "SCREEN_16" | "SCREEN_13" | "SPECIALTY" | "COMMERCIAL"; ... 18 more ...; updatedAt: Date; }' is not assignable to type '(Without<CoffeeProductUpdateInput, CoffeeProductUncheckedUpdateInput> & CoffeeProductUncheckedUpdateInput) | (Without<...> & CoffeeProductUpdateInput)'.
+  Type '{ id: string; sku: string; coffeeType: "ROBUSTA" | "ARABICA" | "BLEND" | "INSTANT"; grade: "GRADE_1" | "GRADE_2" | "GRADE_3" | "SCREEN_18" | "SCREEN_16" | "SCREEN_13" | "SPECIALTY" | "COMMERCIAL"; ... 18 more ...; updatedAt: Date; }' is not assignable to type 'Without<CoffeeProductUpdateInput, CoffeeProductUncheckedUpdateInput> & CoffeeProductUncheckedUpdateInput'.
+    Types of property 'coffeeType' are incompatible.
+      Type '"ROBUSTA" | "ARABICA" | "BLEND" | "INSTANT"' is not assignable to type 'CoffeeType | EnumCoffeeTypeFieldUpdateOperationsInput'.
+        Type '"INSTANT"' is not assignable to type 'CoffeeType | EnumCoffeeTypeFieldUpdateOperationsInput'.
+src/infrastructure/database/seeders.ts(313,9): error TS2322: Type '{ id: string; sku: string; coffeeType: "ROBUSTA" | "ARABICA" | "BLEND" | "INSTANT"; grade: "GRADE_1" | "GRADE_2" | "GRADE_3" | "SCREEN_18" | "SCREEN_16" | "SCREEN_13" | "SPECIALTY" | "COMMERCIAL"; ... 18 more ...; updatedAt: Date; }' is not assignable to type '(Without<CoffeeProductCreateInput, CoffeeProductUncheckedCreateInput> & CoffeeProductUncheckedCreateInput) | (Without<...> & CoffeeProductCreateInput)'.
+  Type '{ id: string; sku: string; coffeeType: "ROBUSTA" | "ARABICA" | "BLEND" | "INSTANT"; grade: "GRADE_1" | "GRADE_2" | "GRADE_3" | "SCREEN_18" | "SCREEN_16" | "SCREEN_13" | "SPECIALTY" | "COMMERCIAL"; ... 18 more ...; updatedAt: Date; }' is not assignable to type 'Without<CoffeeProductCreateInput, CoffeeProductUncheckedCreateInput> & CoffeeProductUncheckedCreateInput'.
+    Type '{ id: string; sku: string; coffeeType: "ROBUSTA" | "ARABICA" | "BLEND" | "INSTANT"; grade: "GRADE_1" | "GRADE_2" | "GRADE_3" | "SCREEN_18" | "SCREEN_16" | "SCREEN_13" | "SPECIALTY" | "COMMERCIAL"; ... 18 more ...; updatedAt: Date; }' is not assignable to type 'CoffeeProductUncheckedCreateInput'.
+      Types of property 'coffeeType' are incompatible.
+        Type '"ROBUSTA" | "ARABICA" | "BLEND" | "INSTANT"' is not assignable to type 'CoffeeType'.
+          Type '"INSTANT"' is not assignable to type 'CoffeeType'.
+src/infrastructure/database/seeders.ts(340,29): error TS2339: Property 'videos' does not exist on type 'SeedContent'.
+src/infrastructure/database/seeders.ts(341,32): error TS2339: Property 'documents' does not exist on type 'SeedContent'.
+src/infrastructure/database/seeders.ts(346,31): error TS2551: Property 'authorId' does not exist on type 'SeedContent'. Did you mean 'author'?
+src/infrastructure/database/seeders.ts(353,31): error TS2339: Property 'isActive' does not exist on type 'SeedContent'.
+src/infrastructure/database/seeders.ts(355,32): error TS2339: Property 'sortOrder' does not exist on type 'SeedContent'.
+src/infrastructure/database/seeders.ts(366,9): error TS2375: Type '{ id: string; type: "BLOG_POST" | "MARKET_REPORT" | "ORIGIN_STORY" | "SERVICE_PAGE" | "LANDING_PAGE" | "PAGE" | "PRODUCT_DESCRIPTION" | "FAQ" | "TESTIMONIAL" | "CASE_STUDY" | "NEWS_ARTICLE" | "PRESS_RELEASE" | "EMAIL_TEMPLATE" | "SOCIAL_MEDIA_POST"; ... 25 more ...; updatedAt: Date; }' is not assignable to type '(Without<ContentUpdateInput, ContentUncheckedUpdateInput> & ContentUncheckedUpdateInput) | (Without<...> & ContentUpdateInput)' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ id: string; type: "BLOG_POST" | "MARKET_REPORT" | "ORIGIN_STORY" | "SERVICE_PAGE" | "LANDING_PAGE" | "PAGE" | "PRODUCT_DESCRIPTION" | "FAQ" | "TESTIMONIAL" | "CASE_STUDY" | "NEWS_ARTICLE" | "PRESS_RELEASE" | "EMAIL_TEMPLATE" | "SOCIAL_MEDIA_POST"; ... 25 more ...; updatedAt: Date; }' is not assignable to type 'Without<ContentUncheckedUpdateInput, ContentUpdateInput> & ContentUpdateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Type '{ id: string; type: "BLOG_POST" | "MARKET_REPORT" | "ORIGIN_STORY" | "SERVICE_PAGE" | "LANDING_PAGE" | "PAGE" | "PRODUCT_DESCRIPTION" | "FAQ" | "TESTIMONIAL" | "CASE_STUDY" | "NEWS_ARTICLE" | "PRESS_RELEASE" | "EMAIL_TEMPLATE" | "SOCIAL_MEDIA_POST"; ... 25 more ...; updatedAt: Date; }' is not assignable to type 'ContentUpdateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'featuredImage' are incompatible.
+        Type 'string | undefined' is not assignable to type 'string | NullableStringFieldUpdateOperationsInput | null'.
+          Type 'undefined' is not assignable to type 'string | NullableStringFieldUpdateOperationsInput | null'.
+src/infrastructure/database/seeders.ts(367,9): error TS2375: Type '{ id: string; type: "BLOG_POST" | "MARKET_REPORT" | "ORIGIN_STORY" | "SERVICE_PAGE" | "LANDING_PAGE" | "PAGE" | "PRODUCT_DESCRIPTION" | "FAQ" | "TESTIMONIAL" | "CASE_STUDY" | "NEWS_ARTICLE" | "PRESS_RELEASE" | "EMAIL_TEMPLATE" | "SOCIAL_MEDIA_POST"; ... 25 more ...; updatedAt: Date; }' is not assignable to type '(Without<ContentCreateInput, ContentUncheckedCreateInput> & ContentUncheckedCreateInput) | (Without<...> & ContentCreateInput)' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ id: string; type: "BLOG_POST" | "MARKET_REPORT" | "ORIGIN_STORY" | "SERVICE_PAGE" | "LANDING_PAGE" | "PAGE" | "PRODUCT_DESCRIPTION" | "FAQ" | "TESTIMONIAL" | "CASE_STUDY" | "NEWS_ARTICLE" | "PRESS_RELEASE" | "EMAIL_TEMPLATE" | "SOCIAL_MEDIA_POST"; ... 25 more ...; updatedAt: Date; }' is not assignable to type 'Without<ContentUncheckedCreateInput, ContentCreateInput> & ContentCreateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Property 'locale' is missing in type '{ id: string; type: "BLOG_POST" | "MARKET_REPORT" | "ORIGIN_STORY" | "SERVICE_PAGE" | "LANDING_PAGE" | "PAGE" | "PRODUCT_DESCRIPTION" | "FAQ" | "TESTIMONIAL" | "CASE_STUDY" | "NEWS_ARTICLE" | "PRESS_RELEASE" | "EMAIL_TEMPLATE" | "SOCIAL_MEDIA_POST"; ... 25 more ...; updatedAt: Date; }' but required in type 'ContentCreateInput'.
+src/infrastructure/database/seeders.ts(386,23): error TS2339: Property 'type' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(387,28): error TS2339: Property 'companyId' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(388,30): error TS2339: Property 'companyName' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(389,32): error TS2339: Property 'contactPerson' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(390,24): error TS2339: Property 'email' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(391,24): error TS2339: Property 'phone' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(392,26): error TS2339: Property 'country' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(393,31): error TS2339: Property 'businessType' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(394,27): error TS2339: Property 'products' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(395,27): error TS2339: Property 'services' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(403,24): error TS2339: Property 'notes' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(405,31): error TS2339: Property 'followUpDate' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(406,30): error TS2339: Property 'followUpDate' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(408,29): error TS2339: Property 'expiryDate' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(408,59): error TS2339: Property 'expiryDate' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(409,27): error TS2339: Property 'isActive' does not exist on type 'SeedRFQ'.
+src/infrastructure/database/seeders.ts(418,9): error TS2375: Type '{ id: string; rfqNumber: string; status: "DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"; priority: Priority; type: any; companyId: any; ... 23 more ...; updatedAt: Date; }' is not assignable to type '(Without<RFQUpdateInput, RFQUncheckedUpdateInput> & RFQUncheckedUpdateInput) | (Without<RFQUncheckedUpdateInput, RFQUpdateInput> & RFQUpdateInput)' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ id: string; rfqNumber: string; status: "DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"; priority: Priority; type: any; companyId: any; ... 23 more ...; updatedAt: Date; }' is not assignable to type 'Without<RFQUpdateInput, RFQUncheckedUpdateInput> & RFQUncheckedUpdateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Type '{ id: string; rfqNumber: string; status: "DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"; priority: Priority; type: any; companyId: any; ... 23 more ...; updatedAt: Date; }' is not assignable to type 'RFQUncheckedUpdateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'assignedTo' are incompatible.
+        Type 'string | undefined' is not assignable to type 'string | NullableStringFieldUpdateOperationsInput | null'.
+          Type 'undefined' is not assignable to type 'string | NullableStringFieldUpdateOperationsInput | null'.
+src/infrastructure/database/seeders.ts(419,9): error TS2375: Type '{ id: string; rfqNumber: string; status: "DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"; priority: Priority; type: any; companyId: any; ... 23 more ...; updatedAt: Date; }' is not assignable to type '(Without<RFQCreateInput, RFQUncheckedCreateInput> & RFQUncheckedCreateInput) | (Without<RFQUncheckedCreateInput, RFQCreateInput> & RFQCreateInput)' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ id: string; rfqNumber: string; status: "DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"; priority: Priority; type: any; companyId: any; ... 23 more ...; updatedAt: Date; }' is not assignable to type 'Without<RFQCreateInput, RFQUncheckedCreateInput> & RFQUncheckedCreateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Type '{ id: string; rfqNumber: string; status: "DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"; priority: Priority; type: any; companyId: any; ... 23 more ...; updatedAt: Date; }' is not assignable to type 'RFQUncheckedCreateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'status' are incompatible.
+        Type '"DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"' is not assignable to type 'RFQStatus'.
+          Type '"DRAFT"' is not assignable to type 'RFQStatus'.
+src/infrastructure/database/seeders.ts(490,11): error TS2322: Type '{ id: string; sku: string; coffeeType: string; grade: string; processing: string; origin: string; region: string; farm: null; altitude: null; harvestSeason: null; cuppingScore: number | null; moisture: string | null; ... 18 more ...; updatedAt: Date; }' is not assignable to type '(Without<CoffeeProductUpdateInput, CoffeeProductUncheckedUpdateInput> & CoffeeProductUncheckedUpdateInput) | (Without<...> & CoffeeProductUpdateInput)'.
+  Type '{ id: string; sku: string; coffeeType: string; grade: string; processing: string; origin: string; region: string; farm: null; altitude: null; harvestSeason: null; cuppingScore: number | null; moisture: string | null; ... 18 more ...; updatedAt: Date; }' is not assignable to type 'Without<CoffeeProductUpdateInput, CoffeeProductUncheckedUpdateInput> & CoffeeProductUncheckedUpdateInput'.
+    Types of property 'coffeeType' are incompatible.
+      Type 'string' is not assignable to type 'CoffeeType | EnumCoffeeTypeFieldUpdateOperationsInput'.
+src/infrastructure/database/seeders.ts(491,11): error TS2322: Type '{ id: string; sku: string; coffeeType: string; grade: string; processing: string; origin: string; region: string; farm: null; altitude: null; harvestSeason: null; cuppingScore: number | null; moisture: string | null; ... 18 more ...; updatedAt: Date; }' is not assignable to type '(Without<CoffeeProductCreateInput, CoffeeProductUncheckedCreateInput> & CoffeeProductUncheckedCreateInput) | (Without<...> & CoffeeProductCreateInput)'.
+  Type '{ id: string; sku: string; coffeeType: string; grade: string; processing: string; origin: string; region: string; farm: null; altitude: null; harvestSeason: null; cuppingScore: number | null; moisture: string | null; ... 18 more ...; updatedAt: Date; }' is not assignable to type 'Without<CoffeeProductCreateInput, CoffeeProductUncheckedCreateInput> & CoffeeProductUncheckedCreateInput'.
+    Type '{ id: string; sku: string; coffeeType: string; grade: string; processing: string; origin: string; region: string; farm: null; altitude: null; harvestSeason: null; cuppingScore: number | null; moisture: string | null; ... 18 more ...; updatedAt: Date; }' is not assignable to type 'CoffeeProductUncheckedCreateInput'.
+      Types of property 'coffeeType' are incompatible.
+        Type 'string' is not assignable to type 'CoffeeType'.
+src/infrastructure/database/seeders.ts(522,11): error TS2322: Type '{ productId: string; locale: string; name: string; description: string; shortDescription: string; tastingNotes: null; processingNotes: null; features: string[]; benefits: never[]; seoTitle: string; seoDescription: string; seoKeywords: string[]; }' is not assignable to type '(Without<CoffeeProductTranslationCreateInput, CoffeeProductTranslationUncheckedCreateInput> & CoffeeProductTranslationUncheckedCreateInput) | (Without<...> & CoffeeProductTranslationCreateInput)'.
+  Type '{ productId: string; locale: string; name: string; description: string; shortDescription: string; tastingNotes: null; processingNotes: null; features: string[]; benefits: never[]; seoTitle: string; seoDescription: string; seoKeywords: string[]; }' is not assignable to type 'Without<CoffeeProductTranslationCreateInput, CoffeeProductTranslationUncheckedCreateInput> & CoffeeProductTranslationUncheckedCreateInput'.
+    Property 'slug' is missing in type '{ productId: string; locale: string; name: string; description: string; shortDescription: string; tastingNotes: null; processingNotes: null; features: string[]; benefits: never[]; seoTitle: string; seoDescription: string; seoKeywords: string[]; }' but required in type 'CoffeeProductTranslationUncheckedCreateInput'.
+src/infrastructure/database/seeders.ts(568,11): error TS2322: Type '{ id: string; name: string; slug: string; type: string; category: string; description: string; shortDescription: string; features: string[]; benefits: never[]; pricing: {}; deliveryTimeline: string | null; ... 17 more ...; updatedAt: Date; }' is not assignable to type '(Without<BusinessServiceUpdateInput, BusinessServiceUncheckedUpdateInput> & BusinessServiceUncheckedUpdateInput) | (Without<...> & BusinessServiceUpdateInput)'.
+  Type '{ id: string; name: string; slug: string; type: string; category: string; description: string; shortDescription: string; features: string[]; benefits: never[]; pricing: {}; deliveryTimeline: string | null; ... 17 more ...; updatedAt: Date; }' is not assignable to type 'Without<BusinessServiceUpdateInput, BusinessServiceUncheckedUpdateInput> & BusinessServiceUncheckedUpdateInput'.
+    Types of property 'type' are incompatible.
+      Type 'string' is not assignable to type 'ServiceType | EnumServiceTypeFieldUpdateOperationsInput'.
+src/infrastructure/database/seeders.ts(569,11): error TS2322: Type '{ id: string; name: string; slug: string; type: string; category: string; description: string; shortDescription: string; features: string[]; benefits: never[]; pricing: {}; deliveryTimeline: string | null; ... 17 more ...; updatedAt: Date; }' is not assignable to type '(Without<BusinessServiceCreateInput, BusinessServiceUncheckedCreateInput> & BusinessServiceUncheckedCreateInput) | (Without<...> & BusinessServiceCreateInput)'.
+  Type '{ id: string; name: string; slug: string; type: string; category: string; description: string; shortDescription: string; features: string[]; benefits: never[]; pricing: {}; deliveryTimeline: string | null; ... 17 more ...; updatedAt: Date; }' is not assignable to type 'Without<BusinessServiceCreateInput, BusinessServiceUncheckedCreateInput> & BusinessServiceUncheckedCreateInput'.
+    Type '{ id: string; name: string; slug: string; type: string; category: string; description: string; shortDescription: string; features: string[]; benefits: never[]; pricing: {}; deliveryTimeline: string | null; ... 17 more ...; updatedAt: Date; }' is not assignable to type 'BusinessServiceUncheckedCreateInput'.
+      Types of property 'type' are incompatible.
+        Type 'string' is not assignable to type 'ServiceType'.
+src/infrastructure/database/seeders.ts(594,11): error TS2322: Type '{ serviceId: string; locale: string; name: string; description: string; shortDescription: string; features: string[]; benefits: never[]; seoTitle: string; seoDescription: string; seoKeywords: string[]; }' is not assignable to type '(Without<BusinessServiceTranslationCreateInput, BusinessServiceTranslationUncheckedCreateInput> & BusinessServiceTranslationUncheckedCreateInput) | (Without<...> & BusinessServiceTranslationCreateInput)'.
+  Type '{ serviceId: string; locale: string; name: string; description: string; shortDescription: string; features: string[]; benefits: never[]; seoTitle: string; seoDescription: string; seoKeywords: string[]; }' is not assignable to type 'Without<BusinessServiceTranslationCreateInput, BusinessServiceTranslationUncheckedCreateInput> & BusinessServiceTranslationUncheckedCreateInput'.
+    Property 'slug' is missing in type '{ serviceId: string; locale: string; name: string; description: string; shortDescription: string; features: string[]; benefits: never[]; seoTitle: string; seoDescription: string; seoKeywords: string[]; }' but required in type 'BusinessServiceTranslationUncheckedCreateInput'.
+src/infrastructure/database/seeders.ts(639,11): error TS2322: Type '{ id: string; type: string; category: string; status: string; title: string; slug: string; excerpt: string; content: string; featuredImage: string; images: string[]; videos: never[]; documents: never[]; translations: {}; ... 14 more ...; updatedAt: Date; }' is not assignable to type '(Without<ContentUpdateInput, ContentUncheckedUpdateInput> & ContentUncheckedUpdateInput) | (Without<...> & ContentUpdateInput)'.
+  Type '{ id: string; type: string; category: string; status: string; title: string; slug: string; excerpt: string; content: string; featuredImage: string; images: string[]; videos: never[]; documents: never[]; translations: {}; ... 14 more ...; updatedAt: Date; }' is not assignable to type 'Without<ContentUncheckedUpdateInput, ContentUpdateInput> & ContentUpdateInput'.
+    Types of property 'type' are incompatible.
+      Type 'string' is not assignable to type 'ContentType | EnumContentTypeFieldUpdateOperationsInput'.
+src/infrastructure/database/seeders.ts(640,11): error TS2322: Type '{ id: string; type: string; category: string; status: string; title: string; slug: string; excerpt: string; content: string; featuredImage: string; images: string[]; videos: never[]; documents: never[]; translations: {}; ... 14 more ...; updatedAt: Date; }' is not assignable to type '(Without<ContentCreateInput, ContentUncheckedCreateInput> & ContentUncheckedCreateInput) | (Without<...> & ContentCreateInput)'.
+  Type '{ id: string; type: string; category: string; status: string; title: string; slug: string; excerpt: string; content: string; featuredImage: string; images: string[]; videos: never[]; documents: never[]; translations: {}; ... 14 more ...; updatedAt: Date; }' is not assignable to type 'Without<ContentUncheckedCreateInput, ContentCreateInput> & ContentCreateInput'.
+    Property 'locale' is missing in type '{ id: string; type: string; category: string; status: string; title: string; slug: string; excerpt: string; content: string; featuredImage: string; images: string[]; videos: never[]; documents: never[]; translations: {}; ... 14 more ...; updatedAt: Date; }' but required in type 'ContentCreateInput'.
+src/infrastructure/di/container.ts(93,67): error TS2554: Expected 0 arguments, but got 1.
+src/infrastructure/di/container.ts(219,9): error TS2345: Argument of type 'RFQRepository' is not assignable to parameter of type 'IRFQRepository'.
+  Type 'RFQRepository' is missing the following properties from type 'IRFQRepository': findByRfqNumber, search, findByPriority, findByClient, and 50 more.
+src/infrastructure/di/container.ts(229,55): error TS2345: Argument of type 'RFQRepository' is not assignable to parameter of type 'IRFQRepository'.
+  Type 'RFQRepository' is missing the following properties from type 'IRFQRepository': findByRfqNumber, search, findByPriority, findByClient, and 50 more.
+src/infrastructure/di/container.ts(236,49): error TS2345: Argument of type 'RFQRepository' is not assignable to parameter of type 'IRFQRepository'.
+  Type 'RFQRepository' is missing the following properties from type 'IRFQRepository': findByRfqNumber, search, findByPriority, findByClient, and 50 more.
+src/infrastructure/di/container.ts(244,9): error TS2345: Argument of type 'RFQRepository' is not assignable to parameter of type 'IRFQRepository'.
+  Type 'RFQRepository' is missing the following properties from type 'IRFQRepository': findByRfqNumber, search, findByPriority, findByClient, and 50 more.
+src/infrastructure/external-services/cloudinary.service.ts(134,9): error TS2322: Type '"auto:good"' is not assignable to type 'number | "auto" | undefined'.
+src/infrastructure/external-services/cloudinary.service.ts(163,9): error TS2322: Type '"auto:good"' is not assignable to type 'number | "auto" | undefined'.
+src/infrastructure/external-services/cloudinary.service.ts(184,9): error TS2322: Type '"auto:good"' is not assignable to type 'number | "auto" | undefined'.
+src/infrastructure/external-services/cloudinary.service.ts(247,57): error TS2345: Argument of type '"small" | "medium" | "large"' is not assignable to parameter of type '"medium" | "large" | "thumbnail" | undefined'.
+  Type '"small"' is not assignable to type '"medium" | "large" | "thumbnail" | undefined'.
+src/infrastructure/external-services/index.ts(3,15): error TS2307: Cannot find module './sendgrid.service' or its corresponding type declarations.
+src/infrastructure/external-services/index.ts(4,15): error TS2307: Cannot find module './google-analytics.service' or its corresponding type declarations.
+src/infrastructure/external-services/index.ts(5,15): error TS2307: Cannot find module './vercel-analytics.service' or its corresponding type declarations.
+src/infrastructure/external-services/index.ts(6,15): error TS2307: Cannot find module './shipping-apis' or its corresponding type declarations.
+src/infrastructure/external-services/index.ts(7,15): error TS2307: Cannot find module './payment-gateways' or its corresponding type declarations.
+src/infrastructure/external-services/index.ts(8,15): error TS2307: Cannot find module './translation-apis' or its corresponding type declarations.
+src/lib/contentlayer.ts(249,22): error TS2339: Property 'lastUpdated' does not exist on type 'LegalPage'.
+src/lib/contentlayer.ts(249,58): error TS2339: Property 'lastUpdated' does not exist on type 'LegalPage'.
+src/lib/contentlayer.ts(261,46): error TS2339: Property 'pageType' does not exist on type 'LegalPage'.
+src/lib/contentlayer.ts(325,11): error TS18048: 'report.excerpt' is possibly 'undefined'.
+src/lib/contentlayer.ts(329,35): error TS2375: Type '{ slug: string; title: string; description: string; locale: Locale; url: string; publishedAt: string; featured: boolean | undefined; category: string; tags: string[] | undefined; excerpt: string | undefined; readingTime: number | undefined; coverImage: string | undefined; }' is not assignable to type 'ContentItem' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'featured' are incompatible.
+    Type 'boolean | undefined' is not assignable to type 'boolean'.
+      Type 'undefined' is not assignable to type 'boolean'.
+src/lib/contentlayer.ts(351,11): error TS18048: 'story.excerpt' is possibly 'undefined'.
+src/lib/contentlayer.ts(353,11): error TS18048: 'story.province' is possibly 'undefined'.
+src/lib/contentlayer.ts(356,34): error TS2375: Type '{ slug: string; title: string; description: string; locale: Locale; url: string; publishedAt: string; featured: boolean | undefined; excerpt: string | undefined; readingTime: number | undefined; coverImage: string | undefined; }' is not assignable to type 'ContentItem' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'featured' are incompatible.
+    Type 'boolean | undefined' is not assignable to type 'boolean'.
+      Type 'undefined' is not assignable to type 'boolean'.
+src/lib/contentlayer.ts(376,11): error TS18048: 'post.excerpt' is possibly 'undefined'.
+src/lib/contentlayer.ts(380,33): error TS2375: Type '{ slug: string; title: string; description: string; locale: Locale; url: string; publishedAt: string; featured: boolean | undefined; category: string; tags: string[] | undefined; excerpt: string | undefined; readingTime: number | undefined; coverImage: string | undefined; }' is not assignable to type 'ContentItem' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'featured' are incompatible.
+    Type 'boolean | undefined' is not assignable to type 'boolean'.
+      Type 'undefined' is not assignable to type 'boolean'.
+src/lib/contentlayer.ts(402,11): error TS18048: 'service.excerpt' is possibly 'undefined'.
+src/lib/contentlayer.ts(411,36): error TS2375: Type '{ slug: string; title: string; description: string; locale: Locale; url: string; featured: boolean | undefined; excerpt: string | undefined; readingTime: number | undefined; coverImage: string | undefined; }' is not assignable to type 'ContentItem' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'featured' are incompatible.
+    Type 'boolean | undefined' is not assignable to type 'boolean'.
+      Type 'undefined' is not assignable to type 'boolean'.
+src/lib/contentlayer.ts(430,10): error TS2393: Duplicate function implementation.
+src/lib/contentlayer.ts(526,37): error TS2339: Property 'lastUpdated' does not exist on type 'LegalPage'.
+src/lib/contentlayer.ts(566,16): error TS2393: Duplicate function implementation.
+src/lib/contentlayer.ts(650,9): error TS2353: Object literal may only specify known properties, and 'images' does not exist in type 'MockProduct'.
+src/lib/contentlayer.ts(664,9): error TS2353: Object literal may only specify known properties, and 'images' does not exist in type 'MockProduct'.
+src/lib/contentlayer.ts(678,9): error TS2353: Object literal may only specify known properties, and 'images' does not exist in type 'MockProduct'.
+src/lib/contentlayer.ts(687,5): error TS2322: Type '(MockProduct | undefined)[]' is not assignable to type 'MockProduct[]'.
+  Type 'MockProduct | undefined' is not assignable to type 'MockProduct'.
+    Type 'undefined' is not assignable to type 'MockProduct'.
+src/lib/contentlayer.ts(697,7): error TS2741: Property 'category' is missing in type '{ id: string; name: string; shortDescription: string; }' but required in type 'MockService'.
+src/lib/contentlayer.ts(703,7): error TS2741: Property 'category' is missing in type '{ id: string; name: string; shortDescription: string; }' but required in type 'MockService'.
+src/lib/contentlayer.ts(709,7): error TS2741: Property 'category' is missing in type '{ id: string; name: string; shortDescription: string; }' but required in type 'MockService'.
+src/lib/contentlayer.ts(715,7): error TS2741: Property 'category' is missing in type '{ id: string; name: string; shortDescription: string; }' but required in type 'MockService'.
+src/lib/contentlayer.ts(721,7): error TS2741: Property 'category' is missing in type '{ id: string; name: string; shortDescription: string; }' but required in type 'MockService'.
+src/lib/contentlayer.ts(727,7): error TS2741: Property 'category' is missing in type '{ id: string; name: string; shortDescription: string; }' but required in type 'MockService'.
+src/lib/contentlayer.ts(735,5): error TS2322: Type '(MockService | undefined)[]' is not assignable to type 'MockService[]'.
+  Type 'MockService | undefined' is not assignable to type 'MockService'.
+    Type 'undefined' is not assignable to type 'MockService'.
+src/middleware.ts(4,17): error TS7030: Not all code paths return a value.
+src/navigation.ts(1,10): error TS2305: Module '"next-intl/navigation"' has no exported member 'createLocalizedPathnamesNavigation'.
+src/presentation/components/charts/MarketChart.tsx(99,9): error TS2532: Object is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(171,15): error TS2532: Object is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(171,43): error TS2532: Object is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(171,56): error TS2532: Object is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(180,11): error TS2532: Object is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(181,11): error TS2532: Object is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(184,43): error TS2532: Object is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(262,25): error TS18048: 'stats.robusta.current' is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(269,25): error TS18048: 'stats.arabica.current' is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(466,25): error TS18048: 'stats.robusta.current' is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(509,25): error TS18048: 'stats.arabica.current' is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(565,49): error TS18048: 'stats.robusta.current' is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(599,29): error TS18048: 'stats.robusta.current' is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(616,29): error TS18048: 'stats.arabica.current' is possibly 'undefined'.
+src/presentation/components/charts/PriceAnalysis.tsx(632,51): error TS18048: 'stats.robusta.current' is possibly 'undefined'.
+src/presentation/components/layout/Header.tsx(277,13): error TS2322: Type '"emerald"' is not assignable to type '"default" | "link" | "secondary" | "destructive" | "outline" | "ghost" | null | undefined'.
+src/presentation/components/MDXContent.tsx(155,7): error TS2322: Type 'string | number | undefined' is not assignable to type 'number | `${number}`'.
+  Type 'undefined' is not assignable to type 'number | `${number}`'.
+src/presentation/components/MDXContent.tsx(156,7): error TS2322: Type 'string | number | undefined' is not assignable to type 'number | `${number}`'.
+  Type 'undefined' is not assignable to type 'number | `${number}`'.
+src/presentation/components/multimedia/ImageGallery.tsx(73,13): error TS7030: Not all code paths return a value.
+src/presentation/components/multimedia/ImageGallery.tsx(125,31): error TS2379: Argument of type '{ title: string; text: string | undefined; url: string; }' is not assignable to parameter of type 'ShareData' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'text' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/presentation/components/multimedia/ImageGallery.tsx(170,50): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'SetStateAction<string | null>'.
+  Type 'undefined' is not assignable to type 'SetStateAction<string | null>'.
+src/presentation/components/multimedia/ImageGallery.tsx(185,20): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(186,20): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(229,33): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(234,49): error TS2345: Argument of type 'GalleryImage | undefined' is not assignable to parameter of type 'GalleryImage'.
+  Type 'undefined' is not assignable to type 'GalleryImage'.
+src/presentation/components/multimedia/ImageGallery.tsx(244,46): error TS2345: Argument of type 'GalleryImage | undefined' is not assignable to parameter of type 'GalleryImage'.
+  Type 'undefined' is not assignable to type 'GalleryImage'.
+src/presentation/components/multimedia/ImageGallery.tsx(267,16): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(267,38): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(269,14): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(270,50): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(272,14): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(272,35): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(274,18): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(379,20): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(380,20): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(392,18): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(392,40): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(394,16): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(395,52): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(402,37): error TS18048: 'currentImage' is possibly 'undefined'.
+src/presentation/components/multimedia/ImageGallery.tsx(406,53): error TS2345: Argument of type 'GalleryImage | undefined' is not assignable to parameter of type 'GalleryImage'.
+  Type 'undefined' is not assignable to type 'GalleryImage'.
+src/presentation/components/multimedia/ImageGallery.tsx(416,50): error TS2345: Argument of type 'GalleryImage | undefined' is not assignable to parameter of type 'GalleryImage'.
+  Type 'undefined' is not assignable to type 'GalleryImage'.
+src/presentation/components/multimedia/MediaCarousel.tsx(95,13): error TS7030: Not all code paths return a value.
+src/presentation/components/multimedia/MediaCarousel.tsx(131,31): error TS2379: Argument of type '{ title: string; text: string | undefined; url: string; }' is not assignable to parameter of type 'ShareData' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'text' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/presentation/components/multimedia/MediaCarousel.tsx(221,54): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'SetStateAction<string | null>'.
+  Type 'undefined' is not assignable to type 'SetStateAction<string | null>'.
+src/presentation/components/multimedia/MediaCarousel.tsx(404,52): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'SetStateAction<string | null>'.
+  Type 'undefined' is not assignable to type 'SetStateAction<string | null>'.
+src/presentation/components/multimedia/MediaCarousel.tsx(417,14): error TS18048: 'currentItem' is possibly 'undefined'.
+src/presentation/components/multimedia/MediaCarousel.tsx(419,17): error TS2322: Type '{ id: string; src: string; alt: string; title: string | undefined; description: string | undefined; category: string | undefined; tags: string[] | undefined; downloadUrl: string | undefined; }[]' is not assignable to type 'GalleryImage[]'.
+  Type '{ id: string; src: string; alt: string; title: string | undefined; description: string | undefined; category: string | undefined; tags: string[] | undefined; downloadUrl: string | undefined; }' is not assignable to type 'GalleryImage' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Types of property 'title' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.
+src/presentation/components/multimedia/MediaCarousel.tsx(437,16): error TS2375: Type '{ sources: VideoSource[]; title: string | undefined; description: string | undefined; poster: string | undefined; chapters: { time: number; title: string; description?: string; }[] | undefined; allowDownload: boolean; allowShare: boolean; }' is not assignable to type 'VideoPlayerProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'title' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/presentation/components/multimedia/MediaCarousel.tsx(438,26): error TS18048: 'currentItem' is possibly 'undefined'.
+src/presentation/components/multimedia/MediaCarousel.tsx(439,24): error TS18048: 'currentItem' is possibly 'undefined'.
+src/presentation/components/multimedia/MediaCarousel.tsx(440,30): error TS18048: 'currentItem' is possibly 'undefined'.
+src/presentation/components/multimedia/MediaCarousel.tsx(441,25): error TS18048: 'currentItem' is possibly 'undefined'.
+src/presentation/components/multimedia/MediaCarousel.tsx(442,27): error TS18048: 'currentItem' is possibly 'undefined'.
+src/presentation/components/multimedia/MediaCarousel.tsx(504,17): error TS2322: Type 'string | undefined' is not assignable to type 'string | StaticImport'.
+  Type 'undefined' is not assignable to type 'string | StaticImport'.
+src/presentation/components/multimedia/VideoPlayer.tsx(215,17): error TS18048: 'currentSource' is possibly 'undefined'.
+src/presentation/components/multimedia/VideoPlayer.tsx(225,31): error TS2379: Argument of type '{ title: string; text: string | undefined; url: string; }' is not assignable to parameter of type 'ShareData' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'text' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/presentation/components/multimedia/VideoPlayer.tsx(271,22): error TS18048: 'currentSource' is possibly 'undefined'.
+src/presentation/components/multimedia/VideoPlayer.tsx(272,23): error TS18048: 'currentSource' is possibly 'undefined'.
+src/presentation/components/multimedia/VideoPlayer.tsx(490,37): error TS2532: Object is possibly 'undefined'.
+src/presentation/components/navigation/ClusterNavigation.tsx(54,37): error TS2538: Type 'undefined' cannot be used as an index type.
+src/presentation/components/navigation/ClusterNavigation.tsx(86,37): error TS2538: Type 'undefined' cannot be used as an index type.
+src/presentation/components/navigation/ClusterNavigation.tsx(123,35): error TS2538: Type 'undefined' cannot be used as an index type.
+src/presentation/components/navigation/ClusterNavigation.tsx(146,54): error TS2339: Property 'map' does not exist on type 'string | never[]'.
+  Property 'map' does not exist on type 'string'.
+src/presentation/components/navigation/ClusterNavigation.tsx(146,58): error TS7006: Parameter 'benefit' implicitly has an 'any' type.
+src/presentation/components/seo/EnhancedSEOHead.tsx(122,28): error TS2345: Argument of type 'WebSiteSchema' is not assignable to parameter of type 'StructuredDataObject'.
+  Index signature for type 'string' is missing in type 'WebSiteSchema'.
+src/presentation/components/seo/EnhancedSEOHead.tsx(177,44): error TS2322: Type 'string[]' is not assignable to type 'string'.
+src/presentation/components/seo/SEOHead.tsx(159,44): error TS2322: Type 'string[]' is not assignable to type 'string'.
+src/presentation/components/ui/__tests__/checkbox.test.tsx(167,39): error TS2322: Type 'Dispatch<SetStateAction<boolean>>' is not assignable to type '(checked: CheckedState) => void'.
+  Types of parameters 'value' and 'checked' are incompatible.
+    Type 'CheckedState' is not assignable to type 'SetStateAction<boolean>'.
+      Type '"indeterminate"' is not assignable to type 'SetStateAction<boolean>'.
+src/presentation/components/ui/dropdown-menu.tsx(97,4): error TS2375: Type '{ children: (ReactNode | Element)[]; title?: string | undefined; results?: number | undefined; onError?: ReactEventHandler<HTMLDivElement> | undefined; ... 279 more ...; checked: CheckedState | undefined; }' is not assignable to type 'DropdownMenuCheckboxItemProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'checked' are incompatible.
+    Type 'CheckedState | undefined' is not assignable to type 'CheckedState'.
+      Type 'undefined' is not assignable to type 'CheckedState'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(38,27): error TS2339: Property 'pagination' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(60,22): error TS2551: Property 'loadProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'. Did you mean 'products'?
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(70,27): error TS2339: Property 'pagination' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(86,22): error TS2551: Property 'loadProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'. Did you mean 'products'?
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(108,22): error TS2339: Property 'loadFeaturedProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(134,22): error TS2551: Property 'searchProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'. Did you mean 'fetchProducts'?
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(165,22): error TS2339: Property 'loadProductsByCategory' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(197,22): error TS2339: Property 'setFilters' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(201,22): error TS2551: Property 'loadProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'. Did you mean 'products'?
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(222,22): error TS2339: Property 'setPage' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(226,22): error TS2551: Property 'loadProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'. Did you mean 'products'?
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(238,27): error TS2339: Property 'pagination' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(248,22): error TS2339: Property 'setPageSize' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(252,22): error TS2551: Property 'loadProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'. Did you mean 'products'?
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(264,27): error TS2339: Property 'pagination' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(271,22): error TS2339: Property 'setFilters' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(274,27): error TS2339: Property 'filters' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(277,22): error TS2339: Property 'clearFilters' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(280,27): error TS2339: Property 'filters' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(290,22): error TS2339: Property 'refresh' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'.
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(312,22): error TS2551: Property 'loadProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'. Did you mean 'products'?
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(313,22): error TS2551: Property 'loadProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'. Did you mean 'products'?
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(331,22): error TS2551: Property 'loadProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'. Did you mean 'products'?
+src/presentation/hooks/__tests__/use-coffee-products.test.ts(343,22): error TS2551: Property 'loadProducts' does not exist on type '{ refetch: () => Promise<void>; updateFilters: (newFilters: CoffeeProductFilters) => Promise<void>; fetchProducts: (newFilters?: CoffeeProductFilters | undefined) => Promise<...>; ... 4 more ...; hasMore: boolean; }'. Did you mean 'products'?
+src/presentation/hooks/use-coffee-products.ts(44,65): error TS2379: Argument of type '{ filters: CoffeeProductFilters | undefined; locale: string | undefined; }' is not assignable to parameter of type 'GetCoffeeProductsRequest' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'filters' are incompatible.
+    Type 'CoffeeProductFilters | undefined' is not assignable to type 'CoffeeProductFilters'.
+      Type 'undefined' is not assignable to type 'CoffeeProductFilters'.
+src/presentation/hooks/use-coffee-products.ts(110,65): error TS2379: Argument of type '{ limit: number; locale: string | undefined; }' is not assignable to parameter of type 'GetFeaturedProductsRequest' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'locale' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/presentation/hooks/use-coffee-products.ts(163,68): error TS2379: Argument of type '{ query: string; locale: string | undefined; limit: number | undefined; }' is not assignable to parameter of type 'SearchCoffeeProductsRequest' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'locale' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/presentation/hooks/use-coffee-products.ts(240,69): error TS2379: Argument of type '{ category: "type" | "grade" | "origin" | "processing"; value: string; filters: CoffeeProductFilters | undefined; locale: string | undefined; }' is not assignable to parameter of type 'GetProductsByCategoryRequest' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'filters' are incompatible.
+    Type 'CoffeeProductFilters | undefined' is not assignable to type 'Omit<CoffeeProductFilters, "type" | "grade" | "processingMethod" | "region">'.
+      Type 'undefined' is not assignable to type 'Omit<CoffeeProductFilters, "type" | "grade" | "processingMethod" | "region">'.
+src/scripts/backup.ts(282,18): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'string'.
+src/scripts/seed.ts(11,10): error TS2305: Module '"../infrastructure/database/seeders"' has no exported member 'seedDatabase'.
+src/scripts/seed.ts(31,29): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/scripts/seed.ts(80,3): error TS2304: Cannot find name 'databaseSeeders'.
+src/scripts/seed.ts(82,11): error TS7006: Parameter 'result' implicitly has an 'any' type.
+src/scripts/seed.ts(91,12): error TS7006: Parameter 'error' implicitly has an 'any' type.
+src/shared/components/analytics/AnalyticsProvider.tsx(11,5): error TS2717: Subsequent property declarations must have the same type.  Property 'gtag' must be of type '(command: "set" | "config" | "event" | "js", targetId: string | Date, config?: Record<string, string | number | boolean> | undefined) => void', but here has type '(...args: any[]) => void'.
+src/shared/components/analytics/AnalyticsProvider.tsx(85,7): error TS2375: Type '{ googleAnalyticsId: string | undefined; enableGoogleAnalytics: true; enableWebVitals: true; enableEcommerce: true; enableCustomEvents: true; enableConsoleLogging: boolean; enableVisualIndicator: boolean; cookieConsent: false; debugMode: boolean; }' is not assignable to type 'AnalyticsConfig' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'googleAnalyticsId' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/shared/components/analytics/AnalyticsProvider.tsx(141,9): error TS2322: Type '{ custom_parameter_1: string; custom_parameter_2: string; custom_parameter_3: string; }' is not assignable to type 'string | number | boolean'.
+src/shared/components/analytics/AnalyticsProvider.tsx(178,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | number | boolean'.
+  Type 'undefined' is not assignable to type 'string | number | boolean'.
+src/shared/components/analytics/AnalyticsProvider.tsx(179,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | number | boolean'.
+  Type 'undefined' is not assignable to type 'string | number | boolean'.
+src/shared/components/analytics/AnalyticsProvider.tsx(180,7): error TS2322: Type 'number | undefined' is not assignable to type 'string | number | boolean'.
+  Type 'undefined' is not assignable to type 'string | number | boolean'.
+src/shared/components/analytics/AnalyticsProvider.tsx(193,37): error TS2345: Argument of type 'EcommerceEventData' is not assignable to parameter of type 'Record<string, string | number | boolean>'.
+  Index signature for type 'string' is missing in type 'EcommerceEventData'.
+src/shared/components/analytics/AnalyticsProvider.tsx(205,7): error TS2322: Type 'UserProperties' is not assignable to type 'string | number | boolean'.
+src/shared/components/analytics/AnalyticsProvider.tsx(222,19): error TS2345: Argument of type '"consent"' is not assignable to parameter of type '"set" | "config" | "event" | "js"'.
+src/shared/components/design-system/Coffee/OriginFlag.tsx(10,7): error TS2740: Type '{ vietnam: { name: string; region: string; flag: string; altitude: string; harvest: string; varieties: string[]; characteristics: string[]; color: string; bgColor: string; }; brazil: { name: string; region: string; ... 6 more ...; bgColor: string; }; ... 7 more ...; peru: { ...; }; }' is missing the following properties from type 'Record<CoffeeOrigin, { name: string; region: string; flag: string; altitude: string; harvest: string; varieties: string[]; characteristics: string[]; color: string; bgColor: string; }>': honduras, india, nicaragua, ecuador, and 2 more.
+src/shared/components/design-system/Coffee/OriginFlag.tsx(168,7): error TS2339: Property 'showName' does not exist on type 'OriginFlagProps'.
+src/shared/components/design-system/Coffee/OriginFlag.tsx(169,7): error TS2339: Property 'showRegion' does not exist on type 'OriginFlagProps'.
+src/shared/components/design-system/Coffee/OriginFlag.tsx(170,7): error TS2339: Property 'variant' does not exist on type 'OriginFlagProps'.
+src/shared/components/design-system/Coffee/ProcessingMethodBadge.tsx(162,7): error TS2367: This comparison appears to be unintentional because the types 'BadgeVariant' and '"subtle"' have no overlap.
+src/shared/components/design-system/Coffee/TastingNotes.tsx(184,3): error TS2353: Object literal may only specify known properties, and 'other' does not exist in type 'Record<TastingNoteCategory, { name: string; icon: string; color: string; bgColor: string; notes: string[]; }>'.
+src/shared/components/design-system/Coffee/TastingNotes.tsx(221,7): error TS2339: Property 'size' does not exist on type 'TastingNotesProps'.
+src/shared/components/design-system/Coffee/TastingNotes.tsx(222,7): error TS2339: Property 'variant' does not exist on type 'TastingNotesProps'.
+src/shared/components/design-system/Coffee/TastingNotes.tsx(223,7): error TS2339: Property 'maxDisplay' does not exist on type 'TastingNotesProps'.
+src/shared/components/design-system/Coffee/TastingNotes.tsx(224,7): error TS2339: Property 'showCategories' does not exist on type 'TastingNotesProps'.
+src/shared/components/design-system/Coffee/TastingNotes.tsx(226,7): error TS2339: Property 'onNoteClick' does not exist on type 'TastingNotesProps'.
+src/shared/components/design-system/Coffee/TastingNotes.tsx(302,15): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ xs: string; sm: string; md: string; lg: string; xl: string; }'.
+src/shared/components/design-system/Coffee/TastingNotes.tsx(481,3): error TS2322: Type '"other"' is not assignable to type 'TastingNoteCategory'.
+src/shared/components/design-system/index.ts(63,3): error TS2305: Module '"./types"' has no exported member 'ComponentVariant'.
+src/shared/components/design-system/index.ts(64,3): error TS2305: Module '"./types"' has no exported member 'ComponentSize'.
+src/shared/components/design-system/index.ts(65,3): error TS2305: Module '"./types"' has no exported member 'ComponentColor'.
+src/shared/components/design-system/Layout/Container.tsx(44,7): error TS2339: Property 'center' does not exist on type 'ContainerProps'.
+src/shared/components/design-system/Layout/Container.tsx(45,7): error TS2339: Property 'fluid' does not exist on type 'ContainerProps'.
+src/shared/components/design-system/Layout/Container.tsx(46,7): error TS2339: Property 'as' does not exist on type 'ContainerProps'.
+src/shared/components/design-system/Layout/Container.tsx(56,17): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ xs: string; sm: string; md: string; lg: string; xl: string; '2xl': string; '3xl': string; '4xl': string; '5xl': string; '6xl': string; '7xl': string; full: string; screen: string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ xs: string; sm: string; md: string; lg: string; xl: string; '2xl': string; '3xl': string; '4xl': string; '5xl': string; '6xl': string; '7xl': string; full: string; screen: string; }'.
+src/shared/components/design-system/Layout/Container.tsx(62,7): error TS7053: Element implicitly has an 'any' type because expression of type 'SpacingVariant' can't be used to index type '{ none: string; xs: string; sm: string; md: string; lg: string; xl: string; '2xl': string; }'.
+  Property '3xl' does not exist on type '{ none: string; xs: string; sm: string; md: string; lg: string; xl: string; '2xl': string; }'.
+src/shared/components/design-system/Layout/Container.tsx(85,7): error TS2322: Type '"screen"' is not assignable to type '"lg" | "sm" | "md" | "xl" | "2xl" | "full"'.
+src/shared/components/design-system/Layout/Container.tsx(104,7): error TS2322: Type '"4xl"' is not assignable to type '"lg" | "sm" | "md" | "xl" | "2xl" | "full"'.
+src/shared/components/design-system/Layout/Container.tsx(123,7): error TS2322: Type '"6xl"' is not assignable to type '"lg" | "sm" | "md" | "xl" | "2xl" | "full"'.
+src/shared/components/design-system/Layout/Container.tsx(161,7): error TS2322: Type '"screen"' is not assignable to type '"lg" | "sm" | "md" | "xl" | "2xl" | "full"'.
+src/shared/components/design-system/Layout/Grid.tsx(52,7): error TS2339: Property 'autoFit' does not exist on type 'GridProps'.
+src/shared/components/design-system/Layout/Grid.tsx(53,7): error TS2339: Property 'minItemWidth' does not exist on type 'GridProps'.
+src/shared/components/design-system/Layout/Grid.tsx(54,7): error TS2339: Property 'as' does not exist on type 'GridProps'.
+src/shared/components/design-system/Layout/Grid.tsx(64,37): error TS2538: Type 'true' cannot be used as an index type.
+src/shared/components/design-system/Layout/Grid.tsx(73,7): error TS7053: Element implicitly has an 'any' type because expression of type 'SpacingVariant' can't be used to index type '{ none: string; xs: string; sm: string; md: string; lg: string; xl: string; '2xl': string; }'.
+  Property '3xl' does not exist on type '{ none: string; xs: string; sm: string; md: string; lg: string; xl: string; '2xl': string; }'.
+src/shared/components/design-system/Layout/Grid.tsx(96,7): error TS2322: Type 'string' is not assignable to type 'boolean'.
+src/shared/components/design-system/Layout/Grid.tsx(115,7): error TS2322: Type 'string' is not assignable to type 'boolean'.
+src/shared/components/design-system/Layout/Grid.tsx(134,7): error TS2322: Type 'string' is not assignable to type 'boolean'.
+src/shared/components/design-system/Layout/Grid.tsx(153,7): error TS2322: Type 'string' is not assignable to type 'boolean'.
+src/shared/components/design-system/Layout/Grid.tsx(172,7): error TS2322: Type 'string' is not assignable to type 'boolean'.
+src/shared/components/design-system/Layout/Grid.tsx(191,7): error TS2322: Type 'string' is not assignable to type 'boolean'.
+src/shared/components/design-system/Layout/Grid.tsx(210,7): error TS2322: Type 'string' is not assignable to type 'boolean'.
+src/shared/components/design-system/Layout/Grid.tsx(229,7): error TS2322: Type 'string' is not assignable to type 'boolean'.
+src/shared/components/design-system/Layout/Section.tsx(61,7): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ default: string; muted: string; card: string; primary: string; secondary: string; accent: string; coffee: string; 'coffee-dark': string; gold: string; 'gold-dark': string; gradient: string; 'gradient-dark': string; 'coffee-texture': string; transparent: string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ default: string; muted: string; card: string; primary: string; secondary: string; accent: string; coffee: string; 'coffee-dark': string; gold: string; 'gold-dark': string; gradient: string; 'gradient-dark': string; 'coffee-texture': string; transparent: string; }'.
+src/shared/components/design-system/Layout/Section.tsx(64,7): error TS7053: Element implicitly has an 'any' type because expression of type 'SpacingVariant' can't be used to index type '{ none: string; xs: string; sm: string; md: string; lg: string; xl: string; '2xl': string; }'.
+  Property '3xl' does not exist on type '{ none: string; xs: string; sm: string; md: string; lg: string; xl: string; '2xl': string; }'.
+src/shared/components/design-system/Layout/Section.tsx(73,18): error TS2322: Type '"lg" | "sm" | "md" | "xl" | "2xl" | "4xl" | "full" | "6xl"' is not assignable to type '"lg" | "sm" | "md" | "xl" | "2xl" | "full"'.
+  Type '"4xl"' is not assignable to type '"lg" | "sm" | "md" | "xl" | "2xl" | "full"'.
+src/shared/components/design-system/Layout/Section.tsx(96,7): error TS2322: Type '"gradient"' is not assignable to type 'ColorVariant'.
+src/shared/components/design-system/Layout/Section.tsx(113,6): error TS2375: Type '{ children: ReactNode; title?: string | undefined; results?: number | undefined; onError?: ReactEventHandler<HTMLElement> | undefined; ... 279 more ...; ref: ForwardedRef<...>; }' is not assignable to type 'SectionProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'className' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/shared/components/design-system/Layout/Section.tsx(132,6): error TS2375: Type '{ children: ReactNode; title?: string | undefined; results?: number | undefined; onError?: ReactEventHandler<HTMLElement> | undefined; ... 279 more ...; ref: ForwardedRef<...>; }' is not assignable to type 'SectionProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'className' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/shared/components/design-system/Layout/Section.tsx(151,6): error TS2375: Type '{ children: ReactNode; title?: string | undefined; results?: number | undefined; onError?: ReactEventHandler<HTMLElement> | undefined; ... 279 more ...; ref: ForwardedRef<...>; }' is not assignable to type 'SectionProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'className' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/shared/components/design-system/Layout/Section.tsx(172,7): error TS2322: Type '"coffee-dark"' is not assignable to type 'ColorVariant'.
+src/shared/components/design-system/Layout/Section.tsx(191,7): error TS2322: Type '"default"' is not assignable to type 'ColorVariant'.
+src/shared/components/design-system/Layout/Section.tsx(210,7): error TS2322: Type '"gradient"' is not assignable to type 'ColorVariant'.
+src/shared/components/design-system/Typography/Heading.tsx(92,24): error TS7053: Element implicitly has an 'any' type because expression of type 'ColorVariant' can't be used to index type '{ primary: string; secondary: string; accent: string; coffee: string; gold: string; bean: string; success: string; warning: string; error: string; info: string; muted: string; destructive: string; }'.
+  Property 'forest' does not exist on type '{ primary: string; secondary: string; accent: string; coffee: string; gold: string; bean: string; success: string; warning: string; error: string; info: string; muted: string; destructive: string; }'.
+src/shared/components/design-system/Typography/Heading.tsx(196,55): error TS2322: Type 'ForwardedRef<HTMLSpanElement>' is not assignable to type 'LegacyRef<HTMLHeadingElement> | undefined'.
+  Type 'MutableRefObject<HTMLSpanElement | null>' is not assignable to type 'LegacyRef<HTMLHeadingElement> | undefined'.
+    Type 'MutableRefObject<HTMLSpanElement | null>' is not assignable to type 'RefObject<HTMLHeadingElement>'.
+      Types of property 'current' are incompatible.
+        Type 'HTMLSpanElement | null' is not assignable to type 'HTMLHeadingElement | null'.
+          Property 'align' is missing in type 'HTMLSpanElement' but required in type 'HTMLHeadingElement'.
+src/shared/components/performance/CoreWebVitalsMonitor.tsx(4,10): error TS2305: Module '"web-vitals"' has no exported member 'getCLS'.
+src/shared/components/performance/CoreWebVitalsMonitor.tsx(4,18): error TS2305: Module '"web-vitals"' has no exported member 'getFCP'.
+src/shared/components/performance/CoreWebVitalsMonitor.tsx(4,26): error TS2305: Module '"web-vitals"' has no exported member 'getFID'.
+src/shared/components/performance/CoreWebVitalsMonitor.tsx(4,34): error TS2305: Module '"web-vitals"' has no exported member 'getLCP'.
+src/shared/components/performance/CoreWebVitalsMonitor.tsx(4,42): error TS2305: Module '"web-vitals"' has no exported member 'getTTFB'.
+src/shared/components/performance/CoreWebVitalsMonitor.tsx(85,11): error TS2322: Type '{ metric_rating: PerformanceRating; metric_delta: number; navigation_type: string; }' is not assignable to type 'string | number | boolean'.
+src/shared/components/performance/CoreWebVitalsMonitor.tsx(152,13): error TS7030: Not all code paths return a value.
+src/shared/components/performance/EnhancedOptimizedImage.tsx(160,58): error TS2375: Type '{ publicId: string; priority: "high"; sizes: string | undefined; }' is not assignable to type '{ publicId: string; priority: "high" | "low"; sizes?: string; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'sizes' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/shared/components/performance/EnhancedOptimizedImage.tsx(227,9): error TS2375: Type '{ fill?: boolean; title?: string | undefined; results?: number | undefined; loader?: ImageLoader; unoptimized?: boolean; crossOrigin?: CrossOrigin; quality?: number | `${number}`; ... 297 more ...; srcSet: string | undefined; }' is not assignable to type 'IntrinsicAttributes & Omit<DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>, "width" | ... 5 more ... | "srcSet"> & { ...; } & RefAttributes<...>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Property 'srcSet' does not exist on type 'IntrinsicAttributes & Omit<DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>, "width" | ... 5 more ... | "srcSet"> & { ...; } & RefAttributes<...>'.
+src/shared/components/performance/LazySection.tsx(58,13): error TS18048: 'entry' is possibly 'undefined'.
+src/shared/components/performance/LazySection.tsx(89,13): error TS7030: Not all code paths return a value.
+src/shared/components/performance/LazySection.tsx(112,22): error TS2375: Type '{ minHeight: string | number | undefined; }' is not assignable to type '{ minHeight?: string | number; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'minHeight' are incompatible.
+    Type 'string | number | undefined' is not assignable to type 'string | number'.
+      Type 'undefined' is not assignable to type 'string | number'.
+src/shared/components/performance/LazySection.tsx(191,6): error TS2375: Type '{ children: ReactNode; className: string | undefined; fallback: Element; rootMargin?: string; threshold?: number; once?: boolean; minHeight?: string | number; animationClass?: string; delay?: number; }' is not assignable to type 'LazySectionProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'className' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/shared/components/performance/LazySection.tsx(234,6): error TS2375: Type '{ children: ReactNode; className: string | undefined; fallback: Element; rootMargin?: string; threshold?: number; once?: boolean; minHeight?: string | number; animationClass?: string; delay?: number; }' is not assignable to type 'LazySectionProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'className' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/shared/components/performance/LazySection.tsx(273,13): error TS18048: 'entry' is possibly 'undefined'.
+src/shared/components/performance/OptimizedImage.tsx(3,39): error TS2614: Module '"next/image"' has no exported member 'StaticImport'. Did you mean to use 'import StaticImport from "next/image"' instead?
+src/shared/components/performance/OptimizedImage.tsx(185,16): error TS2304: Cannot find name 'props'.
+src/shared/components/performance/OptimizedImage.tsx(188,76): error TS2304: Cannot find name 'props'.
+src/shared/components/performance/OptimizedImage.tsx(202,14): error TS2304: Cannot find name 'props'.
+src/shared/components/performance/OptimizedImage.tsx(202,50): error TS2304: Cannot find name 'props'.
+src/shared/components/performance/OptimizedImage.tsx(202,71): error TS2304: Cannot find name 'props'.
+src/shared/components/performance/OptimizedImage.tsx(228,8): error TS2375: Type '{ src: any; alt: string; width: number | `${number}` | undefined; height: number | `${number}` | undefined; fill: boolean | undefined; sizes: string | undefined; quality: number | `${number}` | undefined; ... 14 more ...; blurDataURL: string; }' is not assignable to type '{ src: string | StaticImport; alt: string; width?: number | `${number}`; height?: number | `${number}`; fill?: boolean; loader?: ImageLoader; quality?: number | `${number}`; ... 11 more ...; lazyRoot?: string; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'width' are incompatible.
+    Type 'number | `${number}` | undefined' is not assignable to type 'number | `${number}`'.
+      Type 'undefined' is not assignable to type 'number | `${number}`'.
+src/shared/components/performance/PerformanceMonitor.tsx(135,43): error TS18048: 'lastEntry' is possibly 'undefined'.
+src/shared/components/seo/EnhancedSEOHead.tsx(183,27): error TS2322: Type 'string | Robots' is not assignable to type 'string | undefined'.
+  Type 'Robots' is not assignable to type 'string | undefined'.
+src/shared/components/seo/SEOLayout.tsx(262,9): error TS2412: Type 'BreadcrumbData | undefined' is not assignable to type '{ name: string; url: string; }[] | undefined' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the type of the target.
+src/shared/components/seo/SEOLayout.tsx(263,9): error TS2412: Type 'FAQData | undefined' is not assignable to type '{ question: string; answer: string; }[] | undefined' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the type of the target.
+src/shared/components/seo/SEOLayout.tsx(350,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | number | (string | number)[]'.
+  Type 'undefined' is not assignable to type 'string | number | (string | number)[]'.
+src/shared/components/seo/SEOLayout.tsx(351,7): error TS2322: Type 'string | undefined' is not assignable to type 'string | number | (string | number)[]'.
+  Type 'undefined' is not assignable to type 'string | number | (string | number)[]'.
+src/shared/config/markets.ts(42,14): error TS2741: Property 'vi' is missing in type '{ en: { locale: "en"; region: string; country: string; countryCode: string; currency: { code: string; symbol: string; name: string; }; timezone: string; dateFormat: string; numberFormat: { decimal: string; thousands: string; }; majorPorts: { ...; }[]; businessHours: { ...; }; shippingInfo: { ...; }; }; ... 6 more .....' but required in type 'Record<"en" | "de" | "ja" | "fr" | "it" | "es" | "nl" | "ko" | "vi", MarketConfig>'.
+src/shared/config/seo.ts(1,24): error TS2307: Cannot find module '@/shared/types/locale' or its corresponding type declarations.
+src/shared/config/seo.ts(292,15): error TS2532: Object is possibly 'undefined'.
+src/shared/types/index.ts(7,1): error TS2308: Module './business.types' has already exported a member named 'ContactInfo'. Consider explicitly re-exporting to resolve the ambiguity.
+src/shared/types/index.ts(7,1): error TS2308: Module './business.types' has already exported a member named 'Coordinates'. Consider explicitly re-exporting to resolve the ambiguity.
+src/shared/types/index.ts(10,1): error TS2308: Module './business.types' has already exported a member named 'ServiceTranslation'. Consider explicitly re-exporting to resolve the ambiguity.
+src/shared/types/index.ts(10,1): error TS2308: Module './common.types' has already exported a member named 'NotificationType'. Consider explicitly re-exporting to resolve the ambiguity.
+src/shared/types/index.ts(10,1): error TS2308: Module './common.types' has already exported a member named 'SelectOption'. Consider explicitly re-exporting to resolve the ambiguity.
+src/shared/types/index.ts(10,1): error TS2308: Module './common.types' has already exported a member named 'TemplateVariable'. Consider explicitly re-exporting to resolve the ambiguity.
+src/shared/types/index.ts(10,1): error TS2308: Module './common.types' has already exported a member named 'VariableType'. Consider explicitly re-exporting to resolve the ambiguity.
+src/shared/types/locale.types.ts(38,3): error TS7061: A mapped type may not declare properties or methods.
+src/shared/types/locale.types.ts(263,3): error TS7061: A mapped type may not declare properties or methods.
+src/shared/utils/advanced-seo-manager.ts(252,7): error TS2353: Object literal may only specify known properties, and 'canonical' does not exist in type 'Metadata'.
+src/shared/utils/enhanced-structured-data.ts(299,5): error TS2375: Type '{ '@type': "Offer"; '@id': string; businessFunction: "http://purl.org/goodrelations/v1#Sell"; availability: string; seller: { '@type': "Organization"; name: string; url: string; }; eligibleQuantity: { ...; }; deliveryLeadTime: { ...; }; areaServed: string[]; incoterms: string[] | undefined; }' is not assignable to type '{ '@type': "Offer"; '@id': string; businessFunction: "http://purl.org/goodrelations/v1#Sell"; availability: string; seller: { '@type': "Organization"; name: string; url: string; }; eligibleQuantity: { ...; }; priceSpecification?: { ...; }; deliveryLeadTime?: { ...; }; areaServed: string[]; incoterms?: string[]; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'incoterms' are incompatible.
+    Type 'string[] | undefined' is not assignable to type 'string[]'.
+      Type 'undefined' is not assignable to type 'string[]'.
+src/shared/utils/enhanced-structured-data.ts(359,3): error TS2375: Type '{ '@context': "https://schema.org"; '@type': "Service"; '@id': string; name: string; description: string; provider: { '@type': "Organization"; name: string; url: string; address: { '@type': "PostalAddress"; addressCountry: string; addressRegion: string; }; }; ... 5 more ...; hasCredential: { ...; }[] | undefined; }' is not assignable to type 'B2BServiceSchema' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'hasCredential' are incompatible.
+    Type '{ '@type': "EducationalOccupationalCredential"; name: string; credentialCategory: string; }[] | undefined' is not assignable to type '{ '@type': "EducationalOccupationalCredential"; name: string; credentialCategory: string; }[]'.
+      Type 'undefined' is not assignable to type '{ '@type': "EducationalOccupationalCredential"; name: string; credentialCategory: string; }[]'.
+src/shared/utils/enhanced-structured-data.ts(422,3): error TS2375: Type '{ '@context': "https://schema.org"; '@type': "Article"; '@id': string; headline: string; description: string; image: string[]; author: { '@type': "Person"; name: string; jobTitle: string; }; publisher: { '@type': "Organization"; name: string; url: string; logo: { ...; }; }; ... 8 more ...; speakable: { ...; }; }' is not assignable to type 'MultilingualArticleSchema' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'wordCount' are incompatible.
+    Type 'number | undefined' is not assignable to type 'number'.
+      Type 'undefined' is not assignable to type 'number'.
+src/shared/utils/market.ts(92,3): error TS2322: Type 'Port | undefined' is not assignable to type 'Port'.
+  Type 'undefined' is not assignable to type 'Port'.
+src/shared/utils/market.ts(114,30): error TS18048: 'currentHour' is possibly 'undefined'.
+src/shared/utils/market.ts(114,49): error TS18048: 'currentMinute' is possibly 'undefined'.
+src/shared/utils/market.ts(117,28): error TS18048: 'startHour' is possibly 'undefined'.
+src/shared/utils/market.ts(117,45): error TS18048: 'startMinute' is possibly 'undefined'.
+src/shared/utils/market.ts(120,26): error TS18048: 'endHour' is possibly 'undefined'.
+src/shared/utils/market.ts(120,41): error TS18048: 'endMinute' is possibly 'undefined'.
+src/shared/utils/market.ts(218,3): error TS2322: Type 'GradingStandard | undefined' is not assignable to type '{ standard: string; grades: string[]; description: string; }'.
+  Type 'undefined' is not assignable to type '{ standard: string; grades: string[]; description: string; }'.
+src/shared/utils/market.ts(280,3): error TS2322: Type 'PaymentTerms | undefined' is not assignable to type '{ preferredMethods: string[]; standardTerms: string[]; currency: string; }'.
+  Type 'undefined' is not assignable to type '{ preferredMethods: string[]; standardTerms: string[]; currency: string; }'.
+src/shared/utils/market.ts(322,3): error TS2322: Type 'CertificationRequirements | undefined' is not assignable to type '{ required: string[]; preferred: string[]; optional: string[]; }'.
+  Type 'undefined' is not assignable to type '{ required: string[]; preferred: string[]; optional: string[]; }'.
+src/shared/utils/performance-optimization.ts(171,71): error TS2551: Property 'navigationStart' does not exist on type 'PerformanceNavigationTiming'. Did you mean 'activationStart'?
+src/shared/utils/performance-optimization.ts(284,42): error TS2345: Argument of type 'readonly ["https://fonts.googleapis.com", "https://fonts.gstatic.com", "https://res.cloudinary.com", "https://images.unsplash.com", "https://api.vercel.com"]' is not assignable to parameter of type 'string[]'.
+  The type 'readonly ["https://fonts.googleapis.com", "https://fonts.gstatic.com", "https://res.cloudinary.com", "https://images.unsplash.com", "https://api.vercel.com"]' is 'readonly' and cannot be assigned to the mutable type 'string[]'.
+src/shared/utils/performance-optimization.ts(287,37): error TS2345: Argument of type 'readonly ["https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2", "https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtXK-F2qO0isEw.woff2"]' is not assignable to parameter of type 'string[]'.
+  The type 'readonly ["https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2", "https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtXK-F2qO0isEw.woff2"]' is 'readonly' and cannot be assigned to the mutable type 'string[]'.
+src/shared/utils/performance-optimization.ts(290,46): error TS2345: Argument of type 'readonly []' is not assignable to parameter of type 'string[]'.
+  The type 'readonly []' is 'readonly' and cannot be assigned to the mutable type 'string[]'.
+src/shared/utils/rss-generator.ts(58,37): error TS2339: Property 'contactEmail' does not exist on type '{ siteName: string; siteUrl: string; defaultTitle: string; defaultDescription: string; defaultKeywords: string[]; twitterHandle: string; defaultImage: string; favicon: string; appleTouchIcon: string; ... 4 more ...; technical: { ...; }; }'.
+src/shared/utils/rss-generator.ts(93,42): error TS2576: Property 'getBlogPosts' does not exist on type 'ContentManager'. Did you mean to access the static member 'ContentManager.getBlogPosts' instead?
+src/shared/utils/rss-generator.ts(95,42): error TS7006: Parameter 'post' implicitly has an 'any' type.
+src/shared/utils/rss-generator.ts(123,46): error TS2576: Property 'getMarketReports' does not exist on type 'ContentManager'. Did you mean to access the static member 'ContentManager.getMarketReports' instead?
+src/shared/utils/rss-generator.ts(125,46): error TS7006: Parameter 'report' implicitly has an 'any' type.
+src/shared/utils/rss-generator.ts(153,46): error TS2576: Property 'getOriginStories' does not exist on type 'ContentManager'. Did you mean to access the static member 'ContentManager.getOriginStories' instead?
+src/shared/utils/rss-generator.ts(155,46): error TS7006: Parameter 'story' implicitly has an 'any' type.
+src/shared/utils/rss-generator.ts(184,20): error TS2576: Property 'getBlogPosts' does not exist on type 'ContentManager'. Did you mean to access the static member 'ContentManager.getBlogPosts' instead?
+src/shared/utils/rss-generator.ts(185,20): error TS2576: Property 'getMarketReports' does not exist on type 'ContentManager'. Did you mean to access the static member 'ContentManager.getMarketReports' instead?
+src/shared/utils/rss-generator.ts(186,20): error TS2576: Property 'getOriginStories' does not exist on type 'ContentManager'. Did you mean to access the static member 'ContentManager.getOriginStories' instead?
+src/shared/utils/rss-generator.ts(191,22): error TS7006: Parameter 'post' implicitly has an 'any' type.
+src/shared/utils/rss-generator.ts(202,26): error TS7006: Parameter 'report' implicitly has an 'any' type.
+src/shared/utils/rss-generator.ts(213,26): error TS7006: Parameter 'story' implicitly has an 'any' type.
+src/shared/utils/rss-utils.ts(81,3): error TS2375: Type '{ enclosure?: { url: string; type: string; length: number; }; title: string; description: string; link: string; guid: string; pubDate: string; category: string[] | undefined; author: string; }' is not assignable to type 'RSSItem' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'category' are incompatible.
+    Type 'string[] | undefined' is not assignable to type 'string[]'.
+      Type 'undefined' is not assignable to type 'string[]'.
+src/shared/utils/rss-utils.ts(165,33): error TS2532: Object is possibly 'undefined'.
+src/shared/utils/rss-utils.ts(189,33): error TS2532: Object is possibly 'undefined'.
+src/shared/utils/rss-utils.ts(213,33): error TS2532: Object is possibly 'undefined'.
+src/shared/utils/rss-utils.ts(250,29): error TS2532: Object is possibly 'undefined'.
+src/shared/utils/rss-utils.ts(359,33): error TS2532: Object is possibly 'undefined'.
+src/shared/utils/seo-audit.ts(284,26): error TS2339: Property 'absolute' does not exist on type 'TemplateString'.
+  Property 'absolute' does not exist on type 'DefaultTemplateString'.
+src/shared/utils/seo-audit.ts(417,44): error TS2339: Property 'card' does not exist on type 'Twitter'.
+  Property 'card' does not exist on type 'TwitterMetadata'.
+src/shared/utils/seo-audit.ts(436,47): error TS2345: Argument of type 'string | URL | AlternateLinkDescriptor' is not assignable to parameter of type 'string'.
+  Type 'URL' is not assignable to type 'string'.
+src/shared/utils/seo-audit.ts(618,52): error TS2345: Argument of type 'Languages<string | URL | AlternateLinkDescriptor[] | null>' is not assignable to parameter of type 'Record<string, string>'.
+  Property 'en' is incompatible with index signature.
+    Type 'string | URL | AlternateLinkDescriptor[] | null | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/shared/utils/seo-monitoring.ts(326,5): error TS2322: Type 'string | undefined' is not assignable to type 'string | number | boolean'.
+  Type 'undefined' is not assignable to type 'string | number | boolean'.
+src/shared/utils/seo-monitoring.ts(365,14): error TS18048: 'lastEntry' is possibly 'undefined'.
+src/shared/utils/seo-monitoring.ts(367,9): error TS18048: 'lastEntry' is possibly 'undefined'.
+src/shared/utils/seo-monitoring.ts(369,13): error TS18048: 'lastEntry' is possibly 'undefined'.
+src/shared/utils/seo-monitoring.ts(381,22): error TS2339: Property 'processingStart' does not exist on type 'PerformanceEntry'.
+src/shared/utils/seo-monitoring.ts(383,17): error TS2339: Property 'processingStart' does not exist on type 'PerformanceEntry'.
+src/shared/utils/seo-monitoring.ts(385,21): error TS2339: Property 'processingStart' does not exist on type 'PerformanceEntry'.
+src/shared/utils/seo-monitoring.ts(397,18): error TS2339: Property 'hadRecentInput' does not exist on type 'PerformanceEntry'.
+src/shared/utils/seo-monitoring.ts(398,27): error TS2339: Property 'value' does not exist on type 'PerformanceEntry'.
+src/shared/utils/seo-utils.ts(26,3): error TS4104: The type 'readonly ["en", "de", "ja", "fr", "it", "es", "nl", "ko", "vi"]' is 'readonly' and cannot be assigned to the mutable type '("en" | "de" | "ja" | "fr" | "it" | "es" | "nl" | "ko" | "vi")[]'.
+src/shared/utils/seo-utils.ts(157,3): error TS4104: The type 'readonly ["en", "de", "ja", "fr", "it", "es", "nl", "ko", "vi"]' is 'readonly' and cannot be assigned to the mutable type '("en" | "de" | "ja" | "fr" | "it" | "es" | "nl" | "ko" | "vi")[]'.
+src/shared/utils/seo-utils.ts(181,5): error TS2322: Type '{ publishedTime?: string; modifiedTime?: string; authors?: string[] | undefined; section?: string; tags?: string[]; type: "website" | "article" | "product" | "service"; title: string; description: string; url: string; siteName: string; images: { ...; }[]; locale: "en" | ... 7 more ... | "vi"; }' is not assignable to type 'OpenGraph | null | undefined'.
+  Types of property 'type' are incompatible.
+    Type '"website" | "article" | "product" | "service"' is not assignable to type '"website" | "article" | undefined'.
+      Type '"product"' is not assignable to type '"website" | "article" | undefined'.
+src/shared/utils/sitemap-generator.ts(445,24): error TS2341: Property 'getBlogPostEntries' is private and only accessible within class 'SitemapGenerator'.
+src/shared/utils/sitemap-generator.ts(447,24): error TS2341: Property 'getServicePages' is private and only accessible within class 'SitemapGenerator'.
+src/shared/utils/sitemap-generator.ts(449,24): error TS2341: Property 'getMarketReportPages' is private and only accessible within class 'SitemapGenerator'.
+src/shared/utils/sitemap-generator.ts(451,24): error TS2341: Property 'getOriginStoryPages' is private and only accessible within class 'SitemapGenerator'.
+src/shared/utils/sitemap-submission.ts(138,7): error TS2375: Type '{ url: string; accessible: boolean; statusCode: number; responseTime: number; lastChecked: Date; errorMessage: string | undefined; }' is not assignable to type 'SitemapHealthCheck' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'errorMessage' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/shared/utils/structured-data-utils.ts(82,7): error TS2322: Type '{ '@type': "ListItem"; position: number; url: string; name: string; description: string; image: string | undefined; datePublished: string; author: { '@type': "Person"; name: string; }; }[]' is not assignable to type '{ '@type': "ListItem"; position: number; url: string; name: string; description?: string; image?: string; datePublished?: string; author?: { '@type': "Person"; name: string; }; }[]'.
+  Type '{ '@type': "ListItem"; position: number; url: string; name: string; description: string; image: string | undefined; datePublished: string; author: { '@type': "Person"; name: string; }; }' is not assignable to type '{ '@type': "ListItem"; position: number; url: string; name: string; description?: string; image?: string; datePublished?: string; author?: { '@type': "Person"; name: string; }; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Types of property 'image' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.
+src/shared/utils/structured-data-utils.ts(160,7): error TS2322: Type '{ '@type': "ListItem"; position: number; url: string; name: string; description: string; image: string | undefined; datePublished: string; author: { '@type': "Person"; name: string; }; }[]' is not assignable to type '{ '@type': "ListItem"; position: number; url: string; name: string; description?: string; image?: string; datePublished?: string; author?: { '@type': "Person"; name: string; }; }[]'.
+  Type '{ '@type': "ListItem"; position: number; url: string; name: string; description: string; image: string | undefined; datePublished: string; author: { '@type': "Person"; name: string; }; }' is not assignable to type '{ '@type': "ListItem"; position: number; url: string; name: string; description?: string; image?: string; datePublished?: string; author?: { '@type': "Person"; name: string; }; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Types of property 'image' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.
+src/shared/utils/structured-data-utils.ts(228,7): error TS2322: Type '{ '@type': "ListItem"; position: number; url: string; name: string; description: string; image: string | undefined; }[]' is not assignable to type '{ '@type': "ListItem"; position: number; url: string; name: string; description?: string; image?: string; datePublished?: string; author?: { '@type': "Person"; name: string; }; }[]'.
+  Type '{ '@type': "ListItem"; position: number; url: string; name: string; description: string; image: string | undefined; }' is not assignable to type '{ '@type': "ListItem"; position: number; url: string; name: string; description?: string; image?: string; datePublished?: string; author?: { '@type': "Person"; name: string; }; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Types of property 'image' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.
+src/test/global-setup.ts(6,15): error TS2540: Cannot assign to 'NODE_ENV' because it is a read-only property.
+src/test/setup.ts(121,13): error TS2540: Cannot assign to 'NODE_ENV' because it is a read-only property.
+src/test/utils/helpers.ts(84,24): error TS2345: Argument of type 'HTMLElement | undefined' is not assignable to parameter of type 'HTMLElement'.
+  Type 'undefined' is not assignable to type 'HTMLElement'.
+src/test/utils/mocks.ts(11,3): error TS2322: Type '"CUSTOMER"' is not assignable to type '"ADMIN" | "SALES_MANAGER" | "SALES_REP" | "CONTENT_MANAGER" | "VIEWER" | "SUPER_ADMIN" | "ACCOUNT_MANAGER" | "QUALITY_MANAGER" | "LOGISTICS_COORDINATOR" | "MARKETING_MANAGER" | "FINANCE_MANAGER" | "CUSTOMER_SERVICE"'.
+src/test/utils/mocks.ts(24,3): error TS2322: Type 'string' is not assignable to type '{ en: string; de?: string | undefined; ja?: string | undefined; fr?: string | undefined; it?: string | undefined; es?: string | undefined; nl?: string | undefined; ko?: string | undefined; }'.
+src/test/utils/mocks.ts(26,3): error TS2322: Type 'string' is not assignable to type '{ en: string; de?: string | undefined; ja?: string | undefined; fr?: string | undefined; it?: string | undefined; es?: string | undefined; nl?: string | undefined; ko?: string | undefined; }'.
+src/test/utils/mocks.ts(27,3): error TS2322: Type 'string' is not assignable to type '{ region: string; province: string; altitude?: number | undefined; farmSize?: string | undefined; cooperativeName?: string | undefined; coordinates?: { latitude: number; longitude: number; } | undefined; soilType?: string | undefined; climate?: string | undefined; }'.
+src/test/utils/mocks.ts(34,3): error TS2322: Type 'string' is not assignable to type '{ inStock: boolean; stockQuantity: number; harvestSeason: string; availableFrom: Date; leadTime: number; productionCapacity: number; availableUntil?: Date | undefined; }'.
+src/test/utils/mocks.ts(38,12): error TS2322: Type 'string' is not assignable to type '{ url: string; alt: { en: string; de?: string | undefined; ja?: string | undefined; fr?: string | undefined; it?: string | undefined; es?: string | undefined; nl?: string | undefined; ko?: string | undefined; }; isPrimary: boolean; }'.
+src/test/utils/mocks.ts(39,15): error TS2322: Type 'string' is not assignable to type '{ type: "CERTIFICATE" | "SPECIFICATION" | "SAMPLE_REPORT" | "COA"; url: string; name: { en: string; de?: string | undefined; ja?: string | undefined; fr?: string | undefined; it?: string | undefined; es?: string | undefined; nl?: string | undefined; ko?: string | undefined; }; language?: string | undefined; }'.
+src/test/utils/mocks.ts(54,3): error TS2322: Type '"PENDING"' is not assignable to type '"DRAFT" | "SUBMITTED" | "UNDER_REVIEW" | "QUOTED" | "NEGOTIATING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED"'.
+tests/e2e/global-setup.ts(8,19): error TS2532: Object is possibly 'undefined'.

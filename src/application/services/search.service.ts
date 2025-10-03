@@ -50,8 +50,8 @@ export class SearchService implements ISearchService {
       // Filter products based on query and filters
       let filteredProducts = allProducts.filter(product => {
         // Text search - handle multilingual properties using getters
-        const productName = product.name?.en || Object.values(product.name || {})[0] || '';
-        const productDescription = product.description?.en || Object.values(product.description || {})[0] || '';
+        const productName = product.name?.en || '';
+        const productDescription = product.description?.en || '';
         const productOrigin = product.origin?.region || '';
         
         const matchesQuery =
@@ -88,20 +88,18 @@ export class SearchService implements ISearchService {
               .includes(method.toLowerCase())
           );
 
-        // Certifications filter
+        // Certifications filter - use hasCertification method
         const matchesCertifications =
           !filters.certifications?.length ||
           filters.certifications.some(cert =>
-            product.certifications.some(productCert =>
-              productCert.toLowerCase().includes(cert.toLowerCase())
-            )
+            product.hasCertification(cert as any)
           );
 
         // Price range filter (using pricing.basePrice)
         const matchesPrice =
           !filters.priceRange ||
           (product.pricing.basePrice >= filters.priceRange.min &&
-            product.pricing.basePrice <= filters.priceRange.max);
+           product.pricing.basePrice <= filters.priceRange.max);
 
         return (
           matchesQuery &&
@@ -155,7 +153,7 @@ export class SearchService implements ISearchService {
 
       // Extract suggestions from product names, origins, and categories
       allProducts.forEach(product => {
-        const productName = product.name?.en || Object.values(product.name || {})[0] || '';
+        const productName = product.name?.en || '';
         const productOrigin = product.origin?.region || '';
         
         if (productName.toLowerCase().includes(query.toLowerCase())) {

@@ -190,7 +190,7 @@ CardTitle.displayName = 'CardTitle';
 
 // Overline - For labels and categories
 export const Overline = forwardRef<
-  HTMLSpanElement,
+  HTMLHeadingElement,
   Omit<HeadingProps, 'variant' | 'as'>
 >(({ color = 'muted', ...props }, ref) => (
   <Heading variant="overline" as="span" color={color} ref={ref} {...props} />

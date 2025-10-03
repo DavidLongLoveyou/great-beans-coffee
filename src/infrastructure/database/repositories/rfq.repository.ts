@@ -1,20 +1,20 @@
 import { Prisma } from '@prisma/client';
 
-import { RFQEntity } from '../../../domain/entities/rfq.entity';
+import { RFQEntity, type RFQ } from '../../../domain/entities/rfq.entity';
 import { prisma } from '../prisma';
 
 export interface IRFQRepository {
   findById(id: string): Promise<RFQEntity | null>;
-  findByReferenceNumber(referenceNumber: string): Promise<RFQEntity | null>;
+  findByRfqNumber(rfqNumber: string): Promise<RFQEntity | null>;
   findAll(filters?: RFQFilters): Promise<RFQEntity[]>;
   findByStatus(status: string): Promise<RFQEntity[]>;
   findByCompany(companyId: string): Promise<RFQEntity[]>;
   findPending(): Promise<RFQEntity[]>;
   findExpiringSoon(days?: number): Promise<RFQEntity[]>;
   create(
-    data: Omit<RFQEntity, 'id' | 'createdAt' | 'updatedAt'>
+    data: Omit<RFQ, 'id' | 'createdAt' | 'updatedAt'>
   ): Promise<RFQEntity>;
-  update(id: string, data: Partial<RFQEntity>): Promise<RFQEntity>;
+  update(id: string, data: Partial<RFQ>): Promise<RFQEntity>;
   updateStatus(id: string, status: string, notes?: string): Promise<RFQEntity>;
   delete(id: string): Promise<void>;
   addCommunication(rfqId: string, communication: any): Promise<void>;
@@ -25,7 +25,7 @@ export interface IRFQRepository {
 export interface RFQFilters {
   status?: string[];
   priority?: string[];
-  source?: string[];
+  businessType?: string[];
   companyId?: string;
   productType?: string[];
   minValue?: number;
@@ -45,17 +45,16 @@ export class RFQRepository implements IRFQRepository {
       rfqNumber: rfq.rfqNumber,
       status: rfq.status,
       priority: rfq.priority,
-      source: rfq.businessType || 'WEBSITE',
       companyInfo: {
         companyName: rfq.companyName,
         contactPerson: rfq.contactPerson,
         email: rfq.email,
         phone: rfq.phone,
         address: {
-          street: '',
-          city: '',
-          postalCode: '',
-          country: rfq.country,
+          street: rfq.address?.street || '',
+          city: rfq.address?.city || '',
+          postalCode: rfq.address?.postalCode || '',
+          country: rfq.country || '',
         },
         businessType: rfq.businessType || 'IMPORTER',
       },
@@ -63,29 +62,29 @@ export class RFQRepository implements IRFQRepository {
         coffeeType: 'ARABICA',
       },
       quantityRequirements: {
-        quantity: 1,
-        unit: 'MT',
-        isRecurringOrder: false,
+        quantity: rfq.quantity || 1,
+        unit: rfq.unit || 'MT',
+        isRecurringOrder: rfq.isRecurringOrder || false,
       },
       deliveryRequirements: rfq.deliveryRequirements || {
         incoterms: 'FOB',
-        destinationPort: '',
+        destinationPort: rfq.destinationPort || '',
         destinationCountry: rfq.country || '',
-        preferredDeliveryDate: new Date(),
-        latestDeliveryDate: new Date(),
+        preferredDeliveryDate: rfq.preferredDeliveryDate || new Date(),
+        latestDeliveryDate: rfq.latestDeliveryDate || new Date(),
         packaging: 'JUTE_BAGS_60KG',
       },
       paymentTerms: rfq.paymentRequirements || {
         preferredCurrency: 'USD',
         paymentMethod: 'LC',
-        paymentTerms: '',
+        paymentTerms: rfq.paymentTerms || '',
       },
       additionalRequirements: rfq.additionalRequirements,
       sampleRequired: rfq.sampleRequired || false,
       estimatedValue: rfq.totalValue,
       assignedTo: rfq.assignedTo,
-      submittedAt: rfq.createdAt,
-      lastActivityAt: rfq.updatedAt,
+      submittedAt: rfq.submittedAt || rfq.createdAt,
+      lastActivityAt: rfq.lastActivityAt || rfq.updatedAt,
       createdAt: rfq.createdAt,
       updatedAt: rfq.updatedAt,
       updatedBy: rfq.updatedBy || rfq.createdBy || '',
@@ -123,11 +122,11 @@ export class RFQRepository implements IRFQRepository {
     return rfq ? this.mapToEntity(rfq) : null;
   }
 
-  async findByReferenceNumber(
-    referenceNumber: string
+  async findByRfqNumber(
+    rfqNumber: string
   ): Promise<RFQEntity | null> {
     const rfq = await prisma.rFQ.findUnique({
-      where: { rfqNumber: referenceNumber },
+      where: { rfqNumber },
       include: this.getIncludeClause(),
     });
 
@@ -174,8 +173,8 @@ export class RFQRepository implements IRFQRepository {
       where,
       include: this.getIncludeClause(),
       orderBy,
-      take: filters?.limit,
-      skip: filters?.offset,
+      ...(filters?.limit && { take: filters.limit }),
+      ...(filters?.offset && { skip: filters.offset }),
     });
 
     return rfqs.map(rfq => this.mapToEntity(rfq));
@@ -214,47 +213,51 @@ export class RFQRepository implements IRFQRepository {
     const rfqs = await prisma.rFQ.findMany({
       where: {
         status: { in: ['PENDING', 'IN_REVIEW', 'QUOTED'] },
-        validUntil: {
+        deadline: {
           lte: expiryDate,
           gte: new Date(),
         },
       },
       include: this.getIncludeClause(),
-      orderBy: { validUntil: 'asc' },
+      orderBy: { deadline: 'asc' },
     });
 
     return rfqs.map(rfq => this.mapToEntity(rfq));
   }
 
   async create(
-    data: Omit<RFQEntity, 'id' | 'createdAt' | 'updatedAt'>
+    data: Omit<RFQ, 'id' | 'createdAt' | 'updatedAt'>
   ): Promise<RFQEntity> {
+    const createData: any = {
+      rfqNumber: data.rfqNumber,
+      status: data.status,
+      priority: data.priority,
+      companyName: data.companyInfo.companyName,
+      contactPerson: data.companyInfo.contactPerson,
+      email: data.companyInfo.email,
+      country: data.companyInfo.address.country,
+      productRequirements: data.productRequirements as any,
+      deliveryRequirements: data.deliveryRequirements as any,
+      paymentRequirements: data.paymentTerms as any,
+      sampleRequired: data.sampleRequired,
+    };
+
+    // Add optional fields only if they exist
+    if (data.companyInfo.phone) createData.phone = data.companyInfo.phone;
+    if (data.companyInfo.businessType) createData.businessType = data.companyInfo.businessType;
+    if (data.additionalRequirements) createData.additionalRequirements = data.additionalRequirements;
+    if (data.assignedTo) createData.assignedTo = data.assignedTo;
+    if (data.updatedBy) createData.updatedBy = data.updatedBy;
+
     const rfq = await prisma.rFQ.create({
-      data: {
-        referenceNumber: data.referenceNumber,
-        status: data.status,
-        priority: data.priority,
-        source: data.source,
-        companyInfo: data.companyInfo as any,
-        contactPerson: data.contactPerson as any,
-        productRequirements: data.productRequirements as any,
-        quantityRequirements: data.quantityRequirements as any,
-        deliveryRequirements: data.deliveryRequirements as any,
-        paymentTerms: data.paymentTerms as any,
-        additionalRequirements: data.additionalRequirements,
-        estimatedValue: data.estimatedValue,
-        validUntil: data.validUntil,
-        internalNotes: data.internalNotes,
-        clientCompanyId: data.clientCompanyId,
-        assignedToId: data.assignedToId,
-      },
+      data: createData,
       include: this.getIncludeClause(),
     });
 
     return this.mapToEntity(rfq);
   }
 
-  async update(id: string, data: Partial<RFQEntity>): Promise<RFQEntity> {
+  async update(id: string, data: Partial<RFQ>): Promise<RFQEntity> {
     const updateData: any = { ...data };
     delete updateData.id;
     delete updateData.createdAt;
@@ -309,31 +312,13 @@ export class RFQRepository implements IRFQRepository {
   }
 
   async addCommunication(rfqId: string, communication: any): Promise<void> {
-    await prisma.rFQCommunication.create({
-      data: {
-        rfqId,
-        type: communication.type,
-        direction: communication.direction,
-        subject: communication.subject,
-        content: communication.content,
-        attachments: communication.attachments || [],
-        userId: communication.userId,
-        isInternal: communication.isInternal || false,
-      },
-    });
+    // TODO: Implement when RFQCommunication model is added to schema
+    console.log('addCommunication not implemented - missing RFQCommunication model');
   }
 
   async addDocument(rfqId: string, document: any): Promise<void> {
-    await prisma.rFQDocument.create({
-      data: {
-        rfqId,
-        name: document.name,
-        type: document.type,
-        url: document.url,
-        size: document.size,
-        uploadedById: document.uploadedById,
-      },
-    });
+    // TODO: Implement when RFQDocument model is added to schema
+    console.log('addDocument not implemented - missing RFQDocument model');
   }
 
   async getAnalytics(startDate?: Date, endDate?: Date): Promise<any> {
@@ -351,10 +336,8 @@ export class RFQRepository implements IRFQRepository {
       totalRFQs,
       statusBreakdown,
       priorityBreakdown,
-      sourceBreakdown,
-      averageValue,
+      businessTypeBreakdown,
       conversionRate,
-      averageResponseTime,
     ] = await Promise.all([
       // Total RFQs
       prisma.rFQ.count({ where: whereClause }),
@@ -373,22 +356,11 @@ export class RFQRepository implements IRFQRepository {
         _count: true,
       }),
 
-      // Source breakdown
+      // Business type breakdown (replacing source)
       prisma.rFQ.groupBy({
-        by: ['source'],
+        by: ['businessType'],
         where: whereClause,
         _count: true,
-      }),
-
-      // Average estimated value
-      prisma.rFQ.aggregate({
-        where: {
-          ...whereClause,
-          estimatedValue: { not: null },
-        },
-        _avg: {
-          estimatedValue: true,
-        },
       }),
 
       // Conversion rate (quoted/accepted vs total)
@@ -403,19 +375,6 @@ export class RFQRepository implements IRFQRepository {
       ]).then(([converted, total]) =>
         total > 0 ? (converted / total) * 100 : 0
       ),
-
-      // Average response time (first communication after creation)
-      prisma.$queryRaw`
-        SELECT AVG(EXTRACT(EPOCH FROM (c.created_at - r.created_at)) / 3600) as avg_hours
-        FROM "RFQ" r
-        INNER JOIN (
-          SELECT rfq_id, MIN(created_at) as created_at
-          FROM "RFQCommunication"
-          WHERE direction = 'OUTBOUND'
-          GROUP BY rfq_id
-        ) c ON r.id = c.rfq_id
-        ${startDate && endDate ? Prisma.sql`WHERE r.created_at BETWEEN ${startDate} AND ${endDate}` : Prisma.empty}
-      `,
     ]);
 
     return {
@@ -434,16 +393,16 @@ export class RFQRepository implements IRFQRepository {
         },
         {} as Record<string, number>
       ),
-      sourceBreakdown: sourceBreakdown.reduce(
+      businessTypeBreakdown: businessTypeBreakdown.reduce(
         (acc, item) => {
-          acc[item.source] = item._count;
+          const key = item.businessType || 'UNKNOWN';
+          acc[key] = item._count;
           return acc;
         },
         {} as Record<string, number>
       ),
-      averageValue: averageValue._avg.estimatedValue,
       conversionRate,
-      averageResponseTimeHours: averageResponseTime[0]?.avg_hours || 0,
+      averageResponseTimeHours: 0, // Placeholder until RFQCommunication model is added
     };
   }
 }

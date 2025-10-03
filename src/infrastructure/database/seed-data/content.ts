@@ -57,7 +57,7 @@ export const contentData: SeedContent[] = [
   {
     id: 'blog-vietnamese-coffee-culture',
     type: 'BLOG_POST',
-    category: 'CULTURE',
+    category: 'COFFEE_EDUCATION',
     status: 'PUBLISHED',
     slug: 'vietnamese-coffee-culture-tradition-innovation',
     title: 'Vietnamese Coffee Culture: Where Tradition Meets Innovation',
@@ -231,7 +231,7 @@ Vietnamese coffee culture continues to evolve, offering the world a unique persp
   {
     id: 'market-report-global-coffee-2024',
     type: 'MARKET_REPORT',
-    category: 'MARKET_ANALYSIS',
+    category: 'MARKET_INSIGHTS',
     status: 'PUBLISHED',
     slug: 'global-coffee-market-outlook-2024',
     title:
@@ -498,7 +498,7 @@ Companies that can navigate the challenges while capitalizing on emerging opport
   {
     id: 'origin-story-dak-lak-highlands',
     type: 'ORIGIN_STORY',
-    category: 'ORIGIN',
+    category: 'ORIGIN_STORIES',
     status: 'PUBLISHED',
     slug: 'dak-lak-highlands-coffee-origin-story',
     title: 'Dak Lak Highlands: The Heart of Vietnamese Coffee Excellence',
@@ -796,8 +796,8 @@ The Dak Lak Highlands represent the pinnacle of Vietnamese coffee excellence, wh
   },
   {
     id: 'company-news-sustainability-certification',
-    type: 'COMPANY_NEWS',
-    category: 'SUSTAINABILITY',
+    type: 'NEWS_ARTICLE',
+    category: 'COMPANY_NEWS',
     status: 'PUBLISHED',
     slug: 'great-beans-achieves-rainforest-alliance-certification',
     title:

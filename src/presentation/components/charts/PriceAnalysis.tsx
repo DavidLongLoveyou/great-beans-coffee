@@ -161,29 +161,37 @@ export function PriceAnalysis({
     const robustaValues = filteredData.map(d => d.robusta);
     const arabicaValues = filteredData.map(d => d.arabica);
 
-    const calculateStats = (values: number[]) => ({
-      current: values[values.length - 1],
-      min: Math.min(...values),
-      max: Math.max(...values),
-      avg: values.reduce((sum, val) => sum + val, 0) / values.length,
-      change:
-        values.length > 1
-          ? ((values[values.length - 1] - values[0]) / values[0]) * 100
-          : 0,
-    });
+    const calculateStats = (values: number[]) => {
+      const lastValue = values[values.length - 1];
+      const firstValue = values[0];
+      return {
+        current: lastValue || 0,
+        min: values.length > 0 ? Math.min(...values) : 0,
+        max: values.length > 0 ? Math.max(...values) : 0,
+        avg: values.length > 0 ? values.reduce((sum, val) => sum + val, 0) / values.length : 0,
+        change:
+          values.length > 1 && firstValue && lastValue && firstValue !== 0
+            ? ((lastValue - firstValue) / firstValue) * 100
+            : 0,
+      };
+    };
 
     return {
       robusta: calculateStats(robustaValues),
       arabica: calculateStats(arabicaValues),
       spread: {
         current:
-          arabicaValues[arabicaValues.length - 1] -
-          robustaValues[robustaValues.length - 1],
+          arabicaValues.length > 0 && robustaValues.length > 0
+            ? (arabicaValues[arabicaValues.length - 1] || 0) -
+              (robustaValues[robustaValues.length - 1] || 0)
+            : 0,
         avg:
-          arabicaValues.reduce(
-            (sum, val, i) => sum + (val - robustaValues[i]),
-            0
-          ) / arabicaValues.length,
+          arabicaValues.length > 0
+            ? arabicaValues.reduce(
+                (sum, val, i) => sum + (val - (robustaValues[i] || 0)),
+                0
+              ) / arabicaValues.length
+            : 0,
       },
     };
   }, [filteredData]);

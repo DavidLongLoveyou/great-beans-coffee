@@ -131,7 +131,7 @@ export class CloudinaryService {
         height,
         crop: 'fill',
         gravity: 'auto',
-        quality: 'auto:good',
+        quality: 'auto',
         format: 'auto',
         flags: ['progressive', 'immutable_cache'],
       },
@@ -160,7 +160,7 @@ export class CloudinaryService {
         height,
         crop: 'fill',
         gravity: 'center',
-        quality: 'auto:good',
+        quality: 'auto',
         background: 'white',
         format: 'auto',
       },
@@ -178,10 +178,10 @@ export class CloudinaryService {
     return this.getOptimizedImageUrl(publicId, {
       transformations: {
         width,
-        height,
+        ...(height && { height }),
         crop: height ? 'fill' : 'scale',
         gravity: 'auto',
-        quality: 'auto:good',
+        quality: 'auto',
         format: 'auto',
       },
     });
@@ -244,7 +244,8 @@ export const cloudinaryService = new CloudinaryService();
 
 // Utility functions for common use cases
 export const getOptimizedCoffeeImage = (publicId: string, size: 'small' | 'medium' | 'large' = 'medium') => {
-  return cloudinaryService.getProductImageUrl(publicId, size);
+  const mappedSize = size === 'small' ? 'thumbnail' : size;
+  return cloudinaryService.getProductImageUrl(publicId, mappedSize as 'thumbnail' | 'medium' | 'large');
 };
 
 export const getHeroCoffeeImage = (publicId: string) => {

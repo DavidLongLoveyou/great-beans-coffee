@@ -4,6 +4,9 @@ const logger = createScopedLogger('EmailService');
 
 export interface IEmailService {
   sendEmail(to: string, subject: string, content: string): Promise<boolean>;
+  sendRfqConfirmation(email: string, rfqNumber: string): Promise<boolean>;
+  sendRfqAdminNotification(rfqNumber: string, customerInfo: any): Promise<boolean>;
+  sendRfqStatusUpdate(email: string, rfqNumber: string, status: string): Promise<boolean>;
 }
 
 class EmailServiceImpl implements IEmailService {
@@ -47,6 +50,29 @@ class EmailServiceImpl implements IEmailService {
     `;
 
     return this.sendEmail(email, subject, content);
+  }
+
+  async sendRfqAdminNotification(
+    rfqNumber: string,
+    customerInfo: any
+  ): Promise<boolean> {
+    const subject = `New RFQ Received - ${rfqNumber}`;
+    const content = `
+      New RFQ Submission Alert
+      
+      RFQ Number: ${rfqNumber}
+      Customer: ${customerInfo.companyName}
+      Contact: ${customerInfo.contactPerson}
+      Email: ${customerInfo.email}
+      Phone: ${customerInfo.phone}
+      
+      Please review and respond promptly.
+      
+      Admin Dashboard: [Link to admin panel]
+    `;
+
+    // Send to admin email (this should be configurable)
+    return this.sendEmail('admin@greatbeans.com', subject, content);
   }
 
   async sendRfqStatusUpdate(

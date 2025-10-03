@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, UserRole, ClientStatus, ServiceType, CoffeeType, CoffeeGrade, ProcessingMethod, ContentType, ContentStatus } from '@prisma/client';
 
 import {
   CLUSTER_PRODUCTS,
@@ -106,25 +106,25 @@ export class DatabaseSeeders {
   /**
    * Map seed user roles to Prisma UserRole enum values
    */
-  private mapUserRole(seedRole: string): string {
-    const roleMapping: Record<string, string> = {
-      SUPER_ADMIN: 'ADMIN',
-      ADMIN: 'ADMIN',
-      SALES_MANAGER: 'MANAGER',
-      SALES_REP: 'SALES',
-      ACCOUNT_MANAGER: 'MANAGER',
-      QUALITY_MANAGER: 'MANAGER',
-      LOGISTICS_COORDINATOR: 'USER',
-      CONTENT_MANAGER: 'CONTENT_MANAGER',
-      MARKETING_MANAGER: 'MANAGER',
-      FINANCE_MANAGER: 'MANAGER',
-      CUSTOMER_SERVICE: 'USER',
-      VIEWER: 'USER',
-      CLIENT: 'USER',
-      ANALYST: 'USER',
+  private mapUserRole(seedRole: string): UserRole {
+    const roleMapping: Record<string, UserRole> = {
+      SUPER_ADMIN: UserRole.ADMIN,
+      ADMIN: UserRole.ADMIN,
+      SALES_MANAGER: UserRole.MANAGER,
+      SALES_REP: UserRole.SALES,
+      ACCOUNT_MANAGER: UserRole.SALES,
+      QUALITY_MANAGER: UserRole.MANAGER,
+      LOGISTICS_COORDINATOR: UserRole.USER,
+      CONTENT_MANAGER: UserRole.CONTENT_MANAGER,
+      MARKETING_MANAGER: UserRole.MANAGER,
+      FINANCE_MANAGER: UserRole.MANAGER,
+      CUSTOMER_SERVICE: UserRole.USER,
+      VIEWER: UserRole.USER,
+      CLIENT: UserRole.USER, // Map CLIENT to USER as it's not in enum
+      ANALYST: UserRole.USER, // Map ANALYST to USER as it's not in enum
     };
 
-    return roleMapping[seedRole] || 'USER';
+    return roleMapping[seedRole] || UserRole.USER;
   }
 
   /**
@@ -156,7 +156,7 @@ export class DatabaseSeeders {
         email: userData.email,
         name: `${userData.firstName} ${userData.lastName}`,
         role: this.mapUserRole(userData.role),
-        avatar: userData.avatar,
+        avatar: userData.avatar || null,
         isActive: userData.isActive,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -187,15 +187,15 @@ export class DatabaseSeeders {
         name: companyData.tradingName || companyData.legalName,
         email: companyData.email,
         phone: companyData.phone,
-        website: companyData.website,
+        website: companyData.website || null,
         industry: companyData.industry,
         companySize: companyData.size,
-        country: companyData.addresses?.[0]?.country,
-        city: companyData.addresses?.[0]?.city,
-        address: companyData.addresses?.[0]?.street,
-        postalCode: companyData.addresses?.[0]?.postalCode,
+        country: companyData.addresses?.[0]?.country || null,
+        city: companyData.addresses?.[0]?.city || null,
+        address: companyData.addresses?.[0]?.street || null,
+        postalCode: companyData.addresses?.[0]?.postalCode || null,
         notes: `${companyData.description}\n\nBusiness Model: ${companyData.businessModel}\nEstablished: ${companyData.businessProfile?.yearEstablished}`,
-        status: 'ACTIVE',
+        status: ClientStatus.ACTIVE,
         source: 'SEED_DATA',
         assignedTo: companyData.createdBy,
         createdAt: new Date(),
@@ -215,6 +215,133 @@ export class DatabaseSeeders {
   }
 
   /**
+   * Map seed service type to Prisma ServiceType enum
+   */
+  private mapServiceTypeFromSeed(seedType: string): ServiceType {
+    const typeMapping: Record<string, ServiceType> = {
+      'PRIVATE_LABEL': ServiceType.PRIVATE_LABEL,
+      'OEM_MANUFACTURING': ServiceType.OEM_MANUFACTURING,
+      'QUALITY_CONTROL': ServiceType.QUALITY_CONTROL,
+      'CUSTOM_BLENDING': ServiceType.CUSTOM_BLENDING,
+      'COFFEE_SOURCING': ServiceType.SOURCING,
+      'LOGISTICS_SHIPPING': ServiceType.LOGISTICS,
+      'MARKET_CONSULTING': ServiceType.CONSULTING,
+      'PACKAGING_DESIGN': ServiceType.PACKAGING,
+      'CERTIFICATION_SUPPORT': ServiceType.CONSULTING,
+      'SUPPLY_CHAIN_MANAGEMENT': ServiceType.LOGISTICS,
+    };
+
+    return typeMapping[seedType] || ServiceType.CONSULTING;
+  }
+
+  /**
+   * Map seed coffee type to Prisma CoffeeType enum
+   */
+  private mapCoffeeTypeFromSeed(seedType: string): CoffeeType {
+    switch (seedType) {
+      case 'ROBUSTA':
+        return CoffeeType.ROBUSTA;
+      case 'ARABICA':
+        return CoffeeType.ARABICA;
+      case 'BLEND':
+        return CoffeeType.BLEND;
+      case 'INSTANT':
+        return CoffeeType.SPECIALTY; // Map INSTANT to SPECIALTY since INSTANT doesn't exist in Prisma
+      default:
+        return CoffeeType.BLEND;
+    }
+  }
+
+  private mapCoffeeGradeFromSeed(seedGrade: string): CoffeeGrade {
+    switch (seedGrade) {
+      case 'GRADE_1':
+        return CoffeeGrade.GRADE_1;
+      case 'GRADE_2':
+        return CoffeeGrade.GRADE_2;
+      case 'GRADE_3':
+        return CoffeeGrade.GRADE_3;
+      case 'COMMERCIAL':
+        return CoffeeGrade.GRADE_2; // Map COMMERCIAL to GRADE_2
+      case 'SCREEN_18':
+      case 'SCREEN_16':
+      case 'SCREEN_13':
+        return CoffeeGrade.PREMIUM; // Map screen sizes to PREMIUM
+      case 'SPECIALTY':
+        return CoffeeGrade.SPECIALTY;
+      default:
+        return CoffeeGrade.GRADE_2;
+    }
+  }
+
+  private mapProcessingMethodFromSeed(seedMethod: string): ProcessingMethod {
+    switch (seedMethod) {
+      case 'NATURAL':
+        return ProcessingMethod.NATURAL;
+      case 'WASHED':
+        return ProcessingMethod.WASHED;
+      case 'HONEY':
+        return ProcessingMethod.HONEY;
+      case 'WET_HULLED':
+        return ProcessingMethod.WET_HULLED;
+      case 'SEMI_WASHED':
+        return ProcessingMethod.SEMI_WASHED;
+      case 'MIXED':
+        return ProcessingMethod.MIXED;
+      default:
+        return ProcessingMethod.WASHED;
+    }
+  }
+
+  private mapContentTypeFromSeed(seedType: string): ContentType {
+    switch (seedType.toLowerCase()) {
+      case 'page':
+        return ContentType.PAGE;
+      case 'blog_post':
+      case 'blog':
+      case 'article':
+        return ContentType.BLOG_POST;
+      case 'market_report':
+      case 'report':
+        return ContentType.MARKET_REPORT;
+      case 'origin_story':
+      case 'story':
+        return ContentType.ORIGIN_STORY;
+      case 'service_page':
+      case 'service':
+        return ContentType.SERVICE_PAGE;
+      case 'product_description':
+      case 'product':
+        return ContentType.PRODUCT_DESCRIPTION;
+      case 'faq':
+        return ContentType.FAQ;
+      case 'testimonial':
+        return ContentType.TESTIMONIAL;
+      default:
+        return ContentType.BLOG_POST;
+    }
+  }
+
+  private mapContentStatusFromSeed(seedStatus: string): ContentStatus {
+    switch (seedStatus.toLowerCase()) {
+      case 'draft':
+        return ContentStatus.DRAFT;
+      case 'in_review':
+      case 'review':
+        return ContentStatus.IN_REVIEW;
+      case 'approved':
+        return ContentStatus.APPROVED;
+      case 'published':
+        return ContentStatus.PUBLISHED;
+      case 'archived':
+        return ContentStatus.ARCHIVED;
+      case 'rejected':
+        return ContentStatus.REJECTED;
+      default:
+        return ContentStatus.PUBLISHED;
+    }
+  }
+
+  /**
    * Seed business services
    */
   async seedBusinessServices(): Promise<void> {
@@ -223,32 +350,35 @@ export class DatabaseSeeders {
     );
 
     for (const serviceData of businessServicesData) {
+      // Get English translation for basic fields
+      const enTranslation = serviceData.translations.en;
+      
       const service = {
         id: serviceData.id,
-        name: serviceData.name,
-        slug: serviceData.slug,
-        type: serviceData.type,
+        name: enTranslation?.name || serviceData.serviceCode,
+        slug: serviceData.serviceCode.toLowerCase().replace(/_/g, '-'),
+        type: this.mapServiceTypeFromSeed(serviceData.type),
         category: serviceData.category,
-        description: serviceData.description,
-        shortDescription: serviceData.shortDescription,
-        features: serviceData.features,
-        benefits: serviceData.benefits,
+        description: enTranslation?.description || '',
+        shortDescription: enTranslation?.shortDescription || '',
+        features: enTranslation?.features || [],
+        benefits: enTranslation?.benefits || [],
         pricing: serviceData.pricing,
         deliveryTimeline: serviceData.deliveryTimeline,
         requirements: serviceData.requirements,
         capabilities: serviceData.capabilities,
         processSteps: serviceData.processSteps,
-        qualityStandards: serviceData.qualityStandards,
-        certifications: serviceData.certifications,
+        qualityStandards: [],
+        certifications: [],
         translations: serviceData.translations,
         images: serviceData.images,
         documents: serviceData.documents,
         tags: serviceData.tags,
-        relatedServices: serviceData.relatedServices,
+        relatedServices: [],
         isActive: serviceData.isActive,
         isFeatured: serviceData.isFeatured,
-        sortOrder: serviceData.sortOrder,
-        seo: serviceData.seo,
+        sortOrder: 0,
+        seo: {},
         createdBy: serviceData.createdBy,
         updatedBy: serviceData.updatedBy,
         createdAt: new Date(),
@@ -278,17 +408,17 @@ export class DatabaseSeeders {
       const product = {
         id: productData.id,
         sku: productData.sku,
-        coffeeType: productData.coffeeType,
-        grade: productData.grade,
-        processing: this.mapProcessingMethod(productData.processing),
-        origin: productData.originInfo?.country || 'Vietnam', // Extract origin from originInfo
+        coffeeType: this.mapCoffeeTypeFromSeed(productData.coffeeType),
+        grade: this.mapCoffeeGradeFromSeed(productData.grade),
+        processing: this.mapProcessingMethodFromSeed(productData.processing),
+        origin: productData.originInfo?.region || 'Vietnam', // Extract origin from originInfo
         region: productData.originInfo?.region,
         farm: productData.originInfo?.farm,
         altitude: productData.originInfo?.altitude,
-        harvestSeason: productData.originInfo?.harvestSeason,
+        harvestSeason: productData.availability?.harvestSeason,
         isActive: productData.isActive,
         isFeatured: productData.isFeatured,
-        sortOrder: productData.sortOrder || 0,
+        sortOrder: 0,
 
         // Store complex data as JSON
         specifications: productData.specifications,
@@ -333,32 +463,34 @@ export class DatabaseSeeders {
         status: contentItem.status,
         title: contentItem.title,
         slug: contentItem.slug,
-        excerpt: contentItem.excerpt,
-        content: contentItem.content,
-        featuredImage: contentItem.featuredImage,
+        excerpt: contentItem.excerpt || null,
+        content: contentItem.content || '',
+        metaTitle: contentItem.metaTitle || null,
+        metaDescription: contentItem.metaDescription || null,
+        keywords: contentItem.keywords || null,
+        featuredImage: contentItem.featuredImage || null,
         images: contentItem.images,
-        videos: contentItem.videos,
-        documents: contentItem.documents,
         translations: contentItem.translations,
         seo: contentItem.seo,
         tags: contentItem.tags,
         relatedContent: contentItem.relatedContent,
-        authorId: contentItem.authorId,
         publishedAt: contentItem.publishedAt
           ? new Date(contentItem.publishedAt)
           : null,
         scheduledAt: contentItem.scheduledAt
           ? new Date(contentItem.scheduledAt)
           : null,
-        isActive: contentItem.isActive,
-        isFeatured: contentItem.isFeatured,
-        sortOrder: contentItem.sortOrder,
+        readingTime: contentItem.readingTime,
         viewCount: contentItem.viewCount,
         shareCount: contentItem.shareCount,
+        isFeatured: contentItem.isFeatured,
+        isSticky: contentItem.isSticky,
+        authorId: contentItem.createdBy, // Use createdBy as authorId
         createdBy: contentItem.createdBy,
         updatedBy: contentItem.updatedBy,
         createdAt: new Date(),
         updatedAt: new Date(),
+        locale: 'en', // Add required locale field
       };
 
       await this.prisma.content.upsert({
@@ -381,34 +513,28 @@ export class DatabaseSeeders {
       const rfq = {
         id: rfqData.id,
         rfqNumber: rfqData.rfqNumber,
+        clientId: rfqData.clientCompanyId,
         status: rfqData.status,
         priority: rfqData.priority,
-        type: rfqData.type,
-        companyId: rfqData.companyId,
-        companyName: rfqData.companyName,
-        contactPerson: rfqData.contactPerson,
-        email: rfqData.email,
-        phone: rfqData.phone,
-        country: rfqData.country,
-        businessType: rfqData.businessType,
-        products: rfqData.products,
-        services: rfqData.services,
-        requirements: rfqData.requirements,
-        budget: rfqData.budget,
-        shipping: rfqData.shipping,
-        timeline: rfqData.timeline,
-        communication: rfqData.communication,
-        attachments: rfqData.attachments,
-        tags: rfqData.tags,
-        notes: rfqData.notes,
-        assignedTo: rfqData.assignedTo,
-        followUpDate: rfqData.followUpDate
-          ? new Date(rfqData.followUpDate)
-          : null,
-        expiryDate: rfqData.expiryDate ? new Date(rfqData.expiryDate) : null,
-        isActive: rfqData.isActive,
+        companyName: rfqData.title, // Use title as company name for now
+        contactPerson: 'Contact Person', // Default value
+        email: 'contact@example.com', // Default value
+        phone: '+84-123-456-789', // Default value
+        country: rfqData.shipping?.destination?.country || 'Vietnam',
+        businessType: 'Coffee Trading',
+        productRequirements: rfqData.requirements,
+        deliveryRequirements: rfqData.shipping,
+        paymentRequirements: rfqData.budget,
+        additionalRequirements: rfqData.description,
+        totalValue: rfqData.budget?.estimatedValue,
+        currency: rfqData.budget?.currency || 'USD',
+        incoterms: rfqData.shipping?.incoterms,
+        destination: rfqData.shipping?.destination?.city,
+        deadline: rfqData.timeline?.responseDeadline ? new Date(rfqData.timeline.responseDeadline) : null,
+        assignedTo: rfqData.assignedTo || null,
         createdBy: rfqData.createdBy,
         updatedBy: rfqData.updatedBy,
+        notes: `Tags: ${rfqData.tags?.join(', ')}`,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -451,9 +577,9 @@ export class DatabaseSeeders {
         const product = {
           id: productData.id,
           sku: productData.id.toUpperCase(),
-          coffeeType: productData.grade === 'specialty' ? 'ARABICA' : 'ROBUSTA',
-          grade: this.mapCoffeeGrade(productData.grade),
-          processing: this.mapProcessingMethod(productData.processingMethod),
+          coffeeType: productData.grade === 'specialty' ? CoffeeType.ARABICA : CoffeeType.ROBUSTA,
+          grade: this.mapCoffeeGradeFromSeed(productData.grade),
+          processing: this.mapProcessingMethodFromSeed(productData.processingMethod),
           origin: productData.origin.country,
           region: productData.origin.region,
           farm: null,
@@ -495,6 +621,7 @@ export class DatabaseSeeders {
         const translation = {
           productId: product.id,
           locale: 'en',
+          slug: productData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
           name: productData.name,
           description: productData.description,
           shortDescription: productData.description.substring(0, 150) + '...',
@@ -535,7 +662,7 @@ export class DatabaseSeeders {
           id: serviceData.id,
           name: serviceData.name,
           slug: serviceData.id,
-          type: this.mapServiceType(serviceData.category),
+          type: this.mapServiceTypeFromSeed(serviceData.category),
           category: serviceData.category,
           description: serviceData.description,
           shortDescription: serviceData.description.substring(0, 150) + '...',
@@ -573,6 +700,7 @@ export class DatabaseSeeders {
         const translation = {
           serviceId: service.id,
           locale: 'en',
+          slug: serviceData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
           name: serviceData.name,
           description: serviceData.description,
           shortDescription: service.shortDescription,
@@ -605,9 +733,10 @@ export class DatabaseSeeders {
       for (const articleData of articles) {
         const article = {
           id: articleData.id,
-          type: 'BLOG_POST',
+          locale: 'en',
+          type: this.mapContentTypeFromSeed('blog_post'),
           category: articleData.category,
-          status: 'PUBLISHED',
+          status: this.mapContentStatusFromSeed('published'),
           title: articleData.title,
           slug: articleData.id,
           excerpt: articleData.excerpt,

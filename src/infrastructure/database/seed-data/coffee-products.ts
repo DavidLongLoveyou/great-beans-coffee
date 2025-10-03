@@ -321,7 +321,7 @@ export const coffeeProductsData: SeedCoffeeProduct[] = [
     id: 'arabica-premium-da-lat',
     sku: 'TGB-ARA-PREM-003',
     coffeeType: 'ARABICA',
-    grade: 'PREMIUM',
+    grade: 'SPECIALTY',
     processing: 'WASHED',
     certifications: ['ORGANIC', 'UTZ'],
     specifications: {
@@ -447,8 +447,8 @@ export const coffeeProductsData: SeedCoffeeProduct[] = [
     id: 'blend-signature-vietnamese',
     sku: 'BLEND-SIG-VN-001',
     coffeeType: 'BLEND',
-    grade: 'PREMIUM',
-    processing: 'MIXED',
+    grade: 'SPECIALTY',
+    processing: 'NATURAL',
     certifications: ['RAINFOREST_ALLIANCE', 'UTZ'],
     specifications: {
       moisture: '12.0%',

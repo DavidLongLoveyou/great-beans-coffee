@@ -53,6 +53,10 @@ export interface MockProduct {
   certifications?: string[];
   processingMethod?: string;
   harvestSeason?: string;
+  images?: Array<{
+    url: string;
+    alt: string;
+  }>;
   cupping?: {
     aroma: number;
     flavor: number;
@@ -246,7 +250,7 @@ export class ContentManager {
       .filter(page => page.locale === locale)
       .sort(
         (a, b) =>
-          new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
+          new Date(b.lastModified).getTime() - new Date(a.lastModified).getTime()
       );
   }
 
@@ -258,7 +262,7 @@ export class ContentManager {
     pageType: string
   ): LegalPage | undefined {
     return allLegalPages.find(
-      page => page.locale === locale && page.pageType === pageType
+      page => page.locale === locale && page.legalType === pageType
     );
   }
 
@@ -322,7 +326,7 @@ export class ContentManager {
         report =>
           report.title.toLowerCase().includes(searchTerm) ||
           report.description.toLowerCase().includes(searchTerm) ||
-          report.excerpt.toLowerCase().includes(searchTerm) ||
+          report.excerpt?.toLowerCase().includes(searchTerm) ||
           report.tags?.some(tag => tag.toLowerCase().includes(searchTerm))
       )
       .map(
@@ -333,12 +337,12 @@ export class ContentManager {
           locale: report.locale as Locale,
           url: report.url,
           publishedAt: report.publishedAt,
-          featured: report.featured,
+          featured: report.featured || false,
           category: report.category,
-          tags: report.tags,
-          excerpt: report.excerpt,
-          readingTime: report.readingTime,
-          coverImage: report.coverImage,
+          ...(report.tags && { tags: report.tags }),
+          ...(report.excerpt && { excerpt: report.excerpt }),
+          ...(report.readingTime && { readingTime: report.readingTime }),
+          ...(report.coverImage && { coverImage: report.coverImage }),
         })
       );
 
@@ -348,9 +352,9 @@ export class ContentManager {
         story =>
           story.title.toLowerCase().includes(searchTerm) ||
           story.description.toLowerCase().includes(searchTerm) ||
-          story.excerpt.toLowerCase().includes(searchTerm) ||
-          story.region.toLowerCase().includes(searchTerm) ||
-          story.province.toLowerCase().includes(searchTerm)
+          story.excerpt?.toLowerCase().includes(searchTerm) ||
+          story.region?.toLowerCase().includes(searchTerm) ||
+          story.province?.toLowerCase().includes(searchTerm)
       )
       .map(
         (story): ContentItem => ({
@@ -360,10 +364,12 @@ export class ContentManager {
           locale: story.locale as Locale,
           url: story.url,
           publishedAt: story.publishedAt,
-          featured: story.featured,
-          excerpt: story.excerpt,
-          readingTime: story.readingTime,
-          coverImage: story.coverImage,
+          featured: story.featured || false,
+          ...(story.coffeeVariety && { category: story.coffeeVariety }),
+          ...(story.tags && { tags: story.tags }),
+          ...(story.excerpt && { excerpt: story.excerpt }),
+          ...(story.readingTime && { readingTime: story.readingTime }),
+          ...(story.coverImage && { coverImage: story.coverImage }),
         })
       );
 
@@ -373,7 +379,7 @@ export class ContentManager {
         post =>
           post.title.toLowerCase().includes(searchTerm) ||
           post.description.toLowerCase().includes(searchTerm) ||
-          post.excerpt.toLowerCase().includes(searchTerm) ||
+          post.excerpt?.toLowerCase().includes(searchTerm) ||
           post.tags?.some(tag => tag.toLowerCase().includes(searchTerm))
       )
       .map(
@@ -384,12 +390,12 @@ export class ContentManager {
           locale: post.locale as Locale,
           url: post.url,
           publishedAt: post.publishedAt,
-          featured: post.featured,
+          featured: post.featured || false,
           category: post.category,
-          tags: post.tags,
-          excerpt: post.excerpt,
-          readingTime: post.readingTime,
-          coverImage: post.coverImage,
+          ...(post.tags && { tags: post.tags }),
+          ...(post.excerpt && { excerpt: post.excerpt }),
+          ...(post.readingTime && { readingTime: post.readingTime }),
+          ...(post.coverImage && { coverImage: post.coverImage }),
         })
       );
 
@@ -399,7 +405,7 @@ export class ContentManager {
         service =>
           service.title.toLowerCase().includes(searchTerm) ||
           service.description.toLowerCase().includes(searchTerm) ||
-          service.excerpt.toLowerCase().includes(searchTerm) ||
+          service.excerpt?.toLowerCase().includes(searchTerm) ||
           service.benefits?.some(benefit =>
             benefit.toLowerCase().includes(searchTerm)
           ) ||
@@ -414,10 +420,12 @@ export class ContentManager {
           description: service.description,
           locale: service.locale as Locale,
           url: service.url,
-          featured: service.featured,
-          excerpt: service.excerpt,
-          readingTime: service.readingTime,
-          coverImage: service.coverImage,
+          featured: service.featured || false,
+          ...(service.serviceType && { category: service.serviceType }),
+          ...(service.tags && { tags: service.tags }),
+          ...(service.excerpt && { excerpt: service.excerpt }),
+          ...(service.readingTime && { readingTime: service.readingTime }),
+          ...(service.coverImage && { coverImage: service.coverImage }),
         })
       );
 
@@ -523,7 +531,7 @@ export class ContentManager {
     allLegalPages.forEach(page => {
       sitemapEntries.push({
         url: page.url,
-        lastModified: new Date(page.lastUpdated),
+        lastModified: new Date(page.lastModified),
         changeFrequency: 'yearly',
         priority: 0.3,
       });
@@ -563,7 +571,7 @@ export class ContentManager {
   /**
    * Get related content for a cluster (mock implementation for now)
    */
-  static async getRelatedContent(
+  static async getClusterContent(
     clusterSlug: string,
     limit = 6
   ): Promise<ContentItem[]> {
@@ -684,7 +692,7 @@ export class ContentManager {
       },
     };
 
-    return productIds.map(id => mockProducts[id]).filter(Boolean);
+    return productIds.map(id => mockProducts[id]).filter(Boolean) as MockProduct[];
   }
 
   /**
@@ -699,40 +707,46 @@ export class ContentManager {
         name: 'Coffee Sourcing',
         shortDescription:
           "Expert sourcing from Vietnam's finest coffee regions with full traceability.",
+        category: 'sourcing',
       },
       'private-label': {
         id: 'private-label',
         name: 'Private Label Manufacturing',
         shortDescription:
           'Complete private label solutions from bean selection to custom packaging.',
+        category: 'manufacturing',
       },
       'oem-manufacturing': {
         id: 'oem-manufacturing',
         name: 'OEM Manufacturing',
         shortDescription:
           'Custom coffee production with your brand specifications and quality standards.',
+        category: 'manufacturing',
       },
       logistics: {
         id: 'logistics',
         name: 'Logistics & Shipping',
         shortDescription:
           'End-to-end logistics solutions with competitive freight rates worldwide.',
+        category: 'logistics',
       },
       'quality-control': {
         id: 'quality-control',
         name: 'Quality Control',
         shortDescription:
           'Rigorous testing and certification processes ensuring consistent quality.',
+        category: 'quality',
       },
       consulting: {
         id: 'consulting',
         name: 'Market Consulting',
         shortDescription:
           'Strategic insights and consulting for the Vietnamese coffee market.',
+        category: 'consulting',
       },
     };
 
-    return serviceIds.map(id => mockServices[id]).filter(Boolean);
+    return serviceIds.map(id => mockServices[id]).filter(Boolean) as MockService[];
   }
 }
 

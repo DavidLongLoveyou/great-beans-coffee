@@ -652,7 +652,7 @@ export const clientCompaniesData: SeedClientCompany[] = [
     companyCode: 'AUS-CAFE-001',
     legalName: 'Southern Cross Coffee Pty Ltd',
     tradingName: 'Southern Cross Cafes',
-    type: 'CAFE_CHAIN',
+    type: 'RETAILER',
     size: 'MEDIUM',
     businessModel: 'B2C',
     industry: 'Coffee Retail and Food Service',

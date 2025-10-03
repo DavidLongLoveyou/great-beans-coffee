@@ -31,7 +31,8 @@ import {
 // Infrastructure repositories
 import { CoffeeProductRepository } from '@/infrastructure/database/repositories/coffee-product.repository';
 import { ContentRepository } from '@/infrastructure/database/repositories/content.repository';
-import { RFQRepository } from '@/infrastructure/database/repositories/rfq.repository';
+import { RFQRepositoryAdapter } from '@/infrastructure/database/repositories/rfq-repository-adapter';
+import type { IRFQRepository } from '@/domain/repositories/rfq.repository';
 
 // Database connection
 
@@ -41,7 +42,7 @@ class DIContainer {
 
   // Repositories
   private _coffeeProductRepository: CoffeeProductRepository | null = null;
-  private _rfqRepository: RFQRepository | null = null;
+  private _rfqRepository: IRFQRepository | null = null;
   private _contentRepository: ContentRepository | null = null;
 
   // Services
@@ -90,14 +91,14 @@ class DIContainer {
   // Repositories
   get coffeeProductRepository(): CoffeeProductRepository {
     if (!this._coffeeProductRepository) {
-      this._coffeeProductRepository = new CoffeeProductRepository(this.prisma);
+      this._coffeeProductRepository = new CoffeeProductRepository();
     }
     return this._coffeeProductRepository;
   }
 
-  get rfqRepository(): RFQRepository {
+  get rfqRepository(): IRFQRepository {
     if (!this._rfqRepository) {
-      this._rfqRepository = new RFQRepository();
+      this._rfqRepository = new RFQRepositoryAdapter();
     }
     return this._rfqRepository;
   }

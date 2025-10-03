@@ -89,11 +89,11 @@ export function validateSeedData(): { isValid: boolean; errors: string[] } {
   rfqsData.forEach(rfq => {
     // Check if client company exists
     if (
-      rfq.clientCompany &&
-      !clientCompaniesData.find(c => c.id === rfq.clientCompany.id)
+      rfq.clientCompanyId &&
+      !clientCompaniesData.find(c => c.id === rfq.clientCompanyId)
     ) {
       errors.push(
-        `RFQ ${rfq.id} references non-existent client company: ${rfq.clientCompany.id}`
+        `RFQ ${rfq.id} references non-existent client company: ${rfq.clientCompanyId}`
       );
     }
 

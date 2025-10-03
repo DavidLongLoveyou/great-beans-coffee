@@ -274,9 +274,9 @@ export default function Header({ locale }: Props) {
         {/* CTA Button */}
         <div className="hidden md:flex items-center space-x-4">
           <Button 
-            variant="emerald" 
+            variant="default" 
             size="sm" 
-            className="h-11 px-6 font-semibold shadow-emerald-soft hover:shadow-emerald-medium transition-all duration-300"
+            className="h-11 px-6 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
             asChild
           >
             <Link href={`/${locale}/quote`}>

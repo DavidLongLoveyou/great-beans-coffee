@@ -7,3 +7,6 @@
 // export * from './content-published.event';
 // export * from './user-registered.event';
 // export * from './seo-updated.event';
+
+// Placeholder export to avoid empty module error
+export const DOMAIN_EVENTS_PLACEHOLDER = 'domain-events-placeholder';

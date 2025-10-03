@@ -15,6 +15,9 @@ export function middleware(request: NextRequest) {
       new URL(`/en${pathname.startsWith('/') ? '' : '/'}${pathname}`, request.url)
     );
   }
+
+  // Continue with the request if locale is present
+  return NextResponse.next();
 }
 
 export const config = {

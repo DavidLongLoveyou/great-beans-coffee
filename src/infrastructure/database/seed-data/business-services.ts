@@ -67,7 +67,7 @@ export const businessServicesData: SeedBusinessService[] = [
   {
     id: 'oem-coffee-manufacturing',
     serviceCode: 'OEM-COFFEE-001',
-    type: 'OEM',
+    type: 'OEM_MANUFACTURING',
     category: 'MANUFACTURING',
     pricingModel: 'VOLUME_BASED',
     pricing: {
@@ -323,7 +323,7 @@ export const businessServicesData: SeedBusinessService[] = [
     serviceCode: 'PL-COFFEE-001',
     type: 'PRIVATE_LABEL',
     category: 'BRANDING',
-    pricingModel: 'TIERED',
+    pricingModel: 'VOLUME_BASED',
     pricing: {
       basePrice: 4200,
       currency: 'USD',
@@ -528,8 +528,8 @@ export const businessServicesData: SeedBusinessService[] = [
   {
     id: 'sourcing-consulting',
     serviceCode: 'CONSULT-SOURCING-001',
-    type: 'CONSULTING',
-    category: 'SOURCING',
+    type: 'MARKET_CONSULTING',
+    category: 'CONSULTING',
     pricingModel: 'PROJECT_BASED',
     pricing: {
       basePrice: 15000,

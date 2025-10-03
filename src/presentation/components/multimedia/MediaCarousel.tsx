@@ -87,7 +87,7 @@ export function MediaCarousel({
 
   // Get unique categories and types
   const categories = Array.from(
-    new Set(items.map(item => item.category).filter(Boolean))
+    new Set(items.map(item => item.category).filter((cat): cat is string => Boolean(cat)))
   );
   const types = Array.from(new Set(items.map(item => item.type)));
 
@@ -99,6 +99,7 @@ export function MediaCarousel({
       }, autoPlayInterval);
       return () => clearInterval(interval);
     }
+    return undefined;
   }, [isPlaying, viewMode, filteredItems.length, autoPlayInterval]);
 
   const currentItem = filteredItems[currentIndex];
@@ -130,7 +131,7 @@ export function MediaCarousel({
       try {
         await navigator.share({
           title: item.title || 'Media',
-          text: item.description,
+          text: item.description || item.title || 'Media',
           url: window.location.href,
         });
       } catch (error) {
@@ -411,10 +412,11 @@ export function MediaCarousel({
       </div>
 
       {/* Main Media Display */}
-      <Card>
-        <CardContent className="p-0">
-          <div className="relative">
-            {currentItem.type === 'image' ? (
+      {currentItem && (
+        <Card>
+          <CardContent className="p-0">
+            <div className="relative">
+              {currentItem.type === 'image' ? (
               <ImageGallery
                 images={filteredItems
                   .filter(item => item.type === 'image')
@@ -486,6 +488,7 @@ export function MediaCarousel({
           </div>
         </CardContent>
       </Card>
+      )}
 
       {/* Thumbnails for mixed content */}
       {showThumbnails && filteredItems.length > 1 && (

@@ -4,15 +4,13 @@ import { CoffeeTypeSchema, CertificationSchema } from './coffee-product.entity';
 
 // RFQ Status Enum
 export const RFQStatusSchema = z.enum([
-  'DRAFT',
-  'SUBMITTED',
-  'UNDER_REVIEW',
+  'PENDING',
+  'IN_REVIEW',
   'QUOTED',
   'NEGOTIATING',
   'ACCEPTED',
   'REJECTED',
   'EXPIRED',
-  'CANCELLED',
 ]);
 
 // RFQ Priority Enum
@@ -172,14 +170,6 @@ export const RFQSchema = z.object({
   // RFQ Status & Metadata
   status: RFQStatusSchema,
   priority: RFQPrioritySchema,
-  source: z.enum([
-    'WEBSITE',
-    'EMAIL',
-    'PHONE',
-    'TRADE_SHOW',
-    'REFERRAL',
-    'SOCIAL_MEDIA',
-  ]),
 
   // Requirements
   productRequirements: ProductRequirementsSchema,
@@ -226,6 +216,10 @@ export type RFQStatus = z.infer<typeof RFQStatusSchema>;
 export type RFQPriority = z.infer<typeof RFQPrioritySchema>;
 export type PackagingType = z.infer<typeof PackagingTypeSchema>;
 export type Incoterms = z.infer<typeof IncotermsSchema>;
+
+// Aliases for seed data compatibility
+export type Priority = RFQPriority;
+export type ShippingTerms = Incoterms;
 export type ProductRequirements = z.infer<typeof ProductRequirementsSchema>;
 export type QuantityRequirements = z.infer<typeof QuantityRequirementsSchema>;
 export type DeliveryRequirements = z.infer<typeof DeliveryRequirementsSchema>;

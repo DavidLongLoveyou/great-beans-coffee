@@ -66,7 +66,7 @@ export function ImageGallery({
 
   // Get unique categories
   const categories = Array.from(
-    new Set(images.map(img => img.category).filter(Boolean))
+    new Set(images.map(img => img.category).filter((cat): cat is string => Boolean(cat)))
   );
 
   // Auto-play functionality
@@ -77,6 +77,7 @@ export function ImageGallery({
       }, autoPlayInterval);
       return () => clearInterval(interval);
     }
+    return undefined;
   }, [isPlaying, filteredImages.length, autoPlayInterval]);
 
   const currentImage = filteredImages[currentIndex];
@@ -124,7 +125,7 @@ export function ImageGallery({
       try {
         await navigator.share({
           title: image.title || image.alt,
-          text: image.description,
+          text: image.description || image.alt,
           url: image.src,
         });
       } catch (error) {
@@ -177,17 +178,18 @@ export function ImageGallery({
       )}
 
       {/* Main Gallery */}
-      <Card>
-        <CardContent className="p-0">
-          {/* Main Image */}
-          <div className="relative aspect-video overflow-hidden bg-gray-100">
-            <Image
-              src={currentImage.src}
-              alt={currentImage.alt}
-              fill
-              className="cursor-pointer object-cover transition-transform hover:scale-105"
-              onClick={() => openLightbox(currentIndex)}
-            />
+      {currentImage && (
+        <Card>
+          <CardContent className="p-0">
+            {/* Main Image */}
+            <div className="relative aspect-video overflow-hidden bg-gray-100">
+              <Image
+                src={currentImage.src}
+                alt={currentImage.alt}
+                fill
+                className="cursor-pointer object-cover transition-transform hover:scale-105"
+                onClick={() => openLightbox(currentIndex)}
+              />
 
             {/* Navigation Arrows */}
             {filteredImages.length > 1 && (
@@ -285,6 +287,7 @@ export function ImageGallery({
           </div>
         </CardContent>
       </Card>
+      )}
 
       {/* Thumbnails */}
       {showThumbnails && filteredImages.length > 1 && (
@@ -311,7 +314,7 @@ export function ImageGallery({
       )}
 
       {/* Lightbox */}
-      {isLightboxOpen && (
+      {isLightboxOpen && currentImage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
           <div className="relative max-h-full max-w-7xl">
             {/* Close Button */}

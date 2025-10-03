@@ -103,7 +103,12 @@ export const rfqsData: SeedRFQ[] = [
       ],
       deliveryDate: '2024-04-15',
       shippingTerms: 'CIF',
-      paymentTerms: 'LC_AT_SIGHT',
+      paymentTerms: {
+        preferredCurrency: 'USD',
+        paymentMethod: 'LC',
+        paymentTerms: 'At sight',
+        creditPeriod: 0,
+      },
       certifications: [
         'Organic certification (EU standards)',
         'Fair Trade certification',
@@ -171,7 +176,7 @@ export const rfqsData: SeedRFQ[] = [
     id: 'rfq-002-private-label-oem',
     rfqNumber: 'RFQ-2024-002',
     clientCompanyId: 'client-us-retailer',
-    status: 'IN_PROGRESS',
+    status: 'IN_REVIEW',
     priority: 'MEDIUM',
     title: 'Private Label Coffee Manufacturing - Multi-SKU Project',
     description:
@@ -219,7 +224,12 @@ export const rfqsData: SeedRFQ[] = [
       ],
       deliveryDate: '2024-06-30',
       shippingTerms: 'FOB',
-      paymentTerms: 'NET_30',
+      paymentTerms: {
+        preferredCurrency: 'USD',
+        paymentMethod: 'TT',
+        paymentTerms: 'Net 30 days',
+        creditPeriod: 30,
+      },
       certifications: [
         'FDA compliance',
         'SQF certification',
@@ -315,7 +325,12 @@ export const rfqsData: SeedRFQ[] = [
       ],
       deliveryDate: '2024-03-30',
       shippingTerms: 'CIF',
-      paymentTerms: 'LC_AT_SIGHT',
+      paymentTerms: {
+        preferredCurrency: 'USD',
+        paymentMethod: 'LC',
+        paymentTerms: 'At sight',
+        creditPeriod: 0,
+      },
       certifications: [
         'JAS Organic certification',
         'Specialty Coffee Association certification',
@@ -394,6 +409,7 @@ export const rfqsData: SeedRFQ[] = [
     description:
       'We are a UK-based distributor looking to enter the Vietnamese coffee market. We need consulting services to help us understand the market, identify reliable suppliers, and develop a sourcing strategy for our European operations.',
     requirements: {
+      products: [], // No physical products for consulting service
       services: [
         {
           serviceId: 'sourcing-consulting',
@@ -404,8 +420,13 @@ export const rfqsData: SeedRFQ[] = [
         },
       ],
       deliveryDate: '2024-05-31',
-      shippingTerms: 'N/A',
-      paymentTerms: 'NET_30',
+      shippingTerms: 'EXW',
+      paymentTerms: {
+        preferredCurrency: 'USD',
+        paymentMethod: 'TT',
+        paymentTerms: 'Net 30 days',
+        creditPeriod: 30,
+      },
       certifications: [
         'Consulting credentials',
         'Industry expertise verification',
@@ -461,7 +482,7 @@ export const rfqsData: SeedRFQ[] = [
     id: 'rfq-005-blend-development',
     rfqNumber: 'RFQ-2024-005',
     clientCompanyId: 'client-australian-cafe',
-    status: 'COMPLETED',
+    status: 'QUOTED',
     priority: 'MEDIUM',
     title: 'Custom Blend Development for Cafe Chain - 30MT',
     description:
@@ -491,7 +512,12 @@ export const rfqsData: SeedRFQ[] = [
       ],
       deliveryDate: '2024-04-30',
       shippingTerms: 'CIF',
-      paymentTerms: 'LC_90_DAYS',
+      paymentTerms: {
+        preferredCurrency: 'USD',
+        paymentMethod: 'LC',
+        paymentTerms: '90 days after sight',
+        creditPeriod: 90,
+      },
       certifications: [
         'Australian import compliance',
         'Organic certification preferred',

@@ -1,10 +1,35 @@
 // SEO Management Use Cases
 // TODO: Implement SEO management use cases
-// export * from './get-seo-metadata.use-case';
-// export * from './update-seo-metadata.use-case';
-// export * from './generate-sitemap.use-case';
-// export * from './analyze-seo-performance.use-case';
-// export * from './get-seo-recommendations.use-case';
 
-// Placeholder export to make this a valid module
-export const SEO_MANAGEMENT_PLACEHOLDER = 'seo-management-use-cases';
+// Temporary interfaces for SEO management
+export interface SEOMetadata {
+  title: string;
+  description: string;
+  keywords: string[];
+  canonicalUrl?: string;
+}
+
+export interface SEOAnalysis {
+  score: number;
+  recommendations: string[];
+  issues: string[];
+}
+
+// Placeholder use cases - to be implemented
+export class GetSEOMetadataUseCase {
+  async execute(url: string): Promise<SEOMetadata> {
+    throw new Error('Not implemented');
+  }
+}
+
+export class UpdateSEOMetadataUseCase {
+  async execute(url: string, metadata: SEOMetadata): Promise<void> {
+    throw new Error('Not implemented');
+  }
+}
+
+export class AnalyzeSEOPerformanceUseCase {
+  async execute(url: string): Promise<SEOAnalysis> {
+    throw new Error('Not implemented');
+  }
+}
