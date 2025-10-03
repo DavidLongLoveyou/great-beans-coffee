@@ -87,7 +87,11 @@ export function MediaCarousel({
 
   // Get unique categories and types
   const categories = Array.from(
-    new Set(items.map(item => item.category).filter((cat): cat is string => Boolean(cat)))
+    new Set(
+      items
+        .map(item => item.category)
+        .filter((cat): cat is string => Boolean(cat))
+    )
   );
   const types = Array.from(new Set(items.map(item => item.type)));
 
@@ -417,77 +421,88 @@ export function MediaCarousel({
           <CardContent className="p-0">
             <div className="relative">
               {currentItem.type === 'image' ? (
-              <ImageGallery
-                images={filteredItems
-                  .filter(item => item.type === 'image')
-                  .map(item => ({
-                    id: item.id,
-                    src: item.src!,
-                    alt: item.alt || item.title || '',
-                    title: item.title,
-                    description: item.description,
-                    category: item.category,
-                    tags: item.tags,
-                    downloadUrl: item.downloadUrl,
-                  }))}
-                showThumbnails={showThumbnails}
-                showCategories={false}
-                allowDownload={allowDownload}
-                allowShare={allowShare}
-              />
-            ) : (
-              <VideoPlayer
-                sources={currentItem.sources || []}
-                title={currentItem.title}
-                description={currentItem.description}
-                poster={currentItem.poster}
-                chapters={currentItem.chapters}
-                allowDownload={allowDownload}
-                allowShare={allowShare}
-              />
-            )}
+                <ImageGallery
+                  images={filteredItems
+                    .filter(item => item.type === 'image')
+                    .map(item => {
+                      const galleryImage: any = {
+                        id: item.id,
+                        src: item.src!,
+                        alt: item.alt || item.title || '',
+                      };
 
-            {/* Navigation for mixed content */}
-            {filteredItems.length > 1 && (
-              <>
+                      if (item.title) galleryImage.title = item.title;
+                      if (item.description)
+                        galleryImage.description = item.description;
+                      if (item.category) galleryImage.category = item.category;
+                      if (item.tags) galleryImage.tags = item.tags;
+                      if (item.downloadUrl)
+                        galleryImage.downloadUrl = item.downloadUrl;
+
+                      return galleryImage;
+                    })}
+                  showThumbnails={showThumbnails}
+                  showCategories={false}
+                  allowDownload={allowDownload}
+                  allowShare={allowShare}
+                />
+              ) : (
+                <VideoPlayer
+                  sources={currentItem.sources || []}
+                  {...(currentItem.title && { title: currentItem.title })}
+                  {...(currentItem.description && {
+                    description: currentItem.description,
+                  })}
+                  {...(currentItem.poster && { poster: currentItem.poster })}
+                  {...(currentItem.chapters && {
+                    chapters: currentItem.chapters,
+                  })}
+                  allowDownload={allowDownload}
+                  allowShare={allowShare}
+                />
+              )}
+
+              {/* Navigation for mixed content */}
+              {filteredItems.length > 1 && (
+                <>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="absolute left-4 top-1/2 z-10 -translate-y-1/2 transform bg-white/80 hover:bg-white"
+                    onClick={goToPrevious}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="absolute right-4 top-1/2 z-10 -translate-y-1/2 transform bg-white/80 hover:bg-white"
+                    onClick={goToNext}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </>
+              )}
+
+              {/* Media Counter */}
+              <div className="absolute bottom-4 left-4 z-10 rounded-full bg-black/50 px-3 py-1 text-sm text-white">
+                {currentIndex + 1} / {filteredItems.length}
+              </div>
+
+              {/* Auto-play Control */}
+              {autoPlay && filteredItems.length > 1 && (
                 <Button
                   variant="secondary"
-                  size="icon"
-                  className="absolute left-4 top-1/2 z-10 -translate-y-1/2 transform bg-white/80 hover:bg-white"
-                  onClick={goToPrevious}
+                  size="sm"
+                  className="absolute right-4 top-4 z-10 bg-white/80 hover:bg-white"
+                  onClick={() => setIsPlaying(!isPlaying)}
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  {isPlaying ? 'Pause' : 'Play'}
                 </Button>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="absolute right-4 top-1/2 z-10 -translate-y-1/2 transform bg-white/80 hover:bg-white"
-                  onClick={goToNext}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </>
-            )}
-
-            {/* Media Counter */}
-            <div className="absolute bottom-4 left-4 z-10 rounded-full bg-black/50 px-3 py-1 text-sm text-white">
-              {currentIndex + 1} / {filteredItems.length}
+              )}
             </div>
-
-            {/* Auto-play Control */}
-            {autoPlay && filteredItems.length > 1 && (
-              <Button
-                variant="secondary"
-                size="sm"
-                className="absolute right-4 top-4 z-10 bg-white/80 hover:bg-white"
-                onClick={() => setIsPlaying(!isPlaying)}
-              >
-                {isPlaying ? 'Pause' : 'Play'}
-              </Button>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
       )}
 
       {/* Thumbnails for mixed content */}
@@ -504,7 +519,11 @@ export function MediaCarousel({
               onClick={() => setCurrentIndex(index)}
             >
               <Image
-                src={item.type === 'image' ? item.src : item.poster}
+                src={
+                  item.type === 'image'
+                    ? item.src || '/placeholder-image.jpg'
+                    : item.poster || '/placeholder-video.jpg'
+                }
                 alt={item.title || item.alt || ''}
                 fill
                 className="object-cover"

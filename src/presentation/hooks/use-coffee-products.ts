@@ -41,10 +41,19 @@ export function useCoffeeProducts(options: UseCoffeeProductsOptions = {}) {
       setState(prev => ({ ...prev, loading: true, error: null }));
 
       try {
-        const response = await getCoffeeProductsUseCase.execute({
-          filters: newFilters || filters,
-          locale,
-        });
+        const requestData: { locale?: string; filters?: CoffeeProductFilters } =
+          {};
+
+        if (locale) {
+          requestData.locale = locale;
+        }
+
+        const activeFilters = newFilters || filters;
+        if (activeFilters) {
+          requestData.filters = activeFilters;
+        }
+
+        const response = await getCoffeeProductsUseCase.execute(requestData);
 
         setState(prev => ({
           ...prev,
@@ -107,10 +116,12 @@ export function useFeaturedProducts(limit = 6, locale?: string) {
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
-      const response = await getFeaturedProductsUseCase.execute({
-        limit,
-        locale,
-      });
+      const requestData: { limit: number; locale?: string } = { limit };
+      if (locale) {
+        requestData.locale = locale;
+      }
+
+      const response = await getFeaturedProductsUseCase.execute(requestData);
 
       setState(prev => ({
         ...prev,
@@ -160,11 +171,16 @@ export function useSearchCoffeeProducts() {
       setState(prev => ({ ...prev, loading: true, error: null, query }));
 
       try {
-        const response = await searchCoffeeProductsUseCase.execute({
-          query,
-          locale,
-          limit,
-        });
+        const requestData: { query: string; locale?: string; limit?: number } =
+          { query };
+        if (locale) {
+          requestData.locale = locale;
+        }
+        if (limit) {
+          requestData.limit = limit;
+        }
+
+        const response = await searchCoffeeProductsUseCase.execute(requestData);
 
         setState(prev => ({
           ...prev,
@@ -237,12 +253,25 @@ export function useProductsByCategory() {
       }));
 
       try {
-        const response = await getProductsByCategoryUseCase.execute({
-          category,
-          value,
-          filters,
-          locale,
-        });
+        const requestData: {
+          category: 'type' | 'grade' | 'origin' | 'processing';
+          value: string;
+          filters?: Omit<
+            CoffeeProductFilters,
+            'type' | 'grade' | 'region' | 'processingMethod'
+          >;
+          locale?: string;
+        } = { category, value };
+
+        if (filters) {
+          requestData.filters = filters;
+        }
+        if (locale) {
+          requestData.locale = locale;
+        }
+
+        const response =
+          await getProductsByCategoryUseCase.execute(requestData);
 
         setState(prev => ({
           ...prev,

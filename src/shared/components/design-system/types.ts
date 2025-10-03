@@ -10,7 +10,8 @@ export interface DesignSystemProps {
 }
 
 // Component Props Base
-export interface ComponentProps extends Omit<HTMLAttributes<HTMLElement>, 'style'> {
+export interface ComponentProps
+  extends Omit<HTMLAttributes<HTMLElement>, 'style'> {
   className?: string;
   children?: ReactNode;
   style?: CSSProperties;
@@ -124,6 +125,7 @@ export type BadgeVariant =
   | 'default'
   | 'secondary'
   | 'outline'
+  | 'subtle'
   | 'coffee'
   | 'gold'
   | 'bean'
@@ -237,7 +239,8 @@ export type TastingNoteCategory =
   | 'tropical'
   | 'wine-like'
   | 'caramel'
-  | 'vanilla';
+  | 'vanilla'
+  | 'other';
 
 // Business Service Types
 export type BusinessServiceType =
@@ -344,6 +347,9 @@ export interface OriginFlagProps extends ComponentProps {
   origin: CoffeeOrigin;
   size?: SizeVariant;
   showLabel?: boolean;
+  showName?: boolean;
+  showRegion?: boolean;
+  variant?: 'default' | 'subtle' | 'outline';
 }
 
 export interface ProcessingMethodBadgeProps extends ComponentProps {
@@ -358,6 +364,11 @@ export interface TastingNotesProps extends ComponentProps {
   notes: TastingNoteCategory[];
   limit?: number;
   interactive?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'compact' | 'detailed';
+  maxDisplay?: number;
+  showCategories?: boolean;
+  onNoteClick?: (note: string, category: TastingNoteCategory) => void;
 }
 
 // Form Props

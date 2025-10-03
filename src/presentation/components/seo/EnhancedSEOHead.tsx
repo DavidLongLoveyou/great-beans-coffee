@@ -174,7 +174,12 @@ export function EnhancedSEOHead({
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
-        {keywords && <meta name="keywords" content={keywords} />}
+        {keywords && (
+          <meta
+            name="keywords"
+            content={Array.isArray(keywords) ? keywords.join(', ') : keywords}
+          />
+        )}
         {canonical && <link rel="canonical" href={canonical} />}
         {url && <meta property="og:url" content={url} />}
         {image && <meta property="og:image" content={image} />}

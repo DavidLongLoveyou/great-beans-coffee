@@ -279,7 +279,7 @@ Examples:
     logger.info('\n🎉 Backup operation completed successfully!');
   } catch (error) {
     logger.error('\n💥 Backup operation failed:');
-    logger.error(error);
+    logger.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
 }

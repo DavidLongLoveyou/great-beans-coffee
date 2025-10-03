@@ -1,14 +1,25 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
-import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
+import Script from 'next/script';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
 import { CoreWebVitalsMonitor } from '../performance/CoreWebVitalsMonitor';
 
 // Extend Window interface for Google Analytics
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
+    gtag: (
+      command: 'config' | 'event' | 'js' | 'set',
+      targetId: string | Date,
+      config?: Record<string, string | number | boolean>
+    ) => void;
     dataLayer: any[];
   }
 }
@@ -83,7 +94,9 @@ const AnalyticsContext = createContext<AnalyticsContextType | null>(null);
 
 // Default configuration
 const defaultConfig: AnalyticsConfig = {
-  googleAnalyticsId: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
+  ...(process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID && {
+    googleAnalyticsId: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
+  }),
   enableGoogleAnalytics: true,
   enableWebVitals: true,
   enableEcommerce: true,
@@ -101,7 +114,7 @@ interface AnalyticsProviderProps {
 
 /**
  * Analytics Provider Component
- * 
+ *
  * Provides comprehensive analytics functionality including:
  * - Google Analytics 4 integration
  * - Core Web Vitals monitoring
@@ -110,7 +123,10 @@ interface AnalyticsProviderProps {
  * - User properties and consent management
  * - GDPR compliance features
  */
-export function AnalyticsProvider({ children, config: userConfig = {} }: AnalyticsProviderProps) {
+export function AnalyticsProvider({
+  children,
+  config: userConfig = {},
+}: AnalyticsProviderProps) {
   const config = { ...defaultConfig, ...userConfig };
   const [isLoaded, setIsLoaded] = useState(false);
   const [consentGiven, setConsentGiven] = useState(config.cookieConsent);
@@ -143,7 +159,7 @@ export function AnalyticsProvider({ children, config: userConfig = {} }: Analyti
           custom_parameter_2: 'industry',
           custom_parameter_3: 'company_size',
         },
-      });
+      } as any);
     }
 
     setIsLoaded(true);
@@ -172,14 +188,23 @@ export function AnalyticsProvider({ children, config: userConfig = {} }: Analyti
   const trackEvent = (eventName: string, eventData: CustomEventData = {}) => {
     if (!isLoaded || !consentGiven) return;
 
-    const { event_category, event_label, value, custom_parameters = {} } = eventData;
-
-    window.gtag('event', eventName, {
+    const {
       event_category,
       event_label,
       value,
+      custom_parameters = {},
+    } = eventData;
+
+    const eventParams: any = {
       ...custom_parameters,
-    });
+    };
+
+    if (event_category !== undefined)
+      eventParams.event_category = event_category;
+    if (event_label !== undefined) eventParams.event_label = event_label;
+    if (value !== undefined) eventParams.value = value;
+
+    window.gtag('event', eventName, eventParams);
 
     if (config.enableConsoleLogging) {
       console.log('[Analytics] Event tracked:', { eventName, eventData });
@@ -190,10 +215,13 @@ export function AnalyticsProvider({ children, config: userConfig = {} }: Analyti
   const trackEcommerce = (eventName: string, eventData: EcommerceEventData) => {
     if (!isLoaded || !consentGiven || !config.enableEcommerce) return;
 
-    window.gtag('event', eventName, eventData);
+    window.gtag('event', eventName, eventData as any);
 
     if (config.enableConsoleLogging) {
-      console.log('[Analytics] E-commerce event tracked:', { eventName, eventData });
+      console.log('[Analytics] E-commerce event tracked:', {
+        eventName,
+        eventData,
+      });
     }
   };
 
@@ -203,7 +231,7 @@ export function AnalyticsProvider({ children, config: userConfig = {} }: Analyti
 
     window.gtag('config', config.googleAnalyticsId!, {
       user_properties: properties,
-    });
+    } as any);
 
     if (config.enableConsoleLogging) {
       console.log('[Analytics] User properties set:', properties);
@@ -213,13 +241,13 @@ export function AnalyticsProvider({ children, config: userConfig = {} }: Analyti
   // Set consent
   const setConsent = (consent: boolean) => {
     setConsentGiven(consent);
-    
+
     if (consent && !initializedRef.current) {
       initializeGA();
     }
 
     if (window.gtag) {
-      window.gtag('consent', 'update', {
+      (window.gtag as any)('consent', 'update', {
         analytics_storage: consent ? 'granted' : 'denied',
         ad_storage: consent ? 'granted' : 'denied',
       });
@@ -244,7 +272,8 @@ export function AnalyticsProvider({ children, config: userConfig = {} }: Analyti
   useEffect(() => {
     if (!isLoaded || !consentGiven) return;
 
-    const url = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
+    const url =
+      pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
     trackPageView(url);
   }, [pathname, searchParams, isLoaded, consentGiven]);
 
@@ -265,22 +294,36 @@ export function AnalyticsProvider({ children, config: userConfig = {} }: Analyti
 
     // Track scroll depth
     const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const documentHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
       scrollDepth = Math.round((scrollTop / documentHeight) * 100);
-      
+
       if (scrollDepth > maxScrollDepth) {
         maxScrollDepth = scrollDepth;
-        
+
         // Track scroll milestones
         if (maxScrollDepth >= 25 && maxScrollDepth < 50) {
-          trackEvent('scroll_depth', { event_category: 'engagement', value: 25 });
+          trackEvent('scroll_depth', {
+            event_category: 'engagement',
+            value: 25,
+          });
         } else if (maxScrollDepth >= 50 && maxScrollDepth < 75) {
-          trackEvent('scroll_depth', { event_category: 'engagement', value: 50 });
+          trackEvent('scroll_depth', {
+            event_category: 'engagement',
+            value: 50,
+          });
         } else if (maxScrollDepth >= 75 && maxScrollDepth < 90) {
-          trackEvent('scroll_depth', { event_category: 'engagement', value: 75 });
+          trackEvent('scroll_depth', {
+            event_category: 'engagement',
+            value: 75,
+          });
         } else if (maxScrollDepth >= 90) {
-          trackEvent('scroll_depth', { event_category: 'engagement', value: 90 });
+          trackEvent('scroll_depth', {
+            event_category: 'engagement',
+            value: 90,
+          });
         }
       }
     };
@@ -289,14 +332,17 @@ export function AnalyticsProvider({ children, config: userConfig = {} }: Analyti
     const startTime = Date.now();
     engagementTimer = setInterval(() => {
       const timeOnPage = Math.round((Date.now() - startTime) / 1000);
-      
+
       // Track engagement milestones
       if (timeOnPage === 30) {
         trackEvent('time_on_page', { event_category: 'engagement', value: 30 });
       } else if (timeOnPage === 60) {
         trackEvent('time_on_page', { event_category: 'engagement', value: 60 });
       } else if (timeOnPage === 180) {
-        trackEvent('time_on_page', { event_category: 'engagement', value: 180 });
+        trackEvent('time_on_page', {
+          event_category: 'engagement',
+          value: 180,
+        });
       }
     }, 1000);
 
@@ -323,17 +369,19 @@ export function AnalyticsProvider({ children, config: userConfig = {} }: Analyti
   return (
     <AnalyticsContext.Provider value={contextValue}>
       {/* Google Analytics Script */}
-      {config.enableGoogleAnalytics && config.googleAnalyticsId && consentGiven && (
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${config.googleAnalyticsId}`}
-          strategy="afterInteractive"
-          onLoad={() => {
-            if (!initializedRef.current) {
-              initializeGA();
-            }
-          }}
-        />
-      )}
+      {config.enableGoogleAnalytics &&
+        config.googleAnalyticsId &&
+        consentGiven && (
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${config.googleAnalyticsId}`}
+            strategy="afterInteractive"
+            onLoad={() => {
+              if (!initializedRef.current) {
+                initializeGA();
+              }
+            }}
+          />
+        )}
 
       {/* Core Web Vitals Monitor */}
       {config.enableWebVitals && (
@@ -341,12 +389,14 @@ export function AnalyticsProvider({ children, config: userConfig = {} }: Analyti
           enableAnalytics={isLoaded && consentGiven}
           enableConsoleLogging={config.enableConsoleLogging}
           enableVisualIndicator={config.enableVisualIndicator}
-          onMetricCapture={(metric) => {
+          onMetricCapture={metric => {
             if (config.enableCustomEvents) {
               trackEvent('web_vitals', {
                 event_category: 'performance',
                 event_label: metric.name,
-                value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+                value: Math.round(
+                  metric.name === 'CLS' ? metric.value * 1000 : metric.value
+                ),
                 custom_parameters: {
                   metric_rating: metric.rating,
                   metric_delta: metric.delta,

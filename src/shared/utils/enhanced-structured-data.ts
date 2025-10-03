@@ -242,6 +242,8 @@ export interface WebSiteSchema {
     inLanguage: string;
     url: string;
   }>;
+  // Index signature for compatibility with StructuredDataObject
+  [key: string]: unknown;
 }
 
 // Generate B2B Product Schema

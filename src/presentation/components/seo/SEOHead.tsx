@@ -156,7 +156,12 @@ export function SEOHead({
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
 
         {/* Keywords meta tag */}
-        {keywords && <meta name="keywords" content={keywords} />}
+        {keywords && (
+          <meta
+            name="keywords"
+            content={Array.isArray(keywords) ? keywords.join(', ') : keywords}
+          />
+        )}
 
         {/* Geo meta tags */}
         <meta name="geo.region" content="VN" />

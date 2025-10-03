@@ -72,18 +72,78 @@ Coffee markets in 2024 have experienced unprecedented volatility, with price swi
 
 <MarketChart
   data={[
-    { period: 'Jan 2024', value: 28.5, label: 'Arabica Volatility', category: 'arabica' },
-    { period: 'Feb 2024', value: 32.1, label: 'Arabica Volatility', category: 'arabica' },
-    { period: 'Mar 2024', value: 41.8, label: 'Arabica Volatility', category: 'arabica' },
-    { period: 'Apr 2024', value: 48.2, label: 'Arabica Volatility', category: 'arabica' },
-    { period: 'May 2024', value: 52.7, label: 'Arabica Volatility', category: 'arabica' },
-    { period: 'Jun 2024', value: 45.3, label: 'Arabica Volatility', category: 'arabica' },
-    { period: 'Jan 2024', value: 22.1, label: 'Robusta Volatility', category: 'robusta' },
-    { period: 'Feb 2024', value: 26.8, label: 'Robusta Volatility', category: 'robusta' },
-    { period: 'Mar 2024', value: 35.4, label: 'Robusta Volatility', category: 'robusta' },
-    { period: 'Apr 2024', value: 38.9, label: 'Robusta Volatility', category: 'robusta' },
-    { period: 'May 2024', value: 42.1, label: 'Robusta Volatility', category: 'robusta' },
-    { period: 'Jun 2024', value: 39.7, label: 'Robusta Volatility', category: 'robusta' },
+    {
+      period: 'Jan 2024',
+      value: 28.5,
+      label: 'Arabica Volatility',
+      category: 'arabica',
+    },
+    {
+      period: 'Feb 2024',
+      value: 32.1,
+      label: 'Arabica Volatility',
+      category: 'arabica',
+    },
+    {
+      period: 'Mar 2024',
+      value: 41.8,
+      label: 'Arabica Volatility',
+      category: 'arabica',
+    },
+    {
+      period: 'Apr 2024',
+      value: 48.2,
+      label: 'Arabica Volatility',
+      category: 'arabica',
+    },
+    {
+      period: 'May 2024',
+      value: 52.7,
+      label: 'Arabica Volatility',
+      category: 'arabica',
+    },
+    {
+      period: 'Jun 2024',
+      value: 45.3,
+      label: 'Arabica Volatility',
+      category: 'arabica',
+    },
+    {
+      period: 'Jan 2024',
+      value: 22.1,
+      label: 'Robusta Volatility',
+      category: 'robusta',
+    },
+    {
+      period: 'Feb 2024',
+      value: 26.8,
+      label: 'Robusta Volatility',
+      category: 'robusta',
+    },
+    {
+      period: 'Mar 2024',
+      value: 35.4,
+      label: 'Robusta Volatility',
+      category: 'robusta',
+    },
+    {
+      period: 'Apr 2024',
+      value: 38.9,
+      label: 'Robusta Volatility',
+      category: 'robusta',
+    },
+    {
+      period: 'May 2024',
+      value: 42.1,
+      label: 'Robusta Volatility',
+      category: 'robusta',
+    },
+    {
+      period: 'Jun 2024',
+      value: 39.7,
+      label: 'Robusta Volatility',
+      category: 'robusta',
+    },
   ]}
   type="line"
   title="30-Day Realized Volatility: Arabica vs Robusta (%)"
@@ -117,12 +177,12 @@ Coffee markets in 2024 have experienced unprecedented volatility, with price swi
 
 <PriceAnalysis
   data={[
-    { period: 'Jan 2024', value: 185.50, label: 'Arabica Futures' },
+    { period: 'Jan 2024', value: 185.5, label: 'Arabica Futures' },
     { period: 'Feb 2024', value: 192.75, label: 'Arabica Futures' },
-    { period: 'Mar 2024', value: 218.40, label: 'Arabica Futures' },
-    { period: 'Apr 2024', value: 245.80, label: 'Arabica Futures' },
-    { period: 'May 2024', value: 295.20, label: 'Arabica Futures' },
-    { period: 'Jun 2024', value: 268.90, label: 'Arabica Futures' },
+    { period: 'Mar 2024', value: 218.4, label: 'Arabica Futures' },
+    { period: 'Apr 2024', value: 245.8, label: 'Arabica Futures' },
+    { period: 'May 2024', value: 295.2, label: 'Arabica Futures' },
+    { period: 'Jun 2024', value: 268.9, label: 'Arabica Futures' },
   ]}
   title="Arabica Coffee Futures (ICE KC) - USD/lb"
   description="Monthly settlement prices for Arabica coffee futures contracts"
@@ -173,7 +233,11 @@ Coffee markets in 2024 have experienced unprecedented volatility, with price swi
     { period: 'Brazil Frost Risk', value: 0.78, label: 'Frost Events' },
     { period: 'Vietnam Drought', value: 0.65, label: 'Drought Conditions' },
     { period: 'Colombia Rainfall', value: 0.52, label: 'Excessive Rainfall' },
-    { period: 'Central America Hurricane', value: 0.71, label: 'Hurricane Season' },
+    {
+      period: 'Central America Hurricane',
+      value: 0.71,
+      label: 'Hurricane Season',
+    },
   ]}
   type="bar"
   title="Weather Event Correlation with Price Volatility"
@@ -236,7 +300,11 @@ Coffee markets in 2024 have experienced unprecedented volatility, with price swi
     { period: 'Arabica-Robusta', value: 0.72, label: 'Coffee Correlation' },
     { period: 'Coffee-USD Index', value: -0.58, label: 'Currency Correlation' },
     { period: 'Coffee-Oil Prices', value: 0.43, label: 'Energy Correlation' },
-    { period: 'Coffee-Sugar', value: 0.35, label: 'Soft Commodity Correlation' },
+    {
+      period: 'Coffee-Sugar',
+      value: 0.35,
+      label: 'Soft Commodity Correlation',
+    },
   ]}
   type="bar"
   title="Coffee Price Correlations with Other Assets"
@@ -385,8 +453,16 @@ Coffee markets in 2024 have experienced unprecedented volatility, with price swi
   data={[
     { period: 'Daily VaR', value: 95, label: 'Monitoring Frequency' },
     { period: 'Stress Testing', value: 85, label: 'Monitoring Frequency' },
-    { period: 'Correlation Tracking', value: 78, label: 'Monitoring Frequency' },
-    { period: 'Liquidity Assessment', value: 72, label: 'Monitoring Frequency' },
+    {
+      period: 'Correlation Tracking',
+      value: 78,
+      label: 'Monitoring Frequency',
+    },
+    {
+      period: 'Liquidity Assessment',
+      value: 72,
+      label: 'Monitoring Frequency',
+    },
   ]}
   type="bar"
   title="Risk Monitoring Implementation Rates (%)"
@@ -522,7 +598,7 @@ The coffee market's new volatility regime requires a fundamental shift in how ma
 
 ---
 
-*This analysis is based on proprietary trading data, futures exchange information, and comprehensive market research. For customized risk management solutions and hedging strategies, contact our commodity trading specialists.*
+_This analysis is based on proprietary trading data, futures exchange information, and comprehensive market research. For customized risk management solutions and hedging strategies, contact our commodity trading specialists._
 
 **Data Sources**: ICE Futures, CME Group, London Coffee Exchange, Bloomberg Commodities, Reuters, Internal Trading Analytics
 

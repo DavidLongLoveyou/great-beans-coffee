@@ -181,6 +181,69 @@ const tastingNoteData: Record<
       'Boozy',
     ],
   },
+  citrus: {
+    name: 'Citrus',
+    icon: '🍋',
+    color: 'text-yellow-700',
+    bgColor: 'bg-yellow-50 border-yellow-200',
+    notes: [
+      'Lemon',
+      'Lime',
+      'Orange',
+      'Grapefruit',
+      'Tangerine',
+      'Citrus Zest',
+    ],
+  },
+  berry: {
+    name: 'Berry',
+    icon: '🫐',
+    color: 'text-purple-700',
+    bgColor: 'bg-purple-50 border-purple-200',
+    notes: [
+      'Blueberry',
+      'Blackberry',
+      'Raspberry',
+      'Strawberry',
+      'Cranberry',
+      'Elderberry',
+    ],
+  },
+  tropical: {
+    name: 'Tropical',
+    icon: '🥭',
+    color: 'text-orange-700',
+    bgColor: 'bg-orange-50 border-orange-200',
+    notes: [
+      'Mango',
+      'Pineapple',
+      'Papaya',
+      'Passion Fruit',
+      'Coconut',
+      'Guava',
+    ],
+  },
+  caramel: {
+    name: 'Caramel',
+    icon: '🍮',
+    color: 'text-amber-700',
+    bgColor: 'bg-amber-50 border-amber-200',
+    notes: [
+      'Caramel',
+      'Toffee',
+      'Butterscotch',
+      'Brown Sugar',
+      'Molasses',
+      'Maple',
+    ],
+  },
+  vanilla: {
+    name: 'Vanilla',
+    icon: '🌿',
+    color: 'text-green-700',
+    bgColor: 'bg-green-50 border-green-200',
+    notes: ['Vanilla', 'Custard', 'Cream', 'Sweet Spice', 'Aromatic', 'Smooth'],
+  },
   other: {
     name: 'Other',
     icon: '✨',
@@ -267,7 +330,11 @@ export const TastingNotes = forwardRef<HTMLDivElement, TastingNotesProps>(
                       size={size}
                       variant={variant}
                       interactive={interactive}
-                      onClick={onNoteClick}
+                      onClick={
+                        onNoteClick
+                          ? noteValue => onNoteClick(noteValue, category)
+                          : undefined
+                      }
                     />
                   ))}
                 </div>
@@ -284,16 +351,23 @@ export const TastingNotes = forwardRef<HTMLDivElement, TastingNotesProps>(
         ref={ref}
         {...props}
       >
-        {displayNotes.map(note => (
-          <TastingNote
-            key={note}
-            note={note}
-            size={size}
-            variant={variant}
-            interactive={interactive}
-            onClick={onNoteClick}
-          />
-        ))}
+        {displayNotes.map(note => {
+          const category = findNoteCategory(note);
+          return (
+            <TastingNote
+              key={note}
+              note={note}
+              size={size}
+              variant={variant}
+              interactive={interactive}
+              onClick={
+                onNoteClick
+                  ? noteValue => onNoteClick(noteValue, category)
+                  : undefined
+              }
+            />
+          );
+        })}
         {remainingCount > 0 && (
           <span
             className={cn(

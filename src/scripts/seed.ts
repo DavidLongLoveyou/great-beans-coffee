@@ -8,7 +8,7 @@
  */
 
 import { prisma } from '../infrastructure/database/prisma';
-import { seedDatabase } from '../infrastructure/database/seeders';
+import { databaseSeeders } from '../infrastructure/database/seeders';
 import { createScopedLogger } from '../shared/utils/logger';
 
 const logger = createScopedLogger('Seed');
@@ -23,7 +23,7 @@ async function main() {
     logger.info('✅ Database connection established');
 
     // Run all seeders
-    const result = await seedDatabase();
+    const result = await databaseSeeders.runAllSeeders();
 
     if (result.success) {
       logger.info('\n🎉 Database seeding completed successfully!');

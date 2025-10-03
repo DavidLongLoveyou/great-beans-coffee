@@ -51,6 +51,7 @@ export default function ClusterNavigation({
       <div className={`space-y-2 ${className}`}>
         {clusterKeys.map((key, index) => {
           const slug = clusterSlugs[index];
+          if (!slug) return null;
           const Icon = clusterIcons[slug];
 
           return (
@@ -83,6 +84,7 @@ export default function ClusterNavigation({
       <div className={`space-y-4 ${className}`}>
         {clusterKeys.map((key, index) => {
           const slug = clusterSlugs[index];
+          if (!slug) return null;
           const Icon = clusterIcons[slug];
 
           return (
@@ -120,6 +122,7 @@ export default function ClusterNavigation({
     <div className={`grid gap-6 md:grid-cols-2 lg:grid-cols-3 ${className}`}>
       {clusterKeys.map((key, index) => {
         const slug = clusterSlugs[index];
+        if (!slug) return null;
         const Icon = clusterIcons[slug];
 
         return (
@@ -141,7 +144,7 @@ export default function ClusterNavigation({
                   {(() => {
                     const benefits = t(`${key}.benefits`);
                     const benefitsArray = Array.isArray(benefits)
-                      ? benefits
+                      ? (benefits as string[])
                       : [];
                     return benefitsArray.slice(0, 3).map(benefit => (
                       <li key={benefit} className="flex items-start">

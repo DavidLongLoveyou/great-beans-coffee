@@ -211,6 +211,7 @@ export function VideoPlayer({
   };
 
   const handleDownload = () => {
+    if (!currentSource) return;
     const link = document.createElement('a');
     link.href = currentSource.src;
     link.download = title || 'video';
@@ -224,7 +225,7 @@ export function VideoPlayer({
       try {
         await navigator.share({
           title: title || 'Video',
-          text: description,
+          ...(description && { text: description }),
           url: window.location.href,
         });
       } catch (error) {
@@ -257,22 +258,28 @@ export function VideoPlayer({
         <CardContent className="p-0">
           <div className="group relative aspect-video bg-black">
             {/* Video Element */}
-            <video
-              ref={videoRef}
-              className="h-full w-full"
-              poster={poster}
-              autoPlay={autoPlay}
-              loop={loop}
-              muted={muted}
-              playsInline
-              onClick={togglePlay}
-            >
-              <source
-                src={currentSource.src}
-                type={currentSource.type || 'video/mp4'}
-              />
-              Your browser does not support the video tag.
-            </video>
+            {currentSource ? (
+              <video
+                ref={videoRef}
+                className="h-full w-full"
+                poster={poster}
+                autoPlay={autoPlay}
+                loop={loop}
+                muted={muted}
+                playsInline
+                onClick={togglePlay}
+              >
+                <source
+                  src={currentSource.src}
+                  type={currentSource.type || 'video/mp4'}
+                />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-gray-100">
+                <p className="text-gray-500">No video source available</p>
+              </div>
+            )}
 
             {/* Loading Overlay */}
             {isLoading && (
@@ -484,13 +491,14 @@ export function VideoPlayer({
               {chapters.map((chapter, index) => (
                 <button
                   key={`chapter-${chapter.time}-${chapter.title}`}
-                  className={`w-full rounded-lg border p-3 text-left transition-colors ${
-                    currentTime >= chapter.time &&
-                    (index === chapters.length - 1 ||
-                      currentTime < chapters[index + 1].time)
+                  className={`w-full rounded-lg border p-3 text-left transition-colors ${(() => {
+                    const nextChapter = chapters[index + 1];
+                    return currentTime >= chapter.time &&
+                      (index === chapters.length - 1 ||
+                        (nextChapter && currentTime < nextChapter.time))
                       ? 'border-amber-500 bg-amber-50'
-                      : 'border-gray-200 hover:bg-gray-50'
-                  }`}
+                      : 'border-gray-200 hover:bg-gray-50';
+                  })()}`}
                   onClick={() => handleSeek(chapter.time)}
                 >
                   <div className="flex items-center justify-between">
