@@ -2,7 +2,8 @@
 // CORE BUSINESS TYPES
 // ================================
 
-import { Locale } from './locale.types';
+import { Coordinates } from './common.types';
+import { Locale, ServiceTranslation } from './locale.types';
 
 // ================================
 // COFFEE PRODUCT TYPES
@@ -147,11 +148,6 @@ export interface AltitudeRange {
   unit: 'meters' | 'feet';
 }
 
-export interface Coordinates {
-  latitude: number;
-  longitude: number;
-}
-
 export interface ClimateInfo {
   temperature: TemperatureRange;
   rainfall: number;
@@ -180,19 +176,6 @@ export interface BusinessService {
   seoMetadata: Record<Locale, ServiceSEOMetadata>;
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface ServiceTranslation {
-  locale: Locale;
-  name: string;
-  description: string;
-  shortDescription: string;
-  features: string[];
-  benefits: string[];
-  process: ProcessStep[];
-  metaTitle: string;
-  metaDescription: string;
-  slug: string;
 }
 
 export interface ServiceSpecifications {
@@ -320,7 +303,7 @@ export interface RFQ {
   status: RFQStatus;
   priority: RFQPriority;
   companyInfo: CompanyInfo;
-  contactInfo: ContactInfo;
+  contactInfo: BusinessContactInfo;
   productRequirements: ProductRequirement[];
   deliveryRequirements: DeliveryRequirements;
   paymentRequirements?: PaymentRequirements;
@@ -349,7 +332,7 @@ export interface CompanyInfo {
   annualVolume?: VolumeRange;
 }
 
-export interface ContactInfo {
+export interface BusinessContactInfo {
   contactPerson: string;
   title: string;
   email: string;
@@ -502,8 +485,8 @@ export interface RFQCommunication {
 export interface ClientCompany {
   id: string;
   companyInfo: CompanyInfo;
-  primaryContact: ContactInfo;
-  additionalContacts: ContactInfo[];
+  primaryContact: BusinessContactInfo;
+  additionalContacts: BusinessContactInfo[];
   businessProfile: BusinessProfile;
   tradingHistory: TradingHistory;
   preferences: ClientPreferences;

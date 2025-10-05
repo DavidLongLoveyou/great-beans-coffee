@@ -57,30 +57,32 @@ export class ContentRepository implements IContentRepository {
       status: content.status,
       category: content.category || 'COMPANY_NEWS',
       translations: [
-          {
-            locale: content.locale,
-            title: content.title,
-            content: content.content,
-            excerpt: content.excerpt || '',
-            slug: content.slug,
-            isDefault: content.locale === 'en',
-            translatedBy: '',
-            translatedAt: undefined,
-            reviewedBy: '',
-            reviewedAt: undefined,
-            qualityScore: undefined,
-            seoMetadata: {
-               title: content.metaTitle || content.title,
-               description: content.metaDescription || content.excerpt || '',
-               keywords: Array.isArray(content.metaKeywords) ? content.metaKeywords : [],
-               noIndex: false,
-               noFollow: false,
-               canonicalUrl: '',
-               ogImage: content.featuredImage || '',
-               structuredData: {}
-             }
-          }
-        ],
+        {
+          locale: content.locale,
+          title: content.title,
+          content: content.content,
+          excerpt: content.excerpt || '',
+          slug: content.slug,
+          isDefault: content.locale === 'en',
+          translatedBy: '',
+          translatedAt: undefined,
+          reviewedBy: '',
+          reviewedAt: undefined,
+          qualityScore: undefined,
+          seoMetadata: {
+            title: content.metaTitle || content.title,
+            description: content.metaDescription || content.excerpt || '',
+            keywords: Array.isArray(content.metaKeywords)
+              ? content.metaKeywords
+              : [],
+            noIndex: false,
+            noFollow: false,
+            canonicalUrl: '',
+            ogImage: content.featuredImage || '',
+            structuredData: {},
+          },
+        },
+      ],
       media: Array.isArray(content.media) ? content.media : [],
       author: {
         id: content.authorId || '',
@@ -89,7 +91,7 @@ export class ContentRepository implements IContentRepository {
         bio: '',
         avatar: '',
         expertise: [],
-        socialLinks: {}
+        socialLinks: {},
       },
       contributors: [],
       tags: Array.isArray(content.tags) ? content.tags : [],
@@ -111,8 +113,6 @@ export class ContentRepository implements IContentRepository {
     });
   }
 
-
-
   async findById(id: string, locale?: string): Promise<ContentEntity | null> {
     const content = await prisma.content.findUnique({
       where: { id },
@@ -126,7 +126,7 @@ export class ContentRepository implements IContentRepository {
     locale?: string
   ): Promise<ContentEntity | null> {
     const whereClause: any = { slug, status: 'PUBLISHED' };
-    
+
     if (locale) {
       whereClause.locale = locale;
     }
@@ -284,12 +284,14 @@ export class ContentRepository implements IContentRepository {
   ): Promise<ContentEntity> {
     // ContentEntity has a different structure - we need to extract the actual data
     const entityData = data.toJSON();
-    const defaultTranslation = entityData.translations?.find(t => t.isDefault) || entityData.translations?.[0];
-    
+    const defaultTranslation =
+      entityData.translations?.find(t => t.isDefault) ||
+      entityData.translations?.[0];
+
     if (!defaultTranslation) {
       throw new Error('Content must have at least one translation');
     }
-    
+
     const content = await prisma.content.create({
       data: {
         type: entityData.type,
@@ -307,7 +309,8 @@ export class ContentRepository implements IContentRepository {
         tags: entityData.tags || Prisma.JsonNull,
         metaTitle: defaultTranslation.seoMetadata?.title || null,
         metaDescription: defaultTranslation.seoMetadata?.description || null,
-        metaKeywords: defaultTranslation.seoMetadata?.keywords || Prisma.JsonNull,
+        metaKeywords:
+          defaultTranslation.seoMetadata?.keywords || Prisma.JsonNull,
       },
     });
 
@@ -319,19 +322,23 @@ export class ContentRepository implements IContentRepository {
     data: Partial<ContentEntity>
   ): Promise<ContentEntity> {
     // Extract data from ContentEntity if needed
-    const entityData = data instanceof ContentEntity ? data.toJSON() : data as any;
-    
+    const entityData =
+      data instanceof ContentEntity ? data.toJSON() : (data as any);
+
     const updateData: any = {};
-    
+
     // Only update fields that exist in Prisma schema
     if (entityData.type) updateData.type = entityData.type;
     if (entityData.status) updateData.status = entityData.status;
     if (entityData.category) updateData.category = entityData.category;
-    if (entityData.publishedAt !== undefined) updateData.publishedAt = entityData.publishedAt;
-    
+    if (entityData.publishedAt !== undefined)
+      updateData.publishedAt = entityData.publishedAt;
+
     // Handle translations
     if (entityData.translations) {
-      const defaultTranslation = entityData.translations.find((t: any) => t.isDefault) || entityData.translations[0];
+      const defaultTranslation =
+        entityData.translations.find((t: any) => t.isDefault) ||
+        entityData.translations[0];
       if (defaultTranslation) {
         updateData.title = defaultTranslation.title;
         updateData.slug = defaultTranslation.slug;
@@ -339,14 +346,18 @@ export class ContentRepository implements IContentRepository {
         updateData.content = defaultTranslation.content;
         updateData.locale = defaultTranslation.locale;
         updateData.metaTitle = defaultTranslation.seoMetadata?.title || null;
-        updateData.metaDescription = defaultTranslation.seoMetadata?.description || null;
-        updateData.metaKeywords = defaultTranslation.seoMetadata?.keywords || Prisma.JsonNull;
+        updateData.metaDescription =
+          defaultTranslation.seoMetadata?.description || null;
+        updateData.metaKeywords =
+          defaultTranslation.seoMetadata?.keywords || Prisma.JsonNull;
       }
     }
-    
+
     // Handle JSON fields
-    if (entityData.media !== undefined) updateData.media = entityData.media || Prisma.JsonNull;
-    if (entityData.tags !== undefined) updateData.tags = entityData.tags || Prisma.JsonNull;
+    if (entityData.media !== undefined)
+      updateData.media = entityData.media || Prisma.JsonNull;
+    if (entityData.tags !== undefined)
+      updateData.tags = entityData.tags || Prisma.JsonNull;
 
     const content = await prisma.content.update({
       where: { id },

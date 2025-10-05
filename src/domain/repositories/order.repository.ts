@@ -198,10 +198,7 @@ export interface IOrderRepository {
   findRushOrders(): Promise<OrderEntity[]>;
 
   // Order items management
-  addItem(
-    id: string,
-    item: Omit<OrderItem, 'id'>
-  ): Promise<OrderEntity>;
+  addItem(id: string, item: Omit<OrderItem, 'id'>): Promise<OrderEntity>;
   updateItem(
     id: string,
     itemId: string,

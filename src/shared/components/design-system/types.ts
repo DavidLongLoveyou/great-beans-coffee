@@ -12,7 +12,7 @@ export interface DesignSystemProps {
 // Component Props Base
 export interface ComponentProps
   extends Omit<HTMLAttributes<HTMLElement>, 'style'> {
-  className?: string;
+  className?: string | undefined;
   children?: ReactNode;
   style?: CSSProperties;
 }
@@ -63,6 +63,23 @@ export type SpacingVariant =
   | '2xl'
   | '3xl'
   | '4xl';
+
+// Section Background Variants
+export type SectionBackgroundVariant =
+  | 'default'
+  | 'muted'
+  | 'card'
+  | 'primary'
+  | 'secondary'
+  | 'accent'
+  | 'coffee'
+  | 'coffee-dark'
+  | 'gold'
+  | 'gold-dark'
+  | 'gradient'
+  | 'gradient-dark'
+  | 'coffee-texture'
+  | 'transparent';
 
 // Typography Variants
 export type TypographyVariant =
@@ -311,13 +328,29 @@ export interface TypographyProps extends ComponentProps {
 
 // Layout Props
 export interface ContainerProps extends ComponentProps {
-  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+  size?:
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | '6xl'
+    | '7xl'
+    | 'full'
+    | 'screen';
   padding?: SpacingVariant;
+  center?: boolean;
+  fluid?: boolean;
+  as?: React.ElementType;
 }
 
 export interface SectionProps extends ComponentProps {
   spacing?: SpacingVariant;
-  background?: ColorVariant;
+  background?: SectionBackgroundVariant;
   containerSize?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '6xl' | 'full';
   containerPadding?: SpacingVariant;
   fullWidth?: boolean;
@@ -327,7 +360,18 @@ export interface SectionProps extends ComponentProps {
 export interface GridProps extends ComponentProps {
   cols?: 1 | 2 | 3 | 4 | 5 | 6 | 12;
   gap?: SpacingVariant;
-  responsive?: boolean;
+  responsive?:
+    | 'product-grid'
+    | 'feature-grid'
+    | 'testimonial-grid'
+    | 'blog-grid'
+    | 'service-grid'
+    | 'certification-grid'
+    | 'origin-grid'
+    | 'stats-grid';
+  autoFit?: boolean;
+  minItemWidth?: string;
+  as?: React.ElementType;
 }
 
 // Coffee-specific Component Props
@@ -365,7 +409,7 @@ export interface TastingNotesProps extends ComponentProps {
   limit?: number;
   interactive?: boolean;
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'compact' | 'detailed';
+  variant?: 'default' | 'subtle' | 'outline';
   maxDisplay?: number;
   showCategories?: boolean;
   onNoteClick?: (note: string, category: TastingNoteCategory) => void;

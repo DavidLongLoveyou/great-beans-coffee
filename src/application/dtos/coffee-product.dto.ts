@@ -1,5 +1,10 @@
 // Coffee Product DTOs for application layer communication
-import { CoffeeGrade, CoffeeVariety, ProcessingMethod, CoffeeCertification } from '@/shared/components/design-system/types';
+import {
+  CoffeeGrade,
+  CoffeeVariety,
+  ProcessingMethod,
+  CoffeeCertification,
+} from '@/shared/components/design-system/types';
 
 export interface CoffeeProductDto {
   id: string;
@@ -103,7 +108,8 @@ export interface CreateCoffeeProductDto {
   isFeatured?: boolean;
 }
 
-export interface UpdateCoffeeProductDto extends Partial<CreateCoffeeProductDto> {
+export interface UpdateCoffeeProductDto
+  extends Partial<CreateCoffeeProductDto> {
   id: string;
 }
 

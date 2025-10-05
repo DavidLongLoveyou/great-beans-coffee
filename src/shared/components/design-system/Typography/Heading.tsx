@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { cn } from '@/shared/utils/cn';
-
 import { TypographyProps } from '../types';
+
+import { cn } from '@/shared/utils/cn';
 
 // Heading variant styles
 const headingVariants = {
@@ -30,6 +30,9 @@ const colorVariants = {
   primary: 'text-primary',
   secondary: 'text-secondary-foreground',
   accent: 'text-accent-foreground',
+  forest: 'text-forest-500',
+  sage: 'text-sage-500',
+  emerald: 'text-emerald-500',
   coffee: 'text-coffee-500',
   gold: 'text-gold-500',
   bean: 'text-bean-500',

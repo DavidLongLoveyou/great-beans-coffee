@@ -2,6 +2,7 @@ import { IEmailService } from '@/application/services/email.service';
 import { NotificationService } from '@/application/services/notification.service';
 import { RFQEntity, type RFQ } from '@/domain/entities/rfq.entity';
 import { IRFQRepository } from '@/domain/repositories/rfq.repository';
+import { createScopedLogger } from '@/shared/utils/logger';
 
 export interface SubmitRfqRequest {
   // Product Requirements
@@ -53,6 +54,8 @@ export interface SubmitRfqResponse {
 }
 
 export class SubmitRfqUseCase {
+  private logger = createScopedLogger('SubmitRfqUseCase');
+
   constructor(
     private rfqRepository: IRFQRepository,
     private emailService: IEmailService,
@@ -73,8 +76,13 @@ export class SubmitRfqUseCase {
         id: crypto.randomUUID(),
         rfqNumber,
         status: 'PENDING',
-        priority: request.urgency === 'high' ? 'HIGH' : request.urgency === 'medium' ? 'MEDIUM' : 'LOW',
-        
+        priority:
+          request.urgency === 'high'
+            ? 'HIGH'
+            : request.urgency === 'medium'
+              ? 'MEDIUM'
+              : 'LOW',
+
         productRequirements: {
           coffeeType: request.productType[0] as any, // Take first type
           grade: request.grade[0],
@@ -82,14 +90,16 @@ export class SubmitRfqUseCase {
           origin: request.origin[0],
           certifications: request.certifications as any[],
         },
-        
+
         quantityRequirements: {
           quantity: request.quantity,
           unit: request.quantityUnit as any,
           isRecurringOrder: request.isRecurringOrder || false,
-          recurringFrequency: request.isRecurringOrder ? request.recurringFrequency as any : undefined,
+          recurringFrequency: request.isRecurringOrder
+            ? (request.recurringFrequency as any)
+            : undefined,
         },
-        
+
         deliveryRequirements: {
           incoterms: request.deliveryTerms as any,
           destinationPort: request.deliveryLocation,
@@ -98,13 +108,13 @@ export class SubmitRfqUseCase {
           latestDeliveryDate: request.deliveryDate,
           packaging: 'JUTE_BAGS_60KG' as any, // Default packaging
         },
-        
+
         paymentTerms: {
           preferredCurrency: request.currency as any,
           paymentMethod: request.paymentMethod[0] as any,
           paymentTerms: request.paymentTerms,
         },
-        
+
         companyInfo: {
           companyName: request.companyName,
           contactPerson: request.contactPerson,
@@ -118,7 +128,7 @@ export class SubmitRfqUseCase {
           },
           businessType: request.businessType as any,
         },
-        
+
         additionalRequirements: request.additionalRequirements,
         sampleRequired: request.sampleRequired,
         submittedAt: now,
@@ -130,10 +140,13 @@ export class SubmitRfqUseCase {
 
       // Create RFQ entity and prepare data for repository
       const rfqEntity = new RFQEntity(rfqData);
-      
+
       // Extract data without id, createdAt, updatedAt for repository
-      const { id, createdAt, updatedAt, ...entityDataForRepo } = rfqEntity.toJSON();
-      const savedRfq = await this.rfqRepository.create(entityDataForRepo as any);
+      const { id, createdAt, updatedAt, ...entityDataForRepo } =
+        rfqEntity.toJSON();
+      const savedRfq = await this.rfqRepository.create(
+        entityDataForRepo as any
+      );
 
       // Send confirmation email to customer
       await this.sendCustomerConfirmation(savedRfq);
@@ -153,7 +166,7 @@ export class SubmitRfqUseCase {
         message: 'RFQ submitted successfully',
       };
     } catch (error) {
-      console.error('Error submitting RFQ:', error);
+      this.logger.error('Error submitting RFQ:', error);
       throw new Error('Failed to submit RFQ');
     }
   }
@@ -219,10 +232,14 @@ export class SubmitRfqUseCase {
         Best regards,
         The Great Beans Team
       `;
-      
-      await this.emailService.sendEmail(rfq.companyInfo.email, subject, content);
+
+      await this.emailService.sendEmail(
+        rfq.companyInfo.email,
+        subject,
+        content
+      );
     } catch (error) {
-      console.error('Failed to send customer confirmation:', error);
+      this.logger.error('Failed to send customer confirmation:', error);
       // Don't throw error to prevent RFQ submission failure
     }
   }
@@ -244,10 +261,10 @@ export class SubmitRfqUseCase {
         
         Please review and assign to appropriate team member.
       `;
-      
+
       await this.emailService.sendEmail(adminEmail, subject, content);
     } catch (error) {
-      console.error('Failed to send admin notification:', error);
+      this.logger.error('Failed to send admin notification:', error);
       // Don't throw error to prevent RFQ submission failure
     }
   }

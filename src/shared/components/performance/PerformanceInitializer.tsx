@@ -1,11 +1,15 @@
 'use client';
 
 import { useEffect } from 'react';
+
+import { createScopedLogger } from '@/shared/utils/logger';
+
+const logger = createScopedLogger('PerformanceInitializer');
 import { initializePerformanceOptimizations } from '@/shared/utils/performance-optimization';
 
 /**
  * Performance Initializer Component
- * 
+ *
  * Initializes performance optimizations on the client side:
  * - Preconnects to external domains
  * - Preloads critical fonts and images
@@ -18,9 +22,16 @@ export function PerformanceInitializer() {
     initializePerformanceOptimizations();
 
     // Add critical resource hints to document head
-    const addResourceHint = (href: string, rel: string, as?: string, type?: string) => {
+    const addResourceHint = (
+      href: string,
+      rel: string,
+      as?: string,
+      type?: string
+    ) => {
       // Check if hint already exists
-      const existing = document.querySelector(`link[href="${href}"][rel="${rel}"]`);
+      const existing = document.querySelector(
+        `link[href="${href}"][rel="${rel}"]`
+      );
       if (existing) return;
 
       const link = document.createElement('link');
@@ -61,7 +72,8 @@ export function PerformanceInitializer() {
     if (!document.querySelector('meta[name="viewport"]')) {
       const viewport = document.createElement('meta');
       viewport.name = 'viewport';
-      viewport.content = 'width=device-width, initial-scale=1, viewport-fit=cover';
+      viewport.content =
+        'width=device-width, initial-scale=1, viewport-fit=cover';
       document.head.appendChild(viewport);
     }
 
@@ -93,10 +105,10 @@ export function PerformanceInitializer() {
     if ('PerformanceObserver' in window) {
       // Monitor long tasks
       try {
-        const longTaskObserver = new PerformanceObserver((list) => {
-          list.getEntries().forEach((entry) => {
+        const longTaskObserver = new PerformanceObserver(list => {
+          list.getEntries().forEach(entry => {
             if (entry.duration > 50) {
-              console.warn(`Long task detected: ${entry.duration}ms`);
+              logger.warn(`Long task detected: ${entry.duration}ms`);
             }
           });
         });
@@ -107,10 +119,15 @@ export function PerformanceInitializer() {
 
       // Monitor layout shifts
       try {
-        const clsObserver = new PerformanceObserver((list) => {
-          list.getEntries().forEach((entry) => {
-            if (entry.entryType === 'layout-shift' && !(entry as any).hadRecentInput) {
-              console.log(`Layout shift detected: ${(entry as any).value}`);
+        const clsObserver = new PerformanceObserver(list => {
+          list.getEntries().forEach(entry => {
+            if (
+              entry.entryType === 'layout-shift' &&
+              !(entry as any).hadRecentInput
+            ) {
+              if (process.env.NODE_ENV === 'development') {
+                logger.info(`Layout shift detected: ${(entry as any).value}`);
+              }
             }
           });
         });
@@ -122,11 +139,12 @@ export function PerformanceInitializer() {
 
     // Service Worker registration for caching (if available)
     if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-      navigator.serviceWorker.register('/sw.js').catch((error) => {
-        console.log('Service Worker registration failed:', error);
+      navigator.serviceWorker.register('/sw.js').catch(error => {
+        if (process.env.NODE_ENV === 'development') {
+          logger.info('Service Worker registration failed:', error);
+        }
       });
     }
-
   }, []);
 
   // This component doesn't render anything

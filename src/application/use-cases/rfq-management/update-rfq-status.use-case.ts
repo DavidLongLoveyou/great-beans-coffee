@@ -1,7 +1,7 @@
+import { NotificationService } from '@/application/services/notification.service';
 import { RFQEntity, RFQStatus } from '@/domain/entities/rfq.entity';
 import { IRFQRepository } from '@/domain/repositories/rfq.repository';
-
-import { NotificationService } from '@/application/services/notification.service';
+import { createScopedLogger } from '@/shared/utils/logger';
 
 export interface UpdateRfqStatusRequest {
   id: string;
@@ -17,6 +17,8 @@ export interface UpdateRfqStatusResponse {
 }
 
 export class UpdateRfqStatusUseCase {
+  private logger = createScopedLogger('UpdateRfqStatusUseCase');
+
   constructor(
     private rfqRepository: IRFQRepository,
     private notificationService: NotificationService
@@ -105,7 +107,7 @@ export class UpdateRfqStatusUseCase {
             `RFQ ${updatedRfq.rfqNumber} status changed from ${existingRfq.status} to ${request.status}`
           );
         } catch (notificationError) {
-          console.error(
+          this.logger.error(
             'Failed to send status update notification:',
             notificationError
           );
@@ -119,7 +121,7 @@ export class UpdateRfqStatusUseCase {
         message: 'RFQ status updated successfully',
       };
     } catch (error) {
-      console.error('Error updating RFQ status:', error);
+      this.logger.error('Error updating RFQ status:', error);
       return {
         rfq: null,
         success: false,

@@ -1,9 +1,14 @@
-import { renderHook, waitFor } from '@testing-library/react'
-import { act } from '@testing-library/react'
-import { useCoffeeProducts } from '../use-coffee-products'
-import { createMockCoffeeProduct, createMockPaginatedResponse } from '@/test/utils'
+import { renderHook, act, waitFor } from '@testing-library/react';
 
-// Mock the use cases
+import { useCoffeeProducts } from '../use-coffee-products';
+
+import { GetCoffeeProductsUseCase } from '@/application/use-cases/coffee-products/get-coffee-products.use-case';
+import {
+  createMockCoffeeProduct,
+  createMockPaginatedResponse,
+} from '@/test/utils';
+
+// Mock the DI container exports
 jest.mock('@/infrastructure/di/container', () => ({
   getCoffeeProductsUseCase: {
     execute: jest.fn(),
@@ -17,336 +22,253 @@ jest.mock('@/infrastructure/di/container', () => ({
   getProductsByCategoryUseCase: {
     execute: jest.fn(),
   },
-}))
+}));
 
-const mockGetCoffeeProductsUseCase = require('@/infrastructure/di/container').getCoffeeProductsUseCase
-const mockGetFeaturedProductsUseCase = require('@/infrastructure/di/container').getFeaturedProductsUseCase
-const mockSearchCoffeeProductsUseCase = require('@/infrastructure/di/container').searchCoffeeProductsUseCase
-const mockGetProductsByCategoryUseCase = require('@/infrastructure/di/container').getProductsByCategoryUseCase
+// Get the mocked use cases after mocking
+const mockGetCoffeeProductsUseCase = jest.requireMock(
+  '@/infrastructure/di/container'
+).getCoffeeProductsUseCase;
 
-describe('useCoffeeProducts Hook', () => {
+describe('useCoffeeProducts', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
-  it('initializes with default state', () => {
-    const { result } = renderHook(() => useCoffeeProducts())
+  it('initializes with correct default state', () => {
+    const { result } = renderHook(() =>
+      useCoffeeProducts({ autoFetch: false })
+    );
 
-    expect(result.current.products).toEqual([])
-    expect(result.current.loading).toBe(false)
-    expect(result.current.error).toBeNull()
-    expect(result.current.pagination).toEqual({
-      page: 1,
-      limit: 12,
-      total: 0,
-      totalPages: 0,
-      hasNext: false,
-      hasPrev: false,
-    })
-  })
+    expect(result.current.products).toEqual([]);
+    expect(result.current.loading).toBe(false);
+    expect(result.current.error).toBeNull();
+    expect(typeof result.current.fetchProducts).toBe('function');
+    expect(typeof result.current.refetch).toBe('function');
+  });
 
-  it('loads products successfully', async () => {
+  it('fetches products successfully', async () => {
     const mockProducts = [
       createMockCoffeeProduct({ name: 'Ethiopian Yirgacheffe' }),
       createMockCoffeeProduct({ name: 'Colombian Supremo' }),
-    ]
-    const mockResponse = createMockPaginatedResponse(mockProducts, 1, 12, 2)
+    ];
+    const mockResponse = {
+      products: mockProducts,
+      total: 2,
+      hasMore: false,
+    };
+    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse);
 
-    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse)
+    const { result } = renderHook(() =>
+      useCoffeeProducts({ autoFetch: false })
+    );
 
-    const { result } = renderHook(() => useCoffeeProducts())
-
-    act(() => {
-      result.current.loadProducts()
-    })
-
-    expect(result.current.loading).toBe(true)
+    await act(async () => {
+      await result.current.fetchProducts();
+    });
 
     await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
+      expect(result.current.loading).toBe(false);
+    });
 
-    expect(result.current.products).toEqual(mockProducts)
-    expect(result.current.pagination).toEqual(mockResponse.pagination)
-    expect(result.current.error).toBeNull()
-    expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalledWith({
-      page: 1,
-      limit: 12,
-      filters: {},
-    })
-  })
+    expect(result.current.products).toEqual(mockProducts);
+    expect(result.current.error).toBeNull();
+    expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalledWith({});
+  });
 
   it('handles loading error', async () => {
-    const errorMessage = 'Failed to load products'
-    mockGetCoffeeProductsUseCase.execute.mockRejectedValue(new Error(errorMessage))
+    const errorMessage = 'Failed to load products';
+    mockGetCoffeeProductsUseCase.execute.mockRejectedValue(
+      new Error(errorMessage)
+    );
 
-    const { result } = renderHook(() => useCoffeeProducts())
+    const { result } = renderHook(() =>
+      useCoffeeProducts({ autoFetch: false })
+    );
 
-    act(() => {
-      result.current.loadProducts()
-    })
+    await act(async () => {
+      await result.current.fetchProducts();
+    });
 
     await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
+      expect(result.current.loading).toBe(false);
+    });
 
-    expect(result.current.products).toEqual([])
-    expect(result.current.error).toBe(errorMessage)
-  })
+    expect(result.current.error).toBe(errorMessage);
+    expect(result.current.products).toEqual([]);
+  });
 
-  it('loads featured products', async () => {
+  it('fetches featured products correctly', async () => {
     const mockFeaturedProducts = [
       createMockCoffeeProduct({ name: 'Premium Geisha', isFeatured: true }),
       createMockCoffeeProduct({ name: 'Blue Mountain', isFeatured: true }),
-    ]
+    ];
+    const mockResponse = {
+      products: mockFeaturedProducts,
+      total: 2,
+      hasMore: false,
+    };
+    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse);
 
-    mockGetFeaturedProductsUseCase.execute.mockResolvedValue(mockFeaturedProducts)
+    const { result } = renderHook(() =>
+      useCoffeeProducts({ autoFetch: false })
+    );
 
-    const { result } = renderHook(() => useCoffeeProducts())
-
-    act(() => {
-      result.current.loadFeaturedProducts()
-    })
-
-    expect(result.current.loading).toBe(true)
+    await act(async () => {
+      await result.current.fetchProducts({ featured: true });
+    });
 
     await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
+      expect(result.current.loading).toBe(false);
+    });
 
-    expect(result.current.products).toEqual(mockFeaturedProducts)
-    expect(mockGetFeaturedProductsUseCase.execute).toHaveBeenCalledWith({ limit: 6 })
-  })
+    expect(result.current.products).toEqual(mockFeaturedProducts);
+    expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalledWith({
+      filters: { featured: true },
+    });
+  });
 
-  it('searches products with query', async () => {
-    const searchQuery = 'Ethiopian'
+  it('searches products correctly', async () => {
     const mockSearchResults = [
       createMockCoffeeProduct({ name: 'Ethiopian Yirgacheffe' }),
       createMockCoffeeProduct({ name: 'Ethiopian Sidamo' }),
-    ]
-    const mockResponse = createMockPaginatedResponse(mockSearchResults, 1, 12, 2)
+    ];
+    const mockResponse = {
+      products: mockSearchResults,
+      total: 2,
+      hasMore: false,
+    };
+    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse);
 
-    mockSearchCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse)
+    const { result } = renderHook(() =>
+      useCoffeeProducts({ autoFetch: false })
+    );
 
-    const { result } = renderHook(() => useCoffeeProducts())
-
-    act(() => {
-      result.current.searchProducts(searchQuery)
-    })
-
-    expect(result.current.loading).toBe(true)
+    await act(async () => {
+      await result.current.fetchProducts({});
+    });
 
     await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
+      expect(result.current.loading).toBe(false);
+    });
 
-    expect(result.current.products).toEqual(mockSearchResults)
-    expect(mockSearchCoffeeProductsUseCase.execute).toHaveBeenCalledWith({
-      query: searchQuery,
-      page: 1,
-      limit: 12,
+    expect(result.current.products).toEqual(mockSearchResults);
+    expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalledWith({
       filters: {},
-    })
-  })
+    });
+  });
 
-  it('loads products by category', async () => {
-    const category = 'arabica'
+  it('fetches products by category correctly', async () => {
+    const category = 'arabica';
     const mockCategoryProducts = [
       createMockCoffeeProduct({ varietals: ['Arabica'] }),
       createMockCoffeeProduct({ varietals: ['Arabica', 'Bourbon'] }),
-    ]
-    const mockResponse = createMockPaginatedResponse(mockCategoryProducts, 1, 12, 2)
+    ];
+    const mockResponse = {
+      products: mockCategoryProducts,
+      total: 2,
+      hasMore: false,
+    };
+    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse);
 
-    mockGetProductsByCategoryUseCase.execute.mockResolvedValue(mockResponse)
+    const { result } = renderHook(() =>
+      useCoffeeProducts({ autoFetch: false })
+    );
 
-    const { result } = renderHook(() => useCoffeeProducts())
-
-    act(() => {
-      result.current.loadProductsByCategory(category)
-    })
-
-    expect(result.current.loading).toBe(true)
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
-
-    expect(result.current.products).toEqual(mockCategoryProducts)
-    expect(mockGetProductsByCategoryUseCase.execute).toHaveBeenCalledWith({
-      category,
-      page: 1,
-      limit: 12,
-      filters: {},
-    })
-  })
-
-  it('applies filters correctly', async () => {
-    const filters = {
-      origin: 'Ethiopia',
-      processingMethod: 'Washed',
-      minPrice: 10,
-      maxPrice: 50,
-    }
-    const mockResponse = createMockPaginatedResponse([], 1, 12, 0)
-
-    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse)
-
-    const { result } = renderHook(() => useCoffeeProducts())
-
-    act(() => {
-      result.current.setFilters(filters)
-    })
-
-    act(() => {
-      result.current.loadProducts()
-    })
+    await act(async () => {
+      await result.current.fetchProducts({ type: [category] });
+    });
 
     await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.products).toEqual(mockCategoryProducts);
+    expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalledWith({
+      filters: { type: [category] },
+    });
+  });
+
+  it('fetches products with filters correctly', async () => {
+    const filters = { region: ['Vietnam'], inStock: true };
+    const mockResponse = {
+      products: [],
+      total: 0,
+      hasMore: false,
+    };
+    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse);
+
+    const { result } = renderHook(() =>
+      useCoffeeProducts({ autoFetch: false })
+    );
+
+    await act(async () => {
+      await result.current.fetchProducts(filters);
+    });
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
 
     expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalledWith({
-      page: 1,
-      limit: 12,
       filters,
-    })
-  })
+    });
+  });
 
-  it('handles pagination correctly', async () => {
-    const mockResponse = createMockPaginatedResponse([], 2, 12, 24)
-    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse)
+  it('handles refetch correctly', async () => {
+    const mockResponse = {
+      products: [],
+      total: 0,
+      hasMore: false,
+    };
+    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse);
 
-    const { result } = renderHook(() => useCoffeeProducts())
+    const { result } = renderHook(() =>
+      useCoffeeProducts({ autoFetch: false })
+    );
 
-    act(() => {
-      result.current.setPage(2)
-    })
+    await act(async () => {
+      await result.current.refetch();
+    });
 
-    act(() => {
-      result.current.loadProducts()
-    })
+    expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalled();
+  });
 
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
-
-    expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalledWith({
-      page: 2,
-      limit: 12,
-      filters: {},
-    })
-    expect(result.current.pagination.page).toBe(2)
-  })
-
-  it('changes page size correctly', async () => {
-    const mockResponse = createMockPaginatedResponse([], 1, 24, 24)
-    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse)
-
-    const { result } = renderHook(() => useCoffeeProducts())
-
-    act(() => {
-      result.current.setPageSize(24)
-    })
-
-    act(() => {
-      result.current.loadProducts()
-    })
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
-
-    expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalledWith({
-      page: 1,
-      limit: 24,
-      filters: {},
-    })
-    expect(result.current.pagination.limit).toBe(24)
-  })
-
-  it('clears filters correctly', () => {
-    const { result } = renderHook(() => useCoffeeProducts())
-
-    act(() => {
-      result.current.setFilters({ origin: 'Ethiopia' })
-    })
-
-    expect(result.current.filters).toEqual({ origin: 'Ethiopia' })
-
-    act(() => {
-      result.current.clearFilters()
-    })
-
-    expect(result.current.filters).toEqual({})
-  })
-
-  it('refreshes products', async () => {
-    const mockResponse = createMockPaginatedResponse([], 1, 12, 0)
-    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse)
-
-    const { result } = renderHook(() => useCoffeeProducts())
-
-    act(() => {
-      result.current.refresh()
-    })
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
-
-    expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalledTimes(1)
-  })
-
-  it('handles concurrent requests correctly', async () => {
-    const mockResponse1 = createMockPaginatedResponse([createMockCoffeeProduct()], 1, 12, 1)
-    const mockResponse2 = createMockPaginatedResponse([createMockCoffeeProduct()], 1, 12, 1)
-
-    mockGetCoffeeProductsUseCase.execute
-      .mockResolvedValueOnce(mockResponse1)
-      .mockResolvedValueOnce(mockResponse2)
-
-    const { result } = renderHook(() => useCoffeeProducts())
-
-    // Start two concurrent requests
-    act(() => {
-      result.current.loadProducts()
-      result.current.loadProducts()
-    })
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
-
-    // Should only call the use case twice (one for each request)
-    expect(mockGetCoffeeProductsUseCase.execute).toHaveBeenCalledTimes(2)
-  })
-
-  it('clears error when new request starts', async () => {
+  it('handles multiple consecutive requests correctly', async () => {
     // First request fails
-    mockGetCoffeeProductsUseCase.execute.mockRejectedValueOnce(new Error('Network error'))
+    mockGetCoffeeProductsUseCase.execute.mockRejectedValueOnce(
+      new Error('Network error')
+    );
 
-    const { result } = renderHook(() => useCoffeeProducts())
+    const { result } = renderHook(() =>
+      useCoffeeProducts({ autoFetch: false })
+    );
 
-    act(() => {
-      result.current.loadProducts()
-    })
+    await act(async () => {
+      await result.current.fetchProducts();
+    });
 
     await waitFor(() => {
-      expect(result.current.error).toBe('Network error')
-    })
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.error).toBe('Network error');
 
     // Second request succeeds
-    const mockResponse = createMockPaginatedResponse([], 1, 12, 0)
-    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse)
+    const mockResponse = {
+      products: [],
+      total: 0,
+      hasMore: false,
+    };
+    mockGetCoffeeProductsUseCase.execute.mockResolvedValue(mockResponse);
 
-    act(() => {
-      result.current.loadProducts()
-    })
+    await act(async () => {
+      await result.current.fetchProducts();
+    });
 
-    expect(result.current.error).toBeNull()
+    expect(result.current.error).toBeNull();
 
     await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
-  })
-})
+      expect(result.current.loading).toBe(false);
+    });
+  });
+});

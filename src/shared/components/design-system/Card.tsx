@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import React, { forwardRef } from 'react';
 
-import { cn } from '@/shared/utils/cn';
-
 import { CardProps } from './types';
+
+import { cn } from '@/shared/utils/cn';
 
 // Card variant styles
 const cardVariants = {
@@ -244,7 +244,7 @@ export const ServiceCard = forwardRef<
   <Card variant="elevated" hover ref={ref} {...props}>
     <CardHeader>
       {icon && (
-        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-coffee-100">
+        <div className="bg-coffee-100 mb-4 flex h-12 w-12 items-center justify-center rounded-lg">
           {icon}
         </div>
       )}
@@ -259,7 +259,7 @@ export const ServiceCard = forwardRef<
               key={`feature-${title}-${feature.slice(0, 20)}`}
               className="flex items-center text-sm"
             >
-              <div className="mr-3 h-1.5 w-1.5 rounded-full bg-coffee-500" />
+              <div className="bg-coffee-500 mr-3 h-1.5 w-1.5 rounded-full" />
               {feature}
             </li>
           ))}

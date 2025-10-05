@@ -2,10 +2,16 @@
 
 export interface ContentDto {
   id: string;
-  type: 'BLOG_POST' | 'MARKET_REPORT' | 'ORIGIN_STORY' | 'SERVICE_PAGE' | 'PRODUCT_PAGE' | 'LANDING_PAGE';
+  type:
+    | 'BLOG_POST'
+    | 'MARKET_REPORT'
+    | 'ORIGIN_STORY'
+    | 'SERVICE_PAGE'
+    | 'PRODUCT_PAGE'
+    | 'LANDING_PAGE';
   slug: string;
   status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' | 'SCHEDULED';
-  
+
   // Multilingual Content
   title: {
     en: string;
@@ -17,7 +23,7 @@ export interface ContentDto {
     nl?: string;
     ko?: string;
   };
-  
+
   description: {
     en: string;
     de?: string;
@@ -28,7 +34,7 @@ export interface ContentDto {
     nl?: string;
     ko?: string;
   };
-  
+
   content: {
     en: string;
     de?: string;
@@ -39,7 +45,7 @@ export interface ContentDto {
     nl?: string;
     ko?: string;
   };
-  
+
   excerpt?: {
     en: string;
     de?: string;
@@ -59,7 +65,7 @@ export interface ContentDto {
     width?: number;
     height?: number;
   };
-  
+
   gallery?: Array<{
     url: string;
     alt: string;
@@ -108,7 +114,7 @@ export interface ContentDto {
   // Categorization
   categories?: string[];
   tags?: string[];
-  
+
   // Publishing
   publishedAt?: Date;
   scheduledAt?: Date;
@@ -116,7 +122,7 @@ export interface ContentDto {
   updatedAt: Date;
   createdBy: string;
   updatedBy: string;
-  
+
   // Content-specific fields
   metadata?: {
     // For blog posts
@@ -127,12 +133,12 @@ export interface ContentDto {
       social?: Record<string, string>;
     };
     readingTime?: number;
-    
+
     // For market reports
     reportDate?: Date;
     reportType?: 'MONTHLY' | 'QUARTERLY' | 'ANNUAL' | 'SPECIAL';
     dataSource?: string;
-    
+
     // For origin stories
     origin?: {
       country: string;
@@ -144,12 +150,17 @@ export interface ContentDto {
         longitude: number;
       };
     };
-    
+
     // For service pages
-    serviceType?: 'OEM' | 'PRIVATE_LABEL' | 'SOURCING' | 'LOGISTICS' | 'CONSULTING';
+    serviceType?:
+      | 'OEM'
+      | 'PRIVATE_LABEL'
+      | 'SOURCING'
+      | 'LOGISTICS'
+      | 'CONSULTING';
     features?: string[];
     benefits?: string[];
-    
+
     // For product pages
     productId?: string;
     specifications?: Record<string, any>;

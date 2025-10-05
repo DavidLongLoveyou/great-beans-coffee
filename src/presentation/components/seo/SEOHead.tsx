@@ -3,13 +3,13 @@
 import Head from 'next/head';
 import { type ReactElement } from 'react';
 
+import { StructuredData } from './StructuredData';
+
 import {
   generateOrganizationSchema,
   generateBreadcrumbSchema,
   type SEOProps,
 } from '@/shared/utils/seo-utils';
-
-import { StructuredData } from './StructuredData';
 
 // Type for structured data objects
 type StructuredDataObject = Record<string, unknown>;

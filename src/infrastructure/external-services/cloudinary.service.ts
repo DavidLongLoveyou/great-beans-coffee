@@ -69,8 +69,10 @@ export class CloudinaryService {
     };
 
     // Build transformation string
-    const transformString = this.buildTransformationString(defaultTransformations);
-    
+    const transformString = this.buildTransformationString(
+      defaultTransformations
+    );
+
     // Add responsive transformations if enabled
     if (responsive && priority === 'high') {
       // For above-the-fold images, use eager transformations
@@ -192,13 +194,18 @@ export class CloudinaryService {
    * Note: This method should be implemented in a separate server-side service
    */
   uploadImage(): never {
-    throw new Error('Image upload should be performed server-side using a dedicated API route');
+    throw new Error(
+      'Image upload should be performed server-side using a dedicated API route'
+    );
   }
 
   /**
    * Generate SEO-optimized image metadata
    */
-  getImageMetadata(publicId: string, alt: string): {
+  getImageMetadata(
+    publicId: string,
+    alt: string
+  ): {
     url: string;
     width: number;
     height: number;
@@ -217,7 +224,9 @@ export class CloudinaryService {
   /**
    * Build transformation string from options
    */
-  private buildTransformationString(transformations: CloudinaryTransformation): string {
+  private buildTransformationString(
+    transformations: CloudinaryTransformation
+  ): string {
     const parts: string[] = [];
 
     if (transformations.width) parts.push(`w_${transformations.width}`);
@@ -226,10 +235,12 @@ export class CloudinaryService {
     if (transformations.quality) parts.push(`q_${transformations.quality}`);
     if (transformations.format) parts.push(`f_${transformations.format}`);
     if (transformations.gravity) parts.push(`g_${transformations.gravity}`);
-    if (transformations.fetchFormat) parts.push(`f_${transformations.fetchFormat}`);
+    if (transformations.fetchFormat)
+      parts.push(`f_${transformations.fetchFormat}`);
     if (transformations.dpr) parts.push(`dpr_${transformations.dpr}`);
     if (transformations.effect) parts.push(`e_${transformations.effect}`);
-    if (transformations.background) parts.push(`b_${transformations.background}`);
+    if (transformations.background)
+      parts.push(`b_${transformations.background}`);
     if (transformations.overlay) parts.push(`l_${transformations.overlay}`);
     if (transformations.flags) {
       transformations.flags.forEach(flag => parts.push(`fl_${flag}`));
@@ -243,16 +254,26 @@ export class CloudinaryService {
 export const cloudinaryService = new CloudinaryService();
 
 // Utility functions for common use cases
-export const getOptimizedCoffeeImage = (publicId: string, size: 'small' | 'medium' | 'large' = 'medium') => {
+export const getOptimizedCoffeeImage = (
+  publicId: string,
+  size: 'small' | 'medium' | 'large' = 'medium'
+) => {
   const mappedSize = size === 'small' ? 'thumbnail' : size;
-  return cloudinaryService.getProductImageUrl(publicId, mappedSize as 'thumbnail' | 'medium' | 'large');
+  return cloudinaryService.getProductImageUrl(
+    publicId,
+    mappedSize as 'thumbnail' | 'medium' | 'large'
+  );
 };
 
 export const getHeroCoffeeImage = (publicId: string) => {
   return cloudinaryService.getHeroImageUrl(publicId);
 };
 
-export const getBlogCoffeeImage = (publicId: string, width?: number, height?: number) => {
+export const getBlogCoffeeImage = (
+  publicId: string,
+  width?: number,
+  height?: number
+) => {
   return cloudinaryService.getBlogImageUrl(publicId, width, height);
 };
 

@@ -184,10 +184,7 @@ export interface IContentRepository {
   ): Promise<ContentEntity[]>;
 
   // SEO management
-  updateSEOMetadata(
-    id: string,
-    seoData: SEOMetadata
-  ): Promise<ContentEntity>;
+  updateSEOMetadata(id: string, seoData: SEOMetadata): Promise<ContentEntity>;
   findBySEOKeyword(keyword: string): Promise<ContentEntity[]>;
   findWithMissingSEO(): Promise<ContentEntity[]>;
   calculateSEOScore(id: string): Promise<number>;

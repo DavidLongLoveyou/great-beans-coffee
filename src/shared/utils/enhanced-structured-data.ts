@@ -1,6 +1,6 @@
-import { type Locale } from '@/i18n';
-
 import { seoConfig } from './seo-utils';
+
+import { type Locale } from '@/i18n';
 
 // Enhanced B2B Product Schema with international targeting
 export interface B2BProductSchema {
@@ -297,7 +297,7 @@ export function generateB2BProductSchema(
       },
     },
     category: product.category,
-    sku: product.sku,
+    sku: product.sku || `PRODUCT-${product.id}`,
     offers: {
       '@type': 'Offer',
       '@id': `${productUrl}#offer`,
@@ -321,22 +321,24 @@ export function generateB2BProductSchema(
         unitCode: 'DAY',
       },
       areaServed: product.targetMarkets,
-      incoterms: product.incoterms,
+      ...(product.incoterms && { incoterms: product.incoterms }),
     },
     countryOfOrigin: {
       '@type': 'Country',
       name: product.origin,
       identifier: 'VN',
     },
-    certification: product.certifications?.map(cert => ({
-      '@type': 'Certification',
-      name: cert.name,
-      certificationIdentification: cert.identifier,
-      issuedBy: {
-        '@type': 'Organization',
-        name: cert.issuer,
-      },
-    })),
+    ...(product.certifications && {
+      certification: product.certifications.map(cert => ({
+        '@type': 'Certification',
+        name: cert.name,
+        certificationIdentification: cert.identifier,
+        issuedBy: {
+          '@type': 'Organization',
+          name: cert.issuer,
+        },
+      })),
+    }),
   };
 }
 
@@ -393,11 +395,13 @@ export function generateB2BServiceSchema(
       '@type': 'Thing',
       name: feature,
     })),
-    hasCredential: service.certifications?.map(cert => ({
-      '@type': 'EducationalOccupationalCredential',
-      name: cert,
-      credentialCategory: 'Quality Certification',
-    })),
+    ...(service.certifications && {
+      hasCredential: service.certifications.map(cert => ({
+        '@type': 'EducationalOccupationalCredential',
+        name: cert,
+        credentialCategory: 'Quality Certification',
+      })),
+    }),
   };
 }
 
@@ -452,16 +456,17 @@ export function generateMultilingualArticleSchema(
       '@type': 'WebPage',
       '@id': articleUrl,
     },
-    wordCount: article.wordCount,
-    articleSection: article.section,
-    keywords: article.keywords,
+    wordCount: article.wordCount || 0,
+    articleSection: article.section || 'General',
+    keywords: article.keywords || [],
     inLanguage: locale,
-    workTranslation: article.alternateVersions?.map(version => ({
-      '@type': 'Article',
-      '@id': version.url,
-      inLanguage: version.locale,
-      url: version.url,
-    })),
+    workTranslation:
+      article.alternateVersions?.map(version => ({
+        '@type': 'Article',
+        '@id': version.url,
+        inLanguage: version.locale,
+        url: version.url,
+      })) || [],
     speakable: {
       '@type': 'SpeakableSpecification',
       cssSelector: ['h1', 'h2', '.summary', '.key-points'],

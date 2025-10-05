@@ -1,13 +1,26 @@
 // Quote DTOs for application layer communication
-import { CoffeeGrade, CoffeeVariety, ProcessingMethod, CoffeeCertification } from '@/shared/components/design-system/types';
+import {
+  CoffeeGrade,
+  CoffeeVariety,
+  ProcessingMethod,
+  CoffeeCertification,
+} from '@/shared/components/design-system/types';
 
 export interface QuoteDto {
   id: string;
   quoteNumber: string;
   rfqId: string;
-  status: 'DRAFT' | 'SENT' | 'VIEWED' | 'UNDER_REVIEW' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED' | 'REVISED';
+  status:
+    | 'DRAFT'
+    | 'SENT'
+    | 'VIEWED'
+    | 'UNDER_REVIEW'
+    | 'ACCEPTED'
+    | 'REJECTED'
+    | 'EXPIRED'
+    | 'REVISED';
   version: number;
-  
+
   // Client Information (from RFQ)
   clientInfo: {
     companyName: string;
@@ -89,7 +102,11 @@ export interface QuoteDto {
       country: string;
     };
     estimatedShippingTime: string;
-    shippingMethod: 'SEA_FREIGHT' | 'AIR_FREIGHT' | 'LAND_TRANSPORT' | 'MULTIMODAL';
+    shippingMethod:
+      | 'SEA_FREIGHT'
+      | 'AIR_FREIGHT'
+      | 'LAND_TRANSPORT'
+      | 'MULTIMODAL';
     containerType?: string;
     estimatedShippingCost?: number;
   };
@@ -111,7 +128,7 @@ export interface QuoteDto {
   respondedAt?: Date;
   expiresAt: Date;
   lastUpdated: Date;
-  
+
   // Communication
   notes?: string;
   internalNotes?: string;
@@ -121,7 +138,7 @@ export interface QuoteDto {
     updatedBy: string;
     updatedAt: Date;
   }>;
-  
+
   // Attachments
   attachments?: Array<{
     id: string;

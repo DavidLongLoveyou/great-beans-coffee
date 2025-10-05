@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+
 import '../globals.css';
 import { NextIntlProvider } from '@/components/providers/NextIntlProvider';
-import { getMessages } from '@/lib/messages';
-import { PerformanceMonitor } from '@/shared/components/performance/PerformanceMonitor';
-import { PerformanceInitializer } from '@/shared/components/performance/PerformanceInitializer';
-import Header from '@/presentation/components/layout/Header';
-import Footer from '@/presentation/components/layout/Footer';
 import { type Locale } from '@/i18n';
+import { getMessages } from '@/lib/messages';
+import Footer from '@/presentation/components/layout/Footer';
+import Header from '@/presentation/components/layout/Header';
+import { PerformanceInitializer } from '@/shared/components/performance/PerformanceInitializer';
+import { PerformanceMonitor } from '@/shared/components/performance/PerformanceMonitor';
 
 const inter = Inter({ subsets: ['latin'] });
 

@@ -1,11 +1,12 @@
 import { type Metadata } from 'next';
+
 import { type Locale } from '@/i18n';
-import { 
-  AdvancedSEOMetadata, 
+import {
+  AdvancedSEOMetadata,
   advancedSEOManager,
-  AdvancedSEOConfig 
+  AdvancedSEOConfig,
 } from '@/shared/utils/advanced-seo-manager';
-import { 
+import {
   schemaGenerators,
   type CoffeeProductData,
   type B2BServiceData,
@@ -26,16 +27,25 @@ import {
 
 export interface SEOPageData {
   // Page identification
-  pageType: 'home' | 'product' | 'service' | 'article' | 'collection' | 'about' | 'contact' | 'report' | 'origin-story';
+  pageType:
+    | 'home'
+    | 'product'
+    | 'service'
+    | 'article'
+    | 'collection'
+    | 'about'
+    | 'contact'
+    | 'report'
+    | 'origin-story';
   slug?: string;
   locale: Locale;
-  
+
   // Content data
   title: string;
   description: string;
   keywords: string[];
   content?: string;
-  
+
   // Media
   images?: Array<{
     url: string;
@@ -44,18 +54,18 @@ export interface SEOPageData {
     height?: number;
     caption?: string;
   }>;
-  
+
   // Dates
   publishedDate?: string;
   modifiedDate?: string;
-  
+
   // Author and attribution
   author?: string;
-  
+
   // Category and tags
   category?: string;
   tags?: string[];
-  
+
   // Business data
   price?: {
     amount: string;
@@ -63,16 +73,16 @@ export interface SEOPageData {
     unit?: string;
   };
   availability?: 'InStock' | 'OutOfStock' | 'PreOrder' | 'Discontinued';
-  
+
   // Navigation
   breadcrumbs?: Array<{ name: string; url: string }>;
-  
+
   // Related content
   relatedItems?: Array<{ name: string; url: string; description?: string }>;
-  
+
   // FAQ for AI optimization
   faqs?: Array<{ question: string; answer: string }>;
-  
+
   // Custom properties
   customData?: Record<string, any>;
 }
@@ -82,20 +92,20 @@ export interface SEOOptimizationOptions {
   enableImageOptimization?: boolean;
   enableCriticalResourcePreload?: boolean;
   enableCoreWebVitalsTracking?: boolean;
-  
+
   // Content optimization
   enableSchemaMarkup?: boolean;
   enableFAQOptimization?: boolean;
   enableBreadcrumbMarkup?: boolean;
-  
+
   // International SEO
   enableHreflangTags?: boolean;
   alternateLocales?: Locale[];
-  
+
   // Analytics and tracking
   enableAnalytics?: boolean;
   enableEnhancedEcommerce?: boolean;
-  
+
   // Custom optimization
   customSchemas?: Record<string, any>[];
   preloadResources?: Array<{
@@ -110,7 +120,12 @@ export interface SEOAuditResult {
   score: number;
   issues: Array<{
     type: 'error' | 'warning' | 'info';
-    category: 'metadata' | 'schema' | 'performance' | 'accessibility' | 'international';
+    category:
+      | 'metadata'
+      | 'schema'
+      | 'performance'
+      | 'accessibility'
+      | 'international';
     message: string;
     recommendation?: string;
   }>;
@@ -141,7 +156,12 @@ export class EnhancedSEOService {
   ): Promise<{
     metadata: Metadata;
     structuredData: Record<string, any>[];
-    preloadResources: Array<{ href: string; as: string; type?: string; crossOrigin?: string }>;
+    preloadResources: Array<{
+      href: string;
+      as: string;
+      type?: string;
+      crossOrigin?: string;
+    }>;
   }> {
     // Build advanced SEO metadata
     const seoMetadata: AdvancedSEOMetadata = {
@@ -173,14 +193,18 @@ export class EnhancedSEOService {
     if (options.enableSchemaMarkup !== false) {
       // Always include organization and website schemas
       structuredData.push(this.seoManager.generateOrganizationSchema());
-      structuredData.push(this.seoManager.generateWebsiteSchema(pageData.locale));
+      structuredData.push(
+        this.seoManager.generateWebsiteSchema(pageData.locale)
+      );
 
       // Add page-specific schemas
       await this.addPageSpecificSchemas(pageData, structuredData);
 
       // Add breadcrumb schema
       if (options.enableBreadcrumbMarkup !== false && pageData.breadcrumbs) {
-        structuredData.push(this.seoManager.generateBreadcrumbSchema(pageData.breadcrumbs));
+        structuredData.push(
+          this.seoManager.generateBreadcrumbSchema(pageData.breadcrumbs)
+        );
       }
 
       // Add FAQ schema for AI optimization
@@ -214,7 +238,12 @@ export class EnhancedSEOService {
   ): Promise<{
     metadata: Metadata;
     structuredData: Record<string, any>[];
-    preloadResources: Array<{ href: string; as: string; type?: string; crossOrigin?: string }>;
+    preloadResources: Array<{
+      href: string;
+      as: string;
+      type?: string;
+      crossOrigin?: string;
+    }>;
   }> {
     const pageData: SEOPageData = {
       pageType: 'product',
@@ -240,7 +269,10 @@ export class EnhancedSEOService {
       breadcrumbs: [
         { name: 'Home', url: `/${locale}` },
         { name: 'Products', url: `/${locale}/products` },
-        { name: productData.name, url: `/${locale}/products/${productData.id}` },
+        {
+          name: productData.name,
+          url: `/${locale}/products/${productData.id}`,
+        },
       ],
     };
 
@@ -266,7 +298,12 @@ export class EnhancedSEOService {
   ): Promise<{
     metadata: Metadata;
     structuredData: Record<string, any>[];
-    preloadResources: Array<{ href: string; as: string; type?: string; crossOrigin?: string }>;
+    preloadResources: Array<{
+      href: string;
+      as: string;
+      type?: string;
+      crossOrigin?: string;
+    }>;
   }> {
     const pageData: SEOPageData = {
       pageType: 'service',
@@ -288,7 +325,10 @@ export class EnhancedSEOService {
       breadcrumbs: [
         { name: 'Home', url: `/${locale}` },
         { name: 'Services', url: `/${locale}/services` },
-        { name: serviceData.name, url: `/${locale}/services/${serviceData.id}` },
+        {
+          name: serviceData.name,
+          url: `/${locale}/services/${serviceData.id}`,
+        },
       ],
     };
 
@@ -313,7 +353,12 @@ export class EnhancedSEOService {
   ): Promise<{
     metadata: Metadata;
     structuredData: Record<string, any>[];
-    preloadResources: Array<{ href: string; as: string; type?: string; crossOrigin?: string }>;
+    preloadResources: Array<{
+      href: string;
+      as: string;
+      type?: string;
+      crossOrigin?: string;
+    }>;
   }> {
     const pageData: SEOPageData = {
       pageType: 'article',
@@ -332,16 +377,26 @@ export class EnhancedSEOService {
       ],
       content: articleData.content,
       images: articleData.images,
-      ...(articleData.publishedDate && { publishedDate: articleData.publishedDate }),
-      ...(articleData.modifiedDate && { modifiedDate: articleData.modifiedDate }),
+      ...(articleData.publishedDate && {
+        publishedDate: articleData.publishedDate,
+      }),
+      ...(articleData.modifiedDate && {
+        modifiedDate: articleData.modifiedDate,
+      }),
       ...(articleData.author && { author: articleData.author }),
       ...(articleData.category && { category: articleData.category }),
       ...(articleData.tags && { tags: articleData.tags }),
       breadcrumbs: [
         { name: 'Home', url: `/${articleData.locale}` },
         { name: 'Blog', url: `/${articleData.locale}/blog` },
-        { name: articleData.category, url: `/${articleData.locale}/blog/category/${articleData.category.toLowerCase()}` },
-        { name: articleData.title, url: `/${articleData.locale}/blog/${articleData.id}` },
+        {
+          name: articleData.category,
+          url: `/${articleData.locale}/blog/category/${articleData.category.toLowerCase()}`,
+        },
+        {
+          name: articleData.title,
+          url: `/${articleData.locale}/blog/${articleData.id}`,
+        },
       ],
     };
 
@@ -405,7 +460,8 @@ export class EnhancedSEOService {
         type: 'warning',
         category: 'metadata',
         message: 'Description is too long (recommended: 120-160 characters)',
-        recommendation: 'Shorten description to prevent truncation in search results',
+        recommendation:
+          'Shorten description to prevent truncation in search results',
       });
       score -= 5;
     }
@@ -415,7 +471,8 @@ export class EnhancedSEOService {
         type: 'warning',
         category: 'metadata',
         message: 'Insufficient keywords (recommended: 3-10 relevant keywords)',
-        recommendation: 'Add more relevant keywords for better content classification',
+        recommendation:
+          'Add more relevant keywords for better content classification',
       });
       score -= 10;
     }
@@ -426,7 +483,8 @@ export class EnhancedSEOService {
         type: 'info',
         category: 'metadata',
         message: 'No images found for social sharing',
-        recommendation: 'Add at least one high-quality image for better social media sharing',
+        recommendation:
+          'Add at least one high-quality image for better social media sharing',
       });
       score -= 5;
     }
@@ -437,7 +495,8 @@ export class EnhancedSEOService {
         type: 'warning',
         category: 'schema',
         message: 'Insufficient structured data markup',
-        recommendation: 'Add more Schema.org markup for better search engine understanding',
+        recommendation:
+          'Add more Schema.org markup for better search engine understanding',
       });
       score -= 15;
     }
@@ -448,20 +507,27 @@ export class EnhancedSEOService {
         type: 'info',
         category: 'international',
         message: 'Missing breadcrumb navigation',
-        recommendation: 'Add breadcrumb navigation for better user experience and SEO',
+        recommendation:
+          'Add breadcrumb navigation for better user experience and SEO',
       });
       score -= 5;
     }
 
     // Generate recommendations
     if (score < 80) {
-      recommendations.push('Focus on improving metadata quality and completeness');
+      recommendations.push(
+        'Focus on improving metadata quality and completeness'
+      );
     }
     if (!currentSchemas || currentSchemas.length < 3) {
-      recommendations.push('Implement comprehensive Schema.org markup for better search visibility');
+      recommendations.push(
+        'Implement comprehensive Schema.org markup for better search visibility'
+      );
     }
     if (!pageData.faqs && pageData.pageType === 'product') {
-      recommendations.push('Add FAQ section to optimize for voice search and AI assistants');
+      recommendations.push(
+        'Add FAQ section to optimize for voice search and AI assistants'
+      );
     }
 
     return {
@@ -492,7 +558,11 @@ export class EnhancedSEOService {
   } {
     const sitemapEntry = {
       url: this.generateCanonicalUrl(pageData),
-      lastModified: lastModified || pageData.modifiedDate || pageData.publishedDate || new Date().toISOString(),
+      lastModified:
+        lastModified ||
+        pageData.modifiedDate ||
+        pageData.publishedDate ||
+        new Date().toISOString(),
       changeFrequency: this.getChangeFrequency(pageData.pageType),
       priority: this.calculatePagePriority(pageData.pageType),
     };
@@ -501,7 +571,9 @@ export class EnhancedSEOService {
       return {
         ...sitemapEntry,
         images: pageData.images.map(img => ({
-          url: img.url.startsWith('http') ? img.url : `${this.baseUrl}${img.url}`,
+          url: img.url.startsWith('http')
+            ? img.url
+            : `${this.baseUrl}${img.url}`,
           caption: img.caption || img.alt,
           title: img.alt,
         })),
@@ -514,7 +586,9 @@ export class EnhancedSEOService {
   /**
    * Helper methods
    */
-  private mapPageTypeToContentType(pageType: string): AdvancedSEOMetadata['contentType'] {
+  private mapPageTypeToContentType(
+    pageType: string
+  ): AdvancedSEOMetadata['contentType'] {
     const mapping: Record<string, AdvancedSEOMetadata['contentType']> = {
       home: 'website',
       product: 'product',
@@ -526,17 +600,17 @@ export class EnhancedSEOService {
       report: 'article',
       'origin-story': 'article',
     };
-    
+
     return mapping[pageType] || 'website';
   }
 
   private generateCanonicalUrl(pageData: SEOPageData): string {
     const basePath = `${this.baseUrl}/${pageData.locale}`;
-    
+
     if (pageData.pageType === 'home') {
       return basePath;
     }
-    
+
     const typeMapping = {
       product: 'products',
       service: 'services',
@@ -545,10 +619,12 @@ export class EnhancedSEOService {
       'origin-story': 'origins',
       collection: pageData.slug || 'collection',
     };
-    
-    const pathSegment = typeMapping[pageData.pageType as keyof typeof typeMapping] || pageData.pageType;
-    
-    return pageData.slug 
+
+    const pathSegment =
+      typeMapping[pageData.pageType as keyof typeof typeMapping] ||
+      pageData.pageType;
+
+    return pageData.slug
       ? `${basePath}/${pathSegment}/${pageData.slug}`
       : `${basePath}/${pathSegment}`;
   }
@@ -565,11 +641,13 @@ export class EnhancedSEOService {
       about: 0.5,
       contact: 0.5,
     };
-    
+
     return priorities[pageType as keyof typeof priorities] || 0.5;
   }
 
-  private getChangeFrequency(pageType: string): 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never' {
+  private getChangeFrequency(
+    pageType: string
+  ): 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never' {
     const frequencies = {
       home: 'weekly',
       product: 'monthly',
@@ -581,8 +659,15 @@ export class EnhancedSEOService {
       about: 'yearly',
       contact: 'yearly',
     };
-    
-    return (frequencies[pageType as keyof typeof frequencies] || 'monthly') as 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+
+    return (frequencies[pageType as keyof typeof frequencies] || 'monthly') as
+      | 'always'
+      | 'hourly'
+      | 'daily'
+      | 'weekly'
+      | 'monthly'
+      | 'yearly'
+      | 'never';
   }
 
   private async addPageSpecificSchemas(
@@ -597,7 +682,12 @@ export class EnhancedSEOService {
     pageData: SEOPageData,
     options: SEOOptimizationOptions
   ): Array<{ href: string; as: string; type?: string; crossOrigin?: string }> {
-    const resources: Array<{ href: string; as: string; type?: string; crossOrigin?: string }> = [];
+    const resources: Array<{
+      href: string;
+      as: string;
+      type?: string;
+      crossOrigin?: string;
+    }> = [];
 
     // Add custom preload resources
     if (options.preloadResources) {
@@ -609,7 +699,9 @@ export class EnhancedSEOService {
       const primaryImage = pageData.images[0];
       if (primaryImage.url) {
         resources.push({
-          href: primaryImage.url.startsWith('http') ? primaryImage.url : `${this.baseUrl}${primaryImage.url}`,
+          href: primaryImage.url.startsWith('http')
+            ? primaryImage.url
+            : `${this.baseUrl}${primaryImage.url}`,
           as: 'image',
         });
       }
@@ -636,34 +728,45 @@ export class EnhancedSEOService {
 
   private countMetaTags(metadata?: Metadata): number {
     if (!metadata) return 0;
-    
+
     let count = 0;
     if (metadata.title) count++;
     if (metadata.description) count++;
     if (metadata.keywords) count++;
     if (metadata.openGraph) count += Object.keys(metadata.openGraph).length;
     if (metadata.twitter) count += Object.keys(metadata.twitter).length;
-    
+
     return count;
   }
 
-  private mapAvailabilityToSEOFormat(availability: any): 'InStock' | 'OutOfStock' | 'PreOrder' | 'Discontinued' {
+  private mapAvailabilityToSEOFormat(
+    availability: any
+  ): 'InStock' | 'OutOfStock' | 'PreOrder' | 'Discontinued' {
     if (typeof availability === 'string') {
       const normalizedAvailability = availability.toLowerCase();
-      if (normalizedAvailability.includes('stock') || normalizedAvailability === 'available') {
+      if (
+        normalizedAvailability.includes('stock') ||
+        normalizedAvailability === 'available'
+      ) {
         return 'InStock';
       }
-      if (normalizedAvailability.includes('out') || normalizedAvailability === 'unavailable') {
+      if (
+        normalizedAvailability.includes('out') ||
+        normalizedAvailability === 'unavailable'
+      ) {
         return 'OutOfStock';
       }
-      if (normalizedAvailability.includes('preorder') || normalizedAvailability.includes('pre-order')) {
+      if (
+        normalizedAvailability.includes('preorder') ||
+        normalizedAvailability.includes('pre-order')
+      ) {
         return 'PreOrder';
       }
       if (normalizedAvailability.includes('discontinued')) {
         return 'Discontinued';
       }
     }
-    
+
     // Default fallback
     return 'InStock';
   }

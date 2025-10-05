@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { cn } from '@/shared/utils/cn';
-
 import { GridProps } from '../types';
+
+import { cn } from '@/shared/utils/cn';
 
 // Grid column configurations
 const gridCols = {
@@ -26,6 +26,8 @@ const gridGaps = {
   lg: 'gap-8',
   xl: 'gap-12',
   '2xl': 'gap-16',
+  '3xl': 'gap-20',
+  '4xl': 'gap-24',
 };
 
 // Responsive grid configurations for specific use cases

@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { cn } from '@/shared/utils/cn';
-
 import { CertificationBadgeProps, CoffeeCertification } from '../types';
+
+import { cn } from '@/shared/utils/cn';
 
 // Certification metadata
 const certificationData: Record<
@@ -213,7 +213,7 @@ export const PremiumCertificationShowcase = forwardRef<
     <div
       className={cn(
         'grid grid-cols-2 gap-4 p-6 md:grid-cols-3 lg:grid-cols-4',
-        'rounded-lg border border-gold-200 bg-gradient-to-br from-gold-50 to-coffee-50',
+        'border-gold-200 from-gold-50 to-coffee-50 rounded-lg border bg-gradient-to-br',
         className
       )}
       ref={ref}
@@ -227,7 +227,7 @@ export const PremiumCertificationShowcase = forwardRef<
             className="flex flex-col items-center rounded-lg bg-white p-4 text-center shadow-soft transition-shadow hover:shadow-medium"
           >
             <div className="mb-2 text-3xl">{certData.icon}</div>
-            <div className="mb-1 text-sm font-semibold text-coffee-700">
+            <div className="text-coffee-700 mb-1 text-sm font-semibold">
               {certData.label}
             </div>
             <div className="text-xs text-muted-foreground">

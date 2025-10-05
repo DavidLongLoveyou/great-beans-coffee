@@ -60,7 +60,6 @@ export type {
   ButtonProps,
   CardProps,
   TypographyProps,
-  ComponentVariant,
-  ComponentSize,
-  ComponentColor,
+  SizeVariant,
+  ColorVariant,
 } from './types';

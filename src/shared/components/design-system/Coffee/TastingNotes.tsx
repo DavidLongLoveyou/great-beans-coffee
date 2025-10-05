@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { cn } from '@/shared/utils/cn';
-
 import { TastingNotesProps, TastingNoteCategory } from '../types';
+
+import { cn } from '@/shared/utils/cn';
 
 // Tasting note categories and their notes
 const tastingNoteData: Record<
@@ -330,11 +330,13 @@ export const TastingNotes = forwardRef<HTMLDivElement, TastingNotesProps>(
                       size={size}
                       variant={variant}
                       interactive={interactive}
-                      onClick={
-                        onNoteClick
-                          ? noteValue => onNoteClick(noteValue, category)
-                          : undefined
-                      }
+                      {...(onNoteClick && {
+                        onClick: noteValue =>
+                          onNoteClick(
+                            noteValue,
+                            category as TastingNoteCategory
+                          ),
+                      })}
                     />
                   ))}
                 </div>
@@ -360,11 +362,9 @@ export const TastingNotes = forwardRef<HTMLDivElement, TastingNotesProps>(
               size={size}
               variant={variant}
               interactive={interactive}
-              onClick={
-                onNoteClick
-                  ? noteValue => onNoteClick(noteValue, category)
-                  : undefined
-              }
+              {...(onNoteClick && {
+                onClick: noteValue => onNoteClick(noteValue, category),
+              })}
             />
           );
         })}

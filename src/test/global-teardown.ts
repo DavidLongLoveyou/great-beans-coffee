@@ -2,12 +2,14 @@
 // This runs once after all tests complete
 
 export default async function globalTeardown() {
-  console.log('🧹 Cleaning up test environment...')
-  
+  // eslint-disable-next-line no-console
+  console.log('🧹 Cleaning up test environment...');
+
   // You can add any global cleanup logic here, such as:
   // - Stopping test servers
   // - Cleaning up test databases
   // - Closing external service connections
-  
-  console.log('✅ Test environment cleanup complete')
+
+  // eslint-disable-next-line no-console
+  console.log('✅ Test environment cleanup complete');
 }

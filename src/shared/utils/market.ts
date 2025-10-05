@@ -72,6 +72,11 @@ export function getNearestPort(
   locale: Locale
 ): Port {
   const config = getMarketConfig(locale);
+
+  if (config.majorPorts.length === 0) {
+    throw new Error(`No major ports found for locale: ${locale}`);
+  }
+
   let nearestPort = config.majorPorts[0];
   let minDistance = Infinity;
 
@@ -89,7 +94,7 @@ export function getNearestPort(
     }
   });
 
-  return nearestPort;
+  return nearestPort!;
 }
 
 /**
@@ -110,13 +115,19 @@ export function isWithinBusinessHours(
     minute: '2-digit',
   }).format(date);
 
-  const [currentHour, currentMinute] = marketTime.split(':').map(Number);
+  const [currentHour = 0, currentMinute = 0] = marketTime
+    .split(':')
+    .map(Number);
   const currentTimeMinutes = currentHour * 60 + currentMinute;
 
-  const [startHour, startMinute] = businessHours.start.split(':').map(Number);
+  const [startHour = 0, startMinute = 0] = businessHours.start
+    .split(':')
+    .map(Number);
   const startTimeMinutes = startHour * 60 + startMinute;
 
-  const [endHour, endMinute] = businessHours.end.split(':').map(Number);
+  const [endHour = 23, endMinute = 59] = businessHours.end
+    .split(':')
+    .map(Number);
   const endTimeMinutes = endHour * 60 + endMinute;
 
   return (
@@ -215,7 +226,13 @@ export function getCoffeeGradingStandards(locale: Locale): {
     },
   };
 
-  return gradingStandards[config.countryCode] || gradingStandards.default;
+  return (
+    gradingStandards[config.countryCode] ?? {
+      standard: 'ICO (International Coffee Organization)',
+      grades: ['Grade 1', 'Grade 2', 'Grade 3'],
+      description: 'International standard for coffee quality',
+    }
+  );
 }
 
 interface PaymentTerms {
@@ -277,7 +294,13 @@ export function getPaymentTerms(locale: Locale): {
     },
   };
 
-  return paymentTerms[config.countryCode] || paymentTerms.default;
+  return (
+    paymentTerms[config.countryCode] ?? {
+      preferredMethods: ['Letter of Credit', 'Wire Transfer'],
+      standardTerms: ['LC at sight', '50% advance, 50% on shipment'],
+      currency: config.currency.code,
+    }
+  );
 }
 
 interface CertificationRequirements {
@@ -319,5 +342,11 @@ export function getCertificationRequirements(locale: Locale): {
     },
   };
 
-  return certifications[config.countryCode] || certifications.default;
+  return (
+    certifications[config.countryCode] ?? {
+      required: ['Phytosanitary Certificate', 'Certificate of Origin'],
+      preferred: ['Organic', 'Fair Trade'],
+      optional: ['Rainforest Alliance', 'UTZ'],
+    }
+  );
 }

@@ -10,7 +10,10 @@ import { CacheService } from '@/application/services/cache.service';
 import { createEmailService } from '@/application/services/email.service';
 import type { IEmailService } from '@/application/services/email.service';
 import { FileUploadService } from '@/application/services/file-upload.service';
-import { NotificationService, DefaultNotificationService } from '@/application/services/notification.service';
+import {
+  NotificationService,
+  DefaultNotificationService,
+} from '@/application/services/notification.service';
 import { SearchService } from '@/application/services/search.service';
 import { SEOService } from '@/application/services/seo.service';
 import { TranslationService } from '@/application/services/translation.service';
@@ -29,10 +32,10 @@ import {
   UpdateRfqStatusUseCase,
 } from '@/application/use-cases/rfq-management';
 // Infrastructure repositories
+import type { IRFQRepository } from '@/domain/repositories/rfq.repository';
 import { CoffeeProductRepository } from '@/infrastructure/database/repositories/coffee-product.repository';
 import { ContentRepository } from '@/infrastructure/database/repositories/content.repository';
 import { RFQRepositoryAdapter } from '@/infrastructure/database/repositories/rfq-repository-adapter';
-import type { IRFQRepository } from '@/domain/repositories/rfq.repository';
 
 // Database connection
 
@@ -120,7 +123,9 @@ class DIContainer {
 
   get notificationService(): NotificationService {
     if (!this._notificationService) {
-      this._notificationService = new DefaultNotificationService(this.emailService);
+      this._notificationService = new DefaultNotificationService(
+        this.emailService
+      );
     }
     return this._notificationService;
   }

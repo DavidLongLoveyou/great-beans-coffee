@@ -1,5 +1,6 @@
 import { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
 import { ICoffeeProductRepository } from '@/infrastructure/database/repositories/coffee-product.repository';
+import { createScopedLogger } from '@/shared/utils/logger';
 
 export interface SearchFilters {
   category?: string;
@@ -33,6 +34,8 @@ export interface ISearchService {
 }
 
 export class SearchService implements ISearchService {
+  private logger = createScopedLogger('SearchService');
+
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
   async searchProducts(
@@ -42,8 +45,6 @@ export class SearchService implements ISearchService {
     limit: number = 20
   ): Promise<SearchResult<CoffeeProductEntity>> {
     try {
-      console.log(`Searching products with query: "${query}"`);
-
       // Get all products first (in a real implementation, this would be optimized)
       const allProducts = await this.coffeeProductRepository.findAll();
 
@@ -52,8 +53,9 @@ export class SearchService implements ISearchService {
         // Text search - handle multilingual properties using getters
         const productName = product.name?.en || '';
         const productDescription = product.description?.en || '';
-        const productOrigin = product.origin?.region || '';
-        
+        const productOriginData = product.origin;
+        const productOrigin = productOriginData?.region || '';
+
         const matchesQuery =
           !query ||
           productName.toLowerCase().includes(query.toLowerCase()) ||
@@ -99,7 +101,7 @@ export class SearchService implements ISearchService {
         const matchesPrice =
           !filters.priceRange ||
           (product.pricing.basePrice >= filters.priceRange.min &&
-           product.pricing.basePrice <= filters.priceRange.max);
+            product.pricing.basePrice <= filters.priceRange.max);
 
         return (
           matchesQuery &&
@@ -121,8 +123,6 @@ export class SearchService implements ISearchService {
       // Get paginated results
       const items = filteredProducts.slice(startIndex, endIndex);
 
-      console.log(`Found ${total} products matching search criteria`);
-
       return {
         items,
         total,
@@ -131,7 +131,7 @@ export class SearchService implements ISearchService {
         totalPages,
       };
     } catch (error) {
-      console.error('Search failed:', error);
+      this.logger.error('Search failed:', error);
       return {
         items: [],
         total: 0,
@@ -154,8 +154,9 @@ export class SearchService implements ISearchService {
       // Extract suggestions from product names, origins, and categories
       allProducts.forEach(product => {
         const productName = product.name?.en || '';
-        const productOrigin = product.origin?.region || '';
-        
+        const productOriginData = product.origin;
+        const productOrigin = productOriginData?.region || '';
+
         if (productName.toLowerCase().includes(query.toLowerCase())) {
           suggestions.add(productName);
         }
@@ -169,7 +170,7 @@ export class SearchService implements ISearchService {
 
       return Array.from(suggestions).slice(0, 10);
     } catch (error) {
-      console.error('Failed to get search suggestions:', error);
+      this.logger.error('Failed to get search suggestions:', error);
       return [];
     }
   }
@@ -192,7 +193,7 @@ export class SearchService implements ISearchService {
 
       return popularTerms;
     } catch (error) {
-      console.error('Failed to get popular search terms:', error);
+      this.logger.error('Failed to get popular search terms:', error);
       return [];
     }
   }

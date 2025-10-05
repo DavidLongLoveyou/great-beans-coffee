@@ -6,12 +6,15 @@ import { ClusterArticleCard } from '@/components/clusters/ClusterArticleCard';
 import { ClusterProductCard } from '@/components/clusters/ClusterProductCard';
 import { ClusterServiceCard } from '@/components/clusters/ClusterServiceCard';
 import { getClusterData } from '@/lib/cluster-data';
+import { SEOHead } from '@/presentation/components/seo/SEOHead';
 import { CoffeeButton } from '@/shared/components/design-system/Button';
 import { HeroSection } from '@/shared/components/design-system/Layout';
 import { ContentContainer } from '@/shared/components/design-system/Layout';
 import { SectionHeading } from '@/shared/components/design-system/Typography/Heading';
-import { SEOHead } from '@/presentation/components/seo/SEOHead';
-import { generateOrganizationSchema, generateServiceSchema } from '@/shared/utils/seo-utils';
+import {
+  generateOrganizationSchema,
+  generateServiceSchema,
+} from '@/shared/utils/seo-utils';
 
 // Define available content clusters
 const CONTENT_CLUSTERS = {
@@ -150,20 +153,20 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
     <>
       <SEOHead structuredData={structuredData} />
       {/* Hero Section */}
-      <HeroSection className="bg-gradient-to-r from-coffee-900 to-coffee-700 py-20 text-white">
+      <HeroSection className="from-coffee-900 to-coffee-700 bg-gradient-to-r py-20 text-white">
         <ContentContainer>
           <div className="mx-auto max-w-4xl text-center">
             <SectionHeading size="xl" className="mb-6 text-white">
               {cluster.title}
             </SectionHeading>
-            <p className="mb-8 text-xl leading-relaxed text-coffee-100">
+            <p className="text-coffee-100 mb-8 text-xl leading-relaxed">
               {cluster.description}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <CoffeeButton size="lg">{t('requestQuote')}</CoffeeButton>
               <CoffeeButton
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-coffee-900"
+                className="hover:text-coffee-900 border-white text-white hover:bg-white"
               >
                 {t('downloadCatalog')}
               </CoffeeButton>
@@ -239,14 +242,14 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
             <SectionHeading size="xl" className="mb-6 text-white">
               {t('cta.title')}
             </SectionHeading>
-            <p className="mb-8 text-xl text-coffee-100">
+            <p className="text-coffee-100 mb-8 text-xl">
               {t('cta.description')}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <CoffeeButton size="lg">{t('cta.primaryAction')}</CoffeeButton>
               <CoffeeButton
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-coffee-900"
+                className="hover:text-coffee-900 border-white text-white hover:bg-white"
               >
                 {t('cta.secondaryAction')}
               </CoffeeButton>

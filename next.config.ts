@@ -28,17 +28,17 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  
+
   // Performance optimizations
   compress: true,
   poweredByHeader: false,
-  
+
   // Experimental features for performance
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
     // Removed turbo and optimizeCss for better Windows compatibility and faster builds
   },
-  
+
   // Webpack optimizations
   webpack: (config, { dev, isServer }) => {
     // SVG handling
@@ -72,7 +72,7 @@ const nextConfig: NextConfig = {
 
     return config;
   },
-  
+
   // Headers for performance and security
   async headers() {
     return [
@@ -81,40 +81,40 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'X-DNS-Prefetch-Control',
-            value: 'on'
+            value: 'on',
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY'
+            value: 'DENY',
           },
           {
             key: 'X-Content-Type-Options',
-            value: 'nosniff'
+            value: 'nosniff',
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
-          }
-        ]
+            value: 'origin-when-cross-origin',
+          },
+        ],
       },
       {
         source: '/images/(.*)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
       },
       {
         source: '/_next/static/(.*)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
-      }
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ];
   },
 };

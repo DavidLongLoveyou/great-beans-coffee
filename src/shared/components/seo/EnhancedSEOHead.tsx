@@ -2,12 +2,14 @@
 
 import { type Metadata } from 'next';
 import Script from 'next/script';
+
 import { type Locale } from '@/i18n';
-import { 
-  AdvancedSEOMetadata, 
-  advancedSEOManager 
+import {
+  AdvancedSEOMetadata,
+  advancedSEOManager,
 } from '@/shared/utils/advanced-seo-manager';
-import { 
+import { createScopedLogger } from '@/shared/utils/logger';
+import {
   schemaGenerators,
   type CoffeeProductData,
   type B2BServiceData,
@@ -15,6 +17,8 @@ import {
   type MarketReportData,
   type OriginStoryData,
 } from '@/shared/utils/schema-generators';
+
+const logger = createScopedLogger('EnhancedSEOHead');
 
 /**
  * Enhanced SEO Head Component for The Great Beans
@@ -29,29 +33,29 @@ import {
 export interface EnhancedSEOProps {
   // Basic SEO metadata
   metadata: AdvancedSEOMetadata;
-  
+
   // Content-specific data for Schema.org generation
   productData?: CoffeeProductData;
   serviceData?: B2BServiceData;
   articleData?: ArticleData;
   reportData?: MarketReportData;
   originStoryData?: OriginStoryData;
-  
+
   // Collection page data
   collectionData?: {
     items: Array<{ name: string; url: string; description?: string }>;
     collectionType: 'products' | 'articles' | 'services' | 'reports';
   };
-  
+
   // Breadcrumb navigation
   breadcrumbs?: Array<{ name: string; url: string }>;
-  
+
   // FAQ data for AI optimization
   faqs?: Array<{ question: string; answer: string }>;
-  
+
   // Custom structured data
   customSchemas?: Record<string, any>[];
-  
+
   // Performance optimization
   preloadResources?: Array<{
     href: string;
@@ -59,7 +63,7 @@ export interface EnhancedSEOProps {
     type?: string;
     crossOrigin?: 'anonymous' | 'use-credentials';
   }>;
-  
+
   // Analytics and tracking
   enableAnalytics?: boolean;
   enableCoreWebVitalsTracking?: boolean;
@@ -82,42 +86,55 @@ export function EnhancedSEOHead({
 }: EnhancedSEOProps) {
   // Generate all structured data schemas
   const schemas: Record<string, any>[] = [];
-  
+
   // Always include organization and website schemas
   schemas.push(advancedSEOManager.generateOrganizationSchema());
   schemas.push(advancedSEOManager.generateWebsiteSchema(metadata.locale));
-  
+
   // Add breadcrumb schema if provided
   if (breadcrumbs && breadcrumbs.length > 0) {
     schemas.push(advancedSEOManager.generateBreadcrumbSchema(breadcrumbs));
   }
-  
+
   // Add FAQ schema if provided
   if (faqs && faqs.length > 0) {
     schemas.push(advancedSEOManager.generateFAQSchema(faqs));
   }
-  
+
   // Add content-specific schemas
   if (productData) {
-    schemas.push(schemaGenerators.generateCoffeeProductSchema(productData, metadata.locale));
+    schemas.push(
+      schemaGenerators.generateCoffeeProductSchema(productData, metadata.locale)
+    );
   }
-  
+
   if (serviceData) {
-    schemas.push(schemaGenerators.generateB2BServiceSchema(serviceData, metadata.locale));
+    schemas.push(
+      schemaGenerators.generateB2BServiceSchema(serviceData, metadata.locale)
+    );
   }
-  
+
   if (articleData) {
-    schemas.push(schemaGenerators.generateArticleSchema(articleData, metadata.locale));
+    schemas.push(
+      schemaGenerators.generateArticleSchema(articleData, metadata.locale)
+    );
   }
-  
+
   if (reportData) {
-    schemas.push(schemaGenerators.generateMarketReportSchema(reportData, metadata.locale));
+    schemas.push(
+      schemaGenerators.generateMarketReportSchema(reportData, metadata.locale)
+    );
   }
-  
+
   if (originStoryData) {
-    schemas.push(schemaGenerators.generateOriginStorySchema(originStoryData, metadata.locale));
+    schemas.push(
+      schemaGenerators.generateOriginStorySchema(
+        originStoryData,
+        metadata.locale
+      )
+    );
   }
-  
+
   if (collectionData) {
     schemas.push(
       schemaGenerators.generateCollectionPageSchema(
@@ -129,18 +146,18 @@ export function EnhancedSEOHead({
       )
     );
   }
-  
+
   // Add custom schemas
   schemas.push(...customSchemas);
-  
+
   // Validate all schemas
-  const validSchemas = schemas.filter(schema => 
+  const validSchemas = schemas.filter(schema =>
     advancedSEOManager.validateStructuredData(schema)
   );
-  
+
   // Generate Next.js metadata
   const nextMetadata = advancedSEOManager.generateMetadata(metadata);
-  
+
   return (
     <>
       {/* Preload critical resources */}
@@ -154,18 +171,22 @@ export function EnhancedSEOHead({
           crossOrigin={resource.crossOrigin}
         />
       ))}
-      
+
       {/* DNS prefetch for external resources */}
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
       <link rel="dns-prefetch" href="//www.google-analytics.com" />
       <link rel="dns-prefetch" href="//www.googletagmanager.com" />
       <link rel="dns-prefetch" href="//res.cloudinary.com" />
-      
+
       {/* Preconnect to critical third-party origins */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="anonymous"
+      />
       <link rel="preconnect" href="https://res.cloudinary.com" />
-      
+
       {/* Structured Data - JSON-LD */}
       {validSchemas.map((schema, index) => (
         <Script
@@ -178,61 +199,103 @@ export function EnhancedSEOHead({
           }}
         />
       ))}
-      
+
       {/* Enhanced meta tags for AI and voice search */}
-      <meta name="robots" content={nextMetadata.robots || 'index, follow'} />
-      <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-      <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-      
+      <meta
+        name="robots"
+        content={
+          typeof nextMetadata.robots === 'string'
+            ? nextMetadata.robots
+            : 'index, follow'
+        }
+      />
+      <meta
+        name="googlebot"
+        content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+      />
+      <meta
+        name="bingbot"
+        content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+      />
+
       {/* Content classification for AI */}
       <meta name="content-type" content={metadata.contentType} />
       <meta name="content-language" content={metadata.locale} />
-      <meta name="audience" content="business professionals, coffee industry, B2B buyers" />
-      <meta name="subject" content="coffee export, Vietnamese coffee, B2B coffee solutions" />
-      <meta name="classification" content="business, agriculture, food industry, international trade" />
-      
+      <meta
+        name="audience"
+        content="business professionals, coffee industry, B2B buyers"
+      />
+      <meta
+        name="subject"
+        content="coffee export, Vietnamese coffee, B2B coffee solutions"
+      />
+      <meta
+        name="classification"
+        content="business, agriculture, food industry, international trade"
+      />
+
       {/* Enhanced Open Graph for better social sharing */}
       <meta property="og:site_name" content="The Great Beans" />
       <meta property="og:locale" content={metadata.locale} />
       {metadata.alternateLocales?.map(locale => (
         <meta key={locale} property="og:locale:alternate" content={locale} />
       ))}
-      
+
       {/* Twitter Card enhancements */}
       <meta name="twitter:site" content="@thegreatbeans" />
       <meta name="twitter:creator" content="@thegreatbeans" />
       <meta name="twitter:domain" content="thegreatbeans.com" />
-      
+
       {/* Enhanced mobile optimization */}
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+      />
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-title" content="The Great Beans" />
       <meta name="application-name" content="The Great Beans" />
-      
+
       {/* Security headers */}
       <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
       <meta httpEquiv="X-Frame-Options" content="DENY" />
       <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
       <meta name="referrer" content="strict-origin-when-cross-origin" />
-      
+
       {/* Performance hints */}
       <meta httpEquiv="Accept-CH" content="DPR, Viewport-Width, Width" />
-      <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
-      
+      <meta
+        name="format-detection"
+        content="telephone=no, date=no, email=no, address=no"
+      />
+
       {/* Favicon and app icons */}
       <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
-      <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/icons/favicon-16x16.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/icons/favicon-32x32.png"
+      />
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/icons/apple-touch-icon.png"
+      />
       <link rel="manifest" href="/manifest.json" />
-      
+
       {/* Theme colors */}
       <meta name="theme-color" content="#8B4513" />
       <meta name="msapplication-TileColor" content="#8B4513" />
       <meta name="msapplication-config" content="/browserconfig.xml" />
-      
+
       {/* Analytics and tracking */}
       {enableAnalytics && (
         <>
@@ -259,7 +322,7 @@ export function EnhancedSEOHead({
               });
             `}
           </Script>
-          
+
           {/* Enhanced ecommerce tracking for B2B */}
           {(productData || serviceData) && (
             <Script id="enhanced-ecommerce" strategy="afterInteractive">
@@ -281,7 +344,7 @@ export function EnhancedSEOHead({
           )}
         </>
       )}
-      
+
       {/* Core Web Vitals tracking */}
       {enableCoreWebVitalsTracking && (
         <Script id="core-web-vitals" strategy="afterInteractive">
@@ -311,7 +374,7 @@ export function EnhancedSEOHead({
           `}
         </Script>
       )}
-      
+
       {/* Schema.org validation script (development only) */}
       {process.env.NODE_ENV === 'development' && (
         <Script id="schema-validation" strategy="afterInteractive">
@@ -321,24 +384,28 @@ export function EnhancedSEOHead({
             schemas.forEach((schema, index) => {
               try {
                 const data = JSON.parse(schema.textContent);
-                console.log(\`Schema \${index + 1} (\${data['@type']}):\`, data);
+                if (process.env.NODE_ENV === 'development') {
+                  logger.info(\`Schema \${index + 1} (\${data['@type']}):\`, data);
+                }
                 
                 // Basic validation
                 if (!data['@context'] || !data['@type']) {
-                  console.warn(\`⚠️ Schema \${index + 1} missing required @context or @type\`);
+                  if (process.env.NODE_ENV === 'development') {
+                    logger.warn(\`⚠️ Schema \${index + 1} missing required @context or @type\`);
+                  }
                 }
                 
                 // Validate required fields based on type
                 if (data['@type'] === 'Organization' && (!data.name || !data.url)) {
-                  console.warn(\`⚠️ Organization schema missing required fields\`);
+                  logger.warn(\`⚠️ Organization schema missing required fields\`);
                 }
                 
                 if (data['@type'] === 'Product' && (!data.name || !data.description)) {
-                  console.warn(\`⚠️ Product schema missing required fields\`);
+                  logger.warn(\`⚠️ Product schema missing required fields\`);
                 }
                 
               } catch (error) {
-                console.error(\`❌ Invalid JSON-LD in schema \${index + 1}:\`, error);
+                logger.error(\`❌ Invalid JSON-LD in schema \${index + 1}:\`, error);
               }
             });
             console.groupEnd();

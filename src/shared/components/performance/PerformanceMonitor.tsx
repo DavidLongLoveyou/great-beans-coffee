@@ -1,22 +1,26 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+
+import { createScopedLogger } from '@/shared/utils/logger';
 import { measureCoreWebVitals } from '@/shared/utils/seo-monitoring';
+
+const logger = createScopedLogger('PerformanceMonitor');
 
 export interface PerformanceMetrics {
   // Core Web Vitals
   lcp?: number; // Largest Contentful Paint
   fid?: number; // First Input Delay
   cls?: number; // Cumulative Layout Shift
-  
+
   // Additional metrics
   fcp?: number; // First Contentful Paint
   ttfb?: number; // Time to First Byte
-  
+
   // Resource metrics
   domContentLoaded?: number;
   loadComplete?: number;
-  
+
   // Navigation metrics
   navigationStart?: number;
   responseStart?: number;
@@ -36,14 +40,17 @@ interface PerformanceMonitorProps {
   /** Whether to track metrics automatically */
   autoTrack?: boolean;
   /** Callback when metrics are updated */
-  onMetricsUpdate?: (metrics: PerformanceMetrics, ratings: PerformanceRating) => void;
+  onMetricsUpdate?: (
+    metrics: PerformanceMetrics,
+    ratings: PerformanceRating
+  ) => void;
   /** Whether to show visual indicators */
   showIndicators?: boolean;
 }
 
 /**
  * Performance monitoring component that tracks Core Web Vitals and provides real-time metrics
- * 
+ *
  * Features:
  * - Real-time Core Web Vitals tracking (LCP, FID, CLS)
  * - Additional performance metrics (FCP, TTFB, etc.)
@@ -66,40 +73,58 @@ export function PerformanceMonitor({
   });
 
   // Calculate performance ratings based on Core Web Vitals thresholds
-  const calculateRatings = useCallback((metrics: PerformanceMetrics): PerformanceRating => {
-    const lcpRating = metrics.lcp 
-      ? metrics.lcp <= 2500 ? 'good' 
-        : metrics.lcp <= 4000 ? 'needs-improvement' 
-        : 'poor'
-      : 'unknown';
+  const calculateRatings = useCallback(
+    (metrics: PerformanceMetrics): PerformanceRating => {
+      const lcpRating = metrics.lcp
+        ? metrics.lcp <= 2500
+          ? 'good'
+          : metrics.lcp <= 4000
+            ? 'needs-improvement'
+            : 'poor'
+        : 'unknown';
 
-    const fidRating = metrics.fid 
-      ? metrics.fid <= 100 ? 'good' 
-        : metrics.fid <= 300 ? 'needs-improvement' 
-        : 'poor'
-      : 'unknown';
+      const fidRating = metrics.fid
+        ? metrics.fid <= 100
+          ? 'good'
+          : metrics.fid <= 300
+            ? 'needs-improvement'
+            : 'poor'
+        : 'unknown';
 
-    const clsRating = metrics.cls !== undefined
-      ? metrics.cls <= 0.1 ? 'good' 
-        : metrics.cls <= 0.25 ? 'needs-improvement' 
-        : 'poor'
-      : 'unknown';
+      const clsRating =
+        metrics.cls !== undefined
+          ? metrics.cls <= 0.1
+            ? 'good'
+            : metrics.cls <= 0.25
+              ? 'needs-improvement'
+              : 'poor'
+          : 'unknown';
 
-    // Overall rating is the worst of the three
-    const ratings = [lcpRating, fidRating, clsRating].filter(r => r !== 'unknown');
-    const overall = ratings.length === 0 ? 'unknown' 
-      : ratings.includes('poor') ? 'poor'
-      : ratings.includes('needs-improvement') ? 'needs-improvement'
-      : 'good';
+      // Overall rating is the worst of the three
+      const ratings = [lcpRating, fidRating, clsRating].filter(
+        r => r !== 'unknown'
+      );
+      const overall =
+        ratings.length === 0
+          ? 'unknown'
+          : ratings.includes('poor')
+            ? 'poor'
+            : ratings.includes('needs-improvement')
+              ? 'needs-improvement'
+              : 'good';
 
-    return { lcp: lcpRating, fid: fidRating, cls: clsRating, overall };
-  }, []);
+      return { lcp: lcpRating, fid: fidRating, cls: clsRating, overall };
+    },
+    []
+  );
 
   // Collect performance metrics using Performance API
   const collectMetrics = useCallback(() => {
     if (typeof window === 'undefined' || !window.performance) return;
 
-    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+    const navigation = performance.getEntriesByType(
+      'navigation'
+    )[0] as PerformanceNavigationTiming;
     const paint = performance.getEntriesByType('paint');
 
     const newMetrics: PerformanceMetrics = {
@@ -112,7 +137,9 @@ export function PerformanceMonitor({
     };
 
     // First Contentful Paint
-    const fcpEntry = paint.find(entry => entry.name === 'first-contentful-paint');
+    const fcpEntry = paint.find(
+      entry => entry.name === 'first-contentful-paint'
+    );
     if (fcpEntry) {
       newMetrics.fcp = fcpEntry.startTime;
     }
@@ -128,15 +155,17 @@ export function PerformanceMonitor({
     let clsEntries: PerformanceEntry[] = [];
 
     // Largest Contentful Paint
-    const lcpObserver = new PerformanceObserver((entryList) => {
+    const lcpObserver = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
       const lastEntry = entries[entries.length - 1];
-      
-      setMetrics(prev => ({ ...prev, lcp: lastEntry.startTime }));
+
+      if (lastEntry) {
+        setMetrics(prev => ({ ...prev, lcp: lastEntry.startTime }));
+      }
     });
 
     // First Input Delay
-    const fidObserver = new PerformanceObserver((entryList) => {
+    const fidObserver = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
       entries.forEach((entry: any) => {
         const fid = entry.processingStart - entry.startTime;
@@ -145,7 +174,7 @@ export function PerformanceMonitor({
     });
 
     // Cumulative Layout Shift
-    const clsObserver = new PerformanceObserver((entryList) => {
+    const clsObserver = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
       entries.forEach((entry: any) => {
         if (!entry.hadRecentInput) {
@@ -153,7 +182,7 @@ export function PerformanceMonitor({
           clsEntries.push(entry);
         }
       });
-      
+
       setMetrics(prev => ({ ...prev, cls: clsValue }));
     });
 
@@ -163,7 +192,7 @@ export function PerformanceMonitor({
       fidObserver.observe({ entryTypes: ['first-input'] });
       clsObserver.observe({ entryTypes: ['layout-shift'] });
     } catch (error) {
-      console.warn('Performance Observer not supported:', error);
+      logger.warn('Performance Observer not supported:', error);
     }
 
     // Collect initial metrics
@@ -207,10 +236,14 @@ export function PerformanceMonitor({
 
   const getRatingColor = (rating: string) => {
     switch (rating) {
-      case 'good': return 'text-green-600 bg-green-100';
-      case 'needs-improvement': return 'text-yellow-600 bg-yellow-100';
-      case 'poor': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'good':
+        return 'text-green-600 bg-green-100';
+      case 'needs-improvement':
+        return 'text-yellow-600 bg-yellow-100';
+      case 'poor':
+        return 'text-red-600 bg-red-100';
+      default:
+        return 'text-gray-600 bg-gray-100';
     }
   };
 
@@ -220,56 +253,58 @@ export function PerformanceMonitor({
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 max-w-sm rounded-lg bg-white p-4 shadow-lg border">
-      <h3 className="text-sm font-semibold mb-2">Performance Metrics</h3>
-      
+    <div className="fixed bottom-4 right-4 z-50 max-w-sm rounded-lg border bg-white p-4 shadow-lg">
+      <h3 className="mb-2 text-sm font-semibold">Performance Metrics</h3>
+
       {/* Core Web Vitals */}
       <div className="space-y-2 text-xs">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <span>LCP:</span>
-          <span className={`px-2 py-1 rounded ${getRatingColor(ratings.lcp)}`}>
+          <span className={`rounded px-2 py-1 ${getRatingColor(ratings.lcp)}`}>
             {formatMetric(metrics.lcp)}
           </span>
         </div>
-        
-        <div className="flex justify-between items-center">
+
+        <div className="flex items-center justify-between">
           <span>FID:</span>
-          <span className={`px-2 py-1 rounded ${getRatingColor(ratings.fid)}`}>
+          <span className={`rounded px-2 py-1 ${getRatingColor(ratings.fid)}`}>
             {formatMetric(metrics.fid)}
           </span>
         </div>
-        
-        <div className="flex justify-between items-center">
+
+        <div className="flex items-center justify-between">
           <span>CLS:</span>
-          <span className={`px-2 py-1 rounded ${getRatingColor(ratings.cls)}`}>
+          <span className={`rounded px-2 py-1 ${getRatingColor(ratings.cls)}`}>
             {formatMetric(metrics.cls, '')}
           </span>
         </div>
-        
+
         <hr className="my-2" />
-        
+
         {/* Additional metrics */}
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <span>FCP:</span>
           <span>{formatMetric(metrics.fcp)}</span>
         </div>
-        
-        <div className="flex justify-between items-center">
+
+        <div className="flex items-center justify-between">
           <span>TTFB:</span>
           <span>{formatMetric(metrics.ttfb)}</span>
         </div>
-        
-        <div className="flex justify-between items-center">
+
+        <div className="flex items-center justify-between">
           <span>Load:</span>
           <span>{formatMetric(metrics.loadComplete)}</span>
         </div>
-        
+
         <hr className="my-2" />
-        
+
         {/* Overall rating */}
-        <div className="flex justify-between items-center font-semibold">
+        <div className="flex items-center justify-between font-semibold">
           <span>Overall:</span>
-          <span className={`px-2 py-1 rounded ${getRatingColor(ratings.overall)}`}>
+          <span
+            className={`rounded px-2 py-1 ${getRatingColor(ratings.overall)}`}
+          >
             {ratings.overall.toUpperCase()}
           </span>
         </div>
@@ -290,10 +325,13 @@ export function usePerformanceMetrics() {
     overall: 'unknown',
   });
 
-  const updateMetrics = useCallback((newMetrics: PerformanceMetrics, newRatings: PerformanceRating) => {
-    setMetrics(newMetrics);
-    setRatings(newRatings);
-  }, []);
+  const updateMetrics = useCallback(
+    (newMetrics: PerformanceMetrics, newRatings: PerformanceRating) => {
+      setMetrics(newMetrics);
+      setRatings(newRatings);
+    },
+    []
+  );
 
   return { metrics, ratings, updateMetrics };
 }

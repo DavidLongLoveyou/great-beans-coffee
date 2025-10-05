@@ -1,7 +1,3 @@
-import { type MetadataRoute } from 'next';
-
-import { locales, type Locale } from '@/i18n';
-import { ContentManager } from '@/lib/contentlayer';
 import type {
   MarketReport,
   OriginStory,
@@ -9,6 +5,10 @@ import type {
   BlogPost,
   LegalPage,
 } from 'contentlayer/generated';
+import { type MetadataRoute } from 'next';
+
+import { locales, type Locale } from '@/i18n';
+import { ContentManager } from '@/lib/contentlayer';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thegreatbeans.com';
 

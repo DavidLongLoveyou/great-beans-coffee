@@ -320,11 +320,16 @@ export function trackPageView(
   pageType: string,
   contentId?: string
 ) {
-  trackSEOEvent('page_view', {
+  const parameters: Record<string, string | number | boolean> = {
     locale,
     page_type: pageType,
-    content_id: contentId,
-  });
+  };
+
+  if (contentId) {
+    parameters.content_id = contentId;
+  }
+
+  trackSEOEvent('page_view', parameters);
 }
 
 export function trackSearchQuery(
@@ -360,32 +365,37 @@ export function measureCoreWebVitals() {
     const entries = entryList.getEntries();
     const lastEntry = entries[entries.length - 1];
 
-    trackSEOEvent('core_web_vitals', {
-      metric: 'LCP',
-      value: lastEntry.startTime,
-      rating:
-        lastEntry.startTime < 2500
-          ? 'good'
-          : lastEntry.startTime < 4000
-            ? 'needs_improvement'
-            : 'poor',
-    });
+    if (lastEntry) {
+      trackSEOEvent('core_web_vitals', {
+        metric: 'LCP',
+        value: lastEntry.startTime,
+        rating:
+          lastEntry.startTime < 2500
+            ? 'good'
+            : lastEntry.startTime < 4000
+              ? 'needs_improvement'
+              : 'poor',
+      });
+    }
   }).observe({ entryTypes: ['largest-contentful-paint'] });
 
   // First Input Delay (FID)
   new PerformanceObserver(entryList => {
     const entries = entryList.getEntries();
     entries.forEach(entry => {
-      trackSEOEvent('core_web_vitals', {
-        metric: 'FID',
-        value: entry.processingStart - entry.startTime,
-        rating:
-          entry.processingStart - entry.startTime < 100
-            ? 'good'
-            : entry.processingStart - entry.startTime < 300
-              ? 'needs_improvement'
-              : 'poor',
-      });
+      const eventEntry = entry as PerformanceEventTiming;
+      if (eventEntry.processingStart) {
+        trackSEOEvent('core_web_vitals', {
+          metric: 'FID',
+          value: eventEntry.processingStart - eventEntry.startTime,
+          rating:
+            eventEntry.processingStart - eventEntry.startTime < 100
+              ? 'good'
+              : eventEntry.processingStart - eventEntry.startTime < 300
+                ? 'needs_improvement'
+                : 'poor',
+        });
+      }
     });
   }).observe({ entryTypes: ['first-input'] });
 
@@ -394,8 +404,9 @@ export function measureCoreWebVitals() {
   new PerformanceObserver(entryList => {
     const entries = entryList.getEntries();
     entries.forEach(entry => {
-      if (!entry.hadRecentInput) {
-        clsValue += entry.value;
+      const layoutShiftEntry = entry as any; // LayoutShift entry
+      if (!layoutShiftEntry.hadRecentInput) {
+        clsValue += layoutShiftEntry.value;
       }
     });
 

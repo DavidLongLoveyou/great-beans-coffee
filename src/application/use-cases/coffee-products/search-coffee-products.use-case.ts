@@ -1,5 +1,6 @@
 import { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
 import { ICoffeeProductRepository } from '@/infrastructure/database/repositories/coffee-product.repository';
+import { createScopedLogger } from '@/shared/utils/logger';
 
 export interface SearchCoffeeProductsRequest {
   query: string;
@@ -14,6 +15,8 @@ export interface SearchCoffeeProductsResponse {
 }
 
 export class SearchCoffeeProductsUseCase {
+  private logger = createScopedLogger('SearchCoffeeProductsUseCase');
+
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
   async execute(
@@ -46,7 +49,7 @@ export class SearchCoffeeProductsUseCase {
         query: query.trim(),
       };
     } catch (error) {
-      console.error('Error searching coffee products:', error);
+      this.logger.error('Error searching coffee products:', error);
       throw new Error('Failed to search coffee products');
     }
   }

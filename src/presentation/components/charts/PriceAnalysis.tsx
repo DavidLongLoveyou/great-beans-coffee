@@ -168,7 +168,10 @@ export function PriceAnalysis({
         current: lastValue || 0,
         min: values.length > 0 ? Math.min(...values) : 0,
         max: values.length > 0 ? Math.max(...values) : 0,
-        avg: values.length > 0 ? values.reduce((sum, val) => sum + val, 0) / values.length : 0,
+        avg:
+          values.length > 0
+            ? values.reduce((sum, val) => sum + val, 0) / values.length
+            : 0,
         change:
           values.length > 1 && firstValue && lastValue && firstValue !== 0
             ? ((lastValue - firstValue) / firstValue) * 100

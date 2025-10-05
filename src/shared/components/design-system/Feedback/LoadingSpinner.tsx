@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { cn } from '@/shared/utils/cn';
-
 import { SizeVariant } from '../types';
+
+import { cn } from '@/shared/utils/cn';
 
 interface LoadingSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: SizeVariant;
@@ -69,7 +69,7 @@ export const CoffeeSpinner = forwardRef<
       {/* Coffee cup base */}
       <div
         className={cn(
-          'rounded-full border-2 border-coffee-300 bg-coffee-100',
+          'border-coffee-300 bg-coffee-100 rounded-full border-2',
           spinnerSizes[size],
           className
         )}
@@ -77,13 +77,13 @@ export const CoffeeSpinner = forwardRef<
 
       {/* Steam animation */}
       <div className="absolute -top-1 left-1/2 -translate-x-1/2 transform">
-        <div className="h-2 w-0.5 animate-coffee-steam rounded-full bg-coffee-400 opacity-60" />
+        <div className="animate-coffee-steam bg-coffee-400 h-2 w-0.5 rounded-full opacity-60" />
         <div
-          className="ml-1 h-2 w-0.5 animate-coffee-steam rounded-full bg-coffee-400 opacity-40"
+          className="animate-coffee-steam bg-coffee-400 ml-1 h-2 w-0.5 rounded-full opacity-40"
           style={{ animationDelay: '0.5s' }}
         />
         <div
-          className="ml-1 h-2 w-0.5 animate-coffee-steam rounded-full bg-coffee-400 opacity-30"
+          className="animate-coffee-steam bg-coffee-400 ml-1 h-2 w-0.5 rounded-full opacity-30"
           style={{ animationDelay: '1s' }}
         />
       </div>
@@ -120,7 +120,7 @@ export const DotsSpinner = forwardRef<
         <div
           key={`dot-${dotCount}-delay-${index * 0.2}s`}
           className={cn(
-            'animate-pulse rounded-full bg-coffee-500',
+            'bg-coffee-500 animate-pulse rounded-full',
             dotSizes[size]
           )}
           style={{

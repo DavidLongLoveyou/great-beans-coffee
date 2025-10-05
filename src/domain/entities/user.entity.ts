@@ -315,8 +315,10 @@ export class UserEntity {
   isAccountLocked(): boolean {
     return (
       this.data.status === 'LOCKED' ||
-      Boolean(this.data.security.lockedUntil &&
-        this.data.security.lockedUntil > new Date())
+      Boolean(
+        this.data.security.lockedUntil &&
+          this.data.security.lockedUntil > new Date()
+      )
     );
   }
 

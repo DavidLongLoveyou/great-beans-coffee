@@ -432,6 +432,55 @@ export const marketConfigs: Record<Locale, MarketConfig> = {
       preferredIncoterms: ['CIF', 'CFR', 'FOB'],
     },
   },
+  vi: {
+    locale: 'vi',
+    region: 'Southeast Asia',
+    country: 'Vietnam',
+    countryCode: 'VN',
+    currency: {
+      code: 'VND',
+      symbol: '₫',
+      name: 'Vietnamese Dong',
+    },
+    timezone: 'Asia/Ho_Chi_Minh',
+    dateFormat: 'DD/MM/YYYY',
+    numberFormat: {
+      decimal: ',',
+      thousands: '.',
+    },
+    majorPorts: [
+      {
+        name: 'Port of Ho Chi Minh City',
+        code: 'VNSGN',
+        city: 'Ho Chi Minh City',
+        country: 'Vietnam',
+        coordinates: { lat: 10.7769, lng: 106.7009 },
+      },
+      {
+        name: 'Port of Hai Phong',
+        code: 'VNHPH',
+        city: 'Hai Phong',
+        country: 'Vietnam',
+        coordinates: { lat: 20.8449, lng: 106.6881 },
+      },
+      {
+        name: 'Port of Da Nang',
+        code: 'VNDAD',
+        city: 'Da Nang',
+        country: 'Vietnam',
+        coordinates: { lat: 16.0544, lng: 108.2022 },
+      },
+    ],
+    businessHours: {
+      start: '08:00',
+      end: '17:00',
+      timezone: 'Asia/Ho_Chi_Minh',
+    },
+    shippingInfo: {
+      averageTransitDays: 7,
+      preferredIncoterms: ['FOB', 'CIF', 'CFR'],
+    },
+  },
 };
 
 /**

@@ -80,8 +80,6 @@ export function useRfqForm() {
   };
 }
 
-
-
 // Hook for form validation
 export function useFormValidation<T>(
   validationSchema: (data: T) => Record<string, string | undefined>

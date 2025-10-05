@@ -1,6 +1,6 @@
 /**
  * Performance Optimization Utilities
- * 
+ *
  * Provides utilities for:
  * - Critical resource preloading
  * - Font optimization
@@ -8,6 +8,10 @@
  * - Performance monitoring
  * - Bundle optimization
  */
+
+import { createScopedLogger } from './logger';
+
+const logger = createScopedLogger('PerformanceOptimization');
 
 // Types
 export interface PreloadResource {
@@ -103,7 +107,7 @@ export class PerformanceOptimizer {
   /**
    * Preload critical fonts
    */
-  preloadFonts(fonts: string[]): void {
+  preloadFonts(fonts: readonly string[]): void {
     if (!this.config.enableFontOptimization) return;
 
     fonts.forEach(fontUrl => {
@@ -120,7 +124,7 @@ export class PerformanceOptimizer {
   /**
    * Preconnect to external domains
    */
-  preconnectDomains(domains: string[]): void {
+  preconnectDomains(domains: readonly string[]): void {
     domains.forEach(domain => {
       this.addResourceHint({
         href: domain,
@@ -143,7 +147,7 @@ export class PerformanceOptimizer {
   /**
    * Preload critical images
    */
-  preloadCriticalImages(images: string[]): void {
+  preloadCriticalImages(images: readonly string[]): void {
     if (!this.config.enableImageOptimization) return;
 
     images.forEach(imageUrl => {
@@ -159,16 +163,21 @@ export class PerformanceOptimizer {
    * Get performance metrics
    */
   getPerformanceMetrics(): Record<string, number> {
-    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+    const navigation = performance.getEntriesByType(
+      'navigation'
+    )[0] as PerformanceNavigationTiming;
     const paint = performance.getEntriesByType('paint');
 
     const metrics: Record<string, number> = {};
 
     if (navigation) {
-      metrics.domContentLoaded = navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart;
-      metrics.loadComplete = navigation.loadEventEnd - navigation.loadEventStart;
+      metrics.domContentLoaded =
+        navigation.domContentLoadedEventEnd -
+        navigation.domContentLoadedEventStart;
+      metrics.loadComplete =
+        navigation.loadEventEnd - navigation.loadEventStart;
       metrics.firstByte = navigation.responseStart - navigation.requestStart;
-      metrics.domInteractive = navigation.domInteractive - navigation.navigationStart;
+      metrics.domInteractive = navigation.domInteractive - navigation.startTime;
     }
 
     paint.forEach(entry => {
@@ -187,19 +196,26 @@ export class PerformanceOptimizer {
    * Monitor resource loading performance
    */
   monitorResourcePerformance(): void {
-    const observer = new PerformanceObserver((list) => {
-      list.getEntries().forEach((entry) => {
+    const observer = new PerformanceObserver(list => {
+      list.getEntries().forEach(entry => {
         if (entry.entryType === 'resource') {
           const resourceEntry = entry as PerformanceResourceTiming;
-          
+
           // Log slow resources (>1s)
           if (resourceEntry.duration > 1000) {
-            console.warn(`Slow resource detected: ${resourceEntry.name} (${resourceEntry.duration}ms)`);
+            logger.warn(
+              `Slow resource detected: ${resourceEntry.name} (${resourceEntry.duration}ms)`
+            );
           }
 
           // Log large resources (>500KB)
-          if (resourceEntry.transferSize && resourceEntry.transferSize > 500000) {
-            console.warn(`Large resource detected: ${resourceEntry.name} (${Math.round(resourceEntry.transferSize / 1024)}KB)`);
+          if (
+            resourceEntry.transferSize &&
+            resourceEntry.transferSize > 500000
+          ) {
+            logger.warn(
+              `Large resource detected: ${resourceEntry.name} (${Math.round(resourceEntry.transferSize / 1024)}KB)`
+            );
           }
         }
       });
@@ -222,10 +238,7 @@ export class PerformanceOptimizer {
     try {
       return await moduleLoader();
     } catch (error) {
-      console.error('Dynamic module loading failed:', error);
-      if (fallback) {
-        return fallback();
-      }
+      logger.error('Dynamic module loading failed:', error);
       throw error;
     }
   }
@@ -268,9 +281,7 @@ export const CRITICAL_RESOURCES = {
   ],
 
   // Critical CSS and JS
-  CRITICAL_STYLES: [
-    '/_next/static/css/app.css',
-  ],
+  CRITICAL_STYLES: ['/_next/static/css/app.css'],
 } as const;
 
 /**
@@ -287,7 +298,9 @@ export function initializePerformanceOptimizations(): void {
   performanceOptimizer.preloadFonts(CRITICAL_RESOURCES.CRITICAL_FONTS);
 
   // Preload critical images
-  performanceOptimizer.preloadCriticalImages(CRITICAL_RESOURCES.CRITICAL_IMAGES);
+  performanceOptimizer.preloadCriticalImages(
+    CRITICAL_RESOURCES.CRITICAL_IMAGES
+  );
 
   // Start monitoring resource performance
   performanceOptimizer.monitorResourcePerformance();
@@ -351,9 +364,12 @@ export const performanceUtils = {
     if (typeof navigator === 'undefined' || !('connection' in navigator)) {
       return false;
     }
-    
+
     const connection = (navigator as any).connection;
-    return connection?.effectiveType === 'slow-2g' || connection?.effectiveType === '2g';
+    return (
+      connection?.effectiveType === 'slow-2g' ||
+      connection?.effectiveType === '2g'
+    );
   },
 
   /**
@@ -370,7 +386,7 @@ export const performanceUtils = {
   isLowEndDevice(): boolean {
     const memory = performanceUtils.getDeviceMemory();
     const isSlowConnection = performanceUtils.isSlowConnection();
-    
+
     return (memory !== undefined && memory <= 4) || isSlowConnection;
   },
 };

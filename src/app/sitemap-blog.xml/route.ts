@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateContentSitemap, SitemapGenerator } from '@/shared/utils/sitemap-generator';
+
+import { createScopedLogger } from '@/shared/utils/logger';
+import {
+  generateContentSitemap,
+  SitemapGenerator,
+} from '@/shared/utils/sitemap-generator';
+
+const logger = createScopedLogger('SitemapBlog');
 
 /**
  * Generate and serve the blog-specific sitemap.xml
@@ -12,7 +19,7 @@ export async function GET(request: NextRequest) {
 
     // Create sitemap generator instance
     const generator = new SitemapGenerator();
-    
+
     // Generate XML sitemap
     const xmlSitemap = generator.generateXMLSitemap(entries);
 
@@ -26,8 +33,10 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error generating blog sitemap:', error);
-    
+    if (process.env.NODE_ENV === 'development') {
+      logger.error('Error generating blog sitemap:', error);
+    }
+
     return new NextResponse('Internal Server Error', {
       status: 500,
       headers: {

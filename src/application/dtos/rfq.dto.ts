@@ -1,12 +1,26 @@
 // RFQ (Request for Quote) DTOs for application layer communication
-import { CoffeeGrade, CoffeeVariety, ProcessingMethod, CoffeeCertification } from '@/shared/components/design-system/types';
+import {
+  CoffeeGrade,
+  CoffeeVariety,
+  ProcessingMethod,
+  CoffeeCertification,
+} from '@/shared/components/design-system/types';
 
 export interface RfqDto {
   id: string;
   rfqNumber: string;
-  status: 'DRAFT' | 'SUBMITTED' | 'UNDER_REVIEW' | 'QUOTED' | 'NEGOTIATING' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED' | 'CANCELLED';
+  status:
+    | 'DRAFT'
+    | 'SUBMITTED'
+    | 'UNDER_REVIEW'
+    | 'QUOTED'
+    | 'NEGOTIATING'
+    | 'ACCEPTED'
+    | 'REJECTED'
+    | 'EXPIRED'
+    | 'CANCELLED';
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
-  
+
   // Client Information
   clientInfo: {
     companyName: string;
@@ -56,7 +70,12 @@ export interface RfqDto {
 
   // Payment Terms
   paymentTerms?: {
-    method: 'LETTER_OF_CREDIT' | 'TELEGRAPHIC_TRANSFER' | 'CASH_ADVANCE' | 'OPEN_ACCOUNT' | 'OTHER';
+    method:
+      | 'LETTER_OF_CREDIT'
+      | 'TELEGRAPHIC_TRANSFER'
+      | 'CASH_ADVANCE'
+      | 'OPEN_ACCOUNT'
+      | 'OTHER';
     terms: string;
     currency?: string;
   };
@@ -76,14 +95,14 @@ export interface RfqDto {
   validUntil?: Date;
   estimatedValue?: number;
   currency?: string;
-  
+
   // Tracking
   submittedAt: Date;
   lastUpdated: Date;
   assignedTo?: string;
   tags?: string[];
   notes?: string;
-  
+
   // Related entities
   quotes?: string[]; // Quote IDs
   communications?: string[]; // Communication IDs

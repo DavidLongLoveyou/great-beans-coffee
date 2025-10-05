@@ -1,6 +1,8 @@
 import { type Metadata } from 'next';
-import { type Locale } from '@/i18n';
+
 import { seoConfig } from './seo-utils';
+
+import { type Locale } from '@/i18n';
 import { siteConfig } from '@/shared/config/site';
 
 /**
@@ -74,19 +76,25 @@ export interface AdvancedSEOMetadata {
   title: string;
   description: string;
   keywords: string[];
-  
+
   // Advanced metadata
-  contentType: 'website' | 'article' | 'product' | 'service' | 'organization' | 'collection';
+  contentType:
+    | 'website'
+    | 'article'
+    | 'product'
+    | 'service'
+    | 'organization'
+    | 'collection';
   locale: Locale;
   alternateLocales?: Locale[];
-  
+
   // Content-specific metadata
   author?: string;
   publishedTime?: string;
   modifiedTime?: string;
   section?: string;
   tags?: string[];
-  
+
   // Business metadata
   price?: {
     amount: string;
@@ -95,7 +103,7 @@ export interface AdvancedSEOMetadata {
   availability?: 'InStock' | 'OutOfStock' | 'PreOrder' | 'Discontinued';
   sku?: string;
   gtin?: string;
-  
+
   // Media metadata
   images?: Array<{
     url: string;
@@ -110,14 +118,21 @@ export interface AdvancedSEOMetadata {
     duration?: string;
     description?: string;
   }>;
-  
+
   // SEO optimization
   canonical?: string;
   noIndex?: boolean;
   noFollow?: boolean;
   priority?: number;
-  changeFrequency?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
-  
+  changeFrequency?:
+    | 'always'
+    | 'hourly'
+    | 'daily'
+    | 'weekly'
+    | 'monthly'
+    | 'yearly'
+    | 'never';
+
   // Structured data
   customStructuredData?: Record<string, any>[];
 }
@@ -182,8 +197,26 @@ export const advancedSEOConfig: AdvancedSEOConfig = {
       'Private Label Manufacturing',
       'Supply Chain Management',
     ],
-    targetMarkets: ['B2B Coffee Buyers', 'Private Label Brands', 'Coffee Roasters', 'Distributors'],
-    servesCountries: ['US', 'CA', 'GB', 'DE', 'FR', 'IT', 'ES', 'NL', 'AU', 'JP', 'KR', 'SG'],
+    targetMarkets: [
+      'B2B Coffee Buyers',
+      'Private Label Brands',
+      'Coffee Roasters',
+      'Distributors',
+    ],
+    servesCountries: [
+      'US',
+      'CA',
+      'GB',
+      'DE',
+      'FR',
+      'IT',
+      'ES',
+      'NL',
+      'AU',
+      'JP',
+      'KR',
+      'SG',
+    ],
   },
 };
 
@@ -218,8 +251,8 @@ export class AdvancedSEOManager {
       noFollow,
     } = metadata;
 
-    const fullTitle = title.includes(this.config.business.name) 
-      ? title 
+    const fullTitle = title.includes(this.config.business.name)
+      ? title
       : `${title} | ${this.config.business.name}`;
 
     const primaryImage = images?.[0] || {
@@ -229,8 +262,8 @@ export class AdvancedSEOManager {
       height: 630,
     };
 
-    const fullImageUrl = primaryImage.url.startsWith('http') 
-      ? primaryImage.url 
+    const fullImageUrl = primaryImage.url.startsWith('http')
+      ? primaryImage.url
       : `${this.baseUrl}${primaryImage.url}`;
 
     // Generate robots directive
@@ -249,7 +282,6 @@ export class AdvancedSEOManager {
       creator: this.config.business.name,
       publisher: this.config.business.name,
       robots: robotsDirectives.join(', '),
-      canonical: canonical || `${this.baseUrl}/${locale}`,
 
       // Enhanced Open Graph
       openGraph: {
@@ -300,24 +332,29 @@ export class AdvancedSEOManager {
         'apple-mobile-web-app-status-bar-style': 'default',
         'format-detection': 'telephone=no',
         'mobile-web-app-capable': 'yes',
-        
+
         // Business-specific meta tags
-        'business:contact_data:street_address': this.config.contact.address.streetAddress,
-        'business:contact_data:locality': this.config.contact.address.addressLocality,
-        'business:contact_data:region': this.config.contact.address.addressRegion,
-        'business:contact_data:postal_code': this.config.contact.address.postalCode,
-        'business:contact_data:country_name': this.config.contact.address.addressCountry,
+        'business:contact_data:street_address':
+          this.config.contact.address.streetAddress,
+        'business:contact_data:locality':
+          this.config.contact.address.addressLocality,
+        'business:contact_data:region':
+          this.config.contact.address.addressRegion,
+        'business:contact_data:postal_code':
+          this.config.contact.address.postalCode,
+        'business:contact_data:country_name':
+          this.config.contact.address.addressCountry,
         'business:contact_data:email': this.config.contact.email,
         'business:contact_data:phone_number': this.config.contact.telephone,
-        
+
         // Geographic meta tags
         'geo.region': this.config.contact.address.addressCountry,
         'geo.placename': this.config.contact.address.addressLocality,
         'geo.position': `${this.config.contact.geoCoordinates.latitude};${this.config.contact.geoCoordinates.longitude}`,
-        'ICBM': `${this.config.contact.geoCoordinates.latitude}, ${this.config.contact.geoCoordinates.longitude}`,
-        
+        ICBM: `${this.config.contact.geoCoordinates.latitude}, ${this.config.contact.geoCoordinates.longitude}`,
+
         // Industry-specific meta tags
-        'industry': this.config.industry.primarySector,
+        industry: this.config.industry.primarySector,
         'target-market': this.config.industry.targetMarkets.join(', '),
         'serves-countries': this.config.industry.servesCountries.join(', '),
       },
@@ -346,7 +383,7 @@ export class AdvancedSEOManager {
       image: `${this.baseUrl}/images/logo.png`,
       description: seoConfig.defaultDescription,
       foundingDate: this.config.business.foundingDate,
-      
+
       // Contact information
       address: {
         '@type': 'PostalAddress',
@@ -368,7 +405,17 @@ export class AdvancedSEOManager {
           email: this.config.contact.email,
           contactType: 'customer service',
           areaServed: this.config.industry.servesCountries,
-          availableLanguage: ['en', 'vi', 'de', 'ja', 'fr', 'it', 'es', 'nl', 'ko'],
+          availableLanguage: [
+            'en',
+            'vi',
+            'de',
+            'ja',
+            'fr',
+            'it',
+            'es',
+            'nl',
+            'ko',
+          ],
         },
         {
           '@type': 'ContactPoint',
@@ -379,14 +426,14 @@ export class AdvancedSEOManager {
           availableLanguage: ['en', 'vi', 'de', 'ja'],
         },
       ],
-      
+
       // Social media presence
       sameAs: Object.values(this.config.socialMedia).filter(Boolean),
-      
+
       // Business classification
       naics: this.config.business.naics,
       isicV4: this.config.business.isicV4,
-      
+
       // Certifications
       hasCredential: this.config.certifications.map(cert => ({
         '@type': 'EducationalOccupationalCredential',
@@ -398,7 +445,7 @@ export class AdvancedSEOManager {
         },
         ...(cert.identifier && { identifier: cert.identifier }),
       })),
-      
+
       // Business services
       makesOffer: [
         {
@@ -418,7 +465,8 @@ export class AdvancedSEOManager {
           itemOffered: {
             '@type': 'Service',
             name: 'Private Label Manufacturing',
-            description: 'Custom coffee blending and private label manufacturing services',
+            description:
+              'Custom coffee blending and private label manufacturing services',
           },
           areaServed: this.config.industry.servesCountries.map(country => ({
             '@type': 'Country',
@@ -426,7 +474,7 @@ export class AdvancedSEOManager {
           })),
         },
       ],
-      
+
       // Awards and recognition (can be expanded)
       award: [
         'ISO 22000:2018 Certified',
@@ -466,7 +514,9 @@ export class AdvancedSEOManager {
   /**
    * Generate breadcrumb Schema.org markup
    */
-  generateBreadcrumbSchema(breadcrumbs: Array<{ name: string; url: string }>): Record<string, any> {
+  generateBreadcrumbSchema(
+    breadcrumbs: Array<{ name: string; url: string }>
+  ): Record<string, any> {
     return {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
@@ -474,7 +524,9 @@ export class AdvancedSEOManager {
         '@type': 'ListItem',
         position: index + 1,
         name: crumb.name,
-        item: crumb.url.startsWith('http') ? crumb.url : `${this.baseUrl}${crumb.url}`,
+        item: crumb.url.startsWith('http')
+          ? crumb.url
+          : `${this.baseUrl}${crumb.url}`,
       })),
     };
   }
@@ -482,7 +534,9 @@ export class AdvancedSEOManager {
   /**
    * Generate FAQ Schema.org markup for AI optimization
    */
-  generateFAQSchema(faqs: Array<{ question: string; answer: string }>): Record<string, any> {
+  generateFAQSchema(
+    faqs: Array<{ question: string; answer: string }>
+  ): Record<string, any> {
     return {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -505,19 +559,29 @@ export class AdvancedSEOManager {
     alternateLocales?: Locale[]
   ): Record<string, string> {
     const urls: Record<string, string> = {};
-    const locales = alternateLocales || ['en', 'vi', 'de', 'ja', 'fr', 'it', 'es', 'nl', 'ko'];
-    
+    const locales = alternateLocales || [
+      'en',
+      'vi',
+      'de',
+      'ja',
+      'fr',
+      'it',
+      'es',
+      'nl',
+      'ko',
+    ];
+
     locales.forEach(locale => {
-      urls[locale] = currentUrl 
+      urls[locale] = currentUrl
         ? currentUrl.replace(/\/[a-z]{2}(\/|$)/, `/${locale}$1`)
         : `${this.baseUrl}/${locale}`;
     });
-    
+
     // Add x-default for international targeting
-    urls['x-default'] = currentUrl 
+    urls['x-default'] = currentUrl
       ? currentUrl.replace(/\/[a-z]{2}(\/|$)/, '/en$1')
       : `${this.baseUrl}/en`;
-    
+
     return urls;
   }
 
@@ -529,12 +593,12 @@ export class AdvancedSEOManager {
     if (!data['@context'] || !data['@type']) {
       return false;
     }
-    
+
     // Validate context
     if (data['@context'] !== 'https://schema.org') {
       return false;
     }
-    
+
     // Type-specific validation
     switch (data['@type']) {
       case 'Organization':

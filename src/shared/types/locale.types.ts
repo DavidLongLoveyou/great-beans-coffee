@@ -2,6 +2,8 @@
 // LOCALE & INTERNATIONALIZATION TYPES
 // ================================
 
+import { SelectOption } from './common.types';
+
 export type Locale =
   | 'en'
   | 'vi'
@@ -34,9 +36,9 @@ export interface NumberFormatConfig {
   pattern: string;
 }
 
-export interface LocalizedContent<T = string> {
+export type LocalizedContent<T = string> = {
   [K in Locale]?: T;
-}
+};
 
 export interface TranslationKey {
   key: string;
@@ -200,7 +202,7 @@ export interface LocalizedProcessStep {
   requirements?: string[];
 }
 
-export interface LocalizedContent {
+export interface LocalizedContentEntity {
   id: string;
   type: ContentType;
   translations: {
@@ -259,9 +261,9 @@ export interface LocaleMiddlewareConfig {
   domains?: LocaleDomain[];
 }
 
-export interface LocalizedPathname {
+export type LocalizedPathname = {
   [K in Locale]?: string;
-}
+};
 
 export interface LocaleDomain {
   domain: string;
@@ -421,12 +423,6 @@ export interface LocaleFieldConfig {
   helpText?: string;
   errorMessage?: string;
   options?: SelectOption[];
-}
-
-export interface SelectOption {
-  value: string;
-  label: string;
-  disabled?: boolean;
 }
 
 export interface LocaleEmailTemplate {

@@ -177,15 +177,9 @@ export interface IUserRepository {
   updateManager(id: string, managerId: string): Promise<UserEntity>;
 
   // Permission management
-  addPermission(
-    id: string,
-    permission: Permission
-  ): Promise<UserEntity>;
+  addPermission(id: string, permission: Permission): Promise<UserEntity>;
   removePermission(id: string, permissionId: string): Promise<UserEntity>;
-  updatePermissions(
-    id: string,
-    permissions: Permission[]
-  ): Promise<UserEntity>;
+  updatePermissions(id: string, permissions: Permission[]): Promise<UserEntity>;
   findByPermission(permission: string): Promise<UserEntity[]>;
   hasPermission(id: string, permission: string): Promise<boolean>;
 

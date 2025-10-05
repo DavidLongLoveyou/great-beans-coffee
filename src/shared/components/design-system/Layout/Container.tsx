@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { cn } from '@/shared/utils/cn';
-
 import { ContainerProps } from '../types';
+
+import { cn } from '@/shared/utils/cn';
 
 // Container size configurations
 const containerSizes = {
@@ -32,6 +32,8 @@ const containerPadding = {
   lg: 'px-8',
   xl: 'px-12',
   '2xl': 'px-16',
+  '3xl': 'px-20',
+  '4xl': 'px-24',
 };
 
 export const Container = forwardRef<HTMLDivElement, ContainerProps>(

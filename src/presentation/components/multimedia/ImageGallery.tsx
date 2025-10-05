@@ -66,7 +66,11 @@ export function ImageGallery({
 
   // Get unique categories
   const categories = Array.from(
-    new Set(images.map(img => img.category).filter((cat): cat is string => Boolean(cat)))
+    new Set(
+      images
+        .map(img => img.category)
+        .filter((cat): cat is string => Boolean(cat))
+    )
   );
 
   // Auto-play functionality
@@ -191,102 +195,102 @@ export function ImageGallery({
                 onClick={() => openLightbox(currentIndex)}
               />
 
-            {/* Navigation Arrows */}
-            {filteredImages.length > 1 && (
-              <>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 transform bg-white/80 hover:bg-white"
-                  onClick={goToPrevious}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 transform bg-white/80 hover:bg-white"
-                  onClick={goToNext}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </>
-            )}
-
-            {/* Image Counter */}
-            <div className="absolute bottom-4 left-4 rounded-full bg-black/50 px-3 py-1 text-sm text-white">
-              {currentIndex + 1} / {filteredImages.length}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="absolute bottom-4 right-4 flex gap-2">
-              <Button
-                variant="secondary"
-                size="icon"
-                className="bg-white/80 hover:bg-white"
-                onClick={() => openLightbox(currentIndex)}
-              >
-                <Maximize2 className="h-4 w-4" />
-              </Button>
-              {allowDownload && currentImage.downloadUrl && (
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="bg-white/80 hover:bg-white"
-                  onClick={() => handleDownload(currentImage)}
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
-              )}
-              {allowShare && (
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="bg-white/80 hover:bg-white"
-                  onClick={() => handleShare(currentImage)}
-                >
-                  <Share2 className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
-
-            {/* Auto-play Control */}
-            {autoPlay && filteredImages.length > 1 && (
-              <Button
-                variant="secondary"
-                size="sm"
-                className="absolute right-4 top-4 bg-white/80 hover:bg-white"
-                onClick={() => setIsPlaying(!isPlaying)}
-              >
-                {isPlaying ? 'Pause' : 'Play'}
-              </Button>
-            )}
-          </div>
-
-          {/* Image Info */}
-          <div className="p-4">
-            <h3 className="mb-2 text-lg font-semibold">
-              {currentImage.title || currentImage.alt}
-            </h3>
-            {currentImage.description && (
-              <p className="mb-3 text-gray-600">{currentImage.description}</p>
-            )}
-            {currentImage.tags && currentImage.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1">
-                {currentImage.tags.map(tag => (
-                  <Badge
-                    key={`tag-${tag}`}
+              {/* Navigation Arrows */}
+              {filteredImages.length > 1 && (
+                <>
+                  <Button
                     variant="secondary"
-                    className="text-xs"
+                    size="icon"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 transform bg-white/80 hover:bg-white"
+                    onClick={goToPrevious}
                   >
-                    {tag}
-                  </Badge>
-                ))}
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 transform bg-white/80 hover:bg-white"
+                    onClick={goToNext}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </>
+              )}
+
+              {/* Image Counter */}
+              <div className="absolute bottom-4 left-4 rounded-full bg-black/50 px-3 py-1 text-sm text-white">
+                {currentIndex + 1} / {filteredImages.length}
               </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+
+              {/* Action Buttons */}
+              <div className="absolute bottom-4 right-4 flex gap-2">
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="bg-white/80 hover:bg-white"
+                  onClick={() => openLightbox(currentIndex)}
+                >
+                  <Maximize2 className="h-4 w-4" />
+                </Button>
+                {allowDownload && currentImage.downloadUrl && (
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="bg-white/80 hover:bg-white"
+                    onClick={() => handleDownload(currentImage)}
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                )}
+                {allowShare && (
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="bg-white/80 hover:bg-white"
+                    onClick={() => handleShare(currentImage)}
+                  >
+                    <Share2 className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+
+              {/* Auto-play Control */}
+              {autoPlay && filteredImages.length > 1 && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="absolute right-4 top-4 bg-white/80 hover:bg-white"
+                  onClick={() => setIsPlaying(!isPlaying)}
+                >
+                  {isPlaying ? 'Pause' : 'Play'}
+                </Button>
+              )}
+            </div>
+
+            {/* Image Info */}
+            <div className="p-4">
+              <h3 className="mb-2 text-lg font-semibold">
+                {currentImage.title || currentImage.alt}
+              </h3>
+              {currentImage.description && (
+                <p className="mb-3 text-gray-600">{currentImage.description}</p>
+              )}
+              {currentImage.tags && currentImage.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  {currentImage.tags.map(tag => (
+                    <Badge
+                      key={`tag-${tag}`}
+                      variant="secondary"
+                      className="text-xs"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Thumbnails */}

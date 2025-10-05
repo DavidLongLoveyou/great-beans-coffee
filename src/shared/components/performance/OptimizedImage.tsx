@@ -1,17 +1,18 @@
 'use client';
 
-import Image, { type ImageProps, type StaticImport, type ImageLoader } from 'next/image';
+import Image, { type ImageProps, type ImageLoader } from 'next/image';
 import { useState, useCallback, useEffect, type CSSProperties } from 'react';
-import { cn } from '@/shared/utils/cn';
+
 import { cloudinaryService } from '@/infrastructure/external-services/cloudinary.service';
+import { cn } from '@/shared/utils/cn';
 import { coreWebVitalsOptimizer } from '@/shared/utils/core-web-vitals';
 
 // Define explicit props interface to work with exactOptionalPropertyTypes
 export interface OptimizedImageProps {
   // Required props
-  src: string | StaticImport;
+  src: string;
   alt: string;
-  
+
   // Next.js Image props (all optional with explicit undefined)
   width?: number | `${number}` | undefined;
   height?: number | `${number}` | undefined;
@@ -19,19 +20,21 @@ export interface OptimizedImageProps {
   loader?: ImageLoader | undefined;
   quality?: number | `${number}` | undefined;
   priority?: boolean | undefined;
-  loading?: "eager" | "lazy" | undefined;
-  placeholder?: "blur" | "empty" | `data:image/${string}` | undefined;
+  loading?: 'eager' | 'lazy' | undefined;
+  placeholder?: 'blur' | 'empty' | `data:image/${string}` | undefined;
   blurDataURL?: string | undefined;
   unoptimized?: boolean | undefined;
   overrideSrc?: string | undefined;
-  onLoadingComplete?: ((result: { naturalWidth: number; naturalHeight: number }) => void) | undefined;
-  decoding?: "async" | "auto" | "sync" | undefined;
+  onLoadingComplete?:
+    | ((result: { naturalWidth: number; naturalHeight: number }) => void)
+    | undefined;
+  decoding?: 'async' | 'auto' | 'sync' | undefined;
   className?: string | undefined;
   style?: CSSProperties | undefined;
   sizes?: string | undefined;
   lazyBoundary?: string | undefined;
   lazyRoot?: string | undefined;
-  
+
   // Custom optimization options
   /** Whether to show a blur placeholder while loading */
   showBlurPlaceholder?: boolean | undefined;
@@ -47,13 +50,13 @@ export interface OptimizedImageProps {
   onLoadError?: (() => void) | undefined;
   /** Whether to optimize for LCP (Largest Contentful Paint) */
   optimizeForLCP?: boolean | undefined;
-  
+
   // Cloudinary integration
   /** Cloudinary public ID (if using Cloudinary) */
   cloudinaryId?: string | undefined;
   /** Whether to use Cloudinary optimization */
   useCloudinary?: boolean | undefined;
-  
+
   // Analytics and monitoring
   /** Whether to track performance metrics */
   trackPerformance?: boolean | undefined;
@@ -61,7 +64,7 @@ export interface OptimizedImageProps {
 
 /**
  * Optimized Image component with lazy loading, blur placeholders, and Core Web Vitals optimizations
- * 
+ *
  * Features:
  * - Automatic lazy loading with intersection observer
  * - Blur placeholder for better perceived performance
@@ -109,31 +112,36 @@ export function OptimizedImage({
   const [loadStartTime, setLoadStartTime] = useState<number>(0);
 
   // Determine the image source and blur placeholder
-  const imageSource = useCloudinary && cloudinaryId 
-    ? cloudinaryService.getOptimizedImageUrl(cloudinaryId, {
-        priority: optimizeForLCP ? 'high' : 'auto',
-        responsive: true,
-      })
-    : src;
+  const imageSource =
+    useCloudinary && cloudinaryId
+      ? cloudinaryService.getOptimizedImageUrl(cloudinaryId, {
+          priority: optimizeForLCP ? 'high' : 'auto',
+          responsive: true,
+        })
+      : src;
 
-  const imageBlurDataURL = useCloudinary && cloudinaryId && showBlurPlaceholder
-    ? cloudinaryService.getBlurPlaceholder(cloudinaryId)
-    : blurDataURL || 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==';
+  const imageBlurDataURL =
+    useCloudinary && cloudinaryId && showBlurPlaceholder
+      ? cloudinaryService.getBlurPlaceholder(cloudinaryId)
+      : blurDataURL ||
+        'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==';
 
   const handleLoad = useCallback(() => {
     setIsLoading(false);
     setHasError(false);
-    
+
     // Track loading performance
     if (trackPerformance && loadStartTime > 0) {
       const loadTime = performance.now() - loadStartTime;
-      
+
       // Report to Core Web Vitals optimizer for LCP images
       if (optimizeForLCP) {
-        coreWebVitalsOptimizer.preloadCriticalResources([{
-          href: imageSource,
-          as: 'image',
-        }]);
+        coreWebVitalsOptimizer.preloadCriticalResources([
+          {
+            href: imageSource,
+            as: 'image',
+          },
+        ]);
       }
 
       // Track in analytics if available
@@ -149,25 +157,34 @@ export function OptimizedImage({
         });
       }
     }
-    
+
     onLoadComplete?.();
-  }, [onLoadComplete, trackPerformance, loadStartTime, optimizeForLCP, imageSource, useCloudinary]);
+  }, [
+    onLoadComplete,
+    trackPerformance,
+    loadStartTime,
+    optimizeForLCP,
+    imageSource,
+    useCloudinary,
+  ]);
 
   const handleError = useCallback(() => {
     setIsLoading(false);
     setHasError(true);
-    
+
     // Track error in analytics if available
     if (trackPerformance && typeof window !== 'undefined' && 'gtag' in window) {
       (window as any).gtag('event', 'image_load_error', {
         event_category: 'Performance',
-        event_label: useCloudinary ? 'cloudinary_image_error' : 'standard_image_error',
+        event_label: useCloudinary
+          ? 'cloudinary_image_error'
+          : 'standard_image_error',
         custom_map: {
           uses_cloudinary: useCloudinary,
         },
       });
     }
-    
+
     onLoadError?.();
   }, [onLoadError, trackPerformance, useCloudinary]);
 
@@ -179,27 +196,36 @@ export function OptimizedImage({
 
     // Preload critical images for LCP optimization
     if (optimizeForLCP && !lazy && useCloudinary && cloudinaryId) {
-      coreWebVitalsOptimizer.optimizeImagesForWebVitals([{
-        publicId: cloudinaryId,
-        priority: 'high',
-        sizes: props.sizes,
-      }]);
+      coreWebVitalsOptimizer.optimizeImagesForWebVitals([
+        {
+          publicId: cloudinaryId,
+          priority: 'high',
+          ...(sizes && { sizes }),
+        },
+      ]);
     }
-  }, [trackPerformance, optimizeForLCP, lazy, useCloudinary, cloudinaryId, props.sizes]);
+  }, [
+    trackPerformance,
+    optimizeForLCP,
+    lazy,
+    useCloudinary,
+    cloudinaryId,
+    sizes,
+  ]);
 
   // Show error state
   if (hasError) {
     if (errorComponent) {
       return <>{errorComponent}</>;
     }
-    
+
     return (
-      <div 
+      <div
         className={cn(
           'flex items-center justify-center bg-gray-100 text-gray-400',
           className
         )}
-        {...(props.fill ? {} : { style: { width: props.width, height: props.height } })}
+        {...(fill ? {} : { style: { width: width, height: height } })}
       >
         <svg
           className="h-8 w-8"
@@ -228,19 +254,19 @@ export function OptimizedImage({
       <Image
         src={imageSource}
         alt={alt}
-        width={width}
-        height={height}
-        fill={fill}
-        sizes={sizes}
-        quality={quality}
-        style={style}
-        loader={loader}
-        unoptimized={unoptimized}
-        overrideSrc={overrideSrc}
-        onLoadingComplete={onLoadingComplete}
-        decoding={decoding}
-        lazyBoundary={lazyBoundary}
-        lazyRoot={lazyRoot}
+        {...(width !== undefined && { width })}
+        {...(height !== undefined && { height })}
+        {...(fill !== undefined && { fill })}
+        {...(sizes && { sizes })}
+        {...(quality !== undefined && { quality })}
+        {...(style && { style })}
+        {...(loader && { loader })}
+        {...(unoptimized !== undefined && { unoptimized })}
+        {...(overrideSrc && { overrideSrc })}
+        {...(onLoadingComplete && { onLoadingComplete })}
+        {...(decoding && { decoding })}
+        {...(lazyBoundary && { lazyBoundary })}
+        {...(lazyRoot && { lazyRoot })}
         className={cn(
           'transition-opacity duration-300',
           isLoading && showBlurPlaceholder ? 'opacity-0' : 'opacity-100',
@@ -248,17 +274,19 @@ export function OptimizedImage({
         )}
         onLoad={handleLoad}
         onError={handleError}
-        priority={optimizeForLCP || priority}
-        loading={loading || (lazy && !optimizeForLCP && !priority ? 'lazy' : 'eager')}
+        priority={Boolean(optimizeForLCP || priority)}
+        loading={
+          loading || (lazy && !optimizeForLCP && !priority ? 'lazy' : 'eager')
+        }
         placeholder={placeholder || (showBlurPlaceholder ? 'blur' : 'empty')}
-        blurDataURL={imageBlurDataURL}
+        {...(imageBlurDataURL && { blurDataURL: imageBlurDataURL })}
       />
-      
+
       {/* Loading overlay with blur placeholder */}
       {isLoading && showBlurPlaceholder && (
-        <div 
+        <div
           className={cn(
-            'absolute inset-0 bg-gray-200 animate-pulse',
+            'absolute inset-0 animate-pulse bg-gray-200',
             className
           )}
           style={{
@@ -277,9 +305,7 @@ export function OptimizedImage({
  * Optimized Image component specifically for hero/above-the-fold images
  * Automatically sets priority and optimizes for LCP
  */
-export function HeroImage({ 
-  ...props 
-}: OptimizedImageProps) {
+export function HeroImage({ ...props }: OptimizedImageProps) {
   return (
     <OptimizedImage
       {...props}
@@ -296,10 +322,7 @@ export function HeroImage({
  * Optimized Image component for card thumbnails
  * Includes responsive sizing and lazy loading
  */
-export function CardImage({ 
-  className, 
-  ...props 
-}: OptimizedImageProps) {
+export function CardImage({ className, ...props }: OptimizedImageProps) {
   return (
     <OptimizedImage
       {...props}
@@ -315,10 +338,7 @@ export function CardImage({
  * Optimized Image component for blog content
  * Includes responsive sizing and accessibility features
  */
-export function ContentImage({ 
-  className, 
-  ...props 
-}: OptimizedImageProps) {
+export function ContentImage({ className, ...props }: OptimizedImageProps) {
   return (
     <OptimizedImage
       {...props}

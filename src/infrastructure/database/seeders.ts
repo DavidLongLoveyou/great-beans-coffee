@@ -1,10 +1,14 @@
-import { PrismaClient, UserRole, ClientStatus, ServiceType, CoffeeType, CoffeeGrade, ProcessingMethod, ContentType, ContentStatus } from '@prisma/client';
-
 import {
-  CLUSTER_PRODUCTS,
-  CLUSTER_SERVICES,
-  CLUSTER_ARTICLES,
-} from '@/lib/cluster-data';
+  PrismaClient,
+  UserRole,
+  ClientStatus,
+  ServiceType,
+  CoffeeType,
+  CoffeeGrade,
+  ProcessingMethod,
+  ContentType,
+  ContentStatus,
+} from '@prisma/client';
 
 import { prisma } from './prisma';
 import {
@@ -18,6 +22,13 @@ import {
   contentData,
 } from './seed-data';
 
+import {
+  CLUSTER_PRODUCTS,
+  CLUSTER_SERVICES,
+  CLUSTER_ARTICLES,
+} from '@/lib/cluster-data';
+import { createScopedLogger } from '@/shared/utils/logger';
+
 export interface SeedResult {
   success: boolean;
   message: string;
@@ -28,6 +39,7 @@ export interface SeedResult {
 
 export class DatabaseSeeders {
   private prisma: PrismaClient;
+  private logger = createScopedLogger('DatabaseSeeders');
 
   constructor() {
     this.prisma = prisma;
@@ -38,16 +50,16 @@ export class DatabaseSeeders {
    */
   async runAllSeeders(): Promise<SeedResult> {
     try {
-      console.log('🌱 Starting comprehensive database seeding...');
-      console.log(
+      this.logger.info('🌱 Starting comprehensive database seeding...');
+      this.logger.info(
         `📊 Seeding ${seedDataStats.total} records across ${Object.keys(seedDataStats).length - 1} entity types`
       );
 
       // Validate seed data before proceeding
       if (!seedDataValidation.isValid) {
-        console.error('❌ Seed data validation failed:');
+        this.logger.error('❌ Seed data validation failed:');
         seedDataValidation.errors.forEach(error =>
-          console.error(`  - ${error}`)
+          this.logger.error(`  - ${error}`)
         );
         throw new Error('Seed data validation failed');
       }
@@ -55,36 +67,36 @@ export class DatabaseSeeders {
       const seeded: string[] = [];
 
       // Run seeders in dependency order
-      console.log('👥 Seeding users...');
+      this.logger.info('👥 Seeding users...');
       await this.seedUsers();
       seeded.push('users');
 
-      console.log('🏢 Seeding client companies...');
+      this.logger.info('🏢 Seeding client companies...');
       await this.seedClientCompanies();
       seeded.push('client-companies');
 
-      console.log('☕ Seeding coffee products...');
+      this.logger.info('☕ Seeding coffee products...');
       await this.seedCoffeeProducts();
       seeded.push('coffee-products');
 
-      console.log('🛠️ Seeding business services...');
+      this.logger.info('🛠️ Seeding business services...');
       await this.seedBusinessServices();
       seeded.push('business-services');
 
-      console.log('📝 Seeding content...');
+      this.logger.info('📝 Seeding content...');
       await this.seedContent();
       seeded.push('content');
 
-      console.log('🔗 Seeding cluster data...');
+      this.logger.info('🔗 Seeding cluster data...');
       await this.seedClusterData();
       seeded.push('cluster-data');
 
-      console.log('💼 Seeding RFQs...');
+      this.logger.info('💼 Seeding RFQs...');
       await this.seedRFQs();
       seeded.push('rfqs');
 
-      console.log('✅ Database seeding completed successfully');
-      console.log(`📈 Seeded ${seedDataStats.total} total records`);
+      this.logger.info('✅ Database seeding completed successfully');
+      this.logger.info(`📈 Seeded ${seedDataStats.total} total records`);
 
       return {
         success: true,
@@ -93,7 +105,7 @@ export class DatabaseSeeders {
         stats: seedDataStats,
       };
     } catch (error) {
-      console.error('❌ Seeding failed:', error);
+      this.logger.error('❌ Seeding failed:', error);
       return {
         success: false,
         message: 'Seeding failed',
@@ -148,7 +160,7 @@ export class DatabaseSeeders {
    * Seed comprehensive user data
    */
   async seedUsers(): Promise<void> {
-    console.log(`  📝 Seeding ${usersData.length} users...`);
+    this.logger.info(`  📝 Seeding ${usersData.length} users...`);
 
     for (const userData of usersData) {
       const user = {
@@ -169,14 +181,14 @@ export class DatabaseSeeders {
       });
     }
 
-    console.log(`  ✅ Successfully seeded ${usersData.length} users`);
+    this.logger.info(`  ✅ Successfully seeded ${usersData.length} users`);
   }
 
   /**
    * Seed client companies
    */
   async seedClientCompanies(): Promise<void> {
-    console.log(
+    this.logger.info(
       `  📝 Seeding ${clientCompaniesData.length} client companies...`
     );
 
@@ -209,7 +221,7 @@ export class DatabaseSeeders {
       });
     }
 
-    console.log(
+    this.logger.info(
       `  ✅ Successfully seeded ${clientCompaniesData.length} client companies`
     );
   }
@@ -219,16 +231,16 @@ export class DatabaseSeeders {
    */
   private mapServiceTypeFromSeed(seedType: string): ServiceType {
     const typeMapping: Record<string, ServiceType> = {
-      'PRIVATE_LABEL': ServiceType.PRIVATE_LABEL,
-      'OEM_MANUFACTURING': ServiceType.OEM_MANUFACTURING,
-      'QUALITY_CONTROL': ServiceType.QUALITY_CONTROL,
-      'CUSTOM_BLENDING': ServiceType.CUSTOM_BLENDING,
-      'COFFEE_SOURCING': ServiceType.SOURCING,
-      'LOGISTICS_SHIPPING': ServiceType.LOGISTICS,
-      'MARKET_CONSULTING': ServiceType.CONSULTING,
-      'PACKAGING_DESIGN': ServiceType.PACKAGING,
-      'CERTIFICATION_SUPPORT': ServiceType.CONSULTING,
-      'SUPPLY_CHAIN_MANAGEMENT': ServiceType.LOGISTICS,
+      PRIVATE_LABEL: ServiceType.PRIVATE_LABEL,
+      OEM_MANUFACTURING: ServiceType.OEM_MANUFACTURING,
+      QUALITY_CONTROL: ServiceType.QUALITY_CONTROL,
+      CUSTOM_BLENDING: ServiceType.CUSTOM_BLENDING,
+      COFFEE_SOURCING: ServiceType.SOURCING,
+      LOGISTICS_SHIPPING: ServiceType.LOGISTICS,
+      MARKET_CONSULTING: ServiceType.CONSULTING,
+      PACKAGING_DESIGN: ServiceType.PACKAGING,
+      CERTIFICATION_SUPPORT: ServiceType.CONSULTING,
+      SUPPLY_CHAIN_MANAGEMENT: ServiceType.LOGISTICS,
     };
 
     return typeMapping[seedType] || ServiceType.CONSULTING;
@@ -345,14 +357,14 @@ export class DatabaseSeeders {
    * Seed business services
    */
   async seedBusinessServices(): Promise<void> {
-    console.log(
+    this.logger.info(
       `  📝 Seeding ${businessServicesData.length} business services...`
     );
 
     for (const serviceData of businessServicesData) {
       // Get English translation for basic fields
       const enTranslation = serviceData.translations.en;
-      
+
       const service = {
         id: serviceData.id,
         name: enTranslation?.name || serviceData.serviceCode,
@@ -392,7 +404,7 @@ export class DatabaseSeeders {
       });
     }
 
-    console.log(
+    this.logger.info(
       `  ✅ Successfully seeded ${businessServicesData.length} business services`
     );
   }
@@ -401,7 +413,9 @@ export class DatabaseSeeders {
    * Seed coffee products
    */
   async seedCoffeeProducts(): Promise<void> {
-    console.log(`  📝 Seeding ${coffeeProductsData.length} coffee products...`);
+    this.logger.info(
+      `  📝 Seeding ${coffeeProductsData.length} coffee products...`
+    );
 
     for (const productData of coffeeProductsData) {
       // Map seed data to Prisma schema fields
@@ -444,7 +458,7 @@ export class DatabaseSeeders {
       });
     }
 
-    console.log(
+    this.logger.info(
       `  ✅ Successfully seeded ${coffeeProductsData.length} coffee products`
     );
   }
@@ -453,7 +467,7 @@ export class DatabaseSeeders {
    * Seed content
    */
   async seedContent(): Promise<void> {
-    console.log(`  📝 Seeding ${contentData.length} content items...`);
+    this.logger.info(`  📝 Seeding ${contentData.length} content items...`);
 
     for (const contentItem of contentData) {
       const content = {
@@ -500,14 +514,16 @@ export class DatabaseSeeders {
       });
     }
 
-    console.log(`  ✅ Successfully seeded ${contentData.length} content items`);
+    this.logger.info(
+      `  ✅ Successfully seeded ${contentData.length} content items`
+    );
   }
 
   /**
    * Seed RFQs
    */
   async seedRFQs(): Promise<void> {
-    console.log(`  📝 Seeding ${rfqsData.length} RFQs...`);
+    this.logger.info(`  📝 Seeding ${rfqsData.length} RFQs...`);
 
     for (const rfqData of rfqsData) {
       const rfq = {
@@ -530,7 +546,9 @@ export class DatabaseSeeders {
         currency: rfqData.budget?.currency || 'USD',
         incoterms: rfqData.shipping?.incoterms,
         destination: rfqData.shipping?.destination?.city,
-        deadline: rfqData.timeline?.responseDeadline ? new Date(rfqData.timeline.responseDeadline) : null,
+        deadline: rfqData.timeline?.responseDeadline
+          ? new Date(rfqData.timeline.responseDeadline)
+          : null,
         assignedTo: rfqData.assignedTo || null,
         createdBy: rfqData.createdBy,
         updatedBy: rfqData.updatedBy,
@@ -546,14 +564,14 @@ export class DatabaseSeeders {
       });
     }
 
-    console.log(`  ✅ Successfully seeded ${rfqsData.length} RFQs`);
+    this.logger.info(`  ✅ Successfully seeded ${rfqsData.length} RFQs`);
   }
 
   /**
    * Seed cluster data (products, services, articles)
    */
   async seedClusterData(): Promise<void> {
-    console.log(`  📝 Seeding cluster data...`);
+    this.logger.info(`  📝 Seeding cluster data...`);
 
     let totalProducts = 0;
     let totalServices = 0;
@@ -570,16 +588,21 @@ export class DatabaseSeeders {
 
     // Seed cluster products
     for (const [clusterId, products] of Object.entries(CLUSTER_PRODUCTS)) {
-      console.log(`    📦 Seeding products for cluster: ${clusterId}`);
+      this.logger.info(`    📦 Seeding products for cluster: ${clusterId}`);
 
       for (const productData of products) {
         // Map cluster product data to database schema
         const product = {
           id: productData.id,
           sku: productData.id.toUpperCase(),
-          coffeeType: productData.grade === 'specialty' ? CoffeeType.ARABICA : CoffeeType.ROBUSTA,
+          coffeeType:
+            productData.grade === 'specialty'
+              ? CoffeeType.ARABICA
+              : CoffeeType.ROBUSTA,
           grade: this.mapCoffeeGradeFromSeed(productData.grade),
-          processing: this.mapProcessingMethodFromSeed(productData.processingMethod),
+          processing: this.mapProcessingMethodFromSeed(
+            productData.processingMethod
+          ),
           origin: productData.origin.country,
           region: productData.origin.region,
           farm: null,
@@ -621,7 +644,10 @@ export class DatabaseSeeders {
         const translation = {
           productId: product.id,
           locale: 'en',
-          slug: productData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+          slug: productData.name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, ''),
           name: productData.name,
           description: productData.description,
           shortDescription: productData.description.substring(0, 150) + '...',
@@ -655,7 +681,7 @@ export class DatabaseSeeders {
 
     // Seed cluster services
     for (const [clusterId, services] of Object.entries(CLUSTER_SERVICES)) {
-      console.log(`    🔧 Seeding services for cluster: ${clusterId}`);
+      this.logger.info(`    🔧 Seeding services for cluster: ${clusterId}`);
 
       for (const serviceData of services) {
         const service = {
@@ -700,7 +726,10 @@ export class DatabaseSeeders {
         const translation = {
           serviceId: service.id,
           locale: 'en',
-          slug: serviceData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+          slug: serviceData.name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, ''),
           name: serviceData.name,
           description: serviceData.description,
           shortDescription: service.shortDescription,
@@ -728,7 +757,7 @@ export class DatabaseSeeders {
 
     // Seed cluster articles
     for (const [clusterId, articles] of Object.entries(CLUSTER_ARTICLES)) {
-      console.log(`    📰 Seeding articles for cluster: ${clusterId}`);
+      this.logger.info(`    📰 Seeding articles for cluster: ${clusterId}`);
 
       for (const articleData of articles) {
         const article = {
@@ -773,8 +802,8 @@ export class DatabaseSeeders {
       }
     }
 
-    console.log(
-      `  ✅ Successfully seeded cluster data: ${totalProducts} products, ${totalServices} services, ${totalArticles} articles`
+    this.logger.info(
+      `  ✅ Successfully seeded cluster data for ${Object.keys(CLUSTER_PRODUCTS).length} clusters`
     );
   }
 
@@ -810,7 +839,7 @@ export class DatabaseSeeders {
    */
   async clearAllData(): Promise<SeedResult> {
     try {
-      console.log('🧹 Clearing all data...');
+      this.logger.info('🧹 Clearing all data...');
 
       // Delete in reverse dependency order
       await this.prisma.rFQProduct.deleteMany();
@@ -820,14 +849,14 @@ export class DatabaseSeeders {
       await this.prisma.coffeeProduct.deleteMany();
       await this.prisma.user.deleteMany();
 
-      console.log('✅ All data cleared successfully');
+      this.logger.info('✅ All data cleared successfully');
       return {
         success: true,
         message: 'All data cleared successfully',
         seeded: [],
       };
     } catch (error) {
-      console.error('❌ Failed to clear data:', error);
+      this.logger.error('❌ Failed to clear data:', error);
       return {
         success: false,
         message: 'Failed to clear data',

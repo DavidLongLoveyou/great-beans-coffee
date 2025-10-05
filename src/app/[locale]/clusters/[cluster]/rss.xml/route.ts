@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import type { Locale } from '@/i18n';
+import { createScopedLogger } from '@/shared/utils/logger';
 import { generateContentClusterRSS } from '@/shared/utils/rss-utils';
+
+const logger = createScopedLogger('ClusterRSSAPI');
 
 // Valid cluster names
 const validClusters = [
@@ -35,8 +38,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Error generating content cluster RSS feed:', error);
+    logger.error('Error generating content cluster RSS feed:', error);
     return new NextResponse('Error generating content cluster RSS feed', {
       status: 500,
     });

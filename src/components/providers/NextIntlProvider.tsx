@@ -9,10 +9,14 @@ interface NextIntlProviderProps {
   locale: string;
 }
 
-export function NextIntlProvider({ children, messages, locale }: NextIntlProviderProps) {
+export function NextIntlProvider({
+  children,
+  messages,
+  locale,
+}: NextIntlProviderProps) {
   return (
-    <NextIntlClientProvider 
-      messages={messages} 
+    <NextIntlClientProvider
+      messages={messages}
       locale={locale}
       timeZone="UTC"
       now={new Date()}

@@ -1,3 +1,5 @@
+import { createScopedLogger } from '@/shared/utils/logger';
+
 export interface SEOMetadata {
   title: string;
   description: string;
@@ -28,6 +30,7 @@ export interface ISEOService {
 }
 
 export class SEOService implements ISEOService {
+  private logger = createScopedLogger('SEOService');
   private baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL || 'https://greatbeans.com';
 
@@ -36,8 +39,6 @@ export class SEOService implements ISEOService {
     data: Record<string, any> = {}
   ): Promise<SEOMetadata> {
     try {
-      console.log(`Generating SEO metadata for page: ${page}`);
-
       const metadata: SEOMetadata = {
         title: this.generateTitle(page, data),
         description: this.generateDescription(page, data),
@@ -73,7 +74,7 @@ export class SEOService implements ISEOService {
 
       return metadata;
     } catch (error) {
-      console.error('Failed to generate SEO metadata:', error);
+      this.logger.error('Failed to generate SEO metadata:', error);
       return this.getDefaultMetadata();
     }
   }
@@ -83,8 +84,6 @@ export class SEOService implements ISEOService {
     data: Record<string, any>
   ): Promise<Record<string, any>> {
     try {
-      console.log(`Generating structured data for type: ${type}`);
-
       const baseStructure = {
         '@context': 'https://schema.org',
         '@type': type,
@@ -152,15 +151,13 @@ export class SEOService implements ISEOService {
           return baseStructure;
       }
     } catch (error) {
-      console.error('Failed to generate structured data:', error);
+      this.logger.error('Failed to generate structured data:', error);
       return {};
     }
   }
 
   async generateSitemap(): Promise<string[]> {
     try {
-      console.log('Generating sitemap URLs');
-
       const urls = [
         '/',
         '/products',
@@ -193,7 +190,7 @@ export class SEOService implements ISEOService {
 
       return urls.map(url => `${this.baseUrl}${url}`);
     } catch (error) {
-      console.error('Failed to generate sitemap:', error);
+      this.logger.error('Failed to generate sitemap:', error);
       return [];
     }
   }
@@ -222,13 +219,13 @@ export class SEOService implements ISEOService {
       }
 
       if (issues.length > 0) {
-        console.warn('SEO metadata validation issues:', issues);
+        this.logger.warn('SEO metadata validation issues:', issues);
         return false;
       }
 
       return true;
     } catch (error) {
-      console.error('Failed to validate metadata:', error);
+      this.logger.error('Failed to validate metadata:', error);
       return false;
     }
   }

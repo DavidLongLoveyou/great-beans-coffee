@@ -1,5 +1,6 @@
 import { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
 import { ICoffeeProductRepository } from '@/infrastructure/database/repositories/coffee-product.repository';
+import { createScopedLogger } from '@/shared/utils/logger';
 
 export interface GetCoffeeProductBySlugRequest {
   slug: string;
@@ -12,6 +13,8 @@ export interface GetCoffeeProductBySlugResponse {
 }
 
 export class GetCoffeeProductBySlugUseCase {
+  private logger = createScopedLogger('GetCoffeeProductBySlugUseCase');
+
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
   async execute(
@@ -41,7 +44,7 @@ export class GetCoffeeProductBySlugUseCase {
         relatedProducts,
       };
     } catch (error) {
-      console.error('Error fetching coffee product by slug:', error);
+      this.logger.error('Error fetching coffee product by slug:', error);
       throw new Error('Failed to fetch coffee product');
     }
   }
@@ -62,10 +65,11 @@ export class GetCoffeeProductBySlugUseCase {
       relatedProducts = relatedProducts.filter(p => p.id !== product.id);
 
       // If we don't have enough, add products from the same origin
-      if (relatedProducts.length < 4 && product.origin?.region) {
+      const productOrigin = product.origin;
+      if (relatedProducts.length < 4 && productOrigin?.region) {
         const originProducts =
           await this.coffeeProductRepository.getProductsByOrigin(
-            product.origin.region,
+            productOrigin.region,
             locale
           );
 
@@ -81,7 +85,7 @@ export class GetCoffeeProductBySlugUseCase {
       // Return max 4 related products
       return relatedProducts.slice(0, 4);
     } catch (error) {
-      console.error('Error fetching related products:', error);
+      this.logger.error('Error fetching related products:', error);
       return [];
     }
   }

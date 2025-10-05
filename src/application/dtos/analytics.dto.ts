@@ -3,16 +3,22 @@
 export interface AnalyticsEventDto {
   id: string;
   eventName: string;
-  eventCategory: 'PAGE_VIEW' | 'USER_INTERACTION' | 'BUSINESS_ACTION' | 'CONVERSION' | 'ERROR' | 'PERFORMANCE';
-  
+  eventCategory:
+    | 'PAGE_VIEW'
+    | 'USER_INTERACTION'
+    | 'BUSINESS_ACTION'
+    | 'CONVERSION'
+    | 'ERROR'
+    | 'PERFORMANCE';
+
   // Event Data
   properties: Record<string, any>;
-  
+
   // User Context
   userId?: string;
   sessionId: string;
   anonymousId?: string;
-  
+
   // Page Context
   page: {
     url: string;
@@ -21,7 +27,7 @@ export interface AnalyticsEventDto {
     referrer?: string;
     locale: string;
   };
-  
+
   // Device Context
   device: {
     userAgent: string;
@@ -33,11 +39,11 @@ export interface AnalyticsEventDto {
     os: string;
     screenResolution?: string;
   };
-  
+
   // Timing
   timestamp: Date;
   serverTimestamp: Date;
-  
+
   // Metadata
   source: 'WEB' | 'MOBILE_APP' | 'API' | 'SERVER';
   version?: string;
@@ -60,18 +66,18 @@ export interface AnalyticsMetricDto {
   id: string;
   metricName: string;
   metricType: 'COUNTER' | 'GAUGE' | 'HISTOGRAM' | 'TIMER';
-  
+
   // Metric Value
   value: number;
   unit?: string;
-  
+
   // Dimensions
   dimensions: Record<string, string>;
-  
+
   // Time
   timestamp: Date;
   period: 'REAL_TIME' | 'HOURLY' | 'DAILY' | 'WEEKLY' | 'MONTHLY';
-  
+
   // Metadata
   source: string;
   tags?: string[];
@@ -81,7 +87,7 @@ export interface AnalyticsDashboardDto {
   id: string;
   name: string;
   description?: string;
-  
+
   // Dashboard Configuration
   widgets: Array<{
     id: string;
@@ -108,12 +114,12 @@ export interface AnalyticsDashboardDto {
       };
     };
   }>;
-  
+
   // Access Control
   visibility: 'PUBLIC' | 'PRIVATE' | 'TEAM';
   allowedUsers?: string[];
   allowedRoles?: string[];
-  
+
   // Metadata
   createdAt: Date;
   updatedAt: Date;
@@ -126,28 +132,42 @@ export interface AnalyticsReportDto {
   id: string;
   name: string;
   description?: string;
-  reportType: 'TRAFFIC' | 'CONVERSION' | 'BUSINESS' | 'PERFORMANCE' | 'USER_BEHAVIOR' | 'CUSTOM';
-  
+  reportType:
+    | 'TRAFFIC'
+    | 'CONVERSION'
+    | 'BUSINESS'
+    | 'PERFORMANCE'
+    | 'USER_BEHAVIOR'
+    | 'CUSTOM';
+
   // Report Configuration
   metrics: Array<{
     name: string;
     aggregation: 'SUM' | 'AVG' | 'COUNT' | 'MIN' | 'MAX' | 'UNIQUE';
     format?: 'NUMBER' | 'PERCENTAGE' | 'CURRENCY' | 'DURATION';
   }>;
-  
+
   dimensions: string[];
-  
+
   filters: Array<{
     dimension: string;
-    operator: 'EQUALS' | 'NOT_EQUALS' | 'CONTAINS' | 'NOT_CONTAINS' | 'GREATER_THAN' | 'LESS_THAN' | 'IN' | 'NOT_IN';
+    operator:
+      | 'EQUALS'
+      | 'NOT_EQUALS'
+      | 'CONTAINS'
+      | 'NOT_CONTAINS'
+      | 'GREATER_THAN'
+      | 'LESS_THAN'
+      | 'IN'
+      | 'NOT_IN';
     value: any;
   }>;
-  
+
   timeRange: {
     type: 'RELATIVE' | 'ABSOLUTE';
     value: string | { start: Date; end: Date };
   };
-  
+
   // Report Data
   data?: {
     headers: string[];
@@ -159,7 +179,7 @@ export interface AnalyticsReportDto {
       dataFreshness?: Date;
     };
   };
-  
+
   // Scheduling
   schedule?: {
     frequency: 'DAILY' | 'WEEKLY' | 'MONTHLY';
@@ -168,7 +188,7 @@ export interface AnalyticsReportDto {
     recipients: string[];
     format: 'PDF' | 'CSV' | 'EXCEL' | 'EMAIL';
   };
-  
+
   // Metadata
   createdAt: Date;
   updatedAt: Date;
@@ -182,18 +202,26 @@ export interface AnalyticsSegmentDto {
   id: string;
   name: string;
   description?: string;
-  
+
   // Segment Definition
   conditions: Array<{
     dimension: string;
-    operator: 'EQUALS' | 'NOT_EQUALS' | 'CONTAINS' | 'NOT_CONTAINS' | 'GREATER_THAN' | 'LESS_THAN' | 'IN' | 'NOT_IN';
+    operator:
+      | 'EQUALS'
+      | 'NOT_EQUALS'
+      | 'CONTAINS'
+      | 'NOT_CONTAINS'
+      | 'GREATER_THAN'
+      | 'LESS_THAN'
+      | 'IN'
+      | 'NOT_IN';
     value: any;
     logicalOperator?: 'AND' | 'OR';
   }>;
-  
+
   // Segment Type
   type: 'USER' | 'SESSION' | 'EVENT';
-  
+
   // Segment Stats
   stats?: {
     totalUsers: number;
@@ -201,7 +229,7 @@ export interface AnalyticsSegmentDto {
     totalEvents: number;
     lastCalculated: Date;
   };
-  
+
   // Metadata
   createdAt: Date;
   updatedAt: Date;
@@ -213,7 +241,7 @@ export interface AnalyticsFunnelDto {
   id: string;
   name: string;
   description?: string;
-  
+
   // Funnel Steps
   steps: Array<{
     id: string;
@@ -226,11 +254,11 @@ export interface AnalyticsFunnelDto {
     }>;
     order: number;
   }>;
-  
+
   // Funnel Configuration
   timeWindow: number; // in minutes
   conversionWindow: number; // in days
-  
+
   // Funnel Data
   data?: {
     totalUsers: number;
@@ -244,7 +272,7 @@ export interface AnalyticsFunnelDto {
     overallConversionRate: number;
     calculatedAt: Date;
   };
-  
+
   // Metadata
   createdAt: Date;
   updatedAt: Date;
@@ -257,7 +285,7 @@ export interface AnalyticsGoalDto {
   name: string;
   description?: string;
   goalType: 'CONVERSION' | 'ENGAGEMENT' | 'REVENUE' | 'CUSTOM';
-  
+
   // Goal Definition
   conditions: Array<{
     eventName?: string;
@@ -265,16 +293,16 @@ export interface AnalyticsGoalDto {
     operator: string;
     value: any;
   }>;
-  
+
   // Goal Value
   value?: number;
   currency?: string;
-  
+
   // Goal Tracking
   isActive: boolean;
   trackingStartDate: Date;
   trackingEndDate?: Date;
-  
+
   // Goal Performance
   performance?: {
     totalConversions: number;
@@ -284,7 +312,7 @@ export interface AnalyticsGoalDto {
     lastConversion: Date;
     calculatedAt: Date;
   };
-  
+
   // Metadata
   createdAt: Date;
   updatedAt: Date;

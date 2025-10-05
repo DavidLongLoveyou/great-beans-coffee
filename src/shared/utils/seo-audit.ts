@@ -1,4 +1,5 @@
 import { type Metadata } from 'next';
+
 import { seoConfig } from './seo-utils';
 
 // SEO audit result interfaces
@@ -15,7 +16,13 @@ export interface SEOAuditResult {
 
 export interface SEOIssue {
   type: 'error' | 'warning' | 'info';
-  category: 'metadata' | 'structured-data' | 'performance' | 'accessibility' | 'international' | 'content';
+  category:
+    | 'metadata'
+    | 'structured-data'
+    | 'performance'
+    | 'accessibility'
+    | 'international'
+    | 'content';
   title: string;
   description: string;
   impact: 'high' | 'medium' | 'low';
@@ -171,7 +178,7 @@ const defaultAuditConfig: SEOAuditConfig = {
 
 /**
  * SEO Audit Manager
- * 
+ *
  * Provides comprehensive SEO auditing capabilities including:
  * - Metadata analysis and optimization recommendations
  * - Structured data validation
@@ -200,7 +207,7 @@ export class SEOAuditManager {
     const recommendations: SEORecommendation[] = [];
 
     // Audit metadata
-    const metadataAudit = this.config.checkMetadata 
+    const metadataAudit = this.config.checkMetadata
       ? this.auditMetadata(metadata, issues, recommendations)
       : this.getEmptyMetadataAudit();
 
@@ -271,7 +278,8 @@ export class SEOAuditManager {
         title: 'Missing Metadata',
         description: 'No metadata found for this page',
         impact: 'high',
-        recommendation: 'Add comprehensive metadata including title, description, and Open Graph tags',
+        recommendation:
+          'Add comprehensive metadata including title, description, and Open Graph tags',
       });
       return audit;
     }
@@ -279,9 +287,14 @@ export class SEOAuditManager {
     // Audit title
     if (metadata.title) {
       audit.title.present = true;
-      const titleLength = typeof metadata.title === 'string' 
-        ? metadata.title.length 
-        : metadata.title.absolute?.length || 0;
+      const titleLength =
+        typeof metadata.title === 'string'
+          ? metadata.title.length
+          : typeof metadata.title === 'object' &&
+              metadata.title &&
+              'default' in metadata.title
+            ? metadata.title.default?.length || 0
+            : 0;
       audit.title.length = titleLength;
       audit.title.optimal = titleLength >= 30 && titleLength <= 60;
 
@@ -293,7 +306,8 @@ export class SEOAuditManager {
           title: 'Short Title',
           description: `Title is ${titleLength} characters, recommended 30-60 characters`,
           impact: 'medium',
-          recommendation: 'Expand title to include more descriptive keywords while staying under 60 characters',
+          recommendation:
+            'Expand title to include more descriptive keywords while staying under 60 characters',
         });
       } else if (titleLength > 60) {
         audit.title.issues.push('Title is too long (> 60 characters)');
@@ -303,7 +317,8 @@ export class SEOAuditManager {
           title: 'Long Title',
           description: `Title is ${titleLength} characters, recommended 30-60 characters`,
           impact: 'medium',
-          recommendation: 'Shorten title to under 60 characters to prevent truncation in search results',
+          recommendation:
+            'Shorten title to under 60 characters to prevent truncation in search results',
         });
       }
     } else {
@@ -314,7 +329,8 @@ export class SEOAuditManager {
         title: 'Missing Title',
         description: 'Page title is required for SEO',
         impact: 'high',
-        recommendation: 'Add a descriptive, keyword-rich title between 30-60 characters',
+        recommendation:
+          'Add a descriptive, keyword-rich title between 30-60 characters',
       });
     }
 
@@ -322,27 +338,34 @@ export class SEOAuditManager {
     if (metadata.description) {
       audit.description.present = true;
       audit.description.length = metadata.description.length;
-      audit.description.optimal = audit.description.length >= 120 && audit.description.length <= 160;
+      audit.description.optimal =
+        audit.description.length >= 120 && audit.description.length <= 160;
 
       if (audit.description.length < 120) {
-        audit.description.issues.push('Description is too short (< 120 characters)');
+        audit.description.issues.push(
+          'Description is too short (< 120 characters)'
+        );
         issues.push({
           type: 'warning',
           category: 'metadata',
           title: 'Short Description',
           description: `Description is ${audit.description.length} characters, recommended 120-160 characters`,
           impact: 'medium',
-          recommendation: 'Expand description to provide more context while staying under 160 characters',
+          recommendation:
+            'Expand description to provide more context while staying under 160 characters',
         });
       } else if (audit.description.length > 160) {
-        audit.description.issues.push('Description is too long (> 160 characters)');
+        audit.description.issues.push(
+          'Description is too long (> 160 characters)'
+        );
         issues.push({
           type: 'warning',
           category: 'metadata',
           title: 'Long Description',
           description: `Description is ${audit.description.length} characters, recommended 120-160 characters`,
           impact: 'medium',
-          recommendation: 'Shorten description to under 160 characters to prevent truncation',
+          recommendation:
+            'Shorten description to under 160 characters to prevent truncation',
         });
       }
     } else {
@@ -353,18 +376,20 @@ export class SEOAuditManager {
         title: 'Missing Description',
         description: 'Meta description is required for SEO',
         impact: 'high',
-        recommendation: 'Add a compelling meta description between 120-160 characters',
+        recommendation:
+          'Add a compelling meta description between 120-160 characters',
       });
     }
 
     // Audit keywords
     if (metadata.keywords) {
       audit.keywords.present = true;
-      const keywordCount = typeof metadata.keywords === 'string'
-        ? metadata.keywords.split(',').length
-        : Array.isArray(metadata.keywords)
-        ? metadata.keywords.length
-        : 0;
+      const keywordCount =
+        typeof metadata.keywords === 'string'
+          ? metadata.keywords.split(',').length
+          : Array.isArray(metadata.keywords)
+            ? metadata.keywords.length
+            : 0;
       audit.keywords.count = keywordCount;
 
       if (keywordCount > 10) {
@@ -375,7 +400,8 @@ export class SEOAuditManager {
           title: 'Keyword Stuffing',
           description: `${keywordCount} keywords found, recommended 5-10 focused keywords`,
           impact: 'medium',
-          recommendation: 'Focus on 5-10 highly relevant keywords instead of keyword stuffing',
+          recommendation:
+            'Focus on 5-10 highly relevant keywords instead of keyword stuffing',
         });
       }
     }
@@ -384,7 +410,12 @@ export class SEOAuditManager {
     if (metadata.openGraph) {
       audit.openGraph.present = true;
       const og = metadata.openGraph;
-      const hasRequiredFields = !!(og.title && og.description && og.url && og.images);
+      const hasRequiredFields = !!(
+        og.title &&
+        og.description &&
+        og.url &&
+        og.images
+      );
       audit.openGraph.complete = hasRequiredFields;
 
       if (!hasRequiredFields) {
@@ -393,9 +424,11 @@ export class SEOAuditManager {
           type: 'warning',
           category: 'metadata',
           title: 'Incomplete Open Graph',
-          description: 'Missing required Open Graph fields (title, description, url, images)',
+          description:
+            'Missing required Open Graph fields (title, description, url, images)',
           impact: 'medium',
-          recommendation: 'Add complete Open Graph metadata for better social media sharing',
+          recommendation:
+            'Add complete Open Graph metadata for better social media sharing',
         });
       }
     } else {
@@ -406,7 +439,8 @@ export class SEOAuditManager {
         title: 'Missing Open Graph',
         description: 'Open Graph metadata improves social media sharing',
         impact: 'medium',
-        recommendation: 'Add Open Graph metadata for better social media presence',
+        recommendation:
+          'Add Open Graph metadata for better social media presence',
       });
     }
 
@@ -414,7 +448,7 @@ export class SEOAuditManager {
     if (metadata.twitter) {
       audit.twitterCard.present = true;
       const twitter = metadata.twitter;
-      const hasRequiredFields = !!(twitter.card && twitter.title && twitter.description);
+      const hasRequiredFields = !!(twitter.title && twitter.description);
       audit.twitterCard.complete = hasRequiredFields;
 
       if (!hasRequiredFields) {
@@ -425,7 +459,8 @@ export class SEOAuditManager {
           title: 'Incomplete Twitter Card',
           description: 'Missing required Twitter Card fields',
           impact: 'low',
-          recommendation: 'Add complete Twitter Card metadata for better Twitter sharing',
+          recommendation:
+            'Add complete Twitter Card metadata for better Twitter sharing',
         });
       }
     }
@@ -433,7 +468,18 @@ export class SEOAuditManager {
     // Audit canonical URL
     if (metadata.alternates?.canonical) {
       audit.canonical.present = true;
-      audit.canonical.valid = this.isValidURL(metadata.alternates.canonical);
+      const canonicalUrl =
+        typeof metadata.alternates.canonical === 'string'
+          ? metadata.alternates.canonical
+          : metadata.alternates.canonical instanceof URL
+            ? metadata.alternates.canonical.toString()
+            : typeof metadata.alternates.canonical === 'object' &&
+                metadata.alternates.canonical.url
+              ? typeof metadata.alternates.canonical.url === 'string'
+                ? metadata.alternates.canonical.url
+                : metadata.alternates.canonical.url.toString()
+              : '';
+      audit.canonical.valid = this.isValidURL(canonicalUrl);
 
       if (!audit.canonical.valid) {
         audit.canonical.issues.push('Invalid canonical URL format');
@@ -443,7 +489,8 @@ export class SEOAuditManager {
           title: 'Invalid Canonical URL',
           description: 'Canonical URL is not properly formatted',
           impact: 'high',
-          recommendation: 'Fix canonical URL format to prevent duplicate content issues',
+          recommendation:
+            'Fix canonical URL format to prevent duplicate content issues',
         });
       }
     } else {
@@ -454,7 +501,8 @@ export class SEOAuditManager {
         title: 'Missing Canonical URL',
         description: 'Canonical URL helps prevent duplicate content issues',
         impact: 'medium',
-        recommendation: 'Add canonical URL to prevent duplicate content penalties',
+        recommendation:
+          'Add canonical URL to prevent duplicate content penalties',
       });
     }
 
@@ -491,7 +539,8 @@ export class SEOAuditManager {
         title: 'Missing Structured Data',
         description: 'No Schema.org structured data found on this page',
         impact: 'medium',
-        recommendation: 'Add relevant Schema.org markup to improve search engine understanding',
+        recommendation:
+          'Add relevant Schema.org markup to improve search engine understanding',
       });
       return audit;
     }
@@ -509,7 +558,8 @@ export class SEOAuditManager {
         title: 'Invalid Structured Data',
         description: 'Structured data contains validation errors',
         impact: 'high',
-        recommendation: 'Fix structured data validation errors using Google\'s Structured Data Testing Tool',
+        recommendation:
+          "Fix structured data validation errors using Google's Structured Data Testing Tool",
       });
     }
 
@@ -522,7 +572,8 @@ export class SEOAuditManager {
         priority: 'medium',
         effort: 'medium',
         impact: 'medium',
-        implementation: 'Add Organization, Product, Service, and Article schemas as appropriate',
+        implementation:
+          'Add Organization, Product, Service, and Article schemas as appropriate',
       });
     }
 
@@ -562,20 +613,24 @@ export class SEOAuditManager {
 
     // Check for images without alt text
     const imgMatches = content.match(/<img[^>]*>/gi) || [];
-    const imagesWithAlt = content.match(/<img[^>]*alt\s*=\s*["'][^"']*["'][^>]*>/gi) || [];
-    
+    const imagesWithAlt =
+      content.match(/<img[^>]*alt\s*=\s*["'][^"']*["'][^>]*>/gi) || [];
+
     audit.altText.present = imagesWithAlt.length;
     audit.altText.missing = imgMatches.length - imagesWithAlt.length;
 
     if (audit.altText.missing > 0) {
-      audit.altText.issues.push(`${audit.altText.missing} images missing alt text`);
+      audit.altText.issues.push(
+        `${audit.altText.missing} images missing alt text`
+      );
       issues.push({
         type: 'error',
         category: 'accessibility',
         title: 'Missing Alt Text',
         description: `${audit.altText.missing} images are missing alt text`,
         impact: 'high',
-        recommendation: 'Add descriptive alt text to all images for accessibility and SEO',
+        recommendation:
+          'Add descriptive alt text to all images for accessibility and SEO',
       });
     }
 
@@ -590,7 +645,8 @@ export class SEOAuditManager {
         title: 'Missing Headings',
         description: 'No heading tags found on this page',
         impact: 'medium',
-        recommendation: 'Add proper heading structure (H1, H2, H3) for better accessibility and SEO',
+        recommendation:
+          'Add proper heading structure (H1, H2, H3) for better accessibility and SEO',
       });
     }
 
@@ -615,7 +671,22 @@ export class SEOAuditManager {
     if (metadata?.alternates?.languages) {
       audit.hreflang.present = true;
       audit.hreflang.coverage = Object.keys(metadata.alternates.languages);
-      audit.hreflang.valid = this.validateHreflang(metadata.alternates.languages);
+
+      // Convert languages to Record<string, string> format
+      const languagesRecord: Record<string, string> = {};
+      Object.entries(metadata.alternates.languages).forEach(([key, value]) => {
+        if (typeof value === 'string') {
+          languagesRecord[key] = value;
+        } else if (value instanceof URL) {
+          languagesRecord[key] = value.toString();
+        } else if (typeof value === 'object' && value && 'url' in value) {
+          const urlValue = (value as any).url;
+          languagesRecord[key] =
+            typeof urlValue === 'string' ? urlValue : urlValue.toString();
+        }
+      });
+
+      audit.hreflang.valid = this.validateHreflang(languagesRecord);
 
       if (!audit.hreflang.valid) {
         audit.hreflang.issues.push('Invalid hreflang format');
@@ -625,7 +696,8 @@ export class SEOAuditManager {
           title: 'Invalid Hreflang',
           description: 'Hreflang attributes contain invalid language codes',
           impact: 'high',
-          recommendation: 'Fix hreflang language codes to follow ISO 639-1 standard',
+          recommendation:
+            'Fix hreflang language codes to follow ISO 639-1 standard',
         });
       }
 
@@ -634,7 +706,9 @@ export class SEOAuditManager {
       );
 
       if (missingLanguages.length > 0) {
-        audit.hreflang.issues.push(`Missing hreflang for: ${missingLanguages.join(', ')}`);
+        audit.hreflang.issues.push(
+          `Missing hreflang for: ${missingLanguages.join(', ')}`
+        );
         recommendations.push({
           category: 'international',
           title: 'Expand Hreflang Coverage',
@@ -653,7 +727,8 @@ export class SEOAuditManager {
         title: 'Missing Hreflang',
         description: 'Hreflang tags are missing for international targeting',
         impact: 'medium',
-        recommendation: 'Add hreflang tags for all target languages and regions',
+        recommendation:
+          'Add hreflang tags for all target languages and regions',
       });
     }
 
@@ -709,27 +784,25 @@ export class SEOAuditManager {
   }
 
   private validateStructuredData(data: any[]): boolean {
-    return data.every(item => 
-      item['@context'] && 
-      item['@type'] && 
-      typeof item === 'object'
+    return data.every(
+      item => item['@context'] && item['@type'] && typeof item === 'object'
     );
   }
 
   private calculateStructuredDataCoverage(data: any[]): number {
     const expectedSchemas = ['Organization', 'WebSite', 'BreadcrumbList'];
     const presentSchemas = data.map(item => item['@type']);
-    const coverage = expectedSchemas.filter(schema => 
+    const coverage = expectedSchemas.filter(schema =>
       presentSchemas.includes(schema)
     ).length;
-    
+
     return (coverage / expectedSchemas.length) * 100;
   }
 
   private validateHreflang(languages: Record<string, string>): boolean {
     const validLanguageCodes = /^[a-z]{2}(-[A-Z]{2})?$/;
-    return Object.keys(languages).every(lang => 
-      lang === 'x-default' || validLanguageCodes.test(lang)
+    return Object.keys(languages).every(
+      lang => lang === 'x-default' || validLanguageCodes.test(lang)
     );
   }
 
@@ -801,10 +874,10 @@ export const seoAuditManager = new SEOAuditManager();
 // Utility functions
 export function generateSEOReport(auditResult: SEOAuditResult): string {
   const { score, issues, recommendations } = auditResult;
-  
+
   let report = `# SEO Audit Report\n\n`;
   report += `**Overall Score: ${score}/100**\n\n`;
-  
+
   if (issues.length > 0) {
     report += `## Issues Found (${issues.length})\n\n`;
     issues.forEach((issue, index) => {
@@ -815,7 +888,7 @@ export function generateSEOReport(auditResult: SEOAuditResult): string {
       report += `- **Recommendation:** ${issue.recommendation}\n\n`;
     });
   }
-  
+
   if (recommendations.length > 0) {
     report += `## Recommendations (${recommendations.length})\n\n`;
     recommendations.forEach((rec, index) => {
@@ -827,6 +900,6 @@ export function generateSEOReport(auditResult: SEOAuditResult): string {
       report += `- **Implementation:** ${rec.implementation}\n\n`;
     });
   }
-  
+
   return report;
 }

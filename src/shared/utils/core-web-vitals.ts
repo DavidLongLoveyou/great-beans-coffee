@@ -1,6 +1,9 @@
 'use client';
 
 import { cloudinaryService } from '@/infrastructure/external-services/cloudinary.service';
+import { createScopedLogger } from '@/shared/utils/logger';
+
+const logger = createScopedLogger('CoreWebVitals');
 
 export interface WebVitalsMetric {
   name: 'CLS' | 'FID' | 'FCP' | 'LCP' | 'TTFB' | 'INP';
@@ -52,17 +55,17 @@ export class CoreWebVitalsOptimizer {
 
     // Largest Contentful Paint (LCP)
     this.observeLCP();
-    
+
     // First Input Delay (FID) / Interaction to Next Paint (INP)
     this.observeFID();
     this.observeINP();
-    
+
     // Cumulative Layout Shift (CLS)
     this.observeCLS();
-    
+
     // First Contentful Paint (FCP)
     this.observeFCP();
-    
+
     // Time to First Byte (TTFB)
     this.observeTTFB();
   }
@@ -74,7 +77,7 @@ export class CoreWebVitalsOptimizer {
   private observeLCP(): void {
     if (!('PerformanceObserver' in window)) return;
 
-    const observer = new PerformanceObserver((entryList) => {
+    const observer = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
       const lastEntry = entries[entries.length - 1] as PerformanceEntry;
 
@@ -97,7 +100,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['largest-contentful-paint'] });
       this.observers.set('LCP', observer);
     } catch (error) {
-      console.warn('LCP observation not supported:', error);
+      logger.warn('LCP observation not supported:', error);
     }
   }
 
@@ -108,9 +111,9 @@ export class CoreWebVitalsOptimizer {
   private observeFID(): void {
     if (!('PerformanceObserver' in window)) return;
 
-    const observer = new PerformanceObserver((entryList) => {
+    const observer = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
-      
+
       entries.forEach((entry: any) => {
         const metric: WebVitalsMetric = {
           name: 'FID',
@@ -130,7 +133,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['first-input'] });
       this.observers.set('FID', observer);
     } catch (error) {
-      console.warn('FID observation not supported:', error);
+      logger.warn('FID observation not supported:', error);
     }
   }
 
@@ -143,14 +146,14 @@ export class CoreWebVitalsOptimizer {
 
     let maxINP = 0;
 
-    const observer = new PerformanceObserver((entryList) => {
+    const observer = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
-      
+
       entries.forEach((entry: any) => {
         const inp = entry.processingEnd - entry.startTime;
         if (inp > maxINP) {
           maxINP = inp;
-          
+
           const metric: WebVitalsMetric = {
             name: 'INP',
             value: inp,
@@ -170,7 +173,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['event'] });
       this.observers.set('INP', observer);
     } catch (error) {
-      console.warn('INP observation not supported:', error);
+      logger.warn('INP observation not supported:', error);
     }
   }
 
@@ -185,17 +188,19 @@ export class CoreWebVitalsOptimizer {
     let sessionValue = 0;
     let sessionEntries: any[] = [];
 
-    const observer = new PerformanceObserver((entryList) => {
+    const observer = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
-      
+
       entries.forEach((entry: any) => {
         if (!entry.hadRecentInput) {
           const firstSessionEntry = sessionEntries[0];
           const lastSessionEntry = sessionEntries[sessionEntries.length - 1];
 
-          if (sessionValue && 
-              entry.startTime - lastSessionEntry.startTime < 1000 &&
-              entry.startTime - firstSessionEntry.startTime < 5000) {
+          if (
+            sessionValue &&
+            entry.startTime - lastSessionEntry.startTime < 1000 &&
+            entry.startTime - firstSessionEntry.startTime < 5000
+          ) {
             sessionValue += entry.value;
             sessionEntries.push(entry);
           } else {
@@ -205,7 +210,7 @@ export class CoreWebVitalsOptimizer {
 
           if (sessionValue > clsValue) {
             clsValue = sessionValue;
-            
+
             const metric: WebVitalsMetric = {
               name: 'CLS',
               value: clsValue,
@@ -226,7 +231,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['layout-shift'] });
       this.observers.set('CLS', observer);
     } catch (error) {
-      console.warn('CLS observation not supported:', error);
+      logger.warn('CLS observation not supported:', error);
     }
   }
 
@@ -237,9 +242,11 @@ export class CoreWebVitalsOptimizer {
   private observeFCP(): void {
     if (!('PerformanceObserver' in window)) return;
 
-    const observer = new PerformanceObserver((entryList) => {
+    const observer = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
-      const fcpEntry = entries.find(entry => entry.name === 'first-contentful-paint');
+      const fcpEntry = entries.find(
+        entry => entry.name === 'first-contentful-paint'
+      );
 
       if (fcpEntry) {
         const metric: WebVitalsMetric = {
@@ -260,7 +267,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['paint'] });
       this.observers.set('FCP', observer);
     } catch (error) {
-      console.warn('FCP observation not supported:', error);
+      logger.warn('FCP observation not supported:', error);
     }
   }
 
@@ -271,13 +278,14 @@ export class CoreWebVitalsOptimizer {
   private observeTTFB(): void {
     if (!('PerformanceObserver' in window)) return;
 
-    const observer = new PerformanceObserver((entryList) => {
+    const observer = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
       const navigationEntry = entries[0] as PerformanceNavigationTiming;
 
       if (navigationEntry) {
-        const ttfb = navigationEntry.responseStart - navigationEntry.requestStart;
-        
+        const ttfb =
+          navigationEntry.responseStart - navigationEntry.requestStart;
+
         const metric: WebVitalsMetric = {
           name: 'TTFB',
           value: ttfb,
@@ -296,30 +304,36 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['navigation'] });
       this.observers.set('TTFB', observer);
     } catch (error) {
-      console.warn('TTFB observation not supported:', error);
+      logger.warn('TTFB observation not supported:', error);
     }
   }
 
   /**
    * Preload critical resources for better Core Web Vitals
    */
-  preloadCriticalResources(resources: Array<{
-    href: string;
-    as: 'image' | 'font' | 'style' | 'script';
-    type?: string;
-    crossorigin?: 'anonymous' | 'use-credentials';
-  }>): void {
-    if (!this.config.enableCriticalResourcePreload || typeof document === 'undefined') return;
+  preloadCriticalResources(
+    resources: Array<{
+      href: string;
+      as: 'image' | 'font' | 'style' | 'script';
+      type?: string;
+      crossorigin?: 'anonymous' | 'use-credentials';
+    }>
+  ): void {
+    if (
+      !this.config.enableCriticalResourcePreload ||
+      typeof document === 'undefined'
+    )
+      return;
 
     resources.forEach(resource => {
       const link = document.createElement('link');
       link.rel = 'preload';
       link.href = resource.href;
       link.as = resource.as;
-      
+
       if (resource.type) link.type = resource.type;
       if (resource.crossorigin) link.crossOrigin = resource.crossorigin;
-      
+
       document.head.appendChild(link);
     });
   }
@@ -327,21 +341,25 @@ export class CoreWebVitalsOptimizer {
   /**
    * Optimize images for Core Web Vitals using Cloudinary
    */
-  optimizeImagesForWebVitals(images: Array<{
-    publicId: string;
-    priority: 'high' | 'low';
-    sizes?: string;
-  }>): void {
+  optimizeImagesForWebVitals(
+    images: Array<{
+      publicId: string;
+      priority: 'high' | 'low';
+      sizes?: string;
+    }>
+  ): void {
     if (!this.config.enableImageOptimization) return;
 
     images.forEach(({ publicId, priority, sizes }) => {
       if (priority === 'high') {
         // Preload critical images
         const optimizedUrl = cloudinaryService.getHeroImageUrl(publicId);
-        this.preloadCriticalResources([{
-          href: optimizedUrl,
-          as: 'image',
-        }]);
+        this.preloadCriticalResources([
+          {
+            href: optimizedUrl,
+            as: 'image',
+          },
+        ]);
       }
     });
   }
@@ -362,20 +380,21 @@ export class CoreWebVitalsOptimizer {
     metrics: Record<string, WebVitalsMetric>;
   } {
     const metrics = Array.from(this.vitalsData.values());
-    const coreMetrics = metrics.filter(m => ['LCP', 'FID', 'CLS'].includes(m.name));
-    
+    const coreMetrics = metrics.filter(m =>
+      ['LCP', 'FID', 'CLS'].includes(m.name)
+    );
+
     if (coreMetrics.length === 0) {
       return { score: 0, rating: 'poor', metrics: {} };
     }
 
     const goodCount = coreMetrics.filter(m => m.rating === 'good').length;
     const score = (goodCount / coreMetrics.length) * 100;
-    
-    const rating = score >= 75 ? 'good' : score >= 50 ? 'needs-improvement' : 'poor';
-    
-    const metricsObj = Object.fromEntries(
-      metrics.map(m => [m.name, m])
-    );
+
+    const rating =
+      score >= 75 ? 'good' : score >= 50 ? 'needs-improvement' : 'poor';
+
+    const metricsObj = Object.fromEntries(metrics.map(m => [m.name, m]));
 
     return { score, rating, metrics: metricsObj };
   }
@@ -390,7 +409,9 @@ export class CoreWebVitalsOptimizer {
     if (typeof window !== 'undefined' && 'gtag' in window) {
       (window as any).gtag('event', metric.name, {
         event_category: 'Web Vitals',
-        value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+        value: Math.round(
+          metric.name === 'CLS' ? metric.value * 1000 : metric.value
+        ),
         event_label: metric.id,
         non_interaction: true,
       });
@@ -398,7 +419,7 @@ export class CoreWebVitalsOptimizer {
 
     // Report to console in development
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[Core Web Vitals] ${metric.name}:`, {
+      logger.info(`[Core Web Vitals] ${metric.name}:`, {
         value: metric.value,
         rating: metric.rating,
         id: metric.id,
@@ -435,10 +456,17 @@ export class CoreWebVitalsOptimizer {
     return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  private getNavigationType(): 'navigate' | 'reload' | 'back-forward' | 'prerender' {
-    if (typeof window === 'undefined' || !('performance' in window)) return 'navigate';
-    
-    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+  private getNavigationType():
+    | 'navigate'
+    | 'reload'
+    | 'back-forward'
+    | 'prerender' {
+    if (typeof window === 'undefined' || !('performance' in window))
+      return 'navigate';
+
+    const navigation = performance.getEntriesByType(
+      'navigation'
+    )[0] as PerformanceNavigationTiming;
     return (navigation?.type as any) || 'navigate';
   }
 
@@ -464,7 +492,7 @@ export const preloadCriticalCoffeeImages = (imageIds: string[]) => {
     publicId: id,
     priority: 'high' as const,
   }));
-  
+
   coreWebVitalsOptimizer.optimizeImagesForWebVitals(images);
 };
 

@@ -24,19 +24,19 @@ export default function Header({ locale }: Props) {
   const { t } = useTranslation('navigation');
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-forest-200/20 bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/90 shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-forest-200/20 bg-white/95 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-white/90">
       <div className="container flex h-18 items-center justify-between">
         {/* Logo */}
-        <Link href={`/${locale}`} className="flex items-center space-x-3 group">
+        <Link href={`/${locale}`} className="group flex items-center space-x-3">
           <div className="relative">
-            <Coffee className="h-9 w-9 text-forest-600 group-hover:text-forest-700 transition-colors duration-200" />
-            <div className="absolute -top-1 -right-1 h-3 w-3 bg-emerald-500 rounded-full opacity-80"></div>
+            <Coffee className="h-9 w-9 text-forest-600 transition-colors duration-200 group-hover:text-forest-700" />
+            <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-emerald-500 opacity-80"></div>
           </div>
           <div className="flex flex-col">
-            <span className="text-xl font-bold text-forest-800 group-hover:text-forest-900 transition-colors duration-200">
+            <span className="text-xl font-bold text-forest-800 transition-colors duration-200 group-hover:text-forest-900">
               The Great Beans
             </span>
-            <span className="text-xs text-forest-600 font-medium tracking-wide">
+            <span className="text-xs font-medium tracking-wide text-forest-600">
               Premium Coffee Export
             </span>
           </div>
@@ -65,23 +65,24 @@ export default function Header({ locale }: Props) {
                   <div className="row-span-3">
                     <NavigationMenuLink asChild>
                       <Link
-                        className="flex h-full w-full select-none flex-col justify-end rounded-xl bg-gradient-to-br from-forest-500/90 to-emerald-600/90 p-6 no-underline outline-none focus:shadow-lg hover:shadow-lg transition-all duration-300"
+                        className="flex h-full w-full select-none flex-col justify-end rounded-xl bg-gradient-to-br from-forest-500/90 to-emerald-600/90 p-6 no-underline outline-none transition-all duration-300 hover:shadow-lg focus:shadow-lg"
                         href={`/${locale}/products`}
                       >
-                        <Coffee className="h-8 w-8 text-white mb-3" />
+                        <Coffee className="mb-3 h-8 w-8 text-white" />
                         <div className="mb-2 text-lg font-semibold text-white">
                           Premium Coffee Export
                         </div>
                         <p className="text-sm leading-relaxed text-white/90">
-                          Exceptional Vietnamese coffee beans for global B2B markets
+                          Exceptional Vietnamese coffee beans for global B2B
+                          markets
                         </p>
                         <div className="mt-3 flex items-center space-x-4 text-xs text-white/80">
                           <span className="flex items-center">
-                            <Globe className="h-3 w-3 mr-1" />
+                            <Globe className="mr-1 h-3 w-3" />
                             Global Export
                           </span>
                           <span className="flex items-center">
-                            <Award className="h-3 w-3 mr-1" />
+                            <Award className="mr-1 h-3 w-3" />
                             Premium Quality
                           </span>
                         </div>
@@ -94,13 +95,13 @@ export default function Header({ locale }: Props) {
                         href={`/${locale}/products/robusta`}
                         className="block select-none space-y-2 rounded-lg p-4 leading-none no-underline outline-none transition-all duration-200 hover:bg-forest-50 hover:shadow-sm focus:bg-forest-100"
                       >
-                        <div className="text-sm font-semibold text-forest-800 leading-none">
+                        <div className="text-sm font-semibold leading-none text-forest-800">
                           Vietnamese Robusta
                         </div>
                         <p className="line-clamp-2 text-sm leading-snug text-forest-600">
                           Premium Robusta beans with bold flavor profile
                         </p>
-                        <div className="text-xs text-emerald-600 font-medium">
+                        <div className="text-xs font-medium text-emerald-600">
                           Export Grade • Bulk Available
                         </div>
                       </Link>
@@ -110,13 +111,13 @@ export default function Header({ locale }: Props) {
                         href={`/${locale}/products/arabica`}
                         className="block select-none space-y-2 rounded-lg p-4 leading-none no-underline outline-none transition-all duration-200 hover:bg-forest-50 hover:shadow-sm focus:bg-forest-100"
                       >
-                        <div className="text-sm font-semibold text-forest-800 leading-none">
+                        <div className="text-sm font-semibold leading-none text-forest-800">
                           Highland Arabica
                         </div>
                         <p className="line-clamp-2 text-sm leading-snug text-forest-600">
                           High-altitude specialty Arabica with full traceability
                         </p>
-                        <div className="text-xs text-emerald-600 font-medium">
+                        <div className="text-xs font-medium text-emerald-600">
                           Specialty Grade • Sustainable Sourcing
                         </div>
                       </Link>
@@ -136,18 +137,19 @@ export default function Header({ locale }: Props) {
                     <NavigationMenuLink asChild>
                       <Link
                         href={`/${locale}/clusters/vietnam-robusta-suppliers`}
-                        className="block select-none space-y-2 rounded-lg p-4 leading-none no-underline outline-none transition-all duration-200 hover:bg-forest-50 hover:shadow-sm focus:bg-forest-100 border border-transparent hover:border-forest-200"
+                        className="block select-none space-y-2 rounded-lg border border-transparent p-4 leading-none no-underline outline-none transition-all duration-200 hover:border-forest-200 hover:bg-forest-50 hover:shadow-sm focus:bg-forest-100"
                       >
                         <div className="flex items-center space-x-2">
                           <Truck className="h-4 w-4 text-emerald-600" />
-                          <div className="text-sm font-semibold text-forest-800 leading-none">
+                          <div className="text-sm font-semibold leading-none text-forest-800">
                             Vietnam Robusta Export
                           </div>
                         </div>
                         <p className="line-clamp-2 text-sm leading-snug text-forest-600">
-                          Direct farm sourcing with guaranteed quality and logistics
+                          Direct farm sourcing with guaranteed quality and
+                          logistics
                         </p>
-                        <div className="text-xs text-emerald-600 font-medium">
+                        <div className="text-xs font-medium text-emerald-600">
                           FOB/CIF Terms • Container Loads
                         </div>
                       </Link>
@@ -155,18 +157,18 @@ export default function Header({ locale }: Props) {
                     <NavigationMenuLink asChild>
                       <Link
                         href={`/${locale}/clusters/specialty-arabica-sourcing`}
-                        className="block select-none space-y-2 rounded-lg p-4 leading-none no-underline outline-none transition-all duration-200 hover:bg-forest-50 hover:shadow-sm focus:bg-forest-100 border border-transparent hover:border-forest-200"
+                        className="block select-none space-y-2 rounded-lg border border-transparent p-4 leading-none no-underline outline-none transition-all duration-200 hover:border-forest-200 hover:bg-forest-50 hover:shadow-sm focus:bg-forest-100"
                       >
                         <div className="flex items-center space-x-2">
                           <Award className="h-4 w-4 text-emerald-600" />
-                          <div className="text-sm font-semibold text-forest-800 leading-none">
+                          <div className="text-sm font-semibold leading-none text-forest-800">
                             Specialty Arabica Sourcing
                           </div>
                         </div>
                         <p className="line-clamp-2 text-sm leading-snug text-forest-600">
                           Highland specialty coffee with full farm traceability
                         </p>
-                        <div className="text-xs text-emerald-600 font-medium">
+                        <div className="text-xs font-medium text-emerald-600">
                           SCA Graded • Sustainable Certified
                         </div>
                       </Link>
@@ -174,18 +176,18 @@ export default function Header({ locale }: Props) {
                     <NavigationMenuLink asChild>
                       <Link
                         href={`/${locale}/clusters/private-label-coffee-manufacturing`}
-                        className="block select-none space-y-2 rounded-lg p-4 leading-none no-underline outline-none transition-all duration-200 hover:bg-forest-50 hover:shadow-sm focus:bg-forest-100 border border-transparent hover:border-forest-200"
+                        className="block select-none space-y-2 rounded-lg border border-transparent p-4 leading-none no-underline outline-none transition-all duration-200 hover:border-forest-200 hover:bg-forest-50 hover:shadow-sm focus:bg-forest-100"
                       >
                         <div className="flex items-center space-x-2">
                           <Coffee className="h-4 w-4 text-emerald-600" />
-                          <div className="text-sm font-semibold text-forest-800 leading-none">
+                          <div className="text-sm font-semibold leading-none text-forest-800">
                             Private Label Manufacturing
                           </div>
                         </div>
                         <p className="line-clamp-2 text-sm leading-snug text-forest-600">
                           Complete OEM/ODM solutions for your coffee brand
                         </p>
-                        <div className="text-xs text-emerald-600 font-medium">
+                        <div className="text-xs font-medium text-emerald-600">
                           Custom Blends • Packaging Solutions
                         </div>
                       </Link>
@@ -194,10 +196,10 @@ export default function Header({ locale }: Props) {
                   <div className="flex flex-col justify-between space-y-4">
                     <NavigationMenuLink asChild>
                       <Link
-                        className="flex h-32 w-full select-none flex-col justify-end rounded-xl bg-gradient-to-br from-sage-500/90 to-forest-600/90 p-5 no-underline outline-none focus:shadow-lg hover:shadow-lg transition-all duration-300"
+                        className="flex h-32 w-full select-none flex-col justify-end rounded-xl bg-gradient-to-br from-sage-500/90 to-forest-600/90 p-5 no-underline outline-none transition-all duration-300 hover:shadow-lg focus:shadow-lg"
                         href={`/${locale}/clusters`}
                       >
-                        <Globe className="h-7 w-7 text-white mb-2" />
+                        <Globe className="mb-2 h-7 w-7 text-white" />
                         <div className="mb-1 text-base font-semibold text-white">
                           Global Export Solutions
                         </div>
@@ -206,19 +208,21 @@ export default function Header({ locale }: Props) {
                         </p>
                       </Link>
                     </NavigationMenuLink>
-                    <div className="space-y-3 bg-forest-50/50 rounded-lg p-4">
-                      <div className="text-sm font-semibold text-forest-800">Why Global Partners Choose Us</div>
+                    <div className="space-y-3 rounded-lg bg-forest-50/50 p-4">
+                      <div className="text-sm font-semibold text-forest-800">
+                        Why Global Partners Choose Us
+                      </div>
                       <ul className="space-y-2 text-sm text-forest-700">
                         <li className="flex items-center">
-                          <div className="h-1.5 w-1.5 bg-emerald-500 rounded-full mr-2"></div>
+                          <div className="mr-2 h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
                           500+ satisfied global clients
                         </li>
                         <li className="flex items-center">
-                          <div className="h-1.5 w-1.5 bg-emerald-500 rounded-full mr-2"></div>
+                          <div className="mr-2 h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
                           15+ years export experience
                         </li>
                         <li className="flex items-center">
-                          <div className="h-1.5 w-1.5 bg-emerald-500 rounded-full mr-2"></div>
+                          <div className="mr-2 h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
                           ISO & Fair Trade certified
                         </li>
                       </ul>
@@ -270,18 +274,16 @@ export default function Header({ locale }: Props) {
             <Link href={`/${locale}/quote`}>{t('requestQuote')}</Link>
           </Button>
         </div>
-        
+
         {/* CTA Button */}
-        <div className="hidden md:flex items-center space-x-4">
-          <Button 
-            variant="default" 
-            size="sm" 
-            className="h-11 px-6 font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+        <div className="hidden items-center space-x-4 md:flex">
+          <Button
+            variant="default"
+            size="sm"
+            className="h-11 bg-emerald-600 px-6 font-semibold text-white shadow-lg transition-all duration-300 hover:bg-emerald-700 hover:shadow-xl"
             asChild
           >
-            <Link href={`/${locale}/quote`}>
-              Get Quote
-            </Link>
+            <Link href={`/${locale}/quote`}>Get Quote</Link>
           </Button>
         </div>
       </div>

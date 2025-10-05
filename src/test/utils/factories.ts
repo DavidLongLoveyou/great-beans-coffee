@@ -1,5 +1,5 @@
 // Test data factories for generating consistent test data
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker';
 
 // User factory
 export const createMockUser = (overrides: Partial<any> = {}) => ({
@@ -14,7 +14,7 @@ export const createMockUser = (overrides: Partial<any> = {}) => ({
   updatedAt: faker.date.recent(),
   isVerified: faker.datatype.boolean(),
   ...overrides,
-})
+});
 
 // Coffee product factory
 export const createMockCoffeeProduct = (overrides: Partial<any> = {}) => ({
@@ -27,7 +27,7 @@ export const createMockCoffeeProduct = (overrides: Partial<any> = {}) => ({
     'Guatemala Antigua',
     'Costa Rica Tarrazú',
     'Yemen Mocha',
-    'Panama Geisha'
+    'Panama Geisha',
   ]),
   slug: faker.helpers.slugify(faker.commerce.productName()),
   description: faker.commerce.productDescription(),
@@ -41,7 +41,7 @@ export const createMockCoffeeProduct = (overrides: Partial<any> = {}) => ({
     'Yemen',
     'Panama',
     'Vietnam',
-    'Indonesia'
+    'Indonesia',
   ]),
   region: faker.location.state(),
   altitude: faker.number.int({ min: 800, max: 2200 }),
@@ -50,48 +50,57 @@ export const createMockCoffeeProduct = (overrides: Partial<any> = {}) => ({
     'Natural',
     'Honey',
     'Semi-washed',
-    'Wet-hulled'
+    'Wet-hulled',
   ]),
-  varietals: faker.helpers.arrayElements([
-    'Arabica',
-    'Bourbon',
-    'Typica',
-    'Caturra',
-    'Catuai',
-    'Geisha',
-    'SL28',
-    'SL34'
-  ], { min: 1, max: 3 }),
+  varietals: faker.helpers.arrayElements(
+    [
+      'Arabica',
+      'Bourbon',
+      'Typica',
+      'Caturra',
+      'Catuai',
+      'Geisha',
+      'SL28',
+      'SL34',
+    ],
+    { min: 1, max: 3 }
+  ),
   flavorProfile: {
     acidity: faker.helpers.arrayElement(['Low', 'Medium', 'High']),
     body: faker.helpers.arrayElement(['Light', 'Medium', 'Full']),
     sweetness: faker.helpers.arrayElement(['Low', 'Medium', 'High']),
-    notes: faker.helpers.arrayElements([
-      'Chocolate',
-      'Caramel',
-      'Vanilla',
-      'Fruity',
-      'Floral',
-      'Nutty',
-      'Spicy',
-      'Wine-like',
-      'Citrus',
-      'Berry'
-    ], { min: 2, max: 4 })
+    notes: faker.helpers.arrayElements(
+      [
+        'Chocolate',
+        'Caramel',
+        'Vanilla',
+        'Fruity',
+        'Floral',
+        'Nutty',
+        'Spicy',
+        'Wine-like',
+        'Citrus',
+        'Berry',
+      ],
+      { min: 2, max: 4 }
+    ),
   },
-  certifications: faker.helpers.arrayElements([
-    'Organic',
-    'Fair Trade',
-    'Rainforest Alliance',
-    'UTZ',
-    'Bird Friendly',
-    'Shade Grown'
-  ], { min: 0, max: 3 }),
+  certifications: faker.helpers.arrayElements(
+    [
+      'Organic',
+      'Fair Trade',
+      'Rainforest Alliance',
+      'UTZ',
+      'Bird Friendly',
+      'Shade Grown',
+    ],
+    { min: 0, max: 3 }
+  ),
   harvestSeason: faker.helpers.arrayElement([
     'October - February',
     'April - August',
     'Year-round',
-    'November - March'
+    'November - March',
   ]),
   cupScore: faker.number.float({ min: 80, max: 95, fractionDigits: 1 }),
   moistureContent: faker.number.float({ min: 10, max: 12, fractionDigits: 1 }),
@@ -103,7 +112,7 @@ export const createMockCoffeeProduct = (overrides: Partial<any> = {}) => ({
   images: Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () => ({
     url: faker.image.url(),
     alt: faker.lorem.words(3),
-    caption: faker.lorem.sentence()
+    caption: faker.lorem.sentence(),
   })),
   supplier: createMockUser({ role: 'supplier' }),
   createdAt: faker.date.past(),
@@ -111,7 +120,7 @@ export const createMockCoffeeProduct = (overrides: Partial<any> = {}) => ({
   isActive: faker.datatype.boolean({ probability: 0.9 }),
   isFeatured: faker.datatype.boolean({ probability: 0.3 }),
   ...overrides,
-})
+});
 
 // RFQ (Request for Quotation) factory
 export const createMockRFQ = (overrides: Partial<any> = {}) => ({
@@ -119,23 +128,39 @@ export const createMockRFQ = (overrides: Partial<any> = {}) => ({
   rfqNumber: `RFQ-${faker.string.alphanumeric(8).toUpperCase()}`,
   buyer: createMockUser({ role: 'buyer' }),
   productRequirements: {
-    origin: faker.helpers.arrayElement(['Ethiopia', 'Colombia', 'Brazil', 'Guatemala']),
-    processingMethod: faker.helpers.arrayElement(['Washed', 'Natural', 'Honey']),
+    origin: faker.helpers.arrayElement([
+      'Ethiopia',
+      'Colombia',
+      'Brazil',
+      'Guatemala',
+    ]),
+    processingMethod: faker.helpers.arrayElement([
+      'Washed',
+      'Natural',
+      'Honey',
+    ]),
     cupScore: faker.number.int({ min: 80, max: 90 }),
     quantity: faker.number.int({ min: 1000, max: 10000 }),
-    packaging: faker.helpers.arrayElement(['Jute bags', 'GrainPro bags', 'Vacuum packed']),
+    packaging: faker.helpers.arrayElement([
+      'Jute bags',
+      'GrainPro bags',
+      'Vacuum packed',
+    ]),
     deliveryLocation: faker.location.city(),
     targetPrice: faker.number.float({ min: 5, max: 25, fractionDigits: 2 }),
   },
   specifications: {
-    moistureContent: faker.number.float({ min: 10, max: 12, fractionDigits: 1 }),
+    moistureContent: faker.number.float({
+      min: 10,
+      max: 12,
+      fractionDigits: 1,
+    }),
     screenSize: faker.helpers.arrayElement(['14+', '15+', '16+', '17+']),
     defectCount: faker.number.int({ min: 0, max: 3 }),
-    certifications: faker.helpers.arrayElements([
-      'Organic',
-      'Fair Trade',
-      'Rainforest Alliance'
-    ], { min: 0, max: 2 }),
+    certifications: faker.helpers.arrayElements(
+      ['Organic', 'Fair Trade', 'Rainforest Alliance'],
+      { min: 0, max: 2 }
+    ),
   },
   timeline: {
     submissionDeadline: faker.date.future(),
@@ -148,14 +173,14 @@ export const createMockRFQ = (overrides: Partial<any> = {}) => ({
     'published',
     'closed',
     'awarded',
-    'cancelled'
+    'cancelled',
   ]),
   responses: faker.number.int({ min: 0, max: 15 }),
   createdAt: faker.date.past(),
   updatedAt: faker.date.recent(),
   expiresAt: faker.date.future(),
   ...overrides,
-})
+});
 
 // RFQ Response factory
 export const createMockRFQResponse = (overrides: Partial<any> = {}) => ({
@@ -164,22 +189,33 @@ export const createMockRFQResponse = (overrides: Partial<any> = {}) => ({
   supplier: createMockUser({ role: 'supplier' }),
   quotation: {
     pricePerKg: faker.number.float({ min: 5, max: 30, fractionDigits: 2 }),
-    totalPrice: faker.number.float({ min: 5000, max: 300000, fractionDigits: 2 }),
+    totalPrice: faker.number.float({
+      min: 5000,
+      max: 300000,
+      fractionDigits: 2,
+    }),
     currency: faker.helpers.arrayElement(['USD', 'EUR', 'GBP']),
     validUntil: faker.date.future(),
     paymentTerms: faker.helpers.arrayElement([
       'Net 30',
       'Net 60',
       'Letter of Credit',
-      'Cash on Delivery'
+      'Cash on Delivery',
     ]),
     deliveryTerms: faker.helpers.arrayElement(['FOB', 'CIF', 'EXW', 'DDP']),
   },
   productDetails: {
     origin: faker.location.country(),
     farm: faker.company.name(),
-    processingMethod: faker.helpers.arrayElement(['Washed', 'Natural', 'Honey']),
-    varietals: faker.helpers.arrayElements(['Arabica', 'Bourbon', 'Typica'], { min: 1, max: 2 }),
+    processingMethod: faker.helpers.arrayElement([
+      'Washed',
+      'Natural',
+      'Honey',
+    ]),
+    varietals: faker.helpers.arrayElements(['Arabica', 'Bourbon', 'Typica'], {
+      min: 1,
+      max: 2,
+    }),
     cupScore: faker.number.float({ min: 82, max: 92, fractionDigits: 1 }),
     harvestDate: faker.date.past(),
   },
@@ -189,18 +225,26 @@ export const createMockRFQResponse = (overrides: Partial<any> = {}) => ({
     shippingCost: faker.number.float({ min: 10, max: 100, fractionDigits: 2 }),
     deliveryTime: faker.helpers.arrayElement(['3-5 days', '1 week', '2 weeks']),
   },
-  attachments: Array.from({ length: faker.number.int({ min: 0, max: 3 }) }, () => ({
-    name: faker.system.fileName(),
-    url: faker.internet.url(),
-    type: faker.helpers.arrayElement(['pdf', 'doc', 'jpg', 'png']),
-    size: faker.number.int({ min: 1000, max: 5000000 }),
-  })),
+  attachments: Array.from(
+    { length: faker.number.int({ min: 0, max: 3 }) },
+    () => ({
+      name: faker.system.fileName(),
+      url: faker.internet.url(),
+      type: faker.helpers.arrayElement(['pdf', 'doc', 'jpg', 'png']),
+      size: faker.number.int({ min: 1000, max: 5000000 }),
+    })
+  ),
   message: faker.lorem.paragraphs(2),
-  status: faker.helpers.arrayElement(['pending', 'accepted', 'rejected', 'negotiating']),
+  status: faker.helpers.arrayElement([
+    'pending',
+    'accepted',
+    'rejected',
+    'negotiating',
+  ]),
   createdAt: faker.date.past(),
   updatedAt: faker.date.recent(),
   ...overrides,
-})
+});
 
 // Company/Supplier profile factory
 export const createMockCompany = (overrides: Partial<any> = {}) => ({
@@ -221,31 +265,37 @@ export const createMockCompany = (overrides: Partial<any> = {}) => ({
     country: faker.location.country(),
     zipCode: faker.location.zipCode(),
   },
-  certifications: faker.helpers.arrayElements([
-    'ISO 22000',
-    'HACCP',
-    'Organic',
-    'Fair Trade',
-    'Rainforest Alliance',
-    'UTZ'
-  ], { min: 1, max: 4 }),
+  certifications: faker.helpers.arrayElements(
+    [
+      'ISO 22000',
+      'HACCP',
+      'Organic',
+      'Fair Trade',
+      'Rainforest Alliance',
+      'UTZ',
+    ],
+    { min: 1, max: 4 }
+  ),
   establishedYear: faker.number.int({ min: 1950, max: 2020 }),
   employeeCount: faker.helpers.arrayElement([
     '1-10',
     '11-50',
     '51-200',
     '201-500',
-    '500+'
+    '500+',
   ]),
   annualCapacity: faker.number.int({ min: 1000, max: 100000 }),
-  exportMarkets: faker.helpers.arrayElements([
-    'North America',
-    'Europe',
-    'Asia',
-    'Middle East',
-    'Australia',
-    'South America'
-  ], { min: 1, max: 4 }),
+  exportMarkets: faker.helpers.arrayElements(
+    [
+      'North America',
+      'Europe',
+      'Asia',
+      'Middle East',
+      'Australia',
+      'South America',
+    ],
+    { min: 1, max: 4 }
+  ),
   socialMedia: {
     facebook: faker.internet.url(),
     twitter: faker.internet.url(),
@@ -259,7 +309,7 @@ export const createMockCompany = (overrides: Partial<any> = {}) => ({
   createdAt: faker.date.past(),
   updatedAt: faker.date.recent(),
   ...overrides,
-})
+});
 
 // News/Blog article factory
 export const createMockArticle = (overrides: Partial<any> = {}) => ({
@@ -276,18 +326,21 @@ export const createMockArticle = (overrides: Partial<any> = {}) => ({
     'Sustainability',
     'Quality',
     'Technology',
-    'Farming Practices'
+    'Farming Practices',
   ]),
-  tags: faker.helpers.arrayElements([
-    'coffee',
-    'export',
-    'sustainability',
-    'quality',
-    'market',
-    'farming',
-    'technology',
-    'certification'
-  ], { min: 2, max: 5 }),
+  tags: faker.helpers.arrayElements(
+    [
+      'coffee',
+      'export',
+      'sustainability',
+      'quality',
+      'market',
+      'farming',
+      'technology',
+      'certification',
+    ],
+    { min: 2, max: 5 }
+  ),
   publishedAt: faker.date.past(),
   updatedAt: faker.date.recent(),
   isPublished: faker.datatype.boolean({ probability: 0.8 }),
@@ -296,12 +349,16 @@ export const createMockArticle = (overrides: Partial<any> = {}) => ({
   views: faker.number.int({ min: 0, max: 10000 }),
   likes: faker.number.int({ min: 0, max: 500 }),
   ...overrides,
-})
+});
 
 // Factory helper functions
-export const createMockList = <T>(factory: (overrides?: any) => T, count: number, overrides?: any): T[] => {
-  return Array.from({ length: count }, () => factory(overrides))
-}
+export const createMockList = <T>(
+  factory: (overrides?: any) => T,
+  count: number,
+  overrides?: any
+): T[] => {
+  return Array.from({ length: count }, () => factory(overrides));
+};
 
 export const createMockPaginatedResponse = <T>(
   items: T[],
@@ -318,7 +375,7 @@ export const createMockPaginatedResponse = <T>(
     hasNext: page * limit < (total || items.length),
     hasPrev: page > 1,
   },
-})
+});
 
 // Seed data for consistent testing
 export const seedData = {
@@ -327,4 +384,4 @@ export const seedData = {
   rfqs: createMockList(createMockRFQ, 15),
   companies: createMockList(createMockCompany, 8),
   articles: createMockList(createMockArticle, 12),
-}
+};

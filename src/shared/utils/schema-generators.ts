@@ -1,5 +1,6 @@
-import { type Locale } from '@/i18n';
 import { advancedSEOConfig } from './advanced-seo-manager';
+
+import { type Locale } from '@/i18n';
 
 /**
  * Specialized Schema.org Generators for The Great Beans
@@ -47,7 +48,12 @@ export interface B2BServiceData {
   id: string;
   name: string;
   description: string;
-  serviceType: 'export' | 'manufacturing' | 'consulting' | 'logistics' | 'quality-control';
+  serviceType:
+    | 'export'
+    | 'manufacturing'
+    | 'consulting'
+    | 'logistics'
+    | 'quality-control';
   targetMarkets: string[];
   deliveryTime?: string;
   minimumOrder?: string;
@@ -86,7 +92,11 @@ export interface MarketReportData {
   id: string;
   title: string;
   description: string;
-  reportType: 'market-analysis' | 'price-forecast' | 'industry-trends' | 'origin-report';
+  reportType:
+    | 'market-analysis'
+    | 'price-forecast'
+    | 'industry-trends'
+    | 'origin-report';
   coveragePeriod: {
     start: string;
     end: string;
@@ -140,9 +150,12 @@ export class SchemaGenerators {
   /**
    * Generate enhanced Product Schema for coffee products
    */
-  generateCoffeeProductSchema(product: CoffeeProductData, locale: Locale): Record<string, any> {
+  generateCoffeeProductSchema(
+    product: CoffeeProductData,
+    locale: Locale
+  ): Record<string, any> {
     const productUrl = `${this.baseUrl}/${locale}/products/${product.id}`;
-    
+
     return {
       '@context': 'https://schema.org',
       '@type': 'Product',
@@ -150,11 +163,11 @@ export class SchemaGenerators {
       name: product.name,
       description: product.description,
       url: productUrl,
-      
+
       // Product identification
       sku: product.id,
       productID: product.id,
-      
+
       // Coffee-specific properties
       category: 'Coffee',
       additionalProperty: [
@@ -178,50 +191,78 @@ export class SchemaGenerators {
           name: 'Flavor Profile',
           value: product.flavorProfile.join(', '),
         },
-        ...(product.roastLevel ? [{
-          '@type': 'PropertyValue',
-          name: 'Roast Level',
-          value: product.roastLevel,
-        }] : []),
-        ...(product.altitude ? [{
-          '@type': 'PropertyValue',
-          name: 'Growing Altitude',
-          value: product.altitude,
-        }] : []),
-        ...(product.harvestSeason ? [{
-          '@type': 'PropertyValue',
-          name: 'Harvest Season',
-          value: product.harvestSeason,
-        }] : []),
+        ...(product.roastLevel
+          ? [
+              {
+                '@type': 'PropertyValue',
+                name: 'Roast Level',
+                value: product.roastLevel,
+              },
+            ]
+          : []),
+        ...(product.altitude
+          ? [
+              {
+                '@type': 'PropertyValue',
+                name: 'Growing Altitude',
+                value: product.altitude,
+              },
+            ]
+          : []),
+        ...(product.harvestSeason
+          ? [
+              {
+                '@type': 'PropertyValue',
+                name: 'Harvest Season',
+                value: product.harvestSeason,
+              },
+            ]
+          : []),
       ],
-      
+
       // Technical specifications
       ...(product.specifications && {
         additionalProperty: [
           ...((this as any).additionalProperty || []),
-          ...(product.specifications.moisture ? [{
-            '@type': 'PropertyValue',
-            name: 'Moisture Content',
-            value: product.specifications.moisture,
-          }] : []),
-          ...(product.specifications.screenSize ? [{
-            '@type': 'PropertyValue',
-            name: 'Screen Size',
-            value: product.specifications.screenSize,
-          }] : []),
-          ...(product.specifications.density ? [{
-            '@type': 'PropertyValue',
-            name: 'Density',
-            value: product.specifications.density,
-          }] : []),
-          ...(product.specifications.defects ? [{
-            '@type': 'PropertyValue',
-            name: 'Defect Rate',
-            value: product.specifications.defects,
-          }] : []),
+          ...(product.specifications.moisture
+            ? [
+                {
+                  '@type': 'PropertyValue',
+                  name: 'Moisture Content',
+                  value: product.specifications.moisture,
+                },
+              ]
+            : []),
+          ...(product.specifications.screenSize
+            ? [
+                {
+                  '@type': 'PropertyValue',
+                  name: 'Screen Size',
+                  value: product.specifications.screenSize,
+                },
+              ]
+            : []),
+          ...(product.specifications.density
+            ? [
+                {
+                  '@type': 'PropertyValue',
+                  name: 'Density',
+                  value: product.specifications.density,
+                },
+              ]
+            : []),
+          ...(product.specifications.defects
+            ? [
+                {
+                  '@type': 'PropertyValue',
+                  name: 'Defect Rate',
+                  value: product.specifications.defects,
+                },
+              ]
+            : []),
         ],
       }),
-      
+
       // Brand and manufacturer
       brand: {
         '@type': 'Brand',
@@ -233,7 +274,7 @@ export class SchemaGenerators {
         '@id': `${this.baseUrl}/#organization`,
         name: advancedSEOConfig.business.name,
       },
-      
+
       // Images
       image: product.images.map(img => ({
         '@type': 'ImageObject',
@@ -241,7 +282,7 @@ export class SchemaGenerators {
         description: img.alt,
         caption: img.caption,
       })),
-      
+
       // Offers and pricing
       offers: {
         '@type': 'Offer',
@@ -280,20 +321,20 @@ export class SchemaGenerators {
           unitCode: 'DAY',
         },
       },
-      
+
       // Certifications
       hasCredential: product.certifications.map(cert => ({
         '@type': 'EducationalOccupationalCredential',
         name: cert,
         credentialCategory: 'certification',
       })),
-      
+
       // Country of origin
       countryOfOrigin: {
         '@type': 'Country',
         name: product.origin,
       },
-      
+
       // Audience
       audience: {
         '@type': 'BusinessAudience',
@@ -305,9 +346,12 @@ export class SchemaGenerators {
   /**
    * Generate Service Schema for B2B services
    */
-  generateB2BServiceSchema(service: B2BServiceData, locale: Locale): Record<string, any> {
+  generateB2BServiceSchema(
+    service: B2BServiceData,
+    locale: Locale
+  ): Record<string, any> {
     const serviceUrl = `${this.baseUrl}/${locale}/services/${service.id}`;
-    
+
     return {
       '@context': 'https://schema.org',
       '@type': 'Service',
@@ -315,17 +359,17 @@ export class SchemaGenerators {
       name: service.name,
       description: service.description,
       url: serviceUrl,
-      
+
       // Service provider
       provider: {
         '@type': 'Organization',
         '@id': `${this.baseUrl}/#organization`,
       },
-      
+
       // Service category
       serviceType: service.serviceType,
       category: this.getServiceCategory(service.serviceType),
-      
+
       // Service features
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
@@ -336,27 +380,28 @@ export class SchemaGenerators {
           name: feature,
         })),
       },
-      
+
       // Area served
       areaServed: service.areaServed.map(area => ({
         '@type': 'Country',
         name: area,
       })),
-      
+
       // Audience
       audience: {
         '@type': 'BusinessAudience',
         audienceType: service.targetMarkets.join(', '),
       },
-      
+
       // Offers
       offers: {
         '@type': 'Offer',
         url: serviceUrl,
-        ...(service.price && service.price.type === 'fixed' && {
-          price: service.price.amount,
-          priceCurrency: service.price.currency,
-        }),
+        ...(service.price &&
+          service.price.type === 'fixed' && {
+            price: service.price.amount,
+            priceCurrency: service.price.currency,
+          }),
         availability: 'https://schema.org/InStock',
         seller: {
           '@type': 'Organization',
@@ -371,7 +416,7 @@ export class SchemaGenerators {
           },
         }),
       },
-      
+
       // Certifications
       hasCredential: service.certifications.map(cert => ({
         '@type': 'EducationalOccupationalCredential',
@@ -384,9 +429,12 @@ export class SchemaGenerators {
   /**
    * Generate Article Schema with enhanced B2B focus
    */
-  generateArticleSchema(article: ArticleData, locale: Locale): Record<string, any> {
+  generateArticleSchema(
+    article: ArticleData,
+    locale: Locale
+  ): Record<string, any> {
     const articleUrl = `${this.baseUrl}/${locale}/blog/${article.id}`;
-    
+
     return {
       '@context': 'https://schema.org',
       '@type': 'Article',
@@ -394,14 +442,14 @@ export class SchemaGenerators {
       headline: article.title,
       description: article.description,
       url: articleUrl,
-      
+
       // Content details
       articleBody: article.content,
       wordCount: article.content.split(' ').length,
       ...(article.readingTime && {
         timeRequired: `PT${article.readingTime}M`,
       }),
-      
+
       // Author information
       author: {
         '@type': 'Person',
@@ -411,17 +459,17 @@ export class SchemaGenerators {
           '@id': `${this.baseUrl}/#organization`,
         },
       },
-      
+
       // Publisher
       publisher: {
         '@type': 'Organization',
         '@id': `${this.baseUrl}/#organization`,
       },
-      
+
       // Dates
       datePublished: article.publishedDate,
       dateModified: article.modifiedDate || article.publishedDate,
-      
+
       // Images
       image: article.images.map(img => ({
         '@type': 'ImageObject',
@@ -429,33 +477,33 @@ export class SchemaGenerators {
         description: img.alt,
         caption: img.caption,
       })),
-      
+
       // Main image for social sharing
       mainEntityOfPage: {
         '@type': 'WebPage',
         '@id': articleUrl,
       },
-      
+
       // Category and tags
       articleSection: article.category,
       keywords: article.tags.join(', '),
-      
+
       // Language
       inLanguage: locale,
-      
+
       // Audience
       audience: {
         '@type': 'BusinessAudience',
         audienceType: 'Coffee Industry Professionals',
       },
-      
+
       // About (coffee industry)
       about: {
         '@type': 'Thing',
         name: 'Coffee Industry',
         sameAs: 'https://en.wikipedia.org/wiki/Coffee_industry',
       },
-      
+
       // Mentions (if related to specific topics)
       mentions: [
         {
@@ -475,9 +523,12 @@ export class SchemaGenerators {
   /**
    * Generate Market Report Schema
    */
-  generateMarketReportSchema(report: MarketReportData, locale: Locale): Record<string, any> {
+  generateMarketReportSchema(
+    report: MarketReportData,
+    locale: Locale
+  ): Record<string, any> {
     const reportUrl = `${this.baseUrl}/${locale}/market-reports/${report.id}`;
-    
+
     return {
       '@context': 'https://schema.org',
       '@type': 'Report',
@@ -485,11 +536,11 @@ export class SchemaGenerators {
       name: report.title,
       description: report.description,
       url: reportUrl,
-      
+
       // Report details
       reportNumber: report.id,
       datePublished: report.publishedDate,
-      
+
       // Author/Publisher
       author: {
         '@type': 'Person',
@@ -503,36 +554,36 @@ export class SchemaGenerators {
         '@type': 'Organization',
         '@id': `${this.baseUrl}/#organization`,
       },
-      
+
       // Coverage
       spatialCoverage: report.markets.map(market => ({
         '@type': 'Place',
         name: market,
       })),
       temporalCoverage: `${report.coveragePeriod.start}/${report.coveragePeriod.end}`,
-      
+
       // Key findings
       abstract: report.keyFindings.join('. '),
-      
+
       // Images
       image: report.images.map(img => ({
         '@type': 'ImageObject',
         url: img.url.startsWith('http') ? img.url : `${this.baseUrl}${img.url}`,
         description: img.alt,
       })),
-      
+
       // Subject matter
       about: {
         '@type': 'Thing',
         name: 'Coffee Market Analysis',
       },
-      
+
       // Audience
       audience: {
         '@type': 'BusinessAudience',
         audienceType: 'Coffee Industry Stakeholders',
       },
-      
+
       // Language
       inLanguage: locale,
     };
@@ -541,9 +592,12 @@ export class SchemaGenerators {
   /**
    * Generate Origin Story Schema with Place markup
    */
-  generateOriginStorySchema(story: OriginStoryData, locale: Locale): Record<string, any> {
+  generateOriginStorySchema(
+    story: OriginStoryData,
+    locale: Locale
+  ): Record<string, any> {
     const storyUrl = `${this.baseUrl}/${locale}/origins/${story.id}`;
-    
+
     return {
       '@context': 'https://schema.org',
       '@type': 'Article',
@@ -551,13 +605,13 @@ export class SchemaGenerators {
       headline: story.title,
       description: story.description,
       url: storyUrl,
-      
+
       // Publisher
       publisher: {
         '@type': 'Organization',
         '@id': `${this.baseUrl}/#organization`,
       },
-      
+
       // Main entity (the place/farm)
       mainEntity: {
         '@type': 'Place',
@@ -574,24 +628,36 @@ export class SchemaGenerators {
             longitude: story.coordinates.longitude,
           },
         }),
-        
+
         // Agricultural properties
         additionalProperty: [
-          ...(story.altitude ? [{
-            '@type': 'PropertyValue',
-            name: 'Altitude',
-            value: story.altitude,
-          }] : []),
-          ...(story.climate ? [{
-            '@type': 'PropertyValue',
-            name: 'Climate',
-            value: story.climate,
-          }] : []),
-          ...(story.soilType ? [{
-            '@type': 'PropertyValue',
-            name: 'Soil Type',
-            value: story.soilType,
-          }] : []),
+          ...(story.altitude
+            ? [
+                {
+                  '@type': 'PropertyValue',
+                  name: 'Altitude',
+                  value: story.altitude,
+                },
+              ]
+            : []),
+          ...(story.climate
+            ? [
+                {
+                  '@type': 'PropertyValue',
+                  name: 'Climate',
+                  value: story.climate,
+                },
+              ]
+            : []),
+          ...(story.soilType
+            ? [
+                {
+                  '@type': 'PropertyValue',
+                  name: 'Soil Type',
+                  value: story.soilType,
+                },
+              ]
+            : []),
           {
             '@type': 'PropertyValue',
             name: 'Coffee Varieties',
@@ -609,7 +675,7 @@ export class SchemaGenerators {
           },
         ],
       },
-      
+
       // Images
       image: story.images.map(img => ({
         '@type': 'ImageObject',
@@ -617,7 +683,7 @@ export class SchemaGenerators {
         description: img.alt,
         caption: img.caption,
       })),
-      
+
       // Sustainability and certifications
       mentions: [
         ...story.sustainabilityPractices.map(practice => ({
@@ -629,10 +695,10 @@ export class SchemaGenerators {
           name: cert,
         })),
       ],
-      
+
       // Language
       inLanguage: locale,
-      
+
       // Audience
       audience: {
         '@type': 'BusinessAudience',
@@ -652,7 +718,7 @@ export class SchemaGenerators {
     collectionType: 'products' | 'articles' | 'services' | 'reports'
   ): Record<string, any> {
     const collectionUrl = `${this.baseUrl}/${locale}/${collectionType}`;
-    
+
     return {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
@@ -660,7 +726,7 @@ export class SchemaGenerators {
       name: title,
       description,
       url: collectionUrl,
-      
+
       // Main entity
       mainEntity: {
         '@type': 'ItemList',
@@ -671,20 +737,22 @@ export class SchemaGenerators {
           '@type': 'ListItem',
           position: index + 1,
           name: item.name,
-          url: item.url.startsWith('http') ? item.url : `${this.baseUrl}${item.url}`,
+          url: item.url.startsWith('http')
+            ? item.url
+            : `${this.baseUrl}${item.url}`,
           ...(item.description && { description: item.description }),
         })),
       },
-      
+
       // Publisher
       publisher: {
         '@type': 'Organization',
         '@id': `${this.baseUrl}/#organization`,
       },
-      
+
       // Language
       inLanguage: locale,
-      
+
       // Audience
       audience: {
         '@type': 'BusinessAudience',
@@ -704,8 +772,10 @@ export class SchemaGenerators {
       logistics: 'Logistics Services',
       'quality-control': 'Quality Assurance Services',
     };
-    
-    return categories[serviceType as keyof typeof categories] || 'Business Services';
+
+    return (
+      categories[serviceType as keyof typeof categories] || 'Business Services'
+    );
   }
 }
 

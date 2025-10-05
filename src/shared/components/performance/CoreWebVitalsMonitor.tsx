@@ -1,13 +1,17 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { getCLS, getFCP, getFID, getLCP, getTTFB, type Metric } from 'web-vitals';
+import { onCLS, onFCP, onINP, onLCP, onTTFB, type Metric } from 'web-vitals';
+
+import { createScopedLogger } from '@/shared/utils/logger';
+
+const logger = createScopedLogger('CoreWebVitalsMonitor');
 
 // Core Web Vitals thresholds (Google's recommended values)
 const THRESHOLDS = {
   LCP: { good: 2500, needsImprovement: 4000 }, // Largest Contentful Paint
-  FID: { good: 100, needsImprovement: 300 },   // First Input Delay
-  CLS: { good: 0.1, needsImprovement: 0.25 },  // Cumulative Layout Shift
+  INP: { good: 200, needsImprovement: 500 }, // Interaction to Next Paint
+  CLS: { good: 0.1, needsImprovement: 0.25 }, // Cumulative Layout Shift
   FCP: { good: 1800, needsImprovement: 3000 }, // First Contentful Paint
   TTFB: { good: 800, needsImprovement: 1800 }, // Time to First Byte
 };
@@ -26,7 +30,7 @@ interface WebVitalMetric {
 
 interface CoreWebVitalsData {
   LCP?: WebVitalMetric;
-  FID?: WebVitalMetric;
+  INP?: WebVitalMetric;
   CLS?: WebVitalMetric;
   FCP?: WebVitalMetric;
   TTFB?: WebVitalMetric;
@@ -42,10 +46,10 @@ interface CoreWebVitalsMonitorProps {
 
 /**
  * Core Web Vitals Monitor Component
- * 
+ *
  * Monitors and reports Core Web Vitals metrics including:
  * - LCP (Largest Contentful Paint)
- * - FID (First Input Delay)
+ * - INP (Interaction to Next Paint)
  * - CLS (Cumulative Layout Shift)
  * - FCP (First Contentful Paint)
  * - TTFB (Time to First Byte)
@@ -62,10 +66,13 @@ export function CoreWebVitalsMonitor({
   const sentMetrics = useRef(new Set<string>());
 
   // Get performance rating based on metric value and thresholds
-  const getPerformanceRating = (name: string, value: number): PerformanceRating => {
+  const getPerformanceRating = (
+    name: string,
+    value: number
+  ): PerformanceRating => {
     const threshold = THRESHOLDS[name as keyof typeof THRESHOLDS];
     if (!threshold) return 'good';
-    
+
     if (value <= threshold.good) return 'good';
     if (value <= threshold.needsImprovement) return 'needs-improvement';
     return 'poor';
@@ -81,12 +88,12 @@ export function CoreWebVitalsMonitor({
         window.gtag('event', metric.name, {
           event_category: 'Web Vitals',
           event_label: metric.id,
-          value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
-          custom_map: {
-            metric_rating: metric.rating,
-            metric_delta: metric.delta,
-            navigation_type: metric.navigationType,
-          },
+          value: Math.round(
+            metric.name === 'CLS' ? metric.value * 1000 : metric.value
+          ),
+          metric_rating: metric.rating,
+          metric_delta: metric.delta,
+          navigation_type: metric.navigationType,
         });
       }
 
@@ -108,7 +115,7 @@ export function CoreWebVitalsMonitor({
       }
     } catch (error) {
       if (enableConsoleLogging) {
-        console.error('Failed to send Web Vitals metric to analytics:', error);
+        logger.error('Failed to send Web Vitals metric to analytics:', error);
       }
     }
   };
@@ -130,9 +137,9 @@ export function CoreWebVitalsMonitor({
       [metric.name]: webVitalMetric,
     }));
 
-    // Log to console if enabled
-    if (enableConsoleLogging) {
-      console.log(`[Core Web Vitals] ${metric.name}:`, webVitalMetric);
+    // Log to console if enabled and in development
+    if (enableConsoleLogging && process.env.NODE_ENV === 'development') {
+      logger.info(`[Core Web Vitals] ${metric.name}:`, webVitalMetric);
     }
 
     // Send to analytics (only once per metric per page load)
@@ -153,21 +160,22 @@ export function CoreWebVitalsMonitor({
     if (typeof window === 'undefined') return;
 
     // Monitor Core Web Vitals
-    getCLS(handleMetric);
-    getFCP(handleMetric);
-    getFID(handleMetric);
-    getLCP(handleMetric);
-    getTTFB(handleMetric);
+    onCLS(handleMetric);
+    onFCP(handleMetric);
+    onINP(handleMetric);
+    onLCP(handleMetric);
+    onTTFB(handleMetric);
 
     // Monitor additional performance metrics
     if ('PerformanceObserver' in window) {
       // Monitor Long Tasks (for performance debugging)
       try {
-        const longTaskObserver = new PerformanceObserver((list) => {
+        const longTaskObserver = new PerformanceObserver(list => {
           for (const entry of list.getEntries()) {
-            if (entry.duration > 50) { // Tasks longer than 50ms
+            if (entry.duration > 50) {
+              // Tasks longer than 50ms
               if (enableConsoleLogging) {
-                console.warn('[Performance] Long Task detected:', {
+                logger.warn('[Performance] Long Task detected:', {
                   duration: entry.duration,
                   startTime: entry.startTime,
                   name: entry.name,
@@ -183,11 +191,12 @@ export function CoreWebVitalsMonitor({
 
       // Monitor Layout Shifts for debugging
       try {
-        const layoutShiftObserver = new PerformanceObserver((list) => {
+        const layoutShiftObserver = new PerformanceObserver(list => {
           for (const entry of list.getEntries()) {
-            if ((entry as any).value > 0.1) { // Significant layout shifts
+            if ((entry as any).value > 0.1) {
+              // Significant layout shifts
               if (enableConsoleLogging) {
-                console.warn('[Performance] Layout Shift detected:', {
+                logger.warn('[Performance] Layout Shift detected:', {
                   value: (entry as any).value,
                   sources: (entry as any).sources,
                   startTime: entry.startTime,
@@ -207,7 +216,15 @@ export function CoreWebVitalsMonitor({
       const timer = setTimeout(() => setIsVisible(false), 10000);
       return () => clearTimeout(timer);
     }
-  }, [enableAnalytics, enableConsoleLogging, onMetricCapture, analyticsEndpoint]);
+
+    // Return undefined for consistency
+    return undefined;
+  }, [
+    enableAnalytics,
+    enableConsoleLogging,
+    onMetricCapture,
+    analyticsEndpoint,
+  ]);
 
   // Visual indicator component
   if (!isVisible || !enableVisualIndicator) {
@@ -216,10 +233,14 @@ export function CoreWebVitalsMonitor({
 
   const getMetricColor = (rating: PerformanceRating) => {
     switch (rating) {
-      case 'good': return 'text-green-600 bg-green-50';
-      case 'needs-improvement': return 'text-yellow-600 bg-yellow-50';
-      case 'poor': return 'text-red-600 bg-red-50';
-      default: return 'text-gray-600 bg-gray-50';
+      case 'good':
+        return 'text-green-600 bg-green-50';
+      case 'needs-improvement':
+        return 'text-yellow-600 bg-yellow-50';
+      case 'poor':
+        return 'text-red-600 bg-red-50';
+      default:
+        return 'text-gray-600 bg-gray-50';
     }
   };
 
@@ -231,41 +252,43 @@ export function CoreWebVitalsMonitor({
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm">
-      <div className="flex items-center justify-between mb-2">
+    <div className="fixed bottom-4 right-4 z-50 max-w-sm rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
+      <div className="mb-2 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-gray-900">Core Web Vitals</h3>
         <button
           onClick={() => setIsVisible(false)}
-          className="text-gray-400 hover:text-gray-600 text-sm"
+          className="text-sm text-gray-400 hover:text-gray-600"
           aria-label="Close Web Vitals monitor"
         >
           ×
         </button>
       </div>
-      
+
       <div className="space-y-2">
         {Object.entries(metrics).map(([name, metric]) => (
           <div key={name} className="flex items-center justify-between">
             <span className="text-xs font-medium text-gray-700">{name}</span>
-            <span className={`text-xs px-2 py-1 rounded ${getMetricColor(metric.rating)}`}>
+            <span
+              className={`rounded px-2 py-1 text-xs ${getMetricColor(metric.rating)}`}
+            >
               {formatValue(name, metric.value)}
             </span>
           </div>
         ))}
       </div>
-      
+
       <div className="mt-3 text-xs text-gray-500">
         <div className="flex items-center space-x-2">
           <div className="flex items-center">
-            <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
+            <div className="mr-1 h-2 w-2 rounded-full bg-green-500"></div>
             <span>Good</span>
           </div>
           <div className="flex items-center">
-            <div className="w-2 h-2 bg-yellow-500 rounded-full mr-1"></div>
+            <div className="mr-1 h-2 w-2 rounded-full bg-yellow-500"></div>
             <span>Needs Improvement</span>
           </div>
           <div className="flex items-center">
-            <div className="w-2 h-2 bg-red-500 rounded-full mr-1"></div>
+            <div className="mr-1 h-2 w-2 rounded-full bg-red-500"></div>
             <span>Poor</span>
           </div>
         </div>
@@ -297,20 +320,23 @@ export function useWebVitals() {
       }));
     };
 
-    const getPerformanceRating = (name: string, value: number): PerformanceRating => {
+    const getPerformanceRating = (
+      name: string,
+      value: number
+    ): PerformanceRating => {
       const threshold = THRESHOLDS[name as keyof typeof THRESHOLDS];
       if (!threshold) return 'good';
-      
+
       if (value <= threshold.good) return 'good';
       if (value <= threshold.needsImprovement) return 'needs-improvement';
       return 'poor';
     };
 
-    getCLS(handleMetric);
-    getFCP(handleMetric);
-    getFID(handleMetric);
-    getLCP(handleMetric);
-    getTTFB(handleMetric);
+    onCLS(handleMetric);
+    onFCP(handleMetric);
+    onINP(handleMetric);
+    onLCP(handleMetric);
+    onTTFB(handleMetric);
   }, []);
 
   return metrics;

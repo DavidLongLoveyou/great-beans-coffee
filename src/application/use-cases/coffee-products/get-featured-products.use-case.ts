@@ -1,5 +1,6 @@
 import { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
 import { ICoffeeProductRepository } from '@/infrastructure/database/repositories/coffee-product.repository';
+import { createScopedLogger } from '@/shared/utils/logger';
 
 export interface GetFeaturedProductsRequest {
   limit?: number;
@@ -12,6 +13,8 @@ export interface GetFeaturedProductsResponse {
 }
 
 export class GetFeaturedProductsUseCase {
+  private logger = createScopedLogger('GetFeaturedProductsUseCase');
+
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
   async execute(
@@ -31,7 +34,7 @@ export class GetFeaturedProductsUseCase {
         total: products.length,
       };
     } catch (error) {
-      console.error('Error fetching featured products:', error);
+      this.logger.error('Error fetching featured products:', error);
       throw new Error('Failed to fetch featured products');
     }
   }

@@ -59,20 +59,20 @@ export function ClusterArticleCard({
           className="object-cover transition-transform duration-300 hover:scale-105"
         />
         {article.isFeatured && (
-          <Badge className="absolute left-3 top-3 bg-coffee-600 text-white">
+          <Badge className="bg-coffee-600 absolute left-3 top-3 text-white">
             Featured
           </Badge>
         )}
         <Badge
           variant="secondary"
-          className="absolute right-3 top-3 bg-white/90 text-coffee-800"
+          className="text-coffee-800 absolute right-3 top-3 bg-white/90"
         >
           {article.category}
         </Badge>
       </div>
 
       <CardHeader className="pb-3">
-        <h3 className="line-clamp-2 text-lg font-semibold leading-tight text-coffee-800">
+        <h3 className="text-coffee-800 line-clamp-2 text-lg font-semibold leading-tight">
           {article.title}
         </h3>
         <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
@@ -97,13 +97,13 @@ export function ClusterArticleCard({
 
         {/* Author Information */}
         <div className="flex items-center space-x-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-coffee-100">
-            <span className="text-xs font-medium text-coffee-600">
+          <div className="bg-coffee-100 flex h-8 w-8 items-center justify-center rounded-full">
+            <span className="text-coffee-600 text-xs font-medium">
               {article.author.name.charAt(0)}
             </span>
           </div>
           <div>
-            <div className="text-sm font-medium text-coffee-800">
+            <div className="text-coffee-800 text-sm font-medium">
               {article.author.name}
             </div>
             <div className="text-xs text-muted-foreground">

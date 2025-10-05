@@ -16,14 +16,12 @@ import {
   FileText,
   Globe,
 } from 'lucide-react';
-import Link from 'next/link';
 import { type Metadata } from 'next';
+import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
 import { SEOHead } from '@/presentation/components/seo/SEOHead';
-import { generateMetadata as generateSEOMetadata, generateOrganizationSchema } from '@/shared/utils/seo-utils';
-import { generateB2BProductSchema } from '@/shared/utils/enhanced-structured-data';
 import { Badge } from '@/presentation/components/ui/badge';
 import {
   Card,
@@ -58,6 +56,11 @@ import {
   CoffeeHeading,
   SectionHeading,
 } from '@/shared/components/design-system/Typography/Heading';
+import { generateB2BProductSchema } from '@/shared/utils/enhanced-structured-data';
+import {
+  generateMetadata as generateSEOMetadata,
+  generateOrganizationSchema,
+} from '@/shared/utils/seo-utils';
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -75,7 +78,8 @@ export async function generateMetadata({
   // In a real app, you would fetch the product data here
   // For now, using mock data
   const productName = 'The Great Beans Premium Robusta Grade 1';
-  const productDescription = 'High-quality natural processed Robusta from Dak Lak province - available green or roasted';
+  const productDescription =
+    'High-quality natural processed Robusta from Dak Lak province - available green or roasted';
 
   return generateSEOMetadata({
     title: `${productName} - Premium Vietnamese Coffee`,
@@ -243,24 +247,26 @@ Perfect for espresso blends, instant coffee production, and commercial roasting 
 // Certification mapping function to convert domain format to design system format
 const mapCertificationToDesignSystem = (domainCert: string): string => {
   const certificationMap: Record<string, string> = {
-    'ORGANIC': 'organic',
-    'FAIR_TRADE': 'fair-trade',
-    'RAINFOREST_ALLIANCE': 'rainforest-alliance',
-    'UTZ': 'utz',
-    'C_CAFE': 'c-cafe',
-    'ISO_22000': 'iso-22000',
-    'HACCP': 'haccp',
-    'KOSHER': 'kosher',
-    'HALAL': 'halal',
-    'BRC': 'brc',
-    'IFS': 'ifs',
+    ORGANIC: 'organic',
+    FAIR_TRADE: 'fair-trade',
+    RAINFOREST_ALLIANCE: 'rainforest-alliance',
+    UTZ: 'utz',
+    C_CAFE: 'c-cafe',
+    ISO_22000: 'iso-22000',
+    HACCP: 'haccp',
+    KOSHER: 'kosher',
+    HALAL: 'halal',
+    BRC: 'brc',
+    IFS: 'ifs',
     '4C': '4c',
-    'BIRD_FRIENDLY': 'bird-friendly',
-    'SHADE_GROWN': 'shade-grown',
-    'DIRECT_TRADE': 'direct-trade',
+    BIRD_FRIENDLY: 'bird-friendly',
+    SHADE_GROWN: 'shade-grown',
+    DIRECT_TRADE: 'direct-trade',
   };
-  
-  return certificationMap[domainCert] || domainCert.toLowerCase().replace(/_/g, '-');
+
+  return (
+    certificationMap[domainCert] || domainCert.toLowerCase().replace(/_/g, '-')
+  );
 };
 
 export default async function ProductDetailPage({
@@ -271,25 +277,31 @@ export default async function ProductDetailPage({
 
   // Generate structured data
   const organizationSchema = generateOrganizationSchema();
-  const productSchema = generateB2BProductSchema({
-    id: mockProduct.id,
-    name: mockProduct.name,
-    description: mockProduct.shortDescription,
-    images: mockProduct.images.map(img => img.url),
-    category: mockProduct.type,
-    sku: mockProduct.sku,
-    origin: `${mockProduct.origin.region}, ${mockProduct.origin.country}`,
-    certifications: mockProduct.certifications.map(cert => ({
-      name: cert.name,
-      identifier: cert.certificateNumber,
-      issuer: cert.issuer
-    })),
-    minOrderQuantity: mockProduct.pricing.minimumOrder * 1000, // Convert MT to kg
-    unitOfMeasure: 'kg',
-    leadTime: { min: mockProduct.availability.leadTime, max: mockProduct.availability.leadTime + 7 },
-    targetMarkets: ['Global'],
-    incoterms: mockProduct.pricing.incoterms
-  }, locale);
+  const productSchema = generateB2BProductSchema(
+    {
+      id: mockProduct.id,
+      name: mockProduct.name,
+      description: mockProduct.shortDescription,
+      images: mockProduct.images.map(img => img.url),
+      category: mockProduct.type,
+      sku: mockProduct.sku,
+      origin: `${mockProduct.origin.region}, ${mockProduct.origin.country}`,
+      certifications: mockProduct.certifications.map(cert => ({
+        name: cert.name,
+        identifier: cert.certificateNumber,
+        issuer: cert.issuer,
+      })),
+      minOrderQuantity: mockProduct.pricing.minimumOrder * 1000, // Convert MT to kg
+      unitOfMeasure: 'kg',
+      leadTime: {
+        min: mockProduct.availability.leadTime,
+        max: mockProduct.availability.leadTime + 7,
+      },
+      targetMarkets: ['Global'],
+      incoterms: mockProduct.pricing.incoterms,
+    },
+    locale
+  );
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -322,621 +334,627 @@ export default async function ProductDetailPage({
     <>
       <SEOHead structuredData={structuredData} />
       <div className="min-h-screen">
-      {/* Breadcrumb */}
-      <div className="border-b border-coffee-200 bg-coffee-50">
-        <ContentContainer className="py-4">
-          <div className="flex items-center space-x-2 text-sm">
-            <Link
-              href={`/${locale}`}
-              className="text-coffee-600 hover:text-coffee-800"
-            >
-              Home
-            </Link>
-            <span className="text-coffee-400">/</span>
-            <Link
-              href={`/${locale}/products`}
-              className="text-coffee-600 hover:text-coffee-800"
-            >
-              Products
-            </Link>
-            <span className="text-coffee-400">/</span>
-            <span className="font-medium text-coffee-900">
-              {mockProduct.name}
-            </span>
-          </div>
-        </ContentContainer>
-      </div>
-
-      <ContentSection className="py-8">
-        <ContentContainer>
-          {/* Back Button */}
-          <Link href={`/${locale}/products`}>
-            <Button variant="outline" className="mb-6">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Products
-            </Button>
-          </Link>
-
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-            {/* Left Column - Product Images */}
-            <div className="lg:col-span-1">
-              <Card>
-                <CardContent className="p-6">
-                  {/* Main Product Image */}
-                  <div className="mb-4 flex h-80 w-full items-center justify-center rounded-lg bg-gradient-to-br from-amber-100 to-amber-200">
-                    <Coffee className="h-24 w-24 text-amber-600" />
-                  </div>
-
-                  {/* Thumbnail Images */}
-                  <div className="grid grid-cols-3 gap-2">
-                    {mockProduct.images.map((image, index) => (
-                      <div
-                        key={index}
-                        className="flex h-20 w-full cursor-pointer items-center justify-center rounded border-2 border-transparent bg-gradient-to-br from-amber-50 to-amber-100 hover:border-green-500"
-                      >
-                        <Coffee className="h-8 w-8 text-amber-500" />
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="mt-6 space-y-3">
-                    <GoldButton className="w-full" size="lg">
-                      <ShoppingCart className="mr-2 h-5 w-5" />
-                      Request Quote
-                    </GoldButton>
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button variant="outline" size="sm">
-                        <Heart className="mr-2 h-4 w-4" />
-                        Save
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <Share2 className="mr-2 h-4 w-4" />
-                        Share
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+        {/* Breadcrumb */}
+        <div className="border-coffee-200 bg-coffee-50 border-b">
+          <ContentContainer className="py-4">
+            <div className="flex items-center space-x-2 text-sm">
+              <Link
+                href={`/${locale}`}
+                className="text-coffee-600 hover:text-coffee-800"
+              >
+                Home
+              </Link>
+              <span className="text-coffee-400">/</span>
+              <Link
+                href={`/${locale}/products`}
+                className="text-coffee-600 hover:text-coffee-800"
+              >
+                Products
+              </Link>
+              <span className="text-coffee-400">/</span>
+              <span className="text-coffee-900 font-medium">
+                {mockProduct.name}
+              </span>
             </div>
+          </ContentContainer>
+        </div>
 
-            {/* Right Column - Product Information */}
-            <div className="lg:col-span-2">
-              {/* Product Header */}
-              <Card className="mb-6 shadow-lg">
-                <CardHeader className="bg-gradient-to-r from-coffee-50 to-gold-50">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <CoffeeHeading
-                        variant="heading-xl"
-                        className="mb-2 text-coffee-800"
-                      >
-                        {mockProduct.name}
-                      </CoffeeHeading>
-                      <CardDescription className="text-lg text-coffee-600">
-                        {mockProduct.shortDescription}
-                      </CardDescription>
-                      <p className="mt-2 font-mono text-sm text-coffee-500">
-                        SKU: {mockProduct.sku}
-                      </p>
+        <ContentSection className="py-8">
+          <ContentContainer>
+            {/* Back Button */}
+            <Link href={`/${locale}/products`}>
+              <Button variant="outline" className="mb-6">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Products
+              </Button>
+            </Link>
+
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+              {/* Left Column - Product Images */}
+              <div className="lg:col-span-1">
+                <Card>
+                  <CardContent className="p-6">
+                    {/* Main Product Image */}
+                    <div className="mb-4 flex h-80 w-full items-center justify-center rounded-lg bg-gradient-to-br from-amber-100 to-amber-200">
+                      <Coffee className="h-24 w-24 text-amber-600" />
                     </div>
-                    <div className="space-y-2 text-right">
-                      {mockProduct.isFeatured && (
-                        <Badge className="mb-2 bg-gold-500 text-white">
-                          <Star className="mr-1 h-3 w-3" />
-                          Featured
+
+                    {/* Thumbnail Images */}
+                    <div className="grid grid-cols-3 gap-2">
+                      {mockProduct.images.map((image, index) => (
+                        <div
+                          key={index}
+                          className="flex h-20 w-full cursor-pointer items-center justify-center rounded border-2 border-transparent bg-gradient-to-br from-amber-50 to-amber-100 hover:border-green-500"
+                        >
+                          <Coffee className="h-8 w-8 text-amber-500" />
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="mt-6 space-y-3">
+                      <GoldButton className="w-full" size="lg">
+                        <ShoppingCart className="mr-2 h-5 w-5" />
+                        Request Quote
+                      </GoldButton>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button variant="outline" size="sm">
+                          <Heart className="mr-2 h-4 w-4" />
+                          Save
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          <Share2 className="mr-2 h-4 w-4" />
+                          Share
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Right Column - Product Information */}
+              <div className="lg:col-span-2">
+                {/* Product Header */}
+                <Card className="mb-6 shadow-lg">
+                  <CardHeader className="from-coffee-50 to-gold-50 bg-gradient-to-r">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <CoffeeHeading
+                          variant="heading-xl"
+                          className="text-coffee-800 mb-2"
+                        >
+                          {mockProduct.name}
+                        </CoffeeHeading>
+                        <CardDescription className="text-coffee-600 text-lg">
+                          {mockProduct.shortDescription}
+                        </CardDescription>
+                        <p className="text-coffee-500 mt-2 font-mono text-sm">
+                          SKU: {mockProduct.sku}
+                        </p>
+                      </div>
+                      <div className="space-y-2 text-right">
+                        {mockProduct.isFeatured && (
+                          <Badge className="bg-gold-500 mb-2 text-white">
+                            <Star className="mr-1 h-3 w-3" />
+                            Featured
+                          </Badge>
+                        )}
+                        <Badge
+                          variant={
+                            mockProduct.availability.inStock
+                              ? 'default'
+                              : 'destructive'
+                          }
+                          className="block"
+                        >
+                          {mockProduct.availability.inStock
+                            ? 'In Stock'
+                            : 'Out of Stock'}
                         </Badge>
-                      )}
-                      <Badge
-                        variant={
-                          mockProduct.availability.inStock
-                            ? 'default'
-                            : 'destructive'
-                        }
-                        className="block"
-                      >
-                        {mockProduct.availability.inStock
-                          ? 'In Stock'
-                          : 'Out of Stock'}
-                      </Badge>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-6">
-                  {/* Key Details with Design System Components */}
-                  <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-                    <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
-                      <Coffee className="mx-auto mb-2 h-6 w-6 text-coffee-600" />
-                      <CoffeeGradeIndicator grade="grade-1" />
-                      <p className="mt-1 text-xs text-coffee-600">Grade</p>
-                    </div>
-                    <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
-                      <ProcessingMethodBadge
-                        method="natural"
-                      />
-                      <p className="mt-1 text-xs text-coffee-600">Processing</p>
-                    </div>
-                    <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
-                      <OriginFlag
-                        origin="vietnam"
-                      />
-                      <p className="mt-1 text-xs text-coffee-600">Origin</p>
-                    </div>
-                    <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
-                      <MapPin className="mx-auto mb-2 h-6 w-6 text-coffee-600" />
-                      <p className="text-sm font-medium text-coffee-800">
-                        {mockProduct.origin.altitude}m
-                      </p>
-                      <p className="text-xs text-coffee-600">Altitude</p>
-                    </div>
-                  </div>
-
-                  {/* Pricing */}
-                  <div className="rounded-lg border border-gold-200 bg-gradient-to-r from-gold-50 to-coffee-50 p-6 shadow-sm">
-                    <div className="mb-4 flex items-center justify-between">
-                      <SectionHeading size="lg" className="text-coffee-800">
-                        Price:
-                      </SectionHeading>
-                      <span className="text-3xl font-bold text-gold-600">
-                        ${mockProduct.pricing.basePrice.toLocaleString()}/
-                        {mockProduct.pricing.unit}
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="rounded-lg bg-white/50 p-3">
-                        <p className="text-sm font-medium text-coffee-800">
-                          Minimum Order
-                        </p>
-                        <p className="text-sm text-coffee-600">
-                          {mockProduct.pricing.minimumOrder} MT
-                        </p>
-                      </div>
-                      <div className="rounded-lg bg-white/50 p-3">
-                        <p className="text-sm font-medium text-coffee-800">
-                          Lead Time
-                        </p>
-                        <p className="text-sm text-coffee-600">
-                          {mockProduct.availability.leadTime} days
-                        </p>
-                      </div>
-                      <div className="rounded-lg bg-white/50 p-3">
-                        <p className="text-sm font-medium text-coffee-800">
-                          Payment Terms
-                        </p>
-                        <p className="text-sm text-coffee-600">
-                          {mockProduct.pricing.paymentTerms}
-                        </p>
-                      </div>
-                      <div className="rounded-lg bg-white/50 p-3">
-                        <p className="text-sm font-medium text-coffee-800">
-                          Valid Until
-                        </p>
-                        <p className="text-sm text-coffee-600">
-                          {mockProduct.pricing.priceValidUntil}
-                        </p>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    {/* Key Details with Design System Components */}
+                    <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+                      <div className="border-coffee-100 bg-coffee-50 rounded-lg border p-4 text-center">
+                        <Coffee className="text-coffee-600 mx-auto mb-2 h-6 w-6" />
+                        <CoffeeGradeIndicator grade="grade-1" />
+                        <p className="text-coffee-600 mt-1 text-xs">Grade</p>
+                      </div>
+                      <div className="border-coffee-100 bg-coffee-50 rounded-lg border p-4 text-center">
+                        <ProcessingMethodBadge method="natural" />
+                        <p className="text-coffee-600 mt-1 text-xs">
+                          Processing
+                        </p>
+                      </div>
+                      <div className="border-coffee-100 bg-coffee-50 rounded-lg border p-4 text-center">
+                        <OriginFlag origin="vietnam" />
+                        <p className="text-coffee-600 mt-1 text-xs">Origin</p>
+                      </div>
+                      <div className="border-coffee-100 bg-coffee-50 rounded-lg border p-4 text-center">
+                        <MapPin className="text-coffee-600 mx-auto mb-2 h-6 w-6" />
+                        <p className="text-coffee-800 text-sm font-medium">
+                          {mockProduct.origin.altitude}m
+                        </p>
+                        <p className="text-coffee-600 text-xs">Altitude</p>
+                      </div>
+                    </div>
 
-              {/* Detailed Information Tabs */}
-              <Card>
-                <CardContent className="p-6">
-                  <Tabs defaultValue="description" className="w-full">
-                    <TabsList className="grid w-full grid-cols-5 border border-coffee-200 bg-coffee-50">
-                      <TabsTrigger
-                        value="description"
-                        className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
-                      >
-                        Description
-                      </TabsTrigger>
-                      <TabsTrigger
-                        value="specifications"
-                        className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
-                      >
-                        Specifications
-                      </TabsTrigger>
-                      <TabsTrigger
-                        value="origin"
-                        className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
-                      >
-                        Origin
-                      </TabsTrigger>
-                      <TabsTrigger
-                        value="quality"
-                        className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
-                      >
-                        Quality
-                      </TabsTrigger>
-                      <TabsTrigger
-                        value="documents"
-                        className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
-                      >
-                        Documents
-                      </TabsTrigger>
-                    </TabsList>
+                    {/* Pricing */}
+                    <div className="border-gold-200 from-gold-50 to-coffee-50 rounded-lg border bg-gradient-to-r p-6 shadow-sm">
+                      <div className="mb-4 flex items-center justify-between">
+                        <SectionHeading size="lg" className="text-coffee-800">
+                          Price:
+                        </SectionHeading>
+                        <span className="text-gold-600 text-3xl font-bold">
+                          ${mockProduct.pricing.basePrice.toLocaleString()}/
+                          {mockProduct.pricing.unit}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="rounded-lg bg-white/50 p-3">
+                          <p className="text-coffee-800 text-sm font-medium">
+                            Minimum Order
+                          </p>
+                          <p className="text-coffee-600 text-sm">
+                            {mockProduct.pricing.minimumOrder} MT
+                          </p>
+                        </div>
+                        <div className="rounded-lg bg-white/50 p-3">
+                          <p className="text-coffee-800 text-sm font-medium">
+                            Lead Time
+                          </p>
+                          <p className="text-coffee-600 text-sm">
+                            {mockProduct.availability.leadTime} days
+                          </p>
+                        </div>
+                        <div className="rounded-lg bg-white/50 p-3">
+                          <p className="text-coffee-800 text-sm font-medium">
+                            Payment Terms
+                          </p>
+                          <p className="text-coffee-600 text-sm">
+                            {mockProduct.pricing.paymentTerms}
+                          </p>
+                        </div>
+                        <div className="rounded-lg bg-white/50 p-3">
+                          <p className="text-coffee-800 text-sm font-medium">
+                            Valid Until
+                          </p>
+                          <p className="text-coffee-600 text-sm">
+                            {mockProduct.pricing.priceValidUntil}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
 
-                    <TabsContent value="description" className="mt-6">
-                      <Card className="shadow-md">
-                        <CardContent className="p-6">
-                          <SectionHeading
-                            size="lg"
-                            className="mb-4 text-coffee-800"
-                          >
-                            Product Description
-                          </SectionHeading>
-                          <div className="mb-6 whitespace-pre-line leading-relaxed text-coffee-700">
-                            {mockProduct.longDescription}
-                          </div>
+                {/* Detailed Information Tabs */}
+                <Card>
+                  <CardContent className="p-6">
+                    <Tabs defaultValue="description" className="w-full">
+                      <TabsList className="border-coffee-200 bg-coffee-50 grid w-full grid-cols-5 border">
+                        <TabsTrigger
+                          value="description"
+                          className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
+                        >
+                          Description
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="specifications"
+                          className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
+                        >
+                          Specifications
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="origin"
+                          className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
+                        >
+                          Origin
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="quality"
+                          className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
+                        >
+                          Quality
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="documents"
+                          className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
+                        >
+                          Documents
+                        </TabsTrigger>
+                      </TabsList>
 
-                          <SectionHeading
-                            size="md"
-                            className="mb-4 mt-6 text-coffee-800"
-                          >
-                            Certifications
-                          </SectionHeading>
+                      <TabsContent value="description" className="mt-6">
+                        <Card className="shadow-md">
+                          <CardContent className="p-6">
+                            <SectionHeading
+                              size="lg"
+                              className="text-coffee-800 mb-4"
+                            >
+                              Product Description
+                            </SectionHeading>
+                            <div className="text-coffee-700 mb-6 whitespace-pre-line leading-relaxed">
+                              {mockProduct.longDescription}
+                            </div>
+
+                            <SectionHeading
+                              size="md"
+                              className="text-coffee-800 mb-4 mt-6"
+                            >
+                              Certifications
+                            </SectionHeading>
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                               {mockProduct.certifications.map((cert, index) => (
                                 <CertificationBadge
                                   key={index}
-                                  certification={mapCertificationToDesignSystem(cert.name) as any}
+                                  certification={
+                                    mapCertificationToDesignSystem(
+                                      cert.name
+                                    ) as any
+                                  }
                                   size="md"
-                                  className="mr-2 mb-2"
+                                  className="mb-2 mr-2"
                                 />
                               ))}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </TabsContent>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
 
-                    <TabsContent value="specifications" className="mt-6">
-                      <Card className="shadow-md">
-                        <CardContent className="p-6">
-                          <SectionHeading
-                            size="lg"
-                            className="mb-6 text-coffee-800"
-                          >
-                            Technical Specifications
-                          </SectionHeading>
-                          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                            <div>
-                              <SectionHeading
-                                size="md"
-                                className="mb-4 text-coffee-700"
-                              >
-                                Physical Properties
-                              </SectionHeading>
-                              <div className="space-y-4">
-                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
-                                  <span className="text-coffee-700">
-                                    Moisture Content:
-                                  </span>
-                                  <span className="font-semibold text-coffee-800">
-                                    {mockProduct.specifications.moisture}%
-                                  </span>
+                      <TabsContent value="specifications" className="mt-6">
+                        <Card className="shadow-md">
+                          <CardContent className="p-6">
+                            <SectionHeading
+                              size="lg"
+                              className="text-coffee-800 mb-6"
+                            >
+                              Technical Specifications
+                            </SectionHeading>
+                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                              <div>
+                                <SectionHeading
+                                  size="md"
+                                  className="text-coffee-700 mb-4"
+                                >
+                                  Physical Properties
+                                </SectionHeading>
+                                <div className="space-y-4">
+                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
+                                    <span className="text-coffee-700">
+                                      Moisture Content:
+                                    </span>
+                                    <span className="text-coffee-800 font-semibold">
+                                      {mockProduct.specifications.moisture}%
+                                    </span>
+                                  </div>
+                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
+                                    <span className="text-coffee-700">
+                                      Screen Size:
+                                    </span>
+                                    <span className="text-coffee-800 font-semibold">
+                                      {mockProduct.specifications.screenSize}
+                                    </span>
+                                  </div>
+                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
+                                    <span className="text-coffee-700">
+                                      Defect Rate:
+                                    </span>
+                                    <span className="text-coffee-800 font-semibold">
+                                      {mockProduct.specifications.defectRate}%
+                                    </span>
+                                  </div>
+                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
+                                    <span className="text-coffee-700">
+                                      Density:
+                                    </span>
+                                    <span className="text-coffee-800 font-semibold">
+                                      {mockProduct.specifications.density}
+                                    </span>
+                                  </div>
                                 </div>
-                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
-                                  <span className="text-coffee-700">
-                                    Screen Size:
-                                  </span>
-                                  <span className="font-semibold text-coffee-800">
-                                    {mockProduct.specifications.screenSize}
-                                  </span>
-                                </div>
-                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
-                                  <span className="text-coffee-700">
-                                    Defect Rate:
-                                  </span>
-                                  <span className="font-semibold text-coffee-800">
-                                    {mockProduct.specifications.defectRate}%
-                                  </span>
-                                </div>
-                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
-                                  <span className="text-coffee-700">
-                                    Density:
-                                  </span>
-                                  <span className="font-semibold text-coffee-800">
-                                    {mockProduct.specifications.density}
-                                  </span>
+                              </div>
+                              <div>
+                                <SectionHeading
+                                  size="md"
+                                  className="text-coffee-700 mb-4"
+                                >
+                                  Chemical Composition
+                                </SectionHeading>
+                                <div className="space-y-4">
+                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
+                                    <span className="text-coffee-700">
+                                      Caffeine:
+                                    </span>
+                                    <span className="text-coffee-800 font-semibold">
+                                      {mockProduct.specifications.caffeine}
+                                    </span>
+                                  </div>
+                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
+                                    <span className="text-coffee-700">
+                                      Ash:
+                                    </span>
+                                    <span className="text-coffee-800 font-semibold">
+                                      {mockProduct.specifications.ash}
+                                    </span>
+                                  </div>
+                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
+                                    <span className="text-coffee-700">
+                                      Lipids:
+                                    </span>
+                                    <span className="text-coffee-800 font-semibold">
+                                      {mockProduct.specifications.lipids}
+                                    </span>
+                                  </div>
+                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
+                                    <span className="text-coffee-700">
+                                      Proteins:
+                                    </span>
+                                    <span className="text-coffee-800 font-semibold">
+                                      {mockProduct.specifications.proteins}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <div>
-                              <SectionHeading
-                                size="md"
-                                className="mb-4 text-coffee-700"
-                              >
-                                Chemical Composition
-                              </SectionHeading>
-                              <div className="space-y-4">
-                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
-                                  <span className="text-coffee-700">
-                                    Caffeine:
-                                  </span>
-                                  <span className="font-semibold text-coffee-800">
-                                    {mockProduct.specifications.caffeine}
-                                  </span>
+
+                            <SectionHeading
+                              size="md"
+                              className="text-coffee-700 mb-4 mt-8"
+                            >
+                              Packaging Options
+                            </SectionHeading>
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                              {mockProduct.packaging.options.map(
+                                (option, index) => (
+                                  <div
+                                    key={index}
+                                    className="border-coffee-200 from-coffee-50 to-gold-50 rounded-lg border bg-gradient-to-br p-4"
+                                  >
+                                    <div className="mb-3 flex items-center">
+                                      <Package className="text-coffee-600 mr-2 h-5 w-5" />
+                                      <span className="text-coffee-800 font-semibold">
+                                        {option.type}
+                                      </span>
+                                    </div>
+                                    <p className="text-coffee-700 mb-1 text-sm font-medium">
+                                      {option.weight}
+                                    </p>
+                                    <p className="text-coffee-600 text-xs">
+                                      {option.description}
+                                    </p>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
+
+                      <TabsContent value="origin" className="mt-6">
+                        <Card className="shadow-md">
+                          <CardContent className="p-6">
+                            <SectionHeading
+                              size="lg"
+                              className="text-coffee-800 mb-6"
+                            >
+                              Origin Information
+                            </SectionHeading>
+                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                              <div>
+                                <SectionHeading
+                                  size="md"
+                                  className="text-coffee-700 mb-4"
+                                >
+                                  Location Details
+                                </SectionHeading>
+                                <div className="space-y-4">
+                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
+                                    <Globe className="text-coffee-600 mr-3 h-5 w-5" />
+                                    <span className="text-coffee-800">
+                                      Country:{' '}
+                                      <span className="font-semibold">
+                                        {mockProduct.origin.country}
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
+                                    <MapPin className="text-coffee-600 mr-3 h-5 w-5" />
+                                    <span className="text-coffee-800">
+                                      Region:{' '}
+                                      <span className="font-semibold">
+                                        {mockProduct.origin.region},{' '}
+                                        {mockProduct.origin.province}
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
+                                    <Thermometer className="text-coffee-600 mr-3 h-5 w-5" />
+                                    <span className="text-coffee-800">
+                                      Altitude:{' '}
+                                      <span className="font-semibold">
+                                        {mockProduct.origin.altitude}m above sea
+                                        level
+                                      </span>
+                                    </span>
+                                  </div>
                                 </div>
-                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
-                                  <span className="text-coffee-700">Ash:</span>
-                                  <span className="font-semibold text-coffee-800">
-                                    {mockProduct.specifications.ash}
-                                  </span>
-                                </div>
-                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
-                                  <span className="text-coffee-700">
-                                    Lipids:
-                                  </span>
-                                  <span className="font-semibold text-coffee-800">
-                                    {mockProduct.specifications.lipids}
-                                  </span>
-                                </div>
-                                <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
-                                  <span className="text-coffee-700">
-                                    Proteins:
-                                  </span>
-                                  <span className="font-semibold text-coffee-800">
-                                    {mockProduct.specifications.proteins}
-                                  </span>
+                              </div>
+                              <div>
+                                <SectionHeading
+                                  size="md"
+                                  className="text-coffee-700 mb-4"
+                                >
+                                  Farming Information
+                                </SectionHeading>
+                                <div className="space-y-4">
+                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
+                                    <Clock className="text-coffee-600 mr-3 h-5 w-5" />
+                                    <span className="text-coffee-800">
+                                      Harvest Season:{' '}
+                                      <span className="font-semibold">
+                                        {mockProduct.origin.harvestSeason}
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
+                                    <Award className="text-coffee-600 mr-3 h-5 w-5" />
+                                    <span className="text-coffee-800">
+                                      Farming Method:{' '}
+                                      <span className="font-semibold">
+                                        {mockProduct.origin.farmingMethod}
+                                      </span>
+                                    </span>
+                                  </div>
+                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
+                                    <Scale className="text-coffee-600 mr-3 h-5 w-5" />
+                                    <span className="text-coffee-800">
+                                      Production Capacity:{' '}
+                                      <span className="font-semibold">
+                                        {
+                                          mockProduct.availability
+                                            .productionCapacity
+                                        }
+                                      </span>
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
 
-                          <SectionHeading
-                            size="md"
-                            className="mb-4 mt-8 text-coffee-700"
-                          >
-                            Packaging Options
-                          </SectionHeading>
-                          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                            {mockProduct.packaging.options.map(
-                              (option, index) => (
+                      <TabsContent value="quality" className="mt-6">
+                        <Card className="shadow-md">
+                          <CardContent className="p-6">
+                            <SectionHeading
+                              size="lg"
+                              className="text-coffee-800 mb-6"
+                            >
+                              Quality Test Results
+                            </SectionHeading>
+                            <div className="space-y-4">
+                              {mockProduct.qualityTests.map((test, index) => (
                                 <div
                                   key={index}
-                                  className="rounded-lg border border-coffee-200 bg-gradient-to-br from-coffee-50 to-gold-50 p-4"
+                                  className="border-coffee-200 from-coffee-50 to-gold-50 flex items-center justify-between rounded-lg border bg-gradient-to-r p-4"
                                 >
-                                  <div className="mb-3 flex items-center">
-                                    <Package className="mr-2 h-5 w-5 text-coffee-600" />
-                                    <span className="font-semibold text-coffee-800">
-                                      {option.type}
-                                    </span>
-                                  </div>
-                                  <p className="mb-1 text-sm font-medium text-coffee-700">
-                                    {option.weight}
-                                  </p>
-                                  <p className="text-xs text-coffee-600">
-                                    {option.description}
-                                  </p>
-                                </div>
-                              )
-                            )}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </TabsContent>
-
-                    <TabsContent value="origin" className="mt-6">
-                      <Card className="shadow-md">
-                        <CardContent className="p-6">
-                          <SectionHeading
-                            size="lg"
-                            className="mb-6 text-coffee-800"
-                          >
-                            Origin Information
-                          </SectionHeading>
-                          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                            <div>
-                              <SectionHeading
-                                size="md"
-                                className="mb-4 text-coffee-700"
-                              >
-                                Location Details
-                              </SectionHeading>
-                              <div className="space-y-4">
-                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
-                                  <Globe className="mr-3 h-5 w-5 text-coffee-600" />
-                                  <span className="text-coffee-800">
-                                    Country:{' '}
-                                    <span className="font-semibold">
-                                      {mockProduct.origin.country}
-                                    </span>
-                                  </span>
-                                </div>
-                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
-                                  <MapPin className="mr-3 h-5 w-5 text-coffee-600" />
-                                  <span className="text-coffee-800">
-                                    Region:{' '}
-                                    <span className="font-semibold">
-                                      {mockProduct.origin.region},{' '}
-                                      {mockProduct.origin.province}
-                                    </span>
-                                  </span>
-                                </div>
-                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
-                                  <Thermometer className="mr-3 h-5 w-5 text-coffee-600" />
-                                  <span className="text-coffee-800">
-                                    Altitude:{' '}
-                                    <span className="font-semibold">
-                                      {mockProduct.origin.altitude}m above sea
-                                      level
-                                    </span>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <SectionHeading
-                                size="md"
-                                className="mb-4 text-coffee-700"
-                              >
-                                Farming Information
-                              </SectionHeading>
-                              <div className="space-y-4">
-                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
-                                  <Clock className="mr-3 h-5 w-5 text-coffee-600" />
-                                  <span className="text-coffee-800">
-                                    Harvest Season:{' '}
-                                    <span className="font-semibold">
-                                      {mockProduct.origin.harvestSeason}
-                                    </span>
-                                  </span>
-                                </div>
-                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
-                                  <Award className="mr-3 h-5 w-5 text-coffee-600" />
-                                  <span className="text-coffee-800">
-                                    Farming Method:{' '}
-                                    <span className="font-semibold">
-                                      {mockProduct.origin.farmingMethod}
-                                    </span>
-                                  </span>
-                                </div>
-                                <div className="flex items-center rounded-lg bg-coffee-50 p-3">
-                                  <Scale className="mr-3 h-5 w-5 text-coffee-600" />
-                                  <span className="text-coffee-800">
-                                    Production Capacity:{' '}
-                                    <span className="font-semibold">
-                                      {
-                                        mockProduct.availability
-                                          .productionCapacity
-                                      }
-                                    </span>
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </TabsContent>
-
-                    <TabsContent value="quality" className="mt-6">
-                      <Card className="shadow-md">
-                        <CardContent className="p-6">
-                          <SectionHeading
-                            size="lg"
-                            className="mb-6 text-coffee-800"
-                          >
-                            Quality Test Results
-                          </SectionHeading>
-                          <div className="space-y-4">
-                            {mockProduct.qualityTests.map((test, index) => (
-                              <div
-                                key={index}
-                                className="flex items-center justify-between rounded-lg border border-coffee-200 bg-gradient-to-r from-coffee-50 to-gold-50 p-4"
-                              >
-                                <div>
-                                  <p className="font-semibold text-coffee-800">
-                                    {test.parameter}
-                                  </p>
-                                  <p className="text-sm text-coffee-600">
-                                    Standard: {test.standard}
-                                  </p>
-                                </div>
-                                <div className="text-right">
-                                  <p className="font-semibold text-coffee-800">
-                                    {test.value}
-                                  </p>
-                                  <div className="flex items-center">
-                                    <CheckCircle className="mr-1 h-4 w-4 text-green-600" />
-                                    <span className="text-sm font-medium text-green-600">
-                                      {test.status}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </TabsContent>
-
-                    <TabsContent value="documents" className="mt-6">
-                      <Card className="shadow-md">
-                        <CardContent className="p-6">
-                          <SectionHeading
-                            size="lg"
-                            className="mb-6 text-coffee-800"
-                          >
-                            Available Documents
-                          </SectionHeading>
-                          <div className="space-y-4">
-                            {mockProduct.documents.map(doc => (
-                              <div
-                                key={`doc-${doc.name}`}
-                                className="flex items-center justify-between rounded-lg border border-coffee-200 bg-gradient-to-r from-coffee-50 to-gold-50 p-4"
-                              >
-                                <div className="flex items-center">
-                                  <FileText className="mr-3 h-5 w-5 text-coffee-600" />
                                   <div>
-                                    <p className="font-semibold text-coffee-800">
-                                      {doc.name}
+                                    <p className="text-coffee-800 font-semibold">
+                                      {test.parameter}
                                     </p>
-                                    <p className="text-sm text-coffee-600">
-                                      {doc.type} • {doc.size}
+                                    <p className="text-coffee-600 text-sm">
+                                      Standard: {test.standard}
                                     </p>
                                   </div>
+                                  <div className="text-right">
+                                    <p className="text-coffee-800 font-semibold">
+                                      {test.value}
+                                    </p>
+                                    <div className="flex items-center">
+                                      <CheckCircle className="mr-1 h-4 w-4 text-green-600" />
+                                      <span className="text-sm font-medium text-green-600">
+                                        {test.status}
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
-                                <Button variant="outline" size="sm">
-                                  <Download className="mr-2 h-4 w-4" />
-                                  Download
-                                </Button>
-                              </div>
-                            ))}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </TabsContent>
-                  </Tabs>
-                </CardContent>
-              </Card>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
+
+                      <TabsContent value="documents" className="mt-6">
+                        <Card className="shadow-md">
+                          <CardContent className="p-6">
+                            <SectionHeading
+                              size="lg"
+                              className="text-coffee-800 mb-6"
+                            >
+                              Available Documents
+                            </SectionHeading>
+                            <div className="space-y-4">
+                              {mockProduct.documents.map(doc => (
+                                <div
+                                  key={`doc-${doc.name}`}
+                                  className="border-coffee-200 from-coffee-50 to-gold-50 flex items-center justify-between rounded-lg border bg-gradient-to-r p-4"
+                                >
+                                  <div className="flex items-center">
+                                    <FileText className="text-coffee-600 mr-3 h-5 w-5" />
+                                    <div>
+                                      <p className="text-coffee-800 font-semibold">
+                                        {doc.name}
+                                      </p>
+                                      <p className="text-coffee-600 text-sm">
+                                        {doc.type} • {doc.size}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <Button variant="outline" size="sm">
+                                    <Download className="mr-2 h-4 w-4" />
+                                    Download
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
+                    </Tabs>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-          </div>
-        </ContentContainer>
-      </ContentSection>
+          </ContentContainer>
+        </ContentSection>
 
-      {/* Related Products */}
-      <ContentSection className="mt-12">
-        <ContentContainer>
-          <SectionHeading
-            size="xl"
-            className="mb-8 text-center text-coffee-800"
-          >
-            Related Products
-          </SectionHeading>
-          <ProductGrid>
-            {[1, 2, 3].map(i => (
-              <ProductCard
-                key={i}
-                title="The Great Beans Premium Robusta Grade 1"
-                description="High-quality natural processed Robusta from Dak Lak province"
-                image="/images/coffee-beans-placeholder.jpg"
-                price="$2.85/kg"
-                features={[
-                  'Grade 1 Quality',
-                  'Dak Lak Province Origin',
-                  'Organic Certified',
-                  'Fair Trade Certified',
-                  'Wet Process Method'
-                ]}
-                badges={
-                  <div className="flex gap-1">
-                    <Badge variant="secondary" className="text-xs">In Stock</Badge>
-                  </div>
-                }
-              />
-            ))}
-          </ProductGrid>
+        {/* Related Products */}
+        <ContentSection className="mt-12">
+          <ContentContainer>
+            <SectionHeading
+              size="xl"
+              className="text-coffee-800 mb-8 text-center"
+            >
+              Related Products
+            </SectionHeading>
+            <ProductGrid>
+              {[1, 2, 3].map(i => (
+                <ProductCard
+                  key={i}
+                  title="The Great Beans Premium Robusta Grade 1"
+                  description="High-quality natural processed Robusta from Dak Lak province"
+                  image="/images/coffee-beans-placeholder.jpg"
+                  price="$2.85/kg"
+                  features={[
+                    'Grade 1 Quality',
+                    'Dak Lak Province Origin',
+                    'Organic Certified',
+                    'Fair Trade Certified',
+                    'Wet Process Method',
+                  ]}
+                  badges={
+                    <div className="flex gap-1">
+                      <Badge variant="secondary" className="text-xs">
+                        In Stock
+                      </Badge>
+                    </div>
+                  }
+                />
+              ))}
+            </ProductGrid>
 
-          <div className="mt-8 text-center">
-            <Link href={`/${locale}/products`}>
-              <CoffeeButton size="lg">View All Products</CoffeeButton>
-            </Link>
-          </div>
-        </ContentContainer>
-      </ContentSection>
-    </div>
+            <div className="mt-8 text-center">
+              <Link href={`/${locale}/products`}>
+                <CoffeeButton size="lg">View All Products</CoffeeButton>
+              </Link>
+            </div>
+          </ContentContainer>
+        </ContentSection>
+      </div>
     </>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, type ReactNode } from 'react';
+
 import { cn } from '@/lib/utils';
 
 interface LazySectionProps {
@@ -26,7 +27,7 @@ interface LazySectionProps {
 
 /**
  * Lazy loading component that renders content only when it enters the viewport
- * 
+ *
  * Features:
  * - Intersection Observer API for efficient viewport detection
  * - Customizable loading states and animations
@@ -55,7 +56,7 @@ export function LazySection({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry && entry.isIntersecting) {
           if (delay > 0) {
             setTimeout(() => {
               setIsVisible(true);
@@ -92,24 +93,23 @@ export function LazySection({
       const timer = setTimeout(() => setIsLoaded(true), 50);
       return () => clearTimeout(timer);
     }
+
+    // Return undefined for consistency
+    return undefined;
   }, [isVisible, isLoaded]);
 
-  const containerStyle = minHeight 
-    ? { minHeight: typeof minHeight === 'number' ? `${minHeight}px` : minHeight }
+  const containerStyle = minHeight
+    ? {
+        minHeight: typeof minHeight === 'number' ? `${minHeight}px` : minHeight,
+      }
     : undefined;
 
   return (
-    <div
-      ref={ref}
-      className={cn('relative', className)}
-      style={containerStyle}
-    >
+    <div ref={ref} className={cn('relative', className)} style={containerStyle}>
       {isVisible ? (
-        <div className={cn(isLoaded && animationClass)}>
-          {children}
-        </div>
+        <div className={cn(isLoaded && animationClass)}>{children}</div>
       ) : (
-        fallback || <LazyFallback minHeight={minHeight} />
+        fallback || <LazyFallback {...(minHeight && { minHeight })} />
       )}
     </div>
   );
@@ -119,17 +119,19 @@ export function LazySection({
  * Default loading fallback component
  */
 function LazyFallback({ minHeight }: { minHeight?: string | number }) {
-  const style = minHeight 
-    ? { minHeight: typeof minHeight === 'number' ? `${minHeight}px` : minHeight }
+  const style = minHeight
+    ? {
+        minHeight: typeof minHeight === 'number' ? `${minHeight}px` : minHeight,
+      }
     : { minHeight: '200px' };
 
   return (
-    <div 
-      className="flex items-center justify-center bg-gray-50 rounded-lg"
+    <div
+      className="flex items-center justify-center rounded-lg bg-gray-50"
       style={style}
     >
       <div className="flex items-center space-x-2 text-gray-400">
-        <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-gray-600"></div>
+        <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600"></div>
         <span className="text-sm">Loading...</span>
       </div>
     </div>
@@ -152,8 +154,10 @@ export function LazyImageSection({
       {...props}
       className={cn(aspectRatio, className)}
       fallback={
-        <div className={cn('bg-gray-200 animate-pulse rounded-lg', aspectRatio)}>
-          <div className="flex items-center justify-center h-full">
+        <div
+          className={cn('animate-pulse rounded-lg bg-gray-200', aspectRatio)}
+        >
+          <div className="flex h-full items-center justify-center">
             <svg
               className="h-8 w-8 text-gray-400"
               fill="none"
@@ -190,14 +194,14 @@ export function LazyTextSection({
   return (
     <LazySection
       {...props}
-      className={className}
+      {...(className && { className })}
       fallback={
         <div className="space-y-2">
           {Array.from({ length: lines }).map((_, i) => (
             <div
               key={i}
               className={cn(
-                'h-4 bg-gray-200 rounded animate-pulse',
+                'h-4 animate-pulse rounded bg-gray-200',
                 i === lines - 1 ? 'w-3/4' : 'w-full'
               )}
             />
@@ -223,25 +227,26 @@ export function LazyCardGrid({
   cardCount?: number;
   columns?: number;
 }) {
-  const gridClass = {
-    1: 'grid-cols-1',
-    2: 'grid-cols-1 md:grid-cols-2',
-    3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-    4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-  }[columns] || 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
+  const gridClass =
+    {
+      1: 'grid-cols-1',
+      2: 'grid-cols-1 md:grid-cols-2',
+      3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+      4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+    }[columns] || 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
 
   return (
     <LazySection
       {...props}
-      className={className}
+      {...(className && { className })}
       fallback={
         <div className={cn('grid gap-6', gridClass)}>
           {Array.from({ length: cardCount }).map((_, i) => (
             <div key={i} className="space-y-4">
-              <div className="aspect-video bg-gray-200 rounded-lg animate-pulse" />
+              <div className="aspect-video animate-pulse rounded-lg bg-gray-200" />
               <div className="space-y-2">
-                <div className="h-4 bg-gray-200 rounded animate-pulse" />
-                <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
+                <div className="h-4 animate-pulse rounded bg-gray-200" />
+                <div className="h-4 w-3/4 animate-pulse rounded bg-gray-200" />
               </div>
             </div>
           ))}
@@ -270,7 +275,7 @@ export function useLazyLoading(
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry && entry.isIntersecting) {
           setIsVisible(true);
           if (once) {
             observer.unobserve(element);

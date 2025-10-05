@@ -82,7 +82,11 @@ export const MarketChart: React.FC<MarketChartProps> = ({
     return value.toLocaleString();
   };
 
-  const CustomTooltip = ({ active, payload, label }: {
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: {
     active?: boolean;
     payload?: Array<{
       name?: string;
@@ -140,9 +144,13 @@ export const MarketChart: React.FC<MarketChartProps> = ({
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }: { name?: string | undefined; percent?: number | undefined }) =>
-                  `${name ?? ''} ${((percent ?? 0) * 100).toFixed(0)}%`
-                }
+                label={({
+                  name,
+                  percent,
+                }: {
+                  name?: string | undefined;
+                  percent?: number | undefined;
+                }) => `${name ?? ''} ${((percent ?? 0) * 100).toFixed(0)}%`}
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey={yAxisKey}
@@ -162,7 +170,7 @@ export const MarketChart: React.FC<MarketChartProps> = ({
 
       default: // line
         const lineColor = colors?.[0] ?? defaultColors[0] ?? '#8B4513';
-        
+
         return (
           <ResponsiveContainer width="100%" height={height}>
             <LineChart
@@ -182,7 +190,12 @@ export const MarketChart: React.FC<MarketChartProps> = ({
                 stroke={lineColor}
                 strokeWidth={3}
                 dot={{ fill: lineColor, strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, stroke: lineColor, strokeWidth: 2, fill: lineColor }}
+                activeDot={{
+                  r: 6,
+                  stroke: lineColor,
+                  strokeWidth: 2,
+                  fill: lineColor,
+                }}
               />
             </LineChart>
           </ResponsiveContainer>

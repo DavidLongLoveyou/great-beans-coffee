@@ -1,5 +1,6 @@
 import { RFQEntity } from '@/domain/entities/rfq.entity';
 import { IRFQRepository } from '@/domain/repositories/rfq.repository';
+import { createScopedLogger } from '@/shared/utils/logger';
 
 export interface GetRfqsRequest {
   page?: number;
@@ -24,6 +25,8 @@ export interface GetRfqsResponse {
 }
 
 export class GetRfqsUseCase {
+  private logger = createScopedLogger('GetRfqsUseCase');
+
   constructor(private rfqRepository: IRFQRepository) {}
 
   async execute(request: GetRfqsRequest = {}): Promise<GetRfqsResponse> {
@@ -118,7 +121,7 @@ export class GetRfqsUseCase {
         message: 'RFQs retrieved successfully',
       };
     } catch (error) {
-      console.error('Error getting RFQs:', error);
+      this.logger.error('Error getting RFQs:', error);
       return {
         rfqs: [],
         total: 0,

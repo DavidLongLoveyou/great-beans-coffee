@@ -1,5 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
+
+import { createScopedLogger } from '@/shared/utils/logger';
+
+const logger = createScopedLogger('WebVitalsAPI');
 
 // Web Vitals metric interface
 interface WebVitalMetric {
@@ -34,26 +38,27 @@ const THRESHOLDS = {
 // Validate metric data
 function validateMetric(metric: WebVitalMetric): boolean {
   const { name, value, rating } = metric;
-  
+
   // Check if metric name is valid
   if (!Object.keys(THRESHOLDS).includes(name)) {
     return false;
   }
-  
+
   // Check if value is a positive number
   if (typeof value !== 'number' || value < 0) {
     return false;
   }
-  
+
   // Check if rating is valid
   if (!['good', 'needs-improvement', 'poor'].includes(rating)) {
     return false;
   }
-  
+
   // Validate value ranges (basic sanity checks)
   if (name === 'CLS' && value > 5) return false; // CLS should not exceed 5
-  if (['LCP', 'FCP', 'FID', 'TTFB'].includes(name) && value > 60000) return false; // Should not exceed 60 seconds
-  
+  if (['LCP', 'FCP', 'FID', 'TTFB'].includes(name) && value > 60000)
+    return false; // Should not exceed 60 seconds
+
   return true;
 }
 
@@ -62,11 +67,11 @@ function getClientIP(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for');
   const realIP = request.headers.get('x-real-ip');
   const clientIP = request.headers.get('x-client-ip');
-  
+
   if (forwarded) {
     return forwarded.split(',')[0]?.trim() || 'unknown';
   }
-  
+
   return realIP || clientIP || 'unknown';
 }
 
@@ -79,16 +84,16 @@ function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const key = ip;
   const current = rateLimitStore.get(key);
-  
+
   if (!current || now > current.resetTime) {
     rateLimitStore.set(key, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
     return true;
   }
-  
+
   if (current.count >= RATE_LIMIT_MAX_REQUESTS) {
     return false;
   }
-  
+
   current.count++;
   return true;
 }
@@ -110,7 +115,7 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const payload: AnalyticsPayload = await request.json();
-    
+
     // Validate required fields
     if (!payload.metric || !payload.timestamp || !payload.url) {
       return NextResponse.json(
@@ -118,7 +123,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Validate metric data
     if (!validateMetric(payload.metric)) {
       return NextResponse.json(
@@ -126,17 +131,14 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Validate timestamp (should be within last 24 hours)
     const now = Date.now();
-    const dayAgo = now - (24 * 60 * 60 * 1000);
+    const dayAgo = now - 24 * 60 * 60 * 1000;
     if (payload.timestamp < dayAgo || payload.timestamp > now + 60000) {
-      return NextResponse.json(
-        { error: 'Invalid timestamp' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid timestamp' }, { status: 400 });
     }
-    
+
     // Validate URL (should be from same origin in production)
     try {
       const url = new URL(payload.url);
@@ -150,28 +152,28 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     // Enrich payload with server-side data
     const sessionId = request.headers.get('x-session-id');
     const userId = request.headers.get('x-user-id');
-    
+
     const enrichedPayload: AnalyticsPayload = {
       ...payload,
       ...(sessionId && { sessionId }),
       ...(userId && { userId }),
     };
-    
+
     // Store the metric (in production, save to database)
     metricsStore.push(enrichedPayload);
-    
+
     // Keep only last 10000 metrics in memory
     if (metricsStore.length > 10000) {
       metricsStore.splice(0, metricsStore.length - 10000);
     }
-    
+
     // Log for debugging (remove in production)
     if (process.env.NODE_ENV === 'development') {
-      console.log('[Web Vitals]', {
+      logger.info('[Web Vitals]', {
         metric: payload.metric.name,
         value: payload.metric.value,
         rating: payload.metric.rating,
@@ -179,21 +181,20 @@ export async function POST(request: NextRequest) {
         timestamp: new Date(payload.timestamp).toISOString(),
       });
     }
-    
+
     // Send to external analytics services if configured
     await Promise.allSettled([
       // Send to Google Analytics 4 (server-side)
       sendToGA4(enrichedPayload),
-      
+
       // Send to other analytics services
       // sendToDatadog(enrichedPayload),
       // sendToNewRelic(enrichedPayload),
     ]);
-    
+
     return NextResponse.json({ success: true }, { status: 200 });
-    
   } catch (error) {
-    console.error('[Web Vitals API] Error processing request:', error);
+    logger.error('[Web Vitals API] Error processing request:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -207,79 +208,82 @@ export async function GET(request: NextRequest) {
     // Check authorization (implement proper auth in production)
     const authHeader = request.headers.get('authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    
+
     // Get query parameters
     const { searchParams } = new URL(request.url);
     const timeframe = searchParams.get('timeframe') || '24h';
     const metric = searchParams.get('metric');
     const url = searchParams.get('url');
-    
+
     // Calculate time range
     const now = Date.now();
     let startTime: number;
-    
+
     switch (timeframe) {
       case '1h':
-        startTime = now - (60 * 60 * 1000);
+        startTime = now - 60 * 60 * 1000;
         break;
       case '24h':
-        startTime = now - (24 * 60 * 60 * 1000);
+        startTime = now - 24 * 60 * 60 * 1000;
         break;
       case '7d':
-        startTime = now - (7 * 24 * 60 * 60 * 1000);
+        startTime = now - 7 * 24 * 60 * 60 * 1000;
         break;
       case '30d':
-        startTime = now - (30 * 24 * 60 * 60 * 1000);
+        startTime = now - 30 * 24 * 60 * 60 * 1000;
         break;
       default:
-        startTime = now - (24 * 60 * 60 * 1000);
+        startTime = now - 24 * 60 * 60 * 1000;
     }
-    
+
     // Filter metrics
     let filteredMetrics = metricsStore.filter(m => m.timestamp >= startTime);
-    
+
     if (metric) {
       filteredMetrics = filteredMetrics.filter(m => m.metric.name === metric);
     }
-    
+
     if (url) {
       filteredMetrics = filteredMetrics.filter(m => m.url.includes(url));
     }
-    
+
     // Aggregate data
     const aggregated = {
       totalSamples: filteredMetrics.length,
       timeframe,
-      metrics: {} as Record<string, {
-        count: number;
-        average: number;
-        median: number;
-        p75: number;
-        p95: number;
-        good: number;
-        needsImprovement: number;
-        poor: number;
-      }>,
+      metrics: {} as Record<
+        string,
+        {
+          count: number;
+          average: number;
+          median: number;
+          p75: number;
+          p95: number;
+          good: number;
+          needsImprovement: number;
+          poor: number;
+        }
+      >,
     };
-    
+
     // Group by metric name
-    const groupedMetrics = filteredMetrics.reduce((acc, item) => {
-      const name = item.metric.name;
-      if (!acc[name]) acc[name] = [];
-      acc[name].push(item);
-      return acc;
-    }, {} as Record<string, AnalyticsPayload[]>);
-    
+    const groupedMetrics = filteredMetrics.reduce(
+      (acc, item) => {
+        const name = item.metric.name;
+        if (!acc[name]) acc[name] = [];
+        acc[name].push(item);
+        return acc;
+      },
+      {} as Record<string, AnalyticsPayload[]>
+    );
+
     // Calculate statistics for each metric
     Object.entries(groupedMetrics).forEach(([name, items]) => {
       const values = items.map(item => item.metric.value).sort((a, b) => a - b);
       const ratings = items.map(item => item.metric.rating);
-      
+
       aggregated.metrics[name] = {
         count: values.length,
         average: values.reduce((sum, val) => sum + val, 0) / values.length,
@@ -291,11 +295,10 @@ export async function GET(request: NextRequest) {
         poor: ratings.filter(r => r === 'poor').length,
       };
     });
-    
+
     return NextResponse.json(aggregated, { status: 200 });
-    
   } catch (error) {
-    console.error('[Web Vitals API] Error retrieving metrics:', error);
+    logger.error('[Web Vitals API] Error retrieving metrics:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -308,7 +311,7 @@ async function sendToGA4(payload: AnalyticsPayload) {
   if (!process.env.GA4_MEASUREMENT_ID || !process.env.GA4_API_SECRET) {
     return;
   }
-  
+
   try {
     const response = await fetch(
       `https://www.google-analytics.com/mp/collect?measurement_id=${process.env.GA4_MEASUREMENT_ID}&api_secret=${process.env.GA4_API_SECRET}`,
@@ -325,8 +328,8 @@ async function sendToGA4(payload: AnalyticsPayload) {
               params: {
                 metric_name: payload.metric.name,
                 metric_value: Math.round(
-                  payload.metric.name === 'CLS' 
-                    ? payload.metric.value * 1000 
+                  payload.metric.name === 'CLS'
+                    ? payload.metric.value * 1000
                     : payload.metric.value
                 ),
                 metric_rating: payload.metric.rating,
@@ -341,11 +344,14 @@ async function sendToGA4(payload: AnalyticsPayload) {
         }),
       }
     );
-    
+
     if (!response.ok) {
-      console.error('[GA4] Failed to send Web Vitals data:', response.statusText);
+      logger.error(
+        '[GA4] Failed to send Web Vitals data:',
+        response.statusText
+      );
     }
   } catch (error) {
-    console.error('[GA4] Error sending Web Vitals data:', error);
+    logger.error('[GA4] Error sending Web Vitals data:', error);
   }
 }

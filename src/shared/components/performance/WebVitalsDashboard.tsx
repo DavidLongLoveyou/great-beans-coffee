@@ -1,29 +1,44 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/presentation/components/ui/card';
-import { Badge } from '@/presentation/components/ui/badge';
-import { Progress } from '@/presentation/components/ui/progress';
-import { Button } from '@/presentation/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/presentation/components/ui/tabs';
-import { 
-  coreWebVitalsOptimizer, 
-  type WebVitalsMetric,
-  getWebVitalsScore 
-} from '@/shared/utils/core-web-vitals';
-import { cn } from '@/lib/utils';
-import { 
-  Activity, 
-  Clock, 
-  Zap, 
-  Eye, 
-  Gauge, 
-  TrendingUp, 
+import {
+  Activity,
+  Clock,
+  Zap,
+  Eye,
+  Gauge,
+  TrendingUp,
   AlertTriangle,
   CheckCircle,
   XCircle,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+
+import { cn } from '@/lib/utils';
+import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/presentation/components/ui/card';
+import { Progress } from '@/presentation/components/ui/progress';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/presentation/components/ui/tabs';
+import {
+  coreWebVitalsOptimizer,
+  type WebVitalsMetric,
+  getWebVitalsScore,
+} from '@/shared/utils/core-web-vitals';
+import { createScopedLogger } from '@/shared/utils/logger';
+
+const logger = createScopedLogger('WebVitalsDashboard');
 
 interface WebVitalsDashboardProps {
   /** Whether to show the dashboard in development mode only */
@@ -46,10 +61,14 @@ export function WebVitalsDashboard({
   startMinimized = true,
   className,
 }: WebVitalsDashboardProps) {
-  const [metrics, setMetrics] = useState<Map<string, WebVitalsMetric>>(new Map());
+  const [metrics, setMetrics] = useState<Map<string, WebVitalsMetric>>(
+    new Map()
+  );
   const [performanceScore, setPerformanceScore] = useState(getWebVitalsScore());
   const [isMinimized, setIsMinimized] = useState(startMinimized);
-  const [isVisible, setIsVisible] = useState(!developmentOnly || process.env.NODE_ENV === 'development');
+  const [isVisible, setIsVisible] = useState(
+    !developmentOnly || process.env.NODE_ENV === 'development'
+  );
 
   // Update metrics periodically
   useEffect(() => {
@@ -58,7 +77,7 @@ export function WebVitalsDashboard({
     const updateMetrics = () => {
       const currentMetrics = coreWebVitalsOptimizer.getMetrics();
       const currentScore = getWebVitalsScore();
-      
+
       setMetrics(currentMetrics);
       setPerformanceScore(currentScore);
     };
@@ -83,30 +102,45 @@ export function WebVitalsDashboard({
 
   const getRatingColor = (rating: string) => {
     switch (rating) {
-      case 'good': return 'text-green-600 bg-green-50 border-green-200';
-      case 'needs-improvement': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'poor': return 'text-red-600 bg-red-50 border-red-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'good':
+        return 'text-green-600 bg-green-50 border-green-200';
+      case 'needs-improvement':
+        return 'text-yellow-600 bg-yellow-50 border-yellow-200';
+      case 'poor':
+        return 'text-red-600 bg-red-50 border-red-200';
+      default:
+        return 'text-gray-600 bg-gray-50 border-gray-200';
     }
   };
 
   const getRatingIcon = (rating: string) => {
     switch (rating) {
-      case 'good': return <CheckCircle className="h-4 w-4" />;
-      case 'needs-improvement': return <AlertTriangle className="h-4 w-4" />;
-      case 'poor': return <XCircle className="h-4 w-4" />;
-      default: return <Activity className="h-4 w-4" />;
+      case 'good':
+        return <CheckCircle className="h-4 w-4" />;
+      case 'needs-improvement':
+        return <AlertTriangle className="h-4 w-4" />;
+      case 'poor':
+        return <XCircle className="h-4 w-4" />;
+      default:
+        return <Activity className="h-4 w-4" />;
     }
   };
 
   const getMetricIcon = (metricName: string) => {
     switch (metricName) {
-      case 'LCP': return <Eye className="h-4 w-4" />;
-      case 'FID': case 'INP': return <Zap className="h-4 w-4" />;
-      case 'CLS': return <Activity className="h-4 w-4" />;
-      case 'FCP': return <TrendingUp className="h-4 w-4" />;
-      case 'TTFB': return <Clock className="h-4 w-4" />;
-      default: return <Gauge className="h-4 w-4" />;
+      case 'LCP':
+        return <Eye className="h-4 w-4" />;
+      case 'FID':
+      case 'INP':
+        return <Zap className="h-4 w-4" />;
+      case 'CLS':
+        return <Activity className="h-4 w-4" />;
+      case 'FCP':
+        return <TrendingUp className="h-4 w-4" />;
+      case 'TTFB':
+        return <Clock className="h-4 w-4" />;
+      default:
+        return <Gauge className="h-4 w-4" />;
     }
   };
 
@@ -127,13 +161,20 @@ export function WebVitalsDashboard({
 
   const getMetricDescription = (metricName: string) => {
     switch (metricName) {
-      case 'LCP': return 'Largest Contentful Paint - Time to render the largest content element';
-      case 'FID': return 'First Input Delay - Time from first user interaction to browser response';
-      case 'INP': return 'Interaction to Next Paint - Responsiveness to user interactions';
-      case 'CLS': return 'Cumulative Layout Shift - Visual stability of the page';
-      case 'FCP': return 'First Contentful Paint - Time to first content render';
-      case 'TTFB': return 'Time to First Byte - Server response time';
-      default: return 'Performance metric';
+      case 'LCP':
+        return 'Largest Contentful Paint - Time to render the largest content element';
+      case 'FID':
+        return 'First Input Delay - Time from first user interaction to browser response';
+      case 'INP':
+        return 'Interaction to Next Paint - Responsiveness to user interactions';
+      case 'CLS':
+        return 'Cumulative Layout Shift - Visual stability of the page';
+      case 'FCP':
+        return 'First Contentful Paint - Time to first content render';
+      case 'TTFB':
+        return 'Time to First Byte - Server response time';
+      default:
+        return 'Performance metric';
     }
   };
 
@@ -142,11 +183,13 @@ export function WebVitalsDashboard({
 
   if (isMinimized) {
     return (
-      <div className={cn(
-        'fixed z-50 transition-all duration-300',
-        positionClasses[position],
-        className
-      )}>
+      <div
+        className={cn(
+          'fixed z-50 transition-all duration-300',
+          positionClasses[position],
+          className
+        )}
+      >
         <Button
           onClick={() => setIsMinimized(false)}
           variant="outline"
@@ -156,7 +199,7 @@ export function WebVitalsDashboard({
             getRatingColor(performanceScore.rating)
           )}
         >
-          <Gauge className="h-4 w-4 mr-2" />
+          <Gauge className="mr-2 h-4 w-4" />
           {Math.round(performanceScore.score)}%
           {getRatingIcon(performanceScore.rating)}
         </Button>
@@ -165,12 +208,14 @@ export function WebVitalsDashboard({
   }
 
   return (
-    <div className={cn(
-      'fixed z-50 w-96 max-h-[80vh] overflow-hidden transition-all duration-300',
-      positionClasses[position],
-      className
-    )}>
-      <Card className="shadow-xl backdrop-blur-sm bg-white/95">
+    <div
+      className={cn(
+        'fixed z-50 max-h-[80vh] w-96 overflow-hidden transition-all duration-300',
+        positionClasses[position],
+        className
+      )}
+    >
+      <Card className="bg-white/95 shadow-xl backdrop-blur-sm">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
@@ -178,9 +223,12 @@ export function WebVitalsDashboard({
               <CardTitle className="text-lg">Web Vitals</CardTitle>
             </div>
             <div className="flex items-center space-x-2">
-              <Badge 
-                variant="outline" 
-                className={cn('text-xs', getRatingColor(performanceScore.rating))}
+              <Badge
+                variant="outline"
+                className={cn(
+                  'text-xs',
+                  getRatingColor(performanceScore.rating)
+                )}
               >
                 {Math.round(performanceScore.score)}%
               </Badge>
@@ -206,15 +254,20 @@ export function WebVitalsDashboard({
               <TabsTrigger value="additional">Additional</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="core" className="space-y-3 mt-4">
+            <TabsContent value="core" className="mt-4 space-y-3">
               {coreMetrics.map(metricName => {
                 const metric = metrics.get(metricName);
                 if (!metric) {
                   return (
-                    <div key={metricName} className="flex items-center justify-between p-3 rounded-lg bg-gray-50">
+                    <div
+                      key={metricName}
+                      className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+                    >
                       <div className="flex items-center space-x-2">
                         {getMetricIcon(metricName)}
-                        <span className="font-medium text-sm">{metricName}</span>
+                        <span className="text-sm font-medium">
+                          {metricName}
+                        </span>
                       </div>
                       <Badge variant="outline" className="text-xs">
                         Measuring...
@@ -224,14 +277,19 @@ export function WebVitalsDashboard({
                 }
 
                 return (
-                  <div key={metricName} className={cn(
-                    'p-3 rounded-lg border',
-                    getRatingColor(metric.rating)
-                  )}>
-                    <div className="flex items-center justify-between mb-2">
+                  <div
+                    key={metricName}
+                    className={cn(
+                      'rounded-lg border p-3',
+                      getRatingColor(metric.rating)
+                    )}
+                  >
+                    <div className="mb-2 flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         {getMetricIcon(metricName)}
-                        <span className="font-medium text-sm">{metricName}</span>
+                        <span className="text-sm font-medium">
+                          {metricName}
+                        </span>
                         {getRatingIcon(metric.rating)}
                       </div>
                       <span className="font-mono text-sm font-semibold">
@@ -246,15 +304,20 @@ export function WebVitalsDashboard({
               })}
             </TabsContent>
 
-            <TabsContent value="additional" className="space-y-3 mt-4">
+            <TabsContent value="additional" className="mt-4 space-y-3">
               {additionalMetrics.map(metricName => {
                 const metric = metrics.get(metricName);
                 if (!metric) {
                   return (
-                    <div key={metricName} className="flex items-center justify-between p-3 rounded-lg bg-gray-50">
+                    <div
+                      key={metricName}
+                      className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+                    >
                       <div className="flex items-center space-x-2">
                         {getMetricIcon(metricName)}
-                        <span className="font-medium text-sm">{metricName}</span>
+                        <span className="text-sm font-medium">
+                          {metricName}
+                        </span>
                       </div>
                       <Badge variant="outline" className="text-xs">
                         Measuring...
@@ -264,14 +327,19 @@ export function WebVitalsDashboard({
                 }
 
                 return (
-                  <div key={metricName} className={cn(
-                    'p-3 rounded-lg border',
-                    getRatingColor(metric.rating)
-                  )}>
-                    <div className="flex items-center justify-between mb-2">
+                  <div
+                    key={metricName}
+                    className={cn(
+                      'rounded-lg border p-3',
+                      getRatingColor(metric.rating)
+                    )}
+                  >
+                    <div className="mb-2 flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         {getMetricIcon(metricName)}
-                        <span className="font-medium text-sm">{metricName}</span>
+                        <span className="text-sm font-medium">
+                          {metricName}
+                        </span>
                         {getRatingIcon(metric.rating)}
                       </div>
                       <span className="font-mono text-sm font-semibold">
@@ -288,24 +356,21 @@ export function WebVitalsDashboard({
           </Tabs>
 
           {/* Performance Score */}
-          <div className="pt-3 border-t">
-            <div className="flex items-center justify-between mb-2">
+          <div className="border-t pt-3">
+            <div className="mb-2 flex items-center justify-between">
               <span className="text-sm font-medium">Overall Score</span>
               <Badge className={cn(getRatingColor(performanceScore.rating))}>
                 {performanceScore.rating}
               </Badge>
             </div>
-            <Progress 
-              value={performanceScore.score} 
-              className="h-2"
-            />
-            <p className="text-xs text-gray-600 mt-1">
+            <Progress value={performanceScore.score} className="h-2" />
+            <p className="mt-1 text-xs text-gray-600">
               Based on Core Web Vitals metrics
             </p>
           </div>
 
           {/* Quick Actions */}
-          <div className="pt-3 border-t">
+          <div className="border-t pt-3">
             <div className="flex space-x-2">
               <Button
                 onClick={() => window.location.reload()}
@@ -313,7 +378,7 @@ export function WebVitalsDashboard({
                 size="sm"
                 className="flex-1"
               >
-                <RefreshCw className="h-3 w-3 mr-1" />
+                <RefreshCw className="mr-1 h-3 w-3" />
                 Refresh
               </Button>
               <Button
@@ -324,7 +389,9 @@ export function WebVitalsDashboard({
                     metrics: Object.fromEntries(metrics),
                     timestamp: new Date().toISOString(),
                   };
-                  console.log('Web Vitals Report:', data);
+                  if (process.env.NODE_ENV === 'development') {
+                    logger.info('Web Vitals Report:', data);
+                  }
                 }}
                 variant="outline"
                 size="sm"
@@ -343,7 +410,7 @@ export function WebVitalsDashboard({
 /**
  * Web Vitals Provider component to initialize monitoring
  */
-export function WebVitalsProvider({ 
+export function WebVitalsProvider({
   children,
   showDashboard = false,
   dashboardProps = {},

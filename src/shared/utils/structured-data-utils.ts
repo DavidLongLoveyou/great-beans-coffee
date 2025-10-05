@@ -79,19 +79,26 @@ export function generateBlogCollectionSchema(
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: posts.length,
-      itemListElement: posts.map((post, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        url: `${baseUrl}/${locale}/blog/${post.slug}`,
-        name: post.title,
-        description: post.description,
-        image: post.image ? `${baseUrl}${post.image}` : undefined,
-        datePublished: post.publishedAt,
-        author: {
-          '@type': 'Person',
-          name: post.author,
-        },
-      })),
+      itemListElement: posts.map((post, index) => {
+        const item: any = {
+          '@type': 'ListItem',
+          position: index + 1,
+          url: `${baseUrl}/${locale}/blog/${post.slug}`,
+          name: post.title,
+          description: post.description,
+          datePublished: post.publishedAt,
+          author: {
+            '@type': 'Person',
+            name: post.author,
+          },
+        };
+
+        if (post.image) {
+          item.image = `${baseUrl}${post.image}`;
+        }
+
+        return item;
+      }),
     },
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -157,19 +164,26 @@ export function generateMarketReportsCollectionSchema(
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: reports.length,
-      itemListElement: reports.map((report, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        url: `${baseUrl}/${locale}/market-reports/${report.slug}`,
-        name: report.title,
-        description: report.description,
-        image: report.coverImage ? `${baseUrl}${report.coverImage}` : undefined,
-        datePublished: report.publishedAt,
-        author: {
-          '@type': 'Person',
-          name: report.author,
-        },
-      })),
+      itemListElement: reports.map((report, index) => {
+        const item: any = {
+          '@type': 'ListItem',
+          position: index + 1,
+          url: `${baseUrl}/${locale}/market-reports/${report.slug}`,
+          name: report.title,
+          description: report.description,
+          datePublished: report.publishedAt,
+          author: {
+            '@type': 'Person',
+            name: report.author,
+          },
+        };
+
+        if (report.coverImage) {
+          item.image = `${baseUrl}${report.coverImage}`;
+        }
+
+        return item;
+      }),
     },
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -225,14 +239,21 @@ export function generateOriginStoriesCollectionSchema(
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: stories.length,
-      itemListElement: stories.map((story, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        url: `${baseUrl}/${locale}/origin-stories/${story.slug}`,
-        name: story.title,
-        description: story.description,
-        image: story.coverImage ? `${baseUrl}${story.coverImage}` : undefined,
-      })),
+      itemListElement: stories.map((story, index) => {
+        const item: any = {
+          '@type': 'ListItem',
+          position: index + 1,
+          url: `${baseUrl}/${locale}/origin-stories/${story.slug}`,
+          name: story.title,
+          description: story.description,
+        };
+
+        if (story.coverImage) {
+          item.image = `${baseUrl}${story.coverImage}`;
+        }
+
+        return item;
+      }),
     },
     breadcrumb: {
       '@type': 'BreadcrumbList',

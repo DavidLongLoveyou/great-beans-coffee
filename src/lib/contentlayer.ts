@@ -1,4 +1,3 @@
-import type { Locale } from '@/i18n';
 import {
   allMarketReports,
   allOriginStories,
@@ -13,6 +12,8 @@ import type {
   BlogPost,
   LegalPage,
 } from 'contentlayer/generated';
+
+import type { Locale } from '@/i18n';
 
 // Type definitions for content collections
 export type ContentType =
@@ -236,8 +237,9 @@ export class ContentManager {
     const posts = this.getBlogPosts(locale);
     const categories = posts
       .map(post => post.category)
-      .filter((category, index, array) => 
-        category && array.indexOf(category) === index
+      .filter(
+        (category, index, array) =>
+          category && array.indexOf(category) === index
       );
     return categories.sort();
   }
@@ -250,7 +252,8 @@ export class ContentManager {
       .filter(page => page.locale === locale)
       .sort(
         (a, b) =>
-          new Date(b.lastModified).getTime() - new Date(a.lastModified).getTime()
+          new Date(b.lastModified).getTime() -
+          new Date(a.lastModified).getTime()
       );
   }
 
@@ -692,7 +695,9 @@ export class ContentManager {
       },
     };
 
-    return productIds.map(id => mockProducts[id]).filter(Boolean) as MockProduct[];
+    return productIds
+      .map(id => mockProducts[id])
+      .filter(Boolean) as MockProduct[];
   }
 
   /**
@@ -746,7 +751,9 @@ export class ContentManager {
       },
     };
 
-    return serviceIds.map(id => mockServices[id]).filter(Boolean) as MockService[];
+    return serviceIds
+      .map(id => mockServices[id])
+      .filter(Boolean) as MockService[];
   }
 }
 

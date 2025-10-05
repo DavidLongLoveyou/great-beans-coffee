@@ -1,5 +1,9 @@
 'use client';
 
+import { createScopedLogger } from '@/shared/utils/logger';
+
+const logger = createScopedLogger('AnalyticsProvider');
+
 import { usePathname, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 import React, {
@@ -165,8 +169,8 @@ export function AnalyticsProvider({
     setIsLoaded(true);
     initializedRef.current = true;
 
-    if (config.enableConsoleLogging) {
-      console.log('[Analytics] Google Analytics initialized');
+    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
+      logger.info('[Analytics] Google Analytics initialized');
     }
   };
 
@@ -179,8 +183,8 @@ export function AnalyticsProvider({
       page_location: url,
     });
 
-    if (config.enableConsoleLogging) {
-      console.log('[Analytics] Page view tracked:', { url, title });
+    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
+      logger.info('[Analytics] Page view tracked:', { url, title });
     }
   };
 
@@ -206,8 +210,8 @@ export function AnalyticsProvider({
 
     window.gtag('event', eventName, eventParams);
 
-    if (config.enableConsoleLogging) {
-      console.log('[Analytics] Event tracked:', { eventName, eventData });
+    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
+      logger.info('[Analytics] Event tracked:', { eventName, eventData });
     }
   };
 
@@ -217,8 +221,8 @@ export function AnalyticsProvider({
 
     window.gtag('event', eventName, eventData as any);
 
-    if (config.enableConsoleLogging) {
-      console.log('[Analytics] E-commerce event tracked:', {
+    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
+      logger.info('[Analytics] E-commerce event tracked:', {
         eventName,
         eventData,
       });
@@ -233,8 +237,8 @@ export function AnalyticsProvider({
       user_properties: properties,
     } as any);
 
-    if (config.enableConsoleLogging) {
-      console.log('[Analytics] User properties set:', properties);
+    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
+      logger.info('[Analytics] User properties set:', properties);
     }
   };
 
@@ -253,8 +257,8 @@ export function AnalyticsProvider({
       });
     }
 
-    if (config.enableConsoleLogging) {
-      console.log('[Analytics] Consent updated:', consent);
+    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
+      logger.info('[Analytics] Consent updated:', consent);
     }
   };
 

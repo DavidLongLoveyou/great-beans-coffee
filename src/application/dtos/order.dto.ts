@@ -1,14 +1,30 @@
 // Order DTOs for application layer communication
-import { CoffeeGrade, CoffeeVariety, ProcessingMethod, CoffeeCertification } from '@/shared/components/design-system/types';
+import {
+  CoffeeGrade,
+  CoffeeVariety,
+  ProcessingMethod,
+  CoffeeCertification,
+} from '@/shared/components/design-system/types';
 
 export interface OrderDto {
   id: string;
   orderNumber: string;
   quoteId?: string;
   rfqId?: string;
-  status: 'DRAFT' | 'CONFIRMED' | 'PRODUCTION' | 'QUALITY_CHECK' | 'READY_TO_SHIP' | 'SHIPPED' | 'IN_TRANSIT' | 'DELIVERED' | 'COMPLETED' | 'CANCELLED' | 'REFUNDED';
+  status:
+    | 'DRAFT'
+    | 'CONFIRMED'
+    | 'PRODUCTION'
+    | 'QUALITY_CHECK'
+    | 'READY_TO_SHIP'
+    | 'SHIPPED'
+    | 'IN_TRANSIT'
+    | 'DELIVERED'
+    | 'COMPLETED'
+    | 'CANCELLED'
+    | 'REFUNDED';
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
-  
+
   // Client Information
   client: {
     id: string;
@@ -18,7 +34,7 @@ export interface OrderDto {
     phone?: string;
     country: string;
   };
-  
+
   // Order Items
   items: Array<{
     id: string;
@@ -46,10 +62,15 @@ export interface OrderDto {
       defectRate: number;
       cupScore?: number;
     };
-    productionStatus: 'PENDING' | 'IN_PRODUCTION' | 'QUALITY_CHECK' | 'READY' | 'SHIPPED';
+    productionStatus:
+      | 'PENDING'
+      | 'IN_PRODUCTION'
+      | 'QUALITY_CHECK'
+      | 'READY'
+      | 'SHIPPED';
     notes?: string;
   }>;
-  
+
   // Financial Information
   financial: {
     subtotal: number;
@@ -58,7 +79,13 @@ export interface OrderDto {
     additionalCosts: Array<{
       description: string;
       amount: number;
-      type: 'SHIPPING' | 'INSURANCE' | 'HANDLING' | 'CERTIFICATION' | 'CUSTOMS' | 'OTHER';
+      type:
+        | 'SHIPPING'
+        | 'INSURANCE'
+        | 'HANDLING'
+        | 'CERTIFICATION'
+        | 'CUSTOMS'
+        | 'OTHER';
     }>;
     totalAmount: number;
     paidAmount: number;
@@ -66,11 +93,16 @@ export interface OrderDto {
     exchangeRate?: number;
     baseCurrency?: string;
   };
-  
+
   // Payment Information
   payment: {
     terms: string;
-    method: 'LETTER_OF_CREDIT' | 'TELEGRAPHIC_TRANSFER' | 'CASH_ADVANCE' | 'OPEN_ACCOUNT' | 'OTHER';
+    method:
+      | 'LETTER_OF_CREDIT'
+      | 'TELEGRAPHIC_TRANSFER'
+      | 'CASH_ADVANCE'
+      | 'OPEN_ACCOUNT'
+      | 'OTHER';
     dueDate?: Date;
     installments?: Array<{
       amount: number;
@@ -87,7 +119,7 @@ export interface OrderDto {
       beneficiary: string;
     };
   };
-  
+
   // Shipping Information
   shipping: {
     origin: {
@@ -117,13 +149,19 @@ export interface OrderDto {
     actualDeliveryDate?: Date;
     shippingCost?: number;
     shippingDocuments?: Array<{
-      type: 'BILL_OF_LADING' | 'COMMERCIAL_INVOICE' | 'PACKING_LIST' | 'CERTIFICATE_OF_ORIGIN' | 'PHYTOSANITARY' | 'OTHER';
+      type:
+        | 'BILL_OF_LADING'
+        | 'COMMERCIAL_INVOICE'
+        | 'PACKING_LIST'
+        | 'CERTIFICATE_OF_ORIGIN'
+        | 'PHYTOSANITARY'
+        | 'OTHER';
       fileName: string;
       fileUrl: string;
       uploadedAt: Date;
     }>;
   };
-  
+
   // Quality Control
   qualityControl: {
     preShipmentInspection: {
@@ -152,7 +190,7 @@ export interface OrderDto {
       notes?: string;
     }>;
   };
-  
+
   // Timeline & Tracking
   timeline: Array<{
     id: string;
@@ -166,7 +204,7 @@ export interface OrderDto {
       fileUrl: string;
     }>;
   }>;
-  
+
   // Metadata
   createdAt: Date;
   updatedAt: Date;
@@ -174,16 +212,22 @@ export interface OrderDto {
   assignedTo?: string;
   salesRep?: string;
   productionManager?: string;
-  
+
   // Communication
   notes?: string;
   internalNotes?: string;
   tags?: string[];
-  
+
   // Related Documents
   documents: Array<{
     id: string;
-    type: 'CONTRACT' | 'PROFORMA_INVOICE' | 'COMMERCIAL_INVOICE' | 'PACKING_LIST' | 'CERTIFICATE' | 'OTHER';
+    type:
+      | 'CONTRACT'
+      | 'PROFORMA_INVOICE'
+      | 'COMMERCIAL_INVOICE'
+      | 'PACKING_LIST'
+      | 'CERTIFICATE'
+      | 'OTHER';
     fileName: string;
     fileUrl: string;
     description?: string;

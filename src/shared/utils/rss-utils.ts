@@ -1,11 +1,12 @@
-import type { Locale } from '@/i18n';
-import { ContentManager } from '@/lib/contentlayer';
 import type {
   BlogPost,
   MarketReport,
   OriginStory,
   ServicePage,
 } from 'contentlayer/generated';
+
+import type { Locale } from '@/i18n';
+import { ContentManager } from '@/lib/contentlayer';
 
 // RSS Configuration
 export const rssConfig = {
@@ -85,8 +86,7 @@ function contentToRSSItem(
     link,
     guid: link,
     pubDate: new Date(content.publishedAt).toUTCString(),
-    category:
-      content.tags || (content.category ? [content.category] : undefined),
+    category: content.tags || (content.category ? [content.category] : []),
     author: 'info@greatbeans.coffee (The Great Beans Team)',
     ...(content.coverImage && {
       enclosure: {
@@ -162,7 +162,10 @@ export function generateBlogRSS(locale: Locale = 'en'): string {
     link: `${rssConfig.link}/${locale}/blog`,
     language: locale === 'vi' ? 'vi-VN' : 'en-US',
     lastBuildDate: new Date().toUTCString(),
-    pubDate: items.length > 0 ? items[0].pubDate : new Date().toUTCString(),
+    pubDate:
+      items.length > 0
+        ? items[0]?.pubDate || new Date().toUTCString()
+        : new Date().toUTCString(),
     items,
   };
 
@@ -186,7 +189,10 @@ export function generateMarketReportsRSS(locale: Locale = 'en'): string {
     link: `${rssConfig.link}/${locale}/market-reports`,
     language: locale === 'vi' ? 'vi-VN' : 'en-US',
     lastBuildDate: new Date().toUTCString(),
-    pubDate: items.length > 0 ? items[0].pubDate : new Date().toUTCString(),
+    pubDate:
+      items.length > 0
+        ? items[0]?.pubDate || new Date().toUTCString()
+        : new Date().toUTCString(),
     items,
   };
 
@@ -210,7 +216,10 @@ export function generateOriginStoriesRSS(locale: Locale = 'en'): string {
     link: `${rssConfig.link}/${locale}/origin-stories`,
     language: locale === 'vi' ? 'vi-VN' : 'en-US',
     lastBuildDate: new Date().toUTCString(),
-    pubDate: items.length > 0 ? items[0].pubDate : new Date().toUTCString(),
+    pubDate:
+      items.length > 0
+        ? items[0]?.pubDate || new Date().toUTCString()
+        : new Date().toUTCString(),
     items,
   };
 
@@ -247,7 +256,9 @@ export function generateAllContentRSS(locale: Locale = 'en'): string {
     language: locale === 'vi' ? 'vi-VN' : 'en-US',
     lastBuildDate: new Date().toUTCString(),
     pubDate:
-      allItems.length > 0 ? allItems[0].pubDate : new Date().toUTCString(),
+      allItems.length > 0
+        ? allItems[0]?.pubDate || new Date().toUTCString()
+        : new Date().toUTCString(),
     items: allItems.slice(0, 20), // Latest 20 items across all content types
   };
 
@@ -356,7 +367,10 @@ export function generateContentClusterRSS(
     link: `${rssConfig.link}/${locale}`,
     language: locale === 'vi' ? 'vi-VN' : 'en-US',
     lastBuildDate: new Date().toUTCString(),
-    pubDate: items.length > 0 ? items[0].pubDate : new Date().toUTCString(),
+    pubDate:
+      items.length > 0
+        ? items[0]?.pubDate || new Date().toUTCString()
+        : new Date().toUTCString(),
     items: items.slice(0, 20),
   };
 

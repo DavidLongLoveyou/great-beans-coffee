@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { Locale, locales } from '@/shared/config/i18n';
+import { createScopedLogger } from '@/shared/utils/logger';
 import { generateAllContentRSSFeed } from '@/shared/utils/rss-generator';
+
+const logger = createScopedLogger('LocaleRSSFeedAPI');
 
 export async function GET(
   request: NextRequest,
@@ -25,8 +28,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Error generating RSS feed:', error);
+    logger.error('Error generating RSS feed:', error);
     return new NextResponse('Error generating RSS feed', { status: 500 });
   }
 }

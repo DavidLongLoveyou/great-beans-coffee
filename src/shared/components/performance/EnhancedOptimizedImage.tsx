@@ -2,11 +2,16 @@
 
 import Image, { type ImageProps } from 'next/image';
 import { useState, useCallback, useEffect, useRef } from 'react';
+
+import {
+  cloudinaryService,
+  type OptimizedImageOptions,
+} from '@/infrastructure/external-services/cloudinary.service';
 import { cn } from '@/lib/utils';
-import { cloudinaryService, type OptimizedImageOptions } from '@/infrastructure/external-services/cloudinary.service';
 import { coreWebVitalsOptimizer } from '@/shared/utils/core-web-vitals';
 
-interface EnhancedOptimizedImageProps extends Omit<ImageProps, 'src' | 'onLoad' | 'onError'> {
+interface EnhancedOptimizedImageProps
+  extends Omit<ImageProps, 'src' | 'onLoad' | 'onError'> {
   /** Cloudinary public ID */
   publicId: string;
   /** Cloudinary optimization options */
@@ -35,7 +40,7 @@ interface EnhancedOptimizedImageProps extends Omit<ImageProps, 'src' | 'onLoad' 
 
 /**
  * Enhanced Optimized Image component with Cloudinary integration and Core Web Vitals optimization
- * 
+ *
  * Features:
  * - Cloudinary automatic optimization (WebP/AVIF, quality, compression)
  * - Core Web Vitals tracking and optimization
@@ -77,13 +82,17 @@ export function EnhancedOptimizedImage({
     responsive: true,
   });
 
-  const blurDataURL = showBlurPlaceholder 
+  const blurDataURL = showBlurPlaceholder
     ? cloudinaryService.getBlurPlaceholder(publicId)
     : undefined;
 
   // Generate responsive URLs if breakpoints are provided
-  const responsiveUrls = responsiveBreakpoints 
-    ? cloudinaryService.getResponsiveImageUrls(publicId, responsiveBreakpoints, cloudinaryOptions)
+  const responsiveUrls = responsiveBreakpoints
+    ? cloudinaryService.getResponsiveImageUrls(
+        publicId,
+        responsiveBreakpoints,
+        cloudinaryOptions
+      )
     : undefined;
 
   // Create srcSet for responsive images
@@ -95,18 +104,20 @@ export function EnhancedOptimizedImage({
   const handleLoad = useCallback(() => {
     setIsLoading(false);
     setHasError(false);
-    
+
     // Track loading performance
     if (trackPerformance && loadStartTime > 0) {
       const loadTime = performance.now() - loadStartTime;
-      
+
       // Report to Core Web Vitals optimizer
       if (optimizeForLCP) {
         // This is likely the LCP element, track it specially
-        coreWebVitalsOptimizer.preloadCriticalResources([{
-          href: optimizedUrl,
-          as: 'image',
-        }]);
+        coreWebVitalsOptimizer.preloadCriticalResources([
+          {
+            href: optimizedUrl,
+            as: 'image',
+          },
+        ]);
       }
 
       // Track in analytics
@@ -123,15 +134,23 @@ export function EnhancedOptimizedImage({
         });
       }
     }
-    
+
     onLoadComplete?.();
-  }, [onLoadComplete, trackPerformance, loadStartTime, optimizeForLCP, category, publicId, optimizedUrl]);
+  }, [
+    onLoadComplete,
+    trackPerformance,
+    loadStartTime,
+    optimizeForLCP,
+    category,
+    publicId,
+    optimizedUrl,
+  ]);
 
   // Handle image error
   const handleError = useCallback(() => {
     setIsLoading(false);
     setHasError(true);
-    
+
     // Track error in analytics
     if (trackPerformance && typeof window !== 'undefined' && 'gtag' in window) {
       (window as any).gtag('event', 'image_load_error', {
@@ -143,7 +162,7 @@ export function EnhancedOptimizedImage({
         },
       });
     }
-    
+
     onLoadError?.();
   }, [onLoadError, trackPerformance, category, publicId]);
 
@@ -156,12 +175,14 @@ export function EnhancedOptimizedImage({
 
   // Preload critical images
   useEffect(() => {
-    if (optimizeForLCP && !lazy) {
-      coreWebVitalsOptimizer.optimizeImagesForWebVitals([{
-        publicId,
-        priority: 'high',
-        sizes,
-      }]);
+    if (optimizeForLCP && !lazy && sizes) {
+      coreWebVitalsOptimizer.optimizeImagesForWebVitals([
+        {
+          publicId,
+          priority: 'high',
+          sizes,
+        },
+      ]);
     }
   }, [optimizeForLCP, lazy, publicId, sizes]);
 
@@ -170,9 +191,9 @@ export function EnhancedOptimizedImage({
     if (errorComponent) {
       return <>{errorComponent}</>;
     }
-    
+
     return (
-      <div 
+      <div
         className={cn(
           'flex items-center justify-center bg-gray-100 text-gray-400',
           'min-h-[200px] rounded-lg',
@@ -182,17 +203,17 @@ export function EnhancedOptimizedImage({
         aria-label={`Failed to load image: ${alt}`}
       >
         <div className="text-center">
-          <svg 
-            className="mx-auto h-12 w-12 mb-2" 
-            fill="none" 
-            viewBox="0 0 24 24" 
+          <svg
+            className="mx-auto mb-2 h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" 
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
             />
           </svg>
           <p className="text-sm">Image unavailable</p>
@@ -219,25 +240,35 @@ export function EnhancedOptimizedImage({
         )}
         onLoad={handleLoad}
         onError={handleError}
-        priority={optimizeForLCP || priority}
+        priority={optimizeForLCP || Boolean(priority)}
         loading={lazy ? 'lazy' : 'eager'}
         placeholder={blurDataURL ? 'blur' : 'empty'}
-        blurDataURL={blurDataURL}
-        sizes={sizes || '(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw'}
-        srcSet={srcSet}
+        {...(blurDataURL && { blurDataURL })}
+        sizes={
+          sizes || '(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw'
+        }
+        {...(srcSet && { srcSet })}
         {...props}
       />
-      
+
       {/* Loading overlay */}
       {isLoading && !loadingComponent && (
-        <div className={cn(
-          'absolute inset-0 flex items-center justify-center',
-          'bg-gray-100 animate-pulse'
-        )}>
+        <div
+          className={cn(
+            'absolute inset-0 flex items-center justify-center',
+            'animate-pulse bg-gray-100'
+          )}
+        >
           <div className="flex space-x-1">
-            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+            <div className="h-2 w-2 animate-bounce rounded-full bg-gray-400" />
+            <div
+              className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
+              style={{ animationDelay: '0.1s' }}
+            />
+            <div
+              className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
+              style={{ animationDelay: '0.2s' }}
+            />
           </div>
         </div>
       )}
@@ -274,11 +305,11 @@ export function EnhancedHeroImage(props: EnhancedOptimizedImageProps) {
 /**
  * Enhanced Product Image component for e-commerce
  */
-export function EnhancedProductImage({ 
+export function EnhancedProductImage({
   size = 'medium',
-  ...props 
-}: EnhancedOptimizedImageProps & { 
-  size?: 'thumbnail' | 'medium' | 'large' 
+  ...props
+}: EnhancedOptimizedImageProps & {
+  size?: 'thumbnail' | 'medium' | 'large';
 }) {
   const dimensions = {
     thumbnail: { width: 200, height: 200 },
@@ -352,7 +383,10 @@ export function EnhancedGalleryImage(props: EnhancedOptimizedImageProps) {
           ...props.cloudinaryOptions?.transformations,
         },
       }}
-      className={cn('rounded-lg cursor-pointer hover:scale-105 transition-transform', props.className)}
+      className={cn(
+        'cursor-pointer rounded-lg transition-transform hover:scale-105',
+        props.className
+      )}
     />
   );
 }

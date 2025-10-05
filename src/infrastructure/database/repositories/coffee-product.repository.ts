@@ -61,18 +61,44 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
     return new CoffeeProductEntity({
       id: product.id,
       sku: product.sku,
-      name: { en: product.sku }, // Fallback name
-      description: { en: product.sku }, // Fallback description
+      name: product.name || { en: product.sku }, // Fallback name
+      description: product.description || { en: product.sku }, // Fallback description
+      shortDescription: product.shortDescription,
       type: product.coffeeType,
       grade: product.grade,
       processingMethod: product.processing,
-      specifications: product.specifications || {},
-      pricing: product.pricing || { basePrice: 0, currency: 'USD', unit: 'KG' },
-      availability: product.availability || { inStock: true, quantity: 0 },
+      specifications: product.specifications || {
+        moisture: 12,
+        screenSize: '16+',
+        defectRate: 5,
+      },
+      pricing: product.pricing || {
+        basePrice: 0,
+        currency: 'USD',
+        unit: 'KG',
+        incoterms: 'FOB',
+        minimumOrder: 1,
+        priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+      },
+      availability: product.availability || {
+        inStock: true,
+        stockQuantity: 0,
+        harvestSeason: '2024/2025',
+        availableFrom: new Date(),
+        leadTime: 30,
+        productionCapacity: 100,
+      },
       certifications: product.certifications || [],
-      origin: product.originInfo || { region: product.origin || 'Unknown', province: product.region || 'Unknown' },
+      origin: product.originInfo || {
+        region: product.origin || 'Unknown',
+        province: product.region || 'Unknown',
+      },
+      traceabilityCode: product.traceabilityCode,
       images: product.images || [],
-      documents: product.documents || [],
+      documents: product.documents,
+      seoTitle: product.seoTitle,
+      seoDescription: product.seoDescription,
+      keywords: product.keywords,
       isActive: product.isActive,
       isFeatured: product.isFeatured,
       sortOrder: product.sortOrder || 0,
@@ -198,11 +224,25 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
     const orderBy: Prisma.CoffeeProductOrderByWithRelationInput = {};
     if (filters?.sortBy) {
       // Map sortBy fields to actual database fields
-      const sortField = filters.sortBy === 'name' ? 'sku' : 
-                       filters.sortBy === 'price' ? 'createdAt' : // Fallback since pricing is JSON
-                       filters.sortBy;
-      
-      if (['sku', 'createdAt', 'updatedAt', 'coffeeType', 'grade', 'processing', 'origin', 'region'].includes(sortField)) {
+      const sortField =
+        filters.sortBy === 'name'
+          ? 'sku'
+          : filters.sortBy === 'price'
+            ? 'createdAt' // Fallback since pricing is JSON
+            : filters.sortBy;
+
+      if (
+        [
+          'sku',
+          'createdAt',
+          'updatedAt',
+          'coffeeType',
+          'grade',
+          'processing',
+          'origin',
+          'region',
+        ].includes(sortField)
+      ) {
         (orderBy as any)[sortField] = filters.sortOrder || 'asc';
       } else {
         orderBy.createdAt = 'desc'; // Default fallback
@@ -216,11 +256,11 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       include: this.getIncludeClause(locale),
       orderBy,
     };
-    
+
     if (filters?.limit !== undefined) {
       queryOptions.take = filters.limit;
     }
-    
+
     if (filters?.offset !== undefined) {
       queryOptions.skip = filters.offset;
     }
@@ -229,7 +269,11 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
 
     return products.map(product => {
       const productWithTranslations = product as any;
-      if (locale && productWithTranslations.translations && productWithTranslations.translations.length > 0) {
+      if (
+        locale &&
+        productWithTranslations.translations &&
+        productWithTranslations.translations.length > 0
+      ) {
         const translation = productWithTranslations.translations[0];
         if (translation) {
           return this.mapToEntity({
@@ -300,20 +344,24 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
   async create(
     data: Omit<CoffeeProductEntity, 'id' | 'createdAt' | 'updatedAt'>
   ): Promise<CoffeeProductEntity> {
+    const originData = data.origin;
     const product = await prisma.coffeeProduct.create({
       data: {
         sku: data.sku,
-        coffeeType: data.type === 'INSTANT' ? 'SPECIALTY' : data.type as any,
-        grade: data.grade === 'COMMERCIAL' ? 'GRADE_3' : 
-               data.grade?.startsWith('SCREEN_') ? 'PREMIUM' : 
-               data.grade as any,
+        coffeeType: data.type === 'INSTANT' ? 'SPECIALTY' : (data.type as any),
+        grade:
+          data.grade === 'COMMERCIAL'
+            ? 'GRADE_3'
+            : data.grade?.startsWith('SCREEN_')
+              ? 'PREMIUM'
+              : (data.grade as any),
         processing: data.processingMethod,
-        origin: data.origin.region || 'Unknown',
-        region: data.origin.province || 'Unknown',
+        origin: originData?.region || 'Unknown',
+        region: originData?.province || 'Unknown',
         specifications: data.specifications as any,
         pricing: data.pricing as any,
         availability: data.availability as any,
-        originInfo: data.origin as any,
+        originInfo: originData as any,
         images: data.images as any,
         documents: data.documents as any,
         isFeatured: data.isFeatured,

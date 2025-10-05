@@ -57,7 +57,12 @@ export async function checkDatabaseHealth() {
 
 // Transaction helper
 export async function withTransaction<T>(
-  callback: (tx: Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$extends'>) => Promise<T>
+  callback: (
+    tx: Omit<
+      PrismaClient,
+      '$connect' | '$disconnect' | '$on' | '$transaction' | '$extends'
+    >
+  ) => Promise<T>
 ): Promise<T> {
   return await prisma.$transaction(callback);
 }
@@ -168,26 +173,25 @@ export async function getRFQAnalytics(startDate?: Date, endDate?: Date) {
         }
       : {};
 
-  const [totalRFQs, statusBreakdown, averageValue] =
-    await Promise.all([
-      prisma.rFQ.count({ where: whereClause }),
+  const [totalRFQs, statusBreakdown, averageValue] = await Promise.all([
+    prisma.rFQ.count({ where: whereClause }),
 
-      prisma.rFQ.groupBy({
-        by: ['status'],
-        where: whereClause,
-        _count: true,
-      }),
+    prisma.rFQ.groupBy({
+      by: ['status'],
+      where: whereClause,
+      _count: true,
+    }),
 
-      prisma.rFQ.aggregate({
-        where: {
-          ...whereClause,
-          totalValue: { not: null },
-        },
-        _avg: {
-          totalValue: true,
-        },
-      }),
-    ]);
+    prisma.rFQ.aggregate({
+      where: {
+        ...whereClause,
+        totalValue: { not: null },
+      },
+      _avg: {
+        totalValue: true,
+      },
+    }),
+  ]);
 
   return {
     totalRFQs,

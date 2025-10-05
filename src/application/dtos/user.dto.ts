@@ -4,9 +4,15 @@ export interface UserDto {
   id: string;
   email: string;
   username?: string;
-  role: 'ADMIN' | 'SALES_MANAGER' | 'SALES_REP' | 'CONTENT_MANAGER' | 'VIEWER' | 'CLIENT';
+  role:
+    | 'ADMIN'
+    | 'SALES_MANAGER'
+    | 'SALES_REP'
+    | 'CONTENT_MANAGER'
+    | 'VIEWER'
+    | 'CLIENT';
   status: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED' | 'PENDING_VERIFICATION';
-  
+
   // Personal Information
   profile: {
     firstName: string;
@@ -18,11 +24,17 @@ export interface UserDto {
     language: string;
     country?: string;
   };
-  
+
   // Company Information (for clients)
   company?: {
     name: string;
-    type: 'IMPORTER' | 'ROASTER' | 'DISTRIBUTOR' | 'RETAILER' | 'CAFE_CHAIN' | 'OTHER';
+    type:
+      | 'IMPORTER'
+      | 'ROASTER'
+      | 'DISTRIBUTOR'
+      | 'RETAILER'
+      | 'CAFE_CHAIN'
+      | 'OTHER';
     website?: string;
     address: {
       street: string;
@@ -38,7 +50,7 @@ export interface UserDto {
     employeeCount?: number;
     description?: string;
   };
-  
+
   // Permissions & Access
   permissions: {
     canViewRfqs: boolean;
@@ -57,7 +69,7 @@ export interface UserDto {
     canManageUsers: boolean;
     canAccessAdmin: boolean;
   };
-  
+
   // Preferences
   preferences: {
     emailNotifications: {
@@ -73,27 +85,33 @@ export interface UserDto {
     timeFormat: '12h' | '24h';
     dateFormat: string;
   };
-  
+
   // Activity Tracking
   lastLoginAt?: Date;
   lastActiveAt?: Date;
   loginCount: number;
-  
+
   // Security
   emailVerifiedAt?: Date;
   phoneVerifiedAt?: Date;
   twoFactorEnabled: boolean;
   passwordChangedAt?: Date;
-  
+
   // Metadata
   createdAt: Date;
   updatedAt: Date;
   createdBy?: string;
   updatedBy?: string;
-  
+
   // Client-specific fields
   clientMetadata?: {
-    leadSource: 'WEBSITE' | 'TRADE_SHOW' | 'REFERRAL' | 'COLD_OUTREACH' | 'PARTNER' | 'OTHER';
+    leadSource:
+      | 'WEBSITE'
+      | 'TRADE_SHOW'
+      | 'REFERRAL'
+      | 'COLD_OUTREACH'
+      | 'PARTNER'
+      | 'OTHER';
     assignedSalesRep?: string;
     accountManager?: string;
     creditLimit?: number;

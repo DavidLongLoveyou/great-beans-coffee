@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { cn } from '@/shared/utils/cn';
-
 import { ProcessingMethodBadgeProps, ProcessingMethod } from '../types';
+
+import { cn } from '@/shared/utils/cn';
 
 // Processing method metadata
 const processingData: Record<
@@ -186,7 +186,7 @@ export const ProcessingMethodBadge = forwardRef<
 
         {/* Premium indicator */}
         {methodInfo.premium && variant === 'default' && (
-          <span className="text-xs font-bold text-gold-600">★</span>
+          <span className="text-gold-600 text-xs font-bold">★</span>
         )}
       </div>
     );
@@ -222,7 +222,7 @@ export const ProcessingMethodDetails = forwardRef<
           <h3 className="flex items-center gap-2 text-xl font-bold">
             {methodInfo.name}
             {methodInfo.premium && (
-              <span className="rounded-full bg-gold-100 px-2 py-1 text-xs font-semibold text-gold-700">
+              <span className="bg-gold-100 text-gold-700 rounded-full px-2 py-1 text-xs font-semibold">
                 Premium
               </span>
             )}
@@ -304,7 +304,7 @@ export const ProcessingMethodComparison = forwardRef<
               </div>
             </div>
             {methodInfo.premium && (
-              <span className="rounded-full bg-gold-100 px-2 py-1 text-xs font-semibold text-gold-700">
+              <span className="bg-gold-100 text-gold-700 rounded-full px-2 py-1 text-xs font-semibold">
                 Premium
               </span>
             )}
@@ -360,7 +360,7 @@ export const ProcessingMethodFilter = forwardRef<
             <span>{methodInfo.icon}</span>
             {methodInfo.name}
             {methodInfo.premium && (
-              <span className="text-xs text-gold-600">★</span>
+              <span className="text-gold-600 text-xs">★</span>
             )}
           </button>
         );

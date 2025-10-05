@@ -24,9 +24,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { generateMetadata as generateSEOMetadata } from '@/shared/utils/seo-utils';
+import {
+  LazySection,
+  LazyCardGrid,
+} from '@/shared/components/performance/LazySection';
 import { OptimizedImage } from '@/shared/components/performance/OptimizedImage';
-import { LazySection, LazyCardGrid } from '@/shared/components/performance/LazySection';
+import { generateMetadata as generateSEOMetadata } from '@/shared/utils/seo-utils';
 
 interface BlogPageProps {
   params: Promise<{ locale: Locale }>;
@@ -300,7 +303,7 @@ export default async function BlogPage({
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold text-red-600">Error Loading Blog</h1>
-        <pre className="mt-4 p-4 bg-gray-100 rounded">
+        <pre className="mt-4 rounded bg-gray-100 p-4">
           {error instanceof Error ? error.message : String(error)}
         </pre>
       </div>

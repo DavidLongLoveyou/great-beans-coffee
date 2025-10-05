@@ -98,10 +98,7 @@ export function ClusterProductCard({
         {/* Quality Indicators */}
         <div className="flex flex-wrap gap-2">
           <CoffeeGradeIndicator grade={product.grade as any} size="sm" />
-          <OriginFlag
-            origin="vietnam"
-            size="sm"
-          />
+          <OriginFlag origin="vietnam" size="sm" />
           <ProcessingMethodBadge
             method={product.processingMethod as ProcessingMethod}
             size="sm"
@@ -128,22 +125,30 @@ export function ClusterProductCard({
 
         {/* Technical Specifications */}
         <div className="grid grid-cols-2 gap-2 text-xs">
-          <div className="rounded bg-forest-50 p-2 border border-forest-100">
+          <div className="rounded border border-forest-100 bg-forest-50 p-2">
             <span className="font-medium text-forest-700">Moisture:</span>{' '}
-            <span className="text-forest-600">{product.specifications.moisture}</span>
+            <span className="text-forest-600">
+              {product.specifications.moisture}
+            </span>
           </div>
-          <div className="rounded bg-forest-50 p-2 border border-forest-100">
+          <div className="rounded border border-forest-100 bg-forest-50 p-2">
             <span className="font-medium text-forest-700">Screen:</span>{' '}
-            <span className="text-forest-600">{product.specifications.screenSize}</span>
+            <span className="text-forest-600">
+              {product.specifications.screenSize}
+            </span>
           </div>
-          <div className="rounded bg-forest-50 p-2 border border-forest-100">
+          <div className="rounded border border-forest-100 bg-forest-50 p-2">
             <span className="font-medium text-forest-700">Defects:</span>{' '}
-            <span className="text-forest-600">{product.specifications.defectRate}</span>
+            <span className="text-forest-600">
+              {product.specifications.defectRate}
+            </span>
           </div>
           {product.specifications.cuppingScore && (
-            <div className="rounded bg-sage-50 p-2 border border-sage-100">
+            <div className="rounded border border-sage-100 bg-sage-50 p-2">
               <span className="font-medium text-sage-700">Cupping:</span>{' '}
-              <span className="text-sage-600">{product.specifications.cuppingScore}</span>
+              <span className="text-sage-600">
+                {product.specifications.cuppingScore}
+              </span>
             </div>
           )}
         </div>
@@ -167,7 +172,12 @@ export function ClusterProductCard({
 
       <CardFooter className="space-y-2 pt-4">
         <div className="flex w-full gap-2">
-          <Button asChild variant="default" size="sm" className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white">
+          <Button
+            asChild
+            variant="default"
+            size="sm"
+            className="flex-1 bg-emerald-500 text-white hover:bg-emerald-600"
+          >
             <Link href={`/${locale}/quote?product=${product.id}`}>
               {t('requestQuote')}
             </Link>
@@ -180,7 +190,11 @@ export function ClusterProductCard({
           href={`/${locale}/products/${product.id}`}
           className="block w-full"
         >
-          <Button variant="outline" size="sm" className="w-full hover:shadow-forest-medium">
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full hover:shadow-forest-medium"
+          >
             {t('viewDetails')}
           </Button>
         </Link>

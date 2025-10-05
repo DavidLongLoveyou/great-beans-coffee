@@ -2,6 +2,12 @@
 // COMMON TYPES
 // ================================
 
+import {
+  NotificationType,
+  TemplateVariable,
+  VariableType,
+} from './locale.types';
+
 export interface BaseEntity {
   id: string;
   createdAt: Date;
@@ -182,13 +188,6 @@ export interface Notification {
   timestamp: Date;
   read: boolean;
   actions?: NotificationAction[];
-}
-
-export enum NotificationType {
-  INFO = 'INFO',
-  SUCCESS = 'SUCCESS',
-  WARNING = 'WARNING',
-  ERROR = 'ERROR',
 }
 
 export interface NotificationAction {
@@ -454,23 +453,6 @@ export interface EmailTemplate {
   variables: TemplateVariable[];
   category: string;
   isActive: boolean;
-}
-
-export interface TemplateVariable {
-  name: string;
-  type: VariableType;
-  description: string;
-  required: boolean;
-  defaultValue?: unknown;
-}
-
-export enum VariableType {
-  STRING = 'STRING',
-  NUMBER = 'NUMBER',
-  DATE = 'DATE',
-  BOOLEAN = 'BOOLEAN',
-  OBJECT = 'OBJECT',
-  ARRAY = 'ARRAY',
 }
 
 export interface WebhookEvent {

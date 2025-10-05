@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { submitSitemapsToSearchEngines, sitemapSubmissionService } from '@/shared/utils/sitemap-submission';
+
+import { createScopedLogger } from '@/shared/utils/logger';
+import {
+  submitSitemapsToSearchEngines,
+  sitemapSubmissionService,
+} from '@/shared/utils/sitemap-submission';
+
+const logger = createScopedLogger('SitemapSubmitAPI');
 
 /**
  * API route for manual sitemap submission to search engines
@@ -22,8 +29,10 @@ export async function POST(request: NextRequest) {
     const { submissions, healthChecks } = await submitSitemapsToSearchEngines();
 
     // Generate reports
-    const submissionReport = sitemapSubmissionService.generateSubmissionReport(submissions);
-    const healthReport = sitemapSubmissionService.generateHealthReport(healthChecks);
+    const submissionReport =
+      sitemapSubmissionService.generateSubmissionReport(submissions);
+    const healthReport =
+      sitemapSubmissionService.generateHealthReport(healthChecks);
 
     return NextResponse.json({
       success: true,
@@ -38,10 +47,10 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error submitting sitemaps:', error);
-    
+    logger.error('Error submitting sitemaps:', error);
+
     return NextResponse.json(
-      { 
+      {
         error: 'Internal server error',
         message: error instanceof Error ? error.message : 'Unknown error',
       },
@@ -53,8 +62,10 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     // Check sitemap health without submitting
-    const healthChecks = await sitemapSubmissionService.checkAllSitemapsHealth();
-    const healthReport = sitemapSubmissionService.generateHealthReport(healthChecks);
+    const healthChecks =
+      await sitemapSubmissionService.checkAllSitemapsHealth();
+    const healthReport =
+      sitemapSubmissionService.generateHealthReport(healthChecks);
 
     return NextResponse.json({
       success: true,
@@ -65,10 +76,10 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error checking sitemap health:', error);
-    
+    logger.error('Error checking sitemap health:', error);
+
     return NextResponse.json(
-      { 
+      {
         error: 'Internal server error',
         message: error instanceof Error ? error.message : 'Unknown error',
       },

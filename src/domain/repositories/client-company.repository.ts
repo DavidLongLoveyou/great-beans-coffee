@@ -1,3 +1,4 @@
+import { type PaymentHistoryRecord } from '../../shared/types/business.types';
 import {
   ClientCompanyEntity,
   type ClientCompany,
@@ -11,7 +12,6 @@ import {
   type CompanyDocument,
   type CompanyNote,
 } from '../entities/client-company.entity';
-import { type PaymentHistoryRecord } from '../../shared/types/business.types';
 
 // Search and filter criteria
 export interface ClientCompanySearchCriteria {
@@ -234,10 +234,7 @@ export interface IClientCompanyRepository {
     companyId: string,
     documentId: string
   ): Promise<ClientCompanyEntity>;
-  getDocuments(
-    companyId: string,
-    type?: string
-  ): Promise<CompanyDocument[]>;
+  getDocuments(companyId: string, type?: string): Promise<CompanyDocument[]>;
   verifyDocument(
     companyId: string,
     documentId: string,

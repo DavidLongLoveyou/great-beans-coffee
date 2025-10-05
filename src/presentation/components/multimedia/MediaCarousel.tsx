@@ -14,12 +14,12 @@ import {
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
+import { ImageGallery } from './ImageGallery';
+import { VideoPlayer, type VideoSource } from './VideoPlayer';
+
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import { Card, CardContent } from '@/presentation/components/ui/card';
-
-import { ImageGallery } from './ImageGallery';
-import { VideoPlayer, type VideoSource } from './VideoPlayer';
 
 export interface MediaItem {
   id: string;

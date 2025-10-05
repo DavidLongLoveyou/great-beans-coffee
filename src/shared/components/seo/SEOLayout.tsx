@@ -1,7 +1,10 @@
-import React from 'react';
 import { type Metadata } from 'next';
+import React from 'react';
+
 import { EnhancedSEOHead } from './EnhancedSEOHead';
+
 import { type Locale } from '@/i18n';
+import { type AdvancedSEOMetadata } from '@/shared/utils/advanced-seo-manager';
 
 // Core SEO data interfaces
 export interface SEOPageData {
@@ -212,11 +215,21 @@ export interface FAQData {
 // Main SEO Layout Props
 export interface SEOLayoutProps {
   children: React.ReactNode;
-  seoData: SEOPageData | ProductSEOData | ServiceSEOData | ArticleSEOData | CollectionSEOData;
+  seoData:
+    | SEOPageData
+    | ProductSEOData
+    | ServiceSEOData
+    | ArticleSEOData
+    | CollectionSEOData;
   breadcrumbs?: BreadcrumbData;
   faqs?: FAQData;
   alternateLanguages?: Record<Locale, string>;
-  structuredDataType?: 'product' | 'service' | 'article' | 'collection' | 'website';
+  structuredDataType?:
+    | 'product'
+    | 'service'
+    | 'article'
+    | 'collection'
+    | 'website';
   enableAnalytics?: boolean;
   enableCoreWebVitals?: boolean;
   preloadResources?: Array<{
@@ -230,9 +243,47 @@ export interface SEOLayoutProps {
   className?: string;
 }
 
+// Helper function to convert SEOPageData to AdvancedSEOMetadata
+function convertToAdvancedSEOMetadata(
+  seoData:
+    | SEOPageData
+    | ProductSEOData
+    | ServiceSEOData
+    | ArticleSEOData
+    | CollectionSEOData
+): AdvancedSEOMetadata {
+  const baseMetadata: AdvancedSEOMetadata = {
+    title: seoData.title,
+    description: seoData.description,
+    keywords: seoData.keywords || [],
+    contentType: seoData.type || 'website',
+    locale: seoData.locale || 'en',
+    ...(seoData.author && { author: seoData.author }),
+    ...(seoData.publishedTime && { publishedTime: seoData.publishedTime }),
+    ...(seoData.modifiedTime && { modifiedTime: seoData.modifiedTime }),
+    ...(seoData.section && { section: seoData.section }),
+    ...(seoData.tags && { tags: seoData.tags }),
+    ...(seoData.canonical && { canonical: seoData.canonical }),
+    ...(seoData.noindex && { noIndex: seoData.noindex }),
+    ...(seoData.nofollow && { noFollow: seoData.nofollow }),
+  };
+
+  // Add image if available
+  if (seoData.image) {
+    baseMetadata.images = [
+      {
+        url: seoData.image,
+        alt: seoData.title,
+      },
+    ];
+  }
+
+  return baseMetadata;
+}
+
 /**
  * SEOLayout Component
- * 
+ *
  * A comprehensive layout component that handles all SEO aspects including:
  * - Advanced meta tags and Open Graph optimization
  * - Schema.org structured data for various content types
@@ -258,20 +309,19 @@ export function SEOLayout({
   return (
     <>
       <EnhancedSEOHead
-        seoData={seoData}
-        breadcrumbs={breadcrumbs}
-        faqs={faqs}
-        alternateLanguages={alternateLanguages}
-        structuredDataType={structuredDataType}
+        metadata={convertToAdvancedSEOMetadata(seoData)}
+        {...(breadcrumbs?.items && {
+          breadcrumbs: breadcrumbs.items.map(item => ({
+            name: item.name,
+            url: item.url,
+          })),
+        })}
+        {...(faqs?.questions && { faqs: faqs.questions })}
         enableAnalytics={enableAnalytics}
-        enableCoreWebVitals={enableCoreWebVitals}
+        enableCoreWebVitalsTracking={enableCoreWebVitals}
         preloadResources={preloadResources}
-        prefetchDNS={prefetchDNS}
-        preconnectOrigins={preconnectOrigins}
       />
-      <div className={className}>
-        {children}
-      </div>
+      <div className={className}>{children}</div>
     </>
   );
 }
@@ -322,14 +372,16 @@ export function generateSEOMetadata(seoData: SEOPageData): Metadata {
       url,
       siteName: 'The Great Beans',
       locale,
-      images: image ? [
-        {
-          url: image,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ] : undefined,
+      images: image
+        ? [
+            {
+              url: image,
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ]
+        : undefined,
       ...(type === 'article' && {
         publishedTime,
         modifiedTime,
@@ -347,9 +399,9 @@ export function generateSEOMetadata(seoData: SEOPageData): Metadata {
       site: '@thegreatbeans',
     },
     other: {
-      'article:author': author,
-      'article:section': section,
-      'article:tag': tags.join(', '),
+      ...(author && { 'article:author': author }),
+      ...(section && { 'article:section': section }),
+      ...(tags && tags.length > 0 && { 'article:tag': tags.join(', ') }),
     },
   };
 

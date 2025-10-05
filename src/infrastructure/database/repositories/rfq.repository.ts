@@ -1,6 +1,10 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, RFQStatus as PrismaRFQStatus } from '@prisma/client';
 
-import { RFQEntity, type RFQ } from '../../../domain/entities/rfq.entity';
+import {
+  RFQEntity,
+  type RFQ,
+  type RFQStatus,
+} from '../../../domain/entities/rfq.entity';
 import { prisma } from '../prisma';
 
 export interface IRFQRepository {
@@ -11,9 +15,7 @@ export interface IRFQRepository {
   findByCompany(companyId: string): Promise<RFQEntity[]>;
   findPending(): Promise<RFQEntity[]>;
   findExpiringSoon(days?: number): Promise<RFQEntity[]>;
-  create(
-    data: Omit<RFQ, 'id' | 'createdAt' | 'updatedAt'>
-  ): Promise<RFQEntity>;
+  create(data: Omit<RFQ, 'id' | 'createdAt' | 'updatedAt'>): Promise<RFQEntity>;
   update(id: string, data: Partial<RFQ>): Promise<RFQEntity>;
   updateStatus(id: string, status: string, notes?: string): Promise<RFQEntity>;
   delete(id: string): Promise<void>;
@@ -122,9 +124,7 @@ export class RFQRepository implements IRFQRepository {
     return rfq ? this.mapToEntity(rfq) : null;
   }
 
-  async findByRfqNumber(
-    rfqNumber: string
-  ): Promise<RFQEntity | null> {
+  async findByRfqNumber(rfqNumber: string): Promise<RFQEntity | null> {
     const rfq = await prisma.rFQ.findUnique({
       where: { rfqNumber },
       include: this.getIncludeClause(),
@@ -199,7 +199,7 @@ export class RFQRepository implements IRFQRepository {
 
   async findPending(): Promise<RFQEntity[]> {
     const rfqs = await prisma.rFQ.findMany({
-      where: { status: 'PENDING' },
+      where: { status: PrismaRFQStatus.PENDING },
       include: this.getIncludeClause(),
       orderBy: { createdAt: 'asc' },
     });
@@ -244,8 +244,10 @@ export class RFQRepository implements IRFQRepository {
 
     // Add optional fields only if they exist
     if (data.companyInfo.phone) createData.phone = data.companyInfo.phone;
-    if (data.companyInfo.businessType) createData.businessType = data.companyInfo.businessType;
-    if (data.additionalRequirements) createData.additionalRequirements = data.additionalRequirements;
+    if (data.companyInfo.businessType)
+      createData.businessType = data.companyInfo.businessType;
+    if (data.additionalRequirements)
+      createData.additionalRequirements = data.additionalRequirements;
     if (data.assignedTo) createData.assignedTo = data.assignedTo;
     if (data.updatedBy) createData.updatedBy = data.updatedBy;
 
@@ -313,12 +315,14 @@ export class RFQRepository implements IRFQRepository {
 
   async addCommunication(rfqId: string, communication: any): Promise<void> {
     // TODO: Implement when RFQCommunication model is added to schema
-    console.log('addCommunication not implemented - missing RFQCommunication model');
+    throw new Error(
+      'addCommunication not implemented - missing RFQCommunication model'
+    );
   }
 
   async addDocument(rfqId: string, document: any): Promise<void> {
     // TODO: Implement when RFQDocument model is added to schema
-    console.log('addDocument not implemented - missing RFQDocument model');
+    throw new Error('addDocument not implemented - missing RFQDocument model');
   }
 
   async getAnalytics(startDate?: Date, endDate?: Date): Promise<any> {

@@ -290,7 +290,9 @@ export class ContentEntity {
 
   getDefaultTranslation(): ContentTranslation | null {
     return (
-      this.data.translations.find(t => t.isDefault) || this.data.translations[0] || null
+      this.data.translations.find(t => t.isDefault) ||
+      this.data.translations[0] ||
+      null
     );
   }
 
@@ -323,12 +325,15 @@ export class ContentEntity {
   getSEOMetadata(locale: string): SEOMetadata {
     const translation = this.getTranslation(locale);
     const defaultTranslation = this.getDefaultTranslation();
-    return translation?.seoMetadata || defaultTranslation?.seoMetadata || {
-      title: '',
-      description: '',
-      noIndex: false,
-      noFollow: false
-    };
+    return (
+      translation?.seoMetadata ||
+      defaultTranslation?.seoMetadata || {
+        title: '',
+        description: '',
+        noIndex: false,
+        noFollow: false,
+      }
+    );
   }
 
   getEstimatedReadTime(): number {
@@ -493,10 +498,8 @@ export class ContentEntity {
     if (!lastVersion) {
       return '1.0.0';
     }
-    const versionParts = lastVersion.versionNumber
-      .split('.')
-      .map(Number);
-    
+    const versionParts = lastVersion.versionNumber.split('.').map(Number);
+
     const major = versionParts[0] || 1;
     const minor = versionParts[1] || 0;
     const patch = versionParts[2] || 0;

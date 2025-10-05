@@ -2,11 +2,11 @@
 
 import React, { forwardRef } from 'react';
 
-import { cn } from '@/shared/utils/cn';
-
 import { SectionProps } from '../types';
 
 import { Container } from './Container';
+
+import { cn } from '@/shared/utils/cn';
 
 // Section background variants
 const sectionBackgrounds = {
@@ -36,6 +36,8 @@ const sectionSpacing = {
   lg: 'py-20',
   xl: 'py-24',
   '2xl': 'py-32',
+  '3xl': 'py-40',
+  '4xl': 'py-48',
 };
 
 export const Section = forwardRef<HTMLElement, SectionProps>(

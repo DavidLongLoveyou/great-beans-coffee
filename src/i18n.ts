@@ -1,6 +1,10 @@
 import { notFound } from 'next/navigation';
 import { getRequestConfig } from 'next-intl/server';
 
+import { createScopedLogger } from '@/shared/utils/logger';
+
+const logger = createScopedLogger('I18n');
+
 // Define supported locales
 export const locales = [
   'en',
@@ -132,7 +136,9 @@ export default getRequestConfig(async ({ locale }) => {
       now: new Date(),
     };
   } catch (error) {
-    console.error(`Failed to load messages for locale: ${locale}`, error);
+    if (process.env.NODE_ENV === 'development') {
+      logger.error(`Failed to load messages for locale: ${locale}`, error);
+    }
     notFound();
   }
 });

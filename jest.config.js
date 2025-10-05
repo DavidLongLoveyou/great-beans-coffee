@@ -1,8 +1,16 @@
 /** @type {import('jest').Config} */
 const config = {
   testEnvironment: 'jsdom',
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!(@faker-js/faker|next-intl)/)',
+  ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^contentlayer/generated$': '<rootDir>/src/test/utils/mocks.ts',
+    '^next-intl/server$': '<rootDir>/src/test/utils/mocks.ts',
   },
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',

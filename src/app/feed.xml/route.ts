@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { siteConfig } from '@/shared/config/site';
+import { createScopedLogger } from '@/shared/utils/logger';
+
+const logger = createScopedLogger('RSSFeedAPI');
 
 const baseUrl = siteConfig.url;
 
@@ -166,8 +169,7 @@ export async function GET(_request: NextRequest) {
       },
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Error generating RSS feed:', error);
+    logger.error('Error generating RSS feed:', error);
     return new NextResponse('Error generating RSS feed', { status: 500 });
   }
 }

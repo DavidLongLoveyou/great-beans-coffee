@@ -41,7 +41,7 @@ export class SitemapSubmissionService {
   async submitToGoogle(sitemapUrl: string): Promise<SitemapSubmissionResult> {
     try {
       const googleSubmissionUrl = `https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`;
-      
+
       const response = await fetch(googleSubmissionUrl, {
         method: 'GET',
         headers: {
@@ -53,7 +53,9 @@ export class SitemapSubmissionService {
         success: response.ok,
         searchEngine: 'Google',
         statusCode: response.status,
-        message: response.ok ? 'Sitemap submitted successfully' : 'Submission failed',
+        message: response.ok
+          ? 'Sitemap submitted successfully'
+          : 'Submission failed',
         submittedAt: new Date(),
       };
     } catch (error) {
@@ -72,7 +74,7 @@ export class SitemapSubmissionService {
   async submitToBing(sitemapUrl: string): Promise<SitemapSubmissionResult> {
     try {
       const bingSubmissionUrl = `https://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`;
-      
+
       const response = await fetch(bingSubmissionUrl, {
         method: 'GET',
         headers: {
@@ -84,7 +86,9 @@ export class SitemapSubmissionService {
         success: response.ok,
         searchEngine: 'Bing',
         statusCode: response.status,
-        message: response.ok ? 'Sitemap submitted successfully' : 'Submission failed',
+        message: response.ok
+          ? 'Sitemap submitted successfully'
+          : 'Submission failed',
         submittedAt: new Date(),
       };
     } catch (error) {
@@ -124,7 +128,7 @@ export class SitemapSubmissionService {
    */
   async checkSitemapHealth(sitemapUrl: string): Promise<SitemapHealthCheck> {
     const startTime = Date.now();
-    
+
     try {
       const response = await fetch(sitemapUrl, {
         method: 'HEAD',
@@ -135,17 +139,22 @@ export class SitemapSubmissionService {
 
       const responseTime = Date.now() - startTime;
 
-      return {
+      const result: SitemapHealthCheck = {
         url: sitemapUrl,
         accessible: response.ok,
         statusCode: response.status,
         responseTime,
         lastChecked: new Date(),
-        errorMessage: response.ok ? undefined : `HTTP ${response.status}: ${response.statusText}`,
       };
+
+      if (!response.ok) {
+        result.errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+      }
+
+      return result;
     } catch (error) {
       const responseTime = Date.now() - startTime;
-      
+
       return {
         url: sitemapUrl,
         accessible: false,
@@ -174,7 +183,7 @@ export class SitemapSubmissionService {
   generateSubmissionReport(results: SitemapSubmissionResult[]): string {
     const successCount = results.filter(r => r.success).length;
     const totalCount = results.length;
-    
+
     let report = `Sitemap Submission Report\n`;
     report += `========================\n`;
     report += `Success Rate: ${successCount}/${totalCount} (${Math.round((successCount / totalCount) * 100)}%)\n\n`;
@@ -199,7 +208,7 @@ export class SitemapSubmissionService {
   generateHealthReport(healthChecks: SitemapHealthCheck[]): string {
     const accessibleCount = healthChecks.filter(h => h.accessible).length;
     const totalCount = healthChecks.length;
-    
+
     let report = `Sitemap Health Report\n`;
     report += `====================\n`;
     report += `Accessibility: ${accessibleCount}/${totalCount} (${Math.round((accessibleCount / totalCount) * 100)}%)\n\n`;
@@ -231,10 +240,6 @@ export async function submitSitemapsToSearchEngines(): Promise<{
 }> {
   const submissions = await sitemapSubmissionService.submitAllSitemaps();
   const healthChecks = await sitemapSubmissionService.checkAllSitemapsHealth();
-
-  // Log results for monitoring
-  console.log('Sitemap Submission Results:', submissions);
-  console.log('Sitemap Health Checks:', healthChecks);
 
   return {
     submissions,

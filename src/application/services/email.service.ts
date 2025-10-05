@@ -5,8 +5,15 @@ const logger = createScopedLogger('EmailService');
 export interface IEmailService {
   sendEmail(to: string, subject: string, content: string): Promise<boolean>;
   sendRfqConfirmation(email: string, rfqNumber: string): Promise<boolean>;
-  sendRfqAdminNotification(rfqNumber: string, customerInfo: any): Promise<boolean>;
-  sendRfqStatusUpdate(email: string, rfqNumber: string, status: string): Promise<boolean>;
+  sendRfqAdminNotification(
+    rfqNumber: string,
+    customerInfo: any
+  ): Promise<boolean>;
+  sendRfqStatusUpdate(
+    email: string,
+    rfqNumber: string,
+    status: string
+  ): Promise<boolean>;
 }
 
 class EmailServiceImpl implements IEmailService {

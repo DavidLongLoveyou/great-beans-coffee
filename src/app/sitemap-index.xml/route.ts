@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import { siteConfig } from '@/shared/config/site';
+import { createScopedLogger } from '@/shared/utils/logger';
+
+const logger = createScopedLogger('SitemapIndex');
 
 /**
  * Generate and serve the sitemap index file
@@ -33,8 +37,10 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error generating sitemap index:', error);
-    
+    if (process.env.NODE_ENV === 'development') {
+      logger.error('Error generating sitemap index:', error);
+    }
+
     return new NextResponse('Internal Server Error', {
       status: 500,
       headers: {

@@ -1,4 +1,4 @@
-import { Locale } from '@/shared/types/locale';
+import { Locale } from '@/i18n';
 
 /**
  * Core SEO Configuration
@@ -272,6 +272,27 @@ export const localizedSeoConfig: Record<
     region: 'KR',
     currency: 'KRW',
     timezone: 'Asia/Seoul',
+  },
+  vi: {
+    siteName: 'The Great Beans - Xuất Khẩu Cà Phê Việt Nam Cao Cấp',
+    siteDescription:
+      'Nhà xuất khẩu cà phê Việt Nam hàng đầu chuyên về hạt Robusta và Arabica cao cấp. Dịch vụ B2B sourcing, private label và OEM cho các nhà nhập khẩu và rang xay toàn cầu.',
+    keywords: [
+      'cà phê việt nam',
+      'hạt cà phê robusta',
+      'cà phê arabica việt nam',
+      'xuất khẩu cà phê việt nam',
+      'hạt cà phê cao cấp',
+      'sourcing cà phê b2b',
+      'private label cà phê',
+      'dịch vụ oem cà phê',
+      'nhà cung cấp cà phê việt nam',
+      'hạt cà phê đặc biệt',
+    ],
+    language: 'vi-VN',
+    region: 'VN',
+    currency: 'VND',
+    timezone: 'Asia/Ho_Chi_Minh',
   },
 };
 

@@ -227,7 +227,11 @@ export class CoffeeProductEntity {
   get specifications(): CoffeeSpecifications {
     return this.data.specifications;
   }
-  get images(): Array<{ url: string; alt: MultilingualContent; isPrimary: boolean }> {
+  get images(): Array<{
+    url: string;
+    alt: MultilingualContent;
+    isPrimary: boolean;
+  }> {
     return this.data.images;
   }
   get documents() {

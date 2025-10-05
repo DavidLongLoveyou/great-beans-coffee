@@ -2,16 +2,22 @@
 
 export interface SeoMetadataDto {
   id: string;
-  entityType: 'PAGE' | 'PRODUCT' | 'BLOG_POST' | 'MARKET_REPORT' | 'ORIGIN_STORY' | 'SERVICE';
+  entityType:
+    | 'PAGE'
+    | 'PRODUCT'
+    | 'BLOG_POST'
+    | 'MARKET_REPORT'
+    | 'ORIGIN_STORY'
+    | 'SERVICE';
   entityId: string;
   locale: string;
-  
+
   // Basic SEO
   title: string;
   description: string;
   keywords: string[];
   canonicalUrl?: string;
-  
+
   // Open Graph
   ogTitle?: string;
   ogDescription?: string;
@@ -19,7 +25,7 @@ export interface SeoMetadataDto {
   ogType?: 'website' | 'article' | 'product' | 'business.business';
   ogUrl?: string;
   ogSiteName?: string;
-  
+
   // Twitter Card
   twitterCard?: 'summary' | 'summary_large_image' | 'app' | 'player';
   twitterTitle?: string;
@@ -27,13 +33,13 @@ export interface SeoMetadataDto {
   twitterImage?: string;
   twitterSite?: string;
   twitterCreator?: string;
-  
+
   // Structured Data
   structuredData?: Array<{
     type: string;
     data: Record<string, any>;
   }>;
-  
+
   // Technical SEO
   robots?: {
     index: boolean;
@@ -45,17 +51,24 @@ export interface SeoMetadataDto {
     maxImagePreview?: 'none' | 'standard' | 'large';
     maxVideoPreview?: number;
   };
-  
+
   // Hreflang
   alternateUrls?: Array<{
     locale: string;
     url: string;
   }>;
-  
+
   // Performance
   priority?: number; // 0.0 to 1.0 for sitemap
-  changeFrequency?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
-  
+  changeFrequency?:
+    | 'always'
+    | 'hourly'
+    | 'daily'
+    | 'weekly'
+    | 'monthly'
+    | 'yearly'
+    | 'never';
+
   // Metadata
   isActive: boolean;
   createdAt: Date;
@@ -99,7 +112,7 @@ export interface SeoAnalysisDto {
   entityId: string;
   locale: string;
   url: string;
-  
+
   // Content Analysis
   contentAnalysis: {
     titleLength: number;
@@ -114,7 +127,7 @@ export interface SeoAnalysisDto {
     readabilityScore?: number;
     duplicateContent?: boolean;
   };
-  
+
   // Technical Analysis
   technicalAnalysis: {
     hasCanonical: boolean;
@@ -127,7 +140,7 @@ export interface SeoAnalysisDto {
     pageLoadSpeed?: number;
     mobileOptimized?: boolean;
   };
-  
+
   // SEO Score
   score: {
     overall: number; // 0-100
@@ -136,7 +149,7 @@ export interface SeoAnalysisDto {
     performance: number;
     accessibility: number;
   };
-  
+
   // Recommendations
   recommendations: Array<{
     type: 'CRITICAL' | 'WARNING' | 'INFO';
@@ -145,7 +158,7 @@ export interface SeoAnalysisDto {
     suggestion: string;
     priority: number;
   }>;
-  
+
   // Metadata
   analyzedAt: Date;
   analyzedBy?: string;
@@ -157,7 +170,7 @@ export interface SeoPerformanceDto {
   entityId: string;
   locale: string;
   url: string;
-  
+
   // Search Console Data
   searchConsole?: {
     impressions: number;
@@ -172,7 +185,7 @@ export interface SeoPerformanceDto {
       position: number;
     }>;
   };
-  
+
   // Analytics Data
   analytics?: {
     pageViews: number;
@@ -183,7 +196,7 @@ export interface SeoPerformanceDto {
     conversions: number;
     conversionRate: number;
   };
-  
+
   // Rankings
   rankings?: Array<{
     keyword: string;
@@ -193,7 +206,7 @@ export interface SeoPerformanceDto {
     device: 'DESKTOP' | 'MOBILE';
     checkedAt: Date;
   }>;
-  
+
   // Backlinks
   backlinks?: {
     totalBacklinks: number;
@@ -207,7 +220,7 @@ export interface SeoPerformanceDto {
       firstSeen: Date;
     }>;
   };
-  
+
   // Period
   periodStart: Date;
   periodEnd: Date;
@@ -218,13 +231,13 @@ export interface SeoKeywordDto {
   id: string;
   keyword: string;
   locale: string;
-  
+
   // Keyword Metrics
   searchVolume?: number;
   difficulty?: number; // 0-100
   cpc?: number; // Cost per click
   competition?: 'LOW' | 'MEDIUM' | 'HIGH';
-  
+
   // Targeting
   targetPages: Array<{
     entityType: SeoMetadataDto['entityType'];
@@ -232,7 +245,7 @@ export interface SeoKeywordDto {
     url: string;
     isPrimary: boolean;
   }>;
-  
+
   // Performance
   currentRanking?: number;
   targetRanking?: number;
@@ -241,11 +254,11 @@ export interface SeoKeywordDto {
     position: number;
     date: Date;
   }>;
-  
+
   // Related Keywords
   relatedKeywords?: string[];
   longTailKeywords?: string[];
-  
+
   // Metadata
   isActive: boolean;
   createdAt: Date;
@@ -257,12 +270,12 @@ export interface SeoAuditDto {
   id: string;
   auditType: 'FULL_SITE' | 'PAGE_SPECIFIC' | 'TECHNICAL' | 'CONTENT';
   status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
-  
+
   // Scope
   urls?: string[];
   entityTypes?: SeoMetadataDto['entityType'][];
   locales?: string[];
-  
+
   // Results
   results?: {
     totalPages: number;
@@ -271,7 +284,7 @@ export interface SeoAuditDto {
     criticalIssues: number;
     warningIssues: number;
     infoIssues: number;
-    
+
     // Issue Summary
     issues: Array<{
       type: 'CRITICAL' | 'WARNING' | 'INFO';
@@ -280,7 +293,7 @@ export interface SeoAuditDto {
       affectedPages: number;
       urls: string[];
     }>;
-    
+
     // Recommendations
     recommendations: Array<{
       priority: number;
@@ -291,7 +304,7 @@ export interface SeoAuditDto {
       effort: 'HIGH' | 'MEDIUM' | 'LOW';
     }>;
   };
-  
+
   // Metadata
   startedAt: Date;
   completedAt?: Date;

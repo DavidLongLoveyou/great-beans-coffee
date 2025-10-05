@@ -23,7 +23,7 @@ export function generateCleanPath(url: string | undefined): string {
 export function generateHreflangUrls(
   url: string | undefined,
   baseUrl: string = seoConfig.siteUrl,
-  alternateLocales: Locale[] = locales
+  alternateLocales: readonly Locale[] = locales
 ): Record<string, string> {
   const cleanPath = generateCleanPath(url);
   const hreflangUrls: Record<string, string> = {};
@@ -43,7 +43,8 @@ export function generateHreflangUrls(
 export const seoConfig = {
   siteName: 'The Great Beans',
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://thegreatbeans.com',
-  defaultTitle: 'The Great Beans - Premium Vietnamese Coffee Export & B2B Solutions',
+  defaultTitle:
+    'The Great Beans - Premium Vietnamese Coffee Export & B2B Solutions',
   defaultDescription:
     'Leading Vietnamese coffee exporter specializing in premium Arabica and Robusta beans. B2B solutions, private label manufacturing, and sustainable sourcing for global coffee businesses.',
   defaultKeywords: [
@@ -61,15 +62,25 @@ export const seoConfig = {
     'fair trade coffee',
     'organic coffee export',
     'coffee supply chain',
-    'coffee roasting services'
+    'coffee roasting services',
   ],
   twitterHandle: '@thegreatbeans',
   defaultImage: '/images/hero-coffee-beans.jpg',
   favicon: '/favicon.ico',
   appleTouchIcon: '/apple-touch-icon.png',
   manifest: '/site.webmanifest',
-  supportedLocales: ['en', 'vi', 'de', 'ja', 'fr', 'it', 'es', 'nl', 'ko'] as Locale[],
-  
+  supportedLocales: [
+    'en',
+    'vi',
+    'de',
+    'ja',
+    'fr',
+    'it',
+    'es',
+    'nl',
+    'ko',
+  ] as Locale[],
+
   // Enhanced metadata for better SEO
   organization: {
     name: 'The Great Beans',
@@ -93,13 +104,31 @@ export const seoConfig = {
       instagram: 'https://instagram.com/thegreatbeans',
     },
   },
-  
+
   // Industry-specific metadata
   industry: {
     sector: 'Coffee Export and Manufacturing',
     naics: ['311920'], // Coffee and Tea Manufacturing
-    targetMarkets: ['B2B Coffee Buyers', 'Private Label Brands', 'Coffee Roasters', 'Distributors'],
-    servesCountries: ['US', 'CA', 'GB', 'DE', 'FR', 'IT', 'ES', 'NL', 'AU', 'JP', 'KR', 'SG'],
+    targetMarkets: [
+      'B2B Coffee Buyers',
+      'Private Label Brands',
+      'Coffee Roasters',
+      'Distributors',
+    ],
+    servesCountries: [
+      'US',
+      'CA',
+      'GB',
+      'DE',
+      'FR',
+      'IT',
+      'ES',
+      'NL',
+      'AU',
+      'JP',
+      'KR',
+      'SG',
+    ],
     certifications: [
       'ISO 22000:2018 Food Safety Management',
       'Rainforest Alliance Certified',
@@ -107,7 +136,7 @@ export const seoConfig = {
       'USDA Organic Certified',
     ],
   },
-  
+
   // Technical SEO settings
   technical: {
     enableStructuredData: true,
@@ -136,7 +165,7 @@ export interface SEOProps {
   section?: string;
   tags?: string[];
   locale?: Locale;
-  alternateLocales?: Locale[];
+  alternateLocales?: readonly Locale[];
   noIndex?: boolean;
   canonical?: string;
 }
@@ -175,11 +204,10 @@ export function generateMetadata({
     creator: seoConfig.siteName,
     publisher: seoConfig.siteName,
     robots: noIndex ? 'noindex, nofollow' : 'index, follow',
-    canonical: canonical || fullUrl,
 
     // Open Graph
     openGraph: {
-      type,
+      type: type === 'article' ? 'article' : 'website',
       title: fullTitle,
       description,
       url: fullUrl,

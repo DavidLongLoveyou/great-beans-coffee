@@ -1,8 +1,7 @@
-import { ContentManager } from '@/lib/contentlayer';
-
 import { seoConfig } from './seo-utils';
 
 import { Locale } from '@/i18n';
+import { ContentManager } from '@/lib/contentlayer';
 
 interface RSSItem {
   title: string;
@@ -11,7 +10,7 @@ interface RSSItem {
   author: string;
   date: Date;
   category: string;
-  image?: string;
+  image?: string | undefined;
 }
 
 /**
@@ -55,7 +54,7 @@ function generateRSSXML(
       <title><![CDATA[${item.title}]]></title>
       <link>${escapeXml(item.link)}</link>
       <description><![CDATA[${item.description}]]></description>
-      <author>${escapeXml(seoConfig.contactEmail)} (${escapeXml(item.author)})</author>
+      <author>${escapeXml(seoConfig.organization.email)} (${escapeXml(item.author)})</author>
       <category>${escapeXml(item.category)}</category>
       <pubDate>${item.date.toUTCString()}</pubDate>
       <guid isPermaLink="true">${escapeXml(item.link)}</guid>
@@ -89,14 +88,13 @@ function generateRSSXML(
  * Generate RSS feed for blog posts in a specific locale
  */
 export async function generateBlogRSSFeed(locale: Locale): Promise<string> {
-  const contentManager = new ContentManager();
-  const blogPosts = await contentManager.getBlogPosts(locale);
+  const blogPosts = ContentManager.getBlogPosts(locale);
 
   const items: RSSItem[] = blogPosts.map(post => ({
     title: post.title,
     link: `${seoConfig.siteUrl}/${locale}/blog/${post.slug}`,
-    description: post.excerpt,
-    author: post.author,
+    description: post.excerpt || post.description || 'No description available',
+    author: post.author || 'The Great Beans Team',
     date: new Date(post.publishedAt),
     category: 'Blog',
     image: post.coverImage
@@ -119,14 +117,14 @@ export async function generateBlogRSSFeed(locale: Locale): Promise<string> {
 export async function generateMarketReportsRSSFeed(
   locale: Locale
 ): Promise<string> {
-  const contentManager = new ContentManager();
-  const marketReports = await contentManager.getMarketReports(locale);
+  const marketReports = ContentManager.getMarketReports(locale);
 
   const items: RSSItem[] = marketReports.map(report => ({
     title: report.title,
     link: `${seoConfig.siteUrl}/${locale}/market-reports/${report.slug}`,
-    description: report.excerpt,
-    author: report.author,
+    description:
+      report.excerpt || report.description || 'No description available',
+    author: report.author || 'The Great Beans Team',
     date: new Date(report.publishedAt),
     category: 'Market Report',
     image: report.coverImage
@@ -149,14 +147,14 @@ export async function generateMarketReportsRSSFeed(
 export async function generateOriginStoriesRSSFeed(
   locale: Locale
 ): Promise<string> {
-  const contentManager = new ContentManager();
-  const originStories = await contentManager.getOriginStories(locale);
+  const originStories = ContentManager.getOriginStories(locale);
 
   const items: RSSItem[] = originStories.map(story => ({
     title: story.title,
     link: `${seoConfig.siteUrl}/${locale}/origin-stories/${story.slug}`,
-    description: story.excerpt,
-    author: story.author,
+    description:
+      story.excerpt || story.description || 'No description available',
+    author: story.author || 'The Great Beans Team',
     date: new Date(story.publishedAt),
     category: 'Origin Story',
     image: story.coverImage
@@ -179,20 +177,18 @@ export async function generateOriginStoriesRSSFeed(
 export async function generateAllContentRSSFeed(
   locale: Locale
 ): Promise<string> {
-  const contentManager = new ContentManager();
-  const [blogPosts, marketReports, originStories] = await Promise.all([
-    contentManager.getBlogPosts(locale),
-    contentManager.getMarketReports(locale),
-    contentManager.getOriginStories(locale),
-  ]);
+  const blogPosts = ContentManager.getBlogPosts(locale);
+  const marketReports = ContentManager.getMarketReports(locale);
+  const originStories = ContentManager.getOriginStories(locale);
 
   // Combine all content and sort by date
   const allContent: RSSItem[] = [
     ...blogPosts.map(post => ({
       title: post.title,
       link: `${seoConfig.siteUrl}/${locale}/blog/${post.slug}`,
-      description: post.excerpt,
-      author: post.author,
+      description:
+        post.excerpt || post.description || 'No description available',
+      author: post.author || 'The Great Beans Team',
       date: new Date(post.publishedAt),
       category: 'Blog',
       image: post.coverImage
@@ -202,8 +198,9 @@ export async function generateAllContentRSSFeed(
     ...marketReports.map(report => ({
       title: report.title,
       link: `${seoConfig.siteUrl}/${locale}/market-reports/${report.slug}`,
-      description: report.excerpt,
-      author: report.author,
+      description:
+        report.excerpt || report.description || 'No description available',
+      author: report.author || 'The Great Beans Team',
       date: new Date(report.publishedAt),
       category: 'Market Report',
       image: report.coverImage
@@ -213,8 +210,9 @@ export async function generateAllContentRSSFeed(
     ...originStories.map(story => ({
       title: story.title,
       link: `${seoConfig.siteUrl}/${locale}/origin-stories/${story.slug}`,
-      description: story.excerpt,
-      author: story.author,
+      description:
+        story.excerpt || story.description || 'No description available',
+      author: story.author || 'The Great Beans Team',
       date: new Date(story.publishedAt),
       category: 'Origin Story',
       image: story.coverImage

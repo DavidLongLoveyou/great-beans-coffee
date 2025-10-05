@@ -187,7 +187,9 @@ export default function QuotePage({
 
         // Recurring Order
         isRecurringOrder: formData.isRecurringOrder,
-        recurringFrequency: formData.isRecurringOrder ? formData.recurringFrequency as any : undefined,
+        recurringFrequency: formData.isRecurringOrder
+          ? (formData.recurringFrequency as any)
+          : undefined,
 
         // Payment Terms
         paymentTerms: formData.paymentTerms,
@@ -235,14 +237,14 @@ export default function QuotePage({
                 Our team will review your requirements and respond within 24
                 hours.
               </p>
-              <div className="mb-6 rounded-lg bg-forest-50 p-4 border border-forest-200">
+              <div className="mb-6 rounded-lg border border-forest-200 bg-forest-50 p-4">
                 <p className="text-sm text-forest-600">Reference Number</p>
                 <p className="font-mono text-xl font-bold text-forest-800">
                   {rfqNumber || `RFQ-${Date.now()}`}
                 </p>
               </div>
               <Button
-                className="bg-forest-600 hover:bg-forest-700 shadow-forest"
+                className="bg-forest-600 shadow-forest hover:bg-forest-700"
                 onClick={() => (window.location.href = `/${locale}/products`)}
               >
                 Browse Our Products
@@ -312,11 +314,21 @@ export default function QuotePage({
         <Card className="shadow-forest">
           <CardHeader className="border-b border-forest-100">
             <CardTitle className="flex items-center text-forest-800">
-              {displayStep === 1 && <Coffee className="mr-2 h-5 w-5 text-forest-600" />}
-              {displayStep === 2 && <Package className="mr-2 h-5 w-5 text-forest-600" />}
-              {displayStep === 3 && <CreditCard className="mr-2 h-5 w-5 text-forest-600" />}
-              {displayStep === 4 && <Building2 className="mr-2 h-5 w-5 text-forest-600" />}
-              {displayStep === 5 && <FileText className="mr-2 h-5 w-5 text-forest-600" />}
+              {displayStep === 1 && (
+                <Coffee className="mr-2 h-5 w-5 text-forest-600" />
+              )}
+              {displayStep === 2 && (
+                <Package className="mr-2 h-5 w-5 text-forest-600" />
+              )}
+              {displayStep === 3 && (
+                <CreditCard className="mr-2 h-5 w-5 text-forest-600" />
+              )}
+              {displayStep === 4 && (
+                <Building2 className="mr-2 h-5 w-5 text-forest-600" />
+              )}
+              {displayStep === 5 && (
+                <FileText className="mr-2 h-5 w-5 text-forest-600" />
+              )}
               {displayStep === 1 && 'Product Requirements'}
               {displayStep === 2 && 'Quantity & Delivery'}
               {displayStep === 3 && 'Payment Terms'}
@@ -424,7 +436,9 @@ export default function QuotePage({
                       value={formData.moistureMax || ''}
                       onChange={e =>
                         updateFormData({
-                          moistureMax: e.target.value ? parseFloat(e.target.value) : null
+                          moistureMax: e.target.value
+                            ? parseFloat(e.target.value)
+                            : null,
                         })
                       }
                       placeholder="e.g., 12.5"
@@ -442,7 +456,9 @@ export default function QuotePage({
                       value={formData.defectRateMax || ''}
                       onChange={e =>
                         updateFormData({
-                          defectRateMax: e.target.value ? parseFloat(e.target.value) : null
+                          defectRateMax: e.target.value
+                            ? parseFloat(e.target.value)
+                            : null,
                         })
                       }
                       placeholder="e.g., 5.0"
@@ -467,13 +483,17 @@ export default function QuotePage({
                           checked={formData.certifications.includes(cert)}
                           onCheckedChange={checked => {
                             if (checked) {
-                              updateFormData({ certifications: [
-                                ...formData.certifications,
-                                cert,
-                              ] });
+                              updateFormData({
+                                certifications: [
+                                  ...formData.certifications,
+                                  cert,
+                                ],
+                              });
                             } else {
                               updateFormData({
-                                certifications: formData.certifications.filter(c => c !== cert)
+                                certifications: formData.certifications.filter(
+                                  c => c !== cert
+                                ),
                               });
                             }
                           }}
@@ -499,7 +519,9 @@ export default function QuotePage({
                       value={formData.quantity || ''}
                       onChange={e =>
                         updateFormData({
-                          quantity: e.target.value ? parseFloat(e.target.value) : null
+                          quantity: e.target.value
+                            ? parseFloat(e.target.value)
+                            : null,
                         })
                       }
                       placeholder="Enter quantity"
@@ -793,7 +815,9 @@ export default function QuotePage({
                     <Label htmlFor="position">Position</Label>
                     <Input
                       value={formData.position}
-                      onChange={e => updateFormData({ position: e.target.value })}
+                      onChange={e =>
+                        updateFormData({ position: e.target.value })
+                      }
                       placeholder="Enter position/title"
                     />
                   </div>
@@ -846,7 +870,9 @@ export default function QuotePage({
                       />
                       <Input
                         value={formData.state}
-                        onChange={e => updateFormData({ state: e.target.value })}
+                        onChange={e =>
+                          updateFormData({ state: e.target.value })
+                        }
                         placeholder="State/Province"
                       />
                       <Input
@@ -859,7 +885,9 @@ export default function QuotePage({
                     </div>
                     <Input
                       value={formData.country}
-                      onChange={e => updateFormData({ country: e.target.value })}
+                      onChange={e =>
+                        updateFormData({ country: e.target.value })
+                      }
                       placeholder="Country"
                     />
                   </div>
@@ -1014,7 +1042,7 @@ export default function QuotePage({
                         variant="outline"
                         size="sm"
                         onClick={clearError}
-                        className="border-red-300 text-red-800 hover:bg-red-50 hover:border-red-400"
+                        className="border-red-300 text-red-800 hover:border-red-400 hover:bg-red-50"
                       >
                         Dismiss
                       </Button>
@@ -1037,10 +1065,10 @@ export default function QuotePage({
               </Button>
 
               {currentStep < steps.length - 1 ? (
-                <Button 
-                  onClick={nextStep} 
+                <Button
+                  onClick={nextStep}
                   disabled={isSubmitting}
-                  className="bg-forest-600 hover:bg-forest-700 text-white shadow-forest"
+                  className="bg-forest-600 text-white shadow-forest hover:bg-forest-700"
                 >
                   Next
                   <ChevronRight className="ml-2 h-4 w-4" />
@@ -1049,7 +1077,7 @@ export default function QuotePage({
                 <Button
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="min-w-[140px] bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-medium"
+                  className="shadow-emerald-medium min-w-[140px] bg-emerald-600 text-white hover:bg-emerald-700"
                 >
                   {isSubmitting ? (
                     <>

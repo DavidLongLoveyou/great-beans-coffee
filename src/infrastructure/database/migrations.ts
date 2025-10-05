@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
+import { createScopedLogger } from '../../shared/utils/logger';
+
 import { prisma } from './prisma';
 
 export interface MigrationResult {
@@ -10,6 +12,7 @@ export interface MigrationResult {
 
 export class DatabaseMigrations {
   private prisma: PrismaClient;
+  private logger = createScopedLogger('DatabaseMigrations');
 
   constructor() {
     this.prisma = prisma;
@@ -20,20 +23,20 @@ export class DatabaseMigrations {
    */
   async runMigrations(): Promise<MigrationResult> {
     try {
-      console.log('🔄 Running database migrations...');
+      this.logger.info('🔄 Running database migrations...');
 
       // This would typically use Prisma CLI commands
       // For now, we'll implement basic migration checks
       await this.checkDatabaseConnection();
       await this.ensureRequiredTables();
 
-      console.log('✅ Database migrations completed successfully');
+      this.logger.info('✅ Database migrations completed successfully');
       return {
         success: true,
         message: 'All migrations completed successfully',
       };
     } catch (error) {
-      console.error('❌ Migration failed:', error);
+      this.logger.error('❌ Migration failed:', error);
       return {
         success: false,
         message: 'Migration failed',
@@ -48,7 +51,7 @@ export class DatabaseMigrations {
   private async checkDatabaseConnection(): Promise<void> {
     try {
       await this.prisma.$queryRaw`SELECT 1`;
-      console.log('✅ Database connection verified');
+      this.logger.info('✅ Database connection verified');
     } catch (error) {
       throw new Error(`Database connection failed: ${error}`);
     }
@@ -92,7 +95,7 @@ export class DatabaseMigrations {
         throw new Error(`Table ${tableName} does not exist`);
       }
 
-      console.log(`✅ Table ${tableName} verified`);
+      this.logger.info(`✅ Table ${tableName} verified`);
     } catch (error) {
       throw new Error(`Table ${tableName} check failed: ${error}`);
     }
@@ -111,7 +114,7 @@ export class DatabaseMigrations {
     }
 
     try {
-      console.log('🔄 Resetting database...');
+      this.logger.info('🔄 Resetting database...');
 
       // Delete all data in reverse dependency order
       await this.prisma.content.deleteMany();
@@ -131,13 +134,13 @@ export class DatabaseMigrations {
 
       await this.prisma.user.deleteMany();
 
-      console.log('✅ Database reset completed');
+      this.logger.info('✅ Database reset completed');
       return {
         success: true,
         message: 'Database reset completed successfully',
       };
     } catch (error) {
-      console.error('❌ Database reset failed:', error);
+      this.logger.error('❌ Database reset failed:', error);
       return {
         success: false,
         message: 'Database reset failed',
@@ -151,7 +154,7 @@ export class DatabaseMigrations {
    */
   async createIndexes(): Promise<MigrationResult> {
     try {
-      console.log('🔄 Creating database indexes...');
+      this.logger.info('🔄 Creating database indexes...');
 
       const indexes = [
         // Coffee Product indexes
@@ -193,17 +196,17 @@ export class DatabaseMigrations {
         try {
           await this.prisma.$executeRawUnsafe(indexQuery);
         } catch (error) {
-          console.warn(`⚠️ Index creation warning: ${error}`);
+          this.logger.warn(`⚠️ Index creation warning: ${error}`);
         }
       }
 
-      console.log('✅ Database indexes created successfully');
+      this.logger.info('✅ Database indexes created successfully');
       return {
         success: true,
         message: 'Database indexes created successfully',
       };
     } catch (error) {
-      console.error('❌ Index creation failed:', error);
+      this.logger.error('❌ Index creation failed:', error);
       return {
         success: false,
         message: 'Index creation failed',
@@ -220,19 +223,19 @@ export class DatabaseMigrations {
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const name = backupName || `backup-${timestamp}`;
 
-      console.log(`🔄 Creating database backup: ${name}`);
+      this.logger.info(`🔄 Creating database backup: ${name}`);
 
       // This would typically use pg_dump or similar
       // For now, we'll just verify the operation is possible
       await this.checkDatabaseConnection();
 
-      console.log(`✅ Database backup ${name} created successfully`);
+      this.logger.info(`✅ Database backup ${name} created successfully`);
       return {
         success: true,
         message: `Database backup ${name} created successfully`,
       };
     } catch (error) {
-      console.error('❌ Database backup failed:', error);
+      this.logger.error('❌ Database backup failed:', error);
       return {
         success: false,
         message: 'Database backup failed',
@@ -258,7 +261,7 @@ export class DatabaseMigrations {
         lastMigration: 'add_indexes',
       };
     } catch (error) {
-      console.error('❌ Failed to get migration status:', error);
+      this.logger.error('❌ Failed to get migration status:', error);
       return {
         applied: [],
         pending: ['unknown'],
@@ -271,7 +274,7 @@ export class DatabaseMigrations {
    */
   async validateSchema(): Promise<MigrationResult> {
     try {
-      console.log('🔄 Validating database schema...');
+      this.logger.info('🔄 Validating database schema...');
 
       // Check critical constraints and relationships
       const validations = [
@@ -282,13 +285,13 @@ export class DatabaseMigrations {
 
       await Promise.all(validations);
 
-      console.log('✅ Database schema validation completed');
+      this.logger.info('✅ Database schema validation completed');
       return {
         success: true,
         message: 'Database schema is valid',
       };
     } catch (error) {
-      console.error('❌ Schema validation failed:', error);
+      this.logger.error('❌ Schema validation failed:', error);
       return {
         success: false,
         message: 'Schema validation failed',

@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { cn } from '@/shared/utils/cn';
-
 import { CoffeeGradeIndicatorProps, CoffeeGrade } from '../types';
+
+import { cn } from '@/shared/utils/cn';
 
 // Coffee grade metadata
 const gradeData: Record<
@@ -175,7 +175,7 @@ export const CoffeeGradeIndicator = forwardRef<
         indicatorSizes[size],
         gradeInfo.color,
         gradeInfo.bgColor,
-        gradeInfo.premium && 'ring-1 ring-gold-200',
+        gradeInfo.premium && 'ring-gold-200 ring-1',
         className
       )}
       title={gradeInfo.description}
@@ -198,7 +198,7 @@ export const CoffeeGradeIndicator = forwardRef<
 
       {/* Premium indicator */}
       {gradeInfo.premium && (
-        <span className="text-xs font-bold text-gold-600">★</span>
+        <span className="text-gold-600 text-xs font-bold">★</span>
       )}
     </div>
   );
@@ -233,7 +233,7 @@ export const GradeComparison = forwardRef<
               </div>
             </div>
             {gradeInfo.premium && (
-              <span className="rounded-full bg-gold-100 px-2 py-1 text-xs font-semibold text-gold-700">
+              <span className="bg-gold-100 text-gold-700 rounded-full px-2 py-1 text-xs font-semibold">
                 Premium
               </span>
             )}

@@ -1,10 +1,18 @@
 import { allBlogPosts } from 'contentlayer/generated';
+
 import { siteConfig } from '@/shared/config/site';
 
 export interface SitemapEntry {
   url: string;
   lastModified?: Date;
-  changeFrequency?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+  changeFrequency?:
+    | 'always'
+    | 'hourly'
+    | 'daily'
+    | 'weekly'
+    | 'monthly'
+    | 'yearly'
+    | 'never';
   priority?: number;
   alternateLanguages?: Array<{
     hreflang: string;
@@ -50,7 +58,7 @@ export class SitemapGenerator {
     entries.push(...this.getStaticPages());
 
     // Add blog posts
-    entries.push(...await this.getBlogPostEntries());
+    entries.push(...(await this.getBlogPostEntries()));
 
     // Add service pages
     entries.push(...this.getServicePages());
@@ -71,7 +79,9 @@ export class SitemapGenerator {
 
     // Filter out excluded paths
     const filteredEntries = options.excludePaths
-      ? entries.filter(entry => !options.excludePaths!.some(path => entry.url.includes(path)))
+      ? entries.filter(
+          entry => !options.excludePaths!.some(path => entry.url.includes(path))
+        )
       : entries;
 
     // Sort by priority and URL
@@ -95,16 +105,21 @@ export class SitemapGenerator {
       { path: '/contact', priority: 0.7, changeFreq: 'monthly' as const },
       { path: '/blog', priority: 0.8, changeFreq: 'daily' as const },
       { path: '/market-reports', priority: 0.7, changeFreq: 'weekly' as const },
-      { path: '/origin-stories', priority: 0.6, changeFreq: 'monthly' as const },
+      {
+        path: '/origin-stories',
+        priority: 0.6,
+        changeFreq: 'monthly' as const,
+      },
     ];
 
     const entries: SitemapEntry[] = [];
 
     staticPages.forEach(page => {
       this.supportedLocales.forEach(locale => {
-        const url = locale === this.defaultLocale 
-          ? `${this.baseUrl}${page.path}`
-          : `${this.baseUrl}/${locale}${page.path}`;
+        const url =
+          locale === this.defaultLocale
+            ? `${this.baseUrl}${page.path}`
+            : `${this.baseUrl}/${locale}${page.path}`;
 
         entries.push({
           url,
@@ -122,12 +137,12 @@ export class SitemapGenerator {
   /**
    * Get blog post entries from Contentlayer
    */
-  private async getBlogPostEntries(): Promise<SitemapEntry[]> {
+  public async getBlogPostEntries(): Promise<SitemapEntry[]> {
     const entries: SitemapEntry[] = [];
 
     // Group blog posts by slug to handle multilingual content
     const postsBySlug = new Map<string, typeof allBlogPosts>();
-    
+
     allBlogPosts.forEach(post => {
       const slug = post.slug;
       if (!postsBySlug.has(slug)) {
@@ -138,12 +153,15 @@ export class SitemapGenerator {
 
     postsBySlug.forEach((posts, slug) => {
       // Find the most recent modification date
-      const lastModified = new Date(Math.max(...posts.map(p => new Date(p.publishedAt).getTime())));
-      
+      const lastModified = new Date(
+        Math.max(...posts.map(p => new Date(p.publishedAt).getTime()))
+      );
+
       posts.forEach(post => {
-        const url = post.locale === this.defaultLocale
-          ? `${this.baseUrl}/blog/${slug}`
-          : `${this.baseUrl}/${post.locale}/blog/${slug}`;
+        const url =
+          post.locale === this.defaultLocale
+            ? `${this.baseUrl}/blog/${slug}`
+            : `${this.baseUrl}/${post.locale}/blog/${slug}`;
 
         entries.push({
           url,
@@ -161,7 +179,7 @@ export class SitemapGenerator {
   /**
    * Get service page entries
    */
-  private getServicePages(): SitemapEntry[] {
+  public getServicePages(): SitemapEntry[] {
     const services = [
       'coffee-sourcing',
       'quality-control',
@@ -175,16 +193,19 @@ export class SitemapGenerator {
 
     services.forEach(service => {
       this.supportedLocales.forEach(locale => {
-        const url = locale === this.defaultLocale
-          ? `${this.baseUrl}/services/${service}`
-          : `${this.baseUrl}/${locale}/services/${service}`;
+        const url =
+          locale === this.defaultLocale
+            ? `${this.baseUrl}/services/${service}`
+            : `${this.baseUrl}/${locale}/services/${service}`;
 
         entries.push({
           url,
           lastModified: new Date(),
           changeFrequency: 'monthly',
           priority: 0.8,
-          alternateLanguages: this.getAlternateLanguages(`/services/${service}`),
+          alternateLanguages: this.getAlternateLanguages(
+            `/services/${service}`
+          ),
         });
       });
     });
@@ -195,7 +216,7 @@ export class SitemapGenerator {
   /**
    * Get market report page entries
    */
-  private getMarketReportPages(): SitemapEntry[] {
+  public getMarketReportPages(): SitemapEntry[] {
     const reports = [
       'vietnam-coffee-market-2024',
       'global-coffee-trends-2024',
@@ -208,16 +229,19 @@ export class SitemapGenerator {
 
     reports.forEach(report => {
       this.supportedLocales.forEach(locale => {
-        const url = locale === this.defaultLocale
-          ? `${this.baseUrl}/market-reports/${report}`
-          : `${this.baseUrl}/${locale}/market-reports/${report}`;
+        const url =
+          locale === this.defaultLocale
+            ? `${this.baseUrl}/market-reports/${report}`
+            : `${this.baseUrl}/${locale}/market-reports/${report}`;
 
         entries.push({
           url,
           lastModified: new Date(),
           changeFrequency: 'monthly',
           priority: 0.7,
-          alternateLanguages: this.getAlternateLanguages(`/market-reports/${report}`),
+          alternateLanguages: this.getAlternateLanguages(
+            `/market-reports/${report}`
+          ),
         });
       });
     });
@@ -228,7 +252,7 @@ export class SitemapGenerator {
   /**
    * Get origin story page entries
    */
-  private getOriginStoryPages(): SitemapEntry[] {
+  public getOriginStoryPages(): SitemapEntry[] {
     const origins = [
       'vietnam-coffee-heritage',
       'sustainable-farming-practices',
@@ -240,16 +264,19 @@ export class SitemapGenerator {
 
     origins.forEach(origin => {
       this.supportedLocales.forEach(locale => {
-        const url = locale === this.defaultLocale
-          ? `${this.baseUrl}/origin-stories/${origin}`
-          : `${this.baseUrl}/${locale}/origin-stories/${origin}`;
+        const url =
+          locale === this.defaultLocale
+            ? `${this.baseUrl}/origin-stories/${origin}`
+            : `${this.baseUrl}/${locale}/origin-stories/${origin}`;
 
         entries.push({
           url,
           lastModified: new Date(),
           changeFrequency: 'yearly',
           priority: 0.6,
-          alternateLanguages: this.getAlternateLanguages(`/origin-stories/${origin}`),
+          alternateLanguages: this.getAlternateLanguages(
+            `/origin-stories/${origin}`
+          ),
         });
       });
     });
@@ -272,9 +299,10 @@ export class SitemapGenerator {
 
     legalPages.forEach(page => {
       this.supportedLocales.forEach(locale => {
-        const url = locale === this.defaultLocale
-          ? `${this.baseUrl}/legal/${page}`
-          : `${this.baseUrl}/${locale}/legal/${page}`;
+        const url =
+          locale === this.defaultLocale
+            ? `${this.baseUrl}/legal/${page}`
+            : `${this.baseUrl}/${locale}/legal/${page}`;
 
         entries.push({
           url,
@@ -292,12 +320,15 @@ export class SitemapGenerator {
   /**
    * Get alternate language URLs for a path
    */
-  private getAlternateLanguages(path: string): Array<{ hreflang: string; href: string }> {
+  private getAlternateLanguages(
+    path: string
+  ): Array<{ hreflang: string; href: string }> {
     return this.supportedLocales.map(locale => ({
       hreflang: locale,
-      href: locale === this.defaultLocale 
-        ? `${this.baseUrl}${path}`
-        : `${this.baseUrl}/${locale}${path}`,
+      href:
+        locale === this.defaultLocale
+          ? `${this.baseUrl}${path}`
+          : `${this.baseUrl}/${locale}${path}`,
     }));
   }
 
@@ -305,17 +336,18 @@ export class SitemapGenerator {
    * Get alternate language URLs for blog posts
    */
   private getBlogPostAlternateLanguages(
-    slug: string, 
+    slug: string,
     posts: typeof allBlogPosts
   ): Array<{ hreflang: string; href: string }> {
     const alternates: Array<{ hreflang: string; href: string }> = [];
-    
+
     posts.forEach(post => {
       alternates.push({
         hreflang: post.locale,
-        href: post.locale === this.defaultLocale
-          ? `${this.baseUrl}/blog/${slug}`
-          : `${this.baseUrl}/${post.locale}/blog/${slug}`,
+        href:
+          post.locale === this.defaultLocale
+            ? `${this.baseUrl}/blog/${slug}`
+            : `${this.baseUrl}/${post.locale}/blog/${slug}`,
       });
     });
 
@@ -329,7 +361,9 @@ export class SitemapGenerator {
     let priority = 0.6; // Base priority for blog posts
 
     // Increase priority for recent posts
-    const daysSincePublished = (Date.now() - new Date(post.publishedAt).getTime()) / (1000 * 60 * 60 * 24);
+    const daysSincePublished =
+      (Date.now() - new Date(post.publishedAt).getTime()) /
+      (1000 * 60 * 60 * 24);
     if (daysSincePublished < 30) priority += 0.2;
     else if (daysSincePublished < 90) priority += 0.1;
 
@@ -337,7 +371,11 @@ export class SitemapGenerator {
     if (post.featured) priority += 0.1;
 
     // Increase priority for posts with high engagement categories
-    const highPriorityCategories = ['market-analysis', 'industry-insights', 'sustainability'];
+    const highPriorityCategories = [
+      'market-analysis',
+      'industry-insights',
+      'sustainability',
+    ];
     if (highPriorityCategories.includes(post.category)) priority += 0.1;
 
     return Math.min(priority, 1.0);
@@ -348,35 +386,38 @@ export class SitemapGenerator {
    */
   generateXMLSitemap(entries: SitemapEntry[]): string {
     const xmlHeader = '<?xml version="1.0" encoding="UTF-8"?>';
-    const urlsetOpen = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
+    const urlsetOpen =
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
     const urlsetClose = '</urlset>';
 
-    const urls = entries.map(entry => {
-      let urlXml = '  <url>\n';
-      urlXml += `    <loc>${this.escapeXml(entry.url)}</loc>\n`;
-      
-      if (entry.lastModified) {
-        urlXml += `    <lastmod>${entry.lastModified.toISOString().split('T')[0]}</lastmod>\n`;
-      }
-      
-      if (entry.changeFrequency) {
-        urlXml += `    <changefreq>${entry.changeFrequency}</changefreq>\n`;
-      }
-      
-      if (entry.priority !== undefined) {
-        urlXml += `    <priority>${entry.priority.toFixed(1)}</priority>\n`;
-      }
+    const urls = entries
+      .map(entry => {
+        let urlXml = '  <url>\n';
+        urlXml += `    <loc>${this.escapeXml(entry.url)}</loc>\n`;
 
-      // Add alternate language links
-      if (entry.alternateLanguages && entry.alternateLanguages.length > 1) {
-        entry.alternateLanguages.forEach(alt => {
-          urlXml += `    <xhtml:link rel="alternate" hreflang="${alt.hreflang}" href="${this.escapeXml(alt.href)}" />\n`;
-        });
-      }
+        if (entry.lastModified) {
+          urlXml += `    <lastmod>${entry.lastModified.toISOString().split('T')[0]}</lastmod>\n`;
+        }
 
-      urlXml += '  </url>';
-      return urlXml;
-    }).join('\n');
+        if (entry.changeFrequency) {
+          urlXml += `    <changefreq>${entry.changeFrequency}</changefreq>\n`;
+        }
+
+        if (entry.priority !== undefined) {
+          urlXml += `    <priority>${entry.priority.toFixed(1)}</priority>\n`;
+        }
+
+        // Add alternate language links
+        if (entry.alternateLanguages && entry.alternateLanguages.length > 1) {
+          entry.alternateLanguages.forEach(alt => {
+            urlXml += `    <xhtml:link rel="alternate" hreflang="${alt.hreflang}" href="${this.escapeXml(alt.href)}" />\n`;
+          });
+        }
+
+        urlXml += '  </url>';
+        return urlXml;
+      })
+      .join('\n');
 
     return `${xmlHeader}\n${urlsetOpen}\n${urls}\n${urlsetClose}`;
   }
@@ -439,7 +480,7 @@ export async function generateContentSitemap(
   contentType: 'blog' | 'services' | 'market-reports' | 'origin-stories' | 'all'
 ): Promise<SitemapEntry[]> {
   const generator = new SitemapGenerator();
-  
+
   switch (contentType) {
     case 'blog':
       return generator.getBlogPostEntries();
@@ -475,14 +516,32 @@ export function validateSitemapEntries(entries: SitemapEntry[]): {
     }
 
     // Validate priority range
-    if (entry.priority !== undefined && (entry.priority < 0 || entry.priority > 1)) {
-      errors.push(`Entry ${index}: Priority must be between 0 and 1 - ${entry.priority}`);
+    if (
+      entry.priority !== undefined &&
+      (entry.priority < 0 || entry.priority > 1)
+    ) {
+      errors.push(
+        `Entry ${index}: Priority must be between 0 and 1 - ${entry.priority}`
+      );
     }
 
     // Validate change frequency
-    const validFrequencies = ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'];
-    if (entry.changeFrequency && !validFrequencies.includes(entry.changeFrequency)) {
-      errors.push(`Entry ${index}: Invalid change frequency - ${entry.changeFrequency}`);
+    const validFrequencies = [
+      'always',
+      'hourly',
+      'daily',
+      'weekly',
+      'monthly',
+      'yearly',
+      'never',
+    ];
+    if (
+      entry.changeFrequency &&
+      !validFrequencies.includes(entry.changeFrequency)
+    ) {
+      errors.push(
+        `Entry ${index}: Invalid change frequency - ${entry.changeFrequency}`
+      );
     }
 
     // Check for duplicate URLs

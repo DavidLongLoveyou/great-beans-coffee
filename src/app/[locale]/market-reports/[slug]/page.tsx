@@ -1,3 +1,4 @@
+import { allMarketReports } from 'contentlayer/generated';
 import {
   CalendarDays,
   Clock,
@@ -22,7 +23,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { allMarketReports } from 'contentlayer/generated';
 
 interface MarketReportPageProps {
   params: Promise<{

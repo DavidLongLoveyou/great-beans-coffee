@@ -3,6 +3,7 @@ import {
   ICoffeeProductRepository,
   CoffeeProductFilters,
 } from '@/infrastructure/database/repositories/coffee-product.repository';
+import { createScopedLogger } from '@/shared/utils/logger';
 
 export interface GetProductsByCategoryRequest {
   category: 'type' | 'grade' | 'origin' | 'processing';
@@ -22,6 +23,8 @@ export interface GetProductsByCategoryResponse {
 }
 
 export class GetProductsByCategoryUseCase {
+  private logger = createScopedLogger('GetProductsByCategoryUseCase');
+
   constructor(private coffeeProductRepository: ICoffeeProductRepository) {}
 
   async execute(
@@ -79,7 +82,7 @@ export class GetProductsByCategoryUseCase {
         value,
       };
     } catch (error) {
-      console.error('Error fetching products by category:', error);
+      this.logger.error('Error fetching products by category:', error);
       throw new Error('Failed to fetch products by category');
     }
   }
