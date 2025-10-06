@@ -92,11 +92,9 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
 
-
-
         // Professional Forest Green - Primary Brand Color for B2B
         forest: {
-          50: 'hsl(var(--forest-50))',   // Very light green - backgrounds
+          50: 'hsl(var(--forest-50))', // Very light green - backgrounds
           100: 'hsl(var(--forest-100))', // Light green - subtle backgrounds
           200: 'hsl(var(--forest-200))', // Soft green - hover states
           300: 'hsl(var(--forest-300))', // Medium light green - borders
@@ -111,7 +109,7 @@ module.exports = {
 
         // Professional Sage Green - Secondary Brand Color
         sage: {
-          50: 'hsl(var(--sage-50))',   // Very light sage
+          50: 'hsl(var(--sage-50))', // Very light sage
           100: 'hsl(var(--sage-100))', // Light sage
           200: 'hsl(var(--sage-200))', // Soft sage
           300: 'hsl(var(--sage-300))', // Medium sage
@@ -226,31 +224,33 @@ module.exports = {
         soft: '0 2px 8px 0 rgba(0, 0, 0, 0.05)',
         medium: '0 4px 16px 0 rgba(0, 0, 0, 0.1)',
         strong: '0 8px 32px 0 rgba(0, 0, 0, 0.15)',
-        
+
         // Forest Green themed shadows - Primary brand
         forest: '0 4px 16px 0 rgba(34, 139, 34, 0.15)',
         'forest-soft': '0 2px 8px 0 rgba(34, 139, 34, 0.08)',
         'forest-medium': '0 6px 20px 0 rgba(34, 139, 34, 0.12)',
         'forest-strong': '0 8px 32px 0 rgba(34, 139, 34, 0.2)',
         'forest-glow': '0 0 20px 0 rgba(34, 139, 34, 0.3)',
-        
+
         // Sage Green themed shadows - Secondary brand
         sage: '0 4px 16px 0 rgba(107, 142, 107, 0.15)',
         'sage-soft': '0 2px 8px 0 rgba(107, 142, 107, 0.08)',
         'sage-medium': '0 6px 20px 0 rgba(107, 142, 107, 0.12)',
-        
+
         // Emerald themed shadows - Accent
         emerald: '0 4px 16px 0 rgba(16, 185, 129, 0.15)',
         'emerald-soft': '0 2px 8px 0 rgba(16, 185, 129, 0.08)',
         'emerald-glow': '0 0 20px 0 rgba(16, 185, 129, 0.25)',
-        
 
-        
         // Professional elevation shadows
-        'elevation-1': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        'elevation-2': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'elevation-3': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        'elevation-4': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        'elevation-1':
+          '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        'elevation-2':
+          '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'elevation-3':
+          '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'elevation-4':
+          '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
       },
 
       keyframes: {

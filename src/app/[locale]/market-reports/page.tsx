@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
 import { getMarketReports, getFeaturedMarketReports } from '@/lib/contentlayer';
-import { Button } from '@/presentation/components/ui/button';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -142,9 +142,9 @@ export default async function MarketReportsPage({
                         {report.category}
                       </div>
                       <Link href={report.url}>
-                        <Button variant="outline" size="sm">
+                        <ServerButton variant="outline" size="sm">
                           {tCommon('readMore')}
-                        </Button>
+                        </ServerButton>
                       </Link>
                     </div>
                   </CardContent>
@@ -186,9 +186,9 @@ export default async function MarketReportsPage({
                       {report.readingTime && `${report.readingTime} min read`}
                     </div>
                     <Link href={report.url}>
-                      <Button variant="outline" size="sm">
+                      <ServerButton variant="outline" size="sm">
                         {tCommon('readMore')}
-                      </Button>
+                      </ServerButton>
                     </Link>
                   </div>
                 </CardContent>

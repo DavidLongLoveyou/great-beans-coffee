@@ -23,6 +23,7 @@ import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n';
 import { SEOHead } from '@/presentation/components/seo/SEOHead';
 import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
 import {
   Card,
   CardContent,
@@ -35,8 +36,8 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
-  Button,
   GoldButton,
   CoffeeButton,
 } from '@/shared/components/design-system/Button';
@@ -363,10 +364,10 @@ export default async function ProductDetailPage({
           <ContentContainer>
             {/* Back Button */}
             <Link href={`/${locale}/products`}>
-              <Button variant="outline" className="mb-6">
+              <ServerButton variant="outline" className="mb-6">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Products
-              </Button>
+              </ServerButton>
             </Link>
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
@@ -398,14 +399,14 @@ export default async function ProductDetailPage({
                         Request Quote
                       </GoldButton>
                       <div className="grid grid-cols-2 gap-2">
-                        <Button variant="outline" size="sm">
+                        <ServerButton variant="outline" size="sm">
                           <Heart className="mr-2 h-4 w-4" />
                           Save
-                        </Button>
-                        <Button variant="outline" size="sm">
+                        </ServerButton>
+                        <ServerButton variant="outline" size="sm">
                           <Share2 className="mr-2 h-4 w-4" />
                           Share
-                        </Button>
+                        </ServerButton>
                       </div>
                     </div>
                   </CardContent>

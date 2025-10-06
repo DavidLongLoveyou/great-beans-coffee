@@ -16,7 +16,7 @@ import {
   getFeaturedBlogPosts,
   getBlogCategories,
 } from '@/lib/contentlayer';
-import { Button } from '@/presentation/components/ui/button';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -119,20 +119,20 @@ export default async function BlogPage({
           <div className="mb-12">
             <div className="flex flex-wrap justify-center gap-3">
               <Link href={`/${locale}/blog`}>
-                <Button
+                <ServerButton
                   variant={!categoryFilter ? 'default' : 'outline'}
                   size="sm"
                   className="mb-2"
                 >
                   {t('allCategories')}
-                </Button>
+                </ServerButton>
               </Link>
               {categories.map(category => (
                 <Link
                   key={category}
                   href={`/${locale}/blog?category=${category}`}
                 >
-                  <Button
+                  <ServerButton
                     variant={
                       categoryFilter === category ? 'default' : 'outline'
                     }
@@ -140,7 +140,7 @@ export default async function BlogPage({
                     className="mb-2"
                   >
                     {category}
-                  </Button>
+                  </ServerButton>
                 </Link>
               ))}
             </div>
@@ -207,9 +207,9 @@ export default async function BlogPage({
                         {new Date(post.publishedAt).toLocaleDateString(locale)}
                       </div>
                       <Link href={post.url}>
-                        <Button variant="outline" size="sm">
+                        <ServerButton variant="outline" size="sm">
                           {tCommon('readMore')}
-                        </Button>
+                        </ServerButton>
                       </Link>
                     </div>
                   </CardContent>
@@ -267,9 +267,9 @@ export default async function BlogPage({
                       )}
                     </div>
                     <Link href={post.url}>
-                      <Button variant="outline" size="sm">
+                      <ServerButton variant="outline" size="sm">
                         {tCommon('readMore')}
-                      </Button>
+                      </ServerButton>
                     </Link>
                   </div>
                 </CardContent>
@@ -292,7 +292,9 @@ export default async function BlogPage({
             </p>
             {categoryFilter && (
               <Link href={`/${locale}/blog`} className="mt-4 inline-block">
-                <Button variant="outline">{t('viewAllPosts')}</Button>
+                <ServerButton variant="outline">
+                  {t('viewAllPosts')}
+                </ServerButton>
               </Link>
             )}
           </div>

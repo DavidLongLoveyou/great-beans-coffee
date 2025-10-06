@@ -18,7 +18,7 @@ import { type Locale } from '@/i18n';
 import { getServicePageBySlug, getServicePages } from '@/lib/contentlayer';
 import { MDXContent } from '@/presentation/components/MDXContent';
 import { SEOHead } from '@/presentation/components/seo';
-import { Button } from '@/presentation/components/ui/button';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -119,10 +119,10 @@ export default async function ServicePage({ params }: ServicePageProps) {
         {/* Back Navigation */}
         <div className="mb-8">
           <Link href={`/${locale}/services`}>
-            <Button variant="ghost" className="mb-4">
+            <ServerButton variant="ghost" className="mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" />
               {t('backToServices')}
-            </Button>
+            </ServerButton>
           </Link>
         </div>
 
@@ -241,7 +241,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
               )}
               <div className="border-t pt-4">
                 <Link href={`/${locale}/contact`}>
-                  <Button className="w-full">{t('requestQuote')}</Button>
+                  <ServerButton className="w-full">
+                    {t('requestQuote')}
+                  </ServerButton>
                 </Link>
               </div>
             </CardContent>
@@ -288,9 +290,13 @@ export default async function ServicePage({ params }: ServicePageProps) {
                     </CardHeader>
                     <CardContent>
                       <Link href={relatedService.url}>
-                        <Button variant="outline" size="sm" className="w-full">
+                        <ServerButton
+                          variant="outline"
+                          size="sm"
+                          className="w-full"
+                        >
                           {tCommon('learnMore')}
-                        </Button>
+                        </ServerButton>
                       </Link>
                     </CardContent>
                   </Card>
@@ -308,14 +314,17 @@ export default async function ServicePage({ params }: ServicePageProps) {
           <p className="mb-6 text-gray-600">{t('readyToStartDescription')}</p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link href={`/${locale}/contact`}>
-              <Button size="lg" className="bg-amber-600 hover:bg-amber-700">
+              <ServerButton
+                size="lg"
+                className="bg-amber-600 hover:bg-amber-700"
+              >
                 {t('getQuote')}
-              </Button>
+              </ServerButton>
             </Link>
             <Link href={`/${locale}/services`}>
-              <Button variant="outline" size="lg">
+              <ServerButton variant="outline" size="lg">
                 {t('viewAllServices')}
-              </Button>
+              </ServerButton>
             </Link>
           </div>
         </div>

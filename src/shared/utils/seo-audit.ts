@@ -1,6 +1,6 @@
 import { type Metadata } from 'next';
 
-import { seoConfig } from './seo-utils';
+import { type SchemaOrgData } from '@/shared/utils/advanced-seo-manager';
 
 // SEO audit result interfaces
 export interface SEOAuditResult {
@@ -201,7 +201,7 @@ export class SEOAuditManager {
     url: string,
     metadata?: Metadata,
     content?: string,
-    structuredData?: any[]
+    structuredData?: SchemaOrgData[]
   ): Promise<SEOAuditResult> {
     const issues: SEOIssue[] = [];
     const recommendations: SEORecommendation[] = [];
@@ -259,7 +259,7 @@ export class SEOAuditManager {
   private auditMetadata(
     metadata: Metadata | undefined,
     issues: SEOIssue[],
-    recommendations: SEORecommendation[]
+    _recommendations: SEORecommendation[]
   ): SEOMetadataAudit {
     const audit: SEOMetadataAudit = {
       title: { present: false, length: 0, optimal: false, issues: [] },
@@ -519,7 +519,7 @@ export class SEOAuditManager {
    * Audit structured data
    */
   private auditStructuredData(
-    structuredData: any[] | undefined,
+    structuredData: SchemaOrgData[] | undefined,
     issues: SEOIssue[],
     recommendations: SEORecommendation[]
   ): StructuredDataAudit {
@@ -584,9 +584,9 @@ export class SEOAuditManager {
    * Audit performance (placeholder for client-side implementation)
    */
   private async auditPerformance(
-    url: string,
-    issues: SEOIssue[],
-    recommendations: SEORecommendation[]
+    _url: string,
+    _issues: SEOIssue[],
+    _recommendations: SEORecommendation[]
   ): Promise<PerformanceAudit> {
     // This would be implemented client-side with actual performance measurements
     return this.getEmptyPerformanceAudit();
@@ -598,7 +598,7 @@ export class SEOAuditManager {
   private auditAccessibility(
     content: string | undefined,
     issues: SEOIssue[],
-    recommendations: SEORecommendation[]
+    _recommendations: SEORecommendation[]
   ): AccessibilityAudit {
     const audit: AccessibilityAudit = {
       altText: { present: 0, missing: 0, issues: [] },
@@ -680,7 +680,8 @@ export class SEOAuditManager {
         } else if (value instanceof URL) {
           languagesRecord[key] = value.toString();
         } else if (typeof value === 'object' && value && 'url' in value) {
-          const urlValue = (value as any).url;
+          const urlValue = (value as { url: string | { toString(): string } })
+            .url;
           languagesRecord[key] =
             typeof urlValue === 'string' ? urlValue : urlValue.toString();
         }
@@ -783,13 +784,13 @@ export class SEOAuditManager {
     }
   }
 
-  private validateStructuredData(data: any[]): boolean {
+  private validateStructuredData(data: SchemaOrgData[]): boolean {
     return data.every(
       item => item['@context'] && item['@type'] && typeof item === 'object'
     );
   }
 
-  private calculateStructuredDataCoverage(data: any[]): number {
+  private calculateStructuredDataCoverage(data: SchemaOrgData[]): number {
     const expectedSchemas = ['Organization', 'WebSite', 'BreadcrumbList'];
     const presentSchemas = data.map(item => item['@type']);
     const coverage = expectedSchemas.filter(schema =>

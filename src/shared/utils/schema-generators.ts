@@ -1,6 +1,13 @@
+import { type Locale } from '@/i18n';
+
 import { advancedSEOConfig } from './advanced-seo-manager';
 
-import { type Locale } from '@/i18n';
+// Schema.org structured data interface
+export interface SchemaOrgData {
+  '@context': string;
+  '@type': string;
+  [key: string]: unknown;
+}
 
 /**
  * Specialized Schema.org Generators for The Great Beans
@@ -153,8 +160,101 @@ export class SchemaGenerators {
   generateCoffeeProductSchema(
     product: CoffeeProductData,
     locale: Locale
-  ): Record<string, any> {
+  ): SchemaOrgData {
     const productUrl = `${this.baseUrl}/${locale}/products/${product.id}`;
+
+    // Build additional properties array
+    const additionalProperties = [
+      {
+        '@type': 'PropertyValue',
+        name: 'Coffee Variety',
+        value: product.variety,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Origin',
+        value: product.origin,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Processing Method',
+        value: product.processingMethod,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Flavor Profile',
+        value: product.flavorProfile.join(', '),
+      },
+      ...(product.roastLevel
+        ? [
+            {
+              '@type': 'PropertyValue',
+              name: 'Roast Level',
+              value: product.roastLevel,
+            },
+          ]
+        : []),
+      ...(product.altitude
+        ? [
+            {
+              '@type': 'PropertyValue',
+              name: 'Growing Altitude',
+              value: product.altitude,
+            },
+          ]
+        : []),
+      ...(product.harvestSeason
+        ? [
+            {
+              '@type': 'PropertyValue',
+              name: 'Harvest Season',
+              value: product.harvestSeason,
+            },
+          ]
+        : []),
+    ];
+
+    // Add technical specifications if available
+    if (product.specifications) {
+      additionalProperties.push(
+        ...(product.specifications.moisture
+          ? [
+              {
+                '@type': 'PropertyValue',
+                name: 'Moisture Content',
+                value: product.specifications.moisture,
+              },
+            ]
+          : []),
+        ...(product.specifications.screenSize
+          ? [
+              {
+                '@type': 'PropertyValue',
+                name: 'Screen Size',
+                value: product.specifications.screenSize,
+              },
+            ]
+          : []),
+        ...(product.specifications.density
+          ? [
+              {
+                '@type': 'PropertyValue',
+                name: 'Density',
+                value: product.specifications.density,
+              },
+            ]
+          : []),
+        ...(product.specifications.defects
+          ? [
+              {
+                '@type': 'PropertyValue',
+                name: 'Defect Rate',
+                value: product.specifications.defects,
+              },
+            ]
+          : [])
+      );
+    }
 
     return {
       '@context': 'https://schema.org',
@@ -170,98 +270,7 @@ export class SchemaGenerators {
 
       // Coffee-specific properties
       category: 'Coffee',
-      additionalProperty: [
-        {
-          '@type': 'PropertyValue',
-          name: 'Coffee Variety',
-          value: product.variety,
-        },
-        {
-          '@type': 'PropertyValue',
-          name: 'Origin',
-          value: product.origin,
-        },
-        {
-          '@type': 'PropertyValue',
-          name: 'Processing Method',
-          value: product.processingMethod,
-        },
-        {
-          '@type': 'PropertyValue',
-          name: 'Flavor Profile',
-          value: product.flavorProfile.join(', '),
-        },
-        ...(product.roastLevel
-          ? [
-              {
-                '@type': 'PropertyValue',
-                name: 'Roast Level',
-                value: product.roastLevel,
-              },
-            ]
-          : []),
-        ...(product.altitude
-          ? [
-              {
-                '@type': 'PropertyValue',
-                name: 'Growing Altitude',
-                value: product.altitude,
-              },
-            ]
-          : []),
-        ...(product.harvestSeason
-          ? [
-              {
-                '@type': 'PropertyValue',
-                name: 'Harvest Season',
-                value: product.harvestSeason,
-              },
-            ]
-          : []),
-      ],
-
-      // Technical specifications
-      ...(product.specifications && {
-        additionalProperty: [
-          ...((this as any).additionalProperty || []),
-          ...(product.specifications.moisture
-            ? [
-                {
-                  '@type': 'PropertyValue',
-                  name: 'Moisture Content',
-                  value: product.specifications.moisture,
-                },
-              ]
-            : []),
-          ...(product.specifications.screenSize
-            ? [
-                {
-                  '@type': 'PropertyValue',
-                  name: 'Screen Size',
-                  value: product.specifications.screenSize,
-                },
-              ]
-            : []),
-          ...(product.specifications.density
-            ? [
-                {
-                  '@type': 'PropertyValue',
-                  name: 'Density',
-                  value: product.specifications.density,
-                },
-              ]
-            : []),
-          ...(product.specifications.defects
-            ? [
-                {
-                  '@type': 'PropertyValue',
-                  name: 'Defect Rate',
-                  value: product.specifications.defects,
-                },
-              ]
-            : []),
-        ],
-      }),
+      additionalProperty: additionalProperties,
 
       // Brand and manufacturer
       brand: {
@@ -349,7 +358,7 @@ export class SchemaGenerators {
   generateB2BServiceSchema(
     service: B2BServiceData,
     locale: Locale
-  ): Record<string, any> {
+  ): SchemaOrgData {
     const serviceUrl = `${this.baseUrl}/${locale}/services/${service.id}`;
 
     return {
@@ -429,10 +438,7 @@ export class SchemaGenerators {
   /**
    * Generate Article Schema with enhanced B2B focus
    */
-  generateArticleSchema(
-    article: ArticleData,
-    locale: Locale
-  ): Record<string, any> {
+  generateArticleSchema(article: ArticleData, locale: Locale): SchemaOrgData {
     const articleUrl = `${this.baseUrl}/${locale}/blog/${article.id}`;
 
     return {
@@ -526,7 +532,7 @@ export class SchemaGenerators {
   generateMarketReportSchema(
     report: MarketReportData,
     locale: Locale
-  ): Record<string, any> {
+  ): SchemaOrgData {
     const reportUrl = `${this.baseUrl}/${locale}/market-reports/${report.id}`;
 
     return {
@@ -595,7 +601,7 @@ export class SchemaGenerators {
   generateOriginStorySchema(
     story: OriginStoryData,
     locale: Locale
-  ): Record<string, any> {
+  ): SchemaOrgData {
     const storyUrl = `${this.baseUrl}/${locale}/origins/${story.id}`;
 
     return {
@@ -716,7 +722,7 @@ export class SchemaGenerators {
     items: Array<{ name: string; url: string; description?: string }>,
     locale: Locale,
     collectionType: 'products' | 'articles' | 'services' | 'reports'
-  ): Record<string, any> {
+  ): SchemaOrgData {
     const collectionUrl = `${this.baseUrl}/${locale}/${collectionType}`;
 
     return {

@@ -80,7 +80,7 @@ export function generateBlogCollectionSchema(
       '@type': 'ItemList',
       numberOfItems: posts.length,
       itemListElement: posts.map((post, index) => {
-        const item: any = {
+        const item: CollectionPageSchema['mainEntity']['itemListElement'][0] = {
           '@type': 'ListItem',
           position: index + 1,
           url: `${baseUrl}/${locale}/blog/${post.slug}`,
@@ -165,7 +165,7 @@ export function generateMarketReportsCollectionSchema(
       '@type': 'ItemList',
       numberOfItems: reports.length,
       itemListElement: reports.map((report, index) => {
-        const item: any = {
+        const item: CollectionPageSchema['mainEntity']['itemListElement'][0] = {
           '@type': 'ListItem',
           position: index + 1,
           url: `${baseUrl}/${locale}/market-reports/${report.slug}`,
@@ -240,7 +240,7 @@ export function generateOriginStoriesCollectionSchema(
       '@type': 'ItemList',
       numberOfItems: stories.length,
       itemListElement: stories.map((story, index) => {
-        const item: any = {
+        const item: CollectionPageSchema['mainEntity']['itemListElement'][0] = {
           '@type': 'ListItem',
           position: index + 1,
           url: `${baseUrl}/${locale}/origin-stories/${story.slug}`,

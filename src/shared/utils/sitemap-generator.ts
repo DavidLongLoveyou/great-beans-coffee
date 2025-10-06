@@ -1,6 +1,5 @@
-import { allBlogPosts } from 'contentlayer/generated';
-
 import { siteConfig } from '@/shared/config/site';
+import { allBlogPosts } from 'contentlayer/generated';
 
 export interface SitemapEntry {
   url: string;
@@ -357,7 +356,7 @@ export class SitemapGenerator {
   /**
    * Calculate blog post priority based on various factors
    */
-  private getBlogPostPriority(post: any): number {
+  private getBlogPostPriority(post: (typeof allBlogPosts)[0]): number {
     let priority = 0.6; // Base priority for blog posts
 
     // Increase priority for recent posts

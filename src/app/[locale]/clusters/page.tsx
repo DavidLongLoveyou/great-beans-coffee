@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n';
 import ClusterNavigation from '@/presentation/components/navigation/ClusterNavigation';
 import { SEOHead } from '@/presentation/components/seo/SEOHead';
-import { Button } from '@/presentation/components/ui';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import { isValidLocale } from '@/shared/utils/locale';
 import { generateOrganizationSchema } from '@/shared/utils/seo-utils';
 
@@ -124,12 +124,12 @@ export default async function ClustersPage({ params }: Props) {
               to your specific needs.
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <Button asChild size="lg">
+              <ServerButton asChild size="lg">
                 <Link href={`/${locale}/quote`}>Request Quote</Link>
-              </Button>
-              <Button variant="outline" size="lg" asChild>
+              </ServerButton>
+              <ServerButton variant="outline" size="lg" asChild>
                 <Link href={`/${locale}/contact`}>Learn About Our Process</Link>
-              </Button>
+              </ServerButton>
             </div>
           </div>
         </section>
@@ -225,9 +225,9 @@ export default async function ClustersPage({ params }: Props) {
               Join 500+ global partners who trust us for their coffee sourcing
               needs. Get a custom quote today.
             </p>
-            <Button asChild size="lg">
+            <ServerButton asChild size="lg">
               <Link href={`/${locale}/quote`}>Get Started</Link>
-            </Button>
+            </ServerButton>
           </div>
         </section>
       </div>

@@ -159,23 +159,29 @@ export function ImageGallery({
 
       {/* Category Filter */}
       {showCategories && categories.length > 0 && (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 overflow-x-auto pb-2">
           <Button
             variant={selectedCategory === null ? 'default' : 'outline'}
             size="sm"
+            className="whitespace-nowrap text-xs sm:text-sm"
             onClick={() => setSelectedCategory(null)}
           >
-            All ({images.length})
+            <span className="hidden sm:inline">All ({images.length})</span>
+            <span className="sm:hidden">All</span>
           </Button>
           {categories.map(category => (
             <Button
               key={category}
               variant={selectedCategory === category ? 'default' : 'outline'}
               size="sm"
+              className="whitespace-nowrap text-xs sm:text-sm"
               onClick={() => setSelectedCategory(category)}
             >
-              {category} (
-              {images.filter(img => img.category === category).length})
+              <span className="hidden sm:inline">
+                {category} (
+                {images.filter(img => img.category === category).length})
+              </span>
+              <span className="sm:hidden">{category}</span>
             </Button>
           ))}
         </div>
@@ -201,55 +207,55 @@ export function ImageGallery({
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="absolute left-4 top-1/2 -translate-y-1/2 transform bg-white/80 hover:bg-white"
+                    className="absolute left-2 top-1/2 h-8 w-8 -translate-y-1/2 transform touch-manipulation bg-white/80 hover:bg-white sm:left-4 sm:h-10 sm:w-10"
                     onClick={goToPrevious}
                   >
-                    <ChevronLeft className="h-4 w-4" />
+                    <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 transform bg-white/80 hover:bg-white"
+                    className="absolute right-2 top-1/2 h-8 w-8 -translate-y-1/2 transform touch-manipulation bg-white/80 hover:bg-white sm:right-4 sm:h-10 sm:w-10"
                     onClick={goToNext}
                   >
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </>
               )}
 
               {/* Image Counter */}
-              <div className="absolute bottom-4 left-4 rounded-full bg-black/50 px-3 py-1 text-sm text-white">
+              <div className="absolute bottom-2 left-2 rounded-full bg-black/50 px-2 py-1 text-xs text-white sm:bottom-4 sm:left-4 sm:px-3 sm:text-sm">
                 {currentIndex + 1} / {filteredImages.length}
               </div>
 
               {/* Action Buttons */}
-              <div className="absolute bottom-4 right-4 flex gap-2">
+              <div className="absolute bottom-2 right-2 flex gap-1 sm:bottom-4 sm:right-4 sm:gap-2">
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="bg-white/80 hover:bg-white"
+                  className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-10 sm:w-10"
                   onClick={() => openLightbox(currentIndex)}
                 >
-                  <Maximize2 className="h-4 w-4" />
+                  <Maximize2 className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
                 {allowDownload && currentImage.downloadUrl && (
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="bg-white/80 hover:bg-white"
+                    className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-10 sm:w-10"
                     onClick={() => handleDownload(currentImage)}
                   >
-                    <Download className="h-4 w-4" />
+                    <Download className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
                 )}
                 {allowShare && (
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="bg-white/80 hover:bg-white"
+                    className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-10 sm:w-10"
                     onClick={() => handleShare(currentImage)}
                   >
-                    <Share2 className="h-4 w-4" />
+                    <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
                 )}
               </div>
@@ -295,11 +301,11 @@ export function ImageGallery({
 
       {/* Thumbnails */}
       {showThumbnails && filteredImages.length > 1 && (
-        <div className="grid grid-cols-6 gap-2 md:grid-cols-8 lg:grid-cols-10">
+        <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10">
           {filteredImages.map((image, index) => (
             <button
               key={image.id}
-              className={`aspect-square overflow-hidden rounded-lg border-2 transition-all ${
+              className={`aspect-square touch-manipulation overflow-hidden rounded-lg border-2 transition-all ${
                 index === currentIndex
                   ? 'border-amber-500 ring-2 ring-amber-200'
                   : 'border-gray-200 hover:border-gray-300'

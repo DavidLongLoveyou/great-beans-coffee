@@ -14,7 +14,7 @@ import {
   Eye,
   Target,
 } from 'lucide-react';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import {
   Alert,
@@ -39,11 +39,7 @@ import {
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
 import { createScopedLogger } from '@/shared/utils/logger';
-import {
-  type SEOAuditResult,
-  type SEOIssue,
-  type SEORecommendation,
-} from '@/shared/utils/seo-audit';
+import { type SEOAuditResult } from '@/shared/utils/seo-audit';
 
 const logger = createScopedLogger('SEODashboard');
 
@@ -231,7 +227,7 @@ export function SEODashboard({
         <div>
           <h2 className="text-3xl font-bold tracking-tight">SEO Dashboard</h2>
           <p className="text-muted-foreground">
-            Monitor and optimize your website's SEO performance
+            Monitor and optimize your website&apos;s SEO performance
           </p>
         </div>
         <div className="flex items-center space-x-2">

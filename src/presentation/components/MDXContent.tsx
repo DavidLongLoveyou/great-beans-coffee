@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { useMDXComponent } from 'next-contentlayer2/hooks';
 import type { ComponentProps } from 'react';

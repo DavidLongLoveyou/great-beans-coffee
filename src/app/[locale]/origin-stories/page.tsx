@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
 import { getOriginStories, getFeaturedOriginStories } from '@/lib/contentlayer';
-import { Button } from '@/presentation/components/ui/button';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -158,9 +158,9 @@ export default async function OriginStoriesPage({
                         {new Date(story.publishedAt).toLocaleDateString(locale)}
                       </div>
                       <Link href={story.url}>
-                        <Button variant="outline" size="sm">
+                        <ServerButton variant="outline" size="sm">
                           {tCommon('readMore')}
-                        </Button>
+                        </ServerButton>
                       </Link>
                     </div>
                   </CardContent>
@@ -211,9 +211,9 @@ export default async function OriginStoriesPage({
                       )}
                     </div>
                     <Link href={story.url}>
-                      <Button variant="outline" size="sm">
+                      <ServerButton variant="outline" size="sm">
                         {tCommon('readMore')}
-                      </Button>
+                      </ServerButton>
                     </Link>
                   </div>
                 </CardContent>

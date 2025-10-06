@@ -36,20 +36,18 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
-
-
     /* Professional Forest Green - Primary Brand Color */
-    --forest-50: 120 40% 97%;   /* Very light green #f8fdf8 */
-    --forest-100: 120 45% 94%;  /* Light green #f0faf0 */
-    --forest-200: 120 50% 88%;  /* Soft green #e0f2e0 */
-    --forest-300: 120 55% 78%;  /* Medium light green #c7e6c7 */
-    --forest-400: 120 58% 65%;  /* Medium green #9dd49d */
-    --forest-500: 120 61% 34%;  /* Forest Green (#228B22) - Primary */
-    --forest-600: 120 65% 28%;  /* Dark forest green #1a6b1a */
-    --forest-700: 120 70% 22%;  /* Darker forest green #145014 */
-    --forest-800: 120 75% 16%;  /* Very dark green #0e3a0e */
-    --forest-900: 120 80% 10%;  /* Almost black green #082508 */
-    --forest-950: 120 85% 6%;   /* Deep forest black #041504 */
+    --forest-50: 120 40% 97%; /* Very light green #f8fdf8 */
+    --forest-100: 120 45% 94%; /* Light green #f0faf0 */
+    --forest-200: 120 50% 88%; /* Soft green #e0f2e0 */
+    --forest-300: 120 55% 78%; /* Medium light green #c7e6c7 */
+    --forest-400: 120 58% 65%; /* Medium green #9dd49d */
+    --forest-500: 120 61% 34%; /* Forest Green (#228B22) - Primary */
+    --forest-600: 120 65% 28%; /* Dark forest green #1a6b1a */
+    --forest-700: 120 70% 22%; /* Darker forest green #145014 */
+    --forest-800: 120 75% 16%; /* Very dark green #0e3a0e */
+    --forest-900: 120 80% 10%; /* Almost black green #082508 */
+    --forest-950: 120 85% 6%; /* Deep forest black #041504 */
 
     /* Green bean colors (secondary green) */
     --bean-50: 120 60% 97%;
@@ -64,19 +62,19 @@
     --bean-900: 120 60% 10%;
 
     /* Professional Sage Green - Secondary Brand Color */
-    --sage-50: 120 20% 97%;   /* Very light sage #f7f9f7 */
-    --sage-100: 120 25% 94%;  /* Light sage #f0f4f0 */
-    --sage-200: 120 30% 88%;  /* Soft sage #dde6dd */
-    --sage-300: 120 35% 78%;  /* Medium sage #c2d4c2 */
-    --sage-400: 120 40% 65%;  /* Sage #9bb89b */
-    --sage-500: 120 45% 45%;  /* Primary sage #6b8e6b */
-    --sage-600: 120 50% 35%;  /* Dark sage #4a6b4a */
-    --sage-700: 120 55% 25%;  /* Darker sage #334d33 */
-    --sage-800: 120 60% 18%;  /* Very dark sage #243624 */
-    --sage-900: 120 65% 12%;  /* Almost black sage #172117 */
+    --sage-50: 120 20% 97%; /* Very light sage #f7f9f7 */
+    --sage-100: 120 25% 94%; /* Light sage #f0f4f0 */
+    --sage-200: 120 30% 88%; /* Soft sage #dde6dd */
+    --sage-300: 120 35% 78%; /* Medium sage #c2d4c2 */
+    --sage-400: 120 40% 65%; /* Sage #9bb89b */
+    --sage-500: 120 45% 45%; /* Primary sage #6b8e6b */
+    --sage-600: 120 50% 35%; /* Dark sage #4a6b4a */
+    --sage-700: 120 55% 25%; /* Darker sage #334d33 */
+    --sage-800: 120 60% 18%; /* Very dark sage #243624 */
+    --sage-900: 120 65% 12%; /* Almost black sage #172117 */
 
     /* Professional Emerald - Accent Green */
-    --emerald-50: 160 85% 97%;  /* Very light emerald #f0fdf4 */
+    --emerald-50: 160 85% 97%; /* Very light emerald #f0fdf4 */
     --emerald-100: 160 85% 93%; /* Light emerald #dcfce7 */
     --emerald-200: 160 84% 86%; /* Soft emerald #bbf7d0 */
     --emerald-300: 160 77% 75%; /* Medium emerald #86efac */
@@ -96,23 +94,23 @@
 
   .dark {
     /* Base shadcn/ui colors - Dark Mode */
-    --background: 120 85% 6%;   /* Deep forest black */
-    --foreground: 120 20% 98%;  /* Light green-tinted white */
-    --card: 120 80% 10%;        /* Dark forest green */
+    --background: 120 85% 6%; /* Deep forest black */
+    --foreground: 120 20% 98%; /* Light green-tinted white */
+    --card: 120 80% 10%; /* Dark forest green */
     --card-foreground: 120 20% 98%;
     --popover: 120 80% 10%;
     --popover-foreground: 120 20% 98%;
-    --primary: 120 58% 65%;     /* Lighter forest green for dark mode */
+    --primary: 120 58% 65%; /* Lighter forest green for dark mode */
     --primary-foreground: 120 85% 6%;
-    --secondary: 120 75% 16%;   /* Dark green secondary */
+    --secondary: 120 75% 16%; /* Dark green secondary */
     --secondary-foreground: 120 20% 98%;
     --muted: 120 75% 16%;
     --muted-foreground: 120 15% 65.1%;
-    --accent: 160 84% 50%;      /* Brighter emerald for dark mode */
+    --accent: 160 84% 50%; /* Brighter emerald for dark mode */
     --accent-foreground: 160 84% 15%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 120 20% 98%;
-    --border: 120 70% 22%;      /* Forest green border */
+    --border: 120 70% 22%; /* Forest green border */
     --input: 120 70% 22%;
     --ring: 120 58% 65%;
 
@@ -122,8 +120,6 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-
-
 
     /* Green bean colors - Dark Mode */
     --bean-50: 120 60% 10%;
@@ -138,19 +134,19 @@
     --bean-900: 120 60% 93%;
 
     /* Professional Sage Green - Dark Mode */
-    --sage-50: 120 65% 12%;   /* Dark sage base */
-    --sage-100: 120 60% 18%;  /* Slightly lighter */
-    --sage-200: 120 55% 25%;  /* Medium dark sage */
-    --sage-300: 120 50% 35%;  /* Lighter sage */
-    --sage-400: 120 45% 45%;  /* Medium sage */
-    --sage-500: 120 40% 65%;  /* Primary sage for dark mode */
-    --sage-600: 120 35% 78%;  /* Light sage */
-    --sage-700: 120 30% 88%;  /* Lighter sage */
-    --sage-800: 120 25% 94%;  /* Very light sage */
-    --sage-900: 120 20% 97%;  /* Almost white sage */
+    --sage-50: 120 65% 12%; /* Dark sage base */
+    --sage-100: 120 60% 18%; /* Slightly lighter */
+    --sage-200: 120 55% 25%; /* Medium dark sage */
+    --sage-300: 120 50% 35%; /* Lighter sage */
+    --sage-400: 120 45% 45%; /* Medium sage */
+    --sage-500: 120 40% 65%; /* Primary sage for dark mode */
+    --sage-600: 120 35% 78%; /* Light sage */
+    --sage-700: 120 30% 88%; /* Lighter sage */
+    --sage-800: 120 25% 94%; /* Very light sage */
+    --sage-900: 120 20% 97%; /* Almost white sage */
 
     /* Professional Emerald - Dark Mode */
-    --emerald-50: 160 84% 15%;  /* Dark emerald base */
+    --emerald-50: 160 84% 15%; /* Dark emerald base */
     --emerald-100: 160 84% 20%; /* Slightly lighter */
     --emerald-200: 160 84% 25%; /* Medium dark emerald */
     --emerald-300: 160 84% 32%; /* Lighter emerald */
@@ -307,6 +303,22 @@
   .shadow-forest-strong {
     box-shadow: 0 8px 32px 0 rgba(34, 139, 34, 0.16);
   }
+
+  .shadow-emerald-soft {
+    box-shadow: 0 2px 8px 0 rgba(16, 185, 129, 0.08);
+  }
+
+  .shadow-emerald-medium {
+    box-shadow: 0 4px 16px 0 rgba(16, 185, 129, 0.12);
+  }
+
+  .shadow-emerald-strong {
+    box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.16);
+  }
+
+  .shadow-emerald-glow {
+    box-shadow: 0 4px 20px 0 rgba(16, 185, 129, 0.25);
+  }
 }
 
 /* Brand-specific color utilities */
@@ -355,7 +367,9 @@
 
   /* Performance-optimized transitions */
   .transition-performance {
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    transition:
+      transform 0.2s ease-out,
+      opacity 0.2s ease-out;
     will-change: transform, opacity;
   }
 
@@ -366,7 +380,7 @@
     .animate-scale-in {
       animation: none;
     }
-    
+
     .transition-performance {
       transition: none;
     }
@@ -470,25 +484,25 @@
 @layer base {
   :root {
     /* Coffee Brand Colors - Primary Palette */
-    --coffee-50: 44 100% 97%;   /* #fefdf8 */
-    --coffee-100: 44 100% 88%;  /* #fef7e0 */
-    --coffee-200: 44 95% 78%;   /* #fdecc8 */
-    --coffee-300: 44 85% 68%;   /* #fbd9a5 */
-    --coffee-400: 44 75% 58%;   /* #f7c373 */
-    --coffee-500: 44 65% 48%;   /* #f2a74b */
-    --coffee-600: 44 55% 38%;   /* #e88c30 */
-    --coffee-700: 44 45% 28%;   /* #d97326 */
-    --coffee-800: 44 35% 18%;   /* #b45d23 */
-    --coffee-900: 44 25% 13%;   /* #924d22 */
-    --coffee-950: 44 15% 8%;    /* #4f2611 */
+    --coffee-50: 44 100% 97%; /* #fefdf8 */
+    --coffee-100: 44 100% 88%; /* #fef7e0 */
+    --coffee-200: 44 95% 78%; /* #fdecc8 */
+    --coffee-300: 44 85% 68%; /* #fbd9a5 */
+    --coffee-400: 44 75% 58%; /* #f7c373 */
+    --coffee-500: 44 65% 48%; /* #f2a74b */
+    --coffee-600: 44 55% 38%; /* #e88c30 */
+    --coffee-700: 44 45% 28%; /* #d97326 */
+    --coffee-800: 44 35% 18%; /* #b45d23 */
+    --coffee-900: 44 25% 13%; /* #924d22 */
+    --coffee-950: 44 15% 8%; /* #4f2611 */
 
     /* Custom Spacing Values */
-    --spacing-18: 4.5rem;  /* 72px */
-    --spacing-88: 22rem;   /* 352px */
-    --spacing-128: 32rem;  /* 512px */
+    --spacing-18: 4.5rem; /* 72px */
+    --spacing-88: 22rem; /* 352px */
+    --spacing-128: 32rem; /* 512px */
 
     /* Custom Border Radius */
-    --radius-4xl: 2rem;    /* 32px */
+    --radius-4xl: 2rem; /* 32px */
 
     /* Animation Durations */
     --duration-fast: 150ms;
@@ -508,27 +522,27 @@
   .animate-fast {
     animation-duration: var(--duration-fast);
   }
-  
+
   .animate-normal {
     animation-duration: var(--duration-normal);
   }
-  
+
   .animate-slow {
     animation-duration: var(--duration-slow);
   }
-  
+
   .ease-in-out-cubic {
     animation-timing-function: var(--ease-in-out-cubic);
   }
-  
+
   .ease-out-expo {
     animation-timing-function: var(--ease-out-expo);
   }
-  
+
   .ease-in-back {
     animation-timing-function: var(--ease-in-back);
   }
-  
+
   .ease-out-back {
     animation-timing-function: var(--ease-out-back);
   }

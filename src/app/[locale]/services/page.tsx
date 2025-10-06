@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n';
 import { getServicePages } from '@/lib/contentlayer';
 import { SEOHead } from '@/presentation/components/seo';
-import { Button } from '@/presentation/components/ui/button';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -191,10 +191,10 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
                       </div>
                     )}
                     <Link href={service.url}>
-                      <Button className="transition-colors group-hover:bg-amber-700">
+                      <ServerButton className="transition-colors group-hover:bg-amber-700">
                         {tCommon('learnMore')}
                         <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
+                      </ServerButton>
                     </Link>
                   </div>
                 </CardContent>
@@ -213,14 +213,17 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link href={`/${locale}/contact`}>
-              <Button size="lg" className="bg-amber-600 hover:bg-amber-700">
+              <ServerButton
+                size="lg"
+                className="bg-amber-600 hover:bg-amber-700"
+              >
                 {t('getQuote')}
-              </Button>
+              </ServerButton>
             </Link>
             <Link href={`/${locale}/about`}>
-              <Button variant="outline" size="lg">
+              <ServerButton variant="outline" size="lg">
                 {t('learnAboutUs')}
-              </Button>
+              </ServerButton>
             </Link>
           </div>
         </div>

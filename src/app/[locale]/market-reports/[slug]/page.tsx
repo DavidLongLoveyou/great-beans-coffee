@@ -15,7 +15,7 @@ import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n';
 import { getRelatedContent } from '@/lib/contentlayer';
 import { MDXContent } from '@/presentation/components/MDXContent';
-import { Button } from '@/presentation/components/ui/button';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -65,10 +65,10 @@ export default async function MarketReportPage({
       {/* Back Navigation */}
       <div className="mb-8">
         <Link href={`/${locale}/market-reports`}>
-          <Button variant="ghost" className="mb-4">
+          <ServerButton variant="ghost" className="mb-4">
             <ArrowLeft className="mr-2 h-4 w-4" />
             {t('backToReports')}
-          </Button>
+          </ServerButton>
         </Link>
       </div>
 
@@ -221,9 +221,13 @@ export default async function MarketReportPage({
                 </CardHeader>
                 <CardContent>
                   <Link href={relatedReport.url}>
-                    <Button variant="outline" size="sm" className="w-full">
+                    <ServerButton
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                    >
                       {tCommon('readMore')}
-                    </Button>
+                    </ServerButton>
                   </Link>
                 </CardContent>
               </Card>

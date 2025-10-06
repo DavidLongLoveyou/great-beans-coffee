@@ -13,6 +13,17 @@ import { createScopedLogger } from './logger';
 
 const logger = createScopedLogger('PerformanceOptimization');
 
+// Extended Navigator interface for experimental APIs
+interface ExtendedNavigator extends Navigator {
+  connection?: {
+    effectiveType?: string;
+    downlink?: number;
+    rtt?: number;
+    saveData?: boolean;
+  };
+  deviceMemory?: number;
+}
+
 // Types
 export interface PreloadResource {
   href: string;
@@ -321,7 +332,7 @@ export const performanceUtils = {
   /**
    * Debounce function for performance optimization
    */
-  debounce<T extends (...args: any[]) => any>(
+  debounce<T extends (...args: unknown[]) => unknown>(
     func: T,
     wait: number
   ): (...args: Parameters<T>) => void {
@@ -335,7 +346,7 @@ export const performanceUtils = {
   /**
    * Throttle function for performance optimization
    */
-  throttle<T extends (...args: any[]) => any>(
+  throttle<T extends (...args: unknown[]) => unknown>(
     func: T,
     limit: number
   ): (...args: Parameters<T>) => void {
@@ -365,7 +376,7 @@ export const performanceUtils = {
       return false;
     }
 
-    const connection = (navigator as any).connection;
+    const connection = (navigator as ExtendedNavigator).connection;
     return (
       connection?.effectiveType === 'slow-2g' ||
       connection?.effectiveType === '2g'
@@ -377,7 +388,7 @@ export const performanceUtils = {
    */
   getDeviceMemory(): number | undefined {
     if (typeof navigator === 'undefined') return undefined;
-    return (navigator as any).deviceMemory;
+    return (navigator as ExtendedNavigator).deviceMemory;
   },
 
   /**

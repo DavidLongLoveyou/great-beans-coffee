@@ -5,12 +5,14 @@ Get up and running with testing in The Great Beans project in 5 minutes.
 ## 🚀 Quick Setup
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 npm run test:e2e:install  # Install Playwright browsers
 ```
 
 ### 2. Run Your First Tests
+
 ```bash
 # Unit tests
 npm run test
@@ -22,6 +24,7 @@ npm run test:e2e
 ## 📝 Writing Your First Test
 
 ### Unit Test Example
+
 Create `src/components/ui/__tests__/my-component.test.tsx`:
 
 ```typescript
@@ -37,7 +40,7 @@ describe('MyComponent', () => {
   it('handles click events', async () => {
     const handleClick = jest.fn()
     const { user } = render(<MyComponent onClick={handleClick} />)
-    
+
     await user.click(screen.getByRole('button'))
     expect(handleClick).toHaveBeenCalled()
   })
@@ -45,21 +48,22 @@ describe('MyComponent', () => {
 ```
 
 ### E2E Test Example
+
 Create `tests/e2e/my-feature.spec.ts`:
 
 ```typescript
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test';
 
 test.describe('My Feature', () => {
   test('should work correctly', async ({ page }) => {
-    await page.goto('/my-feature')
-    
-    await page.getByLabel('Input field').fill('test value')
-    await page.getByRole('button', { name: 'Submit' }).click()
-    
-    await expect(page.getByText('Success!')).toBeVisible()
-  })
-})
+    await page.goto('/my-feature');
+
+    await page.getByLabel('Input field').fill('test value');
+    await page.getByRole('button', { name: 'Submit' }).click();
+
+    await expect(page.getByText('Success!')).toBeVisible();
+  });
+});
 ```
 
 ## 🛠️ Essential Commands
@@ -92,15 +96,16 @@ Before committing code, ensure:
 ## 📚 Common Patterns
 
 ### Testing Forms
+
 ```typescript
 it('submits form with valid data', async () => {
   const onSubmit = jest.fn()
   const { user } = render(<ContactForm onSubmit={onSubmit} />)
-  
+
   await user.type(screen.getByLabelText('Email'), 'test@example.com')
   await user.type(screen.getByLabelText('Message'), 'Hello world')
   await user.click(screen.getByRole('button', { name: 'Submit' }))
-  
+
   expect(onSubmit).toHaveBeenCalledWith({
     email: 'test@example.com',
     message: 'Hello world'
@@ -109,6 +114,7 @@ it('submits form with valid data', async () => {
 ```
 
 ### Testing API Calls
+
 ```typescript
 import { mockFetch } from '@/test/utils/mocks'
 
@@ -117,9 +123,9 @@ it('loads data from API', async () => {
     ok: true,
     json: async () => ({ products: [{ id: 1, name: 'Coffee' }] })
   })
-  
+
   render(<ProductList />)
-  
+
   await waitFor(() => {
     expect(screen.getByText('Coffee')).toBeInTheDocument()
   })
@@ -127,44 +133,51 @@ it('loads data from API', async () => {
 ```
 
 ### Testing Navigation
+
 ```typescript
 // E2E test
 test('navigates between pages', async ({ page }) => {
-  await page.goto('/')
-  
-  await page.getByRole('link', { name: 'Products' }).click()
-  await expect(page).toHaveURL('/products')
-  
-  await page.getByTestId('product-card').first().click()
-  await expect(page).toHaveURL(/\/products\/\d+/)
-})
+  await page.goto('/');
+
+  await page.getByRole('link', { name: 'Products' }).click();
+  await expect(page).toHaveURL('/products');
+
+  await page.getByTestId('product-card').first().click();
+  await expect(page).toHaveURL(/\/products\/\d+/);
+});
 ```
 
 ## 🔧 Troubleshooting
 
 ### Test Fails Randomly
+
 ```typescript
 // Use proper waits instead of timeouts
-await waitFor(() => {
-  expect(screen.getByText('Loaded')).toBeInTheDocument()
-}, { timeout: 5000 })
+await waitFor(
+  () => {
+    expect(screen.getByText('Loaded')).toBeInTheDocument();
+  },
+  { timeout: 5000 }
+);
 ```
 
 ### E2E Test Times Out
+
 ```typescript
 // Increase timeout for slow operations
 test('slow operation', async ({ page }) => {
-  test.setTimeout(60000) // 60 seconds
+  test.setTimeout(60000); // 60 seconds
   // ... test code
-})
+});
 ```
 
 ### Mock Not Working
+
 ```typescript
 // Clear mocks between tests
 beforeEach(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});
 ```
 
 ## 📖 Next Steps

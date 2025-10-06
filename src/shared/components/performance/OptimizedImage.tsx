@@ -1,6 +1,6 @@
 'use client';
 
-import Image, { type ImageProps, type ImageLoader } from 'next/image';
+import Image, { type ImageLoader } from 'next/image';
 import { useState, useCallback, useEffect, type CSSProperties } from 'react';
 
 import { cloudinaryService } from '@/infrastructure/external-services/cloudinary.service';
@@ -105,7 +105,6 @@ export function OptimizedImage({
   loading,
   lazyBoundary,
   lazyRoot,
-  ...restProps
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -123,38 +122,21 @@ export function OptimizedImage({
   const imageBlurDataURL =
     useCloudinary && cloudinaryId && showBlurPlaceholder
       ? cloudinaryService.getBlurPlaceholder(cloudinaryId)
-      : blurDataURL ||
-        'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q==';
+      : blurDataURL;
 
+  // Handle successful image load
   const handleLoad = useCallback(() => {
     setIsLoading(false);
-    setHasError(false);
 
-    // Track loading performance
     if (trackPerformance && loadStartTime > 0) {
       const loadTime = performance.now() - loadStartTime;
 
-      // Report to Core Web Vitals optimizer for LCP images
-      if (optimizeForLCP) {
-        coreWebVitalsOptimizer.preloadCriticalResources([
-          {
-            href: imageSource,
-            as: 'image',
-          },
-        ]);
-      }
-
-      // Track in analytics if available
-      if (typeof window !== 'undefined' && 'gtag' in window) {
-        (window as any).gtag('event', 'image_load_time', {
-          event_category: 'Performance',
-          event_label: useCloudinary ? 'cloudinary_image' : 'standard_image',
-          value: Math.round(loadTime),
-          custom_map: {
-            is_lcp: optimizeForLCP,
-            uses_cloudinary: useCloudinary,
-          },
-        });
+      // Track performance metrics
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.log(
+          `Image load time: ${loadTime}ms (${optimizeForLCP ? 'LCP' : 'standard'} image, Cloudinary: ${useCloudinary})`
+        );
       }
     }
 
@@ -164,29 +146,26 @@ export function OptimizedImage({
     trackPerformance,
     loadStartTime,
     optimizeForLCP,
-    imageSource,
     useCloudinary,
   ]);
 
+  // Handle image load error
   const handleError = useCallback(() => {
     setIsLoading(false);
     setHasError(true);
 
-    // Track error in analytics if available
-    if (trackPerformance && typeof window !== 'undefined' && 'gtag' in window) {
-      (window as any).gtag('event', 'image_load_error', {
-        event_category: 'Performance',
-        event_label: useCloudinary
-          ? 'cloudinary_image_error'
-          : 'standard_image_error',
-        custom_map: {
-          uses_cloudinary: useCloudinary,
-        },
-      });
+    if (trackPerformance) {
+      // Track error metrics
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `Image load error: ${optimizeForLCP ? 'LCP' : 'standard'} image, Cloudinary: ${useCloudinary}`
+        );
+      }
     }
 
     onLoadError?.();
-  }, [onLoadError, trackPerformance, useCloudinary]);
+  }, [onLoadError, trackPerformance, optimizeForLCP, useCloudinary]);
 
   // Track load start time and preload critical images
   useEffect(() => {
@@ -237,7 +216,7 @@ export function OptimizedImage({
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2v12a2 2 0 002 2z"
           />
         </svg>
       </div>
@@ -278,7 +257,7 @@ export function OptimizedImage({
         loading={
           loading || (lazy && !optimizeForLCP && !priority ? 'lazy' : 'eager')
         }
-        placeholder={placeholder || (showBlurPlaceholder ? 'blur' : 'empty')}
+        placeholder={placeholder || (showBlurPlaceholder && imageBlurDataURL ? 'blur' : 'empty')}
         {...(imageBlurDataURL && { blurDataURL: imageBlurDataURL })}
       />
 
@@ -286,16 +265,12 @@ export function OptimizedImage({
       {isLoading && showBlurPlaceholder && (
         <div
           className={cn(
-            'absolute inset-0 animate-pulse bg-gray-200',
+            'absolute inset-0 flex items-center justify-center bg-gray-100',
             className
           )}
-          style={{
-            backgroundImage: `url("${imageBlurDataURL}")`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'blur(10px)',
-          }}
-        />
+        >
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
+        </div>
       )}
     </div>
   );
@@ -305,7 +280,7 @@ export function OptimizedImage({
  * Optimized Image component specifically for hero/above-the-fold images
  * Automatically sets priority and optimizes for LCP
  */
-export function HeroImage({ ...props }: OptimizedImageProps) {
+export function HeroImage(props: OptimizedImageProps) {
   return (
     <OptimizedImage
       {...props}

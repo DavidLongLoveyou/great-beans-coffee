@@ -252,7 +252,7 @@ export function CoreWebVitalsMonitor({
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 max-w-sm rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
+    <div className="fixed bottom-2 right-2 z-50 hidden max-w-xs rounded-lg border border-gray-200 bg-white p-3 shadow-lg sm:bottom-4 sm:right-4 sm:block sm:max-w-sm sm:p-4">
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-gray-900">Core Web Vitals</h3>
         <button

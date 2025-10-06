@@ -1,6 +1,6 @@
 'use client';
 
-import { Coffee, Globe, Award, Truck } from 'lucide-react';
+import { Coffee, Globe, Award, Truck, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -12,9 +12,10 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  Button,
-} from '@/presentation/components/ui';
+} from '@/presentation/components/ui/hydration-safe-navigation-menu';
+import { Button } from '@/presentation/components/ui';
 import { useTranslation } from '@/shared/hooks/useTranslation';
+import { useHydrationSafeBooleanState } from '@/shared/hooks/useHydrationSafeState';
 
 type Props = {
   locale: Locale;
@@ -22,21 +23,22 @@ type Props = {
 
 export default function Header({ locale }: Props) {
   const { t } = useTranslation('navigation');
+  const [isMobileMenuOpen, setIsMobileMenuOpen, isMounted] = useHydrationSafeBooleanState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-forest-200/20 bg-white/95 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-white/90">
       <div className="container flex h-18 items-center justify-between">
         {/* Logo */}
-        <Link href={`/${locale}`} className="group flex items-center space-x-3">
+        <Link href={`/${locale}`} className="flex items-center space-x-3 group">
           <div className="relative">
-            <Coffee className="h-9 w-9 text-forest-600 transition-colors duration-200 group-hover:text-forest-700" />
-            <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-emerald-500 opacity-80"></div>
+            <Coffee className="h-9 w-9 text-forest-600 group-hover:text-forest-700 transition-colors duration-200" />
+            <div className="absolute -top-1 -right-1 h-3 w-3 bg-emerald-500 rounded-full opacity-80"></div>
           </div>
           <div className="flex flex-col">
-            <span className="text-xl font-bold text-forest-800 transition-colors duration-200 group-hover:text-forest-900">
+            <span className="text-xl font-bold text-forest-800 group-hover:text-forest-900 transition-colors duration-200">
               The Great Beans
             </span>
-            <span className="text-xs font-medium tracking-wide text-forest-600">
+            <span className="text-xs text-forest-600 font-medium tracking-wide">
               Premium Coffee Export
             </span>
           </div>
@@ -269,10 +271,27 @@ export default function Header({ locale }: Props) {
 
         {/* Right side actions */}
         <div className="flex items-center space-x-4">
-          <LanguageSwitcher />
-          <Button asChild>
+          <div className="hidden md:flex">
+            <LanguageSwitcher />
+          </div>
+          <Button asChild className="hidden md:flex">
             <Link href={`/${locale}/quote`}>{t('requestQuote')}</Link>
           </Button>
+
+          {/* Mobile menu button */}
+          {isMounted && (
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="flex h-10 w-10 items-center justify-center rounded-lg text-forest-700 transition-colors hover:bg-forest-50 lg:hidden"
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          )}
         </div>
 
         {/* CTA Button */}
@@ -287,6 +306,109 @@ export default function Header({ locale }: Props) {
           </Button>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMounted && isMobileMenuOpen && (
+        <div className="fixed inset-0 top-[72px] z-40 bg-white lg:hidden">
+          <div className="flex h-full flex-col">
+            <nav className="flex-1 space-y-1 px-4 py-6">
+              <Link
+                href={`/${locale}`}
+                className="block rounded-lg px-4 py-3 text-base font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('home')}
+              </Link>
+
+              <div className="space-y-2">
+                <div className="px-4 py-2 text-sm font-semibold uppercase tracking-wide text-forest-600">
+                  {t('products')}
+                </div>
+                <Link
+                  href={`/${locale}/products`}
+                  className="block rounded-lg px-6 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  All Products
+                </Link>
+                <Link
+                  href={`/${locale}/products/robusta`}
+                  className="block rounded-lg px-6 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Vietnamese Robusta
+                </Link>
+                <Link
+                  href={`/${locale}/products/arabica`}
+                  className="block rounded-lg px-6 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Highland Arabica
+                </Link>
+              </div>
+
+              <div className="space-y-2">
+                <div className="px-4 py-2 text-sm font-semibold uppercase tracking-wide text-forest-600">
+                  {t('solutions')}
+                </div>
+                <Link
+                  href={`/${locale}/clusters/vietnam-robusta-suppliers`}
+                  className="block rounded-lg px-6 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Vietnam Robusta Export
+                </Link>
+                <Link
+                  href={`/${locale}/clusters/specialty-arabica-sourcing`}
+                  className="block rounded-lg px-6 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Specialty Arabica Sourcing
+                </Link>
+              </div>
+
+              <Link
+                href={`/${locale}/services`}
+                className="block rounded-lg px-4 py-3 text-base font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('services')}
+              </Link>
+
+              <Link
+                href={`/${locale}/about`}
+                className="block rounded-lg px-4 py-3 text-base font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('about')}
+              </Link>
+
+              <Link
+                href={`/${locale}/contact`}
+                className="block rounded-lg px-4 py-3 text-base font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('contact')}
+              </Link>
+            </nav>
+
+            {/* Mobile menu footer */}
+            <div className="space-y-4 border-t border-forest-200 p-4">
+              <div className="flex justify-center">
+                <LanguageSwitcher />
+              </div>
+              <Button asChild className="w-full">
+                <Link
+                  href={`/${locale}/quote`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t('requestQuote')}
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

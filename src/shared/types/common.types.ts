@@ -2,11 +2,7 @@
 // COMMON TYPES
 // ================================
 
-import {
-  NotificationType,
-  TemplateVariable,
-  VariableType,
-} from './locale.types';
+import { NotificationType, TemplateVariable } from './locale.types';
 
 export interface BaseEntity {
   id: string;

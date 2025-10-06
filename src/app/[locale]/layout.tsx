@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 
 import '../globals.css';
-import { NextIntlProvider } from '@/components/providers/NextIntlProvider';
 import { type Locale } from '@/i18n';
-import { getMessages } from '@/lib/messages';
 import Footer from '@/presentation/components/layout/Footer';
 import Header from '@/presentation/components/layout/Header';
 import { PerformanceInitializer } from '@/shared/components/performance/PerformanceInitializer';
@@ -26,19 +26,21 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const messages = await getMessages(locale);
+
+  // Use next-intl's built-in getMessages which is already configured in i18n.ts
+  const messages = await getMessages();
 
   return (
     <html lang={locale}>
       <body className={inter.className}>
         <PerformanceInitializer />
-        <NextIntlProvider messages={messages} locale={locale}>
+        <NextIntlClientProvider messages={messages} locale={locale}>
           <div className="flex min-h-screen flex-col">
             <Header locale={locale as Locale} />
             <main className="flex-1">{children}</main>
             <Footer locale={locale as Locale} />
           </div>
-        </NextIntlProvider>
+        </NextIntlClientProvider>
         <PerformanceMonitor />
       </body>
     </html>

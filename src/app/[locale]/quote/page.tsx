@@ -34,6 +34,7 @@ import {
 } from '@/presentation/components/ui/select';
 import { Textarea } from '@/presentation/components/ui/textarea';
 import { useRfqForm, useMultiStepForm } from '@/presentation/hooks';
+import { useHydrationSafeRfqNumber } from '@/shared/hooks/useHydrationSafeRfqNumber';
 
 interface RFQFormData {
   // Product Requirements
@@ -165,6 +166,9 @@ export default function QuotePage({
     clearError,
   } = useRfqForm();
 
+  // Use hydration-safe RFQ number as fallback
+  const fallbackRfqNumber = useHydrationSafeRfqNumber();
+
   const handleSubmit = async () => {
     try {
       // Map form data to RFQ request format
@@ -182,7 +186,9 @@ export default function QuotePage({
         deliveryTerms: formData.incoterms,
         targetPrice: 0, // Will be filled by sales team
         currency: formData.preferredCurrency,
-        deliveryDate: new Date(formData.preferredDeliveryDate || Date.now()),
+        deliveryDate: formData.preferredDeliveryDate 
+          ? new Date(formData.preferredDeliveryDate)
+          : new Date(), // Use current date without Date.now() to avoid hydration issues
         deliveryLocation: `${formData.destinationPort}, ${formData.destinationCountry}`,
 
         // Recurring Order
@@ -240,7 +246,7 @@ export default function QuotePage({
               <div className="mb-6 rounded-lg border border-forest-200 bg-forest-50 p-4">
                 <p className="text-sm text-forest-600">Reference Number</p>
                 <p className="font-mono text-xl font-bold text-forest-800">
-                  {rfqNumber || `RFQ-${Date.now()}`}
+                  {rfqNumber || fallbackRfqNumber}
                 </p>
               </div>
               <Button

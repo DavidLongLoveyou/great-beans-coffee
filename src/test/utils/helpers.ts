@@ -168,7 +168,7 @@ export const createMockApiResponse = <T>(data: T, delay = 0) => {
 
 export const createMockApiError = (
   message = 'API Error',
-  status = 500,
+  _status = 500,
   delay = 0
 ) => {
   return new Promise((_, reject) => {
@@ -188,7 +188,7 @@ export const expectUrlToBe = (expectedPath: string) => {
 };
 
 // Local storage helpers
-export const setLocalStorageItem = (key: string, value: any) => {
+export const setLocalStorageItem = (key: string, value: unknown) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 

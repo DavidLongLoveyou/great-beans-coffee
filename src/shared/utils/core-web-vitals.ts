@@ -5,6 +5,25 @@ import { createScopedLogger } from '@/shared/utils/logger';
 
 const logger = createScopedLogger('CoreWebVitals');
 
+// Extended Window interface for Google Analytics
+interface ExtendedWindow {
+  gtag?: (
+    command: 'config' | 'event' | 'js' | 'set',
+    targetId: string | Date,
+    config?: Record<string, string | number | boolean>
+  ) => void;
+}
+
+interface PerformanceEntryWithProcessing extends PerformanceEntry {
+  processingStart: number;
+  processingEnd: number;
+}
+
+interface LayoutShiftEntry extends PerformanceEntry {
+  value: number;
+  hadRecentInput: boolean;
+}
+
 export interface WebVitalsMetric {
   name: 'CLS' | 'FID' | 'FCP' | 'LCP' | 'TTFB' | 'INP';
   value: number;
@@ -114,18 +133,25 @@ export class CoreWebVitalsOptimizer {
     const observer = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
 
-      entries.forEach((entry: any) => {
-        const metric: WebVitalsMetric = {
-          name: 'FID',
-          value: entry.processingStart - entry.startTime,
-          rating: this.getFIDRating(entry.processingStart - entry.startTime),
-          delta: entry.processingStart - entry.startTime,
-          id: this.generateMetricId(),
-          navigationType: this.getNavigationType(),
-        };
+      entries.forEach(entry => {
+        // Type guard to ensure entry has processing properties
+        if ('processingStart' in entry && 'processingEnd' in entry) {
+          const processingEntry = entry as PerformanceEntryWithProcessing;
 
-        this.vitalsData.set('FID', metric);
-        this.reportMetric(metric);
+          const metric: WebVitalsMetric = {
+            name: 'FID',
+            value: processingEntry.processingStart - processingEntry.startTime,
+            rating: this.getFIDRating(
+              processingEntry.processingStart - processingEntry.startTime
+            ),
+            delta: processingEntry.processingStart - processingEntry.startTime,
+            id: this.generateMetricId(),
+            navigationType: this.getNavigationType(),
+          };
+
+          this.vitalsData.set('FID', metric);
+          this.reportMetric(metric);
+        }
       });
     });
 
@@ -149,22 +175,27 @@ export class CoreWebVitalsOptimizer {
     const observer = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
 
-      entries.forEach((entry: any) => {
-        const inp = entry.processingEnd - entry.startTime;
-        if (inp > maxINP) {
-          maxINP = inp;
+      entries.forEach(entry => {
+        // Type guard to ensure entry has processing properties
+        if ('processingStart' in entry && 'processingEnd' in entry) {
+          const processingEntry = entry as PerformanceEntryWithProcessing;
+          const inp = processingEntry.processingEnd - processingEntry.startTime;
 
-          const metric: WebVitalsMetric = {
-            name: 'INP',
-            value: inp,
-            rating: this.getINPRating(inp),
-            delta: inp,
-            id: this.generateMetricId(),
-            navigationType: this.getNavigationType(),
-          };
+          if (inp > maxINP) {
+            maxINP = inp;
 
-          this.vitalsData.set('INP', metric);
-          this.reportMetric(metric);
+            const metric: WebVitalsMetric = {
+              name: 'INP',
+              value: inp,
+              rating: this.getINPRating(inp),
+              delta: inp,
+              id: this.generateMetricId(),
+              navigationType: this.getNavigationType(),
+            };
+
+            this.vitalsData.set('INP', metric);
+            this.reportMetric(metric);
+          }
         }
       });
     });
@@ -186,42 +217,49 @@ export class CoreWebVitalsOptimizer {
 
     let clsValue = 0;
     let sessionValue = 0;
-    let sessionEntries: any[] = [];
+    let sessionEntries: LayoutShiftEntry[] = [];
 
     const observer = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
 
-      entries.forEach((entry: any) => {
-        if (!entry.hadRecentInput) {
-          const firstSessionEntry = sessionEntries[0];
-          const lastSessionEntry = sessionEntries[sessionEntries.length - 1];
+      entries.forEach(entry => {
+        // Type guard to ensure entry is a LayoutShiftEntry
+        if ('value' in entry && 'hadRecentInput' in entry) {
+          const layoutShiftEntry = entry as LayoutShiftEntry;
 
-          if (
-            sessionValue &&
-            entry.startTime - lastSessionEntry.startTime < 1000 &&
-            entry.startTime - firstSessionEntry.startTime < 5000
-          ) {
-            sessionValue += entry.value;
-            sessionEntries.push(entry);
-          } else {
-            sessionValue = entry.value;
-            sessionEntries = [entry];
-          }
+          if (!layoutShiftEntry.hadRecentInput) {
+            const firstSessionEntry = sessionEntries[0];
+            const lastSessionEntry = sessionEntries[sessionEntries.length - 1];
 
-          if (sessionValue > clsValue) {
-            clsValue = sessionValue;
+            if (
+              sessionValue &&
+              lastSessionEntry &&
+              firstSessionEntry &&
+              layoutShiftEntry.startTime - lastSessionEntry.startTime < 1000 &&
+              layoutShiftEntry.startTime - firstSessionEntry.startTime < 5000
+            ) {
+              sessionValue += layoutShiftEntry.value;
+              sessionEntries.push(layoutShiftEntry);
+            } else {
+              sessionValue = layoutShiftEntry.value;
+              sessionEntries = [layoutShiftEntry];
+            }
 
-            const metric: WebVitalsMetric = {
-              name: 'CLS',
-              value: clsValue,
-              rating: this.getCLSRating(clsValue),
-              delta: clsValue,
-              id: this.generateMetricId(),
-              navigationType: this.getNavigationType(),
-            };
+            if (sessionValue > clsValue) {
+              clsValue = sessionValue;
 
-            this.vitalsData.set('CLS', metric);
-            this.reportMetric(metric);
+              const metric: WebVitalsMetric = {
+                name: 'CLS',
+                value: clsValue,
+                rating: this.getCLSRating(clsValue),
+                delta: clsValue,
+                id: this.generateMetricId(),
+                navigationType: this.getNavigationType(),
+              };
+
+              this.vitalsData.set('CLS', metric);
+              this.reportMetric(metric);
+            }
           }
         }
       });
@@ -350,7 +388,7 @@ export class CoreWebVitalsOptimizer {
   ): void {
     if (!this.config.enableImageOptimization) return;
 
-    images.forEach(({ publicId, priority, sizes }) => {
+    images.forEach(({ publicId, priority }) => {
       if (priority === 'high') {
         // Preload critical images
         const optimizedUrl = cloudinaryService.getHeroImageUrl(publicId);
@@ -407,7 +445,7 @@ export class CoreWebVitalsOptimizer {
 
     // Report to Google Analytics 4
     if (typeof window !== 'undefined' && 'gtag' in window) {
-      (window as any).gtag('event', metric.name, {
+      (window as ExtendedWindow).gtag?.('event', metric.name, {
         event_category: 'Web Vitals',
         value: Math.round(
           metric.name === 'CLS' ? metric.value * 1000 : metric.value
@@ -467,7 +505,18 @@ export class CoreWebVitalsOptimizer {
     const navigation = performance.getEntriesByType(
       'navigation'
     )[0] as PerformanceNavigationTiming;
-    return (navigation?.type as any) || 'navigate';
+
+    const navigationType = navigation?.type;
+    if (
+      navigationType === 'navigate' ||
+      navigationType === 'reload' ||
+      navigationType === 'back_forward'
+    ) {
+      return navigationType === 'back_forward'
+        ? 'back-forward'
+        : navigationType;
+    }
+    return 'navigate';
   }
 
   /**

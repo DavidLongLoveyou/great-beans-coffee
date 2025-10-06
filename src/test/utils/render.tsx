@@ -69,7 +69,7 @@ export const renderWithLocale = (
 // Render with authentication context
 export const renderWithAuth = (
   ui: ReactElement,
-  user?: any,
+  _user?: unknown,
   options?: Omit<RenderOptions, 'wrapper'>
 ): RenderResult => {
   const AuthWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -85,7 +85,7 @@ export const renderWithAuth = (
 // Render with router context (for components that use routing)
 export const renderWithRouter = (
   ui: ReactElement,
-  initialRoute: string = '/',
+  _initialRoute: string = '/',
   options?: Omit<RenderOptions, 'wrapper'>
 ): RenderResult => {
   const RouterWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -101,7 +101,7 @@ export const renderWithRouter = (
 // Render with form context (for form components)
 export const renderWithForm = (
   ui: ReactElement,
-  formProps?: any,
+  formProps?: React.FormHTMLAttributes<HTMLFormElement>,
   options?: Omit<RenderOptions, 'wrapper'>
 ): RenderResult => {
   const FormWrapper = ({ children }: { children: React.ReactNode }) => (

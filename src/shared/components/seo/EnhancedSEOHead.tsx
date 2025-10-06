@@ -1,14 +1,12 @@
 'use client';
 
-import { type Metadata } from 'next';
 import Script from 'next/script';
 
-import { type Locale } from '@/i18n';
 import {
   AdvancedSEOMetadata,
   advancedSEOManager,
+  type SchemaOrgData,
 } from '@/shared/utils/advanced-seo-manager';
-import { createScopedLogger } from '@/shared/utils/logger';
 import {
   schemaGenerators,
   type CoffeeProductData,
@@ -17,8 +15,6 @@ import {
   type MarketReportData,
   type OriginStoryData,
 } from '@/shared/utils/schema-generators';
-
-const logger = createScopedLogger('EnhancedSEOHead');
 
 /**
  * Enhanced SEO Head Component for The Great Beans
@@ -53,8 +49,8 @@ export interface EnhancedSEOProps {
   // FAQ data for AI optimization
   faqs?: Array<{ question: string; answer: string }>;
 
-  // Custom structured data
-  customSchemas?: Record<string, any>[];
+  // Custom structured data schemas
+  customSchemas?: SchemaOrgData[];
 
   // Performance optimization
   preloadResources?: Array<{
@@ -85,7 +81,7 @@ export function EnhancedSEOHead({
   enableCoreWebVitalsTracking = true,
 }: EnhancedSEOProps) {
   // Generate all structured data schemas
-  const schemas: Record<string, any>[] = [];
+  const schemas: SchemaOrgData[] = [];
 
   // Always include organization and website schemas
   schemas.push(advancedSEOManager.generateOrganizationSchema());

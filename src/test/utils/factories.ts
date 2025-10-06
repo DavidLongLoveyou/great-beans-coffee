@@ -1,8 +1,183 @@
 // Test data factories for generating consistent test data
 import { faker } from '@faker-js/faker';
 
+// Type definitions for mock data
+interface MockUser {
+  id: string;
+  email: string;
+  name: string;
+  company: string;
+  role: string;
+  phone: string;
+  country: string;
+  createdAt: Date;
+  updatedAt: Date;
+  isVerified: boolean;
+}
+
+interface MockCoffeeProduct {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  origin: string;
+  region: string;
+  altitude: number;
+  processingMethod: string;
+  varietals: string[];
+  flavorProfile: {
+    acidity: string;
+    body: string;
+    sweetness: string;
+    notes: string[];
+  };
+  certifications: string[];
+  harvestSeason: string;
+  cupScore: number;
+  moistureContent: number;
+  screenSize: string;
+  defectCount: number;
+  pricePerKg: number;
+  minimumOrder: number;
+  availableQuantity: number;
+  images: Array<{ url: string; alt: string; caption: string }>;
+  supplier: MockUser;
+  createdAt: Date;
+  updatedAt: Date;
+  isActive: boolean;
+  isFeatured: boolean;
+}
+
+interface MockRFQ {
+  id: string;
+  rfqNumber: string;
+  buyer: MockUser;
+  productRequirements: {
+    origin: string;
+    processingMethod: string;
+    cupScore: number;
+    quantity: number;
+    packaging: string;
+    deliveryLocation: string;
+    targetPrice: number;
+  };
+  specifications: {
+    moistureContent: number;
+    screenSize: string;
+    defectCount: number;
+    certifications: string[];
+  };
+  timeline: {
+    submissionDeadline: Date;
+    deliveryDate: Date;
+    sampleRequired: boolean;
+    sampleDeadline: Date;
+  };
+  status: string;
+  responses: number;
+  createdAt: Date;
+  updatedAt: Date;
+  expiresAt: Date;
+}
+
+interface MockRFQResponse {
+  id: string;
+  rfqId: string;
+  supplier: MockUser;
+  quotation: {
+    pricePerKg: number;
+    totalPrice: number;
+    currency: string;
+    validUntil: Date;
+    paymentTerms: string;
+    deliveryTerms: string;
+  };
+  productDetails: {
+    origin: string;
+    farm: string;
+    processingMethod: string;
+    varietals: string[];
+    cupScore: number;
+    harvestDate: Date;
+  };
+  samples: {
+    available: boolean;
+    cost: number;
+    shippingCost: number;
+    deliveryTime: string;
+  };
+  attachments: Array<{
+    name: string;
+    url: string;
+    type: string;
+    size: number;
+  }>;
+  message: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface MockCompany {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  about: string;
+  logo: string;
+  coverImage: string;
+  website: string;
+  email: string;
+  phone: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    country: string;
+    zipCode: string;
+  };
+  certifications: string[];
+  establishedYear: number;
+  employeeCount: string;
+  annualCapacity: number;
+  exportMarkets: string[];
+  socialMedia: {
+    facebook: string;
+    twitter: string;
+    linkedin: string;
+    instagram: string;
+  };
+  rating: number;
+  reviewCount: number;
+  isVerified: boolean;
+  isPremium: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface MockArticle {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  featuredImage: string;
+  author: MockUser;
+  category: string;
+  tags: string[];
+  publishedAt: Date;
+  updatedAt: Date;
+  isPublished: boolean;
+  isFeatured: boolean;
+  readTime: number;
+  views: number;
+  likes: number;
+}
+
 // User factory
-export const createMockUser = (overrides: Partial<any> = {}) => ({
+export const createMockUser = (
+  overrides: Partial<MockUser> = {}
+): MockUser => ({
   id: faker.string.uuid(),
   email: faker.internet.email(),
   name: faker.person.fullName(),
@@ -17,7 +192,9 @@ export const createMockUser = (overrides: Partial<any> = {}) => ({
 });
 
 // Coffee product factory
-export const createMockCoffeeProduct = (overrides: Partial<any> = {}) => ({
+export const createMockCoffeeProduct = (
+  overrides: Partial<MockCoffeeProduct> = {}
+): MockCoffeeProduct => ({
   id: faker.string.uuid(),
   name: faker.helpers.arrayElement([
     'Ethiopian Yirgacheffe',
@@ -123,7 +300,7 @@ export const createMockCoffeeProduct = (overrides: Partial<any> = {}) => ({
 });
 
 // RFQ (Request for Quotation) factory
-export const createMockRFQ = (overrides: Partial<any> = {}) => ({
+export const createMockRFQ = (overrides: Partial<MockRFQ> = {}): MockRFQ => ({
   id: faker.string.uuid(),
   rfqNumber: `RFQ-${faker.string.alphanumeric(8).toUpperCase()}`,
   buyer: createMockUser({ role: 'buyer' }),
@@ -183,7 +360,9 @@ export const createMockRFQ = (overrides: Partial<any> = {}) => ({
 });
 
 // RFQ Response factory
-export const createMockRFQResponse = (overrides: Partial<any> = {}) => ({
+export const createMockRFQResponse = (
+  overrides: Partial<MockRFQResponse> = {}
+): MockRFQResponse => ({
   id: faker.string.uuid(),
   rfqId: faker.string.uuid(),
   supplier: createMockUser({ role: 'supplier' }),
@@ -247,7 +426,9 @@ export const createMockRFQResponse = (overrides: Partial<any> = {}) => ({
 });
 
 // Company/Supplier profile factory
-export const createMockCompany = (overrides: Partial<any> = {}) => ({
+export const createMockCompany = (
+  overrides: Partial<MockCompany> = {}
+): MockCompany => ({
   id: faker.string.uuid(),
   name: faker.company.name(),
   slug: faker.helpers.slugify(faker.company.name()),
@@ -312,7 +493,9 @@ export const createMockCompany = (overrides: Partial<any> = {}) => ({
 });
 
 // News/Blog article factory
-export const createMockArticle = (overrides: Partial<any> = {}) => ({
+export const createMockArticle = (
+  overrides: Partial<MockArticle> = {}
+): MockArticle => ({
   id: faker.string.uuid(),
   title: faker.lorem.sentence(),
   slug: faker.helpers.slugify(faker.lorem.words(5)),
@@ -353,9 +536,9 @@ export const createMockArticle = (overrides: Partial<any> = {}) => ({
 
 // Factory helper functions
 export const createMockList = <T>(
-  factory: (overrides?: any) => T,
+  factory: (overrides?: Partial<T>) => T,
   count: number,
-  overrides?: any
+  overrides?: Partial<T>
 ): T[] => {
   return Array.from({ length: count }, () => factory(overrides));
 };

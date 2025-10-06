@@ -1,6 +1,6 @@
-import { seoConfig } from './seo-utils';
-
 import { type Locale } from '@/i18n';
+
+import { seoConfig } from './seo-utils';
 
 // Enhanced B2B Product Schema with international targeting
 export interface B2BProductSchema {

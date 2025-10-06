@@ -159,27 +159,32 @@ export function MediaCarousel({
   // Grid view
   if (viewMode === 'grid') {
     return (
-      <div className={`space-y-6 ${className}`}>
+      <div className={`space-y-4 sm:space-y-6 ${className}`}>
         {title && (
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold text-gray-900">{title}</h2>
-            <div className="flex gap-2">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="line-clamp-2 text-xl font-semibold text-gray-900 sm:text-2xl">
+              {title}
+            </h2>
+            <div className="flex gap-2 self-start sm:self-auto">
               <Button
                 variant="outline"
-                size="icon"
+                size="sm"
                 onClick={() => setViewMode('carousel')}
+                className="flex-shrink-0"
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-4 w-4 sm:mr-1" />
+                <span className="hidden sm:inline">Carousel</span>
               </Button>
-              <Button variant="default" size="icon">
-                <Grid3X3 className="h-4 w-4" />
+              <Button variant="default" size="sm" className="flex-shrink-0">
+                <Grid3X3 className="h-4 w-4 sm:mr-1" />
+                <span className="hidden sm:inline">Grid</span>
               </Button>
             </div>
           </div>
         )}
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 overflow-x-auto pb-2">
           {/* Type Filter */}
           <Button
             variant={selectedType === 'all' ? 'default' : 'outline'}
@@ -233,11 +238,11 @@ export function MediaCarousel({
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {filteredItems.map((item, index) => (
             <Card
               key={item.id}
-              className="overflow-hidden transition-shadow hover:shadow-lg"
+              className="group overflow-hidden transition-shadow hover:shadow-lg"
             >
               <div className="relative aspect-video bg-gray-100">
                 {item.type === 'image' ? (
@@ -259,13 +264,13 @@ export function MediaCarousel({
                       <Button
                         variant="secondary"
                         size="icon"
-                        className="h-12 w-12 bg-white/20 text-white hover:bg-white/30"
+                        className="h-12 w-12 bg-white/20 text-white hover:bg-white/30 sm:h-14 sm:w-14"
                         onClick={() => {
                           setCurrentIndex(index);
                           setViewMode('carousel');
                         }}
                       >
-                        <Play className="ml-1 h-6 w-6" />
+                        <Play className="ml-1 h-6 w-6 sm:h-7 sm:w-7" />
                       </Button>
                     </div>
                   </div>
@@ -274,7 +279,7 @@ export function MediaCarousel({
                 {/* Type Badge */}
                 <Badge
                   variant="secondary"
-                  className="absolute left-2 top-2 bg-black/50 text-white"
+                  className="absolute left-2 top-2 bg-black/50 text-xs text-white"
                 >
                   {item.type === 'image' ? (
                     <ImageIcon className="mr-1 h-3 w-3" />
@@ -284,37 +289,37 @@ export function MediaCarousel({
                   {item.type}
                 </Badge>
 
-                {/* Actions */}
-                <div className="absolute right-2 top-2 flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                {/* Actions - Always visible on mobile, hover on desktop */}
+                <div className="absolute right-2 top-2 flex gap-1 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="h-8 w-8 bg-white/80 hover:bg-white"
+                    className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-9 sm:w-9"
                     onClick={() => {
                       setCurrentIndex(index);
                       setViewMode('carousel');
                     }}
                   >
-                    <Maximize2 className="h-3 w-3" />
+                    <Maximize2 className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
                   {allowDownload && (
                     <Button
                       variant="secondary"
                       size="icon"
-                      className="h-8 w-8 bg-white/80 hover:bg-white"
+                      className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-9 sm:w-9"
                       onClick={() => handleDownload(item)}
                     >
-                      <Download className="h-3 w-3" />
+                      <Download className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                   )}
                   {allowShare && (
                     <Button
                       variant="secondary"
                       size="icon"
-                      className="h-8 w-8 bg-white/80 hover:bg-white"
+                      className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-9 sm:w-9"
                       onClick={() => handleShare(item)}
                     >
-                      <Share2 className="h-3 w-3" />
+                      <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                   )}
                 </div>

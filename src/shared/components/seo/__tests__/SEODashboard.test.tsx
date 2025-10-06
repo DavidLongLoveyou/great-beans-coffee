@@ -294,8 +294,15 @@ describe('SEODashboard Component', () => {
 
     // Mock link click
     const mockClick = jest.fn();
-    const mockLink = { click: mockClick, href: '', download: '' };
-    jest.spyOn(document, 'createElement').mockReturnValue(mockLink as any);
+    const mockLink = {
+      click: mockClick,
+      href: '',
+      download: '',
+      style: {},
+      appendChild: jest.fn(),
+      removeChild: jest.fn(),
+    } as unknown as HTMLAnchorElement;
+    jest.spyOn(document, 'createElement').mockReturnValue(mockLink);
 
     render(<SEODashboard />);
 

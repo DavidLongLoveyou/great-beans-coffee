@@ -1,12 +1,11 @@
+import type { Locale } from '@/i18n';
+import { ContentManager } from '@/lib/contentlayer';
 import type {
   BlogPost,
   MarketReport,
   OriginStory,
   ServicePage,
 } from 'contentlayer/generated';
-
-import type { Locale } from '@/i18n';
-import { ContentManager } from '@/lib/contentlayer';
 
 // RSS Configuration
 export const rssConfig = {

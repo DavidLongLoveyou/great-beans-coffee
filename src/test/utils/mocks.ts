@@ -337,15 +337,15 @@ export const allOriginStories = [];
 export const allServicePages = [];
 export const allBlogPosts = [];
 
-// Next-intl mocks
+// Mock next-intl functions
 export const getTranslations = jest.fn(() => (key: string) => key);
 export const getLocale = jest.fn(() => 'en');
 export const getMessages = jest.fn(() => ({}));
 export const unstable_setRequestLocale = jest.fn();
 export const getRequestConfig = jest.fn();
 
-// Default exports for modules
-export default {
+// Default export for contentlayer mocks
+const mockContentlayer = {
   allMarketReports,
   allOriginStories,
   allServicePages,
@@ -356,3 +356,5 @@ export default {
   unstable_setRequestLocale,
   getRequestConfig,
 };
+
+export default mockContentlayer;

@@ -46,17 +46,20 @@ ____________ Unit Tests (Many)
 ## Testing Stack
 
 ### Unit & Integration Testing
+
 - **Jest** - Test runner and assertion library
 - **React Testing Library** - Component testing utilities
 - **@testing-library/user-event** - User interaction simulation
 - **@testing-library/jest-dom** - Custom Jest matchers
 
 ### End-to-End Testing
+
 - **Playwright** - Cross-browser E2E testing
 - **Multiple browsers** - Chrome, Firefox, Safari, Edge
 - **Mobile testing** - iOS Safari, Android Chrome
 
 ### Utilities
+
 - **Faker.js** - Test data generation
 - **MSW (Mock Service Worker)** - API mocking
 - **Custom test utilities** - Project-specific helpers
@@ -110,7 +113,7 @@ describe('Button', () => {
   it('handles click events', async () => {
     const handleClick = jest.fn()
     const { user } = render(<Button onClick={handleClick}>Click me</Button>)
-    
+
     await user.click(screen.getByRole('button'))
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
@@ -126,43 +129,43 @@ describe('Button', () => {
 
 ```typescript
 // Example: Custom hook test
-import { renderHook, waitFor } from '@/test/utils'
-import { useCoffeeProducts } from '../use-coffee-products'
+import { renderHook, waitFor } from '@/test/utils';
+import { useCoffeeProducts } from '../use-coffee-products';
 
 describe('useCoffeeProducts', () => {
   it('loads products on mount', async () => {
-    const { result } = renderHook(() => useCoffeeProducts())
-    
-    expect(result.current.loading).toBe(true)
-    
+    const { result } = renderHook(() => useCoffeeProducts());
+
+    expect(result.current.loading).toBe(true);
+
     await waitFor(() => {
-      expect(result.current.loading).toBe(false)
-    })
-    
-    expect(result.current.products).toHaveLength(10)
-  })
-})
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.products).toHaveLength(10);
+  });
+});
 ```
 
 ### Utility Testing
 
 ```typescript
 // Example: Utility function test
-import { formatPrice } from '../price-utils'
+import { formatPrice } from '../price-utils';
 
 describe('formatPrice', () => {
   it('formats USD prices correctly', () => {
-    expect(formatPrice(1234.56, 'USD')).toBe('$1,234.56')
-  })
+    expect(formatPrice(1234.56, 'USD')).toBe('$1,234.56');
+  });
 
   it('handles zero values', () => {
-    expect(formatPrice(0, 'USD')).toBe('$0.00')
-  })
+    expect(formatPrice(0, 'USD')).toBe('$0.00');
+  });
 
   it('throws error for invalid currency', () => {
-    expect(() => formatPrice(100, 'INVALID')).toThrow('Invalid currency')
-  })
-})
+    expect(() => formatPrice(100, 'INVALID')).toThrow('Invalid currency');
+  });
+});
 ```
 
 ## Integration Testing
@@ -171,24 +174,24 @@ describe('formatPrice', () => {
 
 ```typescript
 // Example: API route integration test
-import { createMocks } from 'node-mocks-http'
-import handler from '@/app/api/products/route'
+import { createMocks } from 'node-mocks-http';
+import handler from '@/app/api/products/route';
 
 describe('/api/products', () => {
   it('returns products list', async () => {
     const { req, res } = createMocks({
       method: 'GET',
-      query: { page: '1', limit: '10' }
-    })
+      query: { page: '1', limit: '10' },
+    });
 
-    await handler(req, res)
+    await handler(req, res);
 
-    expect(res._getStatusCode()).toBe(200)
-    const data = JSON.parse(res._getData())
-    expect(data.products).toHaveLength(10)
-    expect(data.pagination).toBeDefined()
-  })
-})
+    expect(res._getStatusCode()).toBe(200);
+    const data = JSON.parse(res._getData());
+    expect(data.products).toHaveLength(10);
+    expect(data.pagination).toBeDefined();
+  });
+});
 ```
 
 ### Component Integration Testing
@@ -201,25 +204,25 @@ import { ProductCatalog } from '../ProductCatalog'
 describe('ProductCatalog Integration', () => {
   it('loads and displays products', async () => {
     render(<ProductCatalog />)
-    
+
     expect(screen.getByText('Loading products...')).toBeInTheDocument()
-    
+
     await waitFor(() => {
       expect(screen.getByText('Ethiopian Yirgacheffe')).toBeInTheDocument()
     })
-    
+
     expect(screen.getAllByTestId('product-card')).toHaveLength(12)
   })
 
   it('filters products by origin', async () => {
     const { user } = render(<ProductCatalog />)
-    
+
     await waitFor(() => {
       expect(screen.getByText('Ethiopian Yirgacheffe')).toBeInTheDocument()
     })
-    
+
     await user.selectOptions(screen.getByLabelText('Origin'), 'Ethiopia')
-    
+
     await waitFor(() => {
       expect(screen.getAllByTestId('product-card')).toHaveLength(3)
     })
@@ -233,24 +236,24 @@ describe('ProductCatalog Integration', () => {
 
 ```typescript
 // Example: E2E page test
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test';
 
 test.describe('Product Catalog Page', () => {
   test('should display products and allow filtering', async ({ page }) => {
-    await page.goto('/products')
-    
+    await page.goto('/products');
+
     // Wait for products to load
-    await expect(page.getByTestId('product-card')).toHaveCount(12)
-    
+    await expect(page.getByTestId('product-card')).toHaveCount(12);
+
     // Test filtering
-    await page.getByLabel('Origin').selectOption('Ethiopia')
-    await expect(page.getByTestId('product-card')).toHaveCount(3)
-    
+    await page.getByLabel('Origin').selectOption('Ethiopia');
+    await expect(page.getByTestId('product-card')).toHaveCount(3);
+
     // Test product navigation
-    await page.getByTestId('product-card').first().click()
-    await expect(page).toHaveURL(/\/products\/[^\/]+/)
-  })
-})
+    await page.getByTestId('product-card').first().click();
+    await expect(page).toHaveURL(/\/products\/[^\/]+/);
+  });
+});
 ```
 
 ### User Journey Testing
@@ -259,18 +262,18 @@ test.describe('Product Catalog Page', () => {
 // Example: Complete user flow test
 test('RFQ submission flow', async ({ page }) => {
   // Start from homepage
-  await page.goto('/')
-  await page.getByRole('button', { name: 'Get Quote' }).click()
-  
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Get Quote' }).click();
+
   // Fill RFQ form
-  await page.getByLabel('Company Name').fill('Test Company')
-  await page.getByLabel('Email').fill('test@example.com')
-  await page.getByLabel('Quantity').fill('1000')
-  
+  await page.getByLabel('Company Name').fill('Test Company');
+  await page.getByLabel('Email').fill('test@example.com');
+  await page.getByLabel('Quantity').fill('1000');
+
   // Submit and verify
-  await page.getByRole('button', { name: 'Submit Quote' }).click()
-  await expect(page.getByText('Quote submitted successfully')).toBeVisible()
-})
+  await page.getByRole('button', { name: 'Submit Quote' }).click();
+  await expect(page.getByText('Quote submitted successfully')).toBeVisible();
+});
 ```
 
 ## Test Scripts
@@ -321,37 +324,41 @@ npm run test:ci              # Full test suite
 ### General Guidelines
 
 1. **Test Names Should Be Descriptive**
+
    ```typescript
    // ❌ Bad
-   it('works')
-   
+   it('works');
+
    // ✅ Good
-   it('should display error message when email is invalid')
+   it('should display error message when email is invalid');
    ```
 
 2. **Use Data Test IDs for E2E Tests**
+
    ```typescript
    // Component
    <button data-testid="submit-button">Submit</button>
-   
+
    // Test
    await page.getByTestId('submit-button').click()
    ```
 
 3. **Mock External Dependencies**
+
    ```typescript
    // Mock API calls
    jest.mock('@/lib/api', () => ({
-     fetchProducts: jest.fn().mockResolvedValue(mockProducts)
-   }))
+     fetchProducts: jest.fn().mockResolvedValue(mockProducts),
+   }));
    ```
 
 4. **Test Error States**
+
    ```typescript
    it('displays error when API fails', async () => {
      mockFetchProducts.mockRejectedValue(new Error('API Error'))
      render(<ProductList />)
-     
+
      await waitFor(() => {
        expect(screen.getByText('Failed to load products')).toBeInTheDocument()
      })
@@ -361,19 +368,21 @@ npm run test:ci              # Full test suite
 ### Component Testing Best Practices
 
 1. **Test User Interactions**
+
    ```typescript
    it('submits form when valid data is entered', async () => {
      const onSubmit = jest.fn()
      const { user } = render(<ContactForm onSubmit={onSubmit} />)
-     
+
      await user.type(screen.getByLabelText('Email'), 'test@example.com')
      await user.click(screen.getByRole('button', { name: 'Submit' }))
-     
+
      expect(onSubmit).toHaveBeenCalledWith({ email: 'test@example.com' })
    })
    ```
 
 2. **Test Accessibility**
+
    ```typescript
    it('is accessible', async () => {
      const { container } = render(<Button>Click me</Button>)
@@ -396,27 +405,29 @@ npm run test:ci              # Full test suite
 ### E2E Testing Best Practices
 
 1. **Use Page Object Model**
+
    ```typescript
    class ProductPage {
      constructor(private page: Page) {}
-     
+
      async goto() {
-       await this.page.goto('/products')
+       await this.page.goto('/products');
      }
-     
+
      async filterByOrigin(origin: string) {
-       await this.page.getByLabel('Origin').selectOption(origin)
+       await this.page.getByLabel('Origin').selectOption(origin);
      }
    }
    ```
 
 2. **Wait for Elements Properly**
+
    ```typescript
    // ❌ Bad - arbitrary wait
-   await page.waitForTimeout(2000)
-   
+   await page.waitForTimeout(2000);
+
    // ✅ Good - wait for specific condition
-   await expect(page.getByTestId('product-card')).toHaveCount(12)
+   await expect(page.getByTestId('product-card')).toHaveCount(12);
    ```
 
 3. **Test Critical Paths Only**
@@ -443,23 +454,23 @@ module.exports = {
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
     '!src/**/*.stories.{ts,tsx}',
-    '!src/test/**/*'
+    '!src/test/**/*',
   ],
   coverageThreshold: {
     global: {
       branches: 80,
       functions: 80,
       lines: 80,
-      statements: 80
+      statements: 80,
     },
     './src/domain/': {
       branches: 95,
       functions: 95,
       lines: 95,
-      statements: 95
-    }
-  }
-}
+      statements: 95,
+    },
+  },
+};
 ```
 
 ## CI/CD Integration
@@ -479,10 +490,10 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-      
+
       - run: npm ci
       - run: npm run test:ci
-      
+
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
@@ -508,30 +519,34 @@ jobs:
 ### Common Issues
 
 1. **Tests Timing Out**
+
    ```typescript
    // Increase timeout for slow operations
    it('loads large dataset', async () => {
      // ... test code
-   }, 10000) // 10 second timeout
+   }, 10000); // 10 second timeout
    ```
 
 2. **Flaky E2E Tests**
+
    ```typescript
    // Use proper waits instead of timeouts
-   await expect(page.getByText('Success')).toBeVisible({ timeout: 10000 })
+   await expect(page.getByText('Success')).toBeVisible({ timeout: 10000 });
    ```
 
 3. **Memory Issues in Jest**
+
    ```bash
    # Increase memory limit
    node --max-old-space-size=4096 node_modules/.bin/jest
    ```
 
 4. **Playwright Browser Issues**
+
    ```bash
    # Reinstall browsers
    npx playwright install
-   
+
    # Run with specific browser
    npx playwright test --project=chromium
    ```

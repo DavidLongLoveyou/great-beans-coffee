@@ -3,9 +3,9 @@
 import { useEffect } from 'react';
 
 import { createScopedLogger } from '@/shared/utils/logger';
+import { initializePerformanceOptimizations } from '@/shared/utils/performance-optimization';
 
 const logger = createScopedLogger('PerformanceInitializer');
-import { initializePerformanceOptimizations } from '@/shared/utils/performance-optimization';
 
 /**
  * Performance Initializer Component

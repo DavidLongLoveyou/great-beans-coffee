@@ -8,7 +8,7 @@ import {
   Award,
   CreditCard,
 } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import {
@@ -34,15 +34,41 @@ export function MarketInfo({
 }: MarketInfoProps) {
   const {
     config,
-    isBusinessHours,
+    formatCurrency,
+    formatDate,
     businessHours,
     coffeeGradingStandards,
     paymentTerms,
     certificationRequirements,
-    formatDate,
   } = useMarket();
 
-  const currentTime = formatDate(new Date());
+  // Use state to prevent hydration mismatch
+  const [currentTime, setCurrentTime] = useState<string>('');
+  const [isBusinessHours, setIsBusinessHours] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const now = new Date();
+    setCurrentTime(formatDate(now));
+    
+    // Import the function to check business hours
+    import('@/shared/utils/market').then(({ isWithinBusinessHours }) => {
+      setIsBusinessHours(isWithinBusinessHours(config.locale as any, now));
+    });
+
+    // Update time and business hours every minute
+    const interval = setInterval(() => {
+      const currentTime = new Date();
+      setCurrentTime(formatDate(currentTime));
+      
+      import('@/shared/utils/market').then(({ isWithinBusinessHours }) => {
+        setIsBusinessHours(isWithinBusinessHours(config.locale as any, currentTime));
+      });
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [formatDate, config.locale]);
 
   return (
     <div className={`space-y-6 ${className}`}>
@@ -72,13 +98,17 @@ export function MarketInfo({
               <Clock className="h-4 w-4 text-blue-600" />
               <div>
                 <p className="text-sm font-medium">Local Time</p>
-                <p className="text-sm text-muted-foreground">{currentTime}</p>
-                <Badge
-                  variant={isBusinessHours ? 'default' : 'secondary'}
-                  className="mt-1"
-                >
-                  {isBusinessHours ? 'Business Hours' : 'After Hours'}
-                </Badge>
+                <p className="text-sm text-muted-foreground">
+                  {mounted ? currentTime : 'Loading...'}
+                </p>
+                {mounted && (
+                  <Badge
+                    variant={isBusinessHours ? 'default' : 'secondary'}
+                    className="mt-1"
+                  >
+                    {isBusinessHours ? 'Business Hours' : 'After Hours'}
+                  </Badge>
+                )}
               </div>
             </div>
 

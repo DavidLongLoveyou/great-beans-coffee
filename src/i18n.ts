@@ -125,7 +125,8 @@ export const localeConfig: Record<
 export default getRequestConfig(async ({ locale }) => {
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale as Locale)) {
-    notFound();
+    // Use default locale instead of throwing notFound
+    locale = defaultLocale;
   }
 
   try {
@@ -133,12 +134,29 @@ export default getRequestConfig(async ({ locale }) => {
       locale: locale as string,
       messages: (await import(`../messages/${locale}.json`)).default,
       timeZone: 'UTC', // Default timezone to prevent environment mismatches
-      now: new Date(),
     };
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {
       logger.error(`Failed to load messages for locale: ${locale}`, error);
     }
-    notFound();
+
+    // Try to load default locale messages as fallback
+    try {
+      return {
+        locale: defaultLocale,
+        messages: (await import(`../messages/${defaultLocale}.json`)).default,
+        timeZone: 'UTC',
+      };
+    } catch (fallbackError) {
+      if (process.env.NODE_ENV === 'development') {
+        logger.error('Failed to load fallback messages', fallbackError);
+      }
+      // Return empty messages instead of notFound to prevent hydration issues
+      return {
+        locale: defaultLocale,
+        messages: {},
+        timeZone: 'UTC',
+      };
+    }
   }
 });

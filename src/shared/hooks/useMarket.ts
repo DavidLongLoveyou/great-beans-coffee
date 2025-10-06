@@ -114,9 +114,11 @@ export function useMarket(): UseMarketReturn {
 
   // Business operations
   const businessOperations = useMemo(() => {
-    const now = new Date();
     return {
-      isBusinessHours: isWithinBusinessHours(locale, now),
+      // Remove new Date() from useMemo to prevent hydration issues
+      get isBusinessHours() {
+        return isWithinBusinessHours(locale, new Date());
+      },
       businessHours: getBusinessHours(locale),
       getNextBusinessDay: (date?: Date) => getNextBusinessDay(locale, date),
       getEstimatedDelivery: (shipDate?: Date) =>

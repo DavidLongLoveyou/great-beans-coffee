@@ -22,18 +22,23 @@ function fixYamlFrontmatter(filePath) {
 
     // Fix specific YAML issues
     const lines = content.split('\n');
-    const frontmatterEnd = lines.findIndex((line, index) => index > 0 && line.trim() === '---');
-    
+    const frontmatterEnd = lines.findIndex(
+      (line, index) => index > 0 && line.trim() === '---'
+    );
+
     if (frontmatterEnd > 0) {
       for (let i = 1; i < frontmatterEnd; i++) {
         const line = lines[i];
-        
+
         // Fix tableOfContents with trailing \r
         if (line.includes('tableOfContents: true\r')) {
-          lines[i] = line.replace('tableOfContents: true\r', 'tableOfContents: true');
+          lines[i] = line.replace(
+            'tableOfContents: true\r',
+            'tableOfContents: true'
+          );
           hasChanges = true;
         }
-        
+
         // Fix array syntax issues - ensure proper spacing
         if (line.includes('certifications:') && line.includes('[')) {
           // Fix inline array formatting
@@ -50,14 +55,21 @@ function fixYamlFrontmatter(filePath) {
                 return `'${cleaned}'`;
               })
               .join(', ');
-            
+
             lines[i] = `certifications: [${fixedArray}]`;
             hasChanges = true;
           }
         }
-        
+
         // Fix other array fields
-        const arrayFields = ['tags', 'keywords', 'gallery', 'sustainabilityPractices', 'relatedPosts', 'alternateLanguages'];
+        const arrayFields = [
+          'tags',
+          'keywords',
+          'gallery',
+          'sustainabilityPractices',
+          'relatedPosts',
+          'alternateLanguages',
+        ];
         arrayFields.forEach(field => {
           if (line.includes(`${field}:`) && line.includes('[')) {
             const match = line.match(new RegExp(`${field}:\\s*\\[(.*)\\]`));
@@ -71,7 +83,7 @@ function fixYamlFrontmatter(filePath) {
                   return `'${cleaned}'`;
                 })
                 .join(', ');
-              
+
               lines[i] = `${field}: [${fixedArray}]`;
               hasChanges = true;
             }
@@ -86,7 +98,7 @@ function fixYamlFrontmatter(filePath) {
       console.log(`✅ Fixed: ${filePath}`);
       return true;
     }
-    
+
     return false;
   } catch (error) {
     console.error(`❌ Error fixing ${filePath}:`, error.message);
@@ -96,27 +108,27 @@ function fixYamlFrontmatter(filePath) {
 
 function main() {
   console.log('🔧 Fixing YAML frontmatter issues in MDX files...\n');
-  
+
   const contentDir = path.join(__dirname, '..', 'content');
   const mdxFiles = glob.sync('**/*.mdx', { cwd: contentDir });
-  
+
   let fixedCount = 0;
   let totalCount = 0;
-  
+
   mdxFiles.forEach(relativePath => {
     const fullPath = path.join(contentDir, relativePath);
     totalCount++;
-    
+
     if (fixYamlFrontmatter(fullPath)) {
       fixedCount++;
     }
   });
-  
+
   console.log(`\n📊 Summary:`);
   console.log(`   Total files processed: ${totalCount}`);
   console.log(`   Files fixed: ${fixedCount}`);
   console.log(`   Files unchanged: ${totalCount - fixedCount}`);
-  
+
   if (fixedCount > 0) {
     console.log('\n✅ YAML frontmatter issues have been fixed!');
     console.log('   You can now restart the development server.');

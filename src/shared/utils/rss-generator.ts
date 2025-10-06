@@ -1,7 +1,7 @@
-import { seoConfig } from './seo-utils';
-
 import { Locale } from '@/i18n';
 import { ContentManager } from '@/lib/contentlayer';
+
+import { seoConfig } from './seo-utils';
 
 interface RSSItem {
   title: string;

@@ -1,10 +1,10 @@
 import { type Metadata } from 'next';
 import React from 'react';
 
-import { EnhancedSEOHead } from './EnhancedSEOHead';
-
 import { type Locale } from '@/i18n';
 import { type AdvancedSEOMetadata } from '@/shared/utils/advanced-seo-manager';
+
+import { EnhancedSEOHead } from './EnhancedSEOHead';
 
 // Core SEO data interfaces
 export interface SEOPageData {
@@ -297,13 +297,9 @@ export function SEOLayout({
   seoData,
   breadcrumbs,
   faqs,
-  alternateLanguages,
-  structuredDataType = 'website',
   enableAnalytics = true,
   enableCoreWebVitals = true,
   preloadResources = [],
-  prefetchDNS = [],
-  preconnectOrigins = [],
   className,
 }: SEOLayoutProps) {
   return (
@@ -366,7 +362,7 @@ export function generateSEOMetadata(seoData: SEOPageData): Metadata {
       canonical: canonical || url,
     },
     openGraph: {
-      type: type as any,
+      type: (type || 'website') as 'website' | 'article',
       title,
       description,
       url,
@@ -409,19 +405,29 @@ export function generateSEOMetadata(seoData: SEOPageData): Metadata {
 }
 
 // Type guards for SEO data
-export function isProductSEOData(data: any): data is ProductSEOData {
+// Create a union type for all SEO data types
+type AnySEOData =
+  | SEOPageData
+  | ProductSEOData
+  | ServiceSEOData
+  | ArticleSEOData
+  | CollectionSEOData;
+
+export function isProductSEOData(data: AnySEOData): data is ProductSEOData {
   return data && typeof data === 'object' && 'product' in data;
 }
 
-export function isServiceSEOData(data: any): data is ServiceSEOData {
+export function isServiceSEOData(data: AnySEOData): data is ServiceSEOData {
   return data && typeof data === 'object' && 'service' in data;
 }
 
-export function isArticleSEOData(data: any): data is ArticleSEOData {
+export function isArticleSEOData(data: AnySEOData): data is ArticleSEOData {
   return data && typeof data === 'object' && 'article' in data;
 }
 
-export function isCollectionSEOData(data: any): data is CollectionSEOData {
+export function isCollectionSEOData(
+  data: AnySEOData
+): data is CollectionSEOData {
   return data && typeof data === 'object' && 'collection' in data;
 }
 

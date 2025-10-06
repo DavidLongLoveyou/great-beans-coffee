@@ -6,7 +6,7 @@ import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n';
 import { MarketInfo } from '@/presentation/components/features/MarketInfo';
 import { SEOHead } from '@/presentation/components/seo/SEOHead';
-import { Button } from '@/presentation/components/ui/button';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -100,10 +100,10 @@ export default async function MarketInfoPage({ params }: MarketInfoPageProps) {
           {/* Header */}
           <div className="mb-8">
             <Link href={`/${locale}`}>
-              <Button variant="outline" className="mb-4">
+              <ServerButton variant="outline" className="mb-4">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Home
-              </Button>
+              </ServerButton>
             </Link>
 
             <div className="text-center">

@@ -1,9 +1,15 @@
 import { type Metadata } from 'next';
 
+import { type Locale } from '@/i18n';
+
 import { seoConfig } from './seo-utils';
 
-import { type Locale } from '@/i18n';
-import { siteConfig } from '@/shared/config/site';
+// Schema.org structured data interface
+export interface SchemaOrgData {
+  '@context': string;
+  '@type': string;
+  [key: string]: unknown;
+}
 
 /**
  * Advanced SEO Manager for The Great Beans
@@ -134,7 +140,7 @@ export interface AdvancedSEOMetadata {
     | 'never';
 
   // Structured data
-  customStructuredData?: Record<string, any>[];
+  customStructuredData?: SchemaOrgData[];
 }
 
 // Default advanced SEO configuration
@@ -364,7 +370,7 @@ export class AdvancedSEOManager {
   /**
    * Generate comprehensive organization Schema.org markup
    */
-  generateOrganizationSchema(): Record<string, any> {
+  generateOrganizationSchema(): SchemaOrgData {
     return {
       '@context': 'https://schema.org',
       '@type': 'Organization',
@@ -488,7 +494,7 @@ export class AdvancedSEOManager {
   /**
    * Generate website Schema.org markup
    */
-  generateWebsiteSchema(locale: Locale): Record<string, any> {
+  generateWebsiteSchema(locale: Locale): SchemaOrgData {
     return {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
@@ -516,7 +522,7 @@ export class AdvancedSEOManager {
    */
   generateBreadcrumbSchema(
     breadcrumbs: Array<{ name: string; url: string }>
-  ): Record<string, any> {
+  ): SchemaOrgData {
     return {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
@@ -536,7 +542,7 @@ export class AdvancedSEOManager {
    */
   generateFAQSchema(
     faqs: Array<{ question: string; answer: string }>
-  ): Record<string, any> {
+  ): SchemaOrgData {
     return {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -588,7 +594,7 @@ export class AdvancedSEOManager {
   /**
    * Validate structured data
    */
-  validateStructuredData(data: Record<string, any>): boolean {
+  validateStructuredData(data: SchemaOrgData): boolean {
     // Basic validation for required Schema.org fields
     if (!data['@context'] || !data['@type']) {
       return false;

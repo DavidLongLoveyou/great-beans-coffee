@@ -16,7 +16,7 @@ import { type Locale } from '@/i18n';
 import { getBlogPostBySlug, getBlogPosts } from '@/lib/contentlayer';
 import { MDXContent } from '@/presentation/components/MDXContent';
 import { SEOHead } from '@/presentation/components/seo';
-import { Button } from '@/presentation/components/ui/button';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -28,6 +28,7 @@ import {
   generateMetadata as generateSEOMetadata,
   generateArticleSchema,
 } from '@/shared/utils/seo-utils';
+import { ContentImage } from '@/shared/components/performance/OptimizedImage';
 
 interface BlogPostPageProps {
   params: Promise<{ locale: Locale; slug: string }>;
@@ -115,10 +116,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Back Navigation */}
         <div className="mb-8">
           <Link href={`/${locale}/blog`}>
-            <Button variant="ghost" className="mb-4">
+            <ServerButton variant="ghost" className="mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" />
               {t('backToBlog')}
-            </Button>
+            </ServerButton>
           </Link>
         </div>
 
@@ -126,11 +127,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="mb-12">
           {post.coverImage && (
             <div className="relative mb-8 aspect-video overflow-hidden rounded-lg bg-gray-200">
-              <Image
+              <ContentImage
                 src={post.coverImage}
                 alt={post.title}
                 fill
                 className="object-cover"
+                optimizeForLCP={true}
+                priority={true}
               />
             </div>
           )}
@@ -174,10 +177,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
               )}
 
-              <Button variant="outline" size="sm">
+              <ServerButton variant="outline" size="sm">
                 <Share2 className="mr-2 h-4 w-4" />
                 {t('share')}
-              </Button>
+              </ServerButton>
             </div>
           </div>
         </div>
@@ -261,9 +264,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         )}
                       </div>
                       <Link href={relatedPost.url}>
-                        <Button variant="outline" size="sm">
+                        <ServerButton variant="outline" size="sm">
                           {tCommon('readMore')}
-                        </Button>
+                        </ServerButton>
                       </Link>
                     </div>
                   </CardContent>
@@ -285,9 +288,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               placeholder={t('emailPlaceholder')}
               className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
-            <Button className="bg-amber-600 hover:bg-amber-700">
+            <ServerButton className="bg-amber-600 hover:bg-amber-700">
               {t('subscribe')}
-            </Button>
+            </ServerButton>
           </div>
         </div>
       </div>

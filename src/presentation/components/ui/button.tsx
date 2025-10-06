@@ -1,3 +1,5 @@
+'use client';
+
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
@@ -41,20 +43,29 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, onClick, ...props }, ref) => {
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-      if ((event.key === 'Enter' || event.key === ' ') && onClick) {
-        event.preventDefault();
-        onClick(event as any);
-      }
-    };
-
     const Comp = asChild ? Slot : 'button';
+
+    // Only add event handlers for non-asChild buttons with onClick
+    const eventHandlers =
+      !asChild && onClick
+        ? {
+            onClick,
+            onKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => {
+              if ((event.key === 'Enter' || event.key === ' ') && onClick) {
+                event.preventDefault();
+                onClick(event as any);
+              }
+            },
+          }
+        : onClick
+          ? { onClick }
+          : {};
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        onClick={onClick}
-        onKeyDown={asChild ? undefined : handleKeyDown}
+        {...eventHandlers}
         {...props}
       />
     );

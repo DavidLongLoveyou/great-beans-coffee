@@ -7,7 +7,7 @@ import { type Locale } from '@/i18n';
 import { getLegalPageBySlug, getLegalPages } from '@/lib/contentlayer';
 import { MDXContent } from '@/presentation/components/MDXContent';
 import { SEOHead } from '@/presentation/components/seo/SEOHead';
-import { Button } from '@/presentation/components/ui/button';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import { generateOrganizationSchema } from '@/shared/utils/seo-utils';
 
 interface LegalPageProps {
@@ -86,10 +86,10 @@ export default async function LegalPage({ params }: LegalPageProps) {
         {/* Back Navigation */}
         <div className="mb-8">
           <Link href={`/${locale}`}>
-            <Button variant="ghost" className="mb-4">
+            <ServerButton variant="ghost" className="mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" />
               {tCommon('backToHome')}
-            </Button>
+            </ServerButton>
           </Link>
         </div>
 
@@ -132,7 +132,7 @@ export default async function LegalPage({ params }: LegalPageProps) {
             </h2>
             <p className="mb-4 text-gray-600">{t('questionsDescription')}</p>
             <Link href={`/${locale}/contact`}>
-              <Button>{t('contactUs')}</Button>
+              <ServerButton>{t('contactUs')}</ServerButton>
             </Link>
           </div>
 

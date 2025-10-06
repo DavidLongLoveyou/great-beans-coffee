@@ -1,5 +1,10 @@
 import { Locale } from '@/shared/config/i18n';
 
+interface LayoutShiftEntry extends PerformanceEntry {
+  value: number;
+  hadRecentInput: boolean;
+}
+
 export interface SEOMetrics {
   pageTitle: string;
   metaDescription: string;
@@ -404,7 +409,7 @@ export function measureCoreWebVitals() {
   new PerformanceObserver(entryList => {
     const entries = entryList.getEntries();
     entries.forEach(entry => {
-      const layoutShiftEntry = entry as any; // LayoutShift entry
+      const layoutShiftEntry = entry as LayoutShiftEntry;
       if (!layoutShiftEntry.hadRecentInput) {
         clsValue += layoutShiftEntry.value;
       }

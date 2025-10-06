@@ -11,12 +11,12 @@ declare module '*.module.scss' {
 
 // Global CSS files (side-effect imports)
 declare module '*.css' {
-  const content: any;
+  const content: { [className: string]: string };
   export default content;
 }
 
 declare module '*.scss' {
-  const content: any;
+  const content: { [className: string]: string };
   export default content;
 }
 

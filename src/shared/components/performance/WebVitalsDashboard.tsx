@@ -66,9 +66,7 @@ export function WebVitalsDashboard({
   );
   const [performanceScore, setPerformanceScore] = useState(getWebVitalsScore());
   const [isMinimized, setIsMinimized] = useState(startMinimized);
-  const [isVisible, setIsVisible] = useState(
-    !developmentOnly || process.env.NODE_ENV === 'development'
-  );
+  const isVisible = !developmentOnly || process.env.NODE_ENV === 'development';
 
   // Update metrics periodically
   useEffect(() => {
