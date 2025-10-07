@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+
 import { cn } from '@/lib/utils';
 
 interface CoffeeHeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
@@ -8,7 +9,16 @@ interface CoffeeHeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
 }
 
 export const CoffeeHeading = forwardRef<HTMLHeadingElement, CoffeeHeadingProps>(
-  ({ className, size = 'lg', variant = 'default', as: Component = 'h2', ...props }, ref) => {
+  (
+    {
+      className,
+      size = 'lg',
+      variant = 'default',
+      as: Component = 'h2',
+      ...props
+    },
+    ref
+  ) => {
     const sizeClasses = {
       sm: 'text-lg font-semibold',
       md: 'text-xl font-semibold',
@@ -22,7 +32,8 @@ export const CoffeeHeading = forwardRef<HTMLHeadingElement, CoffeeHeadingProps>(
 
     const variantClasses = {
       default: 'text-gray-900 dark:text-gray-100',
-      gradient: 'bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent',
+      gradient:
+        'bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent',
       coffee: 'text-amber-800 dark:text-amber-200',
     };
 

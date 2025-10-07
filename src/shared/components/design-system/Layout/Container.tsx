@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { ContainerProps } from '../types';
-
 import { cn } from '@/shared/utils/cn';
+
+import { ContainerProps } from '../types';
 
 // Container size configurations
 const containerSizes = {

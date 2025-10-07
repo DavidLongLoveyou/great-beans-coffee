@@ -262,5 +262,345 @@
         "customization": "Personnalisation de la saveur, du niveau de torréfaction et de l'emballage selon les exigences"
       }
     }
+  },
+  "rfq": {
+    "title": "Gestion des Demandes de Devis",
+    "subtitle": "Suivez et gérez toutes vos demandes de devis",
+    "newRFQ": "Nouvelle Demande",
+    "refresh": "Actualiser",
+    "totalRFQs": "Total des Demandes",
+    "activeQuotes": "Devis Actifs",
+    "pendingReviews": "En Attente d'Examen",
+    "totalEstimatedValue": "Valeur Totale Estimée",
+    "form": {
+      "title": "Demande de Devis",
+      "subtitle": "Partagez vos besoins en café et nous créerons un devis détaillé pour vous.",
+      "step1": "Sélection du Produit",
+      "step2": "Quantité et Spécifications",
+      "step3": "Expédition et Livraison",
+      "step4": "Informations de Contact",
+      "productType": "Type de Produit",
+      "selectProduct": "Sélectionner le Produit",
+      "quantity": "Quantité (kg)",
+      "quantityPlaceholder": "Entrez la quantité en kg",
+      "packaging": "Emballage",
+      "selectPackaging": "Sélectionner le Type d'Emballage",
+      "certifications": "Certifications Requises",
+      "selectCertifications": "Sélectionner les Certifications",
+      "shippingMethod": "Méthode d'Expédition",
+      "selectShipping": "Sélectionner la Méthode d'Expédition",
+      "destination": "Destination",
+      "destinationPlaceholder": "Entrez la ville/port de destination",
+      "deliveryDate": "Date de Livraison Souhaitée",
+      "companyName": "Nom de l'Entreprise",
+      "companyNamePlaceholder": "Entrez le nom de l'entreprise",
+      "contactPerson": "Personne de Contact",
+      "contactPersonPlaceholder": "Entrez le nom de la personne de contact",
+      "email": "Adresse Email",
+      "emailPlaceholder": "Entrez l'adresse email",
+      "phone": "Numéro de Téléphone",
+      "phonePlaceholder": "Entrez le numéro de téléphone",
+      "message": "Exigences Supplémentaires",
+      "messagePlaceholder": "Avez-vous des exigences spéciales ou des questions?",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "submit": "Soumettre la Demande de Devis",
+      "submitting": "Envoi en cours...",
+      "success": "Demande de devis soumise avec succès!",
+      "error": "Erreur lors de la soumission de la demande de devis. Veuillez réessayer.",
+      "description": "Soumettez votre demande de café et recevez des devis compétitifs de nos fournisseurs.",
+      "fields": {
+        "productType": {
+          "label": "Type de Produit",
+          "placeholder": "Sélectionner le type de café",
+          "options": {
+            "robusta": "Robusta",
+            "arabica": "Arabica",
+            "blend": "Mélange"
+          }
+        },
+        "grade": {
+          "label": "Grade",
+          "placeholder": "Sélectionner le grade"
+        },
+        "processing": {
+          "label": "Méthode de Traitement",
+          "placeholder": "Sélectionner la méthode de traitement",
+          "options": {
+            "washed": "Lavé",
+            "natural": "Naturel",
+            "honey": "Miel",
+            "wet_hulled": "Décortiqué Humide"
+          }
+        },
+        "quantity": {
+          "label": "Quantité (MT)",
+          "placeholder": "Entrez la quantité en tonnes métriques"
+        },
+        "packaging": {
+          "label": "Emballage",
+          "placeholder": "Sélectionner le type d'emballage",
+          "options": {
+            "jute_bags": "Sacs de Jute (60kg)",
+            "pp_bags": "Sacs PP (60kg)",
+            "bulk": "Conteneur en Vrac"
+          }
+        },
+        "incoterms": {
+          "label": "Conditions de Livraison",
+          "placeholder": "Sélectionner les conditions de livraison",
+          "options": {
+            "fob": "FOB (Franco à Bord)",
+            "cif": "CIF (Coût, Assurance et Fret)",
+            "cfr": "CFR (Coût et Fret)",
+            "exw": "EXW (Ex Works)"
+          }
+        },
+        "destination": {
+          "label": "Port de Destination",
+          "placeholder": "Entrez le port de destination"
+        },
+        "deliveryDate": {
+          "label": "Date de Livraison Demandée",
+          "placeholder": "Sélectionner la date de livraison"
+        },
+        "companyName": {
+          "label": "Nom de l'Entreprise",
+          "placeholder": "Entrez le nom de l'entreprise"
+        },
+        "contactPerson": {
+          "label": "Personne de Contact",
+          "placeholder": "Entrez le nom de la personne de contact"
+        },
+        "email": {
+          "label": "Adresse Email",
+          "placeholder": "Entrez l'adresse email"
+        },
+        "phone": {
+          "label": "Numéro de Téléphone",
+          "placeholder": "Entrez le numéro de téléphone"
+        },
+        "country": {
+          "label": "Pays",
+          "placeholder": "Sélectionner le pays"
+        },
+        "additionalRequirements": {
+          "label": "Exigences Supplémentaires",
+          "placeholder": "Exigences spéciales ou notes..."
+        }
+      },
+      "buttons": {
+        "next": "Suivant",
+        "previous": "Précédent",
+        "submit": "Soumettre la Demande",
+        "submitting": "Envoi en cours..."
+      },
+      "validation": {
+        "required": "Ce champ est requis",
+        "email": "Veuillez entrer une adresse email valide",
+        "phone": "Veuillez entrer un numéro de téléphone valide",
+        "quantity": "Veuillez entrer une quantité valide",
+        "date": "Veuillez sélectionner une date valide"
+      },
+      "success": {
+        "title": "Demande soumise avec succès!",
+        "message": "Merci d'avoir soumis votre demande. Nous examinerons votre demande et vous enverrons un devis compétitif dans les 24 heures.",
+        "referenceNumber": "Numéro de référence: {id}",
+        "nextSteps": {
+          "title": "Quelles sont les prochaines étapes?",
+          "steps": [
+            "Notre équipe examinera votre demande",
+            "Nous créerons un devis détaillé avec les prix",
+            "Vous recevrez le devis par email dans les 24 heures",
+            "L'équipe commerciale vous contactera pour discuter des détails"
+          ]
+        },
+        "actions": {
+          "viewDetails": "Voir les Détails de la Demande",
+          "newRequest": "Soumettre une Nouvelle Demande",
+          "backToHome": "Retour à l'Accueil"
+        }
+      }
+    },
+    "rfq": {
+      "actions": {
+        "back": "Retour à la Liste des Demandes",
+        "share": "Partager",
+        "download": "Télécharger",
+        "contact": "Contacter les Ventes",
+        "edit": "Modifier la Demande",
+        "downloadPDF": "Télécharger PDF"
+      },
+      "detail": {
+        "quickActions": "Actions Rapides",
+        "quickActionsDescription": "Gérez votre demande avec ces actions rapides",
+        "viewFullDetails": "Voir les Détails Complets",
+        "status": "Statut",
+        "priority": "Priorité",
+        "estimatedValue": "Valeur Estimée",
+        "responseDeadline": "Date Limite de Réponse",
+        "statusManagement": "Gestion du Statut",
+        "statusManagementDescription": "Suivez et gérez le statut de votre demande"
+      }
+    },
+    "statusManager": {
+      "changeStatus": "Changer le Statut"
+    },
+    "filters": {
+      "search": "Rechercher des demandes...",
+      "status": "Statut",
+      "priority": "Priorité",
+      "dateRange": "Plage de Dates",
+      "allStatuses": "Tous les Statuts",
+      "allPriorities": "Toutes les Priorités",
+      "advanced": "Avancé",
+      "reset": "Réinitialiser",
+      "sort": "Trier par",
+      "sortOptions": {
+        "rfqNumber": "Numéro de Demande",
+        "productType": "Type de Produit",
+        "quantity": "Quantité",
+        "estimatedValue": "Valeur Estimée",
+        "status": "Statut",
+        "priority": "Priorité",
+        "submittedAt": "Date de Soumission",
+        "responseDeadline": "Date Limite de Réponse",
+        "assignedTo": "Assigné à"
+      }
+    },
+    "table": {
+      "rfqNumber": "N° Demande",
+      "productType": "Type de Produit",
+      "quantity": "Quantité",
+      "estimatedValue": "Valeur Estimée",
+      "status": "Statut",
+      "priority": "Priorité",
+      "submittedAt": "Date de Soumission",
+      "responseDeadline": "Date Limite",
+      "assignedTo": "Assigné à",
+      "actions": "Actions",
+      "view": "Voir",
+      "download": "Télécharger",
+      "contact": "Contacter le Client",
+      "noResults": "Aucune demande trouvée",
+      "noResultsDescription": "Essayez d'ajuster vos filtres ou mots-clés de recherche",
+      "showing": "Affichage",
+      "to": "à",
+      "of": "sur",
+      "entries": "entrées",
+      "filtered": "filtré de",
+      "total": "total"
+    },
+    "status": {
+      "pending": "En Attente",
+      "submitted": "Soumise",
+      "underReview": "En Examen",
+      "in_progress": "En Cours",
+      "quoted": "Devisée",
+      "negotiating": "En Négociation",
+      "accepted": "Acceptée",
+      "rejected": "Rejetée",
+      "expired": "Expirée",
+      "processing": "En Traitement"
+    },
+    "statusHistory": {
+      "title": "Historique du Statut",
+      "updatedBy": "Mis à jour par {name}"
+    },
+    "priority": {
+      "low": "Faible",
+      "medium": "Moyenne",
+      "high": "Élevée",
+      "urgent": "Urgente"
+    },
+    "detail": {
+      "title": "Détails de la Demande de Devis",
+      "submittedOn": "Soumise le",
+      "lastUpdated": "Dernière Mise à Jour",
+      "productDetails": "Détails du Produit",
+      "quantitySpecs": "Quantité et Spécifications",
+      "shippingInfo": "Informations d'Expédition",
+      "estimatedPrice": "Prix Estimé",
+      "downloadQuote": "Télécharger le Devis",
+      "tabs": {
+        "overview": "Aperçu",
+        "requirements": "Exigences",
+        "company": "Entreprise",
+        "timeline": "Chronologie",
+        "quotes": "Devis",
+        "documents": "Documents",
+        "status": "Statut"
+      },
+      "productInformation": "Informations sur le Produit",
+      "timelineInfo": "Informations de Chronologie",
+      "deliveryInfo": "Informations de Livraison",
+      "contactInfo": "Informations de Contact",
+      "productType": "Type de Produit",
+      "quantity": "Quantité",
+      "estimatedValue": "Valeur Estimée",
+      "certifications": "Certifications",
+      "submittedAt": "Soumise le",
+      "lastUpdate": "Dernière Mise à Jour",
+      "responseDeadline": "Date Limite de Réponse",
+      "assignedTo": "Assigné à",
+      "companyName": "Nom de l'Entreprise",
+      "contactPerson": "Personne de Contact",
+      "variety": "Variété",
+      "grade": "Grade",
+      "processing": "Traitement",
+      "origin": "Origine",
+      "moistureContent": "Teneur en Humidité",
+      "screenSize": "Taille de Criblage",
+      "defectRate": "Taux de Défauts",
+      "incoterms": "Conditions de Livraison",
+      "destination": "Destination",
+      "preferredDeliveryDate": "Date de Livraison Préférée",
+      "packagingRequirements": "Exigences d'Emballage",
+      "paymentTerms": "Conditions de Paiement",
+      "paymentMethod": "Méthode de Paiement",
+      "currency": "Devise",
+      "businessType": "Type d'Entreprise",
+      "annualVolume": "Volume Annuel",
+      "additionalNotes": "Notes Supplémentaires",
+      "attachments": "Pièces Jointes",
+      "download": "Télécharger",
+      "noAttachments": "Aucune pièce jointe",
+      "noTimeline": "Aucune chronologie",
+      "noQuotes": "Aucun devis",
+      "quotedPrice": "Prix Devisé",
+      "validUntil": "Valide Jusqu'au",
+      "terms": "Conditions",
+      "notes": "Notes",
+      "quickActions": "Actions Rapides",
+      "quickActionsDescription": "Gérez cette demande avec les actions suivantes",
+      "viewFullDetails": "Voir les Détails Complets",
+      "status": "Statut",
+      "priority": "Priorité",
+      "requirements": "Exigences",
+      "actions": {
+        "back": "Retour à la Liste des Demandes",
+        "share": "Partager le Devis",
+        "download": "Télécharger",
+        "contact": "Nous Contacter",
+        "edit": "Modifier la Demande",
+        "downloadPDF": "Télécharger PDF"
+      },
+      "statusManager": {
+        "changeStatus": "Changer le Statut",
+        "confirmTransition": "Confirmer le Changement de Statut",
+        "confirmTransitionDescription": "Êtes-vous sûr de vouloir changer le statut de {from} à {to}?",
+        "note": "Note",
+        "notePlaceholder": "Ajouter une note pour ce changement de statut...",
+        "cancel": "Annuler",
+        "confirm": "Confirmer",
+        "updating": "Mise à jour..."
+      },
+      "statusHistory": {
+        "title": "Historique du Statut",
+        "updatedBy": "Mis à jour par {name}"
+      },
+      "statusManagement": "Gestion du Statut",
+      "statusManagementDescription": "Suivez et gérez le statut de cette demande"
+    }
   }
 }

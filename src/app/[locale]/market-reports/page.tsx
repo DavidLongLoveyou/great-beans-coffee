@@ -6,7 +6,6 @@ import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
 import { getMarketReports, getFeaturedMarketReports } from '@/lib/contentlayer';
-import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -14,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import { generateMetadata as generateSEOMetadata } from '@/shared/utils/seo-utils';
 import { generateMarketReportsCollectionSchema } from '@/shared/utils/structured-data-utils';
 

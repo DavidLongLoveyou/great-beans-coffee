@@ -10,6 +10,13 @@ import {
   ContentStatus,
 } from '@prisma/client';
 
+import {
+  CLUSTER_PRODUCTS,
+  CLUSTER_SERVICES,
+  CLUSTER_ARTICLES,
+} from '@/lib/cluster-data';
+import { createScopedLogger } from '@/shared/utils/logger';
+
 import { prisma } from './prisma';
 import {
   seedDataStats,
@@ -21,13 +28,6 @@ import {
   clientCompaniesData,
   contentData,
 } from './seed-data';
-
-import {
-  CLUSTER_PRODUCTS,
-  CLUSTER_SERVICES,
-  CLUSTER_ARTICLES,
-} from '@/lib/cluster-data';
-import { createScopedLogger } from '@/shared/utils/logger';
 
 export interface SeedResult {
   success: boolean;

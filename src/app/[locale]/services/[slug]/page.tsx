@@ -18,7 +18,6 @@ import { type Locale } from '@/i18n';
 import { getServicePageBySlug, getServicePages } from '@/lib/contentlayer';
 import { MDXContent } from '@/presentation/components/MDXContent';
 import { SEOHead } from '@/presentation/components/seo';
-import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -26,6 +25,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   generateMetadata as generateSEOMetadata,
   generateServiceSchema,

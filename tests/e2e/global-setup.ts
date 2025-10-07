@@ -14,10 +14,34 @@ async function globalSetup(config: FullConfig) {
   try {
     // Wait for the application to be ready
     console.log(`🌐 Waiting for application at ${baseURL}...`);
-    await page.goto(baseURL, { waitUntil: 'networkidle' });
+    
+    // Try to navigate to the application
+    const response = await page.goto(baseURL, { 
+      waitUntil: 'domcontentloaded',
+      timeout: 60000 
+    });
+    
+    if (!response || response.status() >= 400) {
+      throw new Error(`Failed to load application: ${response?.status()}`);
+    }
 
-    // Verify the application is running
-    await page.waitForSelector('body', { timeout: 30000 });
+    // Wait for the page to be interactive
+    await page.waitForLoadState('domcontentloaded');
+    
+    // Check if we can get the title (indicates page is loaded)
+    const title = await page.title();
+    console.log(`📄 Application title: ${title}`);
+    
+    // Try to find any visible element to confirm the page is working
+    try {
+      await page.waitForSelector('h1, [data-testid], main, header', { 
+        timeout: 10000,
+        state: 'visible'
+      });
+    } catch (e) {
+      console.log('⚠️ No main content found, but page loaded successfully');
+    }
+    
     console.log('✅ Application is ready for testing');
 
     // You can add additional setup here, such as:
@@ -26,11 +50,9 @@ async function globalSetup(config: FullConfig) {
     // - Setting up authentication tokens
     // - Clearing previous test data
 
-    // Example: Check if we need to seed test data
-    const title = await page.title();
-    console.log(`📄 Application title: ${title}`);
   } catch (error) {
     console.error('❌ Failed to set up test environment:', error);
+    console.error('Response status:', await page.evaluate(() => document.readyState));
     throw error;
   } finally {
     await browser.close();

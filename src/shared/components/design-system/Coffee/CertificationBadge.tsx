@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { CertificationBadgeProps, CoffeeCertification } from '../types';
-
 import { cn } from '@/shared/utils/cn';
+
+import { CertificationBadgeProps, CoffeeCertification } from '../types';
 
 // Certification metadata
 const certificationData: Record<

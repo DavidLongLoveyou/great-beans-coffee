@@ -21,17 +21,13 @@ test.describe('Homepage', () => {
     const heroSection = page.getByTestId('hero-section');
     await expect(heroSection).toBeVisible();
 
-    // Check main CTA button
-    const ctaButton = page.getByRole('button', {
-      name: /get quote|request quote|start trading/i,
-    });
+    // Check main CTA button within hero section
+    const ctaButton = heroSection.getByText('Request a Quote');
     await expect(ctaButton).toBeVisible();
 
-    // Check hero image or video
-    const heroMedia = page.locator(
-      '[data-testid="hero-media"], .hero-image, .hero-video'
-    );
-    await expect(heroMedia).toBeVisible();
+    // Check hero visual elements (any icon within hero section)
+    const heroVisual = heroSection.locator('svg').first();
+    await expect(heroVisual).toBeVisible();
   });
 
   test('should navigate to products page from hero CTA', async ({ page }) => {

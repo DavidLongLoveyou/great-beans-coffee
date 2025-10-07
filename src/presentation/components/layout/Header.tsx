@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
 import LanguageSwitcher from '@/presentation/components/LanguageSwitcher';
+import { Button } from '@/presentation/components/ui';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,9 +14,8 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/presentation/components/ui/hydration-safe-navigation-menu';
-import { Button } from '@/presentation/components/ui';
-import { useTranslation } from '@/shared/hooks/useTranslation';
 import { useHydrationSafeBooleanState } from '@/shared/hooks/useHydrationSafeState';
+import { useTranslation } from '@/shared/hooks/useTranslation';
 
 type Props = {
   locale: Locale;
@@ -23,22 +23,23 @@ type Props = {
 
 export default function Header({ locale }: Props) {
   const { t } = useTranslation('navigation');
-  const [isMobileMenuOpen, setIsMobileMenuOpen, isMounted] = useHydrationSafeBooleanState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen, isMounted] =
+    useHydrationSafeBooleanState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-forest-200/20 bg-white/95 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-white/90">
       <div className="container flex h-18 items-center justify-between">
         {/* Logo */}
-        <Link href={`/${locale}`} className="flex items-center space-x-3 group">
+        <Link href={`/${locale}`} className="group flex items-center space-x-3">
           <div className="relative">
-            <Coffee className="h-9 w-9 text-forest-600 group-hover:text-forest-700 transition-colors duration-200" />
-            <div className="absolute -top-1 -right-1 h-3 w-3 bg-emerald-500 rounded-full opacity-80"></div>
+            <Coffee className="h-9 w-9 text-forest-600 transition-colors duration-200 group-hover:text-forest-700" />
+            <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-emerald-500 opacity-80"></div>
           </div>
           <div className="flex flex-col">
-            <span className="text-xl font-bold text-forest-800 group-hover:text-forest-900 transition-colors duration-200">
+            <span className="text-xl font-bold text-forest-800 transition-colors duration-200 group-hover:text-forest-900">
               The Great Beans
             </span>
-            <span className="text-xs text-forest-600 font-medium tracking-wide">
+            <span className="text-xs font-medium tracking-wide text-forest-600">
               Premium Coffee Export
             </span>
           </div>

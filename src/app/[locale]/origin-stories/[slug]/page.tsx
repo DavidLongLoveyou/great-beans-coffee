@@ -15,7 +15,6 @@ import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n';
 import { getOriginStoryBySlug, getOriginStories } from '@/lib/contentlayer';
 import { MDXContent } from '@/presentation/components/MDXContent';
-import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -23,6 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 
 interface OriginStoryPageProps {
   params: Promise<{ locale: Locale; slug: string }>;

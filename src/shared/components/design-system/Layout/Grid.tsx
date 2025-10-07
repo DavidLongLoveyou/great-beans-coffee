@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { GridProps } from '../types';
-
 import { cn } from '@/shared/utils/cn';
+
+import { GridProps } from '../types';
 
 // Grid column configurations
 const gridCols = {

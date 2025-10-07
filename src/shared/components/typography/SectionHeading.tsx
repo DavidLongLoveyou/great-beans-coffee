@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+
 import { cn } from '@/lib/utils';
 
 interface SectionHeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
@@ -8,16 +9,22 @@ interface SectionHeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   subtitle?: string;
 }
 
-export const SectionHeading = forwardRef<HTMLHeadingElement, SectionHeadingProps>(
-  ({ 
-    className, 
-    size = 'lg', 
-    variant = 'default', 
-    as: Component = 'h2', 
-    subtitle,
-    children,
-    ...props 
-  }, ref) => {
+export const SectionHeading = forwardRef<
+  HTMLHeadingElement,
+  SectionHeadingProps
+>(
+  (
+    {
+      className,
+      size = 'lg',
+      variant = 'default',
+      as: Component = 'h2',
+      subtitle,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const sizeClasses = {
       sm: 'text-xl font-semibold',
       md: 'text-2xl font-bold',

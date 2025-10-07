@@ -262,5 +262,345 @@
         "customization": "Aangepaste smaken, brandniveaus, verpakking naar wens"
       }
     }
+  },
+  "rfq": {
+    "title": "Offerteaanvraag Beheer",
+    "subtitle": "Volg en beheer alle uw offerteaanvragen",
+    "newRFQ": "Nieuwe Aanvraag",
+    "refresh": "Vernieuwen",
+    "totalRFQs": "Totaal Aanvragen",
+    "activeQuotes": "Actieve Offertes",
+    "pendingReviews": "Wachtend op Beoordeling",
+    "totalEstimatedValue": "Totale Geschatte Waarde",
+    "form": {
+      "title": "Offerteaanvraag",
+      "subtitle": "Deel uw koffiebehoeften en wij maken een gedetailleerde offerte voor u.",
+      "step1": "Product Selectie",
+      "step2": "Hoeveelheid en Specificaties",
+      "step3": "Verzending en Levering",
+      "step4": "Contactinformatie",
+      "productType": "Product Type",
+      "selectProduct": "Selecteer Product",
+      "quantity": "Hoeveelheid (kg)",
+      "quantityPlaceholder": "Voer hoeveelheid in kg in",
+      "packaging": "Verpakking",
+      "selectPackaging": "Selecteer Verpakkingstype",
+      "certifications": "Vereiste Certificeringen",
+      "selectCertifications": "Selecteer Certificeringen",
+      "shippingMethod": "Verzendmethode",
+      "selectShipping": "Selecteer Verzendmethode",
+      "destination": "Bestemming",
+      "destinationPlaceholder": "Voer stad/haven van bestemming in",
+      "deliveryDate": "Gewenste Leveringsdatum",
+      "companyName": "Bedrijfsnaam",
+      "companyNamePlaceholder": "Voer bedrijfsnaam in",
+      "contactPerson": "Contactpersoon",
+      "contactPersonPlaceholder": "Voer naam contactpersoon in",
+      "email": "E-mailadres",
+      "emailPlaceholder": "Voer e-mailadres in",
+      "phone": "Telefoonnummer",
+      "phonePlaceholder": "Voer telefoonnummer in",
+      "message": "Aanvullende Vereisten",
+      "messagePlaceholder": "Heeft u speciale vereisten of vragen?",
+      "previous": "Vorige",
+      "next": "Volgende",
+      "submit": "Offerteaanvraag Versturen",
+      "submitting": "Versturen...",
+      "success": "Offerteaanvraag succesvol verstuurd!",
+      "error": "Fout bij het versturen van de offerteaanvraag. Probeer opnieuw.",
+      "description": "Verstuur uw koffieverzoek en ontvang concurrerende offertes van onze leveranciers.",
+      "fields": {
+        "productType": {
+          "label": "Product Type",
+          "placeholder": "Selecteer koffietype",
+          "options": {
+            "robusta": "Robusta",
+            "arabica": "Arabica",
+            "blend": "Blend"
+          }
+        },
+        "grade": {
+          "label": "Kwaliteit",
+          "placeholder": "Selecteer kwaliteit"
+        },
+        "processing": {
+          "label": "Verwerkingsmethode",
+          "placeholder": "Selecteer verwerkingsmethode",
+          "options": {
+            "washed": "Gewassen",
+            "natural": "Natuurlijk",
+            "honey": "Honey",
+            "wet_hulled": "Nat Gepeld"
+          }
+        },
+        "quantity": {
+          "label": "Hoeveelheid (MT)",
+          "placeholder": "Voer hoeveelheid in metrische tonnen in"
+        },
+        "packaging": {
+          "label": "Verpakking",
+          "placeholder": "Selecteer verpakkingstype",
+          "options": {
+            "jute_bags": "Jute Zakken (60kg)",
+            "pp_bags": "PP Zakken (60kg)",
+            "bulk": "Bulk Container"
+          }
+        },
+        "incoterms": {
+          "label": "Leveringsvoorwaarden",
+          "placeholder": "Selecteer leveringsvoorwaarden",
+          "options": {
+            "fob": "FOB (Free on Board)",
+            "cif": "CIF (Cost, Insurance and Freight)",
+            "cfr": "CFR (Cost and Freight)",
+            "exw": "EXW (Ex Works)"
+          }
+        },
+        "destination": {
+          "label": "Bestemmingshaven",
+          "placeholder": "Voer bestemmingshaven in"
+        },
+        "deliveryDate": {
+          "label": "Gewenste Leveringsdatum",
+          "placeholder": "Selecteer leveringsdatum"
+        },
+        "companyName": {
+          "label": "Bedrijfsnaam",
+          "placeholder": "Voer bedrijfsnaam in"
+        },
+        "contactPerson": {
+          "label": "Contactpersoon",
+          "placeholder": "Voer naam contactpersoon in"
+        },
+        "email": {
+          "label": "E-mailadres",
+          "placeholder": "Voer e-mailadres in"
+        },
+        "phone": {
+          "label": "Telefoonnummer",
+          "placeholder": "Voer telefoonnummer in"
+        },
+        "country": {
+          "label": "Land",
+          "placeholder": "Selecteer land"
+        },
+        "additionalRequirements": {
+          "label": "Aanvullende Vereisten",
+          "placeholder": "Speciale vereisten of opmerkingen..."
+        }
+      },
+      "buttons": {
+        "next": "Volgende",
+        "previous": "Vorige",
+        "submit": "Aanvraag Versturen",
+        "submitting": "Versturen..."
+      },
+      "validation": {
+        "required": "Dit veld is verplicht",
+        "email": "Voer een geldig e-mailadres in",
+        "phone": "Voer een geldig telefoonnummer in",
+        "quantity": "Voer een geldige hoeveelheid in",
+        "date": "Selecteer een geldige datum"
+      },
+      "success": {
+        "title": "Aanvraag succesvol verstuurd!",
+        "message": "Bedankt voor het versturen van uw aanvraag. Wij zullen uw verzoek beoordelen en binnen 24 uur een concurrerende offerte sturen.",
+        "referenceNumber": "Referentienummer: {id}",
+        "nextSteps": {
+          "title": "Wat zijn de volgende stappen?",
+          "steps": [
+            "Ons team zal uw aanvraag beoordelen",
+            "Wij maken een gedetailleerde offerte met prijzen",
+            "U ontvangt de offerte per e-mail binnen 24 uur",
+            "Het verkoopteam zal contact opnemen om details te bespreken"
+          ]
+        },
+        "actions": {
+          "viewDetails": "Bekijk Aanvraagdetails",
+          "newRequest": "Nieuwe Aanvraag Versturen",
+          "backToHome": "Terug naar Home"
+        }
+      }
+    },
+    "rfq": {
+      "actions": {
+        "back": "Terug naar Aanvraaglijst",
+        "share": "Delen",
+        "download": "Downloaden",
+        "contact": "Contact Verkoop",
+        "edit": "Aanvraag Bewerken",
+        "downloadPDF": "PDF Downloaden"
+      },
+      "detail": {
+        "quickActions": "Snelle Acties",
+        "quickActionsDescription": "Beheer uw aanvraag met deze snelle acties",
+        "viewFullDetails": "Bekijk Volledige Details",
+        "status": "Status",
+        "priority": "Prioriteit",
+        "estimatedValue": "Geschatte Waarde",
+        "responseDeadline": "Reactie Deadline",
+        "statusManagement": "Status Beheer",
+        "statusManagementDescription": "Volg en beheer de status van uw aanvraag"
+      }
+    },
+    "statusManager": {
+      "changeStatus": "Status Wijzigen"
+    },
+    "filters": {
+      "search": "Zoek aanvragen...",
+      "status": "Status",
+      "priority": "Prioriteit",
+      "dateRange": "Datumbereik",
+      "allStatuses": "Alle Statussen",
+      "allPriorities": "Alle Prioriteiten",
+      "advanced": "Geavanceerd",
+      "reset": "Reset",
+      "sort": "Sorteer op",
+      "sortOptions": {
+        "rfqNumber": "Aanvraagnummer",
+        "productType": "Product Type",
+        "quantity": "Hoeveelheid",
+        "estimatedValue": "Geschatte Waarde",
+        "status": "Status",
+        "priority": "Prioriteit",
+        "submittedAt": "Verstuurd op",
+        "responseDeadline": "Reactie Deadline",
+        "assignedTo": "Toegewezen aan"
+      }
+    },
+    "table": {
+      "rfqNumber": "Aanvraag Nr.",
+      "productType": "Product Type",
+      "quantity": "Hoeveelheid",
+      "estimatedValue": "Geschatte Waarde",
+      "status": "Status",
+      "priority": "Prioriteit",
+      "submittedAt": "Verstuurd op",
+      "responseDeadline": "Deadline",
+      "assignedTo": "Toegewezen aan",
+      "actions": "Acties",
+      "view": "Bekijken",
+      "download": "Downloaden",
+      "contact": "Contact Klant",
+      "noResults": "Geen aanvragen gevonden",
+      "noResultsDescription": "Probeer de filters of zoektermen aan te passen",
+      "showing": "Toont",
+      "to": "tot",
+      "of": "van",
+      "entries": "items",
+      "filtered": "gefilterd van",
+      "total": "totaal"
+    },
+    "status": {
+      "pending": "In Behandeling",
+      "submitted": "Verstuurd",
+      "underReview": "In Beoordeling",
+      "in_progress": "In Uitvoering",
+      "quoted": "Offerte Gemaakt",
+      "negotiating": "Onderhandeling",
+      "accepted": "Geaccepteerd",
+      "rejected": "Afgewezen",
+      "expired": "Verlopen",
+      "processing": "Verwerking"
+    },
+    "statusHistory": {
+      "title": "Status Geschiedenis",
+      "updatedBy": "Bijgewerkt door {name}"
+    },
+    "priority": {
+      "low": "Laag",
+      "medium": "Gemiddeld",
+      "high": "Hoog",
+      "urgent": "Urgent"
+    },
+    "detail": {
+      "title": "Offerteaanvraag Details",
+      "submittedOn": "Verstuurd op",
+      "lastUpdated": "Laatst Bijgewerkt",
+      "productDetails": "Product Details",
+      "quantitySpecs": "Hoeveelheid en Specificaties",
+      "shippingInfo": "Verzendingsinformatie",
+      "estimatedPrice": "Geschatte Prijs",
+      "downloadQuote": "Offerte Downloaden",
+      "tabs": {
+        "overview": "Overzicht",
+        "requirements": "Vereisten",
+        "company": "Bedrijf",
+        "timeline": "Tijdlijn",
+        "quotes": "Offertes",
+        "documents": "Documenten",
+        "status": "Status"
+      },
+      "productInformation": "Product Informatie",
+      "timelineInfo": "Tijdlijn Informatie",
+      "deliveryInfo": "Levering Informatie",
+      "contactInfo": "Contact Informatie",
+      "productType": "Product Type",
+      "quantity": "Hoeveelheid",
+      "estimatedValue": "Geschatte Waarde",
+      "certifications": "Certificeringen",
+      "submittedAt": "Verstuurd op",
+      "lastUpdate": "Laatste Update",
+      "responseDeadline": "Reactie Deadline",
+      "assignedTo": "Toegewezen aan",
+      "companyName": "Bedrijfsnaam",
+      "contactPerson": "Contactpersoon",
+      "variety": "Variëteit",
+      "grade": "Kwaliteit",
+      "processing": "Verwerking",
+      "origin": "Oorsprong",
+      "moistureContent": "Vochtgehalte",
+      "screenSize": "Zeefgrootte",
+      "defectRate": "Defectpercentage",
+      "incoterms": "Leveringsvoorwaarden",
+      "destination": "Bestemming",
+      "preferredDeliveryDate": "Gewenste Leveringsdatum",
+      "packagingRequirements": "Verpakkingsvereisten",
+      "paymentTerms": "Betalingsvoorwaarden",
+      "paymentMethod": "Betalingsmethode",
+      "currency": "Valuta",
+      "businessType": "Bedrijfstype",
+      "annualVolume": "Jaarlijks Volume",
+      "additionalNotes": "Aanvullende Opmerkingen",
+      "attachments": "Bijlagen",
+      "download": "Downloaden",
+      "noAttachments": "Geen bijlagen",
+      "noTimeline": "Geen tijdlijn",
+      "noQuotes": "Geen offertes",
+      "quotedPrice": "Offerte Prijs",
+      "validUntil": "Geldig tot",
+      "terms": "Voorwaarden",
+      "notes": "Opmerkingen",
+      "quickActions": "Snelle Acties",
+      "quickActionsDescription": "Beheer deze aanvraag met de volgende acties",
+      "viewFullDetails": "Bekijk Volledige Details",
+      "status": "Status",
+      "priority": "Prioriteit",
+      "requirements": "Vereisten",
+      "actions": {
+        "back": "Terug naar Aanvraaglijst",
+        "share": "Offerte Delen",
+        "download": "Downloaden",
+        "contact": "Contact Opnemen",
+        "edit": "Aanvraag Bewerken",
+        "downloadPDF": "PDF Downloaden"
+      },
+      "statusManager": {
+        "changeStatus": "Status Wijzigen",
+        "confirmTransition": "Status Wijziging Bevestigen",
+        "confirmTransitionDescription": "Weet u zeker dat u de status wilt wijzigen van {from} naar {to}?",
+        "note": "Opmerking",
+        "notePlaceholder": "Voeg een opmerking toe voor deze statuswijziging...",
+        "cancel": "Annuleren",
+        "confirm": "Bevestigen",
+        "updating": "Bijwerken..."
+      },
+      "statusHistory": {
+        "title": "Status Geschiedenis",
+        "updatedBy": "Bijgewerkt door {name}"
+      },
+      "statusManagement": "Status Beheer",
+      "statusManagementDescription": "Volg en beheer de status van deze aanvraag"
+    }
   }
 }

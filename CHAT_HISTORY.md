@@ -423,9 +423,72 @@ CLOUDINARY_API_SECRET="your-api-secret"
 - ✅ **Performance**: Optimized for production use
 - 🚀 **Preview**: http://localhost:3000/en/products
 
+### 🔧 Session 6 - PDF Generation Service Entity Integration ✅ COMPLETED
+
+**Date**: January 2025
+**Focus**: Fixed PDF generation service to properly use domain entities instead of direct property access
+
+#### Issues Identified & Fixed:
+
+1. **Import Statement Updates**:
+   - ✅ Changed `import type { CoffeeProduct }` to `import { CoffeeProductEntity }`
+   - ✅ Changed `import type { RFQ }` to `import { RFQEntity }`
+   - ✅ Updated all method signatures to use proper entity types
+
+2. **Product Details Method Fixes**:
+   - ✅ Updated `product.name` to `product.getLocalizedName('en')`
+   - ✅ Updated `product.description` to `product.getLocalizedDescription('en')`
+   - ✅ Implemented proper localization support for PDF content
+
+3. **Specifications Table Improvements**:
+   - ✅ Updated to use `product.specifications` getter
+   - ✅ Fixed property names: `defects` → `defectRate`, `caffeine` → `cuppingScore`
+   - ✅ Added proper formatting for specification values
+   - ✅ Implemented comprehensive specification display
+
+4. **Certifications Display Enhancement**:
+   - ✅ Updated to use `product.certifications` getter
+   - ✅ Added enum-to-string conversion for certification names
+   - ✅ Maintained fallback certification list for empty cases
+
+5. **RFQ Document Generation Fixes**:
+   - ✅ Updated `rfq.createdAt` to `rfq.submittedAt` for proper date display
+   - ✅ Fixed `rfq.clientCompanyId` to `rfq.companyInfo.companyName`
+   - ✅ Implemented proper RFQ entity structure usage
+
+6. **RFQ Requirements Section**:
+   - ✅ Updated to use `rfq.productRequirements` and `rfq.quantityRequirements`
+   - ✅ Added comprehensive requirement details display
+   - ✅ Implemented proper coffee type, grade, and processing method display
+
+7. **RFQ Logistics Section**:
+   - ✅ Updated to use `rfq.deliveryRequirements` structure
+   - ✅ Added proper date handling with null checks
+   - ✅ Enhanced logistics information with packaging requirements
+
+#### Files Modified:
+
+- `src/infrastructure/services/pdf-generation.service.ts` - Complete entity integration refactoring
+
+#### Technical Highlights:
+
+- **Entity Pattern Compliance**: Full alignment with domain-driven design
+- **Type Safety**: Proper TypeScript entity usage throughout
+- **Null Safety**: Added comprehensive null checks for optional properties
+- **Localization Support**: Using entity localization getters for multi-language PDFs
+- **Professional Output**: Enhanced PDF content structure and formatting
+
+#### Current Status:
+
+- ✅ **PDF Generation**: Fully functional with entity integration
+- ✅ **Product Spec Sheets**: Professional formatting with proper entity data
+- ✅ **RFQ Documents**: Complete RFQ information display
+- ✅ **Type Safety**: All TypeScript compilation issues resolved
+- 🚀 **Preview**: http://localhost:3000 (PDF generation available)
+
 ## Last Updated
 
 Date: January 2025 - Current Session
-Status: Phase 0.1 TypeScript Fixes + ProductFilters Implementation Completed ✅
+Status: Phase 0.1 TypeScript Fixes + ProductFilters + PDF Service Entity Integration Completed ✅
 Next Priority: RFQ Management UI with multi-step form implementation
-Current Commit: Ready to commit ProductFilters implementation and bug fixes
+Current Commit: Ready to commit PDF generation service entity integration fixes

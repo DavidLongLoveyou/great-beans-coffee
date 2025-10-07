@@ -30,13 +30,13 @@ import {
   CardDescription,
   CardHeader,
 } from '@/presentation/components/ui/card';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
-import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   GoldButton,
   CoffeeButton,
@@ -62,6 +62,7 @@ import {
   generateMetadata as generateSEOMetadata,
   generateOrganizationSchema,
 } from '@/shared/utils/seo-utils';
+import { ProductSpecDownloadButton } from '@/shared/components/pdf';
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -878,6 +879,31 @@ export default async function ProductDetailPage({
                             >
                               Available Documents
                             </SectionHeading>
+                            
+                            {/* Generate Product Spec Sheet - Prominent CTA */}
+                            <div className="border-gold-200 from-gold-50 to-coffee-50 mb-6 rounded-lg border bg-gradient-to-r p-6 shadow-sm">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <h3 className="text-coffee-800 mb-2 text-lg font-semibold">
+                                    Product Specification Sheet
+                                  </h3>
+                                  <p className="text-coffee-600 text-sm">
+                                    Generate a comprehensive PDF specification sheet with all product details, quality parameters, and certifications.
+                                  </p>
+                                </div>
+                                <ProductSpecDownloadButton
+                                  productId={mockProduct.id}
+                                  variant="default"
+                                  size="lg"
+                                  className="bg-coffee-600 hover:bg-coffee-700 text-white"
+                                >
+                                  <FileText className="mr-2 h-5 w-5" />
+                                  Generate PDF
+                                </ProductSpecDownloadButton>
+                              </div>
+                            </div>
+
+                            {/* Existing Documents */}
                             <div className="space-y-4">
                               {mockProduct.documents.map(doc => (
                                 <div

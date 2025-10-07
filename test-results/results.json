@@ -1,0 +1,742 @@
+{
+  "config": {
+    "configFile": "D:\\great-beans-coffee\\playwright.config.ts",
+    "rootDir": "D:/great-beans-coffee/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "D:\\great-beans-coffee\\tests\\e2e\\global-setup.ts",
+    "globalTeardown": "D:\\great-beans-coffee\\tests\\e2e\\global-teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 6
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/results.xml"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "D:/great-beans-coffee/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/great-beans-coffee/tests/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/.next/**"
+        ],
+        "testMatch": [
+          "**/tests/e2e/**/*.spec.ts",
+          "**/tests/e2e/**/*.test.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/great-beans-coffee/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "D:/great-beans-coffee/tests/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/.next/**"
+        ],
+        "testMatch": [
+          "**/tests/e2e/**/*.spec.ts",
+          "**/tests/e2e/**/*.test.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/great-beans-coffee/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "D:/great-beans-coffee/tests/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/.next/**"
+        ],
+        "testMatch": [
+          "**/tests/e2e/**/*.spec.ts",
+          "**/tests/e2e/**/*.test.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/great-beans-coffee/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "D:/great-beans-coffee/tests/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/.next/**"
+        ],
+        "testMatch": [
+          "**/tests/e2e/**/*.spec.ts",
+          "**/tests/e2e/**/*.test.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/great-beans-coffee/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "D:/great-beans-coffee/tests/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/.next/**"
+        ],
+        "testMatch": [
+          "**/tests/e2e/**/*.spec.ts",
+          "**/tests/e2e/**/*.test.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/great-beans-coffee/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "Microsoft Edge",
+        "name": "Microsoft Edge",
+        "testDir": "D:/great-beans-coffee/tests/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/.next/**"
+        ],
+        "testMatch": [
+          "**/tests/e2e/**/*.spec.ts",
+          "**/tests/e2e/**/*.test.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "D:/great-beans-coffee/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "Google Chrome",
+        "name": "Google Chrome",
+        "testDir": "D:/great-beans-coffee/tests/e2e",
+        "testIgnore": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/.next/**"
+        ],
+        "testMatch": [
+          "**/tests/e2e/**/*.spec.ts",
+          "**/tests/e2e/**/*.test.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.1",
+    "workers": 6,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "homepage.spec.ts",
+      "file": "homepage.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Homepage",
+          "file": "homepage.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display featured products section",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3129,
+                      "error": {
+                        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n",
+                        "stack": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7",
+                        "location": {
+                          "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                          "column": 7,
+                          "line": 51
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                            "column": 7,
+                            "line": 51
+                          },
+                          "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T08:58:56.611Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                        "column": 7,
+                        "line": 51
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "84e7eb052e8cbae1c9f0-1d9ba712680ec27834dd",
+              "file": "homepage.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "should display featured products section",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 5333,
+                      "error": {
+                        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n",
+                        "stack": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7",
+                        "location": {
+                          "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                          "column": 7,
+                          "line": 51
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                            "column": 7,
+                            "line": 51
+                          },
+                          "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T08:58:56.636Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-firefox\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-firefox\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-firefox\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                        "column": 7,
+                        "line": 51
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "84e7eb052e8cbae1c9f0-1587dd0ede6a3984ed4a",
+              "file": "homepage.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "should display featured products section",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 5240,
+                      "error": {
+                        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n",
+                        "stack": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7",
+                        "location": {
+                          "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                          "column": 7,
+                          "line": 51
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                            "column": 7,
+                            "line": 51
+                          },
+                          "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T08:58:56.638Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-webkit\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-webkit\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-webkit\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                        "column": 7,
+                        "line": 51
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "84e7eb052e8cbae1c9f0-dc38ff9cb65edd2e4c08",
+              "file": "homepage.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "should display featured products section",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 3913,
+                      "error": {
+                        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n",
+                        "stack": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7",
+                        "location": {
+                          "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                          "column": 7,
+                          "line": 51
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                            "column": 7,
+                            "line": 51
+                          },
+                          "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T08:58:56.638Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Mobile-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Mobile-Chrome\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Mobile-Chrome\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                        "column": 7,
+                        "line": 51
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "84e7eb052e8cbae1c9f0-f890641a70478dbf30f7",
+              "file": "homepage.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "should display featured products section",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 4812,
+                      "error": {
+                        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n",
+                        "stack": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7",
+                        "location": {
+                          "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                          "column": 7,
+                          "line": 51
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                            "column": 7,
+                            "line": 51
+                          },
+                          "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T08:58:56.666Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Mobile-Safari\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Mobile-Safari\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Mobile-Safari\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                        "column": 7,
+                        "line": 51
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "84e7eb052e8cbae1c9f0-3d7136fb7596e1e3c3d7",
+              "file": "homepage.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "should display featured products section",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Microsoft Edge",
+                  "projectName": "Microsoft Edge",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "failed",
+                      "duration": 4974,
+                      "error": {
+                        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n",
+                        "stack": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7",
+                        "location": {
+                          "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                          "column": 7,
+                          "line": 51
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                            "column": 7,
+                            "line": 51
+                          },
+                          "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T08:58:56.665Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Microsoft-Edge\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Microsoft-Edge\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Microsoft-Edge\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                        "column": 7,
+                        "line": 51
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "84e7eb052e8cbae1c9f0-5966df0471b7c82bdf3b",
+              "file": "homepage.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "should display featured products section",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Google Chrome",
+                  "projectName": "Google Chrome",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1136,
+                      "error": {
+                        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n",
+                        "stack": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7",
+                        "location": {
+                          "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                          "column": 7,
+                          "line": 51
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                            "column": 7,
+                            "line": 51
+                          },
+                          "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('heading', { name: /featured|premium|popular/i }) resolved to 4 elements:\n    1) <h1 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl\">Premium Vietnamese Coffee Export Solutions</h1> aka getByRole('heading', { name: 'Premium Vietnamese Coffee Export Solutions' })\n    2) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-forest-900 md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Your Trusted Partner for' })\n    3) <h3 class=\"tracking-tight text-center text-xl font-bold text-forest-800 transition-colors group-hover:text-forest-600\">Premium Origins</h3> aka getByRole('heading', { name: 'Premium Origins' })\n    4) <h2 class=\"mb-6 text-4xl font-bold leading-tight text-white md:text-5xl\">…</h2> aka getByRole('heading', { name: 'Featured Coffee Products' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /featured|premium|popular/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 50 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/featured|premium|popular/i\u001b[39m })\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m\n \u001b[90m 53 |\u001b[39m     \u001b[90m// Check at least one product card\u001b[39m\n \u001b[90m 54 |\u001b[39m     \u001b[36mconst\u001b[39m productCards \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"product-card\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts:51:7\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-07T08:59:02.182Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Google-Chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Google-Chrome\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\great-beans-coffee\\test-results\\homepage-Homepage-should-display-featured-products-section-Google-Chrome\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\great-beans-coffee\\tests\\e2e\\homepage.spec.ts",
+                        "column": 7,
+                        "line": 51
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "84e7eb052e8cbae1c9f0-a9722aabd5901c8402a8",
+              "file": "homepage.spec.ts",
+              "line": 44,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-10-07T08:58:55.033Z",
+    "duration": 8685.851999999999,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 7,
+    "flaky": 0
+  }
+}

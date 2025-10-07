@@ -262,5 +262,345 @@
         "customization": "Personalizzazione di sapore, livello di tostatura e packaging secondo requisiti"
       }
     }
+  },
+  "rfq": {
+    "title": "Gestione Richieste di Preventivo",
+    "subtitle": "Traccia e gestisci tutte le tue richieste di preventivo",
+    "newRFQ": "Nuova Richiesta",
+    "refresh": "Aggiorna",
+    "totalRFQs": "Totale Richieste",
+    "activeQuotes": "Preventivi Attivi",
+    "pendingReviews": "In Attesa di Revisione",
+    "totalEstimatedValue": "Valore Totale Stimato",
+    "form": {
+      "title": "Richiesta di Preventivo",
+      "subtitle": "Condividi le tue esigenze di caffè e creeremo un preventivo dettagliato per te.",
+      "step1": "Selezione Prodotto",
+      "step2": "Quantità e Specifiche",
+      "step3": "Spedizione e Consegna",
+      "step4": "Informazioni di Contatto",
+      "productType": "Tipo di Prodotto",
+      "selectProduct": "Seleziona Prodotto",
+      "quantity": "Quantità (kg)",
+      "quantityPlaceholder": "Inserisci la quantità in kg",
+      "packaging": "Confezionamento",
+      "selectPackaging": "Seleziona Tipo di Confezionamento",
+      "certifications": "Certificazioni Richieste",
+      "selectCertifications": "Seleziona Certificazioni",
+      "shippingMethod": "Metodo di Spedizione",
+      "selectShipping": "Seleziona Metodo di Spedizione",
+      "destination": "Destinazione",
+      "destinationPlaceholder": "Inserisci città/porto di destinazione",
+      "deliveryDate": "Data di Consegna Desiderata",
+      "companyName": "Nome Azienda",
+      "companyNamePlaceholder": "Inserisci il nome dell'azienda",
+      "contactPerson": "Persona di Contatto",
+      "contactPersonPlaceholder": "Inserisci il nome della persona di contatto",
+      "email": "Indirizzo Email",
+      "emailPlaceholder": "Inserisci l'indirizzo email",
+      "phone": "Numero di Telefono",
+      "phonePlaceholder": "Inserisci il numero di telefono",
+      "message": "Requisiti Aggiuntivi",
+      "messagePlaceholder": "Hai requisiti speciali o domande?",
+      "previous": "Precedente",
+      "next": "Successivo",
+      "submit": "Invia Richiesta di Preventivo",
+      "submitting": "Invio in corso...",
+      "success": "Richiesta di preventivo inviata con successo!",
+      "error": "Errore nell'invio della richiesta di preventivo. Riprova.",
+      "description": "Invia la tua richiesta di caffè e ricevi preventivi competitivi dai nostri fornitori.",
+      "fields": {
+        "productType": {
+          "label": "Tipo di Prodotto",
+          "placeholder": "Seleziona il tipo di caffè",
+          "options": {
+            "robusta": "Robusta",
+            "arabica": "Arabica",
+            "blend": "Miscela"
+          }
+        },
+        "grade": {
+          "label": "Grado",
+          "placeholder": "Seleziona il grado"
+        },
+        "processing": {
+          "label": "Metodo di Lavorazione",
+          "placeholder": "Seleziona il metodo di lavorazione",
+          "options": {
+            "washed": "Lavato",
+            "natural": "Naturale",
+            "honey": "Honey",
+            "wet_hulled": "Decorticato Umido"
+          }
+        },
+        "quantity": {
+          "label": "Quantità (MT)",
+          "placeholder": "Inserisci la quantità in tonnellate metriche"
+        },
+        "packaging": {
+          "label": "Confezionamento",
+          "placeholder": "Seleziona il tipo di confezionamento",
+          "options": {
+            "jute_bags": "Sacchi di Juta (60kg)",
+            "pp_bags": "Sacchi PP (60kg)",
+            "bulk": "Container Sfuso"
+          }
+        },
+        "incoterms": {
+          "label": "Condizioni di Consegna",
+          "placeholder": "Seleziona le condizioni di consegna",
+          "options": {
+            "fob": "FOB (Franco a Bordo)",
+            "cif": "CIF (Costo, Assicurazione e Nolo)",
+            "cfr": "CFR (Costo e Nolo)",
+            "exw": "EXW (Ex Works)"
+          }
+        },
+        "destination": {
+          "label": "Porto di Destinazione",
+          "placeholder": "Inserisci il porto di destinazione"
+        },
+        "deliveryDate": {
+          "label": "Data di Consegna Richiesta",
+          "placeholder": "Seleziona la data di consegna"
+        },
+        "companyName": {
+          "label": "Nome Azienda",
+          "placeholder": "Inserisci il nome dell'azienda"
+        },
+        "contactPerson": {
+          "label": "Persona di Contatto",
+          "placeholder": "Inserisci il nome della persona di contatto"
+        },
+        "email": {
+          "label": "Indirizzo Email",
+          "placeholder": "Inserisci l'indirizzo email"
+        },
+        "phone": {
+          "label": "Numero di Telefono",
+          "placeholder": "Inserisci il numero di telefono"
+        },
+        "country": {
+          "label": "Paese",
+          "placeholder": "Seleziona il paese"
+        },
+        "additionalRequirements": {
+          "label": "Requisiti Aggiuntivi",
+          "placeholder": "Requisiti speciali o note..."
+        }
+      },
+      "buttons": {
+        "next": "Successivo",
+        "previous": "Precedente",
+        "submit": "Invia Richiesta",
+        "submitting": "Invio in corso..."
+      },
+      "validation": {
+        "required": "Questo campo è obbligatorio",
+        "email": "Inserisci un indirizzo email valido",
+        "phone": "Inserisci un numero di telefono valido",
+        "quantity": "Inserisci una quantità valida",
+        "date": "Seleziona una data valida"
+      },
+      "success": {
+        "title": "Richiesta inviata con successo!",
+        "message": "Grazie per aver inviato la tua richiesta. Esamineremo la tua richiesta e ti invieremo un preventivo competitivo entro 24 ore.",
+        "referenceNumber": "Numero di riferimento: {id}",
+        "nextSteps": {
+          "title": "Quali sono i prossimi passi?",
+          "steps": [
+            "Il nostro team esaminerà la tua richiesta",
+            "Creeremo un preventivo dettagliato con i prezzi",
+            "Riceverai il preventivo via email entro 24 ore",
+            "Il team vendite ti contatterà per discutere i dettagli"
+          ]
+        },
+        "actions": {
+          "viewDetails": "Visualizza Dettagli Richiesta",
+          "newRequest": "Invia Nuova Richiesta",
+          "backToHome": "Torna alla Home"
+        }
+      }
+    },
+    "rfq": {
+      "actions": {
+        "back": "Torna alla Lista Richieste",
+        "share": "Condividi",
+        "download": "Scarica",
+        "contact": "Contatta Vendite",
+        "edit": "Modifica Richiesta",
+        "downloadPDF": "Scarica PDF"
+      },
+      "detail": {
+        "quickActions": "Azioni Rapide",
+        "quickActionsDescription": "Gestisci la tua richiesta con queste azioni rapide",
+        "viewFullDetails": "Visualizza Dettagli Completi",
+        "status": "Stato",
+        "priority": "Priorità",
+        "estimatedValue": "Valore Stimato",
+        "responseDeadline": "Scadenza Risposta",
+        "statusManagement": "Gestione Stato",
+        "statusManagementDescription": "Traccia e gestisci lo stato della tua richiesta"
+      }
+    },
+    "statusManager": {
+      "changeStatus": "Cambia Stato"
+    },
+    "filters": {
+      "search": "Cerca richieste...",
+      "status": "Stato",
+      "priority": "Priorità",
+      "dateRange": "Intervallo Date",
+      "allStatuses": "Tutti gli Stati",
+      "allPriorities": "Tutte le Priorità",
+      "advanced": "Avanzato",
+      "reset": "Reimposta",
+      "sort": "Ordina per",
+      "sortOptions": {
+        "rfqNumber": "Numero Richiesta",
+        "productType": "Tipo Prodotto",
+        "quantity": "Quantità",
+        "estimatedValue": "Valore Stimato",
+        "status": "Stato",
+        "priority": "Priorità",
+        "submittedAt": "Data Invio",
+        "responseDeadline": "Scadenza Risposta",
+        "assignedTo": "Assegnato a"
+      }
+    },
+    "table": {
+      "rfqNumber": "N° Richiesta",
+      "productType": "Tipo Prodotto",
+      "quantity": "Quantità",
+      "estimatedValue": "Valore Stimato",
+      "status": "Stato",
+      "priority": "Priorità",
+      "submittedAt": "Data Invio",
+      "responseDeadline": "Scadenza",
+      "assignedTo": "Assegnato a",
+      "actions": "Azioni",
+      "view": "Visualizza",
+      "download": "Scarica",
+      "contact": "Contatta Cliente",
+      "noResults": "Nessuna richiesta trovata",
+      "noResultsDescription": "Prova ad aggiustare i filtri o le parole chiave di ricerca",
+      "showing": "Mostrando",
+      "to": "a",
+      "of": "di",
+      "entries": "voci",
+      "filtered": "filtrato da",
+      "total": "totale"
+    },
+    "status": {
+      "pending": "In Attesa",
+      "submitted": "Inviata",
+      "underReview": "In Revisione",
+      "in_progress": "In Corso",
+      "quoted": "Preventivata",
+      "negotiating": "In Negoziazione",
+      "accepted": "Accettata",
+      "rejected": "Rifiutata",
+      "expired": "Scaduta",
+      "processing": "In Elaborazione"
+    },
+    "statusHistory": {
+      "title": "Cronologia Stato",
+      "updatedBy": "Aggiornato da {name}"
+    },
+    "priority": {
+      "low": "Bassa",
+      "medium": "Media",
+      "high": "Alta",
+      "urgent": "Urgente"
+    },
+    "detail": {
+      "title": "Dettagli Richiesta di Preventivo",
+      "submittedOn": "Inviata il",
+      "lastUpdated": "Ultimo Aggiornamento",
+      "productDetails": "Dettagli Prodotto",
+      "quantitySpecs": "Quantità e Specifiche",
+      "shippingInfo": "Informazioni Spedizione",
+      "estimatedPrice": "Prezzo Stimato",
+      "downloadQuote": "Scarica Preventivo",
+      "tabs": {
+        "overview": "Panoramica",
+        "requirements": "Requisiti",
+        "company": "Azienda",
+        "timeline": "Timeline",
+        "quotes": "Preventivi",
+        "documents": "Documenti",
+        "status": "Stato"
+      },
+      "productInformation": "Informazioni Prodotto",
+      "timelineInfo": "Informazioni Timeline",
+      "deliveryInfo": "Informazioni Consegna",
+      "contactInfo": "Informazioni Contatto",
+      "productType": "Tipo Prodotto",
+      "quantity": "Quantità",
+      "estimatedValue": "Valore Stimato",
+      "certifications": "Certificazioni",
+      "submittedAt": "Inviata il",
+      "lastUpdate": "Ultimo Aggiornamento",
+      "responseDeadline": "Scadenza Risposta",
+      "assignedTo": "Assegnato a",
+      "companyName": "Nome Azienda",
+      "contactPerson": "Persona di Contatto",
+      "variety": "Varietà",
+      "grade": "Grado",
+      "processing": "Lavorazione",
+      "origin": "Origine",
+      "moistureContent": "Contenuto di Umidità",
+      "screenSize": "Dimensione Vaglio",
+      "defectRate": "Tasso di Difetti",
+      "incoterms": "Condizioni di Consegna",
+      "destination": "Destinazione",
+      "preferredDeliveryDate": "Data di Consegna Preferita",
+      "packagingRequirements": "Requisiti Confezionamento",
+      "paymentTerms": "Condizioni di Pagamento",
+      "paymentMethod": "Metodo di Pagamento",
+      "currency": "Valuta",
+      "businessType": "Tipo di Business",
+      "annualVolume": "Volume Annuale",
+      "additionalNotes": "Note Aggiuntive",
+      "attachments": "Allegati",
+      "download": "Scarica",
+      "noAttachments": "Nessun allegato",
+      "noTimeline": "Nessuna timeline",
+      "noQuotes": "Nessun preventivo",
+      "quotedPrice": "Prezzo Preventivato",
+      "validUntil": "Valido Fino al",
+      "terms": "Condizioni",
+      "notes": "Note",
+      "quickActions": "Azioni Rapide",
+      "quickActionsDescription": "Gestisci questa richiesta con le seguenti azioni",
+      "viewFullDetails": "Visualizza Dettagli Completi",
+      "status": "Stato",
+      "priority": "Priorità",
+      "requirements": "Requisiti",
+      "actions": {
+        "back": "Torna alla Lista Richieste",
+        "share": "Condividi Preventivo",
+        "download": "Scarica",
+        "contact": "Contattaci",
+        "edit": "Modifica Richiesta",
+        "downloadPDF": "Scarica PDF"
+      },
+      "statusManager": {
+        "changeStatus": "Cambia Stato",
+        "confirmTransition": "Conferma Cambio Stato",
+        "confirmTransitionDescription": "Sei sicuro di voler cambiare lo stato da {from} a {to}?",
+        "note": "Nota",
+        "notePlaceholder": "Aggiungi una nota per questo cambio di stato...",
+        "cancel": "Annulla",
+        "confirm": "Conferma",
+        "updating": "Aggiornamento..."
+      },
+      "statusHistory": {
+        "title": "Cronologia Stato",
+        "updatedBy": "Aggiornato da {name}"
+      },
+      "statusManagement": "Gestione Stato",
+      "statusManagementDescription": "Traccia e gestisci lo stato di questa richiesta"
+    }
   }
 }

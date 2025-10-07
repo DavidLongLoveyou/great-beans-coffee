@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import {
   Coffee,
   Globe,
@@ -12,12 +13,11 @@ import {
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
-import { ServerHeroSection } from '@/presentation/components/sections/ServerHeroSection';
-import { ValuePropositionSection } from '@/presentation/components/sections/ValuePropositionSection';
 import { FeaturedProductsSection } from '@/presentation/components/sections/FeaturedProductsSection';
 import { OurProcessSection } from '@/presentation/components/sections/OurProcessSection';
+import { ServerHeroSection } from '@/presentation/components/sections/ServerHeroSection';
+import { ValuePropositionSection } from '@/presentation/components/sections/ValuePropositionSection';
 import { Badge } from '@/presentation/components/ui/badge';
-import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -25,18 +25,55 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { ServerButton } from '@/presentation/components/ui/server-button';
+import { generateMetadata as generateSEOMetadata } from '@/shared/utils/seo-utils';
+
+// Generate SEO metadata for the homepage
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  
+  return generateSEOMetadata({
+    title: 'Premium Vietnamese Coffee Exports - B2B Coffee Solutions',
+    description: 'Leading B2B platform for Vietnamese coffee exports. Premium Robusta, Arabica, and specialty blends for global importers, roasters, and distributors worldwide.',
+    keywords: [
+      'vietnamese coffee export',
+      'robusta coffee supplier',
+      'arabica coffee vietnam',
+      'b2b coffee solutions',
+      'coffee wholesale',
+      'premium coffee beans',
+      'coffee manufacturing',
+      'private label coffee',
+      'specialty coffee sourcing',
+      'vietnam coffee beans'
+    ],
+    url: `/${locale}`,
+    type: 'website',
+    locale,
+    image: '/images/hero/vietnam-coffee-plantation.jpg',
+  });
+}
 
 export default async function HomePage({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
 
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <ServerHeroSection locale={locale} />
+      <ServerHeroSection 
+        title="Premium Vietnamese Coffee Export Solutions"
+        subtitle="Connect with Vietnam's leading coffee exporter. We provide premium Robusta and Arabica beans, OEM services, and private label solutions to B2B partners worldwide."
+        ctaHref={`/${locale}/quote`}
+        ctaSecondaryHref={`/${locale}/products`}
+      />
 
       {/* Value Proposition Section */}
       <ValuePropositionSection locale={locale} />
@@ -46,8 +83,6 @@ export default async function HomePage({
 
       {/* Our Process Section */}
       <OurProcessSection locale={locale} />
-
-
 
       {/* CTA Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-forest-900 via-forest-800 to-forest-900 py-24">

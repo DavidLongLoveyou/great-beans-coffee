@@ -51,7 +51,7 @@ export function MarketInfo({
     setMounted(true);
     const now = new Date();
     setCurrentTime(formatDate(now));
-    
+
     // Import the function to check business hours
     import('@/shared/utils/market').then(({ isWithinBusinessHours }) => {
       setIsBusinessHours(isWithinBusinessHours(config.locale as any, now));
@@ -61,9 +61,11 @@ export function MarketInfo({
     const interval = setInterval(() => {
       const currentTime = new Date();
       setCurrentTime(formatDate(currentTime));
-      
+
       import('@/shared/utils/market').then(({ isWithinBusinessHours }) => {
-        setIsBusinessHours(isWithinBusinessHours(config.locale as any, currentTime));
+        setIsBusinessHours(
+          isWithinBusinessHours(config.locale as any, currentTime)
+        );
       });
     }, 60000);
 

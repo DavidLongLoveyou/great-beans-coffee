@@ -1,23 +1,29 @@
 'use client';
 
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 import {
-  Search,
-  Filter,
-  Calendar,
   Package,
   Clock,
-  CheckCircle,
-  XCircle,
-  AlertCircle,
-  Eye,
-  Download,
   MessageSquare,
   ArrowUpRight,
   RefreshCw,
+  Plus,
+  AlertCircle,
+  CheckCircle,
+  XCircle,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useRouter, useParams } from 'next/navigation';
+import { useState } from 'react';
 
+import { formatDateTime } from '@/lib/date-utils';
+import { useMarket } from '@/shared/hooks/useMarket';
+
+import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
+import { ContentSection } from '@/presentation/components/layout/ContentSection';
+import { RFQDetailModal } from '@/presentation/components/rfq/RFQDetailModal';
+import { RFQListFilters } from '@/presentation/components/rfq/RFQListFilters';
+import { RFQListTable } from '@/presentation/components/rfq/RFQListTable';
+import { useRFQList } from '@/presentation/hooks/useRFQList';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -27,32 +33,20 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { Input } from '@/presentation/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/presentation/components/ui/select';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/presentation/components/ui/table';
-import { ContentSection } from '@/presentation/components/layout/ContentSection';
-import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
 import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
 import { SectionHeading } from '@/shared/components/typography/SectionHeading';
-import { RFQDetailModal } from '@/presentation/components/rfq/RFQDetailModal';
 
 interface RFQItem {
   id: string;
   rfqNumber: string;
-  status: 'SUBMITTED' | 'UNDER_REVIEW' | 'QUOTED' | 'NEGOTIATING' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
+  status:
+    | 'SUBMITTED'
+    | 'UNDER_REVIEW'
+    | 'QUOTED'
+    | 'NEGOTIATING'
+    | 'ACCEPTED'
+    | 'REJECTED'
+    | 'EXPIRED';
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
   productType: string;
   quantity: number;
@@ -168,43 +162,48 @@ const priorityConfig = {
 
 export default function RFQTrackingPage() {
   const t = useTranslations('rfq');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('ALL');
-  const [priorityFilter, setPriorityFilter] = useState('ALL');
-  const [rfqs, setRfqs] = useState(mockRFQs);
+  const router = useRouter();
+  const params = useParams();
+  const { locale, formatCurrency: marketFormatCurrency } = useMarket();
+  
+  // Use the RFQ list hook
+  const {
+    filteredRFQs,
+    paginatedRFQs,
+    filters,
+    setFilters,
+    resetFilters,
+    sortConfig,
+    setSortConfig,
+    pagination,
+    setPage,
+    setPageSize,
+    totalCount,
+    filteredCount,
+    loading,
+    setLoading,
+  } = useRFQList({
+    initialData: mockRFQs,
+    initialPageSize: 25,
+  });
+
   const [selectedRFQ, setSelectedRFQ] = useState<RFQItem | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
-  // Filter RFQs based on search and filters
-  const filteredRFQs = rfqs.filter(rfq => {
-    const matchesSearch = 
-      rfq.rfqNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      rfq.productType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      rfq.companyName.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = statusFilter === 'ALL' || rfq.status === statusFilter;
-    const matchesPriority = priorityFilter === 'ALL' || rfq.priority === priorityFilter;
-    
-    return matchesSearch && matchesStatus && matchesPriority;
-  });
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+  // Handle refresh
+  const handleRefresh = async () => {
+    setLoading(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setLoading(false);
   };
 
-  const formatCurrency = (amount: number, currency: string) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency,
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
+  const formatDateLocal = (dateString: string) => {
+    return formatDateTime(new Date(dateString), locale);
+  };
+
+  const formatCurrencyLocal = (amount: number, currency: string) => {
+    return marketFormatCurrency(amount, currency);
   };
 
   const getStatusIcon = (status: keyof typeof statusConfig) => {
@@ -213,8 +212,8 @@ export default function RFQTrackingPage() {
   };
 
   const handleViewRFQ = (rfq: RFQItem) => {
-    setSelectedRFQ(rfq);
-    setIsDetailModalOpen(true);
+    // Navigate to detail page
+    router.push(`/${params.locale}/rfq/${rfq.id}`);
   };
 
   const handleCloseModal = () => {
@@ -224,253 +223,143 @@ export default function RFQTrackingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-forest-50 to-white">
-      {/* Hero Section */}
-      <ContentSection className="bg-gradient-to-r from-forest-600 to-forest-700 py-16 text-white">
-        <ContentContainer>
-          <div className="text-center">
-            <CoffeeHeading size="3xl" className="mb-6 text-white">
-              RFQ Tracking Dashboard
-            </CoffeeHeading>
-            <p className="mx-auto mb-8 max-w-3xl text-xl text-forest-50">
-              Monitor the status of your quote requests and manage your coffee procurement pipeline
-            </p>
-          </div>
-        </ContentContainer>
-      </ContentSection>
-
       {/* Dashboard Content */}
       <ContentSection className="py-12">
         <ContentContainer>
+          {/* Header with Actions */}
+          <div className="mb-6 sm:mb-8">
+            <div className="flex flex-col gap-4 sm:gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="space-y-2">
+                <SectionHeading className="text-xl sm:text-2xl lg:text-3xl">
+                  {t('page.title')}
+                </SectionHeading>
+                <p className="text-sm text-gray-600 sm:text-base">
+                  {t('page.description')}
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+                <Button
+                  variant="outline"
+                  onClick={handleRefresh}
+                  disabled={loading}
+                  className="flex items-center justify-center gap-2 w-full sm:w-auto"
+                >
+                  <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                  <span>{t('page.refresh')}</span>
+                </Button>
+                <Button
+                  onClick={() => (window.location.href = '/en/quote')}
+                  className="flex items-center justify-center gap-2 w-full sm:w-auto"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span>{t('page.newRfq')}</span>
+                </Button>
+              </div>
+            </div>
+          </div>
           {/* Summary Cards */}
-          <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-4">
-            <Card>
-              <CardContent className="p-6">
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Total RFQs</p>
-                    <p className="text-2xl font-bold text-gray-900">{rfqs.length}</p>
-                  </div>
-                  <Package className="h-8 w-8 text-forest-600" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Active Quotes</p>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {rfqs.filter(rfq => ['QUOTED', 'NEGOTIATING'].includes(rfq.status)).length}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-600 sm:text-sm">
+                      {t('page.summaryCards.totalRfqs')}
+                    </p>
+                    <p className="text-xl font-bold text-gray-900 sm:text-2xl">
+                      {totalCount}
                     </p>
                   </div>
-                  <MessageSquare className="h-8 w-8 text-green-600" />
+                  <Package className="h-6 w-6 text-forest-600 sm:h-8 sm:w-8 flex-shrink-0" />
                 </div>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="p-6">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Pending Review</p>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {rfqs.filter(rfq => ['SUBMITTED', 'UNDER_REVIEW'].includes(rfq.status)).length}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-600 sm:text-sm">
+                      {t('page.summaryCards.activeQuotes')}
+                    </p>
+                    <p className="text-xl font-bold text-gray-900 sm:text-2xl">
+                      {
+                        filteredRFQs.filter(rfq =>
+                          ['QUOTED', 'NEGOTIATING'].includes(rfq.status)
+                        ).length
+                      }
                     </p>
                   </div>
-                  <Clock className="h-8 w-8 text-yellow-600" />
+                  <MessageSquare className="h-6 w-6 text-green-600 sm:h-8 sm:w-8 flex-shrink-0" />
                 </div>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent className="p-6">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Total Value</p>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {formatCurrency(
-                        rfqs.reduce((sum, rfq) => sum + rfq.estimatedValue, 0),
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-600 sm:text-sm">
+                      {t('page.summaryCards.pendingReview')}
+                    </p>
+                    <p className="text-xl font-bold text-gray-900 sm:text-2xl">
+                      {
+                        filteredRFQs.filter(rfq =>
+                          ['SUBMITTED', 'UNDER_REVIEW'].includes(rfq.status)
+                        ).length
+                      }
+                    </p>
+                  </div>
+                  <Clock className="h-6 w-6 text-yellow-600 sm:h-8 sm:w-8 flex-shrink-0" />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex items-center justify-between">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-600 sm:text-sm">
+                      {t('page.summaryCards.totalValue')}
+                    </p>
+                    <p className="text-lg font-bold text-gray-900 sm:text-2xl truncate">
+                      {formatCurrencyLocal(
+                        filteredRFQs.reduce((sum, rfq) => sum + rfq.estimatedValue, 0),
                         'USD'
                       )}
                     </p>
                   </div>
-                  <ArrowUpRight className="h-8 w-8 text-blue-600" />
+                  <ArrowUpRight className="h-6 w-6 text-blue-600 sm:h-8 sm:w-8 flex-shrink-0" />
                 </div>
               </CardContent>
             </Card>
           </div>
 
           {/* Filters and Search */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Filter className="h-5 w-5" />
-                Filters & Search
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col gap-4 md:flex-row md:items-end">
-                <div className="flex-1">
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Search RFQs
-                  </label>
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                    <Input
-                      placeholder="Search by RFQ number, product, or company..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
-                    />
-                  </div>
-                </div>
-
-                <div className="min-w-[150px]">
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Status
-                  </label>
-                  <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="ALL">All Status</SelectItem>
-                      <SelectItem value="SUBMITTED">Submitted</SelectItem>
-                      <SelectItem value="UNDER_REVIEW">Under Review</SelectItem>
-                      <SelectItem value="QUOTED">Quoted</SelectItem>
-                      <SelectItem value="NEGOTIATING">Negotiating</SelectItem>
-                      <SelectItem value="ACCEPTED">Accepted</SelectItem>
-                      <SelectItem value="REJECTED">Rejected</SelectItem>
-                      <SelectItem value="EXPIRED">Expired</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="min-w-[150px]">
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Priority
-                  </label>
-                  <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="ALL">All Priority</SelectItem>
-                      <SelectItem value="LOW">Low</SelectItem>
-                      <SelectItem value="MEDIUM">Medium</SelectItem>
-                      <SelectItem value="HIGH">High</SelectItem>
-                      <SelectItem value="URGENT">Urgent</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <Button variant="outline" className="flex items-center gap-2">
-                  <RefreshCw className="h-4 w-4" />
-                  Refresh
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <RFQListFilters
+            filters={filters}
+            onFiltersChange={setFilters}
+            onReset={resetFilters}
+            sortConfig={sortConfig}
+            onSortChange={setSortConfig}
+            loading={loading}
+            filteredCount={filteredCount}
+            totalCount={totalCount}
+          />
 
           {/* RFQ Table */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Your Quote Requests</CardTitle>
-              <CardDescription>
-                Track the status and progress of all your quote requests
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>RFQ Number</TableHead>
-                      <TableHead>Product</TableHead>
-                      <TableHead>Quantity</TableHead>
-                      <TableHead>Est. Value</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Priority</TableHead>
-                      <TableHead>Submitted</TableHead>
-                      <TableHead>Deadline</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredRFQs.map((rfq) => (
-                      <TableRow key={rfq.id}>
-                        <TableCell className="font-medium">
-                          {rfq.rfqNumber}
-                        </TableCell>
-                        <TableCell>
-                          <div>
-                            <p className="font-medium">{rfq.productType}</p>
-                            <p className="text-sm text-gray-500">{rfq.companyName}</p>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          {rfq.quantity} {rfq.unit}
-                        </TableCell>
-                        <TableCell>
-                          {formatCurrency(rfq.estimatedValue, rfq.currency)}
-                        </TableCell>
-                        <TableCell>
-                          <Badge className={`${statusConfig[rfq.status].color} flex items-center gap-1`}>
-                            {getStatusIcon(rfq.status)}
-                            {statusConfig[rfq.status].label}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge className={priorityConfig[rfq.priority].color}>
-                            {priorityConfig[rfq.priority].label}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-sm">
-                          {formatDate(rfq.submittedAt)}
-                        </TableCell>
-                        <TableCell className="text-sm">
-                          {formatDate(rfq.responseDeadline)}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <Button 
-                              variant="outline" 
-                              size="sm"
-                              onClick={() => handleViewRFQ(rfq)}
-                            >
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                            <Button variant="outline" size="sm">
-                              <Download className="h-4 w-4" />
-                            </Button>
-                            <Button variant="outline" size="sm">
-                              <MessageSquare className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-
-              {filteredRFQs.length === 0 && (
-                <div className="py-12 text-center">
-                  <Package className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-                  <h3 className="mb-2 text-lg font-medium text-gray-900">No RFQs found</h3>
-                  <p className="text-gray-500">
-                    {searchTerm || statusFilter !== 'ALL' || priorityFilter !== 'ALL'
-                      ? 'Try adjusting your search criteria or filters.'
-                      : 'You haven\'t submitted any quote requests yet.'}
-                  </p>
-                  <Button className="mt-4" onClick={() => window.location.href = '/en/quote'}>
-                    Create New RFQ
-                  </Button>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          <RFQListTable
+            rfqs={paginatedRFQs}
+            onViewRFQ={handleViewRFQ}
+            sortConfig={sortConfig}
+            onSortChange={setSortConfig}
+            pagination={pagination}
+            onPageChange={setPage}
+            onPageSizeChange={setPageSize}
+            loading={loading}
+            totalCount={totalCount}
+            filteredCount={filteredCount}
+          />
         </ContentContainer>
       </ContentSection>
 

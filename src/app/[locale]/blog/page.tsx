@@ -16,7 +16,6 @@ import {
   getFeaturedBlogPosts,
   getBlogCategories,
 } from '@/lib/contentlayer';
-import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -24,6 +23,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   LazySection,
   LazyCardGrid,

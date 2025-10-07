@@ -1,3 +1,4 @@
+import type { Locale } from '@/i18n';
 import {
   allMarketReports,
   allOriginStories,
@@ -12,8 +13,6 @@ import type {
   BlogPost,
   LegalPage,
 } from 'contentlayer/generated';
-
-import type { Locale } from '@/i18n';
 
 // Type definitions for content collections
 export type ContentType =

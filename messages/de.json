@@ -266,5 +266,373 @@
         "customization": "Anpassung von Geschmack, Röstgrad und Verpackung nach Anforderungen"
       }
     }
+  },
+  "rfq": {
+    "title": "RFQ-Verwaltung",
+    "subtitle": "Verfolgen und verwalten Sie alle Ihre Angebotsanfragen",
+    "newRFQ": "Neue RFQ",
+    "refresh": "Aktualisieren",
+    "totalRFQs": "Gesamt RFQs",
+    "activeQuotes": "Aktive Angebote",
+    "pendingReviews": "Ausstehende Prüfungen",
+    "totalEstimatedValue": "Geschätzter Gesamtwert",
+    "page": {
+      "title": "RFQ-Verwaltung",
+      "description": "Überwachen und verwalten Sie alle Ihre Angebotsanfragen an einem Ort.",
+      "refresh": "Aktualisieren",
+      "newRfq": "Neue RFQ",
+      "summaryCards": {
+        "totalRfqs": "Gesamt RFQs",
+        "activeQuotes": "Aktive Angebote",
+        "pendingReview": "Ausstehende Prüfung",
+        "totalValue": "Gesamtwert"
+      }
+    },
+    "form": {
+      "title": "Angebot anfordern",
+      "subtitle": "Teilen Sie uns Ihre Kaffeeanforderungen mit und wir erstellen Ihnen ein detailliertes Angebot.",
+      "step1": "Produktauswahl",
+      "step2": "Menge & Spezifikationen",
+      "step3": "Versand & Lieferung",
+      "step4": "Kontaktinformationen",
+      "productType": "Produkttyp",
+      "selectProduct": "Produkt auswählen",
+      "quantity": "Menge (kg)",
+      "quantityPlaceholder": "Menge in kg eingeben",
+      "packaging": "Verpackung",
+      "selectPackaging": "Verpackungsart auswählen",
+      "certifications": "Erforderliche Zertifizierungen",
+      "selectCertifications": "Zertifizierungen auswählen",
+      "shippingMethod": "Versandart",
+      "selectShipping": "Versandart auswählen",
+      "destination": "Zielort",
+      "destinationPlaceholder": "Zielstadt/Hafen eingeben",
+      "deliveryDate": "Bevorzugtes Lieferdatum",
+      "companyName": "Firmenname",
+      "companyNamePlaceholder": "Firmennamen eingeben",
+      "contactPerson": "Ansprechpartner",
+      "contactPersonPlaceholder": "Name des Ansprechpartners eingeben",
+      "email": "E-Mail-Adresse",
+      "emailPlaceholder": "E-Mail-Adresse eingeben",
+      "phone": "Telefonnummer",
+      "phonePlaceholder": "Telefonnummer eingeben",
+      "message": "Zusätzliche Anforderungen",
+      "messagePlaceholder": "Spezielle Anforderungen oder Fragen?",
+      "previous": "Zurück",
+      "next": "Weiter",
+      "submit": "Angebotsanfrage senden",
+      "submitting": "Wird gesendet...",
+      "success": "Angebotsanfrage erfolgreich gesendet!",
+      "error": "Fehler beim Senden der Angebotsanfrage. Bitte versuchen Sie es erneut.",
+      "description": "Senden Sie Ihre Kaffeeanforderungen und erhalten Sie wettbewerbsfähige Angebote von unseren Lieferanten.",
+      "fields": {
+        "productType": {
+          "label": "Produkttyp",
+          "placeholder": "Kaffeetyp auswählen",
+          "options": {
+            "robusta": "Robusta",
+            "arabica": "Arabica",
+            "blend": "Mischung"
+          }
+        },
+        "grade": {
+          "label": "Qualität",
+          "placeholder": "Qualität auswählen"
+        },
+        "processing": {
+          "label": "Verarbeitungsmethode",
+          "placeholder": "Verarbeitungsmethode auswählen",
+          "options": {
+            "washed": "Gewaschen",
+            "natural": "Natürlich",
+            "honey": "Honig",
+            "wet_hulled": "Nass geschält"
+          }
+        },
+        "quantity": {
+          "label": "Menge (MT)",
+          "placeholder": "Menge in metrischen Tonnen eingeben"
+        },
+        "packaging": {
+          "label": "Verpackung",
+          "placeholder": "Verpackungsart auswählen",
+          "options": {
+            "jute_bags": "Jutesäcke (60kg)",
+            "pp_bags": "PP-Säcke (60kg)",
+            "bulk": "Bulk-Container"
+          }
+        },
+        "incoterms": {
+          "label": "Incoterms",
+          "placeholder": "Lieferbedingungen auswählen",
+          "options": {
+            "fob": "FOB (Frei an Bord)",
+            "cif": "CIF (Kosten, Versicherung & Fracht)",
+            "cfr": "CFR (Kosten & Fracht)",
+            "exw": "EXW (Ab Werk)"
+          }
+        },
+        "destination": {
+          "label": "Zielhafen",
+          "placeholder": "Zielhafen eingeben"
+        },
+        "deliveryDate": {
+          "label": "Erforderliches Lieferdatum",
+          "placeholder": "Lieferdatum auswählen"
+        },
+        "companyName": {
+          "label": "Firmenname",
+          "placeholder": "Firmennamen eingeben"
+        },
+        "contactPerson": {
+          "label": "Ansprechpartner",
+          "placeholder": "Name des Ansprechpartners eingeben"
+        },
+        "email": {
+          "label": "E-Mail-Adresse",
+          "placeholder": "E-Mail-Adresse eingeben"
+        },
+        "phone": {
+          "label": "Telefonnummer",
+          "placeholder": "Telefonnummer eingeben"
+        },
+        "country": {
+          "label": "Land",
+          "placeholder": "Land auswählen"
+        },
+        "additionalRequirements": {
+          "label": "Zusätzliche Anforderungen",
+          "placeholder": "Spezielle Anforderungen oder Notizen..."
+        }
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "submit": "Anfrage senden",
+        "submitting": "Wird gesendet..."
+      },
+      "validation": {
+        "required": "Dieses Feld ist erforderlich",
+        "email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+        "phone": "Bitte geben Sie eine gültige Telefonnummer ein",
+        "quantity": "Bitte geben Sie eine gültige Menge ein",
+        "date": "Bitte wählen Sie ein gültiges Datum"
+      },
+      "success": {
+        "title": "Anfrage erfolgreich gesendet!",
+        "message": "Vielen Dank für Ihre Anfrage. Wir werden Ihre Anforderungen prüfen und Ihnen innerhalb von 24 Stunden ein wettbewerbsfähiges Angebot senden.",
+        "referenceNumber": "Referenznummer: {id}",
+        "nextSteps": {
+          "title": "Was passiert als nächstes?",
+          "steps": [
+            "Unser Team wird Ihre Anforderungen prüfen",
+            "Wir erstellen ein detailliertes Angebot mit Preisen",
+            "Sie erhalten das Angebot per E-Mail innerhalb von 24 Stunden",
+            "Unser Vertriebsteam wird sich mit Ihnen in Verbindung setzen, um Details zu besprechen"
+          ]
+        },
+        "actions": {
+          "viewDetails": "Anfragedetails anzeigen",
+          "newRequest": "Neue Anfrage senden",
+          "backToHome": "Zurück zur Startseite"
+        }
+      }
+    },
+    "rfq": {
+      "actions": {
+        "back": "Zurück zur RFQ-Liste",
+        "share": "Teilen",
+        "download": "Herunterladen",
+        "contact": "Vertrieb kontaktieren",
+        "edit": "Anfrage bearbeiten",
+        "downloadPDF": "PDF herunterladen"
+      },
+      "detail": {
+        "quickActions": "Schnellaktionen",
+        "quickActionsDescription": "Verwalten Sie Ihre RFQ mit diesen Schnellaktionen",
+        "viewFullDetails": "Vollständige Details anzeigen",
+        "status": "Status",
+        "priority": "Priorität",
+        "estimatedValue": "Geschätzter Wert",
+        "responseDeadline": "Antwortfrist",
+        "statusManagement": "Status-Verwaltung",
+        "statusManagementDescription": "Verfolgen und verwalten Sie den Status Ihrer RFQ"
+      }
+    },
+    "statusManager": {
+      "changeStatus": "Status ändern"
+    },
+    "filters": {
+      "search": "RFQs durchsuchen...",
+      "status": "Status",
+      "priority": "Priorität",
+      "dateRange": "Datumsbereich",
+      "allStatuses": "Alle Status",
+      "allPriorities": "Alle Prioritäten",
+      "advanced": "Erweitert",
+      "reset": "Zurücksetzen",
+      "sort": "Sortieren nach",
+      "sortOptions": {
+        "rfqNumber": "RFQ-Nummer",
+        "productType": "Produkttyp",
+        "quantity": "Menge",
+        "estimatedValue": "Geschätzter Wert",
+        "status": "Status",
+        "priority": "Priorität",
+        "submittedAt": "Eingangsdatum",
+        "responseDeadline": "Antwortfrist",
+        "assignedTo": "Zugewiesen an"
+      }
+    },
+    "table": {
+      "rfqNumber": "RFQ-Nummer",
+      "productType": "Produkttyp",
+      "quantity": "Menge",
+      "estimatedValue": "Geschätzter Wert",
+      "status": "Status",
+      "priority": "Priorität",
+      "submittedAt": "Eingereicht",
+      "responseDeadline": "Frist",
+      "assignedTo": "Zugewiesen an",
+      "actions": "Aktionen",
+      "view": "Anzeigen",
+      "download": "Herunterladen",
+      "contact": "Kunde kontaktieren",
+      "noResults": "Keine RFQs gefunden",
+      "noResultsDescription": "Versuchen Sie, Ihre Filter oder Suchbegriffe anzupassen",
+      "showing": "Zeige",
+      "to": "bis",
+      "of": "von",
+      "entries": "Einträgen",
+      "filtered": "gefiltert von",
+      "total": "gesamt"
+    },
+    "status": {
+      "pending": "Ausstehend",
+      "submitted": "Eingereicht",
+      "underReview": "In Prüfung",
+      "in_progress": "In Bearbeitung",
+      "quoted": "Angebot erstellt",
+      "negotiating": "Verhandlung",
+      "accepted": "Angenommen",
+      "rejected": "Abgelehnt",
+      "expired": "Abgelaufen",
+      "processing": "Verarbeitung"
+    },
+    "statusHistory": {
+      "title": "Status-Verlauf",
+      "updatedBy": "Aktualisiert von {name}"
+    },
+    "priority": {
+      "low": "Niedrig",
+      "medium": "Mittel",
+      "high": "Hoch",
+      "urgent": "Dringend"
+    },
+    "detail": {
+      "title": "Angebotsanfrage Details",
+      "submittedOn": "Eingereicht am",
+      "lastUpdated": "Zuletzt aktualisiert",
+      "productDetails": "Produktdetails",
+      "quantitySpecs": "Menge & Spezifikationen",
+      "shippingInfo": "Versandinformationen",
+      "estimatedPrice": "Geschätzter Preis",
+      "downloadQuote": "Angebot herunterladen",
+      "tabs": {
+        "overview": "Übersicht",
+        "requirements": "Anforderungen",
+        "company": "Unternehmen",
+        "timeline": "Zeitplan",
+        "quotes": "Angebote",
+        "documents": "Dokumente",
+        "status": "Status"
+      },
+      "productInformation": "Produktinformationen",
+      "timelineInfo": "Zeitplan-Informationen",
+      "deliveryInfo": "Lieferinformationen",
+      "contactInfo": "Kontaktinformationen",
+      "productType": "Produkttyp",
+      "quantity": "Menge",
+      "estimatedValue": "Geschätzter Wert",
+      "certifications": "Zertifizierungen",
+      "submittedAt": "Eingereicht am",
+      "lastUpdate": "Letzte Aktualisierung",
+      "responseDeadline": "Antwortfrist",
+      "assignedTo": "Zugewiesen an",
+      "companyName": "Firmenname",
+      "contactPerson": "Ansprechpartner",
+      "variety": "Sorte",
+      "grade": "Qualität",
+      "processing": "Verarbeitung",
+      "origin": "Herkunft",
+      "moistureContent": "Feuchtigkeitsgehalt",
+      "screenSize": "Siebgröße",
+      "defectRate": "Fehlerrate",
+      "incoterms": "Incoterms",
+      "destination": "Zielort",
+      "preferredDeliveryDate": "Bevorzugtes Lieferdatum",
+      "packagingRequirements": "Verpackungsanforderungen",
+      "paymentTerms": "Zahlungsbedingungen",
+      "paymentMethod": "Zahlungsmethode",
+      "currency": "Währung",
+      "businessType": "Geschäftstyp",
+      "annualVolume": "Jahresvolumen",
+      "additionalNotes": "Zusätzliche Notizen",
+      "attachments": "Anhänge",
+      "download": "Herunterladen",
+      "noAttachments": "Keine Anhänge",
+      "noTimeline": "Kein Zeitplan verfügbar",
+      "noQuotes": "Keine Angebote verfügbar",
+      "quotedPrice": "Angebotspreis",
+      "validUntil": "Gültig bis",
+      "terms": "Bedingungen",
+      "notes": "Notizen",
+      "quickActions": "Schnellaktionen",
+      "quickActionsDescription": "Verwalten Sie diese RFQ mit den folgenden Aktionen",
+      "viewFullDetails": "Vollständige Details anzeigen",
+      "status": "Status",
+      "priority": "Priorität",
+      "requirements": "Anforderungen",
+      "actions": {
+        "back": "Zurück zur RFQ-Liste",
+        "share": "Angebot teilen",
+        "download": "Herunterladen",
+        "contact": "Kontaktieren Sie uns",
+        "edit": "Anfrage bearbeiten",
+        "downloadPDF": "PDF herunterladen"
+      },
+      "statusManager": {
+        "changeStatus": "Status ändern",
+        "confirmTransition": "Statusänderung bestätigen",
+        "confirmTransitionDescription": "Sind Sie sicher, dass Sie den Status von {from} zu {to} ändern möchten?",
+        "note": "Notiz",
+        "notePlaceholder": "Fügen Sie eine Notiz zu dieser Statusänderung hinzu...",
+        "cancel": "Abbrechen",
+        "confirm": "Bestätigen",
+        "updating": "Wird aktualisiert..."
+      },
+      "statusHistory": {
+        "title": "Status-Verlauf",
+        "updatedBy": "Aktualisiert von {name}"
+      },
+      "statusManagement": "Status-Verwaltung",
+      "statusManagementDescription": "Verfolgen und verwalten Sie den Status dieser RFQ",
+      "name": "Name",
+      "title": "Titel",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "rfqTimeline": "RFQ-Zeitplan",
+      "timelineDescription": "Verfolgen Sie den Fortschritt und Updates Ihrer Angebotsanfrage",
+      "noTimelineEvents": "Keine Zeitplan-Ereignisse verfügbar",
+      "receivedQuotes": "Erhaltene Angebote",
+      "quotesDescription": "Überprüfen und vergleichen Sie Angebote von unserem Team",
+      "quoteNumber": "Angebot Nr.",
+      "acceptQuote": "Angebot annehmen",
+      "negotiate": "Verhandeln",
+      "noQuotesYet": "Noch keine Angebote erhalten",
+      "quotesWorkingMessage": "Unser Team arbeitet an Ihrer Anfrage und wird bald ein Angebot bereitstellen.",
+      "close": "Schließen",
+      "contactSales": "Vertrieb kontaktieren"
+    }
   }
 }

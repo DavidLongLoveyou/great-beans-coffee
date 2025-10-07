@@ -2,10 +2,10 @@
 
 import React, { forwardRef } from 'react';
 
+import { cn } from '@/shared/utils/cn';
+
 import { LoadingSpinner } from './Feedback/LoadingSpinner';
 import { ButtonProps } from './types';
-
-import { cn } from '@/shared/utils/cn';
 
 export type ButtonVariant =
   | 'primary'

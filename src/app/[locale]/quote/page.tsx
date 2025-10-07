@@ -186,7 +186,7 @@ export default function QuotePage({
         deliveryTerms: formData.incoterms,
         targetPrice: 0, // Will be filled by sales team
         currency: formData.preferredCurrency,
-        deliveryDate: formData.preferredDeliveryDate 
+        deliveryDate: formData.preferredDeliveryDate
           ? new Date(formData.preferredDeliveryDate)
           : new Date(), // Use current date without Date.now() to avoid hydration issues
         deliveryLocation: `${formData.destinationPort}, ${formData.destinationCountry}`,

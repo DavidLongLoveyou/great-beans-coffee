@@ -266,5 +266,373 @@
         "customization": "Tùy chỉnh hương vị, độ rang và bao bì theo yêu cầu"
       }
     }
+  },
+  "rfq": {
+    "title": "Quản Lý RFQ",
+    "subtitle": "Theo dõi và quản lý tất cả yêu cầu báo giá của bạn",
+    "newRFQ": "RFQ Mới",
+    "refresh": "Làm Mới",
+    "totalRFQs": "Tổng RFQ",
+    "activeQuotes": "Báo Giá Đang Hoạt Động",
+    "pendingReviews": "Đang Chờ Xem Xét",
+    "totalEstimatedValue": "Tổng Giá Trị Ước Tính",
+    "page": {
+      "title": "Quản Lý RFQ",
+      "description": "Giám sát và quản lý tất cả yêu cầu báo giá của bạn ở một nơi.",
+      "refresh": "Làm Mới",
+      "newRfq": "RFQ Mới",
+      "summaryCards": {
+        "totalRfqs": "Tổng RFQ",
+        "activeQuotes": "Báo Giá Đang Hoạt Động",
+        "pendingReview": "Đang Chờ Xem Xét",
+        "totalValue": "Tổng Giá Trị"
+      }
+    },
+    "form": {
+      "title": "Yêu Cầu Báo Giá",
+      "subtitle": "Chia sẻ yêu cầu cà phê của bạn và chúng tôi sẽ tạo báo giá chi tiết cho bạn.",
+      "step1": "Lựa Chọn Sản Phẩm",
+      "step2": "Số Lượng & Thông Số",
+      "step3": "Vận Chuyển & Giao Hàng",
+      "step4": "Thông Tin Liên Hệ",
+      "productType": "Loại Sản Phẩm",
+      "selectProduct": "Chọn Sản Phẩm",
+      "quantity": "Số Lượng (kg)",
+      "quantityPlaceholder": "Nhập số lượng tính bằng kg",
+      "packaging": "Đóng Gói",
+      "selectPackaging": "Chọn Loại Đóng Gói",
+      "certifications": "Chứng Nhận Yêu Cầu",
+      "selectCertifications": "Chọn Chứng Nhận",
+      "shippingMethod": "Phương Thức Vận Chuyển",
+      "selectShipping": "Chọn Phương Thức Vận Chuyển",
+      "destination": "Điểm Đến",
+      "destinationPlaceholder": "Nhập thành phố/cảng đích",
+      "deliveryDate": "Ngày Giao Hàng Mong Muốn",
+      "companyName": "Tên Công Ty",
+      "companyNamePlaceholder": "Nhập tên công ty",
+      "contactPerson": "Người Liên Hệ",
+      "contactPersonPlaceholder": "Nhập tên người liên hệ",
+      "email": "Địa Chỉ Email",
+      "emailPlaceholder": "Nhập địa chỉ email",
+      "phone": "Số Điện Thoại",
+      "phonePlaceholder": "Nhập số điện thoại",
+      "message": "Yêu Cầu Bổ Sung",
+      "messagePlaceholder": "Có yêu cầu đặc biệt hoặc câu hỏi nào không?",
+      "previous": "Quay Lại",
+      "next": "Tiếp Theo",
+      "submit": "Gửi Yêu Cầu Báo Giá",
+      "submitting": "Đang Gửi...",
+      "success": "Yêu cầu báo giá đã được gửi thành công!",
+      "error": "Lỗi khi gửi yêu cầu báo giá. Vui lòng thử lại.",
+      "description": "Gửi yêu cầu cà phê của bạn và nhận báo giá cạnh tranh từ các nhà cung cấp.",
+      "fields": {
+        "productType": {
+          "label": "Loại Sản Phẩm",
+          "placeholder": "Chọn loại cà phê",
+          "options": {
+            "robusta": "Robusta",
+            "arabica": "Arabica",
+            "blend": "Pha Trộn"
+          }
+        },
+        "grade": {
+          "label": "Cấp Độ",
+          "placeholder": "Chọn cấp độ"
+        },
+        "processing": {
+          "label": "Phương Pháp Chế Biến",
+          "placeholder": "Chọn phương pháp chế biến",
+          "options": {
+            "washed": "Rửa Ướt",
+            "natural": "Tự Nhiên",
+            "honey": "Mật Ong",
+            "wet_hulled": "Bóc Vỏ Ướt"
+          }
+        },
+        "quantity": {
+          "label": "Số Lượng (MT)",
+          "placeholder": "Nhập số lượng tính bằng tấn"
+        },
+        "packaging": {
+          "label": "Đóng Gói",
+          "placeholder": "Chọn loại đóng gói",
+          "options": {
+            "jute_bags": "Bao Đay (60kg)",
+            "pp_bags": "Bao PP (60kg)",
+            "bulk": "Container Rời"
+          }
+        },
+        "incoterms": {
+          "label": "Điều Kiện Giao Hàng",
+          "placeholder": "Chọn điều kiện giao hàng",
+          "options": {
+            "fob": "FOB (Giao Hàng Tại Cảng)",
+            "cif": "CIF (Bao Gồm Cước Phí & Bảo Hiểm)",
+            "cfr": "CFR (Bao Gồm Cước Phí)",
+            "exw": "EXW (Giao Tại Xưởng)"
+          }
+        },
+        "destination": {
+          "label": "Cảng Đích",
+          "placeholder": "Nhập cảng đích"
+        },
+        "deliveryDate": {
+          "label": "Ngày Giao Hàng Yêu Cầu",
+          "placeholder": "Chọn ngày giao hàng"
+        },
+        "companyName": {
+          "label": "Tên Công Ty",
+          "placeholder": "Nhập tên công ty"
+        },
+        "contactPerson": {
+          "label": "Người Liên Hệ",
+          "placeholder": "Nhập tên người liên hệ"
+        },
+        "email": {
+          "label": "Địa Chỉ Email",
+          "placeholder": "Nhập địa chỉ email"
+        },
+        "phone": {
+          "label": "Số Điện Thoại",
+          "placeholder": "Nhập số điện thoại"
+        },
+        "country": {
+          "label": "Quốc Gia",
+          "placeholder": "Chọn quốc gia"
+        },
+        "additionalRequirements": {
+          "label": "Yêu Cầu Bổ Sung",
+          "placeholder": "Yêu cầu đặc biệt hoặc ghi chú..."
+        }
+      },
+      "buttons": {
+        "next": "Tiếp Theo",
+        "previous": "Quay Lại",
+        "submit": "Gửi Yêu Cầu",
+        "submitting": "Đang Gửi..."
+      },
+      "validation": {
+        "required": "Trường này là bắt buộc",
+        "email": "Vui lòng nhập địa chỉ email hợp lệ",
+        "phone": "Vui lòng nhập số điện thoại hợp lệ",
+        "quantity": "Vui lòng nhập số lượng hợp lệ",
+        "date": "Vui lòng chọn ngày hợp lệ"
+      },
+      "success": {
+        "title": "Yêu cầu đã được gửi thành công!",
+        "message": "Cảm ơn bạn đã gửi yêu cầu. Chúng tôi sẽ xem xét yêu cầu của bạn và gửi báo giá cạnh tranh trong vòng 24 giờ.",
+        "referenceNumber": "Số tham chiếu: {id}",
+        "nextSteps": {
+          "title": "Bước tiếp theo là gì?",
+          "steps": [
+            "Đội ngũ của chúng tôi sẽ xem xét yêu cầu của bạn",
+            "Chúng tôi sẽ tạo báo giá chi tiết với giá cả",
+            "Bạn sẽ nhận được báo giá qua email trong vòng 24 giờ",
+            "Đội ngũ bán hàng sẽ liên hệ để thảo luận chi tiết"
+          ]
+        },
+        "actions": {
+          "viewDetails": "Xem Chi Tiết Yêu Cầu",
+          "newRequest": "Gửi Yêu Cầu Mới",
+          "backToHome": "Quay Về Trang Chủ"
+        }
+      }
+    },
+    "rfq": {
+      "actions": {
+        "back": "Quay Lại Danh Sách RFQ",
+        "share": "Chia Sẻ",
+        "download": "Tải Xuống",
+        "contact": "Liên Hệ Bán Hàng",
+        "edit": "Chỉnh Sửa Yêu Cầu",
+        "downloadPDF": "Tải PDF"
+      },
+      "detail": {
+        "quickActions": "Hành Động Nhanh",
+        "quickActionsDescription": "Quản lý RFQ của bạn với các hành động nhanh này",
+        "viewFullDetails": "Xem Chi Tiết Đầy Đủ",
+        "status": "Trạng Thái",
+        "priority": "Độ Ưu Tiên",
+        "estimatedValue": "Giá Trị Ước Tính",
+        "responseDeadline": "Hạn Phản Hồi",
+        "statusManagement": "Quản Lý Trạng Thái",
+        "statusManagementDescription": "Theo dõi và quản lý trạng thái RFQ của bạn"
+      }
+    },
+    "statusManager": {
+      "changeStatus": "Thay Đổi Trạng Thái"
+    },
+    "filters": {
+      "search": "Tìm kiếm RFQ...",
+      "status": "Trạng Thái",
+      "priority": "Độ Ưu Tiên",
+      "dateRange": "Khoảng Thời Gian",
+      "allStatuses": "Tất Cả Trạng Thái",
+      "allPriorities": "Tất Cả Độ Ưu Tiên",
+      "advanced": "Nâng Cao",
+      "reset": "Đặt Lại",
+      "sort": "Sắp Xếp Theo",
+      "sortOptions": {
+        "rfqNumber": "Số RFQ",
+        "productType": "Loại Sản Phẩm",
+        "quantity": "Số Lượng",
+        "estimatedValue": "Giá Trị Ước Tính",
+        "status": "Trạng Thái",
+        "priority": "Độ Ưu Tiên",
+        "submittedAt": "Ngày Gửi",
+        "responseDeadline": "Hạn Phản Hồi",
+        "assignedTo": "Được Giao Cho"
+      }
+    },
+    "table": {
+      "rfqNumber": "Số RFQ",
+      "productType": "Loại Sản Phẩm",
+      "quantity": "Số Lượng",
+      "estimatedValue": "Giá Trị Ước Tính",
+      "status": "Trạng Thái",
+      "priority": "Độ Ưu Tiên",
+      "submittedAt": "Ngày Gửi",
+      "responseDeadline": "Hạn Chót",
+      "assignedTo": "Được Giao Cho",
+      "actions": "Hành Động",
+      "view": "Xem",
+      "download": "Tải Xuống",
+      "contact": "Liên Hệ Khách Hàng",
+      "noResults": "Không tìm thấy RFQ",
+      "noResultsDescription": "Thử điều chỉnh bộ lọc hoặc từ khóa tìm kiếm",
+      "showing": "Hiển thị",
+      "to": "đến",
+      "of": "trong tổng số",
+      "entries": "mục",
+      "filtered": "được lọc từ",
+      "total": "tổng cộng"
+    },
+    "status": {
+      "pending": "Đang Chờ",
+      "submitted": "Đã Gửi",
+      "underReview": "Đang Xem Xét",
+      "in_progress": "Đang Xử Lý",
+      "quoted": "Đã Báo Giá",
+      "negotiating": "Đang Đàm Phán",
+      "accepted": "Đã Chấp Nhận",
+      "rejected": "Đã Từ Chối",
+      "expired": "Đã Hết Hạn",
+      "processing": "Đang Xử Lý"
+    },
+    "statusHistory": {
+      "title": "Lịch Sử Trạng Thái",
+      "updatedBy": "Cập nhật bởi {name}"
+    },
+    "priority": {
+      "low": "Thấp",
+      "medium": "Trung Bình",
+      "high": "Cao",
+      "urgent": "Khẩn Cấp"
+    },
+    "detail": {
+      "title": "Chi Tiết Yêu Cầu Báo Giá",
+      "submittedOn": "Gửi Vào",
+      "lastUpdated": "Cập Nhật Lần Cuối",
+      "productDetails": "Chi Tiết Sản Phẩm",
+      "quantitySpecs": "Số Lượng & Thông Số",
+      "shippingInfo": "Thông Tin Vận Chuyển",
+      "estimatedPrice": "Giá Ước Tính",
+      "downloadQuote": "Tải Báo Giá",
+      "tabs": {
+        "overview": "Tổng Quan",
+        "requirements": "Yêu Cầu",
+        "company": "Công Ty",
+        "timeline": "Dòng Thời Gian",
+        "quotes": "Báo Giá",
+        "documents": "Tài Liệu",
+        "status": "Trạng Thái"
+      },
+      "productInformation": "Thông Tin Sản Phẩm",
+      "timelineInfo": "Thông Tin Dòng Thời Gian",
+      "deliveryInfo": "Thông Tin Giao Hàng",
+      "contactInfo": "Thông Tin Liên Hệ",
+      "productType": "Loại Sản Phẩm",
+      "quantity": "Số Lượng",
+      "estimatedValue": "Giá Trị Ước Tính",
+      "certifications": "Chứng Nhận",
+      "submittedAt": "Gửi Vào",
+      "lastUpdate": "Cập Nhật Lần Cuối",
+      "responseDeadline": "Hạn Phản Hồi",
+      "assignedTo": "Được Giao Cho",
+      "companyName": "Tên Công Ty",
+      "contactPerson": "Người Liên Hệ",
+      "variety": "Giống",
+      "grade": "Cấp Độ",
+      "processing": "Chế Biến",
+      "origin": "Xuất Xứ",
+      "moistureContent": "Độ Ẩm",
+      "screenSize": "Kích Thước Sàng",
+      "defectRate": "Tỷ Lệ Lỗi",
+      "incoterms": "Điều Kiện Giao Hàng",
+      "destination": "Điểm Đến",
+      "preferredDeliveryDate": "Ngày Giao Hàng Mong Muốn",
+      "packagingRequirements": "Yêu Cầu Đóng Gói",
+      "paymentTerms": "Điều Kiện Thanh Toán",
+      "paymentMethod": "Phương Thức Thanh Toán",
+      "currency": "Tiền Tệ",
+      "businessType": "Loại Hình Kinh Doanh",
+      "annualVolume": "Khối Lượng Hàng Năm",
+      "additionalNotes": "Ghi Chú Bổ Sung",
+      "attachments": "Tệp Đính Kèm",
+      "download": "Tải Xuống",
+      "noAttachments": "Không có tệp đính kèm",
+      "noTimeline": "Không có dòng thời gian",
+      "noQuotes": "Không có báo giá",
+      "quotedPrice": "Giá Báo Giá",
+      "validUntil": "Có Hiệu Lực Đến",
+      "terms": "Điều Kiện",
+      "notes": "Ghi Chú",
+      "quickActions": "Hành Động Nhanh",
+      "quickActionsDescription": "Quản lý RFQ này với các hành động sau",
+      "viewFullDetails": "Xem Chi Tiết Đầy Đủ",
+      "status": "Trạng Thái",
+      "priority": "Độ Ưu Tiên",
+      "requirements": "Yêu Cầu",
+      "actions": {
+        "back": "Quay Lại Danh Sách RFQ",
+        "share": "Chia Sẻ Báo Giá",
+        "download": "Tải Xuống",
+        "contact": "Liên Hệ Với Chúng Tôi",
+        "edit": "Chỉnh Sửa Yêu Cầu",
+        "downloadPDF": "Tải PDF"
+      },
+      "statusManager": {
+        "changeStatus": "Thay Đổi Trạng Thái",
+        "confirmTransition": "Xác Nhận Thay Đổi Trạng Thái",
+        "confirmTransitionDescription": "Bạn có chắc chắn muốn thay đổi trạng thái từ {from} thành {to}?",
+        "note": "Ghi Chú",
+        "notePlaceholder": "Thêm ghi chú cho việc thay đổi trạng thái này...",
+        "cancel": "Hủy",
+        "confirm": "Xác Nhận",
+        "updating": "Đang Cập Nhật..."
+      },
+      "statusHistory": {
+        "title": "Lịch Sử Trạng Thái",
+        "updatedBy": "Cập nhật bởi {name}"
+      },
+      "statusManagement": "Quản Lý Trạng Thái",
+      "statusManagementDescription": "Theo dõi và quản lý trạng thái của RFQ này",
+      "name": "Tên",
+      "title": "Chức Danh",
+      "email": "Email",
+      "phone": "Điện Thoại",
+      "rfqTimeline": "Dòng Thời Gian RFQ",
+      "timelineDescription": "Theo dõi tiến trình và cập nhật yêu cầu báo giá của bạn",
+      "noTimelineEvents": "Không có sự kiện dòng thời gian",
+      "receivedQuotes": "Báo Giá Đã Nhận",
+      "quotesDescription": "Xem xét và so sánh báo giá từ đội ngũ của chúng tôi",
+      "quoteNumber": "Báo Giá Số",
+      "acceptQuote": "Chấp Nhận Báo Giá",
+      "negotiate": "Đàm Phán",
+      "noQuotesYet": "Chưa nhận được báo giá nào",
+      "quotesWorkingMessage": "Đội ngũ của chúng tôi đang làm việc trên yêu cầu của bạn và sẽ cung cấp báo giá sớm.",
+      "close": "Đóng",
+      "contactSales": "Liên Hệ Bán Hàng"
+    }
   }
 }

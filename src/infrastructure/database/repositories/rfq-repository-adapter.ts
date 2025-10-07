@@ -1,11 +1,11 @@
-import { RFQRepository } from './rfq.repository';
-
 import { RFQEntity } from '@/domain/entities/rfq.entity';
 import type {
   IRFQRepository,
   RFQSearchCriteria,
   RFQSearchResult,
 } from '@/domain/repositories/rfq.repository';
+
+import { RFQRepository } from './rfq.repository';
 
 export class RFQRepositoryAdapter implements IRFQRepository {
   private repository: RFQRepository;

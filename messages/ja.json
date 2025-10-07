@@ -262,5 +262,345 @@
         "customization": "要件に応じた風味、焙煎レベル、パッケージのカスタマイズ"
       }
     }
+  },
+  "rfq": {
+    "title": "RFQ管理",
+    "subtitle": "すべての見積もり依頼を追跡・管理",
+    "newRFQ": "新規RFQ",
+    "refresh": "更新",
+    "totalRFQs": "総RFQ数",
+    "activeQuotes": "アクティブな見積もり",
+    "pendingReviews": "保留中のレビュー",
+    "totalEstimatedValue": "推定総額",
+    "form": {
+      "title": "見積もり依頼",
+      "subtitle": "コーヒーのご要望をお聞かせください。詳細な見積もりをご提供いたします。",
+      "step1": "製品選択",
+      "step2": "数量・仕様",
+      "step3": "配送・納期",
+      "step4": "連絡先情報",
+      "productType": "製品タイプ",
+      "selectProduct": "製品を選択",
+      "quantity": "数量（kg）",
+      "quantityPlaceholder": "数量をkg単位で入力",
+      "packaging": "包装",
+      "selectPackaging": "包装タイプを選択",
+      "certifications": "必要な認証",
+      "selectCertifications": "認証を選択",
+      "shippingMethod": "配送方法",
+      "selectShipping": "配送方法を選択",
+      "destination": "配送先",
+      "destinationPlaceholder": "配送先都市/港を入力",
+      "deliveryDate": "希望納期",
+      "companyName": "会社名",
+      "companyNamePlaceholder": "会社名を入力",
+      "contactPerson": "担当者",
+      "contactPersonPlaceholder": "担当者名を入力",
+      "email": "メールアドレス",
+      "emailPlaceholder": "メールアドレスを入力",
+      "phone": "電話番号",
+      "phonePlaceholder": "電話番号を入力",
+      "message": "追加要件",
+      "messagePlaceholder": "特別な要件やご質問はありますか？",
+      "previous": "戻る",
+      "next": "次へ",
+      "submit": "見積もり依頼を送信",
+      "submitting": "送信中...",
+      "success": "見積もり依頼が正常に送信されました！",
+      "error": "見積もり依頼の送信に失敗しました。再度お試しください。",
+      "description": "コーヒーのご要望を送信し、サプライヤーから競争力のある見積もりを受け取ります。",
+      "fields": {
+        "productType": {
+          "label": "製品タイプ",
+          "placeholder": "コーヒータイプを選択",
+          "options": {
+            "robusta": "ロブスタ",
+            "arabica": "アラビカ",
+            "blend": "ブレンド"
+          }
+        },
+        "grade": {
+          "label": "グレード",
+          "placeholder": "グレードを選択"
+        },
+        "processing": {
+          "label": "精製方法",
+          "placeholder": "精製方法を選択",
+          "options": {
+            "washed": "ウォッシュド",
+            "natural": "ナチュラル",
+            "honey": "ハニー",
+            "wet_hulled": "ウェットハル"
+          }
+        },
+        "quantity": {
+          "label": "数量（MT）",
+          "placeholder": "メトリックトン単位で数量を入力"
+        },
+        "packaging": {
+          "label": "包装",
+          "placeholder": "包装タイプを選択",
+          "options": {
+            "jute_bags": "ジュート袋（60kg）",
+            "pp_bags": "PP袋（60kg）",
+            "bulk": "バルクコンテナ"
+          }
+        },
+        "incoterms": {
+          "label": "インコタームズ",
+          "placeholder": "配送条件を選択",
+          "options": {
+            "fob": "FOB（本船渡し）",
+            "cif": "CIF（運賃保険料込み）",
+            "cfr": "CFR（運賃込み）",
+            "exw": "EXW（工場渡し）"
+          }
+        },
+        "destination": {
+          "label": "仕向港",
+          "placeholder": "仕向港を入力"
+        },
+        "deliveryDate": {
+          "label": "必要納期",
+          "placeholder": "納期を選択"
+        },
+        "companyName": {
+          "label": "会社名",
+          "placeholder": "会社名を入力"
+        },
+        "contactPerson": {
+          "label": "担当者",
+          "placeholder": "担当者名を入力"
+        },
+        "email": {
+          "label": "メールアドレス",
+          "placeholder": "メールアドレスを入力"
+        },
+        "phone": {
+          "label": "電話番号",
+          "placeholder": "電話番号を入力"
+        },
+        "country": {
+          "label": "国",
+          "placeholder": "国を選択"
+        },
+        "additionalRequirements": {
+          "label": "追加要件",
+          "placeholder": "特別な要件やメモ..."
+        }
+      },
+      "buttons": {
+        "next": "次へ",
+        "previous": "戻る",
+        "submit": "依頼を送信",
+        "submitting": "送信中..."
+      },
+      "validation": {
+        "required": "この項目は必須です",
+        "email": "有効なメールアドレスを入力してください",
+        "phone": "有効な電話番号を入力してください",
+        "quantity": "有効な数量を入力してください",
+        "date": "有効な日付を選択してください"
+      },
+      "success": {
+        "title": "依頼が正常に送信されました！",
+        "message": "ご依頼ありがとうございます。ご要件を確認し、24時間以内に競争力のある見積もりをお送りいたします。",
+        "referenceNumber": "参照番号：{id}",
+        "nextSteps": {
+          "title": "次のステップ",
+          "steps": [
+            "チームがご要件を確認いたします",
+            "価格を含む詳細な見積もりを作成いたします",
+            "24時間以内にメールで見積もりをお送りいたします",
+            "営業チームが詳細について連絡いたします"
+          ]
+        },
+        "actions": {
+          "viewDetails": "依頼詳細を表示",
+          "newRequest": "新しい依頼を送信",
+          "backToHome": "ホームに戻る"
+        }
+      }
+    },
+    "rfq": {
+      "actions": {
+        "back": "RFQリストに戻る",
+        "share": "共有",
+        "download": "ダウンロード",
+        "contact": "営業に連絡",
+        "edit": "依頼を編集",
+        "downloadPDF": "PDFダウンロード"
+      },
+      "detail": {
+        "quickActions": "クイックアクション",
+        "quickActionsDescription": "これらのクイックアクションでRFQを管理",
+        "viewFullDetails": "詳細を表示",
+        "status": "ステータス",
+        "priority": "優先度",
+        "estimatedValue": "推定価値",
+        "responseDeadline": "回答期限",
+        "statusManagement": "ステータス管理",
+        "statusManagementDescription": "RFQのステータスを追跡・管理"
+      }
+    },
+    "statusManager": {
+      "changeStatus": "ステータス変更"
+    },
+    "filters": {
+      "search": "RFQを検索...",
+      "status": "ステータス",
+      "priority": "優先度",
+      "dateRange": "日付範囲",
+      "allStatuses": "すべてのステータス",
+      "allPriorities": "すべての優先度",
+      "advanced": "詳細",
+      "reset": "リセット",
+      "sort": "並び替え",
+      "sortOptions": {
+        "rfqNumber": "RFQ番号",
+        "productType": "製品タイプ",
+        "quantity": "数量",
+        "estimatedValue": "推定価値",
+        "status": "ステータス",
+        "priority": "優先度",
+        "submittedAt": "提出日",
+        "responseDeadline": "回答期限",
+        "assignedTo": "担当者"
+      }
+    },
+    "table": {
+      "rfqNumber": "RFQ番号",
+      "productType": "製品タイプ",
+      "quantity": "数量",
+      "estimatedValue": "推定価値",
+      "status": "ステータス",
+      "priority": "優先度",
+      "submittedAt": "提出日",
+      "responseDeadline": "期限",
+      "assignedTo": "担当者",
+      "actions": "アクション",
+      "view": "表示",
+      "download": "ダウンロード",
+      "contact": "顧客に連絡",
+      "noResults": "RFQが見つかりません",
+      "noResultsDescription": "フィルターや検索条件を調整してみてください",
+      "showing": "表示中",
+      "to": "から",
+      "of": "件中",
+      "entries": "エントリ",
+      "filtered": "フィルタ済み",
+      "total": "総計"
+    },
+    "status": {
+      "pending": "保留中",
+      "submitted": "提出済み",
+      "underReview": "審査中",
+      "in_progress": "進行中",
+      "quoted": "見積もり済み",
+      "negotiating": "交渉中",
+      "accepted": "承認済み",
+      "rejected": "却下",
+      "expired": "期限切れ",
+      "processing": "処理中"
+    },
+    "statusHistory": {
+      "title": "ステータス履歴",
+      "updatedBy": "{name}により更新"
+    },
+    "priority": {
+      "low": "低",
+      "medium": "中",
+      "high": "高",
+      "urgent": "緊急"
+    },
+    "detail": {
+      "title": "見積もり依頼詳細",
+      "submittedOn": "提出日",
+      "lastUpdated": "最終更新",
+      "productDetails": "製品詳細",
+      "quantitySpecs": "数量・仕様",
+      "shippingInfo": "配送情報",
+      "estimatedPrice": "推定価格",
+      "downloadQuote": "見積もりダウンロード",
+      "tabs": {
+        "overview": "概要",
+        "requirements": "要件",
+        "company": "会社",
+        "timeline": "タイムライン",
+        "quotes": "見積もり",
+        "documents": "書類",
+        "status": "ステータス"
+      },
+      "productInformation": "製品情報",
+      "timelineInfo": "タイムライン情報",
+      "deliveryInfo": "配送情報",
+      "contactInfo": "連絡先情報",
+      "productType": "製品タイプ",
+      "quantity": "数量",
+      "estimatedValue": "推定価値",
+      "certifications": "認証",
+      "submittedAt": "提出日",
+      "lastUpdate": "最終更新",
+      "responseDeadline": "回答期限",
+      "assignedTo": "担当者",
+      "companyName": "会社名",
+      "contactPerson": "担当者",
+      "variety": "品種",
+      "grade": "グレード",
+      "processing": "精製",
+      "origin": "産地",
+      "moistureContent": "水分含有量",
+      "screenSize": "スクリーンサイズ",
+      "defectRate": "欠点率",
+      "incoterms": "インコタームズ",
+      "destination": "配送先",
+      "preferredDeliveryDate": "希望納期",
+      "packagingRequirements": "包装要件",
+      "paymentTerms": "支払い条件",
+      "paymentMethod": "支払い方法",
+      "currency": "通貨",
+      "businessType": "事業タイプ",
+      "annualVolume": "年間取扱量",
+      "additionalNotes": "追加メモ",
+      "attachments": "添付ファイル",
+      "download": "ダウンロード",
+      "noAttachments": "添付ファイルなし",
+      "noTimeline": "タイムラインなし",
+      "noQuotes": "見積もりなし",
+      "quotedPrice": "見積もり価格",
+      "validUntil": "有効期限",
+      "terms": "条件",
+      "notes": "メモ",
+      "quickActions": "クイックアクション",
+      "quickActionsDescription": "以下のアクションでこのRFQを管理",
+      "viewFullDetails": "詳細を表示",
+      "status": "ステータス",
+      "priority": "優先度",
+      "requirements": "要件",
+      "actions": {
+        "back": "RFQリストに戻る",
+        "share": "見積もりを共有",
+        "download": "ダウンロード",
+        "contact": "お問い合わせ",
+        "edit": "依頼を編集",
+        "downloadPDF": "PDFダウンロード"
+      },
+      "statusManager": {
+        "changeStatus": "ステータス変更",
+        "confirmTransition": "ステータス変更の確認",
+        "confirmTransitionDescription": "ステータスを{from}から{to}に変更してもよろしいですか？",
+        "note": "メモ",
+        "notePlaceholder": "このステータス変更にメモを追加...",
+        "cancel": "キャンセル",
+        "confirm": "確認",
+        "updating": "更新中..."
+      },
+      "statusHistory": {
+        "title": "ステータス履歴",
+        "updatedBy": "{name}により更新"
+      },
+      "statusManagement": "ステータス管理",
+      "statusManagementDescription": "このRFQのステータスを追跡・管理"
+    }
   }
 }

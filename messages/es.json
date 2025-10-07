@@ -262,5 +262,345 @@
         "customization": "Personalización de sabor, nivel de tostado y empaque según requisitos"
       }
     }
+  },
+  "rfq": {
+    "title": "Gestión de Solicitudes de Cotización",
+    "subtitle": "Rastrea y gestiona todas tus solicitudes de cotización",
+    "newRFQ": "Nueva Solicitud",
+    "refresh": "Actualizar",
+    "totalRFQs": "Total de Solicitudes",
+    "activeQuotes": "Cotizaciones Activas",
+    "pendingReviews": "Pendientes de Revisión",
+    "totalEstimatedValue": "Valor Total Estimado",
+    "form": {
+      "title": "Solicitud de Cotización",
+      "subtitle": "Comparte tus necesidades de café y crearemos una cotización detallada para ti.",
+      "step1": "Selección de Producto",
+      "step2": "Cantidad y Especificaciones",
+      "step3": "Envío y Entrega",
+      "step4": "Información de Contacto",
+      "productType": "Tipo de Producto",
+      "selectProduct": "Seleccionar Producto",
+      "quantity": "Cantidad (kg)",
+      "quantityPlaceholder": "Ingresa la cantidad en kg",
+      "packaging": "Empaque",
+      "selectPackaging": "Seleccionar Tipo de Empaque",
+      "certifications": "Certificaciones Requeridas",
+      "selectCertifications": "Seleccionar Certificaciones",
+      "shippingMethod": "Método de Envío",
+      "selectShipping": "Seleccionar Método de Envío",
+      "destination": "Destino",
+      "destinationPlaceholder": "Ingresa ciudad/puerto de destino",
+      "deliveryDate": "Fecha de Entrega Deseada",
+      "companyName": "Nombre de la Empresa",
+      "companyNamePlaceholder": "Ingresa el nombre de la empresa",
+      "contactPerson": "Persona de Contacto",
+      "contactPersonPlaceholder": "Ingresa el nombre de la persona de contacto",
+      "email": "Dirección de Email",
+      "emailPlaceholder": "Ingresa la dirección de email",
+      "phone": "Número de Teléfono",
+      "phonePlaceholder": "Ingresa el número de teléfono",
+      "message": "Requisitos Adicionales",
+      "messagePlaceholder": "¿Tienes requisitos especiales o preguntas?",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "submit": "Enviar Solicitud de Cotización",
+      "submitting": "Enviando...",
+      "success": "¡Solicitud de cotización enviada exitosamente!",
+      "error": "Error al enviar la solicitud de cotización. Inténtalo de nuevo.",
+      "description": "Envía tu solicitud de café y recibe cotizaciones competitivas de nuestros proveedores.",
+      "fields": {
+        "productType": {
+          "label": "Tipo de Producto",
+          "placeholder": "Selecciona el tipo de café",
+          "options": {
+            "robusta": "Robusta",
+            "arabica": "Arábica",
+            "blend": "Mezcla"
+          }
+        },
+        "grade": {
+          "label": "Grado",
+          "placeholder": "Selecciona el grado"
+        },
+        "processing": {
+          "label": "Método de Procesamiento",
+          "placeholder": "Selecciona el método de procesamiento",
+          "options": {
+            "washed": "Lavado",
+            "natural": "Natural",
+            "honey": "Honey",
+            "wet_hulled": "Descascarillado Húmedo"
+          }
+        },
+        "quantity": {
+          "label": "Cantidad (TM)",
+          "placeholder": "Ingresa la cantidad en toneladas métricas"
+        },
+        "packaging": {
+          "label": "Empaque",
+          "placeholder": "Selecciona el tipo de empaque",
+          "options": {
+            "jute_bags": "Sacos de Yute (60kg)",
+            "pp_bags": "Sacos PP (60kg)",
+            "bulk": "Contenedor a Granel"
+          }
+        },
+        "incoterms": {
+          "label": "Términos de Entrega",
+          "placeholder": "Selecciona los términos de entrega",
+          "options": {
+            "fob": "FOB (Franco a Bordo)",
+            "cif": "CIF (Costo, Seguro y Flete)",
+            "cfr": "CFR (Costo y Flete)",
+            "exw": "EXW (Ex Works)"
+          }
+        },
+        "destination": {
+          "label": "Puerto de Destino",
+          "placeholder": "Ingresa el puerto de destino"
+        },
+        "deliveryDate": {
+          "label": "Fecha de Entrega Solicitada",
+          "placeholder": "Selecciona la fecha de entrega"
+        },
+        "companyName": {
+          "label": "Nombre de la Empresa",
+          "placeholder": "Ingresa el nombre de la empresa"
+        },
+        "contactPerson": {
+          "label": "Persona de Contacto",
+          "placeholder": "Ingresa el nombre de la persona de contacto"
+        },
+        "email": {
+          "label": "Dirección de Email",
+          "placeholder": "Ingresa la dirección de email"
+        },
+        "phone": {
+          "label": "Número de Teléfono",
+          "placeholder": "Ingresa el número de teléfono"
+        },
+        "country": {
+          "label": "País",
+          "placeholder": "Selecciona el país"
+        },
+        "additionalRequirements": {
+          "label": "Requisitos Adicionales",
+          "placeholder": "Requisitos especiales o notas..."
+        }
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "submit": "Enviar Solicitud",
+        "submitting": "Enviando..."
+      },
+      "validation": {
+        "required": "Este campo es obligatorio",
+        "email": "Ingresa una dirección de email válida",
+        "phone": "Ingresa un número de teléfono válido",
+        "quantity": "Ingresa una cantidad válida",
+        "date": "Selecciona una fecha válida"
+      },
+      "success": {
+        "title": "¡Solicitud enviada exitosamente!",
+        "message": "Gracias por enviar tu solicitud. Revisaremos tu solicitud y te enviaremos una cotización competitiva dentro de 24 horas.",
+        "referenceNumber": "Número de referencia: {id}",
+        "nextSteps": {
+          "title": "¿Cuáles son los siguientes pasos?",
+          "steps": [
+            "Nuestro equipo revisará tu solicitud",
+            "Crearemos una cotización detallada con precios",
+            "Recibirás la cotización por email dentro de 24 horas",
+            "El equipo de ventas te contactará para discutir los detalles"
+          ]
+        },
+        "actions": {
+          "viewDetails": "Ver Detalles de la Solicitud",
+          "newRequest": "Enviar Nueva Solicitud",
+          "backToHome": "Volver al Inicio"
+        }
+      }
+    },
+    "rfq": {
+      "actions": {
+        "back": "Volver a la Lista de Solicitudes",
+        "share": "Compartir",
+        "download": "Descargar",
+        "contact": "Contactar Ventas",
+        "edit": "Editar Solicitud",
+        "downloadPDF": "Descargar PDF"
+      },
+      "detail": {
+        "quickActions": "Acciones Rápidas",
+        "quickActionsDescription": "Gestiona tu solicitud con estas acciones rápidas",
+        "viewFullDetails": "Ver Detalles Completos",
+        "status": "Estado",
+        "priority": "Prioridad",
+        "estimatedValue": "Valor Estimado",
+        "responseDeadline": "Fecha Límite de Respuesta",
+        "statusManagement": "Gestión de Estado",
+        "statusManagementDescription": "Rastrea y gestiona el estado de tu solicitud"
+      }
+    },
+    "statusManager": {
+      "changeStatus": "Cambiar Estado"
+    },
+    "filters": {
+      "search": "Buscar solicitudes...",
+      "status": "Estado",
+      "priority": "Prioridad",
+      "dateRange": "Rango de Fechas",
+      "allStatuses": "Todos los Estados",
+      "allPriorities": "Todas las Prioridades",
+      "advanced": "Avanzado",
+      "reset": "Restablecer",
+      "sort": "Ordenar por",
+      "sortOptions": {
+        "rfqNumber": "Número de Solicitud",
+        "productType": "Tipo de Producto",
+        "quantity": "Cantidad",
+        "estimatedValue": "Valor Estimado",
+        "status": "Estado",
+        "priority": "Prioridad",
+        "submittedAt": "Fecha de Envío",
+        "responseDeadline": "Fecha Límite de Respuesta",
+        "assignedTo": "Asignado a"
+      }
+    },
+    "table": {
+      "rfqNumber": "N° de Solicitud",
+      "productType": "Tipo de Producto",
+      "quantity": "Cantidad",
+      "estimatedValue": "Valor Estimado",
+      "status": "Estado",
+      "priority": "Prioridad",
+      "submittedAt": "Fecha de Envío",
+      "responseDeadline": "Fecha Límite",
+      "assignedTo": "Asignado a",
+      "actions": "Acciones",
+      "view": "Ver",
+      "download": "Descargar",
+      "contact": "Contactar Cliente",
+      "noResults": "No se encontraron solicitudes",
+      "noResultsDescription": "Intenta ajustar los filtros o palabras clave de búsqueda",
+      "showing": "Mostrando",
+      "to": "a",
+      "of": "de",
+      "entries": "entradas",
+      "filtered": "filtrado de",
+      "total": "total"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "submitted": "Enviada",
+      "underReview": "En Revisión",
+      "in_progress": "En Progreso",
+      "quoted": "Cotizada",
+      "negotiating": "Negociando",
+      "accepted": "Aceptada",
+      "rejected": "Rechazada",
+      "expired": "Expirada",
+      "processing": "Procesando"
+    },
+    "statusHistory": {
+      "title": "Historial de Estado",
+      "updatedBy": "Actualizado por {name}"
+    },
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta",
+      "urgent": "Urgente"
+    },
+    "detail": {
+      "title": "Detalles de Solicitud de Cotización",
+      "submittedOn": "Enviada el",
+      "lastUpdated": "Última Actualización",
+      "productDetails": "Detalles del Producto",
+      "quantitySpecs": "Cantidad y Especificaciones",
+      "shippingInfo": "Información de Envío",
+      "estimatedPrice": "Precio Estimado",
+      "downloadQuote": "Descargar Cotización",
+      "tabs": {
+        "overview": "Resumen",
+        "requirements": "Requisitos",
+        "company": "Empresa",
+        "timeline": "Cronología",
+        "quotes": "Cotizaciones",
+        "documents": "Documentos",
+        "status": "Estado"
+      },
+      "productInformation": "Información del Producto",
+      "timelineInfo": "Información de Cronología",
+      "deliveryInfo": "Información de Entrega",
+      "contactInfo": "Información de Contacto",
+      "productType": "Tipo de Producto",
+      "quantity": "Cantidad",
+      "estimatedValue": "Valor Estimado",
+      "certifications": "Certificaciones",
+      "submittedAt": "Enviada el",
+      "lastUpdate": "Última Actualización",
+      "responseDeadline": "Fecha Límite de Respuesta",
+      "assignedTo": "Asignado a",
+      "companyName": "Nombre de la Empresa",
+      "contactPerson": "Persona de Contacto",
+      "variety": "Variedad",
+      "grade": "Grado",
+      "processing": "Procesamiento",
+      "origin": "Origen",
+      "moistureContent": "Contenido de Humedad",
+      "screenSize": "Tamaño de Criba",
+      "defectRate": "Tasa de Defectos",
+      "incoterms": "Términos de Entrega",
+      "destination": "Destino",
+      "preferredDeliveryDate": "Fecha de Entrega Preferida",
+      "packagingRequirements": "Requisitos de Empaque",
+      "paymentTerms": "Términos de Pago",
+      "paymentMethod": "Método de Pago",
+      "currency": "Moneda",
+      "businessType": "Tipo de Negocio",
+      "annualVolume": "Volumen Anual",
+      "additionalNotes": "Notas Adicionales",
+      "attachments": "Archivos Adjuntos",
+      "download": "Descargar",
+      "noAttachments": "Sin archivos adjuntos",
+      "noTimeline": "Sin cronología",
+      "noQuotes": "Sin cotizaciones",
+      "quotedPrice": "Precio Cotizado",
+      "validUntil": "Válido Hasta",
+      "terms": "Términos",
+      "notes": "Notas",
+      "quickActions": "Acciones Rápidas",
+      "quickActionsDescription": "Gestiona esta solicitud con las siguientes acciones",
+      "viewFullDetails": "Ver Detalles Completos",
+      "status": "Estado",
+      "priority": "Prioridad",
+      "requirements": "Requisitos",
+      "actions": {
+        "back": "Volver a la Lista de Solicitudes",
+        "share": "Compartir Cotización",
+        "download": "Descargar",
+        "contact": "Contáctanos",
+        "edit": "Editar Solicitud",
+        "downloadPDF": "Descargar PDF"
+      },
+      "statusManager": {
+        "changeStatus": "Cambiar Estado",
+        "confirmTransition": "Confirmar Cambio de Estado",
+        "confirmTransitionDescription": "¿Estás seguro de que quieres cambiar el estado de {from} a {to}?",
+        "note": "Nota",
+        "notePlaceholder": "Agrega una nota para este cambio de estado...",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "updating": "Actualizando..."
+      },
+      "statusHistory": {
+        "title": "Historial de Estado",
+        "updatedBy": "Actualizado por {name}"
+      },
+      "statusManagement": "Gestión de Estado",
+      "statusManagementDescription": "Rastrea y gestiona el estado de esta solicitud"
+    }
   }
 }

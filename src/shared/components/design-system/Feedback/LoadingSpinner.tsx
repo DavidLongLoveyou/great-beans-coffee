@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { SizeVariant } from '../types';
-
 import { cn } from '@/shared/utils/cn';
+
+import { SizeVariant } from '../types';
 
 interface LoadingSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: SizeVariant;

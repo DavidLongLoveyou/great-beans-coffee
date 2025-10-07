@@ -6,13 +6,13 @@ import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n';
 import { MarketInfo } from '@/presentation/components/features/MarketInfo';
 import { SEOHead } from '@/presentation/components/seo/SEOHead';
-import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   generateMetadata as generateSEOMetadata,
   generateOrganizationSchema,

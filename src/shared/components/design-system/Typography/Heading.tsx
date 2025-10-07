@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { TypographyProps } from '../types';
-
 import { cn } from '@/shared/utils/cn';
+
+import { TypographyProps } from '../types';
 
 // Heading variant styles
 const headingVariants = {

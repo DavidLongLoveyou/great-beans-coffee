@@ -6,7 +6,6 @@ import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n';
 import { getServicePages } from '@/lib/contentlayer';
 import { SEOHead } from '@/presentation/components/seo';
-import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -14,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   generateMetadata as generateSEOMetadata,
   generateOrganizationSchema,

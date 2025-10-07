@@ -21,7 +21,10 @@ export function ServerHeroSection({
   ctaSecondaryHref = '/products',
 }: ServerHeroSectionProps) {
   return (
-    <section className="relative min-h-[90vh] overflow-hidden bg-gradient-to-br from-forest-900 via-forest-800 to-forest-900">
+    <section 
+      data-testid="hero-section"
+      className="relative min-h-[90vh] overflow-hidden bg-gradient-to-br from-forest-900 via-forest-800 to-forest-900"
+    >
       {/* Background Image Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-forest-900/90 via-forest-800/80 to-forest-900/90"></div>
 
@@ -49,11 +52,7 @@ export function ServerHeroSection({
 
             {/* Main Title */}
             <h1 className="mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl xl:text-7xl">
-              <span className="block">Premium</span>
-              <span className="text-gradient-emerald block bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
-                Vietnamese Coffee
-              </span>
-              <span className="block">Export Solutions</span>
+              {title}
             </h1>
 
             {/* Subtitle */}

@@ -257,7 +257,10 @@ export function OptimizedImage({
         loading={
           loading || (lazy && !optimizeForLCP && !priority ? 'lazy' : 'eager')
         }
-        placeholder={placeholder || (showBlurPlaceholder && imageBlurDataURL ? 'blur' : 'empty')}
+        placeholder={
+          placeholder ||
+          (showBlurPlaceholder && imageBlurDataURL ? 'blur' : 'empty')
+        }
         {...(imageBlurDataURL && { blurDataURL: imageBlurDataURL })}
       />
 

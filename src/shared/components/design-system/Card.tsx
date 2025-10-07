@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import React, { forwardRef } from 'react';
 
-import { CardProps } from './types';
-
 import { cn } from '@/shared/utils/cn';
+
+import { CardProps } from './types';
 
 // Card variant styles
 const cardVariants = {

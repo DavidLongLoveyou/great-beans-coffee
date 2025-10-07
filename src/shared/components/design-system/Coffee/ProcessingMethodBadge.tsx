@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { ProcessingMethodBadgeProps, ProcessingMethod } from '../types';
-
 import { cn } from '@/shared/utils/cn';
+
+import { ProcessingMethodBadgeProps, ProcessingMethod } from '../types';
 
 // Processing method metadata
 const processingData: Record<

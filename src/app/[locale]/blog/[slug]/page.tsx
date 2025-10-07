@@ -16,7 +16,6 @@ import { type Locale } from '@/i18n';
 import { getBlogPostBySlug, getBlogPosts } from '@/lib/contentlayer';
 import { MDXContent } from '@/presentation/components/MDXContent';
 import { SEOHead } from '@/presentation/components/seo';
-import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   Card,
   CardContent,
@@ -24,11 +23,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { ServerButton } from '@/presentation/components/ui/server-button';
+import { ContentImage } from '@/shared/components/performance/OptimizedImage';
 import {
   generateMetadata as generateSEOMetadata,
   generateArticleSchema,
 } from '@/shared/utils/seo-utils';
-import { ContentImage } from '@/shared/components/performance/OptimizedImage';
 
 interface BlogPostPageProps {
   params: Promise<{ locale: Locale; slug: string }>;

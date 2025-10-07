@@ -1,13 +1,13 @@
 'use client';
 
-import { 
-  Eye, 
-  ShoppingCart, 
-  ArrowUpDown, 
-  Grid3X3, 
+import {
+  Eye,
+  ShoppingCart,
+  ArrowUpDown,
+  Grid3X3,
   List,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -36,12 +36,12 @@ import {
   OriginFlag,
   ProcessingMethodBadge,
 } from '@/shared/components/design-system/Coffee';
-import { CardImage } from '@/shared/components/performance/OptimizedImage';
 import type {
   CoffeeGrade,
   ProcessingMethod,
   CoffeeCertification,
 } from '@/shared/components/design-system/types';
+import { CardImage } from '@/shared/components/performance/OptimizedImage';
 
 export interface Product {
   id: string;
@@ -100,11 +100,11 @@ const sortOptions = [
 
 const PRODUCTS_PER_PAGE = 12;
 
-export function ProductGrid({ 
-  products, 
-  locale, 
+export function ProductGrid({
+  products,
+  locale,
   viewMode = 'grid',
-  onViewModeChange 
+  onViewModeChange,
 }: ProductGridProps) {
   const t = useTranslations('products');
   const [sortBy, setSortBy] = useState<SortOption>('featured');
@@ -112,7 +112,7 @@ export function ProductGrid({
 
   const sortedProducts = useMemo(() => {
     const sorted = [...products];
-    
+
     switch (sortBy) {
       case 'name':
         return sorted.sort((a, b) => a.name.localeCompare(b.name));
@@ -146,13 +146,13 @@ export function ProductGrid({
 
   const ProductCard = ({ product }: { product: Product }) => (
     <Card
-      className="group overflow-hidden transition-all duration-300 hover:shadow-forest-glow hover:shadow-xl border-forest-200/50"
+      className="group overflow-hidden border-forest-200/50 transition-all duration-300 hover:shadow-forest-glow hover:shadow-xl"
       data-testid="product-card"
     >
       <div className="relative aspect-video bg-forest-50">
         <CardImage
-            src="/images/coffee-placeholder.svg"
-            alt={product.name}
+          src="/images/coffee-placeholder.svg"
+          alt={product.name}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -175,7 +175,7 @@ export function ProductGrid({
           <ProcessingMethodBadge method={product.processingMethod} />
           <OriginFlag origin="vietnam" />
         </div>
-        <CardTitle className="text-lg text-forest-800 group-hover:text-emerald-700 transition-colors">
+        <CardTitle className="text-lg text-forest-800 transition-colors group-hover:text-emerald-700">
           {product.name}
         </CardTitle>
         <CardDescription className="text-forest-600">
@@ -185,40 +185,49 @@ export function ProductGrid({
       <CardContent>
         <div className="space-y-3">
           <div className="flex flex-wrap gap-1">
-            {product.certifications.map((cert) => (
+            {product.certifications.map(cert => (
               <CertificationBadge key={cert} certification={cert} />
             ))}
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div className="rounded border border-forest-100 bg-forest-50 p-2">
               <span className="font-medium text-forest-700">Moisture:</span>{' '}
-              <span className="text-forest-600">{product.specifications.moisture}%</span>
+              <span className="text-forest-600">
+                {product.specifications.moisture}%
+              </span>
             </div>
             <div className="rounded border border-forest-100 bg-forest-50 p-2">
               <span className="font-medium text-forest-700">Screen:</span>{' '}
-              <span className="text-forest-600">{product.specifications.screenSize}</span>
+              <span className="text-forest-600">
+                {product.specifications.screenSize}
+              </span>
             </div>
             <div className="rounded border border-forest-100 bg-forest-50 p-2">
               <span className="font-medium text-forest-700">Defects:</span>{' '}
-              <span className="text-forest-600">{product.specifications.defectRate}%</span>
+              <span className="text-forest-600">
+                {product.specifications.defectRate}%
+              </span>
             </div>
             {product.specifications.cuppingScore && (
               <div className="rounded border border-sage-100 bg-sage-50 p-2">
                 <span className="font-medium text-sage-700">Cupping:</span>{' '}
-                <span className="text-sage-600">{product.specifications.cuppingScore}</span>
+                <span className="text-sage-600">
+                  {product.specifications.cuppingScore}
+                </span>
               </div>
             )}
           </div>
           <div className="flex items-center justify-between border-t border-forest-100 pt-2">
             <span className="text-xl font-bold text-forest-800">
-              ${product.pricing.basePrice.toLocaleString()}/{product.pricing.unit}
+              ${product.pricing.basePrice.toLocaleString()}/
+              {product.pricing.unit}
             </span>
             <div className="flex gap-2">
               <ServerButton
                 variant="outline"
                 size="sm"
                 asChild
-                className="hover:shadow-forest-medium border-forest-200 text-forest-600 hover:bg-forest-50"
+                className="border-forest-200 text-forest-600 hover:bg-forest-50 hover:shadow-forest-medium"
               >
                 <Link href={`/${locale}/products/${product.id}`}>
                   <Eye className="mr-1 h-4 w-4" />
@@ -243,7 +252,7 @@ export function ProductGrid({
   );
 
   const ProductListItem = ({ product }: { product: Product }) => (
-    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-forest-medium border-forest-200/50">
+    <Card className="group overflow-hidden border-forest-200/50 transition-all duration-300 hover:shadow-forest-medium">
       <CardContent className="p-6">
         <div className="flex gap-6">
           {/* Product Image */}
@@ -270,20 +279,22 @@ export function ProductGrid({
                 <ProcessingMethodBadge method={product.processingMethod} />
                 <OriginFlag origin="vietnam" />
                 <Badge
-                  variant={product.availability.inStock ? 'default' : 'destructive'}
+                  variant={
+                    product.availability.inStock ? 'default' : 'destructive'
+                  }
                   className="text-xs"
                 >
                   {product.availability.inStock ? 'In Stock' : 'Out of Stock'}
                 </Badge>
               </div>
-              <h3 className="text-xl font-semibold text-forest-800 group-hover:text-emerald-700 transition-colors">
+              <h3 className="text-xl font-semibold text-forest-800 transition-colors group-hover:text-emerald-700">
                 {product.name}
               </h3>
               <p className="text-forest-600">{product.shortDescription}</p>
             </div>
 
             <div className="flex flex-wrap gap-1">
-              {product.certifications.map((cert) => (
+              {product.certifications.map(cert => (
                 <CertificationBadge key={cert} certification={cert} />
               ))}
             </div>
@@ -291,20 +302,28 @@ export function ProductGrid({
             <div className="grid grid-cols-4 gap-4 text-sm">
               <div>
                 <span className="font-medium text-forest-700">Moisture:</span>{' '}
-                <span className="text-forest-600">{product.specifications.moisture}%</span>
+                <span className="text-forest-600">
+                  {product.specifications.moisture}%
+                </span>
               </div>
               <div>
                 <span className="font-medium text-forest-700">Screen:</span>{' '}
-                <span className="text-forest-600">{product.specifications.screenSize}</span>
+                <span className="text-forest-600">
+                  {product.specifications.screenSize}
+                </span>
               </div>
               <div>
                 <span className="font-medium text-forest-700">Defects:</span>{' '}
-                <span className="text-forest-600">{product.specifications.defectRate}%</span>
+                <span className="text-forest-600">
+                  {product.specifications.defectRate}%
+                </span>
               </div>
               {product.specifications.cuppingScore && (
                 <div>
                   <span className="font-medium text-sage-700">Cupping:</span>{' '}
-                  <span className="text-sage-600">{product.specifications.cuppingScore}</span>
+                  <span className="text-sage-600">
+                    {product.specifications.cuppingScore}
+                  </span>
                 </div>
               )}
             </div>
@@ -313,14 +332,15 @@ export function ProductGrid({
           {/* Price and Actions */}
           <div className="flex flex-col items-end justify-between">
             <span className="text-2xl font-bold text-forest-800">
-              ${product.pricing.basePrice.toLocaleString()}/{product.pricing.unit}
+              ${product.pricing.basePrice.toLocaleString()}/
+              {product.pricing.unit}
             </span>
             <div className="flex gap-2">
               <ServerButton
                 variant="outline"
                 size="sm"
                 asChild
-                className="hover:shadow-forest-medium border-forest-200 text-forest-600 hover:bg-forest-50"
+                className="border-forest-200 text-forest-600 hover:bg-forest-50 hover:shadow-forest-medium"
               >
                 <Link href={`/${locale}/products/${product.id}`}>
                   <Eye className="mr-1 h-4 w-4" />
@@ -346,12 +366,16 @@ export function ProductGrid({
 
   if (products.length === 0) {
     return (
-      <div className="text-center py-12">
-        <div className="text-forest-400 mb-4">
-          <ShoppingCart className="h-16 w-16 mx-auto" />
+      <div className="py-12 text-center">
+        <div className="mb-4 text-forest-400">
+          <ShoppingCart className="mx-auto h-16 w-16" />
         </div>
-        <h3 className="text-xl font-semibold text-forest-700 mb-2">No products found</h3>
-        <p className="text-forest-600">Try adjusting your filters to see more results.</p>
+        <h3 className="mb-2 text-xl font-semibold text-forest-700">
+          No products found
+        </h3>
+        <p className="text-forest-600">
+          Try adjusting your filters to see more results.
+        </p>
       </div>
     );
   }
@@ -362,20 +386,24 @@ export function ProductGrid({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <span className="text-sm text-forest-600">
-            Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} products
+            Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)}{' '}
+            of {sortedProducts.length} products
           </span>
         </div>
-        
+
         <div className="flex items-center gap-4">
           {/* Sort */}
           <div className="flex items-center gap-2">
             <ArrowUpDown className="h-4 w-4 text-forest-600" />
-            <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
+            <Select
+              value={sortBy}
+              onValueChange={(value: SortOption) => setSortBy(value)}
+            >
               <SelectTrigger className="w-48 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {sortOptions.map((option) => (
+                {sortOptions.map(option => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
@@ -386,7 +414,7 @@ export function ProductGrid({
 
           {/* View Mode Toggle */}
           {onViewModeChange && (
-            <div className="flex rounded-md border border-forest-200 overflow-hidden">
+            <div className="flex overflow-hidden rounded-md border border-forest-200">
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 size="sm"
@@ -411,13 +439,13 @@ export function ProductGrid({
       {/* Products */}
       {viewMode === 'grid' ? (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {currentProducts.map((product) => (
+          {currentProducts.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       ) : (
         <div className="space-y-4">
-          {currentProducts.map((product) => (
+          {currentProducts.map(product => (
             <ProductListItem key={product.id} product={product} />
           ))}
         </div>
@@ -433,12 +461,12 @@ export function ProductGrid({
             disabled={currentPage === 1}
             className="border-forest-200 text-forest-600 hover:bg-forest-50"
           >
-            <ChevronLeft className="h-4 w-4 mr-1" />
+            <ChevronLeft className="mr-1 h-4 w-4" />
             Previous
           </Button>
-          
+
           <div className="flex gap-1">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
               <Button
                 key={page}
                 variant={page === currentPage ? 'default' : 'outline'}
@@ -454,7 +482,7 @@ export function ProductGrid({
               </Button>
             ))}
           </div>
-          
+
           <Button
             variant="outline"
             size="sm"
@@ -463,7 +491,7 @@ export function ProductGrid({
             className="border-forest-200 text-forest-600 hover:bg-forest-50"
           >
             Next
-            <ChevronRight className="h-4 w-4 ml-1" />
+            <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
         </div>
       )}

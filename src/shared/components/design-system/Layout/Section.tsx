@@ -2,11 +2,11 @@
 
 import React, { forwardRef } from 'react';
 
+import { cn } from '@/shared/utils/cn';
+
 import { SectionProps } from '../types';
 
 import { Container } from './Container';
-
-import { cn } from '@/shared/utils/cn';
 
 // Section background variants
 const sectionBackgrounds = {

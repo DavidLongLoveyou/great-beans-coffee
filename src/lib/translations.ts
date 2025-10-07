@@ -1,6 +1,6 @@
-import { getMessages } from './messages';
-
 import { createScopedLogger } from '@/shared/utils/logger';
+
+import { getMessages } from './messages';
 
 const logger = createScopedLogger('Translations');
 

@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { CoffeeGradeIndicatorProps, CoffeeGrade } from '../types';
-
 import { cn } from '@/shared/utils/cn';
+
+import { CoffeeGradeIndicatorProps, CoffeeGrade } from '../types';
 
 // Coffee grade metadata
 const gradeData: Record<

@@ -120,7 +120,60 @@
     },
     "logistics": {
       "title": "Logistics & Shipping",
-      "description": "End-to-end logistics solutions with competitive freight rates"
+      "description": "End-to-end logistics solutions with competitive freight rates",
+      "estimator": {
+        "title": "Logistics Cost Estimator",
+        "subtitle": "Calculate shipping costs for your coffee orders",
+        "quantity": "Quantity",
+        "unit": "Unit",
+        "cargoValue": "Cargo Value (USD)",
+        "originPort": "Origin Port",
+        "destinationPort": "Destination Port",
+        "destinationCountry": "Destination Country",
+        "shippingMethod": "Shipping Method",
+        "incoterms": "Incoterms",
+        "containerType": "Container Type",
+        "calculate": "Calculate Shipping Cost",
+        "calculating": "Calculating...",
+        "totalCost": "Total Cost",
+        "transitTime": "Transit Time",
+        "costBreakdown": "Cost Breakdown",
+        "baseShipping": "Base Shipping Cost",
+        "handling": "Handling & Port Charges",
+        "insurance": "Marine Insurance",
+        "documentation": "Documentation",
+        "disclaimer": "This is an estimate only. Actual costs may vary based on current market rates, fuel surcharges, seasonal factors, and specific routing. Please contact us for a detailed quotation.",
+        "methods": {
+          "seaFreight": "Sea Freight",
+          "airFreight": "Air Freight",
+          "landTransport": "Land Transport",
+          "seaDescription": "Most economical for large volumes",
+          "airDescription": "Fastest delivery option",
+          "landDescription": "For regional deliveries"
+        },
+        "containers": {
+          "20ft": "20ft Container",
+          "40ft": "40ft Container",
+          "40ftHC": "40ft High Cube",
+          "bulk": "Bulk Shipping"
+        },
+        "incotermsOptions": {
+          "exw": "EXW - Ex Works",
+          "fca": "FCA - Free Carrier",
+          "fob": "FOB - Free on Board",
+          "cfr": "CFR - Cost and Freight",
+          "cif": "CIF - Cost, Insurance and Freight",
+          "dap": "DAP - Delivered at Place",
+          "ddp": "DDP - Delivered Duty Paid"
+        },
+        "errors": {
+          "quantityRequired": "Please enter a valid quantity",
+          "originPortRequired": "Please select origin port",
+          "destinationPortRequired": "Please enter destination port",
+          "destinationCountryRequired": "Please enter destination country",
+          "insuranceValueInvalid": "Please enter a valid insurance value"
+        }
+      }
     },
     "qualityControl": {
       "title": "Quality Control",
@@ -327,6 +380,442 @@
       ]
     }
   },
+  "rfq": {
+    "title": "RFQ Management",
+    "subtitle": "Track and manage all your Request for Quote submissions",
+    "newRFQ": "New RFQ",
+    "refresh": "Refresh",
+    "totalRFQs": "Total RFQs",
+    "activeQuotes": "Active Quotes",
+    "pendingReviews": "Pending Reviews",
+    "totalEstimatedValue": "Total Estimated Value",
+    "page": {
+      "title": "RFQ Management",
+      "description": "Monitor and manage all your Request for Quote submissions in one place.",
+      "refresh": "Refresh",
+      "newRfq": "New RFQ",
+      "summaryCards": {
+        "totalRfqs": "Total RFQs",
+        "activeQuotes": "Active Quotes",
+        "pendingReview": "Pending Review",
+        "totalValue": "Total Value"
+      }
+    },
+    "form": {
+      "title": "Request a Quote",
+      "subtitle": "Tell us about your coffee requirements and we'll provide you with a detailed quote.",
+      "step1": "Product Selection",
+      "step2": "Quantity & Specifications",
+      "step3": "Shipping & Delivery",
+      "step4": "Contact Information",
+      "productType": "Product Type",
+      "selectProduct": "Select a product",
+      "quantity": "Quantity (kg)",
+      "quantityPlaceholder": "Enter quantity in kg",
+      "packaging": "Packaging",
+      "selectPackaging": "Select packaging type",
+      "certifications": "Required Certifications",
+      "selectCertifications": "Select certifications",
+      "shippingMethod": "Shipping Method",
+      "selectShipping": "Select shipping method",
+      "destination": "Destination",
+      "destinationPlaceholder": "Enter destination city/port",
+      "deliveryDate": "Preferred Delivery Date",
+      "companyName": "Company Name",
+      "companyNamePlaceholder": "Enter your company name",
+      "contactPerson": "Contact Person",
+      "contactPersonPlaceholder": "Enter contact person name",
+      "email": "Email Address",
+      "emailPlaceholder": "Enter your email address",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter your phone number",
+      "message": "Additional Requirements",
+      "messagePlaceholder": "Any specific requirements or questions?",
+      "previous": "Previous",
+      "next": "Next",
+      "submit": "Submit Quote Request",
+      "submitting": "Submitting...",
+      "success": "Quote request submitted successfully!",
+      "error": "Failed to submit quote request. Please try again.",
+      "description": "Submit your coffee requirements and get competitive quotes from our suppliers.",
+      "fields": {
+        "productType": {
+          "label": "Product Type",
+          "placeholder": "Select coffee type",
+          "options": {
+            "robusta": "Robusta",
+            "arabica": "Arabica",
+            "blend": "Blend"
+          }
+        },
+        "grade": {
+          "label": "Grade",
+          "placeholder": "Select grade"
+        },
+        "processing": {
+          "label": "Processing Method",
+          "placeholder": "Select processing method",
+          "options": {
+            "washed": "Washed",
+            "natural": "Natural",
+            "honey": "Honey",
+            "wet_hulled": "Wet Hulled"
+          }
+        },
+        "quantity": {
+          "label": "Quantity (MT)",
+          "placeholder": "Enter quantity in metric tons"
+        },
+        "packaging": {
+          "label": "Packaging",
+          "placeholder": "Select packaging type",
+          "options": {
+            "jute_bags": "Jute Bags (60kg)",
+            "pp_bags": "PP Bags (60kg)",
+            "bulk": "Bulk Container"
+          }
+        },
+        "incoterms": {
+          "label": "Incoterms",
+          "placeholder": "Select delivery terms",
+          "options": {
+            "fob": "FOB (Free on Board)",
+            "cif": "CIF (Cost, Insurance & Freight)",
+            "cfr": "CFR (Cost & Freight)",
+            "exw": "EXW (Ex Works)"
+          }
+        },
+        "destination": {
+          "label": "Destination Port",
+          "placeholder": "Enter destination port"
+        },
+        "deliveryDate": {
+          "label": "Required Delivery Date",
+          "placeholder": "Select delivery date"
+        },
+        "companyName": {
+          "label": "Company Name",
+          "placeholder": "Enter your company name"
+        },
+        "contactPerson": {
+          "label": "Contact Person",
+          "placeholder": "Enter contact person name"
+        },
+        "email": {
+          "label": "Email Address",
+          "placeholder": "Enter email address"
+        },
+        "phone": {
+          "label": "Phone Number",
+          "placeholder": "Enter phone number"
+        },
+        "country": {
+          "label": "Country",
+          "placeholder": "Select your country"
+        },
+        "additionalRequirements": {
+          "label": "Additional Requirements",
+          "placeholder": "Any specific requirements or notes..."
+        }
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "submit": "Submit Request",
+        "submitting": "Submitting..."
+      },
+      "validation": {
+        "required": "This field is required",
+        "email": "Please enter a valid email address",
+        "phone": "Please enter a valid phone number",
+        "quantity": "Please enter a valid quantity",
+        "date": "Please select a valid date"
+      },
+      "success": {
+        "title": "Request Submitted Successfully!",
+        "message": "Thank you for your request. We'll review your requirements and send you a competitive quote within 24 hours.",
+        "referenceNumber": "Reference Number: {id}",
+        "nextSteps": {
+          "title": "What happens next?",
+          "steps": [
+            "Our team will review your requirements",
+            "We'll prepare a detailed quote with pricing",
+            "You'll receive the quote via email within 24 hours",
+            "Our sales team will follow up to discuss details"
+          ]
+        },
+        "actions": {
+          "viewDetails": "View Request Details",
+          "newRequest": "Submit New Request",
+          "backToHome": "Back to Home"
+        }
+      }
+    },
+    "rfq": {
+      "actions": {
+        "back": "Back to RFQ List",
+        "share": "Share",
+        "download": "Download",
+        "contact": "Contact Sales",
+        "edit": "Edit Request",
+        "downloadPDF": "Download PDF"
+      },
+      "detail": {
+        "quickActions": "Quick Actions",
+        "quickActionsDescription": "Manage your RFQ with these quick actions",
+        "viewFullDetails": "View Full Details",
+        "status": "Status",
+        "priority": "Priority",
+        "estimatedValue": "Estimated Value",
+        "responseDeadline": "Response Deadline",
+        "statusManagement": "Status Management",
+        "statusManagementDescription": "Track and manage the status of your RFQ"
+      }
+    },
+    "statusManager": {
+      "changeStatus": "Change Status"
+    },
+    "filters": {
+      "title": "Filters",
+      "activeCount": "{count} active filters",
+      "resultsCount": "Showing {filtered} of {total} results",
+      "clearAll": "Clear All",
+      "clear": "Clear",
+      "search": {
+        "label": "Search",
+        "placeholder": "Search RFQs..."
+      },
+      "status": {
+        "label": "Status",
+        "all": "All Statuses"
+      },
+      "priority": {
+        "label": "Priority",
+        "all": "All Priorities"
+      },
+      "sort": {
+        "label": "Sort by",
+        "submittedDate": "Submitted Date",
+        "lastUpdate": "Last Update",
+        "deadline": "Response Deadline",
+        "value": "Estimated Value",
+        "rfqNumber": "RFQ Number",
+        "priority": "Priority",
+        "status": "Status",
+        "ascending": "Ascending",
+        "descending": "Descending",
+        "asc": "Asc",
+        "desc": "Desc"
+      },
+      "advanced": {
+        "title": "Advanced Filters",
+        "submittedDateFrom": "Submitted From",
+        "submittedDateTo": "Submitted To",
+        "pickDate": "Pick a date",
+        "minValue": "Min Value",
+        "minValuePlaceholder": "Enter minimum value",
+        "maxValue": "Max Value",
+        "maxValuePlaceholder": "Enter maximum value",
+        "assignedTo": "Assigned To",
+        "assignedToPlaceholder": "Enter assignee name"
+      }
+    },
+    "table": {
+      "title": "RFQ List",
+      "description": "Manage and track all Request for Quote submissions",
+      "headers": {
+        "rfqNumber": "RFQ Number",
+        "productCompany": "Product / Company",
+        "quantity": "Quantity",
+        "estimatedValue": "Estimated Value",
+        "status": "Status",
+        "priority": "Priority",
+        "submitted": "Submitted",
+        "deadline": "Deadline",
+        "assignedTo": "Assigned To",
+        "actions": "Actions"
+      },
+      "labels": {
+        "updated": "Updated",
+        "contact": "Contact",
+        "quantity": "Quantity",
+        "estimatedValue": "Estimated Value",
+        "submitted": "Submitted",
+        "deadline": "Deadline",
+        "expired": "Expired",
+        "urgent": "Urgent",
+        "unassigned": "Unassigned"
+      },
+      "actions": {
+        "view": "View"
+      },
+      "emptyState": {
+        "title": "No RFQs found",
+        "description": "Try adjusting your filters or search terms",
+        "createButton": "Create New RFQ"
+      },
+      "pagination": {
+        "itemsPerPage": "Items per page",
+        "showing": "Showing {start} to {end} of {total} entries",
+        "filtered": "(filtered from {total} total entries)",
+        "firstPage": "Go to first page",
+        "previousPage": "Go to previous page",
+        "nextPage": "Go to next page",
+        "lastPage": "Go to last page"
+      }
+    },
+    "status": {
+      "pending": "Pending",
+      "submitted": "Submitted",
+      "underReview": "Under Review",
+      "in_progress": "In Progress",
+      "quoted": "Quoted",
+      "negotiating": "Negotiating",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "expired": "Expired",
+      "processing": "Processing"
+    },
+    "statusHistory": {
+      "title": "Status History",
+      "updatedBy": "Updated by {name}"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "detail": {
+        "title": "Quote Request Details",
+        "submittedOn": "Submitted on",
+        "lastUpdated": "Last updated",
+        "productDetails": "Product Details",
+        "quantitySpecs": "Quantity & Specifications",
+        "shippingInfo": "Shipping Information",
+        "estimatedPrice": "Estimated Price",
+        "downloadQuote": "Download Quote",
+        "tabs": {
+            "overview": "Overview",
+            "requirements": "Requirements",
+            "company": "Company",
+            "timeline": "Timeline",
+            "quotes": "Quotes",
+            "documents": "Documents",
+            "status": "Status"
+          },
+        "productInformation": "Product Information",
+        "productSpecifications": "Product Specifications",
+        "deliveryRequirements": "Delivery Requirements",
+        "companyInformation": "Company Information",
+        "timelineInfo": "Timeline Information",
+        "deliveryInfo": "Delivery Information",
+        "contactInfo": "Contact Information",
+        "productType": "Product Type",
+        "quantity": "Quantity",
+        "estimatedValue": "Estimated Value",
+        "certifications": "Certifications",
+        "submitted": "Submitted",
+        "submittedAt": "Submitted At",
+        "lastUpdate": "Last Update",
+        "responseDeadline": "Response Deadline",
+        "assignedTo": "Assigned To",
+        "companyName": "Company Name",
+        "contactPerson": "Contact Person",
+        "name": "Name",
+        "title": "Title",
+        "email": "Email",
+        "phone": "Phone",
+        "address": "Address",
+        "country": "Country",
+        "variety": "Variety",
+        "grade": "Grade",
+        "processing": "Processing",
+        "origin": "Origin",
+        "moistureContent": "Moisture Content",
+        "screenSize": "Screen Size",
+        "defectRate": "Defect Rate",
+        "incoterms": "Incoterms",
+        "destination": "Destination",
+        "preferredDelivery": "Preferred Delivery",
+        "preferredDeliveryDate": "Preferred Delivery Date",
+        "packaging": "Packaging",
+        "packagingRequirements": "Packaging Requirements",
+        "paymentTerms": "Payment Terms",
+        "paymentMethod": "Payment Method",
+        "currency": "Currency",
+        "businessType": "Business Type",
+        "annualVolume": "Annual Volume",
+        "additionalNotes": "Additional Notes",
+        "attachments": "Attachments",
+        "download": "Download",
+        "noAttachments": "No attachments",
+        "noTimeline": "No timeline available",
+        "noTimelineEvents": "No timeline events available",
+        "noQuotes": "No quotes available",
+        "noQuotesYet": "No quotes received yet",
+        "quotesWorkingMessage": "Our team is working on your request and will provide a quote soon.",
+        "receivedQuotes": "Received Quotes",
+        "quotesDescription": "Review and compare quotes from our team",
+        "quoteNumber": "Quote #{number}",
+        "quotedPrice": "Quoted Price",
+        "validUntil": "Valid until {date}",
+        "terms": "Terms",
+        "notes": "Notes",
+        "acceptQuote": "Accept Quote",
+        "negotiate": "Negotiate",
+        "rfqTimeline": "RFQ Timeline",
+        "timelineDescription": "Track the progress and updates of your quote request",
+        "close": "Close",
+        "contactSales": "Contact Sales",
+        "quickActions": "Quick Actions",
+      "quickActionsDescription": "Manage this RFQ with the following actions",
+      "viewFullDetails": "View Full Details",
+      "status": "Status",
+      "priority": "Priority",
+      "requirements": "Requirements",
+      "actions": {
+        "back": "Back to RFQ List",
+        "share": "Share Quote",
+        "download": "Download",
+        "contact": "Contact Us",
+        "edit": "Edit Request",
+        "downloadPDF": "Download PDF"
+      },
+      "statusManager": {
+        "changeStatus": "Change Status",
+        "confirmTransition": "Confirm Status Change",
+        "confirmTransitionDescription": "Are you sure you want to change the status from {from} to {to}?",
+        "note": "Note",
+        "notePlaceholder": "Add a note about this status change...",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "updating": "Updating..."
+      },
+      "statusHistory": {
+        "title": "Status History",
+        "updatedBy": "Updated by {name}"
+      },
+      "statusManagement": "Status Management",
+      "statusManagementDescription": "Track and manage the status of this RFQ",
+      "name": "Name",
+      "title": "Title",
+      "email": "Email",
+      "phone": "Phone",
+      "rfqTimeline": "RFQ Timeline",
+      "timelineDescription": "Track the progress and updates of your quote request",
+      "noTimelineEvents": "No timeline events available",
+      "receivedQuotes": "Received Quotes",
+      "quotesDescription": "Review and compare quotes from our team",
+      "quoteNumber": "Quote #",
+      "acceptQuote": "Accept Quote",
+      "negotiate": "Negotiate",
+      "noQuotesYet": "No quotes received yet",
+      "quotesWorkingMessage": "Our team is working on your request and will provide a quote soon.",
+      "close": "Close",
+      "contactSales": "Contact Sales"
+    }
+  },
   "blog": {
     "title": "Coffee Industry Insights & News",
     "description": "Stay updated with the latest trends, market analysis, and insights from the Vietnamese coffee industry.",
@@ -359,6 +848,143 @@
       "持続可能性": "Sustainability",
       "Bền Vững": "Sustainability",
       "Phân Tích Thị Trường": "Market Analysis"
+    }
+  },
+  "actions": {
+    "back": "Back",
+    "share": "Share",
+    "download": "Download",
+    "contact": "Contact",
+    "edit": "Edit",
+    "downloadPDF": "Download PDF"
+  },
+  "detail": {
+    "tabs": {
+      "overview": "Overview",
+      "requirements": "Requirements",
+      "timeline": "Timeline",
+      "documents": "Documents",
+      "status": "Status"
+    },
+    "productInformation": "Product Information",
+    "productType": "Product Type",
+    "quantity": "Quantity",
+    "variety": "Variety",
+    "grade": "Grade",
+    "processing": "Processing",
+    "origin": "Origin",
+    "deliveryInfo": "Delivery Information",
+    "incoterms": "Incoterms",
+    "destination": "Destination",
+    "preferredDeliveryDate": "Preferred Delivery Date",
+    "packagingRequirements": "Packaging Requirements",
+    "requirements": "Requirements",
+    "timelineInfo": "Timeline Information",
+    "submittedAt": "Submitted At",
+    "estimatedValue": "Estimated Value"
+  },
+  "statusManager": {
+    "changeStatus": "Change Status",
+    "confirmTransition": "Confirm Status Change",
+    "confirmTransitionDescription": "Are you sure you want to change the status from {from} to {to}?",
+    "note": "Note",
+    "notePlaceholder": "Add a note about this status change...",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "updating": "Updating..."
+  },
+  "statusHistory": {
+    "title": "Status History",
+    "updatedBy": "Updated by {name}"
+  },
+  "pdf": {
+    "generating": {
+      "title": "Generating PDF",
+      "productSpec": "Creating product specification sheet...",
+      "rfqDocument": "Creating RFQ document...",
+      "htmlToPdf": "Converting to PDF...",
+      "marketReport": "Generating market report...",
+      "certificate": "Creating certificate..."
+    },
+    "success": {
+      "title": "PDF Generated Successfully",
+      "productSpec": "Product specification sheet has been downloaded",
+      "rfqDocument": "RFQ document has been downloaded",
+      "htmlToPdf": "PDF has been downloaded",
+      "marketReport": "Market report has been downloaded",
+      "certificate": "Certificate has been downloaded"
+    },
+    "error": {
+      "title": "PDF Generation Failed",
+      "unknown": "An unknown error occurred during PDF generation",
+      "networkError": "Network error occurred. Please check your connection.",
+      "invalidData": "Invalid data provided for PDF generation",
+      "templateError": "PDF template error occurred",
+      "renderError": "Failed to render PDF content"
+    },
+    "batch": {
+      "generating": {
+        "title": "Generating Multiple PDFs",
+        "description": "Creating {count} PDF documents..."
+      },
+      "success": {
+        "title": "Batch Generation Complete",
+        "description": "All PDF documents have been generated successfully"
+      },
+      "error": {
+        "title": "Batch Generation Failed",
+        "description": "Some PDF documents could not be generated"
+      }
+    },
+    "buttons": {
+      "downloadSpec": "Download Spec Sheet",
+      "downloadRfq": "Download RFQ",
+      "downloadReport": "Download Report",
+      "downloadCertificate": "Download Certificate",
+      "generatePdf": "Generate PDF",
+      "downloading": "Downloading...",
+      "retry": "Retry Download"
+    },
+    "templates": {
+      "productSpec": {
+        "title": "Product Specification Sheet",
+        "subtitle": "Detailed technical specifications and quality information"
+      },
+      "rfqDocument": {
+        "title": "Request for Quote",
+        "subtitle": "Comprehensive quote request with all requirements"
+      },
+      "marketReport": {
+        "title": "Market Analysis Report",
+        "subtitle": "In-depth market insights and trends analysis"
+      },
+      "certificate": {
+        "title": "Quality Certificate",
+        "subtitle": "Official quality assurance documentation"
+      }
+    },
+    "options": {
+      "format": "Format",
+      "orientation": "Orientation",
+      "quality": "Quality",
+      "includeWatermark": "Include Watermark",
+      "includeHeader": "Include Header",
+      "includeFooter": "Include Footer",
+      "language": "Language"
+    },
+    "formats": {
+      "a4": "A4",
+      "letter": "Letter",
+      "legal": "Legal"
+    },
+    "orientations": {
+      "portrait": "Portrait",
+      "landscape": "Landscape"
+    },
+    "qualities": {
+      "low": "Low (Fast)",
+      "medium": "Medium",
+      "high": "High (Best Quality)"
     }
   }
 }

@@ -1,12 +1,12 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 
-import { useCoffeeProducts } from '../use-coffee-products';
-
 import { GetCoffeeProductsUseCase } from '@/application/use-cases/coffee-products/get-coffee-products.use-case';
 import {
   createMockCoffeeProduct,
   createMockPaginatedResponse,
 } from '@/test/utils';
+
+import { useCoffeeProducts } from '../use-coffee-products';
 
 // Mock the DI container exports
 jest.mock('@/infrastructure/di/container', () => ({

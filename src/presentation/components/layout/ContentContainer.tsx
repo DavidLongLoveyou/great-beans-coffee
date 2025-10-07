@@ -6,10 +6,10 @@ interface ContentContainerProps {
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
-export function ContentContainer({ 
-  children, 
-  className, 
-  size = 'lg' 
+export function ContentContainer({
+  children,
+  className,
+  size = 'lg',
 }: ContentContainerProps) {
   const sizeClasses = {
     sm: 'max-w-2xl',
@@ -20,11 +20,13 @@ export function ContentContainer({
   };
 
   return (
-    <div className={cn(
-      'mx-auto px-4 sm:px-6 lg:px-8',
-      sizeClasses[size],
-      className
-    )}>
+    <div
+      className={cn(
+        'mx-auto px-4 sm:px-6 lg:px-8',
+        sizeClasses[size],
+        className
+      )}
+    >
       {children}
     </div>
   );

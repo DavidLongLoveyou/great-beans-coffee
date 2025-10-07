@@ -73,7 +73,8 @@ const HydrationSafeNavigationMenuTrigger = React.forwardRef<
     />
   </NavigationMenuPrimitive.Trigger>
 ));
-HydrationSafeNavigationMenuTrigger.displayName = 'HydrationSafeNavigationMenuTrigger';
+HydrationSafeNavigationMenuTrigger.displayName =
+  'HydrationSafeNavigationMenuTrigger';
 
 const HydrationSafeNavigationMenuContent = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Content>,
@@ -88,7 +89,8 @@ const HydrationSafeNavigationMenuContent = React.forwardRef<
     {...props}
   />
 ));
-HydrationSafeNavigationMenuContent.displayName = 'HydrationSafeNavigationMenuContent';
+HydrationSafeNavigationMenuContent.displayName =
+  'HydrationSafeNavigationMenuContent';
 
 const HydrationSafeNavigationMenuLink = NavigationMenuPrimitive.Link;
 
@@ -119,7 +121,8 @@ const HydrationSafeNavigationMenuViewport = React.forwardRef<
     </div>
   );
 });
-HydrationSafeNavigationMenuViewport.displayName = 'HydrationSafeNavigationMenuViewport';
+HydrationSafeNavigationMenuViewport.displayName =
+  'HydrationSafeNavigationMenuViewport';
 
 const HydrationSafeNavigationMenuIndicator = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Indicator>,
@@ -136,7 +139,8 @@ const HydrationSafeNavigationMenuIndicator = React.forwardRef<
     <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" />
   </NavigationMenuPrimitive.Indicator>
 ));
-HydrationSafeNavigationMenuIndicator.displayName = 'HydrationSafeNavigationMenuIndicator';
+HydrationSafeNavigationMenuIndicator.displayName =
+  'HydrationSafeNavigationMenuIndicator';
 
 export {
   navigationMenuTriggerStyle,

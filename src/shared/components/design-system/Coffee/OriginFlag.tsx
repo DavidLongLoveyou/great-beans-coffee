@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { OriginFlagProps, CoffeeOrigin } from '../types';
-
 import { cn } from '@/shared/utils/cn';
+
+import { OriginFlagProps, CoffeeOrigin } from '../types';
 
 // Coffee origin metadata
 const originData: Record<

@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { TastingNotesProps, TastingNoteCategory } from '../types';
-
 import { cn } from '@/shared/utils/cn';
+
+import { TastingNotesProps, TastingNoteCategory } from '../types';
 
 // Tasting note categories and their notes
 const tastingNoteData: Record<
