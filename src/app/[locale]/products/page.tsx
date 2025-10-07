@@ -4,7 +4,7 @@ import { Coffee, ShoppingCart, Filter, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
 
-import { ProductFilters } from '@/presentation/components/catalog/ProductFilters';
+import { ProductFilters, type ProductFilters as ProductFiltersType } from '@/presentation/components/catalog/ProductFilters';
 import { ProductGrid } from '@/presentation/components/catalog/ProductGrid';
 import type { Product } from '@/presentation/components/catalog/ProductGrid';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
@@ -154,7 +154,7 @@ export default function ProductsPage() {
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(mockProducts);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<ProductFiltersType>({
     search: '',
     coffeeType: 'ALL',
     grade: 'ALL',

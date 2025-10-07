@@ -354,7 +354,7 @@ export function RFQListFilters({
                     <CalendarComponent
                       mode="single"
                       selected={filters.dateFrom}
-                      onSelect={date => handleFilterChange('dateFrom', date)}
+                      onSelect={(date: Date | undefined) => handleFilterChange('dateFrom', date)}
                       initialFocus
                     />
                   </PopoverContent>
@@ -382,7 +382,7 @@ export function RFQListFilters({
                     <CalendarComponent
                       mode="single"
                       selected={filters.dateTo}
-                      onSelect={date => handleFilterChange('dateTo', date)}
+                      onSelect={(date: Date | undefined) => handleFilterChange('dateTo', date)}
                       initialFocus
                     />
                   </PopoverContent>

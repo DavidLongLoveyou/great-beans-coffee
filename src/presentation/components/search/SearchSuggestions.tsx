@@ -1,0 +1,461 @@
+'use client';
+
+import { Search, TrendingUp, Clock, Hash, ArrowRight, Sparkles, Fire, Star } from 'lucide-react';
+import Link from 'next/link';
+
+import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import { Skeleton } from '@/presentation/components/ui/skeleton';
+import { cn } from '@/shared/utils/cn';
+
+export interface SearchSuggestion {
+  id: string;
+  text: string;
+  type: 'recent' | 'popular' | 'trending' | 'category' | 'tag';
+  count?: number;
+  url?: string;
+  description?: string;
+}
+
+export interface SearchSuggestionsProps {
+  suggestions: SearchSuggestion[];
+  recentSearches?: string[];
+  popularSearches?: string[];
+  trendingTopics?: string[];
+  categories?: Array<{ name: string; count: number; url: string }>;
+  tags?: Array<{ name: string; count: number; url: string }>;
+  onSuggestionClick?: (suggestion: SearchSuggestion) => void;
+  onSearchClick?: (query: string) => void;
+  loading?: boolean;
+  className?: string;
+  maxItems?: number;
+  showCategories?: boolean;
+  showTags?: boolean;
+  showRecent?: boolean;
+  showPopular?: boolean;
+  showTrending?: boolean;
+  variant?: 'default' | 'compact';
+}
+
+function SuggestionSkeleton({ variant = 'default' }: { variant?: 'default' | 'compact' }) {
+  return (
+    <div className={cn(
+      'flex items-center gap-3 animate-pulse',
+      variant === 'compact' ? 'p-2' : 'p-3'
+    )}>
+      <Skeleton className="h-4 w-4 rounded" />
+      <div className="flex-1 space-y-1">
+        <Skeleton className="h-4 w-3/4" />
+        {variant === 'default' && <Skeleton className="h-3 w-1/2" />}
+      </div>
+      <Skeleton className="h-5 w-8" />
+    </div>
+  );
+}
+
+function SuggestionItem({
+  suggestion,
+  onClick,
+  variant = 'default',
+  index = 0,
+}: {
+  suggestion: SearchSuggestion;
+  onClick?: (suggestion: SearchSuggestion) => void | undefined;
+  variant?: 'default' | 'compact';
+  index?: number;
+}) {
+  const getIcon = () => {
+    switch (suggestion.type) {
+      case 'recent':
+        return <Clock className="h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-colors" />;
+      case 'popular':
+        return <Fire className="h-4 w-4 text-orange-500 group-hover:text-orange-600 transition-colors" />;
+      case 'trending':
+        return <TrendingUp className="h-4 w-4 text-red-500 group-hover:text-red-600 transition-colors" />;
+      case 'category':
+        return <Hash className="h-4 w-4 text-green-500 group-hover:text-green-600 transition-colors" />;
+      case 'tag':
+        return <Hash className="h-4 w-4 text-purple-500 group-hover:text-purple-600 transition-colors" />;
+      default:
+        return <Search className="h-4 w-4 text-gray-400 group-hover:text-blue-500 transition-colors" />;
+    }
+  };
+
+  const getTypeColor = () => {
+    switch (suggestion.type) {
+      case 'popular':
+        return 'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100';
+      case 'trending':
+        return 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100';
+      case 'category':
+        return 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100';
+      case 'tag':
+        return 'bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100';
+      default:
+        return 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100';
+    }
+  };
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick(suggestion);
+    }
+  };
+
+  const content = (
+    <div className={cn(
+      'group flex items-center gap-3 transition-all duration-200 ease-out cursor-pointer rounded-lg',
+      'hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-indigo-50/30',
+      'hover:shadow-sm hover:scale-[1.02] hover:-translate-y-0.5',
+      'border border-transparent hover:border-blue-200/50',
+      'animate-in fade-in-0 slide-in-from-left-2',
+      variant === 'compact' ? 'p-2' : 'p-3'
+    )}
+    style={{
+      animationDelay: `${index * 50}ms`,
+      animationDuration: '300ms'
+    }}>
+      <div className="flex-shrink-0 transition-transform duration-200 group-hover:scale-110">
+        {getIcon()}
+      </div>
+      
+      <div className="flex-1 min-w-0">
+        <div className={cn(
+          'font-medium text-gray-900 truncate transition-colors duration-200',
+          'group-hover:text-blue-700',
+          variant === 'compact' ? 'text-sm' : 'text-sm'
+        )}>
+          {suggestion.text}
+        </div>
+        {variant === 'default' && suggestion.description && (
+          <div className="text-xs text-gray-500 truncate group-hover:text-gray-600 transition-colors">
+            {suggestion.description}
+          </div>
+        )}
+      </div>
+      
+      <div className="flex items-center gap-2">
+        {suggestion.count && (
+          <Badge className={cn(
+            'text-xs font-medium transition-all duration-200',
+            getTypeColor()
+          )}>
+            {suggestion.count.toLocaleString()}
+          </Badge>
+        )}
+        <ArrowRight className="h-3 w-3 text-gray-400 transition-all duration-200 group-hover:text-blue-500 group-hover:translate-x-0.5" />
+      </div>
+    </div>
+  );
+
+  if (suggestion.url) {
+    return (
+      <Link href={suggestion.url} onClick={handleClick} className="block">
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button type="button" onClick={handleClick} className="w-full text-left">
+      {content}
+    </button>
+  );
+}
+
+function SuggestionSection({
+  title,
+  icon,
+  items,
+  onItemClick,
+  maxItems = 5,
+  variant = 'default',
+  sectionIndex = 0,
+}: {
+  title: string;
+  icon: React.ReactNode;
+  items: SearchSuggestion[];
+  onItemClick?: (suggestion: SearchSuggestion) => void;
+  maxItems?: number;
+  variant?: 'default' | 'compact';
+  sectionIndex?: number;
+}) {
+  if (items.length === 0) return null;
+
+  return (
+    <Card className={cn(
+      'transition-all duration-300 ease-out',
+      'hover:shadow-md hover:shadow-gray-200/50',
+      'border-gray-200 hover:border-gray-300',
+      'animate-in fade-in-0 slide-in-from-bottom-4'
+    )}
+    style={{
+      animationDelay: `${sectionIndex * 100}ms`,
+      animationDuration: '400ms'
+    }}>
+      <CardHeader className={cn(
+        'transition-all duration-200',
+        variant === 'compact' ? 'pb-2 pt-3 px-3' : 'pb-3'
+      )}>
+        <CardTitle className={cn(
+          'font-semibold flex items-center gap-2 text-gray-800',
+          variant === 'compact' ? 'text-sm' : 'text-sm'
+        )}>
+          <span className="transition-transform duration-200 hover:scale-110">
+            {icon}
+          </span>
+          {title}
+          {items.length > maxItems && (
+            <Badge variant="outline" className="text-xs ml-auto">
+              {items.length}
+            </Badge>
+          )}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className={cn(
+        'transition-all duration-200',
+        variant === 'compact' ? 'pt-0 px-3 pb-3' : 'pt-0'
+      )}>
+        <div className="space-y-1">
+          {items.slice(0, maxItems).map((item, index) => (
+            <SuggestionItem
+              key={item.id}
+              suggestion={item}
+              variant={variant}
+              index={index}
+              {...(onItemClick && { onClick: onItemClick })}
+            />
+          ))}
+        </div>
+        {items.length > maxItems && (
+          <div className="pt-3 text-center border-t border-gray-100 mt-3">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className={cn(
+                'text-xs transition-all duration-200',
+                'hover:bg-blue-50 hover:text-blue-700',
+                'group'
+              )}
+            >
+              <span>View all {items.length} items</span>
+              <ArrowRight className="h-3 w-3 ml-1 transition-transform group-hover:translate-x-0.5" />
+            </Button>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+export function SearchSuggestions({
+  suggestions,
+  recentSearches = [],
+  popularSearches = [],
+  trendingTopics = [],
+  categories = [],
+  tags = [],
+  onSuggestionClick,
+  onSearchClick,
+  loading = false,
+  className,
+  maxItems = 5,
+  showCategories = true,
+  showTags = true,
+  showRecent = true,
+  showPopular = true,
+  showTrending = true,
+  variant = 'default',
+}: SearchSuggestionsProps) {
+  // Convert arrays to suggestion objects
+  const recentSuggestions: SearchSuggestion[] = recentSearches.map((search, index) => ({
+    id: `recent-${index}`,
+    text: search,
+    type: 'recent',
+  }));
+
+  const popularSuggestions: SearchSuggestion[] = popularSearches.map((search, index) => ({
+    id: `popular-${index}`,
+    text: search,
+    type: 'popular',
+  }));
+
+  const trendingSuggestions: SearchSuggestion[] = trendingTopics.map((topic, index) => ({
+    id: `trending-${index}`,
+    text: topic,
+    type: 'trending',
+  }));
+
+  const categorySuggestions: SearchSuggestion[] = categories.map((category, index) => ({
+    id: `category-${index}`,
+    text: category.name,
+    type: 'category',
+    count: category.count,
+    url: category.url,
+    description: `${category.count} items`,
+  }));
+
+  const tagSuggestions: SearchSuggestion[] = tags.map((tag, index) => ({
+    id: `tag-${index}`,
+    text: tag.name,
+    type: 'tag',
+    count: tag.count,
+    url: tag.url,
+    description: `${tag.count} items`,
+  }));
+
+  const handleSuggestionClick = (suggestion: SearchSuggestion) => {
+    if (onSuggestionClick) {
+      onSuggestionClick(suggestion);
+    }
+    if (onSearchClick && !suggestion.url) {
+      onSearchClick(suggestion.text);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className={cn('space-y-4', className)}>
+        <Card className="animate-pulse">
+          <CardHeader>
+            <Skeleton className="h-5 w-32" />
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <SuggestionSkeleton key={index} variant={variant} />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="animate-pulse">
+          <CardHeader>
+            <Skeleton className="h-5 w-40" />
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {Array.from({ length: 2 }).map((_, index) => (
+                <SuggestionSkeleton key={index} variant={variant} />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  let sectionIndex = 0;
+
+  return (
+    <div className={cn(
+      'space-y-4 animate-in fade-in-0 duration-500',
+      className
+    )}>
+      {/* Custom Suggestions */}
+      {suggestions.length > 0 && (
+        <SuggestionSection
+          title="Suggestions"
+          icon={<Sparkles className="h-4 w-4 text-blue-500" />}
+          items={suggestions}
+          onItemClick={handleSuggestionClick}
+          maxItems={maxItems}
+          variant={variant}
+          sectionIndex={sectionIndex++}
+        />
+      )}
+
+      {/* Recent Searches */}
+      {showRecent && recentSuggestions.length > 0 && (
+        <SuggestionSection
+          title="Recent Searches"
+          icon={<Clock className="h-4 w-4 text-gray-500" />}
+          items={recentSuggestions}
+          onItemClick={handleSuggestionClick}
+          maxItems={maxItems}
+          variant={variant}
+          sectionIndex={sectionIndex++}
+        />
+      )}
+
+      {/* Popular Searches */}
+      {showPopular && popularSuggestions.length > 0 && (
+        <SuggestionSection
+          title="Popular Searches"
+          icon={<Fire className="h-4 w-4 text-orange-500" />}
+          items={popularSuggestions}
+          onItemClick={handleSuggestionClick}
+          maxItems={maxItems}
+          variant={variant}
+          sectionIndex={sectionIndex++}
+        />
+      )}
+
+      {/* Trending Topics */}
+      {showTrending && trendingSuggestions.length > 0 && (
+        <SuggestionSection
+          title="Trending Topics"
+          icon={<TrendingUp className="h-4 w-4 text-red-500" />}
+          items={trendingSuggestions}
+          onItemClick={handleSuggestionClick}
+          maxItems={maxItems}
+          variant={variant}
+          sectionIndex={sectionIndex++}
+        />
+      )}
+
+      {/* Categories */}
+      {showCategories && categorySuggestions.length > 0 && (
+        <SuggestionSection
+          title="Browse by Category"
+          icon={<Hash className="h-4 w-4 text-green-500" />}
+          items={categorySuggestions}
+          onItemClick={handleSuggestionClick}
+          maxItems={maxItems}
+          variant={variant}
+          sectionIndex={sectionIndex++}
+        />
+      )}
+
+      {/* Tags */}
+      {showTags && tagSuggestions.length > 0 && (
+        <SuggestionSection
+          title="Popular Tags"
+          icon={<Hash className="h-4 w-4 text-purple-500" />}
+          items={tagSuggestions}
+          onItemClick={handleSuggestionClick}
+          maxItems={maxItems}
+          variant={variant}
+          sectionIndex={sectionIndex++}
+        />
+      )}
+
+      {/* Empty State */}
+      {suggestions.length === 0 &&
+        recentSuggestions.length === 0 &&
+        popularSuggestions.length === 0 &&
+        trendingSuggestions.length === 0 &&
+        categorySuggestions.length === 0 &&
+        tagSuggestions.length === 0 && (
+          <Card className="animate-in fade-in-0 slide-in-from-bottom-4 duration-500">
+            <CardContent className="pt-6">
+              <div className="text-center py-12">
+                <div className="relative">
+                  <Search className="h-12 w-12 text-gray-300 mx-auto mb-4 transition-all duration-300 hover:text-gray-400 hover:scale-110" />
+                  <div className="absolute -top-1 -right-1">
+                    <Sparkles className="h-4 w-4 text-blue-400 animate-pulse" />
+                  </div>
+                </div>
+                <div className="text-gray-600 text-base font-medium mb-2">
+                  Start typing to see search suggestions
+                </div>
+                <div className="text-gray-500 text-sm max-w-sm mx-auto">
+                  Discover coffee products, market insights, and origin stories
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+    </div>
+  );
+}

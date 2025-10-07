@@ -198,7 +198,7 @@ export function RFQListTable({
   };
 
   const formatCurrencyLocal = (amount: number, currency: string) => {
-    return marketFormatCurrency(amount, currency);
+    return marketFormatCurrency(amount);
   };
 
   const getStatusIcon = (status: keyof typeof statusConfig) => {
@@ -566,7 +566,7 @@ export function RFQListTable({
                 <Select
                   value={pagination.pageSize.toString()}
                   onValueChange={(value) =>
-                    pagination.onPageSizeChange(parseInt(value))
+                    onPageSizeChange(parseInt(value))
                   }
                 >
                   <SelectTrigger className="w-16 h-8">

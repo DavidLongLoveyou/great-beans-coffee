@@ -30,7 +30,7 @@ interface OurProcessSectionProps {
 
 interface ProcessStep {
   id: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<any>;
   title: string;
   description: string;
   details: string[];
@@ -145,6 +145,10 @@ export function OurProcessSection({ locale }: OurProcessSectionProps) {
   ];
 
   const currentStep = processSteps[activeStep];
+
+  if (!currentStep) {
+    return null; // Handle case where activeStep is out of bounds
+  }
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-sage-50 via-white to-emerald-50 py-24">

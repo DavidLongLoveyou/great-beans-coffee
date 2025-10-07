@@ -4,25 +4,25 @@ import { useState, useEffect, useMemo } from 'react';
 import { Calculator, Ship, Truck, Plane, Package, Info, Loader2, CheckCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from '@/presentation/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import { Input } from '@/presentation/components/ui/input';
+import { Label } from '@/presentation/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
+} from '@/presentation/components/ui/select';
+import { Separator } from '@/presentation/components/ui/separator';
+import { Badge } from '@/presentation/components/ui/badge';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from '@/presentation/components/ui';
 import { useMarket, useMarketShipping } from '@/shared/hooks/useMarket';
 import { calculateShippingEstimate, getNearestPort } from '@/shared/utils/market';
 import { getMarketConfig } from '@/shared/config/markets';

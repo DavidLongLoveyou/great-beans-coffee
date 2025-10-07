@@ -229,7 +229,7 @@ test.describe('Product Catalog', () => {
 
       if ((await nextButton.isVisible()) && !(await nextButton.isDisabled())) {
         // Get current page products
-        const currentProducts = await page
+        const _currentProducts = await page
           .locator('[data-testid="product-card"]')
           .count();
 
@@ -421,7 +421,7 @@ test.describe('Product Catalog', () => {
   });
 
   test('should track product view analytics', async ({ page }) => {
-    let analyticsEvents: any[] = [];
+    let analyticsEvents: { url: string; data: string | null }[] = [];
 
     await page.route('**/analytics/**', route => {
       analyticsEvents.push({

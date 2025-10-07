@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { CoffeeProduct } from '@/domain/products/coffee-product.entity';
+import { CoffeeProduct } from '@/domain/entities/coffee-product.entity';
 
 interface ProductSpecTemplateProps {
   product: CoffeeProduct;
@@ -63,7 +63,7 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
         {/* Product Title */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            {product.name}
+            {product.name[locale as keyof typeof product.name] || product.name.en}
           </h2>
           <p className="text-lg text-gray-600">{t('subtitle')}</p>
         </div>
@@ -79,15 +79,15 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('variety')}:</span>
-                  <span className="font-medium">{product.variety}</span>
+                  <span className="font-medium">{product.type}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('origin')}:</span>
-                  <span className="font-medium">{product.origin}</span>
+                  <span className="font-medium">{product.origin.region}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('processing')}:</span>
-                  <span className="font-medium">{product.processing}</span>
+                  <span className="font-medium">{product.processingMethod}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('grade')}:</span>
@@ -95,7 +95,7 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('cropYear')}:</span>
-                  <span className="font-medium">{product.cropYear}</span>
+                  <span className="font-medium">{product.availability.harvestSeason}</span>
                 </div>
               </div>
             </div>
@@ -104,15 +104,15 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('pricePerKg')}:</span>
-                  <span className="font-medium">${product.pricePerKg}</span>
+                  <span className="font-medium">${product.pricing.basePrice}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('minimumOrder')}:</span>
-                  <span className="font-medium">{product.minimumOrderKg} kg</span>
+                  <span className="font-medium">{product.pricing.minimumOrder} {product.pricing.unit}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('availability')}:</span>
-                  <span className="font-medium">{product.availableQuantityKg} kg</span>
+                  <span className="font-medium">{product.availability.stockQuantity} {product.pricing.unit}</span>
                 </div>
               </div>
             </div>
@@ -130,15 +130,15 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('moisture')}:</span>
-                  <span className="font-medium">{product.moisture}%</span>
+                  <span className="font-medium">{product.specifications.moisture}%</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('beanSize')}:</span>
-                  <span className="font-medium">{product.beanSize}</span>
+                  <span className="font-medium">{product.specifications.screenSize}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('density')}:</span>
-                  <span className="font-medium">{product.density} g/l</span>
+                  <span className="font-medium">{product.specifications.density || 'N/A'} g/ml</span>
                 </div>
               </div>
             </div>
@@ -147,15 +147,15 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('defects')}:</span>
-                  <span className="font-medium">{product.defects}%</span>
+                  <span className="font-medium">{product.specifications.defectRate}%</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('screenSize')}:</span>
-                  <span className="font-medium">{product.screenSize}</span>
+                  <span className="font-medium">{product.specifications.screenSize}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tProducts('cuppingScore')}:</span>
-                  <span className="font-medium">{product.cuppingScore}/100</span>
+                  <span className="font-medium">{product.specifications.cuppingScore || 'N/A'}/100</span>
                 </div>
               </div>
             </div>
@@ -180,13 +180,13 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
         </section>
 
         {/* Tasting Notes */}
-        {product.tastingNotes && (
+        {product.specifications.flavor && (
           <section className="mb-8">
             <h3 className="text-xl font-semibold text-amber-700 mb-4 border-b border-gray-300 pb-2">
               {tProducts('tastingNotes')}
             </h3>
             <div className="bg-amber-50 p-4 rounded-lg">
-              <p className="text-gray-700 leading-relaxed">{product.tastingNotes}</p>
+              <p className="text-gray-700 leading-relaxed">{product.specifications.flavor}</p>
             </div>
           </section>
         )}
@@ -200,13 +200,12 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
             <div className="grid grid-cols-2 gap-4">
               {product.certifications.map((cert, index) => (
                 <div key={index} className="border border-gray-200 rounded-lg p-4">
-                  <h4 className="font-semibold text-gray-700">{cert.name}</h4>
-                  <p className="text-sm text-gray-600 mt-1">{cert.description}</p>
-                  {cert.validUntil && (
-                    <p className="text-xs text-gray-500 mt-2">
-                      Valid until: {formatDate(cert.validUntil)}
-                    </p>
-                  )}
+                  <h4 className="font-semibold text-gray-700">
+                    {cert.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase())}
+                  </h4>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {tProducts(`certification.${cert.toLowerCase()}`)}
+                  </p>
                 </div>
               ))}
             </div>

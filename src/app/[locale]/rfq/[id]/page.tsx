@@ -146,7 +146,7 @@ export default function RFQDetailPage() {
   const [showModal, setShowModal] = useState(false);
 
   // PDF generation hook
-  const { generateRFQDocument, isLoading: isPDFLoading } = usePDFGeneration();
+  const { generateRFQDocument, isGenerating: isPDFLoading } = usePDFGeneration();
 
   const handleStatusChange = async (newStatus: RFQStatus, note?: string) => {
     try {
@@ -189,8 +189,8 @@ export default function RFQDetailPage() {
 
   const handleDownload = async () => {
     try {
-      await generateRFQDocument(params.id, {
-        language: params.locale,
+      await generateRFQDocument(mockRFQ as any, {
+        language: Array.isArray(params.locale) ? (params.locale[0] || 'en') : (params.locale || 'en'),
         format: 'A4',
         orientation: 'portrait',
         includeWatermark: false,
@@ -452,19 +452,19 @@ export default function RFQDetailPage() {
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-500">{t('detail.variety')}</label>
-                        <p className="text-sm">{mockRFQ.variety}</p>
+                        <p className="text-sm">{mockRFQ.productRequirements.variety}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-500">{t('detail.grade')}</label>
-                        <p className="text-sm">{mockRFQ.grade}</p>
+                        <p className="text-sm">{mockRFQ.productRequirements.grade}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-500">{t('detail.processing')}</label>
-                        <p className="text-sm">{mockRFQ.processing}</p>
+                        <p className="text-sm">{mockRFQ.productRequirements.processing}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-500">{t('detail.origin')}</label>
-                        <p className="text-sm">{mockRFQ.origin}</p>
+                        <p className="text-sm">{mockRFQ.productRequirements.origin}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -476,19 +476,19 @@ export default function RFQDetailPage() {
                     <CardContent className="space-y-4">
                       <div>
                         <label className="text-sm font-medium text-gray-500">{t('detail.incoterms')}</label>
-                        <p className="text-sm">{mockRFQ.incoterms}</p>
+                        <p className="text-sm">{mockRFQ.delivery.incoterms}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-500">{t('detail.destination')}</label>
-                        <p className="text-sm">{mockRFQ.destination}</p>
+                        <p className="text-sm">{mockRFQ.delivery.destination}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-500">{t('detail.preferredDeliveryDate')}</label>
-                        <p className="text-sm">{mockRFQ.preferredDeliveryDate}</p>
+                        <p className="text-sm">{mockRFQ.delivery.preferredDeliveryDate}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-500">{t('detail.packagingRequirements')}</label>
-                        <p className="text-sm">{mockRFQ.packagingRequirements}</p>
+                        <p className="text-sm">{mockRFQ.delivery.packagingRequirements}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -501,7 +501,7 @@ export default function RFQDetailPage() {
                     <CardTitle>{t('detail.requirements')}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm">{mockRFQ.requirements}</p>
+                    <p className="text-sm">{mockRFQ.additionalNotes}</p>
                   </CardContent>
                 </Card>
               </TabsContent>

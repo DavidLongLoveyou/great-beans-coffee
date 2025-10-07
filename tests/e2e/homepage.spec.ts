@@ -110,8 +110,8 @@ test.describe('Homepage', () => {
     // Check main navigation links
     const productsLink = navigation.getByRole('link', { name: /products/i });
     const servicesLink = navigation.getByRole('link', { name: /services/i });
-    const aboutLink = navigation.getByRole('link', { name: /about/i });
-    const contactLink = navigation.getByRole('link', { name: /contact/i });
+    const _aboutLink = navigation.getByRole('link', { name: /about/i });
+    const _contactLink = navigation.getByRole('link', { name: /contact/i });
 
     // Test products navigation
     if (await productsLink.isVisible()) {
@@ -264,10 +264,13 @@ test.describe('Homepage', () => {
 
   test('should track analytics events', async ({ page }) => {
     // Mock analytics tracking
-    let analyticsEvents: any[] = [];
+    let analyticsEvents: string[] = [];
 
     await page.route('**/analytics/**', route => {
-      analyticsEvents.push(route.request().postData());
+      const postData = route.request().postData();
+      if (postData) {
+        analyticsEvents.push(postData);
+      }
       route.fulfill({ status: 200 });
     });
 

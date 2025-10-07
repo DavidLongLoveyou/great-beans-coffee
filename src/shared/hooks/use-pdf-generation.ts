@@ -13,14 +13,14 @@ import {
   type PDFGenerationOptions, 
   type PDFTemplateType 
 } from '@/infrastructure/services/pdf-generation.service';
-import type { CoffeeProduct } from '@/domain/entities/coffee-product.entity';
-import type { RFQ } from '@/domain/entities/rfq.entity';
+import type { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
+import type { RFQEntity } from '@/domain/entities/rfq.entity';
 
 interface UsePDFGenerationReturn {
   isGenerating: boolean;
   error: string | null;
-  generateProductSpecSheet: (product: CoffeeProduct, options?: PDFGenerationOptions) => Promise<void>;
-  generateRFQDocument: (rfq: RFQ, options?: PDFGenerationOptions) => Promise<void>;
+  generateProductSpecSheet: (product: CoffeeProductEntity, options?: PDFGenerationOptions) => Promise<void>;
+  generateRFQDocument: (rfq: RFQEntity, options?: PDFGenerationOptions) => Promise<void>;
   generateFromHTML: (element: HTMLElement, filename: string, options?: PDFGenerationOptions) => Promise<void>;
   clearError: () => void;
 }
@@ -35,7 +35,7 @@ export function usePDFGeneration(): UsePDFGenerationReturn {
   }, []);
 
   const generateProductSpecSheet = useCallback(async (
-    product: CoffeeProduct,
+    product: CoffeeProductEntity,
     options: PDFGenerationOptions = {}
   ) => {
     try {
@@ -52,7 +52,7 @@ export function usePDFGeneration(): UsePDFGenerationReturn {
         language: options.language || 'en',
       });
 
-      const filename = `${product.sku || product.name.replace(/\s+/g, '-')}-spec-sheet.pdf`;
+      const filename = `${product.sku || product.name.en.replace(/\s+/g, '-')}-spec-sheet.pdf`;
       pdfGenerationService.downloadPDF(pdfBlob, filename);
 
       toast({
@@ -75,7 +75,7 @@ export function usePDFGeneration(): UsePDFGenerationReturn {
   }, [t]);
 
   const generateRFQDocument = useCallback(async (
-    rfq: RFQ,
+    rfq: RFQEntity,
     options: PDFGenerationOptions = {}
   ) => {
     try {
@@ -174,7 +174,7 @@ export function useBatchPDFGeneration() {
   const generateBatch = useCallback(async (
     items: Array<{
       type: PDFTemplateType;
-      data: CoffeeProduct | RFQ;
+      data: CoffeeProductEntity | RFQEntity;
       filename: string;
       options?: PDFGenerationOptions;
     }>
@@ -192,17 +192,22 @@ export function useBatchPDFGeneration() {
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
         
+        if (!item) {
+          console.error(`Item at index ${i} is undefined`);
+          continue;
+        }
+        
         try {
           let pdfBlob: Blob;
           
           if (item.type === 'product-spec-sheet' && 'sku' in item.data) {
             pdfBlob = await pdfGenerationService.generateProductSpecSheet(
-              item.data as CoffeeProduct,
+              item.data as CoffeeProductEntity,
               item.options
             );
           } else if (item.type === 'rfq-document' && 'rfqNumber' in item.data) {
             pdfBlob = await pdfGenerationService.generateRFQDocument(
-              item.data as RFQ,
+              item.data as RFQEntity,
               item.options
             );
           } else {

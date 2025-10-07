@@ -12,6 +12,8 @@ export * from './hydration-safe-navigation';
 export * from './progress';
 export * from './select';
 export * from './separator';
+export * from './sheet';
 export * from './table';
 export * from './tabs';
 export * from './textarea';
+export * from './tooltip';

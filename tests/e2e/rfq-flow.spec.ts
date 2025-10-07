@@ -185,15 +185,14 @@ test.describe('RFQ (Request for Quote) Flow', () => {
 
     const fileInput = page.getByLabel(/attach.*file|upload.*document/i);
     if (await fileInput.isVisible()) {
-      // Create a test file
-      const testFile = await page.evaluateHandle(() => {
-        const file = new File(['test content'], 'test-requirements.pdf', {
-          type: 'application/pdf',
-        });
-        return file;
-      });
+      // Create a test file buffer
+      const testFile = {
+        name: 'test-requirements.pdf',
+        mimeType: 'application/pdf',
+        buffer: Buffer.from('test content'),
+      };
 
-      await fileInput.setInputFiles(testFile as any);
+      await fileInput.setInputFiles(testFile);
 
       // Verify file is attached
       await expect(page.getByText(/test-requirements\.pdf/i)).toBeVisible();
@@ -347,7 +346,7 @@ test.describe('RFQ (Request for Quote) Flow', () => {
   });
 
   test('should track RFQ analytics events', async ({ page }) => {
-    let analyticsEvents: any[] = [];
+    let analyticsEvents: { event: string; data: string | null }[] = [];
 
     await page.route('**/analytics/**', route => {
       analyticsEvents.push({
@@ -377,7 +376,7 @@ test.describe('RFQ (Request for Quote) Flow', () => {
 });
 
 // Helper functions
-async function fillRFQForm(page: any) {
+async function fillRFQForm(page: import('@playwright/test').Page) {
   await fillBasicRFQInfo(page);
   await selectProduct(page, 0);
 
@@ -388,11 +387,14 @@ async function fillRFQForm(page: any) {
   if (await deliveryDate.isVisible()) {
     const futureDate = new Date();
     futureDate.setMonth(futureDate.getMonth() + 2);
-    await deliveryDate.fill(futureDate.toISOString().split('T')[0]);
+    const dateString = futureDate.toISOString().split('T')[0];
+    if (dateString) {
+      await deliveryDate.fill(dateString);
+    }
   }
 }
 
-async function fillBasicRFQInfo(page: any) {
+async function fillBasicRFQInfo(page: import('@playwright/test').Page) {
   await page.getByLabel(/company name/i).fill('Great Coffee Importers Ltd.');
   await page.getByLabel(/email/i).fill('procurement@greatcoffee.com');
   await page.getByLabel(/phone/i).fill('+1-555-0123');
@@ -404,7 +406,10 @@ async function fillBasicRFQInfo(page: any) {
   }
 }
 
-async function selectProduct(page: any, index: number) {
+async function selectProduct(
+  page: import('@playwright/test').Page,
+  index: number
+) {
   const productSelector = page.getByTestId('product-selector');
   if (await productSelector.isVisible()) {
     await productSelector.click();
@@ -413,14 +418,14 @@ async function selectProduct(page: any, index: number) {
   }
 }
 
-async function submitRFQForm(page: any) {
+async function submitRFQForm(page: import('@playwright/test').Page) {
   const submitButton = page.getByRole('button', {
     name: /submit|send|request quote/i,
   });
   await submitButton.click();
 }
 
-async function verifyRFQSuccess(page: any) {
+async function verifyRFQSuccess(page: import('@playwright/test').Page) {
   // Wait for success page or message
   await expect(
     page.getByText(/quote.*submitted|request.*received|thank you/i)

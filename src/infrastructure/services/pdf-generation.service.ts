@@ -434,9 +434,8 @@ export class PDFGenerationService {
    * Add RFQ logistics section
    */
   private addRFQLogistics(pdf: jsPDF, rfq: RFQEntity): void {
-    let yPosition = 160;
+    let yPosition = pdf.internal.pageSize.height - 120;
 
-    pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.text('Shipping & Logistics:', 20, yPosition);
     yPosition += 10;
@@ -444,9 +443,10 @@ export class PDFGenerationService {
     const logisticsInfo = [
       ['Delivery Terms:', rfq.deliveryRequirements.incoterms || 'FOB'],
       ['Destination:', rfq.deliveryRequirements.destinationPort || 'TBD'],
-      ['Shipping Method:', rfq.deliveryRequirements.shippingMethod || 'Sea Freight'],
-      ['Delivery Date:', rfq.deliveryRequirements.deliveryDate ? new Date(rfq.deliveryRequirements.deliveryDate).toLocaleDateString() : 'TBD'],
-      ['Packaging:', rfq.deliveryRequirements.packagingRequirements || 'Standard'],
+      ['Destination Country:', rfq.deliveryRequirements.destinationCountry || 'TBD'],
+      ['Preferred Delivery:', rfq.deliveryRequirements.preferredDeliveryDate ? new Date(rfq.deliveryRequirements.preferredDeliveryDate).toLocaleDateString() : 'TBD'],
+      ['Latest Delivery:', rfq.deliveryRequirements.latestDeliveryDate ? new Date(rfq.deliveryRequirements.latestDeliveryDate).toLocaleDateString() : 'TBD'],
+      ['Packaging:', rfq.deliveryRequirements.packaging || 'Standard'],
     ];
 
     pdf.setFontSize(10);
@@ -527,6 +527,57 @@ export class PDFGenerationService {
       angle: 45,
       align: 'center',
     });
+  }
+
+  /**
+   * Server-side PDF generation methods for API routes
+   */
+  
+  /**
+   * Generate Product Specification Sheet PDF (Server-side)
+   */
+  async generateProductSpecPDF(
+    product: CoffeeProductEntity,
+    locale: string = 'en',
+    options: PDFGenerationOptions = {}
+  ): Promise<Buffer> {
+    try {
+      const blob = await this.generateProductSpecSheet(product, {
+        ...options,
+        language: locale,
+      });
+      
+      // Convert Blob to Buffer for server-side usage
+      const arrayBuffer = await blob.arrayBuffer();
+      return Buffer.from(arrayBuffer);
+    } catch (error) {
+      logger.error('Failed to generate product spec PDF (server-side)', error);
+      throw new Error('Server-side PDF generation failed');
+    }
+  }
+
+  /**
+   * Generate RFQ Document PDF (Server-side)
+   */
+  async generateRFQDocumentPDF(
+    rfq: RFQEntity,
+    products: CoffeeProductEntity[],
+    locale: string = 'en',
+    options: PDFGenerationOptions = {}
+  ): Promise<Buffer> {
+    try {
+      const blob = await this.generateRFQDocument(rfq, {
+        ...options,
+        language: locale,
+      });
+      
+      // Convert Blob to Buffer for server-side usage
+      const arrayBuffer = await blob.arrayBuffer();
+      return Buffer.from(arrayBuffer);
+    } catch (error) {
+      logger.error('Failed to generate RFQ document PDF (server-side)', error);
+      throw new Error('Server-side RFQ PDF generation failed');
+    }
   }
 
   /**

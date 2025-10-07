@@ -158,12 +158,21 @@ export function isWithinBusinessHours(date: Date | string, locale: Locale): bool
   }).format(dateObj);
   
   const [hours, minutes] = marketTime.split(':').map(Number);
+  if (hours === undefined || minutes === undefined) {
+    return false; // Invalid time format
+  }
   const currentMinutes = hours * 60 + minutes;
   
   const [startHours, startMinutes] = config.businessHours.start.split(':').map(Number);
+  if (startHours === undefined || startMinutes === undefined) {
+    return false; // Invalid start time format
+  }
   const startTotalMinutes = startHours * 60 + startMinutes;
   
   const [endHours, endMinutes] = config.businessHours.end.split(':').map(Number);
+  if (endHours === undefined || endMinutes === undefined) {
+    return false; // Invalid end time format
+  }
   const endTotalMinutes = endHours * 60 + endMinutes;
   
   return currentMinutes >= startTotalMinutes && currentMinutes <= endTotalMinutes;
@@ -191,7 +200,8 @@ export function getTimezoneAbbreviation(locale: Locale): string {
  */
 export function formatDateForInput(date: Date | string): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
-  return dateObj.toISOString().split('T')[0];
+  const datePart = dateObj.toISOString().split('T')[0];
+  return datePart || dateObj.toISOString().substring(0, 10);
 }
 
 /**

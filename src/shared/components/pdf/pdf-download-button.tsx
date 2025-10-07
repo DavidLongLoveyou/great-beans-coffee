@@ -15,9 +15,9 @@ interface PDFDownloadButtonProps {
   entityData?: any;
   locale?: string;
   options?: {
-    format?: 'a4' | 'letter' | 'legal';
+    format?: 'A4' | 'Letter' | 'Legal';
     orientation?: 'portrait' | 'landscape';
-    quality?: 'low' | 'medium' | 'high';
+    quality?: number;
     includeWatermark?: boolean;
     includeHeader?: boolean;
     includeFooter?: boolean;
@@ -49,8 +49,8 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
 }) => {
   const t = useTranslations('pdf.buttons');
   const {
-    generateProductSpecPDF,
-    generateRFQDocumentPDF,
+    generateProductSpecSheet,
+    generateRFQDocument,
     generateFromHTML,
     isGenerating,
     error,
@@ -77,27 +77,40 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
 
   const handleDownload = async () => {
     try {
-      let filename: string;
-
       switch (type) {
         case 'productSpec':
-          filename = await generateProductSpecPDF(entityId, locale, options);
+          if (!entityData) {
+            throw new Error('Product data is required for product spec PDF generation');
+          }
+          await generateProductSpecSheet(entityData, {
+            ...options,
+            language: locale || 'en',
+          });
           break;
         case 'rfqDocument':
-          filename = await generateRFQDocumentPDF(entityId, locale, options);
+          if (!entityData) {
+            throw new Error('RFQ data is required for RFQ document PDF generation');
+          }
+          await generateRFQDocument(entityData, {
+            ...options,
+            language: locale || 'en',
+          });
           break;
         case 'marketReport':
         case 'certificate':
           if (!entityData) {
             throw new Error('Entity data is required for HTML-based PDF generation');
           }
-          filename = await generateFromHTML(entityData, `${type}-${entityId}`, locale, options);
+          await generateFromHTML(entityData, `${type}-${entityId}`, {
+            ...options,
+            language: locale || 'en',
+          });
           break;
         default:
           throw new Error(`Unsupported PDF type: ${type}`);
       }
 
-      onSuccess?.(filename);
+      onSuccess?.(`${type}-${entityId}.pdf`);
     } catch (err) {
       const error = err instanceof Error ? err : new Error('Unknown error occurred');
       onError?.(error);
@@ -136,13 +149,13 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
 
 // Specialized components for common use cases
 export const ProductSpecDownloadButton: React.FC<
-  Omit<PDFDownloadButtonProps, 'type'> & { productId: string }
+  Omit<PDFDownloadButtonProps, 'type' | 'entityId'> & { productId: string }
 > = ({ productId, ...props }) => (
   <PDFDownloadButton type="productSpec" entityId={productId} {...props} />
 );
 
 export const RFQDocumentDownloadButton: React.FC<
-  Omit<PDFDownloadButtonProps, 'type'> & { rfqId: string }
+  Omit<PDFDownloadButtonProps, 'type' | 'entityId'> & { rfqId: string }
 > = ({ rfqId, ...props }) => (
   <PDFDownloadButton type="rfqDocument" entityId={rfqId} {...props} />
 );
@@ -192,6 +205,7 @@ export const BatchPDFDownloadButton: React.FC<BatchPDFDownloadButtonProps> = ({
       
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
+        if (!item) continue;
         
         // Generate PDF based on type
         const response = await fetch(`/api/pdf/${item.type}`, {

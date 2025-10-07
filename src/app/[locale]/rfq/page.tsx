@@ -203,7 +203,7 @@ export default function RFQTrackingPage() {
   };
 
   const formatCurrencyLocal = (amount: number, currency: string) => {
-    return marketFormatCurrency(amount, currency);
+    return marketFormatCurrency(amount);
   };
 
   const getStatusIcon = (status: keyof typeof statusConfig) => {

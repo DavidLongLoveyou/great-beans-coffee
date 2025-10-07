@@ -32,11 +32,11 @@ export async function POST(request: NextRequest) {
     );
 
     // Return PDF as response
-    return new NextResponse(pdfBuffer, {
+    return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="product-spec-${product.name.replace(/\s+/g, '-').toLowerCase()}-${Date.now()}.pdf"`,
+        'Content-Disposition': `attachment; filename="product-spec-${(product.name[locale as keyof typeof product.name] || product.name.en).replace(/\s+/g, '-').toLowerCase()}-${Date.now()}.pdf"`,
         'Content-Length': pdfBuffer.length.toString(),
       },
     });
@@ -82,11 +82,11 @@ export async function GET(request: NextRequest) {
     );
 
     // Return PDF as response
-    return new NextResponse(pdfBuffer, {
+    return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="product-spec-${product.name.replace(/\s+/g, '-').toLowerCase()}-${Date.now()}.pdf"`,
+        'Content-Disposition': `attachment; filename="product-spec-${(product.name[locale as keyof typeof product.name] || product.name.en).replace(/\s+/g, '-').toLowerCase()}-${Date.now()}.pdf"`,
         'Content-Length': pdfBuffer.length.toString(),
       },
     });

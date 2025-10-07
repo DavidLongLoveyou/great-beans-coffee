@@ -167,11 +167,11 @@ export function RFQStatusManager({
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
       <RFQStatusBadge status={currentStatus} />
       
-      {availableTransitions.length === 1 ? (
+      {availableTransitions.length === 1 && availableTransitions[0] ? (
         <Button
           variant="outline"
           size="sm"
-          onClick={() => handleTransitionSelect(availableTransitions[0])}
+          onClick={() => handleTransitionSelect(availableTransitions[0]!)}
           className="flex items-center justify-center gap-1 w-full sm:w-auto"
         >
           <ArrowRight className="h-3 w-3" />
@@ -210,8 +210,8 @@ export function RFQStatusManager({
             <DialogDescription>
               {selectedTransition?.confirmationMessage || 
                t('confirmTransitionDescription', {
-                 from: selectedTransition?.from,
-                 to: selectedTransition?.to
+                 from: selectedTransition?.from || '',
+                 to: selectedTransition?.to || ''
                })}
             </DialogDescription>
           </DialogHeader>

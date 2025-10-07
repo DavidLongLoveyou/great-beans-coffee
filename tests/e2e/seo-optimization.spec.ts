@@ -132,14 +132,16 @@ test.describe('SEO Optimization', () => {
           expect(content).toBeTruthy();
           
           // Should be valid JSON
-          let jsonData;
+          let jsonData: any;
           expect(() => {
             jsonData = JSON.parse(content!);
           }).not.toThrow();
           
           // Should have @context and @type
-          expect(jsonData['@context']).toBeTruthy();
-          expect(jsonData['@type']).toBeTruthy();
+          if (jsonData) {
+            expect(jsonData['@context']).toBeTruthy();
+            expect(jsonData['@type']).toBeTruthy();
+          }
         }
       }
     });

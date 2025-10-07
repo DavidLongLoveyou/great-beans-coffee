@@ -12,4 +12,4 @@ export {
 } from './pdf-download-button';
 
 // Re-export types for convenience
-export type { PDFGenerationOptions } from '@/shared/services/pdf-generation.service';
+export type { PDFGenerationOptions } from '@/infrastructure/services/pdf-generation.service';

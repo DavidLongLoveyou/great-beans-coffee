@@ -1,15 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+// Define types
+type RFQStatus = 'pending' | 'processing' | 'quoted' | 'accepted' | 'rejected' | 'expired'
+
+interface StatusHistoryEntry {
+  id: string
+  status: RFQStatus
+  timestamp: Date
+  updatedBy: string
+  note?: string
+}
+
+interface RFQRecord {
+  id: string
+  status: RFQStatus
+  statusHistory: StatusHistoryEntry[]
+}
+
 // Mock database - in real app, this would be your database
-let rfqDatabase = [
+let rfqDatabase: RFQRecord[] = [
   {
     id: 'RFQ-2024-001',
-    status: 'pending' as const,
+    status: 'pending',
     statusHistory: [
       {
         id: '1',
-        status: 'pending' as const,
+        status: 'pending',
         timestamp: new Date('2024-01-15T10:00:00Z'),
         updatedBy: 'System',
         note: 'RFQ submitted'
@@ -44,10 +61,16 @@ export async function PATCH(
     }
     
     const rfq = rfqDatabase[rfqIndex]
+    if (!rfq) {
+      return NextResponse.json(
+        { error: 'RFQ not found' },
+        { status: 404 }
+      )
+    }
     const previousStatus = rfq.status
     
     // Validate status transition (basic validation)
-    const allowedTransitions = {
+    const allowedTransitions: Record<RFQStatus, RFQStatus[]> = {
       pending: ['processing', 'rejected'],
       processing: ['quoted', 'rejected'],
       quoted: ['accepted', 'rejected', 'expired'],
@@ -67,12 +90,12 @@ export async function PATCH(
     rfq.status = validatedData.status
     
     // Add to status history
-    const historyEntry = {
+    const historyEntry: StatusHistoryEntry = {
       id: Date.now().toString(),
       status: validatedData.status,
       timestamp: new Date(),
       updatedBy: 'Admin User', // In real app, get from auth
-      note: validatedData.note
+      ...(validatedData.note && { note: validatedData.note })
     }
     
     rfq.statusHistory.push(historyEntry)
@@ -94,7 +117,7 @@ export async function PATCH(
     
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: 'Invalid request data', details: error.errors },
+        { error: 'Invalid request data', details: error.issues },
         { status: 400 }
       )
     }

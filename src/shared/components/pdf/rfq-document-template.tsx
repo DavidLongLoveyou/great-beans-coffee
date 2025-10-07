@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { RFQ } from '@/domain/clients/rfq.entity';
-import { CoffeeProduct } from '@/domain/products/coffee-product.entity';
+import { RFQ } from '@/domain/entities/rfq.entity';
+import { CoffeeProduct } from '@/domain/entities/coffee-product.entity';
 
 interface RFQDocumentTemplateProps {
   rfq: RFQ;
@@ -39,10 +39,10 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
     }).format(amount);
   };
 
-  const calculateTotalValue = () => {
-    return rfq.items.reduce((total, item) => {
-      const product = products.find(p => p.id === item.productId);
-      return total + (product ? product.pricePerKg * item.quantityKg : 0);
+  const calculateTotalValue = (): number => {
+    return products.reduce((total: number, product: CoffeeProduct) => {
+      const quantity = rfq.quantityRequirements.quantity;
+      return total + (product.pricing.basePrice * quantity);
     }, 0);
   };
 
@@ -105,7 +105,7 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('urgency')}:</span>
-                  <span className="font-medium capitalize">{rfq.urgency}</span>
+                  <span className="font-medium capitalize">{rfq.urgencyReason || rfq.priority}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('estimatedValue')}:</span>
@@ -119,20 +119,20 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('preferredDeliveryDate')}:</span>
                   <span className="font-medium">
-                    {rfq.preferredDeliveryDate ? formatDate(rfq.preferredDeliveryDate) : 'TBD'}
+                    {rfq.deliveryRequirements.preferredDeliveryDate ? formatDate(rfq.deliveryRequirements.preferredDeliveryDate) : 'TBD'}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('shippingMethod')}:</span>
-                  <span className="font-medium">{rfq.shippingMethod || 'TBD'}</span>
+                  <span className="font-medium">{rfq.deliveryRequirements.packaging || 'TBD'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('incoterms')}:</span>
-                  <span className="font-medium">{rfq.incoterms || 'TBD'}</span>
+                  <span className="font-medium">{rfq.deliveryRequirements.incoterms || 'TBD'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('destination')}:</span>
-                  <span className="font-medium">{rfq.destinationPort || 'TBD'}</span>
+                  <span className="font-medium">{rfq.deliveryRequirements.destinationPort || 'TBD'}</span>
                 </div>
               </div>
             </div>
@@ -150,15 +150,15 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('companyName')}:</span>
-                  <span className="font-medium">{rfq.companyName}</span>
+                  <span className="font-medium">{rfq.companyInfo.companyName}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('industry')}:</span>
-                  <span className="font-medium">{rfq.industry || 'Coffee Trading'}</span>
+                  <span className="font-medium">{rfq.companyInfo.businessType || 'Coffee Trading'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('country')}:</span>
-                  <span className="font-medium">{rfq.country}</span>
+                  <span className="font-medium">{rfq.companyInfo.address.country}</span>
                 </div>
               </div>
             </div>
@@ -167,15 +167,15 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('name')}:</span>
-                  <span className="font-medium">{rfq.contactName}</span>
+                  <span className="font-medium">{rfq.companyInfo.contactPerson}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('email')}:</span>
-                  <span className="font-medium">{rfq.email}</span>
+                  <span className="font-medium">{rfq.companyInfo.email}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('phone')}:</span>
-                  <span className="font-medium">{rfq.phone || 'Not provided'}</span>
+                  <span className="font-medium">{rfq.companyInfo.phone || 'Not provided'}</span>
                 </div>
               </div>
             </div>
@@ -199,34 +199,34 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
                 </tr>
               </thead>
               <tbody>
-                {rfq.items.map((item, index) => {
-                  const product = products.find(p => p.id === item.productId);
-                  const totalValue = product ? product.pricePerKg * item.quantityKg : 0;
+                {products.map((product, index) => {
+                  const quantity = rfq.quantityRequirements.quantity;
+                  const totalValue = product ? product.pricing.basePrice * quantity : 0;
                   
                   return (
                     <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
                       <td className="border border-gray-300 px-4 py-2">
                         <div>
-                          <div className="font-medium">{product?.name || 'Unknown Product'}</div>
-                          <div className="text-sm text-gray-600">{product?.variety} - {product?.origin}</div>
+                          <div className="font-medium">{product?.name?.en || 'Unknown Product'}</div>
+                          <div className="text-sm text-gray-600">{product?.type} - {product?.origin?.region}</div>
                         </div>
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
-                        {item.quantityKg.toLocaleString()} kg
+                        {quantity.toLocaleString()} {rfq.quantityRequirements.unit}
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
-                        {product ? formatCurrency(product.pricePerKg) : 'TBD'}
+                        {product ? formatCurrency(product.pricing.basePrice) : 'TBD'}
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
                         {formatCurrency(totalValue)}
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
                         <div className="text-sm">
-                          {item.specifications && (
+                          {product.specifications && (
                             <div className="space-y-1">
-                              {Object.entries(item.specifications).map(([key, value]) => (
+                              {Object.entries(product.specifications).map(([key, value]) => (
                                 <div key={key}>
-                                  <span className="text-gray-600">{key}:</span> {value}
+                                  <span className="text-gray-600">{key}:</span> {String(value)}
                                 </div>
                               ))}
                             </div>
@@ -252,15 +252,15 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
           </div>
         </section>
 
-        {/* Special Requirements */}
-        {rfq.specialRequirements && (
+        {/* Additional Requirements */}
+        {rfq.additionalRequirements && (
           <section className="mb-8">
             <h3 className="text-xl font-semibold text-amber-700 mb-4 border-b border-gray-300 pb-2">
-              {tRfq('specialRequirements')}
+              {tRfq('additionalRequirements')}
             </h3>
             <div className="bg-blue-50 p-4 rounded-lg">
               <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                {rfq.specialRequirements}
+                {rfq.additionalRequirements}
               </p>
             </div>
           </section>
@@ -277,11 +277,11 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('paymentMethod')}:</span>
-                  <span className="font-medium">{rfq.paymentTerms || 'Letter of Credit'}</span>
+                  <span className="font-medium">{rfq.paymentTerms.paymentMethod || 'Letter of Credit'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('creditPeriod')}:</span>
-                  <span className="font-medium">30 days</span>
+                  <span className="font-medium">{rfq.paymentTerms.creditPeriod || 30} days</span>
                 </div>
               </div>
             </div>
