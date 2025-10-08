@@ -1,11 +1,25 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { Calculator, Ship, Truck, Plane, Package, Info, Loader2, CheckCircle } from 'lucide-react';
+import {
+  Calculator,
+  Ship,
+  Truck,
+  Plane,
+  Package,
+  Info,
+  Loader2,
+  CheckCircle,
+} from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Button } from '@/presentation/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/presentation/components/ui/card';
 import { Input } from '@/presentation/components/ui/input';
 import { Label } from '@/presentation/components/ui/label';
 import {
@@ -24,7 +38,10 @@ import {
   TooltipTrigger,
 } from '@/presentation/components/ui';
 import { useMarket, useMarketShipping } from '@/shared/hooks/useMarket';
-import { calculateShippingEstimate, getNearestPort } from '@/shared/utils/market';
+import {
+  calculateShippingEstimate,
+  getNearestPort,
+} from '@/shared/utils/market';
 import { getMarketConfig } from '@/shared/config/markets';
 
 interface LogisticsCostEstimatorProps {
@@ -157,14 +174,14 @@ const getContainerTypes = (t: any) => [
   },
 ];
 
-export function LogisticsCostEstimator({ 
-  className, 
-  onEstimateCalculated 
+export function LogisticsCostEstimator({
+  className,
+  onEstimateCalculated,
 }: LogisticsCostEstimatorProps) {
   const t = useTranslations('logistics.estimator');
   const { config, locale, formatCurrency } = useMarket();
   const { majorPorts, preferredIncoterms } = useMarketShipping();
-  
+
   // Get translated arrays
   const SHIPPING_METHODS = getShippingMethods(t);
   const CONTAINER_TYPES = getContainerTypes(t);
@@ -190,11 +207,13 @@ export function LogisticsCostEstimator({
 
   // Get available ports based on locale
   const availablePorts = useMemo(() => {
-    return majorPorts || [
-      { name: 'Ho Chi Minh City', code: 'VNSGN', country: 'Vietnam' },
-      { name: 'Da Nang', code: 'VNDAD', country: 'Vietnam' },
-      { name: 'Hai Phong', code: 'VNHPH', country: 'Vietnam' },
-    ];
+    return (
+      majorPorts || [
+        { name: 'Ho Chi Minh City', code: 'VNSGN', country: 'Vietnam' },
+        { name: 'Da Nang', code: 'VNDAD', country: 'Vietnam' },
+        { name: 'Hai Phong', code: 'VNHPH', country: 'Vietnam' },
+      ]
+    );
   }, [majorPorts]);
 
   // Validation
@@ -233,21 +252,29 @@ export function LogisticsCostEstimator({
 
     try {
       const quantity = parseFloat(formData.quantity);
-      const insuranceValue = parseFloat(formData.insuranceValue) || quantity * 3000; // Default $3000/MT
+      const insuranceValue =
+        parseFloat(formData.insuranceValue) || quantity * 3000; // Default $3000/MT
 
       // Get origin and destination port data
-      const originPortData = availablePorts.find(p => p.code === formData.originPort);
+      const originPortData = availablePorts.find(
+        p => p.code === formData.originPort
+      );
       const destinationPortData = {
-        name: formData.destinationPort,
-        code: formData.destinationPort.toUpperCase(),
-        country: formData.destinationCountry,
+        name: formData.destinationPort || '',
+        code: formData.destinationPort
+          ? formData.destinationPort.toUpperCase()
+          : '',
+        country: formData.destinationCountry || '',
         coordinates: { lat: 0, lng: 0 }, // Would be fetched from API in real implementation
       };
 
       // Base shipping calculation
-      const shippingMethod = SHIPPING_METHODS.find(m => m.value === formData.shippingMethod)!;
+      const shippingMethod = SHIPPING_METHODS.find(
+        m => m.value === formData.shippingMethod
+      )!;
       const baseRate = 150; // Base rate per MT in USD
-      const baseShippingCost = quantity * baseRate * shippingMethod.costMultiplier;
+      const baseShippingCost =
+        quantity * baseRate * shippingMethod.costMultiplier;
 
       // Additional costs based on Incoterms
       let insuranceCost = 0;
@@ -287,7 +314,8 @@ export function LogisticsCostEstimator({
           break;
       }
 
-      const totalCost = baseShippingCost + insuranceCost + handlingCost + documentationCost;
+      const totalCost =
+        baseShippingCost + insuranceCost + handlingCost + documentationCost;
 
       const breakdown = [
         {
@@ -295,21 +323,33 @@ export function LogisticsCostEstimator({
           amount: baseShippingCost,
           description: `${quantity} MT × $${baseRate} × ${shippingMethod.costMultiplier}`,
         },
-        ...(handlingCost > 0 ? [{
-          label: 'Handling & Port Charges',
-          amount: handlingCost,
-          description: 'Port handling and loading charges',
-        }] : []),
-        ...(insuranceCost > 0 ? [{
-          label: 'Marine Insurance',
-          amount: insuranceCost,
-          description: '0.2% of cargo value',
-        }] : []),
-        ...(documentationCost > 0 ? [{
-          label: 'Documentation',
-          amount: documentationCost,
-          description: 'Export documentation and certificates',
-        }] : []),
+        ...(handlingCost > 0
+          ? [
+              {
+                label: 'Handling & Port Charges',
+                amount: handlingCost,
+                description: 'Port handling and loading charges',
+              },
+            ]
+          : []),
+        ...(insuranceCost > 0
+          ? [
+              {
+                label: 'Marine Insurance',
+                amount: insuranceCost,
+                description: '0.2% of cargo value',
+              },
+            ]
+          : []),
+        ...(documentationCost > 0
+          ? [
+              {
+                label: 'Documentation',
+                amount: documentationCost,
+                description: 'Export documentation and certificates',
+              },
+            ]
+          : []),
       ];
 
       const newEstimate: ShippingEstimate = {
@@ -319,7 +359,9 @@ export function LogisticsCostEstimator({
         documentationCost,
         totalCost,
         currency: 'USD',
-        transitDays: Math.round((shippingMethod.transitDays.min + shippingMethod.transitDays.max) / 2),
+        transitDays: Math.round(
+          (shippingMethod.transitDays.min + shippingMethod.transitDays.max) / 2
+        ),
         incoterms: formData.incoterms,
         shippingMethod: formData.shippingMethod,
         containerType: formData.containerType,
@@ -328,7 +370,6 @@ export function LogisticsCostEstimator({
 
       setEstimate(newEstimate);
       onEstimateCalculated?.(newEstimate);
-
     } catch (error) {
       console.error('Error calculating shipping estimate:', error);
     } finally {
@@ -336,8 +377,12 @@ export function LogisticsCostEstimator({
     }
   };
 
-  const selectedIncoterm = INCOTERMS_OPTIONS.find(opt => opt.value === formData.incoterms);
-  const selectedShippingMethod = SHIPPING_METHODS.find(m => m.value === formData.shippingMethod);
+  const selectedIncoterm = INCOTERMS_OPTIONS.find(
+    opt => opt.value === formData.incoterms
+  );
+  const selectedShippingMethod = SHIPPING_METHODS.find(
+    m => m.value === formData.shippingMethod
+  );
 
   return (
     <TooltipProvider>
@@ -350,7 +395,7 @@ export function LogisticsCostEstimator({
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Shipment Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="quantity">{t('quantity')} *</Label>
               <div className="flex gap-2">
@@ -359,12 +404,16 @@ export function LogisticsCostEstimator({
                   type="number"
                   placeholder={t('quantity')}
                   value={formData.quantity}
-                  onChange={(e) => setFormData(prev => ({ ...prev, quantity: e.target.value }))}
+                  onChange={e =>
+                    setFormData(prev => ({ ...prev, quantity: e.target.value }))
+                  }
                   className={errors.quantity ? 'border-red-500' : ''}
                 />
                 <Select
                   value={formData.unit}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, unit: value }))}
+                  onValueChange={value =>
+                    setFormData(prev => ({ ...prev, unit: value }))
+                  }
                 >
                   <SelectTrigger className="w-20">
                     <SelectValue />
@@ -376,7 +425,9 @@ export function LogisticsCostEstimator({
                   </SelectContent>
                 </Select>
               </div>
-              {errors.quantity && <p className="text-sm text-red-500">{errors.quantity}</p>}
+              {errors.quantity && (
+                <p className="text-sm text-red-500">{errors.quantity}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -386,33 +437,46 @@ export function LogisticsCostEstimator({
                 type="number"
                 placeholder={t('cargoValue')}
                 value={formData.insuranceValue}
-                onChange={(e) => setFormData(prev => ({ ...prev, insuranceValue: e.target.value }))}
+                onChange={e =>
+                  setFormData(prev => ({
+                    ...prev,
+                    insuranceValue: e.target.value,
+                  }))
+                }
                 className={errors.insuranceValue ? 'border-red-500' : ''}
               />
-              {errors.insuranceValue && <p className="text-sm text-red-500">{errors.insuranceValue}</p>}
+              {errors.insuranceValue && (
+                <p className="text-sm text-red-500">{errors.insuranceValue}</p>
+              )}
             </div>
           </div>
 
           {/* Origin & Destination */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="originPort">{t('originPort')} *</Label>
               <Select
                 value={formData.originPort}
-                onValueChange={(value) => setFormData(prev => ({ ...prev, originPort: value }))}
+                onValueChange={value =>
+                  setFormData(prev => ({ ...prev, originPort: value }))
+                }
               >
-                <SelectTrigger className={errors.originPort ? 'border-red-500' : ''}>
+                <SelectTrigger
+                  className={errors.originPort ? 'border-red-500' : ''}
+                >
                   <SelectValue placeholder={t('originPort')} />
                 </SelectTrigger>
                 <SelectContent>
-                  {availablePorts.map((port) => (
+                  {availablePorts.map(port => (
                     <SelectItem key={port.code} value={port.code}>
                       {port.name} ({port.code})
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              {errors.originPort && <p className="text-sm text-red-500">{errors.originPort}</p>}
+              {errors.originPort && (
+                <p className="text-sm text-red-500">{errors.originPort}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -421,30 +485,48 @@ export function LogisticsCostEstimator({
                 id="destinationPort"
                 placeholder={t('destinationPort')}
                 value={formData.destinationPort}
-                onChange={(e) => setFormData(prev => ({ ...prev, destinationPort: e.target.value }))}
+                onChange={e =>
+                  setFormData(prev => ({
+                    ...prev,
+                    destinationPort: e.target.value,
+                  }))
+                }
                 className={errors.destinationPort ? 'border-red-500' : ''}
               />
-              {errors.destinationPort && <p className="text-sm text-red-500">{errors.destinationPort}</p>}
+              {errors.destinationPort && (
+                <p className="text-sm text-red-500">{errors.destinationPort}</p>
+              )}
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="destinationCountry">{t('destinationCountry')} *</Label>
+            <Label htmlFor="destinationCountry">
+              {t('destinationCountry')} *
+            </Label>
             <Input
               id="destinationCountry"
               placeholder={t('destinationCountry')}
               value={formData.destinationCountry}
-              onChange={(e) => setFormData(prev => ({ ...prev, destinationCountry: e.target.value }))}
+              onChange={e =>
+                setFormData(prev => ({
+                  ...prev,
+                  destinationCountry: e.target.value,
+                }))
+              }
               className={errors.destinationCountry ? 'border-red-500' : ''}
             />
-            {errors.destinationCountry && <p className="text-sm text-red-500">{errors.destinationCountry}</p>}
+            {errors.destinationCountry && (
+              <p className="text-sm text-red-500">
+                {errors.destinationCountry}
+              </p>
+            )}
           </div>
 
           {/* Shipping Method */}
           <div className="space-y-2">
             <Label>{t('shippingMethod')}</Label>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {SHIPPING_METHODS.map((method) => {
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
+              {SHIPPING_METHODS.map(method => {
                 const Icon = method.icon;
                 return (
                   <Card
@@ -454,14 +536,23 @@ export function LogisticsCostEstimator({
                         ? 'border-primary bg-primary/5'
                         : 'hover:border-primary/50'
                     }`}
-                    onClick={() => setFormData(prev => ({ ...prev, shippingMethod: method.value }))}
+                    onClick={() =>
+                      setFormData(prev => ({
+                        ...prev,
+                        shippingMethod: method.value,
+                      }))
+                    }
                   >
                     <CardContent className="p-3">
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="mb-1 flex items-center gap-2">
                         <Icon className="h-4 w-4" />
-                        <span className="font-medium text-sm">{method.label}</span>
+                        <span className="text-sm font-medium">
+                          {method.label}
+                        </span>
                       </div>
-                      <p className="text-xs text-muted-foreground">{method.description}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {method.description}
+                      </p>
                       <p className="text-xs text-muted-foreground">
                         {method.transitDays.min}-{method.transitDays.max} days
                       </p>
@@ -477,15 +568,17 @@ export function LogisticsCostEstimator({
             <Label>{t('incoterms')}</Label>
             <Select
               value={formData.incoterms}
-              onValueChange={(value) => setFormData(prev => ({ ...prev, incoterms: value }))}
+              onValueChange={value =>
+                setFormData(prev => ({ ...prev, incoterms: value }))
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder={t('incoterms')} />
               </SelectTrigger>
               <SelectContent>
-                {INCOTERMS_OPTIONS.map((option) => (
+                {INCOTERMS_OPTIONS.map(option => (
                   <SelectItem key={option.value} value={option.value}>
-                    <div className="flex items-center justify-between w-full">
+                    <div className="flex w-full items-center justify-between">
                       <span>{option.label}</span>
                       <Badge variant="outline" className="ml-2">
                         {option.sellerResponsibility}
@@ -496,7 +589,9 @@ export function LogisticsCostEstimator({
               </SelectContent>
             </Select>
             {selectedIncoterm && (
-              <p className="text-sm text-muted-foreground">{selectedIncoterm.description}</p>
+              <p className="text-sm text-muted-foreground">
+                {selectedIncoterm.description}
+              </p>
             )}
           </div>
 
@@ -506,17 +601,19 @@ export function LogisticsCostEstimator({
               <Label>{t('containerType')}</Label>
               <Select
                 value={formData.containerType}
-                onValueChange={(value) => setFormData(prev => ({ ...prev, containerType: value }))}
+                onValueChange={value =>
+                  setFormData(prev => ({ ...prev, containerType: value }))
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {CONTAINER_TYPES.map((container) => (
+                  {CONTAINER_TYPES.map(container => (
                     <SelectItem key={container.value} value={container.value}>
-                      <div className="flex items-center justify-between w-full">
+                      <div className="flex w-full items-center justify-between">
                         <span>{container.label}</span>
-                        <span className="text-sm text-muted-foreground ml-2">
+                        <span className="ml-2 text-sm text-muted-foreground">
                           {container.capacity}
                         </span>
                       </div>
@@ -531,7 +628,7 @@ export function LogisticsCostEstimator({
           <Button
             onClick={calculateEstimate}
             disabled={isCalculating}
-            className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+            className="w-full bg-amber-600 text-white hover:bg-amber-700"
             size="lg"
           >
             {isCalculating ? (
@@ -552,25 +649,33 @@ export function LogisticsCostEstimator({
             <div className="space-y-4">
               <Separator />
               <div>
-                <h3 className="font-semibold mb-3">{t('results.title')}</h3>
-                
+                <h3 className="mb-3 font-semibold">{t('results.title')}</h3>
+
                 {/* Summary */}
                 <Card className="mb-4">
                   <CardContent className="p-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-lg font-semibold">{t('results.totalCost')}</span>
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="text-lg font-semibold">
+                        {t('results.totalCost')}
+                      </span>
                       <span className="text-2xl font-bold text-primary">
                         ${estimate.totalCost.toLocaleString()}
                       </span>
                     </div>
                     <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
                       <div>
-                        <span className="block">{t('results.transitTime')}</span>
-                        <span className="font-medium">{estimate.transitDays} days</span>
+                        <span className="block">
+                          {t('results.transitTime')}
+                        </span>
+                        <span className="font-medium">
+                          {estimate.transitDays} days
+                        </span>
                       </div>
                       <div>
                         <span className="block">{t('results.incoterms')}</span>
-                        <span className="font-medium">{estimate.incoterms}</span>
+                        <span className="font-medium">
+                          {estimate.incoterms}
+                        </span>
                       </div>
                     </div>
                   </CardContent>
@@ -580,27 +685,33 @@ export function LogisticsCostEstimator({
                 <div className="space-y-2">
                   <h4 className="font-medium">{t('results.costBreakdown')}</h4>
                   {estimate.breakdown.map((item, index) => (
-                    <div key={index} className="flex justify-between items-center py-2 border-b">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between border-b py-2"
+                    >
                       <div>
                         <span className="font-medium">{item.label}</span>
                         <Tooltip>
                           <TooltipTrigger>
-                            <Info className="h-3 w-3 ml-1 inline" />
+                            <Info className="ml-1 inline h-3 w-3" />
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>{item.description}</p>
                           </TooltipContent>
                         </Tooltip>
                       </div>
-                      <span className="font-medium">${item.amount.toLocaleString()}</span>
+                      <span className="font-medium">
+                        ${item.amount.toLocaleString()}
+                      </span>
                     </div>
                   ))}
                 </div>
 
                 {/* Disclaimer */}
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+                <div className="mt-4 rounded-lg border border-yellow-200 bg-yellow-50 p-3">
                   <p className="text-sm text-yellow-800">
-                    <strong>{t('disclaimer.title')}:</strong> {t('disclaimer.text')}
+                    <strong>{t('disclaimer.title')}:</strong>{' '}
+                    {t('disclaimer.text')}
                   </p>
                 </div>
               </div>

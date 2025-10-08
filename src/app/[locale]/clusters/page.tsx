@@ -1,7 +1,6 @@
 import { type Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
 import ClusterNavigation from '@/presentation/components/navigation/ClusterNavigation';

@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { Checkbox } from '@/presentation/components/ui/checkbox';
 import { Input } from '@/presentation/components/ui/input';
 import { Label } from '@/presentation/components/ui/label';
 import {
@@ -33,6 +34,23 @@ export interface ProductFilters {
     max: number;
   };
   inStock: boolean | null;
+  // Advanced B2B filters
+  origin: string;
+  harvestSeason: string;
+  minimumOrderRange: {
+    min: number;
+    max: number;
+  };
+  cuppingScoreRange: {
+    min: number;
+    max: number;
+  };
+  altitudeRange: {
+    min: number;
+    max: number;
+  };
+  certifications: string[]; // Multiple certifications
+  incoterms: string;
 }
 
 interface ProductFiltersProps {
@@ -68,17 +86,49 @@ const processingMethods = [
 ];
 
 const certifications = [
-  { value: 'ALL', label: 'All Certifications' },
   { value: 'organic', label: 'Organic' },
   { value: 'fair-trade', label: 'Fair Trade' },
   { value: 'rainforest-alliance', label: 'Rainforest Alliance' },
   { value: 'utz', label: 'UTZ' },
+  { value: 'c-cafe-practices', label: 'C.A.F.E. Practices' },
+  { value: 'bird-friendly', label: 'Bird Friendly' },
+  { value: 'shade-grown', label: 'Shade Grown' },
+  { value: 'direct-trade', label: 'Direct Trade' },
 ];
 
 const stockOptions = [
   { value: 'ALL', label: 'All Products' },
   { value: 'IN_STOCK', label: 'In Stock Only' },
   { value: 'OUT_OF_STOCK', label: 'Out of Stock' },
+];
+
+// Advanced B2B filter options
+const origins = [
+  { value: 'ALL', label: 'All Regions' },
+  { value: 'dak-lak', label: 'Dak Lak' },
+  { value: 'gia-lai', label: 'Gia Lai' },
+  { value: 'kon-tum', label: 'Kon Tum' },
+  { value: 'lam-dong', label: 'Lam Dong' },
+  { value: 'dak-nong', label: 'Dak Nong' },
+  { value: 'son-la', label: 'Son La' },
+  { value: 'dien-bien', label: 'Dien Bien' },
+];
+
+const harvestSeasons = [
+  { value: 'ALL', label: 'All Seasons' },
+  { value: 'october-february', label: 'October - February' },
+  { value: 'november-march', label: 'November - March' },
+  { value: 'december-april', label: 'December - April' },
+  { value: 'year-round', label: 'Year Round' },
+];
+
+const incotermsOptions = [
+  { value: 'ALL', label: 'All Terms' },
+  { value: 'FOB', label: 'FOB (Free on Board)' },
+  { value: 'CIF', label: 'CIF (Cost, Insurance & Freight)' },
+  { value: 'CFR', label: 'CFR (Cost & Freight)' },
+  { value: 'EXW', label: 'EXW (Ex Works)' },
+  { value: 'FCA', label: 'FCA (Free Carrier)' },
 ];
 
 export function ProductFilters({
@@ -109,6 +159,14 @@ export function ProductFilters({
       certification: 'ALL',
       priceRange: { min: 0, max: 10000 },
       inStock: null,
+      // Advanced B2B filters
+      origin: 'ALL',
+      harvestSeason: 'ALL',
+      minimumOrderRange: { min: 0, max: 1000 },
+      cuppingScoreRange: { min: 0, max: 100 },
+      altitudeRange: { min: 0, max: 2000 },
+      certifications: [],
+      incoterms: 'ALL',
     });
   }, [onFiltersChange]);
 
@@ -118,7 +176,17 @@ export function ProductFilters({
     filters.grade !== 'ALL' ||
     filters.processingMethod !== 'ALL' ||
     filters.certification !== 'ALL' ||
-    filters.inStock !== null;
+    filters.inStock !== null ||
+    filters.origin !== 'ALL' ||
+    filters.harvestSeason !== 'ALL' ||
+    filters.certifications.length > 0 ||
+    filters.incoterms !== 'ALL' ||
+    filters.minimumOrderRange.min > 0 ||
+    filters.minimumOrderRange.max < 1000 ||
+    filters.cuppingScoreRange.min > 0 ||
+    filters.cuppingScoreRange.max < 100 ||
+    filters.altitudeRange.min > 0 ||
+    filters.altitudeRange.max < 2000;
 
   const getActiveFiltersCount = () => {
     let count = 0;
@@ -128,6 +196,22 @@ export function ProductFilters({
     if (filters.processingMethod !== 'ALL') count++;
     if (filters.certification !== 'ALL') count++;
     if (filters.inStock !== null) count++;
+    if (filters.origin !== 'ALL') count++;
+    if (filters.harvestSeason !== 'ALL') count++;
+    if (filters.certifications.length > 0) count++;
+    if (filters.incoterms !== 'ALL') count++;
+    if (
+      filters.minimumOrderRange.min > 0 ||
+      filters.minimumOrderRange.max < 1000
+    )
+      count++;
+    if (
+      filters.cuppingScoreRange.min > 0 ||
+      filters.cuppingScoreRange.max < 100
+    )
+      count++;
+    if (filters.altitudeRange.min > 0 || filters.altitudeRange.max < 2000)
+      count++;
     return count;
   };
 
@@ -364,6 +448,274 @@ export function ProductFilters({
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+
+            {/* Advanced B2B Filters */}
+            <div className="col-span-full border-t border-forest-100 pt-6">
+              <h4 className="mb-4 text-sm font-semibold text-forest-800">
+                Advanced B2B Filters
+              </h4>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {/* Origin */}
+                <div>
+                  <Label className="mb-2 block text-sm font-medium text-forest-700">
+                    Origin
+                  </Label>
+                  <Select
+                    value={filters.origin}
+                    onValueChange={value => updateFilter('origin', value)}
+                  >
+                    <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {originOptions.map(origin => (
+                        <SelectItem key={origin.value} value={origin.value}>
+                          {origin.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Harvest Season */}
+                <div>
+                  <Label className="mb-2 block text-sm font-medium text-forest-700">
+                    Harvest Season
+                  </Label>
+                  <Select
+                    value={filters.harvestSeason}
+                    onValueChange={value =>
+                      updateFilter('harvestSeason', value)
+                    }
+                  >
+                    <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {harvestSeasonOptions.map(season => (
+                        <SelectItem key={season.value} value={season.value}>
+                          {season.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Incoterms */}
+                <div>
+                  <Label className="mb-2 block text-sm font-medium text-forest-700">
+                    Incoterms
+                  </Label>
+                  <Select
+                    value={filters.incoterms}
+                    onValueChange={value => updateFilter('incoterms', value)}
+                  >
+                    <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {incotermsOptions.map(term => (
+                        <SelectItem key={term.value} value={term.value}>
+                          {term.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Minimum Order Range */}
+                <div>
+                  <Label className="mb-2 block text-sm font-medium text-forest-700">
+                    Minimum Order (MT)
+                  </Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <Label
+                        htmlFor="minOrder"
+                        className="text-xs text-forest-600"
+                      >
+                        Min
+                      </Label>
+                      <Input
+                        id="minOrder"
+                        type="number"
+                        placeholder="0"
+                        value={filters.minimumOrderRange.min || ''}
+                        onChange={e =>
+                          updateFilter('minimumOrderRange', {
+                            ...filters.minimumOrderRange,
+                            min: parseInt(e.target.value) || 0,
+                          })
+                        }
+                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
+                      />
+                    </div>
+                    <div>
+                      <Label
+                        htmlFor="maxOrder"
+                        className="text-xs text-forest-600"
+                      >
+                        Max
+                      </Label>
+                      <Input
+                        id="maxOrder"
+                        type="number"
+                        placeholder="1000"
+                        value={filters.minimumOrderRange.max || ''}
+                        onChange={e =>
+                          updateFilter('minimumOrderRange', {
+                            ...filters.minimumOrderRange,
+                            max: parseInt(e.target.value) || 1000,
+                          })
+                        }
+                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Cupping Score Range */}
+                <div>
+                  <Label className="mb-2 block text-sm font-medium text-forest-700">
+                    Cupping Score
+                  </Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <Label
+                        htmlFor="minCupping"
+                        className="text-xs text-forest-600"
+                      >
+                        Min
+                      </Label>
+                      <Input
+                        id="minCupping"
+                        type="number"
+                        placeholder="0"
+                        min="0"
+                        max="100"
+                        value={filters.cuppingScoreRange.min || ''}
+                        onChange={e =>
+                          updateFilter('cuppingScoreRange', {
+                            ...filters.cuppingScoreRange,
+                            min: parseInt(e.target.value) || 0,
+                          })
+                        }
+                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
+                      />
+                    </div>
+                    <div>
+                      <Label
+                        htmlFor="maxCupping"
+                        className="text-xs text-forest-600"
+                      >
+                        Max
+                      </Label>
+                      <Input
+                        id="maxCupping"
+                        type="number"
+                        placeholder="100"
+                        min="0"
+                        max="100"
+                        value={filters.cuppingScoreRange.max || ''}
+                        onChange={e =>
+                          updateFilter('cuppingScoreRange', {
+                            ...filters.cuppingScoreRange,
+                            max: parseInt(e.target.value) || 100,
+                          })
+                        }
+                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Altitude Range */}
+                <div>
+                  <Label className="mb-2 block text-sm font-medium text-forest-700">
+                    Altitude (MASL)
+                  </Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <Label
+                        htmlFor="minAltitude"
+                        className="text-xs text-forest-600"
+                      >
+                        Min
+                      </Label>
+                      <Input
+                        id="minAltitude"
+                        type="number"
+                        placeholder="0"
+                        value={filters.altitudeRange.min || ''}
+                        onChange={e =>
+                          updateFilter('altitudeRange', {
+                            ...filters.altitudeRange,
+                            min: parseInt(e.target.value) || 0,
+                          })
+                        }
+                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
+                      />
+                    </div>
+                    <div>
+                      <Label
+                        htmlFor="maxAltitude"
+                        className="text-xs text-forest-600"
+                      >
+                        Max
+                      </Label>
+                      <Input
+                        id="maxAltitude"
+                        type="number"
+                        placeholder="2000"
+                        value={filters.altitudeRange.max || ''}
+                        onChange={e =>
+                          updateFilter('altitudeRange', {
+                            ...filters.altitudeRange,
+                            max: parseInt(e.target.value) || 2000,
+                          })
+                        }
+                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Multiple Certifications */}
+              <div className="mt-6">
+                <Label className="mb-3 block text-sm font-medium text-forest-700">
+                  Certifications (Multiple Selection)
+                </Label>
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+                  {multiCertificationOptions.map(cert => (
+                    <div
+                      key={cert.value}
+                      className="flex items-center space-x-2"
+                    >
+                      <Checkbox
+                        id={`cert-${cert.value}`}
+                        checked={filters.certifications.includes(cert.value)}
+                        onCheckedChange={checked => {
+                          const newCertifications = checked
+                            ? [...filters.certifications, cert.value]
+                            : filters.certifications.filter(
+                                c => c !== cert.value
+                              );
+                          updateFilter('certifications', newCertifications);
+                        }}
+                        className="border-forest-300 data-[state=checked]:border-emerald-600 data-[state=checked]:bg-emerald-600"
+                      />
+                      <Label
+                        htmlFor={`cert-${cert.value}`}
+                        className="cursor-pointer text-sm text-forest-700"
+                      >
+                        {cert.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         )}

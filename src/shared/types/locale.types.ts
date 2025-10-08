@@ -3,17 +3,7 @@
 // ================================
 
 import { SelectOption } from './common.types';
-
-export type Locale =
-  | 'en'
-  | 'vi'
-  | 'de'
-  | 'ja'
-  | 'fr'
-  | 'it'
-  | 'es'
-  | 'nl'
-  | 'ko';
+import { type Locale } from '@/i18n';
 
 export interface LocaleConfig {
   code: Locale;

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { pdfGenerationService } from '@/infrastructure/services/pdf-generation.service';
+
 import { coffeeProductRepository } from '@/infrastructure/database/repositories';
+import { pdfGenerationService } from '@/infrastructure/services/pdf-generation.service';
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,10 +19,7 @@ export async function POST(request: NextRequest) {
     // Fetch product data
     const product = await coffeeProductRepository.findById(productId);
     if (!product) {
-      return NextResponse.json(
-        { error: 'Product not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
     // Generate PDF using server-side rendering
@@ -36,17 +34,21 @@ export async function POST(request: NextRequest) {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="product-spec-${(product.name[locale as keyof typeof product.name] || product.name.en).replace(/\s+/g, '-').toLowerCase()}-${Date.now()}.pdf"`,
+        'Content-Disposition': `attachment; filename="product-spec-${(
+          product.name[locale as keyof typeof product.name] || product.name.en
+        )
+          .replace(/\s+/g, '-')
+          .toLowerCase()}-${Date.now()}.pdf"`,
         'Content-Length': pdfBuffer.length.toString(),
       },
     });
   } catch (error) {
     console.error('Error generating product spec PDF:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to generate PDF',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );
@@ -69,10 +71,7 @@ export async function GET(request: NextRequest) {
     // Fetch product data
     const product = await coffeeProductRepository.findById(productId);
     if (!product) {
-      return NextResponse.json(
-        { error: 'Product not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
     // Generate PDF using server-side rendering
@@ -86,17 +85,21 @@ export async function GET(request: NextRequest) {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="product-spec-${(product.name[locale as keyof typeof product.name] || product.name.en).replace(/\s+/g, '-').toLowerCase()}-${Date.now()}.pdf"`,
+        'Content-Disposition': `attachment; filename="product-spec-${(
+          product.name[locale as keyof typeof product.name] || product.name.en
+        )
+          .replace(/\s+/g, '-')
+          .toLowerCase()}-${Date.now()}.pdf"`,
         'Content-Length': pdfBuffer.length.toString(),
       },
     });
   } catch (error) {
     console.error('Error generating product spec PDF:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to generate PDF',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );

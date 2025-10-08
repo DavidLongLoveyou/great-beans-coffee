@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createScopedLogger } from '@/shared/utils/logger';
@@ -141,9 +140,9 @@ export async function POST(request: NextRequest) {
 
     // Validate URL (should be from same origin in production)
     try {
-      const url = new URL(payload.url);
+      const _url = new URL(payload.url);
       // In production, validate that URL is from your domain
-      // if (url.hostname !== 'thegreatbeans.com') {
+      // if (_url.hostname !== 'thegreatbeans.com') {
       //   return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
       // }
     } catch {
@@ -215,7 +214,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const timeframe = searchParams.get('timeframe') || '24h';
     const metric = searchParams.get('metric');
-    const url = searchParams.get('url');
+    const urlFilter = searchParams.get('url');
 
     // Calculate time range
     const now = Date.now();
@@ -245,8 +244,8 @@ export async function GET(request: NextRequest) {
       filteredMetrics = filteredMetrics.filter(m => m.metric.name === metric);
     }
 
-    if (url) {
-      filteredMetrics = filteredMetrics.filter(m => m.url.includes(url));
+    if (urlFilter) {
+      filteredMetrics = filteredMetrics.filter(m => m.url.includes(urlFilter));
     }
 
     // Aggregate data

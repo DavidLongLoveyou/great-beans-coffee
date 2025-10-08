@@ -34,19 +34,19 @@ export function useToast(): UseToastReturn {
       ...options,
     };
 
-    setToasts((prev) => [...prev, newToast]);
+    setToasts(prev => [...prev, newToast]);
 
     // Auto dismiss after duration
     const duration = options.duration ?? 5000;
     if (duration > 0) {
       setTimeout(() => {
-        setToasts((prev) => prev.filter((t) => t.id !== id));
+        setToasts(prev => prev.filter(t => t.id !== id));
       }, duration);
     }
   }, []);
 
   const dismiss = useCallback((id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
+    setToasts(prev => prev.filter(t => t.id !== id));
   }, []);
 
   return {
@@ -57,7 +57,7 @@ export function useToast(): UseToastReturn {
 }
 
 // Simple toast function for direct usage
-export function toast(options: ToastOptions) {
-  // For now, just use console.log as a fallback
-  console.log('Toast:', options);
+export function toast(_options: ToastOptions) {
+  // For now, just use a no-op as a fallback
+  // In a real implementation, this would trigger a toast notification
 }

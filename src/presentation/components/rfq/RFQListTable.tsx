@@ -163,32 +163,39 @@ export function RFQListTable({
 }: RFQListTableProps) {
   const t = useTranslations('rfq');
   const { locale, formatCurrency: marketFormatCurrency } = useMarket();
-  
+
   const statusConfig = getStatusConfig(t);
   const priorityConfig = getPriorityConfig(t);
 
   // Handle sort
   const handleSort = (field: string) => {
-    const direction = 
-      sortConfig.field === field && sortConfig.direction === 'asc' 
-        ? 'desc' 
+    const direction =
+      sortConfig.field === field && sortConfig.direction === 'asc'
+        ? 'desc'
         : 'asc';
     onSortChange({ field, direction });
   };
 
   // Sortable header component
-  const SortableHeader = ({ field, children }: { field: string; children: React.ReactNode }) => (
-    <TableHead 
+  const SortableHeader = ({
+    field,
+    children,
+  }: {
+    field: string;
+    children: React.ReactNode;
+  }) => (
+    <TableHead
       className="cursor-pointer select-none hover:bg-gray-50"
       onClick={() => handleSort(field)}
     >
       <div className="flex items-center gap-1">
         {children}
-        {sortConfig.field === field && (
-          sortConfig.direction === 'asc' ? 
-            <ChevronUp className="h-4 w-4" /> : 
+        {sortConfig.field === field &&
+          (sortConfig.direction === 'asc' ? (
+            <ChevronUp className="h-4 w-4" />
+          ) : (
             <ChevronDown className="h-4 w-4" />
-        )}
+          ))}
       </div>
     </TableHead>
   );
@@ -209,7 +216,8 @@ export function RFQListTable({
   const isDeadlineUrgent = (deadline: string) => {
     const deadlineDate = new Date(deadline);
     const now = new Date();
-    const diffHours = (deadlineDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+    const diffHours =
+      (deadlineDate.getTime() - now.getTime()) / (1000 * 60 * 60);
     return diffHours <= 24 && diffHours > 0;
   };
 
@@ -221,7 +229,10 @@ export function RFQListTable({
 
   const totalPages = Math.ceil(filteredCount / pagination.pageSize);
   const startItem = (pagination.page - 1) * pagination.pageSize + 1;
-  const endItem = Math.min(pagination.page * pagination.pageSize, filteredCount);
+  const endItem = Math.min(
+    pagination.page * pagination.pageSize,
+    filteredCount
+  );
 
   return (
     <Card>
@@ -233,20 +244,40 @@ export function RFQListTable({
       </CardHeader>
       <CardContent>
         {/* Desktop Table View */}
-        <div className="hidden lg:block overflow-x-auto">
+        <div className="hidden overflow-x-auto lg:block">
           <Table>
             <TableHeader>
               <TableRow>
-                <SortableHeader field="rfqNumber">{t('table.headers.rfqNumber')}</SortableHeader>
-                <SortableHeader field="productType">{t('table.headers.productCompany')}</SortableHeader>
-                <SortableHeader field="quantity">{t('table.headers.quantity')}</SortableHeader>
-                <SortableHeader field="estimatedValue">{t('table.headers.estimatedValue')}</SortableHeader>
-                <SortableHeader field="status">{t('table.headers.status')}</SortableHeader>
-                <SortableHeader field="priority">{t('table.headers.priority')}</SortableHeader>
-                <SortableHeader field="submittedAt">{t('table.headers.submitted')}</SortableHeader>
-                <SortableHeader field="responseDeadline">{t('table.headers.deadline')}</SortableHeader>
-                <SortableHeader field="assignedTo">{t('table.headers.assignedTo')}</SortableHeader>
-                <TableHead className="w-[100px]">{t('table.headers.actions')}</TableHead>
+                <SortableHeader field="rfqNumber">
+                  {t('table.headers.rfqNumber')}
+                </SortableHeader>
+                <SortableHeader field="productType">
+                  {t('table.headers.productCompany')}
+                </SortableHeader>
+                <SortableHeader field="quantity">
+                  {t('table.headers.quantity')}
+                </SortableHeader>
+                <SortableHeader field="estimatedValue">
+                  {t('table.headers.estimatedValue')}
+                </SortableHeader>
+                <SortableHeader field="status">
+                  {t('table.headers.status')}
+                </SortableHeader>
+                <SortableHeader field="priority">
+                  {t('table.headers.priority')}
+                </SortableHeader>
+                <SortableHeader field="submittedAt">
+                  {t('table.headers.submitted')}
+                </SortableHeader>
+                <SortableHeader field="responseDeadline">
+                  {t('table.headers.deadline')}
+                </SortableHeader>
+                <SortableHeader field="assignedTo">
+                  {t('table.headers.assignedTo')}
+                </SortableHeader>
+                <TableHead className="w-[100px]">
+                  {t('table.headers.actions')}
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -286,15 +317,20 @@ export function RFQListTable({
                   <TableRow key={rfq.id} className="hover:bg-gray-50">
                     <TableCell className="font-medium">
                       <div className="flex flex-col">
-                        <span className="font-mono text-sm">{rfq.rfqNumber}</span>
+                        <span className="font-mono text-sm">
+                          {rfq.rfqNumber}
+                        </span>
                         <span className="text-xs text-gray-500">
-                          {t('table.labels.updated')}: {formatDateLocal(rfq.lastUpdate)}
+                          {t('table.labels.updated')}:{' '}
+                          {formatDateLocal(rfq.lastUpdate)}
                         </span>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="max-w-[200px]">
-                        <p className="truncate font-medium">{rfq.productType}</p>
+                        <p className="truncate font-medium">
+                          {rfq.productType}
+                        </p>
                         <p className="truncate text-sm text-gray-500">
                           {rfq.companyName}
                         </p>
@@ -339,33 +375,39 @@ export function RFQListTable({
                         <span
                           className={`text-sm ${
                             isDeadlineExpired(rfq.responseDeadline)
-                              ? 'text-red-600 font-medium'
+                              ? 'font-medium text-red-600'
                               : isDeadlineUrgent(rfq.responseDeadline)
-                              ? 'text-orange-600 font-medium'
-                              : 'text-gray-600'
+                                ? 'font-medium text-orange-600'
+                                : 'text-gray-600'
                           }`}
                         >
                           {formatDateLocal(rfq.responseDeadline)}
                         </span>
                         {isDeadlineExpired(rfq.responseDeadline) && (
-                          <span className="text-xs text-red-500">{t('table.labels.expired')}</span>
+                          <span className="text-xs text-red-500">
+                            {t('table.labels.expired')}
+                          </span>
                         )}
                         {isDeadlineUrgent(rfq.responseDeadline) &&
                           !isDeadlineExpired(rfq.responseDeadline) && (
-                            <span className="text-xs text-orange-500">{t('table.labels.urgent')}</span>
+                            <span className="text-xs text-orange-500">
+                              {t('table.labels.urgent')}
+                            </span>
                           )}
                       </div>
                     </TableCell>
                     <TableCell>
                       {rfq.assignedTo ? (
                         <div className="flex items-center">
-                          <div className="h-6 w-6 rounded-full bg-forest-100 flex items-center justify-center text-xs font-medium text-forest-700">
+                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-forest-100 text-xs font-medium text-forest-700">
                             {rfq.assignedTo.charAt(0).toUpperCase()}
                           </div>
                           <span className="ml-2 text-sm">{rfq.assignedTo}</span>
                         </div>
                       ) : (
-                        <span className="text-sm text-gray-400">{t('table.labels.unassigned')}</span>
+                        <span className="text-sm text-gray-400">
+                          {t('table.labels.unassigned')}
+                        </span>
                       )}
                     </TableCell>
                     <TableCell>
@@ -402,7 +444,7 @@ export function RFQListTable({
         </div>
 
         {/* Mobile Card View */}
-        <div className="lg:hidden space-y-4">
+        <div className="space-y-4 lg:hidden">
           {loading ? (
             // Loading skeleton for mobile
             Array.from({ length: pagination.pageSize }).map((_, index) => (
@@ -424,41 +466,44 @@ export function RFQListTable({
                 <h3 className="mb-2 text-lg font-medium text-gray-900">
                   {t('table.emptyState.title')}
                 </h3>
-                <p className="text-gray-500 mb-4">
+                <p className="mb-4 text-gray-500">
                   {t('table.emptyState.description')}
                 </p>
-                <Button
-                  onClick={() => (window.location.href = '/en/quote')}
-                >
+                <Button onClick={() => (window.location.href = '/en/quote')}>
                   {t('table.emptyState.createButton')}
                 </Button>
               </div>
             </Card>
           ) : (
             rfqs.map(rfq => (
-              <Card key={rfq.id} className="p-4 hover:shadow-md transition-shadow">
+              <Card
+                key={rfq.id}
+                className="p-4 transition-shadow hover:shadow-md"
+              >
                 <div className="space-y-3">
                   {/* Header */}
                   <div className="flex items-start justify-between">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-mono text-sm font-medium truncate">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="truncate font-mono text-sm font-medium">
                         {rfq.rfqNumber}
                       </h3>
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                      <p className="truncate text-sm font-medium text-gray-900">
                         {rfq.productType}
                       </p>
-                      <p className="text-xs text-gray-500 truncate">
+                      <p className="truncate text-xs text-gray-500">
                         {rfq.companyName}
                       </p>
                     </div>
-                    <div className="flex flex-col items-end gap-1 ml-2">
+                    <div className="ml-2 flex flex-col items-end gap-1">
                       <Badge
                         className={`${statusConfig[rfq.status].color} text-xs`}
                       >
                         {getStatusIcon(rfq.status)}
                         {statusConfig[rfq.status].label}
                       </Badge>
-                      <Badge className={`${priorityConfig[rfq.priority].color} text-xs`}>
+                      <Badge
+                        className={`${priorityConfig[rfq.priority].color} text-xs`}
+                      >
                         {priorityConfig[rfq.priority].label}
                       </Badge>
                     </div>
@@ -467,37 +512,53 @@ export function RFQListTable({
                   {/* Details */}
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
-                      <span className="text-gray-500">{t('table.labels.quantity')}:</span>
+                      <span className="text-gray-500">
+                        {t('table.labels.quantity')}:
+                      </span>
                       <p className="font-medium">
                         {rfq.quantity.toLocaleString()} {rfq.unit}
                       </p>
                     </div>
                     <div>
-                      <span className="text-gray-500">{t('table.labels.estimatedValue')}:</span>
+                      <span className="text-gray-500">
+                        {t('table.labels.estimatedValue')}:
+                      </span>
                       <p className="font-medium">
                         {formatCurrencyLocal(rfq.estimatedValue, rfq.currency)}
                       </p>
                     </div>
                     <div>
-                      <span className="text-gray-500">{t('table.labels.submitted')}:</span>
-                      <p className="text-xs">{formatDateLocal(rfq.submittedAt)}</p>
+                      <span className="text-gray-500">
+                        {t('table.labels.submitted')}:
+                      </span>
+                      <p className="text-xs">
+                        {formatDateLocal(rfq.submittedAt)}
+                      </p>
                     </div>
                     <div>
-                      <span className="text-gray-500">{t('table.labels.deadline')}:</span>
-                      <p className={`text-xs ${
-                        isDeadlineExpired(rfq.responseDeadline)
-                          ? 'text-red-600 font-medium'
-                          : isDeadlineUrgent(rfq.responseDeadline)
-                          ? 'text-orange-600 font-medium'
-                          : 'text-gray-600'
-                      }`}>
+                      <span className="text-gray-500">
+                        {t('table.labels.deadline')}:
+                      </span>
+                      <p
+                        className={`text-xs ${
+                          isDeadlineExpired(rfq.responseDeadline)
+                            ? 'font-medium text-red-600'
+                            : isDeadlineUrgent(rfq.responseDeadline)
+                              ? 'font-medium text-orange-600'
+                              : 'text-gray-600'
+                        }`}
+                      >
                         {formatDateLocal(rfq.responseDeadline)}
                         {isDeadlineExpired(rfq.responseDeadline) && (
-                          <span className="ml-1 text-red-500">({t('table.labels.expired')})</span>
+                          <span className="ml-1 text-red-500">
+                            ({t('table.labels.expired')})
+                          </span>
                         )}
                         {isDeadlineUrgent(rfq.responseDeadline) &&
                           !isDeadlineExpired(rfq.responseDeadline) && (
-                            <span className="ml-1 text-orange-500">({t('table.labels.urgent')})</span>
+                            <span className="ml-1 text-orange-500">
+                              ({t('table.labels.urgent')})
+                            </span>
                           )}
                       </p>
                     </div>
@@ -505,10 +566,12 @@ export function RFQListTable({
 
                   {/* Contact & Assigned */}
                   <div className="flex items-center justify-between text-xs text-gray-500">
-                    <span>{t('table.labels.contact')}: {rfq.contactPerson}</span>
+                    <span>
+                      {t('table.labels.contact')}: {rfq.contactPerson}
+                    </span>
                     {rfq.assignedTo ? (
                       <div className="flex items-center">
-                        <div className="h-5 w-5 rounded-full bg-forest-100 flex items-center justify-center text-xs font-medium text-forest-700 mr-1">
+                        <div className="mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-forest-100 text-xs font-medium text-forest-700">
                           {rfq.assignedTo.charAt(0).toUpperCase()}
                         </div>
                         <span>{rfq.assignedTo}</span>
@@ -519,9 +582,10 @@ export function RFQListTable({
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center justify-between pt-2 border-t">
+                  <div className="flex items-center justify-between border-t pt-2">
                     <span className="text-xs text-gray-500">
-                      {t('table.labels.updated')}: {formatDateLocal(rfq.lastUpdate)}
+                      {t('table.labels.updated')}:{' '}
+                      {formatDateLocal(rfq.lastUpdate)}
                     </span>
                     <div className="flex items-center gap-2">
                       <Button
@@ -530,7 +594,7 @@ export function RFQListTable({
                         onClick={() => onViewRFQ(rfq)}
                         className="h-8 px-3 text-xs"
                       >
-                        <Eye className="h-3 w-3 mr-1" />
+                        <Eye className="mr-1 h-3 w-3" />
                         {t('table.actions.view')}
                       </Button>
                       <Button
@@ -557,19 +621,17 @@ export function RFQListTable({
 
         {/* Pagination */}
         {!loading && rfqs.length > 0 && (
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t pt-4">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+          <div className="flex flex-col items-start justify-between gap-4 border-t pt-4 sm:flex-row sm:items-center">
+            <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
-                <span className="text-xs sm:text-sm text-gray-600">
+                <span className="text-xs text-gray-600 sm:text-sm">
                   {t('table.pagination.itemsPerPage')}:
                 </span>
                 <Select
                   value={pagination.pageSize.toString()}
-                  onValueChange={(value) =>
-                    onPageSizeChange(parseInt(value))
-                  }
+                  onValueChange={value => onPageSizeChange(parseInt(value))}
                 >
-                  <SelectTrigger className="w-16 h-8">
+                  <SelectTrigger className="h-8 w-16">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -580,11 +642,11 @@ export function RFQListTable({
                   </SelectContent>
                 </Select>
               </div>
-              <span className="text-xs sm:text-sm text-gray-600">
-                {t('table.pagination.showing', { 
-                  start: startItem, 
-                  end: endItem, 
-                  total: filteredCount 
+              <span className="text-xs text-gray-600 sm:text-sm">
+                {t('table.pagination.showing', {
+                  start: startItem,
+                  end: endItem,
+                  total: filteredCount,
                 })}
                 {filteredCount !== totalCount && (
                   <span className="ml-1 text-xs">
@@ -615,33 +677,49 @@ export function RFQListTable({
               >
                 <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
-              
+
               <div className="flex items-center gap-1">
-                {Array.from({ length: Math.min(window.innerWidth < 640 ? 3 : 5, totalPages) }, (_, i) => {
-                  let pageNum;
-                  const maxPages = window.innerWidth < 640 ? 3 : 5;
-                  if (totalPages <= maxPages) {
-                    pageNum = i + 1;
-                  } else if (pagination.page <= Math.floor(maxPages / 2) + 1) {
-                    pageNum = i + 1;
-                  } else if (pagination.page >= totalPages - Math.floor(maxPages / 2)) {
-                    pageNum = totalPages - maxPages + 1 + i;
-                  } else {
-                    pageNum = pagination.page - Math.floor(maxPages / 2) + i;
+                {Array.from(
+                  {
+                    length: Math.min(
+                      window.innerWidth < 640 ? 3 : 5,
+                      totalPages
+                    ),
+                  },
+                  (_, i) => {
+                    let pageNum;
+                    const maxPages = window.innerWidth < 640 ? 3 : 5;
+                    if (totalPages <= maxPages) {
+                      pageNum = i + 1;
+                    } else if (
+                      pagination.page <=
+                      Math.floor(maxPages / 2) + 1
+                    ) {
+                      pageNum = i + 1;
+                    } else if (
+                      pagination.page >=
+                      totalPages - Math.floor(maxPages / 2)
+                    ) {
+                      pageNum = totalPages - maxPages + 1 + i;
+                    } else {
+                      pageNum = pagination.page - Math.floor(maxPages / 2) + i;
+                    }
+
+                    return (
+                      <Button
+                        key={pageNum}
+                        variant={
+                          pagination.page === pageNum ? 'default' : 'outline'
+                        }
+                        size="sm"
+                        onClick={() => onPageChange(pageNum)}
+                        className="h-8 w-8 p-0 text-xs sm:text-sm"
+                      >
+                        {pageNum}
+                      </Button>
+                    );
                   }
-                  
-                  return (
-                    <Button
-                      key={pageNum}
-                      variant={pagination.page === pageNum ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => onPageChange(pageNum)}
-                      className="w-8 h-8 p-0 text-xs sm:text-sm"
-                    >
-                      {pageNum}
-                    </Button>
-                  );
-                })}
+                )}
               </div>
 
               <Button

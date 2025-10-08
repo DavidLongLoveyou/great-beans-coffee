@@ -9,7 +9,7 @@ const logger = createScopedLogger('SitemapIndex');
  * Generate and serve the sitemap index file
  * This references all individual sitemaps for better organization
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const baseUrl = siteConfig.url;
     const currentDate = new Date().toISOString();
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
 /**
  * Handle HEAD requests for sitemap index validation
  */
-export async function HEAD(request: NextRequest) {
+export async function HEAD(_request: NextRequest) {
   return new NextResponse(null, {
     status: 200,
     headers: {

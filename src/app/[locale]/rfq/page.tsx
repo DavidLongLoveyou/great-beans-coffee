@@ -165,7 +165,7 @@ export default function RFQTrackingPage() {
   const router = useRouter();
   const params = useParams();
   const { locale, formatCurrency: marketFormatCurrency } = useMarket();
-  
+
   // Use the RFQ list hook
   const {
     filteredRFQs,
@@ -242,14 +242,16 @@ export default function RFQTrackingPage() {
                   variant="outline"
                   onClick={handleRefresh}
                   disabled={loading}
-                  className="flex items-center justify-center gap-2 w-full sm:w-auto"
+                  className="flex w-full items-center justify-center gap-2 sm:w-auto"
                 >
-                  <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                  <RefreshCw
+                    className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`}
+                  />
                   <span>{t('page.refresh')}</span>
                 </Button>
                 <Button
                   onClick={() => (window.location.href = '/en/quote')}
-                  className="flex items-center justify-center gap-2 w-full sm:w-auto"
+                  className="flex w-full items-center justify-center gap-2 sm:w-auto"
                 >
                   <Plus className="h-4 w-4" />
                   <span>{t('page.newRfq')}</span>
@@ -259,7 +261,7 @@ export default function RFQTrackingPage() {
           </div>
           {/* Summary Cards */}
           <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-            <Card className="hover:shadow-md transition-shadow">
+            <Card className="transition-shadow hover:shadow-md">
               <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center justify-between">
                   <div className="min-w-0 flex-1">
@@ -270,12 +272,12 @@ export default function RFQTrackingPage() {
                       {totalCount}
                     </p>
                   </div>
-                  <Package className="h-6 w-6 text-forest-600 sm:h-8 sm:w-8 flex-shrink-0" />
+                  <Package className="h-6 w-6 flex-shrink-0 text-forest-600 sm:h-8 sm:w-8" />
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow">
+            <Card className="transition-shadow hover:shadow-md">
               <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center justify-between">
                   <div className="min-w-0 flex-1">
@@ -290,12 +292,12 @@ export default function RFQTrackingPage() {
                       }
                     </p>
                   </div>
-                  <MessageSquare className="h-6 w-6 text-green-600 sm:h-8 sm:w-8 flex-shrink-0" />
+                  <MessageSquare className="h-6 w-6 flex-shrink-0 text-green-600 sm:h-8 sm:w-8" />
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow">
+            <Card className="transition-shadow hover:shadow-md">
               <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center justify-between">
                   <div className="min-w-0 flex-1">
@@ -310,26 +312,29 @@ export default function RFQTrackingPage() {
                       }
                     </p>
                   </div>
-                  <Clock className="h-6 w-6 text-yellow-600 sm:h-8 sm:w-8 flex-shrink-0" />
+                  <Clock className="h-6 w-6 flex-shrink-0 text-yellow-600 sm:h-8 sm:w-8" />
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow">
+            <Card className="transition-shadow hover:shadow-md">
               <CardContent className="p-4 sm:p-6">
                 <div className="flex items-center justify-between">
                   <div className="min-w-0 flex-1">
                     <p className="text-xs font-medium text-gray-600 sm:text-sm">
                       {t('page.summaryCards.totalValue')}
                     </p>
-                    <p className="text-lg font-bold text-gray-900 sm:text-2xl truncate">
+                    <p className="truncate text-lg font-bold text-gray-900 sm:text-2xl">
                       {formatCurrencyLocal(
-                        filteredRFQs.reduce((sum, rfq) => sum + rfq.estimatedValue, 0),
+                        filteredRFQs.reduce(
+                          (sum, rfq) => sum + rfq.estimatedValue,
+                          0
+                        ),
                         'USD'
                       )}
                     </p>
                   </div>
-                  <ArrowUpRight className="h-6 w-6 text-blue-600 sm:h-8 sm:w-8 flex-shrink-0" />
+                  <ArrowUpRight className="h-6 w-6 flex-shrink-0 text-blue-600 sm:h-8 sm:w-8" />
                 </div>
               </CardContent>
             </Card>

@@ -3,6 +3,10 @@
 import React, { forwardRef } from 'react';
 
 import { cn } from '@/shared/utils/cn';
+import {
+  CoffeeCupLoader,
+  CoffeeCupSpinner,
+} from '@/presentation/components/ui/CoffeeCupLoader';
 
 import { SizeVariant } from '../types';
 
@@ -156,3 +160,46 @@ export const PulseSpinner = forwardRef<HTMLDivElement, LoadingSpinnerProps>(
 );
 
 PulseSpinner.displayName = 'PulseSpinner';
+
+// Premium Coffee Cup Loader with advanced animations
+export const PremiumCoffeeLoader = forwardRef<
+  HTMLDivElement,
+  {
+    size?: 'sm' | 'md' | 'lg' | 'xl';
+    showText?: boolean;
+    text?: string;
+    className?: string;
+  }
+>(({ size = 'md', showText = false, text, className, ...props }, ref) => {
+  return (
+    <div
+      className={cn('flex items-center justify-center', className)}
+      ref={ref}
+      {...props}
+    >
+      <CoffeeCupLoader size={size} showText={showText} text={text} />
+    </div>
+  );
+});
+
+PremiumCoffeeLoader.displayName = 'PremiumCoffeeLoader';
+
+// Inline Coffee Spinner for buttons and small spaces
+export const InlineCoffeeSpinner = forwardRef<
+  HTMLDivElement,
+  {
+    className?: string;
+  }
+>(({ className, ...props }, ref) => {
+  return (
+    <div
+      className={cn('inline-flex items-center justify-center', className)}
+      ref={ref}
+      {...props}
+    >
+      <CoffeeCupSpinner />
+    </div>
+  );
+});
+
+InlineCoffeeSpinner.displayName = 'InlineCoffeeSpinner';

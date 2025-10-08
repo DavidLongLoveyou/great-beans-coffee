@@ -10,10 +10,7 @@ export type {
   SearchFiltersProps,
 } from './SearchFilters';
 
-export type {
-  SearchResultItem,
-  SearchResultsProps,
-} from './SearchResults';
+export type { SearchResultItem, SearchResultsProps } from './SearchResults';
 
 export type {
   SearchSuggestion,

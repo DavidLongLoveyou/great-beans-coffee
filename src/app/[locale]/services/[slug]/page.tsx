@@ -8,6 +8,16 @@ import {
   Clock,
   DollarSign,
   Users,
+  Award,
+  Shield,
+  FileText,
+  Download,
+  Star,
+  Globe,
+  Calendar,
+  TrendingUp,
+  AlertCircle,
+  Settings,
 } from 'lucide-react';
 import { type Metadata } from 'next';
 import Link from 'next/link';
@@ -15,8 +25,6 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
-import { getServicePageBySlug, getServicePages } from '@/lib/contentlayer';
-import { MDXContent } from '@/presentation/components/MDXContent';
 import { SEOHead } from '@/presentation/components/seo';
 import {
   Card,
@@ -26,27 +34,56 @@ import {
   CardTitle,
 } from '@/presentation/components/ui/card';
 import { ServerButton } from '@/presentation/components/ui/server-button';
+import { Badge } from '@/presentation/components/ui/badge';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/presentation/components/ui/tabs';
 import {
   generateMetadata as generateSEOMetadata,
   generateServiceSchema,
 } from '@/shared/utils/seo-utils';
+import {
+  getServiceByCode,
+  filterServices,
+  VIETNAMESE_COFFEE_SERVICE_CATALOG,
+  type CatalogService,
+  ServiceType,
+  ServiceCategory,
+  DeliveryTimeframe,
+  PricingModel,
+} from '@/data/service-catalog';
+import { CertificationBadge } from '@/shared/components/design-system/Coffee';
 
 interface ServicePageProps {
   params: Promise<{ locale: Locale; slug: string }>;
 }
 
 const serviceIcons = {
-  oem: Factory,
-  'private-label': Package,
-  'coffee-sourcing': Coffee,
-  logistics: Truck,
+  [ServiceType.OEM]: Factory,
+  [ServiceType.PRIVATE_LABEL]: Package,
+  [ServiceType.SOURCING]: Coffee,
+  [ServiceType.LOGISTICS]: Truck,
+  [ServiceType.QUALITY_CONTROL]: Shield,
+  [ServiceType.CONSULTING]: Settings,
+  default: Package,
+};
+
+const serviceCategoryIcons = {
+  [ServiceCategory.MANUFACTURING]: Factory,
+  [ServiceCategory.BRANDING]: Package,
+  [ServiceCategory.SUPPLY_CHAIN]: Coffee,
+  [ServiceCategory.LOGISTICS]: Truck,
+  [ServiceCategory.QUALITY_ASSURANCE]: Shield,
+  [ServiceCategory.CONSULTING]: Settings,
   default: Package,
 };
 
 export async function generateStaticParams() {
-  const services = getServicePages('en');
-  return services.map(service => ({
-    slug: service.slug,
+  return VIETNAMESE_COFFEE_SERVICE_CATALOG.map(service => ({
+    slug: service.serviceCode.toLowerCase(),
   }));
 }
 
@@ -54,7 +91,8 @@ export async function generateMetadata({
   params,
 }: ServicePageProps): Promise<Metadata> {
   const { locale, slug } = await params;
-  const service = getServicePageBySlug(slug, locale);
+  const serviceCode = slug.toUpperCase();
+  const service = getServiceByCode(serviceCode);
 
   if (!service) {
     return generateSEOMetadata({
@@ -65,14 +103,30 @@ export async function generateMetadata({
     });
   }
 
+  const serviceName = service.name[locale] || service.name.en;
+  const serviceDescription =
+    service.shortDescription[locale] || service.shortDescription.en;
+  const capabilities = service.capabilities.map(
+    cap => cap.name[locale] || cap.name.en
+  );
+
   return generateSEOMetadata({
-    title: service.title,
-    description: service.description,
-    keywords: service.features || [],
+    title: `${serviceName} | Vietnamese Coffee B2B Services`,
+    description: serviceDescription,
+    keywords: [
+      serviceName,
+      service.type,
+      service.category,
+      'Vietnamese coffee',
+      'B2B services',
+      ...capabilities,
+    ],
     locale,
     url: `/${locale}/services/${slug}`,
     type: 'service',
-    image: service.image || '/images/services-default.jpg',
+    image:
+      service.images.find(img => img.isPrimary)?.url ||
+      '/images/services-default.jpg',
   });
 }
 
@@ -81,30 +135,41 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const t = await getTranslations('services');
   const tCommon = await getTranslations('common');
 
-  const service = getServicePageBySlug(slug, locale);
+  const serviceCode = slug.toUpperCase();
+  const service = getServiceByCode(serviceCode);
 
   if (!service) {
     notFound();
   }
 
-  const IconComponent =
-    serviceIcons[service.slug as keyof typeof serviceIcons] ||
-    serviceIcons.default;
-  const relatedServices = getServicePages(locale)
-    .filter(s => s.slug !== slug && s.category === service.category)
+  const serviceName = service.name[locale] || service.name.en;
+  const serviceDescription =
+    service.shortDescription[locale] || service.shortDescription.en;
+  const serviceLongDescription =
+    service.longDescription[locale] || service.longDescription.en;
+
+  const IconComponent = serviceIcons[service.type] || serviceIcons.default;
+  const CategoryIcon =
+    serviceCategoryIcons[service.category] || serviceCategoryIcons.default;
+
+  // Get related services by category
+  const relatedServices = filterServices({
+    category: [service.category],
+  })
+    .filter(s => s.id !== service.id)
     .slice(0, 3);
 
   // Generate structured data for the service
   const serviceSchema = generateServiceSchema({
-    name: service.title,
-    description: service.description,
+    name: serviceName,
+    description: serviceDescription,
     serviceType: service.category || 'Coffee Export Service',
   });
 
   const breadcrumbs = [
     { name: 'Home', url: `/${locale}` },
     { name: 'Services', url: `/${locale}/services` },
-    { name: service.title, url: `/${locale}/services/${slug}` },
+    { name: serviceName, url: `/${locale}/services/${slug}` },
   ];
 
   return (
@@ -136,113 +201,380 @@ export default async function ServicePage({ params }: ServicePageProps) {
             </div>
 
             <h1 className="mb-4 text-4xl font-bold text-gray-900">
-              {service.title}
+              {serviceName}
             </h1>
 
-            <p className="mb-6 text-xl text-gray-600">{service.description}</p>
+            <p className="mb-6 text-xl text-gray-600">{serviceDescription}</p>
 
             <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
-              {service.category && (
-                <span className="rounded-full bg-gray-100 px-3 py-1">
-                  {service.category}
-                </span>
-              )}
-              {service.deliveryTime && (
-                <div className="flex items-center">
-                  <Clock className="mr-1 h-4 w-4" />
-                  {service.deliveryTime}
-                </div>
-              )}
-              {service.pricing && (
-                <div className="flex items-center">
-                  <DollarSign className="mr-1 h-4 w-4" />
-                  {service.pricing}
-                </div>
+              <Badge variant="secondary" className="flex items-center">
+                <CategoryIcon className="mr-1 h-3 w-3" />
+                {service.category}
+              </Badge>
+              <Badge variant="outline" className="flex items-center">
+                <Clock className="mr-1 h-3 w-3" />
+                {service.timeframe}
+              </Badge>
+              <Badge variant="outline" className="flex items-center">
+                <DollarSign className="mr-1 h-3 w-3" />
+                {service.pricing.model}
+              </Badge>
+              {service.isFeatured && (
+                <Badge className="flex items-center bg-amber-500">
+                  <Star className="mr-1 h-3 w-3" />
+                  Featured
+                </Badge>
               )}
             </div>
+
+            {/* Certifications */}
+            {service.certifications.length > 0 && (
+              <div className="mt-6 flex flex-wrap justify-center gap-2">
+                {service.certifications.map((cert, index) => (
+                  <CertificationBadge key={index} certification={cert} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Service Details Grid */}
-        <div className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {/* Features */}
-          {service.features && service.features.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <CheckCircle className="mr-2 h-5 w-5 text-green-600" />
-                  {t('features')}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  {service.features.map(feature => (
-                    <li
-                      key={`feature-${service.slug}-${feature.slice(0, 30)}`}
-                      className="flex items-start"
-                    >
-                      <div className="mr-3 mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-amber-500" />
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Benefits */}
-          {service.benefits && service.benefits.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Users className="mr-2 h-5 w-5 text-blue-600" />
-                  {t('benefits')}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  {service.benefits.map(benefit => (
-                    <li
-                      key={`benefit-${service.slug}-${benefit.slice(0, 30)}`}
-                      className="flex items-start"
-                    >
-                      <div className="mr-3 mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500" />
-                      <span className="text-gray-700">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Quick Info */}
-          <Card>
+        {/* Service Overview */}
+        <div className="mb-12">
+          <Card className="shadow-lg">
             <CardHeader>
-              <CardTitle>{t('serviceInfo')}</CardTitle>
+              <CardTitle className="flex items-center text-2xl">
+                <Globe className="mr-3 h-6 w-6 text-amber-600" />
+                Service Overview
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              {service.deliveryTime && (
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600">{t('deliveryTime')}</span>
-                  <span className="font-semibold">{service.deliveryTime}</span>
+            <CardContent>
+              <p className="text-lg leading-relaxed text-gray-700">
+                {serviceLongDescription}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Service Details Tabs */}
+        <div className="mb-12">
+          <Tabs defaultValue="capabilities" className="w-full">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="capabilities">Capabilities</TabsTrigger>
+              <TabsTrigger value="pricing">Pricing</TabsTrigger>
+              <TabsTrigger value="deliverables">Deliverables</TabsTrigger>
+              <TabsTrigger value="requirements">Requirements</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="capabilities" className="mt-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                {service.capabilities.map((capability, index) => (
+                  <Card key={index} className="shadow-md">
+                    <CardHeader>
+                      <CardTitle className="flex items-center text-lg">
+                        <Settings className="mr-2 h-5 w-5 text-blue-600" />
+                        {capability.name[locale] || capability.name.en}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="mb-4 text-gray-700">
+                        {capability.description[locale] ||
+                          capability.description.en}
+                      </p>
+
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-gray-600">
+                            Lead Time:
+                          </span>
+                          <Badge variant="outline">
+                            {capability.leadTime} days
+                          </Badge>
+                        </div>
+
+                        {capability.minimumOrder && (
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm text-gray-600">
+                              Min Order:
+                            </span>
+                            <Badge variant="outline">
+                              {capability.minimumOrder.toLocaleString()}
+                            </Badge>
+                          </div>
+                        )}
+
+                        {capability.maximumCapacity && (
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm text-gray-600">
+                              Max Capacity:
+                            </span>
+                            <Badge variant="outline">
+                              {capability.maximumCapacity.toLocaleString()}
+                            </Badge>
+                          </div>
+                        )}
+                      </div>
+
+                      {capability.specifications.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="mb-2 font-semibold text-gray-900">
+                            Specifications:
+                          </h4>
+                          <ul className="space-y-1">
+                            {capability.specifications.map(
+                              (spec, specIndex) => (
+                                <li
+                                  key={specIndex}
+                                  className="flex items-start text-sm text-gray-700"
+                                >
+                                  <CheckCircle className="mr-2 mt-0.5 h-3 w-3 flex-shrink-0 text-green-600" />
+                                  {spec}
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="pricing" className="mt-6">
+              <Card className="shadow-md">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-xl">
+                    <DollarSign className="mr-2 h-6 w-6 text-green-600" />
+                    Pricing Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600">Pricing Model:</span>
+                        <Badge className="bg-green-100 text-green-800">
+                          {service.pricing.model}
+                        </Badge>
+                      </div>
+
+                      {service.pricing.basePrice && (
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600">Base Price:</span>
+                          <span className="font-semibold">
+                            {service.pricing.basePrice.toLocaleString()}{' '}
+                            {service.pricing.currency}
+                            {service.pricing.unit &&
+                              ` / ${service.pricing.unit}`}
+                          </span>
+                        </div>
+                      )}
+
+                      {service.pricing.setupFee && (
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600">Setup Fee:</span>
+                          <span className="font-semibold">
+                            {service.pricing.setupFee.toLocaleString()}{' '}
+                            {service.pricing.currency}
+                          </span>
+                        </div>
+                      )}
+
+                      {service.pricing.minimumOrder && (
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600">Minimum Order:</span>
+                          <span className="font-semibold">
+                            {service.pricing.minimumOrder.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {service.pricing.discountTiers &&
+                      service.pricing.discountTiers.length > 0 && (
+                        <div>
+                          <h4 className="mb-3 font-semibold text-gray-900">
+                            Volume Discounts:
+                          </h4>
+                          <div className="space-y-2">
+                            {service.pricing.discountTiers.map(
+                              (tier, index) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center justify-between rounded bg-gray-50 p-2"
+                                >
+                                  <span className="text-sm text-gray-600">
+                                    {tier.minQuantity.toLocaleString()}+ units
+                                  </span>
+                                  <Badge variant="outline">
+                                    {tier.discountPercent}% off
+                                  </Badge>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
+                  </div>
+
+                  <div className="mt-6 rounded-lg bg-amber-50 p-4">
+                    <div className="flex items-center">
+                      <AlertCircle className="mr-2 h-5 w-5 text-amber-600" />
+                      <span className="text-sm text-amber-800">
+                        Prices valid until:{' '}
+                        {service.pricing.priceValidUntil.toLocaleDateString()}
+                      </span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="deliverables" className="mt-6">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {service.deliverables.map((deliverable, index) => (
+                  <Card key={index} className="shadow-md">
+                    <CardHeader>
+                      <CardTitle className="flex items-center text-lg">
+                        <Package className="mr-2 h-5 w-5 text-purple-600" />
+                        {deliverable.name[locale] || deliverable.name.en}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="mb-3 text-gray-700">
+                        {deliverable.description[locale] ||
+                          deliverable.description.en}
+                      </p>
+
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600">Timeline:</span>
+                        <Badge variant="outline" className="flex items-center">
+                          <Calendar className="mr-1 h-3 w-3" />
+                          {deliverable.timeline} days
+                        </Badge>
+                      </div>
+
+                      {deliverable.dependencies &&
+                        deliverable.dependencies.length > 0 && (
+                          <div className="mt-3">
+                            <h5 className="mb-1 text-sm font-semibold text-gray-900">
+                              Dependencies:
+                            </h5>
+                            <ul className="space-y-1">
+                              {deliverable.dependencies.map((dep, depIndex) => (
+                                <li
+                                  key={depIndex}
+                                  className="text-xs text-gray-600"
+                                >
+                                  • {dep}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="requirements" className="mt-6">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {service.requirements.map((requirement, index) => (
+                  <Card key={index} className="shadow-md">
+                    <CardHeader>
+                      <CardTitle className="flex items-center text-lg">
+                        <Shield className="mr-2 h-5 w-5 text-red-600" />
+                        {requirement.name[locale] || requirement.name.en}
+                        {requirement.isMandatory && (
+                          <Badge className="ml-2 bg-red-100 text-red-800">
+                            Required
+                          </Badge>
+                        )}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="mb-3 text-gray-700">
+                        {requirement.description[locale] ||
+                          requirement.description.en}
+                      </p>
+
+                      <Badge variant="outline" className="text-xs">
+                        {requirement.category}
+                      </Badge>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        {/* Documents and Resources */}
+        {service.documents.length > 0 && (
+          <div className="mb-12">
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center text-xl">
+                  <FileText className="mr-2 h-6 w-6 text-blue-600" />
+                  Documents & Resources
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {service.documents.map((doc, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between rounded-lg border p-4"
+                    >
+                      <div className="flex items-center">
+                        <Download className="mr-3 h-5 w-5 text-gray-600" />
+                        <div>
+                          <p className="font-medium text-gray-900">
+                            {doc.name[locale] || doc.name.en}
+                          </p>
+                          <p className="text-sm text-gray-600">{doc.type}</p>
+                        </div>
+                      </div>
+                      <ServerButton variant="outline" size="sm">
+                        Download
+                      </ServerButton>
+                    </div>
+                  ))}
                 </div>
-              )}
-              {service.pricing && (
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600">{t('pricing')}</span>
-                  <span className="font-semibold">{service.pricing}</span>
-                </div>
-              )}
-              {service.category && (
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600">{t('category')}</span>
-                  <span className="font-semibold">{service.category}</span>
-                </div>
-              )}
-              <div className="border-t pt-4">
-                <Link href={`/${locale}/contact`}>
-                  <ServerButton className="w-full">
-                    {t('requestQuote')}
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Request Quote CTA */}
+        <div className="mb-12">
+          <Card className="border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 shadow-lg">
+            <CardContent className="p-8 text-center">
+              <h2 className="mb-4 text-2xl font-bold text-gray-900">
+                Ready to Get Started?
+              </h2>
+              <p className="mb-6 text-lg text-gray-700">
+                Contact our team for a customized quote and detailed
+                consultation.
+              </p>
+              <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+                <Link
+                  href={`/${locale}/contact?service=${service.serviceCode}`}
+                >
+                  <ServerButton size="lg" className="w-full sm:w-auto">
+                    <Users className="mr-2 h-5 w-5" />
+                    Request Quote
+                  </ServerButton>
+                </Link>
+                <Link href={`/${locale}/contact?type=consultation`}>
+                  <ServerButton
+                    variant="outline"
+                    size="lg"
+                    className="w-full sm:w-auto"
+                  >
+                    <Calendar className="mr-2 h-5 w-5" />
+                    Schedule Consultation
                   </ServerButton>
                 </Link>
               </div>
@@ -250,29 +582,27 @@ export default async function ServicePage({ params }: ServicePageProps) {
           </Card>
         </div>
 
-        {/* Content */}
-        <div className="mx-auto mb-12 max-w-4xl">
-          <div className="prose prose-lg max-w-none">
-            <MDXContent code={service.body.code} />
-          </div>
-        </div>
-
         {/* Related Services */}
         {relatedServices.length > 0 && (
           <div className="mx-auto mt-16 max-w-6xl">
             <h2 className="mb-8 text-3xl font-semibold text-gray-900">
-              {t('relatedServices')}
+              Related Services
             </h2>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {relatedServices.map(relatedService => {
+                const relatedServiceName =
+                  relatedService.name[locale] || relatedService.name.en;
+                const relatedServiceDescription =
+                  relatedService.shortDescription[locale] ||
+                  relatedService.shortDescription.en;
                 const RelatedIcon =
-                  serviceIcons[
-                    relatedService.slug as keyof typeof serviceIcons
-                  ] || serviceIcons.default;
+                  serviceTypeIcons[relatedService.type] ||
+                  serviceCategoryIcons[relatedService.category] ||
+                  serviceIcons.default;
 
                 return (
                   <Card
-                    key={relatedService.slug}
+                    key={relatedService.serviceCode}
                     className="transition-shadow hover:shadow-md"
                   >
                     <CardHeader>
@@ -281,21 +611,37 @@ export default async function ServicePage({ params }: ServicePageProps) {
                           <RelatedIcon className="h-6 w-6 text-amber-600" />
                         </div>
                         <CardTitle className="text-lg">
-                          {relatedService.title}
+                          {relatedServiceName}
                         </CardTitle>
                       </div>
                       <CardDescription className="line-clamp-2">
-                        {relatedService.description}
+                        {relatedServiceDescription}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <Link href={relatedService.url}>
+                      <div className="mb-3 flex flex-wrap gap-2">
+                        <Badge variant="outline" className="text-xs">
+                          {relatedService.category}
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          {relatedService.timeframe}
+                        </Badge>
+                        {relatedService.isFeatured && (
+                          <Badge className="bg-amber-100 text-xs text-amber-800">
+                            <Star className="mr-1 h-3 w-3" />
+                            Featured
+                          </Badge>
+                        )}
+                      </div>
+                      <Link
+                        href={`/${locale}/services/${relatedService.serviceCode.toLowerCase()}`}
+                      >
                         <ServerButton
                           variant="outline"
                           size="sm"
                           className="w-full"
                         >
-                          {tCommon('learnMore')}
+                          Learn More
                         </ServerButton>
                       </Link>
                     </CardContent>
@@ -309,21 +655,23 @@ export default async function ServicePage({ params }: ServicePageProps) {
         {/* CTA Section */}
         <div className="mt-16 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 p-8 text-center">
           <h2 className="mb-4 text-2xl font-bold text-gray-900">
-            {t('readyToStart')}
+            Need More Information?
           </h2>
-          <p className="mb-6 text-gray-600">{t('readyToStartDescription')}</p>
+          <p className="mb-6 text-gray-600">
+            Explore our complete range of coffee services and solutions.
+          </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link href={`/${locale}/contact`}>
               <ServerButton
                 size="lg"
                 className="bg-amber-600 hover:bg-amber-700"
               >
-                {t('getQuote')}
+                Get Quote
               </ServerButton>
             </Link>
             <Link href={`/${locale}/services`}>
               <ServerButton variant="outline" size="lg">
-                {t('viewAllServices')}
+                View All Services
               </ServerButton>
             </Link>
           </div>

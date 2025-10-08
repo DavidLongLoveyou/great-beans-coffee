@@ -4,6 +4,9 @@ export {
   CertificationList,
   PremiumCertificationShowcase,
 } from './CertificationBadge';
+export { EnhancedCertificationBadge } from './EnhancedCertificationBadge';
+export { EnhancedRelatedProducts } from './EnhancedRelatedProducts';
+export { AdvancedProductComparison } from './AdvancedProductComparison';
 export {
   CoffeeGradeIndicator,
   GradeComparison,

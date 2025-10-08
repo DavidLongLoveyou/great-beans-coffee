@@ -1,0 +1,133 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient representing coffee farm landscape -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#98D8E8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B7355;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6B5B47;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="farmGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#228B22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#006400;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="1920" height="400" fill="url(#skyGradient)"/>
+  
+  <!-- Mountains in background -->
+  <polygon points="0,400 400,200 800,300 1200,150 1600,250 1920,180 1920,400" fill="url(#mountainGradient)"/>
+  
+  <!-- Coffee farm landscape -->
+  <rect x="0" y="400" width="1920" height="680" fill="url(#farmGradient)"/>
+  
+  <!-- Coffee plant rows -->
+  <g opacity="0.8">
+    <!-- Row 1 -->
+    <ellipse cx="200" cy="600" rx="80" ry="40" fill="#2F4F2F"/>
+    <ellipse cx="400" cy="620" rx="90" ry="45" fill="#2F4F2F"/>
+    <ellipse cx="600" cy="610" rx="85" ry="42" fill="#2F4F2F"/>
+    <ellipse cx="800" cy="630" rx="95" ry="48" fill="#2F4F2F"/>
+    <ellipse cx="1000" cy="615" rx="88" ry="44" fill="#2F4F2F"/>
+    <ellipse cx="1200" cy="625" rx="92" ry="46" fill="#2F4F2F"/>
+    <ellipse cx="1400" cy="620" rx="87" ry="43" fill="#2F4F2F"/>
+    <ellipse cx="1600" cy="635" rx="93" ry="47" fill="#2F4F2F"/>
+    
+    <!-- Row 2 -->
+    <ellipse cx="150" cy="750" rx="100" ry="50" fill="#228B22"/>
+    <ellipse cx="350" cy="770" rx="110" ry="55" fill="#228B22"/>
+    <ellipse cx="550" cy="760" rx="105" ry="52" fill="#228B22"/>
+    <ellipse cx="750" cy="780" rx="115" ry="58" fill="#228B22"/>
+    <ellipse cx="950" cy="765" rx="108" ry="54" fill="#228B22"/>
+    <ellipse cx="1150" cy="775" rx="112" ry="56" fill="#228B22"/>
+    <ellipse cx="1350" cy="770" rx="107" ry="53" fill="#228B22"/>
+    <ellipse cx="1550" cy="785" rx="113" ry="57" fill="#228B22"/>
+    <ellipse cx="1750" cy="775" rx="109" ry="55" fill="#228B22"/>
+    
+    <!-- Row 3 -->
+    <ellipse cx="100" cy="900" rx="120" ry="60" fill="#32CD32"/>
+    <ellipse cx="300" cy="920" rx="130" ry="65" fill="#32CD32"/>
+    <ellipse cx="500" cy="910" rx="125" ry="62" fill="#32CD32"/>
+    <ellipse cx="700" cy="930" rx="135" ry="68" fill="#32CD32"/>
+    <ellipse cx="900" cy="915" rx="128" ry="64" fill="#32CD32"/>
+    <ellipse cx="1100" cy="925" rx="132" ry="66" fill="#32CD32"/>
+    <ellipse cx="1300" cy="920" rx="127" ry="63" fill="#32CD32"/>
+    <ellipse cx="1500" cy="935" rx="133" ry="67" fill="#32CD32"/>
+    <ellipse cx="1700" cy="925" rx="129" ry="65" fill="#32CD32"/>
+  </g>
+  
+  <!-- Coffee processing facility -->
+  <g transform="translate(1400, 500)">
+    <!-- Main building -->
+    <rect x="0" y="0" width="300" height="200" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+    <!-- Roof -->
+    <polygon points="0,0 150,50 300,0" fill="#A0522D"/>
+    <!-- Windows -->
+    <rect x="50" y="50" width="40" height="40" fill="#87CEEB"/>
+    <rect x="210" y="50" width="40" height="40" fill="#87CEEB"/>
+    <!-- Door -->
+    <rect x="130" y="120" width="40" height="80" fill="#654321"/>
+    <!-- Chimney with smoke -->
+    <rect x="250" y="-30" width="20" height="50" fill="#696969"/>
+    <circle cx="260" cy="-40" r="8" fill="#D3D3D3" opacity="0.7"/>
+    <circle cx="265" cy="-55" r="6" fill="#D3D3D3" opacity="0.5"/>
+    <circle cx="270" cy="-70" r="4" fill="#D3D3D3" opacity="0.3"/>
+  </g>
+  
+  <!-- Coffee beans scattered -->
+  <g opacity="0.6">
+    <ellipse cx="300" cy="500" rx="4" ry="6" fill="#8B4513" transform="rotate(45 300 500)"/>
+    <ellipse cx="320" cy="520" rx="4" ry="6" fill="#A0522D" transform="rotate(30 320 520)"/>
+    <ellipse cx="340" cy="510" rx="4" ry="6" fill="#8B4513" transform="rotate(60 340 510)"/>
+    <ellipse cx="800" cy="480" rx="4" ry="6" fill="#A0522D" transform="rotate(15 800 480)"/>
+    <ellipse cx="820" cy="500" rx="4" ry="6" fill="#8B4513" transform="rotate(75 820 500)"/>
+    <ellipse cx="1000" cy="460" rx="4" ry="6" fill="#A0522D" transform="rotate(90 1000 460)"/>
+  </g>
+  
+  <!-- Title overlay -->
+  <g transform="translate(960, 540)">
+    <!-- Semi-transparent background -->
+    <rect x="-400" y="-100" width="800" height="200" fill="#000000" opacity="0.5" rx="10"/>
+    
+    <!-- Main title -->
+    <text x="0" y="-30" text-anchor="middle" fill="#FFFFFF" font-family="serif" font-size="48" font-weight="bold">
+      From Farm to Port
+    </text>
+    
+    <!-- Subtitle -->
+    <text x="0" y="20" text-anchor="middle" fill="#F5DEB3" font-family="sans-serif" font-size="24">
+      Premium Vietnamese Coffee Journey
+    </text>
+    
+    <!-- Play button indicator -->
+    <g transform="translate(0, 60)">
+      <circle cx="0" cy="0" r="30" fill="#FFFFFF" opacity="0.9"/>
+      <polygon points="-10,-15 -10,15 20,0" fill="#8B4513"/>
+    </g>
+  </g>
+  
+  <!-- Quality badges -->
+  <g transform="translate(100, 100)">
+    <rect x="0" y="0" width="120" height="40" fill="#228B22" rx="5"/>
+    <text x="60" y="25" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="12" font-weight="bold">
+      ORGANIC
+    </text>
+  </g>
+  
+  <g transform="translate(250, 100)">
+    <rect x="0" y="0" width="120" height="40" fill="#DAA520" rx="5"/>
+    <text x="60" y="25" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="12" font-weight="bold">
+      FAIR TRADE
+    </text>
+  </g>
+  
+  <g transform="translate(400, 100)">
+    <rect x="0" y="0" width="120" height="40" fill="#4169E1" rx="5"/>
+    <text x="60" y="25" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="12" font-weight="bold">
+      ISO 22000
+    </text>
+  </g>
+</svg>

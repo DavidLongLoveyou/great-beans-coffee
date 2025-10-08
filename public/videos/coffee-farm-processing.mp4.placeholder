@@ -1,0 +1,19 @@
+# Video Placeholder
+
+This file represents where the actual `coffee-farm-processing.mp4` video should be placed.
+
+## To add the actual video:
+1. Remove this placeholder file
+2. Add the actual `coffee-farm-processing.mp4` file
+3. Ensure the video meets the specifications in README.md
+
+## Current Status:
+The website will gracefully fall back to the poster image when the video is not available.
+
+## Video Specifications:
+- Format: MP4 (H.264)
+- Resolution: 1920x1080 or higher
+- Duration: 30-60 seconds (looping)
+- Size: < 10MB
+- Audio: Muted or no audio (for autoplay compliance)
+- Content: Coffee farm processing scenes

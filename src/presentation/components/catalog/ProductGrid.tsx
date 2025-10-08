@@ -8,6 +8,8 @@ import {
   List,
   ChevronLeft,
   ChevronRight,
+  Scale,
+  X,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -15,6 +17,7 @@ import { useState, useMemo } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
+import { Checkbox } from '@/presentation/components/ui/checkbox';
 import {
   Card,
   CardContent,
@@ -35,6 +38,7 @@ import {
   CoffeeGradeIndicator,
   OriginFlag,
   ProcessingMethodBadge,
+  AdvancedProductComparison,
 } from '@/shared/components/design-system/Coffee';
 import type {
   CoffeeGrade,
@@ -65,6 +69,7 @@ export interface Product {
     inStock: boolean;
     stockQuantity: number;
     leadTime: number;
+    harvestSeason: string;
   };
   certifications: CoffeeCertification[];
   images: Array<{
@@ -86,15 +91,39 @@ interface ProductGridProps {
   locale: string;
   viewMode?: 'grid' | 'list';
   onViewModeChange?: (mode: 'grid' | 'list') => void;
+  selectedProducts?: Set<string>;
+  onProductSelect?: (productId: string, selected: boolean) => void;
+  showSelection?: boolean;
 }
 
-type SortOption = 'name' | 'price-asc' | 'price-desc' | 'featured' | 'newest';
+type SortOption =
+  | 'name'
+  | 'price-asc'
+  | 'price-desc'
+  | 'featured'
+  | 'newest'
+  | 'grade-asc'
+  | 'grade-desc'
+  | 'availability'
+  | 'harvest-season'
+  | 'cupping-score-asc'
+  | 'cupping-score-desc'
+  | 'altitude-asc'
+  | 'altitude-desc';
 
 const sortOptions = [
   { value: 'featured', label: 'Featured First' },
   { value: 'name', label: 'Name A-Z' },
   { value: 'price-asc', label: 'Price: Low to High' },
   { value: 'price-desc', label: 'Price: High to Low' },
+  { value: 'grade-desc', label: 'Grade: Premium to Standard' },
+  { value: 'grade-asc', label: 'Grade: Standard to Premium' },
+  { value: 'availability', label: 'Availability: In Stock First' },
+  { value: 'harvest-season', label: 'Harvest Season' },
+  { value: 'cupping-score-desc', label: 'Cupping Score: High to Low' },
+  { value: 'cupping-score-asc', label: 'Cupping Score: Low to High' },
+  { value: 'altitude-desc', label: 'Altitude: High to Low' },
+  { value: 'altitude-asc', label: 'Altitude: Low to High' },
   { value: 'newest', label: 'Newest First' },
 ];
 
@@ -105,29 +134,151 @@ export function ProductGrid({
   locale,
   viewMode = 'grid',
   onViewModeChange,
+  selectedProducts = new Set(),
+  onProductSelect,
+  showSelection = false,
 }: ProductGridProps) {
   const t = useTranslations('products');
   const [sortBy, setSortBy] = useState<SortOption>('featured');
   const [currentPage, setCurrentPage] = useState(1);
+  const [showComparison, setShowComparison] = useState(false);
+
+  // Get selected products for comparison
+  const selectedProductsArray = products.filter(product =>
+    selectedProducts.has(product.id)
+  );
 
   const sortedProducts = useMemo(() => {
     const sorted = [...products];
 
+    // Helper function to get grade priority (higher number = better grade)
+    const getGradePriority = (grade: CoffeeGrade): number => {
+      const gradeMap: Record<CoffeeGrade, number> = {
+        'grade-1': 5,
+        'grade-2': 4,
+        'grade-3': 3,
+        'grade-4': 2,
+        'grade-5': 1,
+      };
+      return gradeMap[grade] || 0;
+    };
+
+    // Helper function to parse harvest season for sorting
+    const getHarvestSeasonPriority = (harvestSeason: string): number => {
+      // Convert harvest season to a sortable number based on start month
+      const monthMap: Record<string, number> = {
+        january: 1,
+        february: 2,
+        march: 3,
+        april: 4,
+        may: 5,
+        june: 6,
+        july: 7,
+        august: 8,
+        september: 9,
+        october: 10,
+        november: 11,
+        december: 12,
+      };
+
+      const firstMonth = harvestSeason.toLowerCase().split(/[\s-]+/)[0];
+      return monthMap[firstMonth] || 0;
+    };
+
     switch (sortBy) {
       case 'name':
         return sorted.sort((a, b) => a.name.localeCompare(b.name));
+
       case 'price-asc':
         return sorted.sort((a, b) => a.pricing.basePrice - b.pricing.basePrice);
+
       case 'price-desc':
         return sorted.sort((a, b) => b.pricing.basePrice - a.pricing.basePrice);
+
       case 'featured':
         return sorted.sort((a, b) => {
           if (a.isFeatured && !b.isFeatured) return -1;
           if (!a.isFeatured && b.isFeatured) return 1;
           return a.name.localeCompare(b.name);
         });
+
+      case 'grade-desc':
+        return sorted.sort((a, b) => {
+          const gradeA = getGradePriority(a.grade);
+          const gradeB = getGradePriority(b.grade);
+          if (gradeA !== gradeB) return gradeB - gradeA; // Higher grade first
+          return a.name.localeCompare(b.name); // Secondary sort by name
+        });
+
+      case 'grade-asc':
+        return sorted.sort((a, b) => {
+          const gradeA = getGradePriority(a.grade);
+          const gradeB = getGradePriority(b.grade);
+          if (gradeA !== gradeB) return gradeA - gradeB; // Lower grade first
+          return a.name.localeCompare(b.name); // Secondary sort by name
+        });
+
+      case 'availability':
+        return sorted.sort((a, b) => {
+          // In stock first, then by stock quantity, then by lead time
+          if (a.availability.inStock && !b.availability.inStock) return -1;
+          if (!a.availability.inStock && b.availability.inStock) return 1;
+          if (a.availability.inStock && b.availability.inStock) {
+            const stockDiff =
+              b.availability.stockQuantity - a.availability.stockQuantity;
+            if (stockDiff !== 0) return stockDiff;
+            return a.availability.leadTime - b.availability.leadTime; // Shorter lead time first
+          }
+          return a.name.localeCompare(b.name);
+        });
+
+      case 'harvest-season':
+        return sorted.sort((a, b) => {
+          const seasonA = getHarvestSeasonPriority(
+            a.availability.harvestSeason
+          );
+          const seasonB = getHarvestSeasonPriority(
+            b.availability.harvestSeason
+          );
+          if (seasonA !== seasonB) return seasonA - seasonB;
+          return a.name.localeCompare(b.name);
+        });
+
+      case 'cupping-score-desc':
+        return sorted.sort((a, b) => {
+          const scoreA = a.specifications.cuppingScore || 0;
+          const scoreB = b.specifications.cuppingScore || 0;
+          if (scoreA !== scoreB) return scoreB - scoreA; // Higher score first
+          return a.name.localeCompare(b.name);
+        });
+
+      case 'cupping-score-asc':
+        return sorted.sort((a, b) => {
+          const scoreA = a.specifications.cuppingScore || 0;
+          const scoreB = b.specifications.cuppingScore || 0;
+          if (scoreA !== scoreB) return scoreA - scoreB; // Lower score first
+          return a.name.localeCompare(b.name);
+        });
+
+      case 'altitude-desc':
+        return sorted.sort((a, b) => {
+          const altA = a.origin.altitude;
+          const altB = b.origin.altitude;
+          if (altA !== altB) return altB - altA; // Higher altitude first
+          return a.name.localeCompare(b.name);
+        });
+
+      case 'altitude-asc':
+        return sorted.sort((a, b) => {
+          const altA = a.origin.altitude;
+          const altB = b.origin.altitude;
+          if (altA !== altB) return altA - altB; // Lower altitude first
+          return a.name.localeCompare(b.name);
+        });
+
       case 'newest':
         return sorted.sort((a, b) => a.name.localeCompare(b.name)); // Mock sorting by newest
+
       default:
         return sorted;
     }
@@ -157,6 +308,17 @@ export function ProductGrid({
           className="object-cover transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
+        {showSelection && onProductSelect && (
+          <div className="absolute bottom-2 left-2 z-10">
+            <Checkbox
+              checked={selectedProducts.has(product.id)}
+              onCheckedChange={checked =>
+                onProductSelect(product.id, checked as boolean)
+              }
+              className="border-forest-300 bg-white/90 data-[state=checked]:border-amber-600 data-[state=checked]:bg-amber-600"
+            />
+          </div>
+        )}
         {product.isFeatured && (
           <Badge className="absolute right-2 top-2 bg-emerald-500 text-white shadow-emerald-soft">
             Featured
@@ -382,6 +544,50 @@ export function ProductGrid({
 
   return (
     <div className="space-y-6">
+      {/* Comparison Bar */}
+      {selectedProductsArray.length > 0 && (
+        <div className="sticky top-0 z-40 border-b border-forest-200 bg-white shadow-sm">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Scale className="h-5 w-5 text-amber-600" />
+                <span className="text-sm font-medium text-forest-700">
+                  {selectedProductsArray.length} products selected for
+                  comparison
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => setShowComparison(true)}
+                  disabled={selectedProductsArray.length < 2}
+                  className="bg-amber-600 text-white hover:bg-amber-700"
+                  size="sm"
+                >
+                  <Scale className="mr-2 h-4 w-4" />
+                  Compare ({selectedProductsArray.length})
+                </Button>
+                <Button
+                  onClick={() => {
+                    selectedProducts.clear();
+                    if (onProductSelect) {
+                      selectedProductsArray.forEach(product =>
+                        onProductSelect(product.id, false)
+                      );
+                    }
+                  }}
+                  variant="outline"
+                  size="sm"
+                  className="border-forest-200 text-forest-600 hover:bg-forest-50"
+                >
+                  <X className="mr-2 h-4 w-4" />
+                  Clear
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Toolbar */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -494,6 +700,27 @@ export function ProductGrid({
             <ChevronRight className="ml-1 h-4 w-4" />
           </Button>
         </div>
+      )}
+
+      {/* Advanced Product Comparison Modal */}
+      {showComparison && selectedProductsArray.length >= 2 && (
+        <AdvancedProductComparison
+          products={selectedProductsArray}
+          isOpen={showComparison}
+          locale={locale}
+          onClose={() => setShowComparison(false)}
+          onRemoveProduct={productId => {
+            if (onProductSelect) {
+              onProductSelect(productId, false);
+            }
+          }}
+          onRequestQuote={(productIds, analysisData) => {
+            // Handle quote request with business analysis data
+            console.log('Quote requested for products:', productIds);
+            console.log('Business analysis:', analysisData);
+            // This would typically navigate to a quote form or open a modal
+          }}
+        />
       )}
     </div>
   );

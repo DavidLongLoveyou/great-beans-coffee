@@ -133,16 +133,19 @@
         "shippingMethod": "Shipping Method",
         "incoterms": "Incoterms",
         "containerType": "Container Type",
-        "calculate": "Calculate Shipping Cost",
+        "calculateButton": "Calculate Shipping Cost",
         "calculating": "Calculating...",
-        "totalCost": "Total Cost",
-        "transitTime": "Transit Time",
-        "costBreakdown": "Cost Breakdown",
-        "baseShipping": "Base Shipping Cost",
-        "handling": "Handling & Port Charges",
-        "insurance": "Marine Insurance",
-        "documentation": "Documentation",
-        "disclaimer": "This is an estimate only. Actual costs may vary based on current market rates, fuel surcharges, seasonal factors, and specific routing. Please contact us for a detailed quotation.",
+        "results": {
+          "title": "Shipping Estimate",
+          "totalCost": "Total Cost",
+          "transitTime": "Transit Time",
+          "incoterms": "Incoterms",
+          "costBreakdown": "Cost Breakdown"
+        },
+        "disclaimer": {
+          "title": "Important Notice",
+          "text": "This is an estimate only. Actual costs may vary based on current market rates, fuel surcharges, seasonal factors, and specific routing. Please contact us for a detailed quotation."
+        },
         "methods": {
           "seaFreight": "Sea Freight",
           "airFreight": "Air Freight",
@@ -152,19 +155,31 @@
           "landDescription": "For regional deliveries"
         },
         "containers": {
-          "20ft": "20ft Container",
-          "40ft": "40ft Container",
-          "40ftHC": "40ft High Cube",
-          "bulk": "Bulk Shipping"
+          "fcl20": "20ft Container (FCL)",
+          "fcl20Description": "Full Container Load - 20 feet",
+          "fcl40": "40ft Container (FCL)",
+          "fcl40Description": "Full Container Load - 40 feet",
+          "fcl40hc": "40ft High Cube (FCL)",
+          "fcl40hcDescription": "Full Container Load - 40 feet High Cube",
+          "lcl": "Less than Container Load (LCL)",
+          "lclDescription": "Shared container space",
+          "flexible": "Flexible"
         },
-        "incotermsOptions": {
+        "incoterms": {
           "exw": "EXW - Ex Works",
+          "exwDescription": "Buyer arranges all transportation",
           "fca": "FCA - Free Carrier",
+          "fcaDescription": "Seller delivers to carrier nominated by buyer",
           "fob": "FOB - Free on Board",
+          "fobDescription": "Seller delivers goods on board vessel",
           "cfr": "CFR - Cost and Freight",
+          "cfrDescription": "Seller pays freight to destination port",
           "cif": "CIF - Cost, Insurance and Freight",
+          "cifDescription": "Seller pays freight and insurance to destination",
           "dap": "DAP - Delivered at Place",
-          "ddp": "DDP - Delivered Duty Paid"
+          "dapDescription": "Seller delivers to named place in destination country",
+          "ddp": "DDP - Delivered Duty Paid",
+          "ddpDescription": "Seller delivers goods cleared for import"
         },
         "errors": {
           "quantityRequired": "Please enter a valid quantity",
@@ -687,88 +702,88 @@
       "urgent": "Urgent"
     },
     "detail": {
-        "title": "Quote Request Details",
-        "submittedOn": "Submitted on",
-        "lastUpdated": "Last updated",
-        "productDetails": "Product Details",
-        "quantitySpecs": "Quantity & Specifications",
-        "shippingInfo": "Shipping Information",
-        "estimatedPrice": "Estimated Price",
-        "downloadQuote": "Download Quote",
-        "tabs": {
-            "overview": "Overview",
-            "requirements": "Requirements",
-            "company": "Company",
-            "timeline": "Timeline",
-            "quotes": "Quotes",
-            "documents": "Documents",
-            "status": "Status"
-          },
-        "productInformation": "Product Information",
-        "productSpecifications": "Product Specifications",
-        "deliveryRequirements": "Delivery Requirements",
-        "companyInformation": "Company Information",
-        "timelineInfo": "Timeline Information",
-        "deliveryInfo": "Delivery Information",
-        "contactInfo": "Contact Information",
-        "productType": "Product Type",
-        "quantity": "Quantity",
-        "estimatedValue": "Estimated Value",
-        "certifications": "Certifications",
-        "submitted": "Submitted",
-        "submittedAt": "Submitted At",
-        "lastUpdate": "Last Update",
-        "responseDeadline": "Response Deadline",
-        "assignedTo": "Assigned To",
-        "companyName": "Company Name",
-        "contactPerson": "Contact Person",
-        "name": "Name",
-        "title": "Title",
-        "email": "Email",
-        "phone": "Phone",
-        "address": "Address",
-        "country": "Country",
-        "variety": "Variety",
-        "grade": "Grade",
-        "processing": "Processing",
-        "origin": "Origin",
-        "moistureContent": "Moisture Content",
-        "screenSize": "Screen Size",
-        "defectRate": "Defect Rate",
-        "incoterms": "Incoterms",
-        "destination": "Destination",
-        "preferredDelivery": "Preferred Delivery",
-        "preferredDeliveryDate": "Preferred Delivery Date",
-        "packaging": "Packaging",
-        "packagingRequirements": "Packaging Requirements",
-        "paymentTerms": "Payment Terms",
-        "paymentMethod": "Payment Method",
-        "currency": "Currency",
-        "businessType": "Business Type",
-        "annualVolume": "Annual Volume",
-        "additionalNotes": "Additional Notes",
-        "attachments": "Attachments",
-        "download": "Download",
-        "noAttachments": "No attachments",
-        "noTimeline": "No timeline available",
-        "noTimelineEvents": "No timeline events available",
-        "noQuotes": "No quotes available",
-        "noQuotesYet": "No quotes received yet",
-        "quotesWorkingMessage": "Our team is working on your request and will provide a quote soon.",
-        "receivedQuotes": "Received Quotes",
-        "quotesDescription": "Review and compare quotes from our team",
-        "quoteNumber": "Quote #{number}",
-        "quotedPrice": "Quoted Price",
-        "validUntil": "Valid until {date}",
-        "terms": "Terms",
-        "notes": "Notes",
-        "acceptQuote": "Accept Quote",
-        "negotiate": "Negotiate",
-        "rfqTimeline": "RFQ Timeline",
-        "timelineDescription": "Track the progress and updates of your quote request",
-        "close": "Close",
-        "contactSales": "Contact Sales",
-        "quickActions": "Quick Actions",
+      "title": "Quote Request Details",
+      "submittedOn": "Submitted on",
+      "lastUpdated": "Last updated",
+      "productDetails": "Product Details",
+      "quantitySpecs": "Quantity & Specifications",
+      "shippingInfo": "Shipping Information",
+      "estimatedPrice": "Estimated Price",
+      "downloadQuote": "Download Quote",
+      "tabs": {
+        "overview": "Overview",
+        "requirements": "Requirements",
+        "company": "Company",
+        "timeline": "Timeline",
+        "quotes": "Quotes",
+        "documents": "Documents",
+        "status": "Status"
+      },
+      "productInformation": "Product Information",
+      "productSpecifications": "Product Specifications",
+      "deliveryRequirements": "Delivery Requirements",
+      "companyInformation": "Company Information",
+      "timelineInfo": "Timeline Information",
+      "deliveryInfo": "Delivery Information",
+      "contactInfo": "Contact Information",
+      "productType": "Product Type",
+      "quantity": "Quantity",
+      "estimatedValue": "Estimated Value",
+      "certifications": "Certifications",
+      "submitted": "Submitted",
+      "submittedAt": "Submitted At",
+      "lastUpdate": "Last Update",
+      "responseDeadline": "Response Deadline",
+      "assignedTo": "Assigned To",
+      "companyName": "Company Name",
+      "contactPerson": "Contact Person",
+      "name": "Name",
+      "title": "Title",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "country": "Country",
+      "variety": "Variety",
+      "grade": "Grade",
+      "processing": "Processing",
+      "origin": "Origin",
+      "moistureContent": "Moisture Content",
+      "screenSize": "Screen Size",
+      "defectRate": "Defect Rate",
+      "incoterms": "Incoterms",
+      "destination": "Destination",
+      "preferredDelivery": "Preferred Delivery",
+      "preferredDeliveryDate": "Preferred Delivery Date",
+      "packaging": "Packaging",
+      "packagingRequirements": "Packaging Requirements",
+      "paymentTerms": "Payment Terms",
+      "paymentMethod": "Payment Method",
+      "currency": "Currency",
+      "businessType": "Business Type",
+      "annualVolume": "Annual Volume",
+      "additionalNotes": "Additional Notes",
+      "attachments": "Attachments",
+      "download": "Download",
+      "noAttachments": "No attachments",
+      "noTimeline": "No timeline available",
+      "noTimelineEvents": "No timeline events available",
+      "noQuotes": "No quotes available",
+      "noQuotesYet": "No quotes received yet",
+      "quotesWorkingMessage": "Our team is working on your request and will provide a quote soon.",
+      "receivedQuotes": "Received Quotes",
+      "quotesDescription": "Review and compare quotes from our team",
+      "quoteNumber": "Quote #{number}",
+      "quotedPrice": "Quoted Price",
+      "validUntil": "Valid until {date}",
+      "terms": "Terms",
+      "notes": "Notes",
+      "acceptQuote": "Accept Quote",
+      "negotiate": "Negotiate",
+      "rfqTimeline": "RFQ Timeline",
+      "timelineDescription": "Track the progress and updates of your quote request",
+      "close": "Close",
+      "contactSales": "Contact Sales",
+      "quickActions": "Quick Actions",
       "quickActionsDescription": "Manage this RFQ with the following actions",
       "viewFullDetails": "View Full Details",
       "status": "Status",
@@ -985,6 +1000,581 @@
       "low": "Low (Fast)",
       "medium": "Medium",
       "high": "High (Best Quality)"
+    }
+  },
+  "catalog": {
+    "comparison": {
+      "title": "Product Comparison",
+      "description": "Compare selected coffee products side-by-side to make informed purchasing decisions",
+      "products": "products",
+      "specification": "Specification",
+      "export": "Export Comparison",
+      "requestQuote": "Request Quote",
+      "inStock": "In Stock",
+      "outOfStock": "Out of Stock",
+      "days": "days",
+      "fields": {
+        "name": "Product",
+        "type": "Type",
+        "grade": "Grade",
+        "processing": "Processing Method",
+        "origin": "Origin",
+        "moisture": "Moisture Content",
+        "screenSize": "Screen Size",
+        "defectRate": "Defect Rate",
+        "cuppingScore": "Cupping Score",
+        "basePrice": "Base Price",
+        "stockStatus": "Stock Status",
+        "leadTime": "Lead Time",
+        "harvestSeason": "Harvest Season",
+        "certifications": "Certifications"
+      },
+      "categories": {
+        "basic": "Basic Information",
+        "specifications": "Technical Specifications",
+        "pricing": "Pricing",
+        "availability": "Availability",
+        "certifications": "Certifications"
+      },
+      "advanced": {
+        "title": "Advanced Product Comparison",
+        "tabs": {
+          "comparison": "Detailed Comparison",
+          "analysis": "Business Analysis",
+          "recommendations": "AI Recommendations"
+        },
+        "filters": {
+          "all": "All Categories",
+          "highPriority": "High Priority Only",
+          "business": "Business Metrics",
+          "technical": "Technical Specs",
+          "availability": "Availability"
+        },
+        "sorting": {
+          "price": "Sort by Price",
+          "quality": "Sort by Quality",
+          "availability": "Sort by Stock"
+        },
+        "businessMetrics": {
+          "basePrice": "Base Price",
+          "bulkPrice": "Bulk Price (1000kg)",
+          "roiScore": "ROI Score",
+          "totalQuantity": "Total Quantity",
+          "totalValue": "Total Value",
+          "potentialSavings": "Potential Savings",
+          "qualityScore": "Quality Score",
+          "riskAssessment": "Risk Assessment"
+        },
+        "analysis": {
+          "recommendedMix": "Recommended Product Mix",
+          "targetQuantity": "Target Quantity",
+          "averagePrice": "Average Price",
+          "vsStandardPricing": "vs standard pricing"
+        },
+        "recommendations": {
+          "aiPowered": "AI-Powered Recommendations",
+          "optimalStrategy": "Optimal Purchase Strategy",
+          "seasonalTiming": "Seasonal Timing",
+          "riskMitigation": "Risk Mitigation",
+          "strategyDescription": "Based on your selection, we recommend a 60/40 split between premium and commercial grades to optimize both quality and cost-effectiveness for your target market.",
+          "timingDescription": "Consider placing orders for Vietnamese Robusta between October-December for best pricing and freshness, aligning with harvest seasons.",
+          "riskDescription": "Some selected products have higher lead times or limited stock. Consider diversifying your supplier base or adjusting quantities to reduce supply chain risks."
+        },
+        "tooltips": {
+          "basePrice": "Price per kg for standard quantities",
+          "bulkPrice": "Discounted price for 1000kg orders",
+          "roiScore": "Return on Investment score based on quality vs price"
+        },
+        "actions": {
+          "select": "Select",
+          "export": "Export",
+          "quote": "Quote",
+          "exportFormats": {
+            "csv": "Export as CSV",
+            "pdf": "Export as PDF",
+            "excel": "Export as Excel"
+          }
+        },
+        "risk": {
+          "low": "Low Risk",
+          "medium": "Medium Risk",
+          "high": "High Risk"
+        },
+        "quality": {
+          "specialty": "Specialty",
+          "commercial": "Commercial"
+        },
+        "savings": "savings"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "B2B Dashboard",
+    "subtitle": "Manage your coffee sourcing operations and track business performance",
+    "navigation": {
+      "overview": "Overview",
+      "quotes": "Quotes",
+      "orders": "Orders",
+      "analytics": "Analytics",
+      "documents": "Documents",
+      "logistics": "Logistics",
+      "messages": "Messages",
+      "account": "Account"
+    },
+    "search": {
+      "placeholder": "Search dashboard..."
+    },
+    "notifications": "Notifications",
+    "newQuote": "New Quote",
+    "viewAll": "View All",
+    "expires": "Expires",
+    "createNewQuote": "Create New Quote",
+    "viewOrderHistory": "View Order History",
+    "downloadReport": "Download Report",
+    "stats": {
+      "totalQuotes": "Total Quotes",
+      "activeOrders": "Active Orders",
+      "totalSpent": "Total Spent",
+      "avgOrderValue": "Avg Order Value",
+      "thisMonth": "this month",
+      "thisWeek": "this week",
+      "fromLastMonth": "from last month"
+    },
+    "status": {
+      "pending": "Pending",
+      "quoted": "Quoted",
+      "approved": "Approved",
+      "shipped": "Shipped",
+      "processing": "Processing",
+      "delivered": "Delivered"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "quotes": "Quotes",
+      "orders": "Orders",
+      "analytics": "Analytics"
+    },
+    "recentQuotes": {
+      "title": "Recent Quotes"
+    },
+    "recentOrders": {
+      "title": "Recent Orders"
+    },
+    "quotes": {
+      "title": "Quote Management",
+      "description": "Manage all your quote requests and track their status",
+      "comingSoon": "Advanced quote management features coming soon"
+    },
+    "orders": {
+      "title": "Order Management",
+      "description": "Track your orders from processing to delivery",
+      "comingSoon": "Comprehensive order tracking coming soon"
+    },
+    "analytics": {
+      "title": "Business Analytics",
+      "description": "Insights into your coffee sourcing performance and trends",
+      "comingSoon": "Detailed analytics and reporting coming soon"
+    }
+  },
+  "quotes": {
+    "title": "Quote Management",
+    "subtitle": "Manage all your quote requests and track their status",
+    "newQuote": "New Quote",
+    "exportQuotes": "Export Quotes",
+    "searchPlaceholder": "Search quotes by ID or product...",
+    "filterByStatus": "Filter by Status",
+    "filterByPriority": "Filter by Priority",
+    "allStatuses": "All Statuses",
+    "allPriorities": "All Priorities",
+    "quotesList": "Quotes List",
+    "quotesListDescription": "Showing {count} quotes",
+    "quoteId": "Quote ID",
+    "product": "Product",
+    "quantity": "Quantity",
+    "status": "Status",
+    "priority": "Priority",
+    "requested": "Requested",
+    "expires": "Expires",
+    "quotedPrice": "Quoted Price",
+    "actions": "Actions",
+    "viewDetails": "View Details",
+    "approve": "Approve",
+    "reject": "Reject",
+    "edit": "Edit",
+    "delete": "Delete",
+    "noQuotesFound": "No quotes found",
+    "noQuotesFoundDescription": "Try adjusting your search or filter criteria",
+    "status": {
+      "pending": "Pending",
+      "quoted": "Quoted",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "expired": "Expired"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    }
+  },
+  "orders": {
+    "title": "Order Management",
+    "subtitle": "Track and manage your coffee orders, shipments, and deliveries",
+    "exportOrders": "Export Orders",
+    "newOrder": "New Order",
+    "searchPlaceholder": "Search orders by ID, product, or destination...",
+    "filterByStatus": "Filter by Status",
+    "filterByPayment": "Filter by Payment",
+    "allStatuses": "All Statuses",
+    "allPayments": "All Payments",
+    "ordersList": "Orders List",
+    "ordersListDescription": "Showing {count} orders",
+    "orderId": "Order ID",
+    "product": "Product",
+    "quantity": "Quantity",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "payment": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "overdue": "Overdue",
+      "refunded": "Refunded"
+    },
+    "shipping": "Shipping",
+    "orderDate": "Order Date",
+    "value": "Value",
+    "progress": "Progress",
+    "actions": "Actions",
+    "viewDetails": "View Details",
+    "trackShipment": "Track Shipment",
+    "viewInvoice": "View Invoice",
+    "downloadDocuments": "Download Documents",
+    "noOrdersFound": "No orders found",
+    "noOrdersFoundDescription": "Try adjusting your search criteria or create a new order",
+    "stats": {
+      "totalOrders": "Total Orders",
+      "activeShipments": "Active Shipments",
+      "totalValue": "Total Value",
+      "delivered": "Delivered"
+    }
+  },
+  "analytics": {
+    "title": "Business Analytics",
+    "subtitle": "Comprehensive insights into your coffee business performance and market trends",
+    "refresh": "Refresh",
+    "exportReport": "Export Report",
+    "timeRange": {
+      "1month": "Last Month",
+      "3months": "Last 3 Months",
+      "6months": "Last 6 Months",
+      "1year": "Last Year"
+    },
+    "metrics": {
+      "totalRevenue": "Total Revenue",
+      "totalOrders": "Total Orders",
+      "avgOrderValue": "Avg Order Value",
+      "totalVolume": "Total Volume"
+    },
+    "tabs": {
+      "sales": "Sales",
+      "products": "Products",
+      "markets": "Markets",
+      "customers": "Customers"
+    },
+    "charts": {
+      "revenueOverTime": "Revenue Over Time",
+      "revenueOverTimeDesc": "Monthly revenue trends and growth patterns",
+      "ordersAndVolume": "Orders & Volume",
+      "ordersAndVolumeDesc": "Order count and volume shipped by month",
+      "productPerformance": "Product Performance",
+      "productPerformanceDesc": "Sales performance and growth by product category",
+      "marketDistribution": "Market Distribution",
+      "marketDistributionDesc": "Revenue distribution across global markets",
+      "topCountries": "Top Countries",
+      "topCountriesDesc": "Best performing countries by revenue",
+      "customerSegments": "Customer Segments",
+      "customerSegmentsDesc": "Revenue and performance by customer type"
+    },
+    "revenue": "Revenue",
+    "avgOrderValue": "Avg Order Value"
+  },
+  "account": {
+    "title": "Account Management",
+    "subtitle": "Manage your company profile, team members, and account preferences",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "tabs": {
+      "profile": "Company Profile",
+      "team": "Team Management",
+      "preferences": "Preferences"
+    },
+    "companyProfile": {
+      "title": "Company Profile",
+      "description": "Update your company information and business details",
+      "companyName": "Company Name",
+      "industry": "Industry",
+      "website": "Website",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "address": "Street Address",
+      "city": "City",
+      "country": "Country",
+      "taxId": "Tax ID",
+      "description": "Company Description"
+    },
+    "team": {
+      "title": "Team Management",
+      "description": "Manage team members and their access permissions",
+      "addMember": "Add Member",
+      "addMemberTitle": "Invite Team Member",
+      "addMemberDescription": "Send an invitation to a new team member",
+      "memberName": "Full Name",
+      "memberEmail": "Email Address",
+      "memberRole": "Role",
+      "sendInvitation": "Send Invitation",
+      "member": "Member",
+      "role": "Role",
+      "status": "Status",
+      "lastLogin": "Last Login",
+      "actions": "Actions"
+    },
+    "roles": {
+      "admin": "Admin",
+      "manager": "Manager",
+      "buyer": "Buyer",
+      "viewer": "Viewer"
+    },
+    "status": {
+      "active": "Active",
+      "pending": "Pending",
+      "inactive": "Inactive"
+    },
+    "preferences": {
+      "notifications": "Notification Preferences",
+      "notificationsDescription": "Configure how you want to receive updates and alerts",
+      "emailNotifications": "Email Notifications",
+      "pushNotifications": "Push Notifications",
+      "quoteUpdates": "Quote Updates",
+      "quoteUpdatesDesc": "Receive notifications when quotes are updated or responded to",
+      "orderUpdates": "Order Updates",
+      "orderUpdatesDesc": "Get notified about order status changes and shipment updates",
+      "shipmentUpdates": "Shipment Updates",
+      "shipmentUpdatesDesc": "Track your shipments and delivery notifications",
+      "marketingEmails": "Marketing Emails",
+      "marketingEmailsDesc": "Receive market insights, product updates, and promotional content",
+      "security": "Security Settings",
+      "securityDescription": "Manage your account security and data preferences",
+      "changePassword": "Change Password",
+      "downloadData": "Download My Data"
+    }
+  },
+  "documents": {
+    "title": "Document Management",
+    "subtitle": "Manage contracts, certificates, shipping documents, and other important files",
+    "uploadDocument": "Upload Document",
+    "uploadDocumentTitle": "Upload New Document",
+    "uploadDocumentDescription": "Add a new document to your document library",
+    "selectFile": "Select File",
+    "documentType": "Document Type",
+    "selectType": "Select document type",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter document description (optional)",
+    "expiryDate": "Expiry Date",
+    "cancel": "Cancel",
+    "upload": "Upload",
+    "stats": {
+      "totalDocuments": "Total Documents",
+      "activeDocuments": "Active",
+      "expiredDocuments": "Expired",
+      "pendingDocuments": "Pending",
+      "expiringThisMonth": "Expiring This Month"
+    },
+    "types": {
+      "contract": "Contract",
+      "certificate": "Certificate",
+      "shipping": "Shipping Document",
+      "invoice": "Invoice",
+      "quality": "Quality Report",
+      "insurance": "Insurance"
+    },
+    "status": {
+      "active": "Active",
+      "expired": "Expired",
+      "pending": "Pending",
+      "archived": "Archived"
+    },
+    "searchPlaceholder": "Search documents by name, description, or tags...",
+    "filterByType": "Filter by Type",
+    "filterByStatus": "Filter by Status",
+    "allTypes": "All Types",
+    "allStatuses": "All Statuses",
+    "sortBy": "Sort By",
+    "sortOptions": {
+      "uploadDate": "Upload Date",
+      "name": "Name",
+      "type": "Type",
+      "size": "Size"
+    },
+    "documentsTable": {
+      "title": "Documents Library",
+      "description": "Showing {count} documents"
+    },
+    "tableHeaders": {
+      "document": "Document",
+      "type": "Type",
+      "status": "Status",
+      "uploadDate": "Upload Date",
+      "expiryDate": "Expiry Date",
+      "size": "Size",
+      "actions": "Actions"
+    },
+    "noDocuments": "No documents found",
+    "noDocumentsDescription": "Upload your first document or adjust your search filters"
+  },
+  "logistics": {
+    "title": "Logistics Calculator",
+    "subtitle": "Calculate shipping costs, delivery times, and manage your logistics operations",
+    "tabs": {
+      "calculator": "Shipping Calculator",
+      "incoterms": "Incoterms Guide",
+      "tracking": "Shipment Tracking"
+    },
+    "calculator": {
+      "title": "Shipping Cost Calculator",
+      "description": "Get instant estimates for shipping costs and delivery times",
+      "shippingMethod": "Shipping Method",
+      "selectMethod": "Select shipping method",
+      "methods": {
+        "sea": "Sea Freight",
+        "air": "Air Freight",
+        "land": "Land Transport"
+      },
+      "origin": "Origin Port",
+      "selectOrigin": "Select origin port",
+      "destination": "Destination Port",
+      "selectDestination": "Select destination port",
+      "containers": "Number of Containers",
+      "containersPlaceholder": "Enter number of 20ft containers",
+      "weight": "Total Weight (kg)",
+      "weightPlaceholder": "Enter total weight in kilograms",
+      "incoterm": "Incoterm",
+      "selectIncoterm": "Select Incoterm",
+      "calculate": "Calculate Shipping Cost",
+      "calculating": "Calculating..."
+    },
+    "results": {
+      "title": "Shipping Estimate",
+      "estimatedCost": "Estimated Cost",
+      "transitTime": "Transit Time",
+      "days": "days",
+      "estimatedDelivery": "Estimated Delivery",
+      "shippingMethod": "Shipping Method",
+      "disclaimer": "This is an estimated cost. Final pricing may vary based on actual cargo specifications, market conditions, and additional services required.",
+      "requestQuote": "Request Official Quote"
+    },
+    "incoterms": {
+      "title": "International Commercial Terms (Incoterms)",
+      "description": "Understanding the responsibilities and risks in international trade"
+    },
+    "tracking": {
+      "title": "Shipment Tracking",
+      "description": "Track your current shipments and delivery status"
+    }
+  },
+  "messages": {
+    "title": "Communication Center",
+    "subtitle": "Manage conversations, notifications, and support tickets",
+    "tabs": {
+      "chat": "Chat",
+      "notifications": "Notifications",
+      "tickets": "Support Tickets"
+    },
+    "chat": {
+      "title": "Messages",
+      "newChat": "New Chat",
+      "searchPlaceholder": "Search conversations...",
+      "selectConversation": "Select a conversation",
+      "selectConversationDescription": "Choose a conversation from the sidebar to start messaging",
+      "messagePlaceholder": "Type your message...",
+      "actions": {
+        "star": "Star conversation",
+        "archive": "Archive conversation",
+        "delete": "Delete conversation"
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "markAllRead": "Mark all as read",
+      "filters": {
+        "all": "All",
+        "unread": "Unread",
+        "quotes": "Quotes",
+        "shipping": "Shipping",
+        "quality": "Quality"
+      }
+    },
+    "tickets": {
+      "title": "Support Tickets",
+      "createNew": "Create New Ticket",
+      "responses": "responses",
+      "filters": {
+        "all": "All Tickets",
+        "open": "Open",
+        "inProgress": "In Progress",
+        "resolved": "Resolved"
+      },
+      "status": {
+        "open": "Open",
+        "in_progress": "In Progress",
+        "resolved": "Resolved"
+      },
+      "priority": {
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low"
+      },
+      "actions": {
+        "view": "View Ticket",
+        "edit": "Edit Ticket",
+        "close": "Close Ticket"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "What Our Partners Say About Us",
+    "subtitle": "Join 500+ international partners who trust The Great Beans for premium Vietnamese coffee solutions and exceptional service across 25+ countries",
+    "trustBadge": "Trusted by Global Partners",
+    "categories": {
+      "all": "All Partners",
+      "roaster": "Coffee Roasters",
+      "distributor": "Distributors",
+      "manufacturer": "Manufacturers",
+      "retailer": "Retailers"
+    },
+    "stats": {
+      "annualVolume": "Annual Volume",
+      "partnership": "Partnership"
+    },
+    "navigation": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "trustIndicators": {
+      "title": "Trusted by Industry Leaders",
+      "subtitle": "Join our growing network of satisfied partners worldwide"
+    },
+    "cta": {
+      "title": "Ready to Join Our Success Stories?",
+      "subtitle": "Start your partnership with Vietnam's leading coffee exporter today",
+      "becomePartner": "Become a Partner",
+      "requestQuote": "Request Quote"
     }
   }
 }

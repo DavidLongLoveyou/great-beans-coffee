@@ -127,11 +127,11 @@ export function RFQListFilters({
 
   // Handle sort changes
   const handleSortChange = (field: string) => {
-    const newDirection = 
-      sortConfig.field === field && sortConfig.direction === 'asc' 
-        ? 'desc' 
+    const newDirection =
+      sortConfig.field === field && sortConfig.direction === 'asc'
+        ? 'desc'
         : 'asc';
-    
+
     onSortChange({
       field: field as RFQSortConfig['field'],
       direction: newDirection,
@@ -171,7 +171,7 @@ export function RFQListFilters({
   return (
     <Card className="mb-4 sm:mb-6">
       <CardHeader className="pb-4 sm:pb-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+        <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-0">
           <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
             <Filter className="h-4 w-4 sm:h-5 sm:w-5" />
             <span className="text-base sm:text-lg">{t('filters.title')}</span>
@@ -181,19 +181,24 @@ export function RFQListFilters({
               </Badge>
             )}
           </CardTitle>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 text-xs sm:text-sm text-gray-600">
+          <div className="flex flex-col items-start gap-2 text-xs text-gray-600 sm:flex-row sm:items-center sm:text-sm">
             <span className="whitespace-nowrap">
-              {t('filters.resultsCount', { filtered: filteredCount, total: totalCount })}
+              {t('filters.resultsCount', {
+                filtered: filteredCount,
+                total: totalCount,
+              })}
             </span>
             {hasActiveFilters() && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={onReset}
-                className="flex items-center gap-1 h-8 px-3 text-xs"
+                className="flex h-8 items-center gap-1 px-3 text-xs"
               >
                 <X className="h-3 w-3" />
-                <span className="hidden sm:inline">{t('filters.clearAll')}</span>
+                <span className="hidden sm:inline">
+                  {t('filters.clearAll')}
+                </span>
                 <span className="sm:hidden">{t('filters.clear')}</span>
               </Button>
             )}
@@ -202,33 +207,33 @@ export function RFQListFilters({
       </CardHeader>
       <CardContent className="space-y-3 sm:space-y-4">
         {/* Primary Filters Row */}
-        <div className="grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
           {/* Search */}
           <div className="sm:col-span-2 lg:col-span-2">
-            <label className="mb-1.5 sm:mb-2 block text-xs sm:text-sm font-medium text-gray-700">
+            <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
               {t('filters.search.label')}
             </label>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-3 w-3 sm:h-4 sm:w-4 -translate-y-1/2 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 h-3 w-3 -translate-y-1/2 text-gray-400 sm:h-4 sm:w-4" />
               <Input
                 placeholder={t('filters.search.placeholder')}
                 value={tempFilters.search}
                 onChange={e => handleFilterChange('search', e.target.value)}
-                className="pl-9 sm:pl-10 h-9 sm:h-10 text-sm"
+                className="h-9 pl-9 text-sm sm:h-10 sm:pl-10"
               />
             </div>
           </div>
 
           {/* Status Filter */}
           <div>
-            <label className="mb-1.5 sm:mb-2 block text-xs sm:text-sm font-medium text-gray-700">
+            <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
               {t('filters.status.label')}
             </label>
             <Select
               value={tempFilters.status}
               onValueChange={value => handleFilterChange('status', value)}
             >
-              <SelectTrigger className="h-9 sm:h-10 text-sm">
+              <SelectTrigger className="h-9 text-sm sm:h-10">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -243,14 +248,14 @@ export function RFQListFilters({
 
           {/* Priority Filter */}
           <div>
-            <label className="mb-1.5 sm:mb-2 block text-xs sm:text-sm font-medium text-gray-700">
+            <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
               {t('filters.priority.label')}
             </label>
             <Select
               value={tempFilters.priority}
               onValueChange={value => handleFilterChange('priority', value)}
             >
-              <SelectTrigger className="h-9 sm:h-10 text-sm">
+              <SelectTrigger className="h-9 text-sm sm:h-10">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -265,9 +270,11 @@ export function RFQListFilters({
         </div>
 
         {/* Sort Controls */}
-        <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 sm:gap-4 border-t pt-3 sm:pt-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-            <label className="text-xs sm:text-sm font-medium text-gray-700 whitespace-nowrap">{t('filters.sort.label')}:</label>
+        <div className="flex flex-col flex-wrap items-start gap-3 border-t pt-3 sm:flex-row sm:items-center sm:gap-4 sm:pt-4">
+          <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
+            <label className="whitespace-nowrap text-xs font-medium text-gray-700 sm:text-sm">
+              {t('filters.sort.label')}:
+            </label>
             <Select
               value={`${sortConfig.field}-${sortConfig.direction}`}
               onValueChange={value => {
@@ -278,7 +285,7 @@ export function RFQListFilters({
                 });
               }}
             >
-              <SelectTrigger className="w-full sm:w-48 h-9 sm:h-10 text-sm">
+              <SelectTrigger className="h-9 w-full text-sm sm:h-10 sm:w-48">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -300,7 +307,7 @@ export function RFQListFilters({
                 direction: sortConfig.direction === 'asc' ? 'desc' : 'asc',
               })
             }
-            className="flex items-center gap-1 h-8 sm:h-9 px-3 text-xs sm:text-sm"
+            className="flex h-8 items-center gap-1 px-3 text-xs sm:h-9 sm:text-sm"
           >
             {sortConfig.direction === 'asc' ? (
               <SortAsc className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -308,10 +315,14 @@ export function RFQListFilters({
               <SortDesc className="h-3 w-3 sm:h-4 sm:w-4" />
             )}
             <span className="hidden sm:inline">
-              {sortConfig.direction === 'asc' ? t('filters.sort.ascending') : t('filters.sort.descending')}
+              {sortConfig.direction === 'asc'
+                ? t('filters.sort.ascending')
+                : t('filters.sort.descending')}
             </span>
             <span className="sm:hidden">
-              {sortConfig.direction === 'asc' ? t('filters.sort.asc') : t('filters.sort.desc')}
+              {sortConfig.direction === 'asc'
+                ? t('filters.sort.asc')
+                : t('filters.sort.desc')}
             </span>
           </Button>
         </div>
@@ -321,7 +332,7 @@ export function RFQListFilters({
           <Button
             variant="ghost"
             onClick={() => setShowAdvanced(!showAdvanced)}
-            className="mb-3 sm:mb-4 flex items-center gap-2 p-0 text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900"
+            className="mb-3 flex items-center gap-2 p-0 text-xs font-medium text-gray-700 hover:text-gray-900 sm:mb-4 sm:text-sm"
           >
             {showAdvanced ? (
               <ChevronUp className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -332,17 +343,17 @@ export function RFQListFilters({
           </Button>
 
           {showAdvanced && (
-            <div className="grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
               {/* Date From */}
               <div>
-                <label className="mb-1.5 sm:mb-2 block text-xs sm:text-sm font-medium text-gray-700">
+                <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
                   {t('filters.advanced.submittedDateFrom')}
                 </label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
-                      className="w-full justify-start text-left font-normal h-9 sm:h-10 text-xs sm:text-sm"
+                      className="h-9 w-full justify-start text-left text-xs font-normal sm:h-10 sm:text-sm"
                     >
                       <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                       {filters.dateFrom
@@ -354,7 +365,9 @@ export function RFQListFilters({
                     <CalendarComponent
                       mode="single"
                       selected={filters.dateFrom}
-                      onSelect={(date: Date | undefined) => handleFilterChange('dateFrom', date)}
+                      onSelect={(date: Date | undefined) =>
+                        handleFilterChange('dateFrom', date)
+                      }
                       initialFocus
                     />
                   </PopoverContent>
@@ -363,14 +376,14 @@ export function RFQListFilters({
 
               {/* Date To */}
               <div>
-                <label className="mb-1.5 sm:mb-2 block text-xs sm:text-sm font-medium text-gray-700">
+                <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
                   {t('filters.advanced.submittedDateTo')}
                 </label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
-                      className="w-full justify-start text-left font-normal h-9 sm:h-10 text-xs sm:text-sm"
+                      className="h-9 w-full justify-start text-left text-xs font-normal sm:h-10 sm:text-sm"
                     >
                       <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                       {filters.dateTo
@@ -382,7 +395,9 @@ export function RFQListFilters({
                     <CalendarComponent
                       mode="single"
                       selected={filters.dateTo}
-                      onSelect={(date: Date | undefined) => handleFilterChange('dateTo', date)}
+                      onSelect={(date: Date | undefined) =>
+                        handleFilterChange('dateTo', date)
+                      }
                       initialFocus
                     />
                   </PopoverContent>
@@ -391,7 +406,7 @@ export function RFQListFilters({
 
               {/* Min Value */}
               <div>
-                <label className="mb-1.5 sm:mb-2 block text-xs sm:text-sm font-medium text-gray-700">
+                <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
                   {t('filters.advanced.minValue')}
                 </label>
                 <Input
@@ -399,15 +414,18 @@ export function RFQListFilters({
                   placeholder={t('filters.advanced.minValuePlaceholder')}
                   value={filters.minValue || ''}
                   onChange={e =>
-                    handleFilterChange('minValue', e.target.value ? Number(e.target.value) : undefined)
+                    handleFilterChange(
+                      'minValue',
+                      e.target.value ? Number(e.target.value) : undefined
+                    )
                   }
-                  className="h-9 sm:h-10 text-sm"
+                  className="h-9 text-sm sm:h-10"
                 />
               </div>
 
               {/* Max Value */}
               <div>
-                <label className="mb-1.5 sm:mb-2 block text-xs sm:text-sm font-medium text-gray-700">
+                <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
                   {t('filters.advanced.maxValue')}
                 </label>
                 <Input
@@ -415,22 +433,27 @@ export function RFQListFilters({
                   placeholder={t('filters.advanced.maxValuePlaceholder')}
                   value={filters.maxValue || ''}
                   onChange={e =>
-                    handleFilterChange('maxValue', e.target.value ? Number(e.target.value) : undefined)
+                    handleFilterChange(
+                      'maxValue',
+                      e.target.value ? Number(e.target.value) : undefined
+                    )
                   }
-                  className="h-9 sm:h-10 text-sm"
+                  className="h-9 text-sm sm:h-10"
                 />
               </div>
 
               {/* Assigned To */}
               <div>
-                <label className="mb-1.5 sm:mb-2 block text-xs sm:text-sm font-medium text-gray-700">
+                <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
                   {t('filters.advanced.assignedTo')}
                 </label>
                 <Input
                   placeholder={t('filters.advanced.assignedToPlaceholder')}
                   value={filters.assignedTo || ''}
-                  onChange={e => handleFilterChange('assignedTo', e.target.value)}
-                  className="h-9 sm:h-10 text-sm"
+                  onChange={e =>
+                    handleFilterChange('assignedTo', e.target.value)
+                  }
+                  className="h-9 text-sm sm:h-10"
                 />
               </div>
             </div>

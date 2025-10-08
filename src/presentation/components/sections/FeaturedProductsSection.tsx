@@ -11,7 +11,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import {
@@ -22,6 +23,13 @@ import {
   CardTitle,
 } from '@/presentation/components/ui/card';
 import { ServerButton } from '@/presentation/components/ui/server-button';
+import { 
+  ScrollReveal, 
+  StaggeredChildren, 
+  MagneticHover,
+  FloatingElement 
+} from '@/presentation/components/ui/ScrollAnimations';
+import { EnhancedButton } from '@/presentation/components/ui/EnhancedButton';
 
 interface FeaturedProductsSectionProps {
   locale: string;
@@ -48,11 +56,62 @@ interface Product {
   isPopular?: boolean;
 }
 
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] },
+  },
+  hover: {
+    y: -8,
+    scale: 1.02,
+    transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+  },
+};
+
+const badgeVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.4, delay: 0.2 },
+  },
+  hover: {
+    scale: 1.1,
+    transition: { duration: 0.2 },
+  },
+};
+
 export function FeaturedProductsSection({
   locale,
 }: FeaturedProductsSectionProps) {
   const t = useTranslations('homepage');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   const featuredProducts: Product[] = [
     {
@@ -132,213 +191,375 @@ export function FeaturedProductsSection({
   const getBadgeStyles = (variant: string) => {
     switch (variant) {
       case 'premium':
-        return 'border-forest-500/50 bg-forest-600/80 text-forest-100';
+        return 'border-gold-500/50 bg-gold-600/80 text-gold-100 shadow-gold-soft';
       case 'specialty':
-        return 'border-emerald-500/50 bg-emerald-600/80 text-emerald-100';
+        return 'border-coffee-500/50 bg-coffee-600/80 text-coffee-100 shadow-coffee-soft';
       case 'custom':
-        return 'border-forest-500/50 bg-forest-600/80 text-forest-100';
+        return 'border-gold-500/50 bg-gold-600/80 text-gold-100 shadow-gold-soft';
       default:
-        return 'border-forest-500/50 bg-forest-600/80 text-forest-100';
+        return 'border-gold-500/50 bg-gold-600/80 text-gold-100 shadow-gold-soft';
     }
   };
 
   return (
-    <section 
+    <motion.section
+      ref={ref}
       data-testid="featured-products"
-      className="relative overflow-hidden bg-gradient-to-br from-forest-900 via-forest-800 to-forest-900 py-24"
+      className="relative overflow-hidden bg-gradient-to-br from-coffee-900 via-coffee-800 to-coffee-900 py-24"
+      initial="hidden"
+      animate={isInView ? 'visible' : 'hidden'}
+      variants={containerVariants}
     >
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-r from-forest-900/95 via-forest-800/90 to-forest-900/95"></div>
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute left-1/4 top-1/4 h-40 w-40 animate-pulse rounded-full bg-emerald-400 blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 h-32 w-32 animate-pulse rounded-full bg-forest-400 blur-2xl delay-1000"></div>
-      </div>
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-sage-900/95 via-sage-800/90 to-sage-900/95"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      />
+      <motion.div
+        className="absolute inset-0 opacity-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 1.2, delay: 0.3 }}
+      >
+        <motion.div
+          className="absolute left-1/4 top-1/4 h-40 w-40 rounded-full bg-gold-400 blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: [0.4, 0, 0.6, 1],
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 h-32 w-32 rounded-full bg-coffee-400 blur-2xl"
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.5, 0.2],
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: [0.4, 0, 0.6, 1],
+            delay: 1,
+          }}
+        />
+      </motion.div>
 
       <div className="container relative z-10 mx-auto max-w-7xl px-4">
         {/* Section Header */}
-        <div className="mb-20 text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/20 px-6 py-3">
-            <Coffee className="h-5 w-5 text-emerald-400" />
-            <span className="font-medium text-emerald-200">
-              Premium Vietnamese Origins
-            </span>
+        <ScrollReveal direction="up" delay={0.2} duration={0.8}>
+          <div className="mb-20 text-center">
+            <MagneticHover strength={0.1}>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/20 px-6 py-3 shadow-emerald-soft backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-500/30 hover:shadow-emerald-medium">
+                <FloatingElement>
+                  <Coffee className="h-5 w-5 text-emerald-400" />
+                </FloatingElement>
+                <span className="font-medium text-emerald-100">
+                  Premium Vietnamese Origins
+                </span>
+              </div>
+            </MagneticHover>
+
+            <StaggeredChildren staggerDelay={0.1}>
+              <h2 className="mb-6 bg-gradient-to-r from-forest-900 via-emerald-800 to-forest-900 bg-clip-text text-4xl font-bold text-transparent transition-all duration-300 hover:scale-105 md:text-5xl lg:text-6xl">
+                Featured Coffee
+                <span className="block bg-gradient-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent">
+                  Products
+                </span>
+              </h2>
+
+              <p className="mx-auto max-w-4xl text-xl leading-relaxed text-coffee-100 transition-all duration-300 hover:text-coffee-50">
+                Discover our range of premium Vietnamese coffee beans, sourced
+                directly from the finest growing regions
+              </p>
+            </StaggeredChildren>
           </div>
-
-          <h2 className="mb-6 text-4xl font-bold leading-tight text-white md:text-5xl">
-            Featured Coffee
-            <span className="block bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
-              Products
-            </span>
-          </h2>
-
-          <p className="mx-auto max-w-4xl text-xl leading-relaxed text-forest-100">
-            Discover our range of premium Vietnamese coffee beans, sourced
-            directly from the finest growing regions
-          </p>
-        </div>
+        </ScrollReveal>
 
         {/* Products Carousel */}
-        <div className="relative">
+        <motion.div className="relative" variants={itemVariants}>
           {/* Navigation Buttons */}
-          <button
-            onClick={prevProduct}
-            className="absolute left-0 top-1/2 z-20 -translate-x-4 -translate-y-1/2 rounded-full bg-forest-800/80 p-3 text-emerald-400 shadow-forest-medium backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-forest-700/90 hover:shadow-forest-strong"
-          >
-            <ChevronLeft className="h-6 w-6" />
-          </button>
+          <ScrollReveal direction="left" delay={0.8} duration={0.5}>
+            <MagneticHover strength={0.2}>
+              <button
+                onClick={prevProduct}
+                className="absolute left-0 top-1/2 z-20 -translate-x-4 -translate-y-1/2 rounded-full bg-emerald-800/80 p-3 text-gold-400 shadow-emerald-medium backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90 hover:shadow-gold-strong"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+            </MagneticHover>
+          </ScrollReveal>
 
-          <button
-            onClick={nextProduct}
-            className="absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-4 rounded-full bg-forest-800/80 p-3 text-emerald-400 shadow-forest-medium backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-forest-700/90 hover:shadow-forest-strong"
-          >
-            <ChevronRight className="h-6 w-6" />
-          </button>
+          <ScrollReveal direction="right" delay={0.8} duration={0.5}>
+            <MagneticHover strength={0.2}>
+              <button
+                onClick={nextProduct}
+                className="absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-4 rounded-full bg-emerald-800/80 p-3 text-gold-400 shadow-emerald-medium backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90 hover:shadow-gold-strong"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </MagneticHover>
+          </ScrollReveal>
 
           {/* Products Grid */}
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {featuredProducts.map((product, index) => {
-              const isActive = index === currentIndex;
-              const isVisible =
-                Math.abs(index - currentIndex) <= 1 ||
-                featuredProducts.length <= 3;
+          <StaggeredChildren staggerDelay={0.2}>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+              {featuredProducts.map((product, index) => {
+                const isActive = index === currentIndex;
+                const isVisible =
+                  Math.abs(index - currentIndex) <= 1 ||
+                  featuredProducts.length <= 3;
 
-              return (
-                <Card
-                  key={product.id}
-                  data-testid="product-card"
-                  className={`group relative overflow-hidden border-forest-600/30 bg-forest-800/50 shadow-forest-medium backdrop-blur-sm transition-all duration-500 ${
-                    isActive
-                      ? 'shadow-emerald-strong scale-105 border-emerald-400/50 bg-forest-700/60'
-                      : 'hover:shadow-emerald-strong hover:-translate-y-2 hover:border-emerald-400/50 hover:bg-forest-700/60'
-                  } ${isVisible ? 'opacity-100' : 'opacity-50'}`}
-                >
+                return (
+                  <ScrollReveal direction="up" delay={index * 0.1} duration={0.6}>
+                    <MagneticHover strength={0.05}>
+                      <div
+                        key={product.id}
+                        className={`group relative overflow-hidden rounded-lg border border-forest-600/30 bg-forest-800/50 shadow-forest-medium backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 ${
+                          isActive
+                            ? 'shadow-gold-strong scale-105 border-gold-400/50 bg-forest-700/60'
+                            : 'hover:shadow-gold-strong hover:border-gold-400/50 hover:bg-forest-700/60'
+                        } ${isVisible ? 'opacity-100' : 'opacity-50'}`}
+                        data-testid="product-card"
+                      >
                   {/* Popular Badge */}
                   {product.isPopular && (
-                    <div className="absolute right-4 top-4 z-10">
-                      <Badge className="border-emerald-400/50 bg-emerald-500/80 text-emerald-100 shadow-emerald-soft">
+                    <motion.div
+                      className="absolute left-4 top-4 z-10 rounded-full bg-forest-600/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm"
+                      initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                    >
+                      <Badge className="border-gold-400/50 bg-gold-500/80 text-gold-100 shadow-gold-soft">
                         <Star className="mr-1 h-3 w-3 fill-current" />
                         Popular
                       </Badge>
-                    </div>
+                    </motion.div>
                   )}
 
-                  <CardHeader className="pb-4">
-                    <Badge
-                      className={`w-fit border shadow-sm ${getBadgeStyles(product.badge.variant)}`}
+                  <div className="p-6 pb-4">
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.1 }}
                     >
-                      {product.badge.text}
-                    </Badge>
+                      <Badge
+                        className={`w-fit border shadow-sm ${getBadgeStyles(product.badge.variant)}`}
+                      >
+                        {product.badge.text}
+                      </Badge>
+                    </motion.div>
 
-                    <CardTitle className="text-xl font-bold text-white transition-colors group-hover:text-emerald-200">
-                      {product.name}
-                    </CardTitle>
+                    <motion.h3
+                      className="mt-4 text-xl font-bold text-white transition-colors group-hover:text-gold-200"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.2 }}
+                    >
+                      {t(`products.${product.key}.name`)}
+                    </motion.h3>
 
-                    <CardDescription className="leading-relaxed text-forest-200">
-                      {product.description}
-                    </CardDescription>
-                  </CardHeader>
+                    <motion.p
+                      className="mt-2 leading-relaxed text-coffee-200"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.3 }}
+                    >
+                      {t(`products.${product.key}.description`)}
+                    </motion.p>
+                  </div>
 
-                  <CardContent className="space-y-6">
-                    {/* Product Details */}
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <span className="text-forest-300">Grade:</span>
-                        <span className="ml-2 font-medium text-emerald-400">
-                          {product.grade}
-                        </span>
+                  <div className="space-y-6 px-6">
+                    {/* Key Features */}
+                    <motion.div
+                      className="space-y-3"
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.4 }}
+                    >
+                      <h4 className="text-sm font-semibold text-gold-300">
+                        Key Features
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {product.features.map((feature, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                              duration: 0.3,
+                              delay: 0.5 + index * 0.1,
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                          >
+                            <Badge
+                              variant="outline"
+                              className="border-coffee-500 bg-coffee-700/50 text-coffee-100 hover:border-gold-400/50 hover:bg-gold-500/20"
+                            >
+                              {feature}
+                            </Badge>
+                          </motion.div>
+                        ))}
                       </div>
-                      <div>
-                        <span className="text-forest-300">Origin:</span>
-                        <span className="ml-2 font-medium text-emerald-400">
-                          {product.origin}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Features */}
-                    <div className="space-y-3">
-                      {product.features.map(feature => (
-                        <div
-                          key={feature}
-                          className="flex items-center text-sm text-forest-200"
-                        >
-                          <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-emerald-400" />
-                          <span>{feature}</span>
-                        </div>
-                      ))}
-                    </div>
+                    </motion.div>
 
                     {/* Specifications */}
+                    <motion.div
+                      className="space-y-3"
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.6 }}
+                    >
+                      <h4 className="text-sm font-semibold text-gold-300">
+                        Specifications
+                      </h4>
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <motion.div
+                          className="text-coffee-200"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: 0.7 }}
+                          whileHover={{ x: 5 }}
+                        >
+                          <span className="text-coffee-300">Grade:</span>
+                          <span className="ml-2 font-medium text-gold-400">
+                            {product.grade}
+                          </span>
+                        </motion.div>
+                        <motion.div
+                          className="text-coffee-200"
+                          initial={{ opacity: 0, x: 10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: 0.8 }}
+                          whileHover={{ x: -5 }}
+                        >
+                          <span className="text-coffee-300">Origin:</span>
+                          <span className="ml-2 font-medium text-gold-400">
+                            {product.origin}
+                          </span>
+                        </motion.div>
+                        <motion.div
+                          className="text-coffee-200"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: 0.9 }}
+                          whileHover={{ x: 5 }}
+                        >
+                          <span className="text-coffee-300">Processing:</span>
+                          <span className="ml-2 font-medium text-gold-400">
+                            {product.processingMethod}
+                          </span>
+                        </motion.div>
+                        <motion.div
+                          className="text-coffee-200"
+                          initial={{ opacity: 0, x: 10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: 1.0 }}
+                          whileHover={{ x: -5 }}
+                        >
+                          <span className="text-coffee-300">Moisture:</span>
+                          <span className="ml-2 font-medium text-gold-400">
+                            {product.specifications.moisture}
+                          </span>
+                        </motion.div>
+                      </div>
+                    </motion.div>
+
+                    {/* Cupping Score */}
                     {product.specifications.cuppingScore && (
-                      <div className="rounded-lg border border-emerald-400/30 bg-emerald-500/10 p-3">
+                      <motion.div
+                        className="rounded-lg border border-gold-400/30 bg-gold-500/10 p-3"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.4, delay: 0.9 }}
+                        whileHover={{ scale: 1.02 }}
+                      >
                         <div className="flex items-center gap-2 text-sm">
-                          <Star className="h-4 w-4 fill-current text-emerald-400" />
-                          <span className="text-emerald-300">
+                          <Star className="h-4 w-4 fill-current text-gold-400" />
+                          <span className="text-gold-300">
                             Cupping Score:
                           </span>
-                          <span className="font-bold text-emerald-400">
+                          <span className="font-bold text-gold-400">
                             {product.specifications.cuppingScore}+
                           </span>
                         </div>
-                      </div>
+                      </motion.div>
                     )}
 
                     {/* Action Buttons */}
                     <div className="flex gap-3 pt-4">
-                      <ServerButton
-                        asChild
-                        size="sm"
-                        className="shadow-emerald-medium hover:shadow-emerald-strong flex-1 bg-emerald-500 text-forest-900 transition-all duration-300 hover:scale-105 hover:bg-emerald-600"
-                      >
-                        <Link href={`/${locale}/quote?product=${product.id}`}>
-                          Request Quote
-                        </Link>
-                      </ServerButton>
-
-                      <ServerButton
+                      <div className="flex-1">
+                        <EnhancedButton
+                          asChild
+                          variant="forest"
+                          size="md"
+                          className="w-full"
+                        >
+                          <Link href={`/${locale}/products/${product.id}`}>
+                            <ArrowRight className="mr-2 h-4 w-4" />
+                            View Details
+                          </Link>
+                        </EnhancedButton>
+                      </div>
+                      <EnhancedButton
                         variant="outline"
-                        size="sm"
-                        className="border-forest-200 text-forest-200 shadow-forest-soft hover:bg-forest-200 hover:text-forest-900"
+                        size="icon"
+                        className="border-coffee-500 text-coffee-200 hover:border-gold-400 hover:bg-gold-500/20 hover:text-gold-200"
                       >
                         <Download className="h-4 w-4" />
-                      </ServerButton>
+                      </EnhancedButton>
                     </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+                  </div>
+                       </div>
+                     </MagneticHover>
+                   </ScrollReveal>
+                 );
+               })}
+             </div>
+           </StaggeredChildren>
 
           {/* Carousel Indicators */}
-          <div className="mt-8 flex justify-center gap-2">
-            {featuredProducts.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`h-2 w-8 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? 'bg-emerald-400 shadow-emerald-glow'
-                    : 'bg-forest-600 hover:bg-forest-500'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+          <ScrollReveal direction="up" delay={0.3}>
+            <div className="mt-8 flex justify-center gap-2">
+              {featuredProducts.map((_, index) => (
+                <MagneticHover key={index} strength={0.1}>
+                  <button
+                    onClick={() => setCurrentIndex(index)}
+                    className={`h-2 rounded-full transition-all duration-300 hover:scale-125 ${
+                      index === currentIndex
+                        ? 'w-8 bg-forest-600 shadow-forest-medium'
+                        : 'w-2 bg-forest-300 hover:bg-forest-400'
+                    }`}
+                  />
+                </MagneticHover>
+              ))}
+            </div>
+          </ScrollReveal>
+        </motion.div>
 
         {/* CTA Section */}
-        <div className="mt-16 text-center">
-          <ServerButton
-            asChild
-            size="lg"
-            className="shadow-emerald-medium hover:shadow-emerald-strong group transform bg-emerald-500 px-10 py-4 text-lg font-semibold text-forest-900 transition-all duration-300 hover:scale-105 hover:bg-emerald-600"
-          >
-            <Link href={`/${locale}/products`}>
-              View All Products
-              <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </ServerButton>
-        </div>
+        <ScrollReveal direction="up" delay={0.4}>
+          <div className="mt-16 text-center">
+            <EnhancedButton
+              asChild
+              variant="forest"
+              size="lg"
+              className="px-10 py-4 text-lg font-semibold"
+            >
+              <Link href={`/${locale}/products`}>
+                View All Products
+                <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </EnhancedButton>
+          </div>
+        </ScrollReveal>
       </div>
-    </section>
+    </motion.section>
   );
 }

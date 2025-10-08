@@ -1,12 +1,12 @@
 /**
  * PDF Generation Service
- * 
+ *
  * Provides comprehensive PDF generation capabilities for:
  * - Coffee product specification sheets
  * - RFQ (Request for Quote) documents
  * - Market reports
  * - Certificates and compliance documents
- * 
+ *
  * Supports both client-side (jsPDF) and server-side (Puppeteer) generation
  */
 
@@ -30,7 +30,7 @@ export interface PDFGenerationOptions {
 }
 
 // PDF Template Types
-export type PDFTemplateType = 
+export type PDFTemplateType =
   | 'product-spec-sheet'
   | 'rfq-document'
   | 'market-report'
@@ -75,7 +75,9 @@ export class PDFGenerationService {
     options: PDFGenerationOptions = {}
   ): Promise<Blob> {
     try {
-      logger.info('Generating product spec sheet PDF', { productId: product.id });
+      logger.info('Generating product spec sheet PDF', {
+        productId: product.id,
+      });
 
       const pdf = new jsPDF({
         orientation: options.orientation || 'portrait',
@@ -255,7 +257,9 @@ export class PDFGenerationService {
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'normal');
     pdf.setTextColor(60, 60, 60);
-    const description = product.getLocalizedDescription('en') || 'Premium Vietnamese coffee product';
+    const description =
+      product.getLocalizedDescription('en') ||
+      'Premium Vietnamese coffee product';
     const splitDescription = pdf.splitTextToSize(description, 170);
     pdf.text(splitDescription, 20, yPosition);
     yPosition += splitDescription.length * 5 + 5;
@@ -285,7 +289,10 @@ export class PDFGenerationService {
   /**
    * Add specifications table
    */
-  private addSpecificationsTable(pdf: jsPDF, product: CoffeeProductEntity): void {
+  private addSpecificationsTable(
+    pdf: jsPDF,
+    product: CoffeeProductEntity
+  ): void {
     let yPosition = 120;
 
     pdf.setFontSize(12);
@@ -309,7 +316,10 @@ export class PDFGenerationService {
       ['Moisture Content', `${specs.moisture}% max` || '12.5% max'],
       ['Screen Size', specs.screenSize || '16+ (85% min)'],
       ['Defect Rate', `${specs.defectRate}%` || '5% max'],
-      ['Cupping Score', specs.cuppingScore ? `${specs.cuppingScore}/100` : 'N/A'],
+      [
+        'Cupping Score',
+        specs.cuppingScore ? `${specs.cuppingScore}/100` : 'N/A',
+      ],
       ['Density', specs.density ? `${specs.density} g/ml` : '650-700 g/L'],
       ['Acidity', specs.acidity || 'Low'],
       ['Body', specs.body || 'Full'],
@@ -322,7 +332,7 @@ export class PDFGenerationService {
       const bgColor = index % 2 === 0 ? 245 : 255;
       pdf.setFillColor(bgColor, bgColor, bgColor);
       pdf.rect(20, yPosition, 170, 6, 'F');
-      
+
       pdf.text(param, 25, yPosition + 4);
       pdf.text(spec, 100, yPosition + 4);
       yPosition += 6;
@@ -340,32 +350,43 @@ export class PDFGenerationService {
     pdf.text('Certifications & Quality Assurance:', 20, yPosition);
     yPosition += 10;
 
-    const certifications = product.certifications.length > 0 
-      ? product.certifications.map(cert => {
-          // Convert enum values to readable names
-          switch(cert) {
-            case 'ORGANIC': return 'Organic Certified';
-            case 'FAIR_TRADE': return 'Fair Trade Certified';
-            case 'RAINFOREST_ALLIANCE': return 'Rainforest Alliance Certified';
-            case 'UTZ': return 'UTZ Certified';
-            case 'C_CAFE': return 'C.A.F.E. Practices';
-            case 'ISO_22000': return 'ISO 22000:2018 Food Safety Management';
-            case 'HACCP': return 'HACCP Certified';
-            case 'KOSHER': return 'Kosher Certified';
-            case 'HALAL': return 'Halal Certified';
-            default: return cert;
-          }
-        })
-      : [
-          'ISO 22000:2018 Food Safety Management',
-          'HACCP Certified',
-          'Vietnam Good Agricultural Practices (VietGAP)',
-          'Rainforest Alliance Certified',
-        ];
+    const certifications =
+      product.certifications.length > 0
+        ? product.certifications.map(cert => {
+            // Convert enum values to readable names
+            switch (cert) {
+              case 'ORGANIC':
+                return 'Organic Certified';
+              case 'FAIR_TRADE':
+                return 'Fair Trade Certified';
+              case 'RAINFOREST_ALLIANCE':
+                return 'Rainforest Alliance Certified';
+              case 'UTZ':
+                return 'UTZ Certified';
+              case 'C_CAFE':
+                return 'C.A.F.E. Practices';
+              case 'ISO_22000':
+                return 'ISO 22000:2018 Food Safety Management';
+              case 'HACCP':
+                return 'HACCP Certified';
+              case 'KOSHER':
+                return 'Kosher Certified';
+              case 'HALAL':
+                return 'Halal Certified';
+              default:
+                return cert;
+            }
+          })
+        : [
+            'ISO 22000:2018 Food Safety Management',
+            'HACCP Certified',
+            'Vietnam Good Agricultural Practices (VietGAP)',
+            'Rainforest Alliance Certified',
+          ];
 
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'normal');
-    certifications.forEach((cert) => {
+    certifications.forEach(cert => {
       pdf.text('• ' + cert, 25, yPosition);
       yPosition += 6;
     });
@@ -414,12 +435,15 @@ export class PDFGenerationService {
     // Add requirements details
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'normal');
-    
+
     const requirements = [
       ['Coffee Type:', rfq.productRequirements.coffeeType],
       ['Grade:', rfq.productRequirements.grade || 'N/A'],
       ['Processing:', rfq.productRequirements.processingMethod || 'N/A'],
-      ['Quantity:', `${rfq.quantityRequirements.quantity} ${rfq.quantityRequirements.unit}`],
+      [
+        'Quantity:',
+        `${rfq.quantityRequirements.quantity} ${rfq.quantityRequirements.unit}`,
+      ],
       ['Origin:', rfq.productRequirements.origin || 'Vietnam'],
     ];
 
@@ -443,9 +467,26 @@ export class PDFGenerationService {
     const logisticsInfo = [
       ['Delivery Terms:', rfq.deliveryRequirements.incoterms || 'FOB'],
       ['Destination:', rfq.deliveryRequirements.destinationPort || 'TBD'],
-      ['Destination Country:', rfq.deliveryRequirements.destinationCountry || 'TBD'],
-      ['Preferred Delivery:', rfq.deliveryRequirements.preferredDeliveryDate ? new Date(rfq.deliveryRequirements.preferredDeliveryDate).toLocaleDateString() : 'TBD'],
-      ['Latest Delivery:', rfq.deliveryRequirements.latestDeliveryDate ? new Date(rfq.deliveryRequirements.latestDeliveryDate).toLocaleDateString() : 'TBD'],
+      [
+        'Destination Country:',
+        rfq.deliveryRequirements.destinationCountry || 'TBD',
+      ],
+      [
+        'Preferred Delivery:',
+        rfq.deliveryRequirements.preferredDeliveryDate
+          ? new Date(
+              rfq.deliveryRequirements.preferredDeliveryDate
+            ).toLocaleDateString()
+          : 'TBD',
+      ],
+      [
+        'Latest Delivery:',
+        rfq.deliveryRequirements.latestDeliveryDate
+          ? new Date(
+              rfq.deliveryRequirements.latestDeliveryDate
+            ).toLocaleDateString()
+          : 'TBD',
+      ],
       ['Packaging:', rfq.deliveryRequirements.packaging || 'Standard'],
     ];
 
@@ -479,7 +520,7 @@ export class PDFGenerationService {
 
     pdf.setFontSize(9);
     pdf.setFont('helvetica', 'normal');
-    terms.forEach((term) => {
+    terms.forEach(term => {
       pdf.text(term, 20, yPosition);
       yPosition += 5;
     });
@@ -502,13 +543,15 @@ export class PDFGenerationService {
     pdf.setTextColor(100, 100, 100);
     pdf.text(this.companyBranding.companyName, 20, pageHeight - 12);
     pdf.text(this.companyBranding.address, 20, pageHeight - 8);
-    
+
     // Add page number
     pdf.text(`Page 1`, pageWidth - 20, pageHeight - 8, { align: 'right' });
-    
+
     // Add generation date
     const generatedDate = `Generated: ${new Date().toLocaleDateString()}`;
-    pdf.text(generatedDate, pageWidth - 20, pageHeight - 12, { align: 'right' });
+    pdf.text(generatedDate, pageWidth - 20, pageHeight - 12, {
+      align: 'right',
+    });
   }
 
   /**
@@ -521,7 +564,7 @@ export class PDFGenerationService {
     pdf.setTextColor(200, 200, 200);
     pdf.setFontSize(50);
     pdf.setFont('helvetica', 'bold');
-    
+
     // Rotate and add watermark text
     pdf.text('CONFIDENTIAL', pageWidth / 2, pageHeight / 2, {
       angle: 45,
@@ -532,7 +575,7 @@ export class PDFGenerationService {
   /**
    * Server-side PDF generation methods for API routes
    */
-  
+
   /**
    * Generate Product Specification Sheet PDF (Server-side)
    */
@@ -546,7 +589,7 @@ export class PDFGenerationService {
         ...options,
         language: locale,
       });
-      
+
       // Convert Blob to Buffer for server-side usage
       const arrayBuffer = await blob.arrayBuffer();
       return Buffer.from(arrayBuffer);
@@ -570,7 +613,7 @@ export class PDFGenerationService {
         ...options,
         language: locale,
       });
-      
+
       // Convert Blob to Buffer for server-side usage
       const arrayBuffer = await blob.arrayBuffer();
       return Buffer.from(arrayBuffer);

@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -97,7 +97,7 @@ model CoffeeProduct {
   // Related entities
   translations    CoffeeProductTranslation[]
   certifications  ProductCertification[]
-  specifications_rel ProductSpecification[]
+  specifications  ProductSpecification[]
   rfqProducts     RFQProduct[]
   pricingModels   ProductPricing[]
 

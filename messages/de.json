@@ -99,7 +99,75 @@
     },
     "logistics": {
       "title": "Logistik & Versand",
-      "description": "End-to-End-Logistiklösungen mit wettbewerbsfähigen Frachtraten"
+      "description": "End-to-End-Logistiklösungen mit wettbewerbsfähigen Frachtraten",
+      "estimator": {
+        "title": "Logistikkosten-Rechner",
+        "subtitle": "Berechnen Sie Versandkosten für Ihre Kaffeebestellungen",
+        "quantity": "Menge",
+        "unit": "Einheit",
+        "cargoValue": "Warenwert (USD)",
+        "originPort": "Ursprungshafen",
+        "destinationPort": "Zielhafen",
+        "destinationCountry": "Zielland",
+        "shippingMethod": "Versandart",
+        "incoterms": "Incoterms",
+        "containerType": "Containertyp",
+        "calculateButton": "Versandkosten berechnen",
+        "calculating": "Berechnung läuft...",
+        "results": {
+          "title": "Versandkostenschätzung",
+          "totalCost": "Gesamtkosten",
+          "transitTime": "Transitzeit",
+          "incoterms": "Incoterms",
+          "costBreakdown": "Kostenaufschlüsselung"
+        },
+        "disclaimer": {
+          "title": "Wichtiger Hinweis",
+          "text": "Dies ist nur eine Schätzung. Die tatsächlichen Kosten können je nach aktuellen Marktpreisen, Treibstoffzuschlägen, saisonalen Faktoren und spezifischer Routenführung variieren. Bitte kontaktieren Sie uns für ein detailliertes Angebot."
+        },
+        "methods": {
+          "seaFreight": "Seefracht",
+          "airFreight": "Luftfracht",
+          "landTransport": "Landtransport",
+          "seaDescription": "Wirtschaftlichste Option für große Mengen",
+          "airDescription": "Schnellste Lieferoption",
+          "landDescription": "Für regionale Lieferungen"
+        },
+        "containers": {
+          "fcl20": "20ft Container (FCL)",
+          "fcl20Description": "Vollcontainer - 20 Fuß",
+          "fcl40": "40ft Container (FCL)",
+          "fcl40Description": "Vollcontainer - 40 Fuß",
+          "fcl40hc": "40ft High Cube (FCL)",
+          "fcl40hcDescription": "Vollcontainer - 40 Fuß High Cube",
+          "lcl": "Sammelcontainer (LCL)",
+          "lclDescription": "Geteilter Containerplatz",
+          "flexible": "Flexibel"
+        },
+        "incoterms": {
+          "exw": "EXW - Ab Werk",
+          "exwDescription": "Käufer organisiert gesamten Transport",
+          "fca": "FCA - Frei Frachtführer",
+          "fcaDescription": "Verkäufer liefert an vom Käufer benannten Frachtführer",
+          "fob": "FOB - Frei an Bord",
+          "fobDescription": "Verkäufer liefert Waren an Bord des Schiffes",
+          "cfr": "CFR - Kosten und Fracht",
+          "cfrDescription": "Verkäufer zahlt Fracht zum Bestimmungshafen",
+          "cif": "CIF - Kosten, Versicherung und Fracht",
+          "cifDescription": "Verkäufer zahlt Fracht und Versicherung zum Bestimmungsort",
+          "dap": "DAP - Geliefert benannter Ort",
+          "dapDescription": "Verkäufer liefert an benannten Ort im Bestimmungsland",
+          "ddp": "DDP - Geliefert verzollt",
+          "ddpDescription": "Verkäufer liefert Waren importverzollt"
+        },
+        "errors": {
+          "quantityRequired": "Bitte geben Sie eine gültige Menge ein",
+          "originPortRequired": "Bitte wählen Sie einen Ursprungshafen",
+          "destinationPortRequired": "Bitte geben Sie einen Zielhafen ein",
+          "destinationCountryRequired": "Bitte geben Sie ein Zielland ein",
+          "insuranceValueInvalid": "Bitte geben Sie einen gültigen Versicherungswert ein"
+        }
+      }
     },
     "qualityControl": {
       "title": "Qualitätskontrolle",

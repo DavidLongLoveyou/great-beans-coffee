@@ -1,13 +1,8 @@
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { advancedSEOManager } from '@/shared/utils/advanced-seo-manager';
 import { createScopedLogger } from '@/shared/utils/logger';
-import {
-  seoAuditManager,
-  generateSEOReport,
-  type SEOAuditConfig,
-} from '@/shared/utils/seo-audit';
+import { seoAuditManager, generateSEOReport } from '@/shared/utils/seo-audit';
 
 const logger = createScopedLogger('SEOAuditAPI');
 
@@ -73,7 +68,7 @@ export async function POST(request: NextRequest) {
       content,
       metadata,
       structuredData,
-      config,
+      config: _config,
       format = 'json',
     } = body;
 
@@ -230,7 +225,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { urls, config } = body;
+    const { urls, config: _config } = body;
 
     // Validate input
     if (!Array.isArray(urls) || urls.length === 0) {

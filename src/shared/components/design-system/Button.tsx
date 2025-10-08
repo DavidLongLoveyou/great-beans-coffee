@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react';
 
 import { cn } from '@/shared/utils/cn';
 
-import { LoadingSpinner } from './Feedback/LoadingSpinner';
+import { LoadingSpinner, InlineCoffeeSpinner } from './Feedback/LoadingSpinner';
 import { ButtonProps } from './types';
 
 export type ButtonVariant =
@@ -130,10 +130,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         {/* Loading Spinner */}
         {loading && (
-          <LoadingSpinner
-            size={size === 'xs' || size === 'sm' ? 'sm' : 'md'}
-            className="flex-shrink-0"
-          />
+          <>
+            {variant === 'coffee' || variant === 'gold' ? (
+              <InlineCoffeeSpinner className="flex-shrink-0" />
+            ) : (
+              <LoadingSpinner
+                size={size === 'xs' || size === 'sm' ? 'sm' : 'md'}
+                className="flex-shrink-0"
+              />
+            )}
+          </>
         )}
 
         {/* Button Text */}

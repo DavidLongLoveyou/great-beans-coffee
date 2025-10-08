@@ -37,9 +37,16 @@
     "db:backup": "tsx src/scripts/backup.ts",
     "prepare": "husky install",
     "postbuild": "next-sitemap",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "analyze": "cross-env ANALYZE=true npm run build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server npm run build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser npm run build",
+    "perf:audit": "lighthouse http://localhost:3000 --output=html --output-path=./performance-audit.html --chrome-flags=\"--headless\"",
+    "perf:test": "npm run build && npm run start & sleep 5 && npm run perf:audit && pkill -f \"next start\"",
+    "perf:monitor": "tsx scripts/performance-monitor.ts"
   },
   "dependencies": {
+    "@emotion/is-prop-valid": "^1.4.0",
     "@hookform/resolvers": "^5.2.2",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
@@ -112,6 +119,7 @@
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
     "@faker-js/faker": "^10.0.0",
+    "@next/bundle-analyzer": "^15.5.4",
     "@playwright/test": "^1.40.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",

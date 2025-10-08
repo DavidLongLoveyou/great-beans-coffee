@@ -13,9 +13,18 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/presentation/components/ui/tabs';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/presentation/components/ui/tabs';
 import { RFQDetailModal } from '@/presentation/components/rfq/RFQDetailModal';
-import { RFQStatusManager, RFQStatusHistory, type RFQStatus } from '@/components/ui/rfq-status-manager';
+import {
+  RFQStatusManager,
+  RFQStatusHistory,
+  type RFQStatus,
+} from '@/components/ui/rfq-status-manager';
 import { RFQDocumentDownloadButton } from '@/shared/components/pdf';
 import { usePDFGeneration } from '@/shared/hooks/use-pdf-generation';
 
@@ -70,7 +79,8 @@ const mockRFQ = {
     email: 'sarah.johnson@globalcoffee.com',
     phone: '+49 40 123456789',
   },
-  additionalNotes: 'Looking for long-term partnership. Quality consistency is crucial for our brand.',
+  additionalNotes:
+    'Looking for long-term partnership. Quality consistency is crucial for our brand.',
   attachments: [
     {
       name: 'Product Specifications.pdf',
@@ -127,16 +137,16 @@ const mockRFQ = {
       status: 'pending' as RFQStatus,
       timestamp: new Date('2024-01-15T10:00:00Z'),
       updatedBy: 'System',
-      note: 'RFQ submitted by client'
+      note: 'RFQ submitted by client',
     },
     {
       id: '2',
       status: 'processing' as RFQStatus,
       timestamp: new Date('2024-01-15T11:45:00Z'),
       updatedBy: 'John Smith',
-      note: 'Assigned to sales team for review'
-    }
-  ]
+      note: 'Assigned to sales team for review',
+    },
+  ],
 };
 
 export default function RFQDetailPage() {
@@ -146,7 +156,8 @@ export default function RFQDetailPage() {
   const [showModal, setShowModal] = useState(false);
 
   // PDF generation hook
-  const { generateRFQDocument, isGenerating: isPDFLoading } = usePDFGeneration();
+  const { generateRFQDocument, isGenerating: isPDFLoading } =
+    usePDFGeneration();
 
   const handleStatusChange = async (newStatus: RFQStatus, note?: string) => {
     try {
@@ -157,26 +168,25 @@ export default function RFQDetailPage() {
         },
         body: JSON.stringify({
           status: newStatus,
-          note
-        })
-      })
-      
+          note,
+        }),
+      });
+
       if (!response.ok) {
-        throw new Error('Failed to update status')
+        throw new Error('Failed to update status');
       }
-      
-      const result = await response.json()
-      console.log('Status updated:', result)
-      
+
+      const result = await response.json();
+      console.log('Status updated:', result);
+
       // In real app, you would update the local state or refetch data
       // For now, we'll just reload the page
-      window.location.reload()
-      
+      window.location.reload();
     } catch (error) {
-      console.error('Error updating status:', error)
-      alert('Failed to update status. Please try again.')
+      console.error('Error updating status:', error);
+      alert('Failed to update status. Please try again.');
     }
-  }
+  };
 
   const handleBack = () => {
     router.push(`/${params.locale}/rfq`);
@@ -190,7 +200,9 @@ export default function RFQDetailPage() {
   const handleDownload = async () => {
     try {
       await generateRFQDocument(mockRFQ as any, {
-        language: Array.isArray(params.locale) ? (params.locale[0] || 'en') : (params.locale || 'en'),
+        language: Array.isArray(params.locale)
+          ? params.locale[0] || 'en'
+          : params.locale || 'en',
         format: 'A4',
         orientation: 'portrait',
         includeWatermark: false,
@@ -228,13 +240,15 @@ export default function RFQDetailPage() {
               {t('rfq.actions.back')}
             </Button>
             <div>
-              <h1 className="text-2xl font-bold sm:text-3xl">{mockRFQ.rfqNumber}</h1>
+              <h1 className="text-2xl font-bold sm:text-3xl">
+                {mockRFQ.rfqNumber}
+              </h1>
               <p className="text-sm text-gray-600 sm:text-base">
                 {mockRFQ.productType} • {mockRFQ.quantity} {mockRFQ.unit}
               </p>
             </div>
           </div>
-          
+
           {/* Desktop Actions */}
           <div className="hidden items-center gap-2 sm:flex">
             <Button
@@ -255,7 +269,9 @@ export default function RFQDetailPage() {
             >
               <Download className="h-4 w-4" />
               <span className="hidden lg:inline">
-                {isPDFLoading ? t('pdf.generating.rfqDocument') : t('rfq.actions.download')}
+                {isPDFLoading
+                  ? t('pdf.generating.rfqDocument')
+                  : t('rfq.actions.download')}
               </span>
             </Button>
             <Button
@@ -265,7 +281,9 @@ export default function RFQDetailPage() {
               className="flex items-center gap-2"
             >
               <MessageSquare className="h-4 w-4" />
-              <span className="hidden lg:inline">{t('rfq.actions.contact')}</span>
+              <span className="hidden lg:inline">
+                {t('rfq.actions.contact')}
+              </span>
             </Button>
             <Button
               size="sm"
@@ -319,7 +337,9 @@ export default function RFQDetailPage() {
       <div className="mb-6 sm:mb-8">
         <Card>
           <CardHeader className="pb-4">
-            <CardTitle className="text-lg sm:text-xl">{t('rfq.detail.quickActions')}</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">
+              {t('rfq.detail.quickActions')}
+            </CardTitle>
             <CardDescription className="text-sm sm:text-base">
               {t('rfq.detail.quickActionsDescription')}
             </CardDescription>
@@ -329,7 +349,7 @@ export default function RFQDetailPage() {
               <Button
                 variant="default"
                 onClick={() => setShowModal(true)}
-                className="flex items-center justify-center gap-2 w-full sm:w-auto"
+                className="flex w-full items-center justify-center gap-2 sm:w-auto"
               >
                 <MessageSquare className="h-4 w-4" />
                 {t('rfq.detail.viewFullDetails')}
@@ -337,7 +357,7 @@ export default function RFQDetailPage() {
               <Button
                 variant="outline"
                 onClick={handleDownload}
-                className="flex items-center justify-center gap-2 w-full sm:w-auto"
+                className="flex w-full items-center justify-center gap-2 sm:w-auto"
               >
                 <Download className="h-4 w-4" />
                 {t('rfq.actions.downloadPDF')}
@@ -348,32 +368,36 @@ export default function RFQDetailPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6 sm:mb-8">
-        <Card className="hover:shadow-md transition-shadow">
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:mb-8 sm:grid-cols-2 lg:grid-cols-4">
+        <Card className="transition-shadow hover:shadow-md">
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-medium text-gray-600 uppercase tracking-wide sm:text-sm">
+            <CardTitle className="text-xs font-medium uppercase tracking-wide text-gray-600 sm:text-sm">
               {t('rfq.detail.status')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold sm:text-2xl">{mockRFQ.status}</div>
+            <div className="text-xl font-bold sm:text-2xl">
+              {mockRFQ.status}
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow">
+        <Card className="transition-shadow hover:shadow-md">
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-medium text-gray-600 uppercase tracking-wide sm:text-sm">
+            <CardTitle className="text-xs font-medium uppercase tracking-wide text-gray-600 sm:text-sm">
               {t('rfq.detail.priority')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold sm:text-2xl">{mockRFQ.priority}</div>
+            <div className="text-xl font-bold sm:text-2xl">
+              {mockRFQ.priority}
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow">
+        <Card className="transition-shadow hover:shadow-md">
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-medium text-gray-600 uppercase tracking-wide sm:text-sm">
+            <CardTitle className="text-xs font-medium uppercase tracking-wide text-gray-600 sm:text-sm">
               {t('rfq.detail.estimatedValue')}
             </CardTitle>
           </CardHeader>
@@ -384,9 +408,9 @@ export default function RFQDetailPage() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow">
+        <Card className="transition-shadow hover:shadow-md">
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-medium text-gray-600 uppercase tracking-wide sm:text-sm">
+            <CardTitle className="text-xs font-medium uppercase tracking-wide text-gray-600 sm:text-sm">
               {t('rfq.detail.responseDeadline')}
             </CardTitle>
           </CardHeader>
@@ -428,73 +452,117 @@ export default function RFQDetailPage() {
           <CardContent className="p-6">
             <Tabs defaultValue="overview" className="w-full">
               <TabsList className="grid w-full grid-cols-5">
-                <TabsTrigger value="overview">{t('detail.tabs.overview')}</TabsTrigger>
-                <TabsTrigger value="requirements">{t('detail.tabs.requirements')}</TabsTrigger>
-                <TabsTrigger value="timeline">{t('detail.tabs.timeline')}</TabsTrigger>
-                <TabsTrigger value="documents">{t('detail.tabs.documents')}</TabsTrigger>
-                <TabsTrigger value="status">{t('detail.tabs.status')}</TabsTrigger>
+                <TabsTrigger value="overview">
+                  {t('detail.tabs.overview')}
+                </TabsTrigger>
+                <TabsTrigger value="requirements">
+                  {t('detail.tabs.requirements')}
+                </TabsTrigger>
+                <TabsTrigger value="timeline">
+                  {t('detail.tabs.timeline')}
+                </TabsTrigger>
+                <TabsTrigger value="documents">
+                  {t('detail.tabs.documents')}
+                </TabsTrigger>
+                <TabsTrigger value="status">
+                  {t('detail.tabs.status')}
+                </TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="overview" className="mt-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <Card>
                     <CardHeader>
                       <CardTitle>{t('detail.productInformation')}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div>
-                        <label className="text-sm font-medium text-gray-500">{t('detail.productType')}</label>
+                        <label className="text-sm font-medium text-gray-500">
+                          {t('detail.productType')}
+                        </label>
                         <p className="text-sm">{mockRFQ.productType}</p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-500">{t('detail.quantity')}</label>
+                        <label className="text-sm font-medium text-gray-500">
+                          {t('detail.quantity')}
+                        </label>
                         <p className="text-sm">{mockRFQ.quantity}</p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-500">{t('detail.variety')}</label>
-                        <p className="text-sm">{mockRFQ.productRequirements.variety}</p>
+                        <label className="text-sm font-medium text-gray-500">
+                          {t('detail.variety')}
+                        </label>
+                        <p className="text-sm">
+                          {mockRFQ.productRequirements.variety}
+                        </p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-500">{t('detail.grade')}</label>
-                        <p className="text-sm">{mockRFQ.productRequirements.grade}</p>
+                        <label className="text-sm font-medium text-gray-500">
+                          {t('detail.grade')}
+                        </label>
+                        <p className="text-sm">
+                          {mockRFQ.productRequirements.grade}
+                        </p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-500">{t('detail.processing')}</label>
-                        <p className="text-sm">{mockRFQ.productRequirements.processing}</p>
+                        <label className="text-sm font-medium text-gray-500">
+                          {t('detail.processing')}
+                        </label>
+                        <p className="text-sm">
+                          {mockRFQ.productRequirements.processing}
+                        </p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-500">{t('detail.origin')}</label>
-                        <p className="text-sm">{mockRFQ.productRequirements.origin}</p>
+                        <label className="text-sm font-medium text-gray-500">
+                          {t('detail.origin')}
+                        </label>
+                        <p className="text-sm">
+                          {mockRFQ.productRequirements.origin}
+                        </p>
                       </div>
                     </CardContent>
                   </Card>
-                  
+
                   <Card>
                     <CardHeader>
                       <CardTitle>{t('detail.deliveryInfo')}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div>
-                        <label className="text-sm font-medium text-gray-500">{t('detail.incoterms')}</label>
+                        <label className="text-sm font-medium text-gray-500">
+                          {t('detail.incoterms')}
+                        </label>
                         <p className="text-sm">{mockRFQ.delivery.incoterms}</p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-500">{t('detail.destination')}</label>
-                        <p className="text-sm">{mockRFQ.delivery.destination}</p>
+                        <label className="text-sm font-medium text-gray-500">
+                          {t('detail.destination')}
+                        </label>
+                        <p className="text-sm">
+                          {mockRFQ.delivery.destination}
+                        </p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-500">{t('detail.preferredDeliveryDate')}</label>
-                        <p className="text-sm">{mockRFQ.delivery.preferredDeliveryDate}</p>
+                        <label className="text-sm font-medium text-gray-500">
+                          {t('detail.preferredDeliveryDate')}
+                        </label>
+                        <p className="text-sm">
+                          {mockRFQ.delivery.preferredDeliveryDate}
+                        </p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-500">{t('detail.packagingRequirements')}</label>
-                        <p className="text-sm">{mockRFQ.delivery.packagingRequirements}</p>
+                        <label className="text-sm font-medium text-gray-500">
+                          {t('detail.packagingRequirements')}
+                        </label>
+                        <p className="text-sm">
+                          {mockRFQ.delivery.packagingRequirements}
+                        </p>
                       </div>
                     </CardContent>
                   </Card>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="requirements" className="mt-6">
                 <Card>
                   <CardHeader>
@@ -505,7 +573,7 @@ export default function RFQDetailPage() {
                   </CardContent>
                 </Card>
               </TabsContent>
-              
+
               <TabsContent value="timeline" className="mt-6">
                 <Card>
                   <CardHeader>
@@ -513,28 +581,36 @@ export default function RFQDetailPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <label className="text-sm font-medium text-gray-500">{t('detail.submittedAt')}</label>
-                      <p className="text-sm">{new Date(mockRFQ.submittedAt).toLocaleDateString()}</p>
+                      <label className="text-sm font-medium text-gray-500">
+                        {t('detail.submittedAt')}
+                      </label>
+                      <p className="text-sm">
+                        {new Date(mockRFQ.submittedAt).toLocaleDateString()}
+                      </p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-500">{t('detail.estimatedValue')}</label>
+                      <label className="text-sm font-medium text-gray-500">
+                        {t('detail.estimatedValue')}
+                      </label>
                       <p className="text-sm">{mockRFQ.estimatedValue}</p>
                     </div>
                   </CardContent>
                 </Card>
               </TabsContent>
-              
+
               <TabsContent value="documents" className="mt-6">
                 <Card>
                   <CardHeader>
                     <CardTitle>{t('detail.tabs.documents')}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-gray-500">No documents uploaded yet.</p>
+                    <p className="text-sm text-gray-500">
+                      No documents uploaded yet.
+                    </p>
                   </CardContent>
                 </Card>
               </TabsContent>
-              
+
               <TabsContent value="status" className="mt-6">
                 <div className="space-y-6">
                   <Card>
@@ -549,7 +625,7 @@ export default function RFQDetailPage() {
                       />
                     </CardContent>
                   </Card>
-                  
+
                   <Card>
                     <CardContent className="p-6">
                       <RFQStatusHistory history={mockRFQ.statusHistory} />
@@ -561,8 +637,6 @@ export default function RFQDetailPage() {
           </CardContent>
         </Card>
       </div>
-
-
 
       {/* RFQ Detail Modal */}
       <RFQDetailModal

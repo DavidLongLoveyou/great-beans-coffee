@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+import { rfqRepository } from '@/infrastructure/database/repositories';
 import { pdfGenerationService } from '@/infrastructure/services/pdf-generation.service';
-import { rfqRepository, coffeeProductRepository } from '@/infrastructure/database/repositories';
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,15 +19,13 @@ export async function POST(request: NextRequest) {
     // Fetch RFQ data
     const rfq = await rfqRepository.findById(rfqId);
     if (!rfq) {
-      return NextResponse.json(
-        { error: 'RFQ not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'RFQ not found' }, { status: 404 });
     }
 
-    // For now, we'll use an empty array of products since RFQ doesn't contain specific product IDs
-    // In a real implementation, you might want to fetch products based on the product requirements
-    const validProducts: any[] = [];
+    // For now, we'll use an empty array of products since RFQ doesn't contain
+    // specific product IDs. In a real implementation, you might want to fetch
+    // products based on the product requirements
+    const validProducts: unknown[] = [];
 
     // Generate PDF using server-side rendering
     const pdfBuffer = await pdfGenerationService.generateRFQDocumentPDF(
@@ -47,11 +46,11 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error generating RFQ document PDF:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to generate PDF',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );
@@ -64,25 +63,20 @@ export async function GET(request: NextRequest) {
   const locale = searchParams.get('locale') || 'en';
 
   if (!rfqId) {
-    return NextResponse.json(
-      { error: 'RFQ ID is required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'RFQ ID is required' }, { status: 400 });
   }
 
   try {
     // Fetch RFQ data
     const rfq = await rfqRepository.findById(rfqId);
     if (!rfq) {
-      return NextResponse.json(
-        { error: 'RFQ not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'RFQ not found' }, { status: 404 });
     }
 
-    // For now, we'll use an empty array of products since RFQ doesn't contain specific product IDs
-    // In a real implementation, you might want to fetch products based on the product requirements
-    const validProducts: any[] = [];
+    // For now, we'll use an empty array of products since RFQ doesn't contain
+    // specific product IDs. In a real implementation, you might want to fetch
+    // products based on the product requirements
+    const validProducts: unknown[] = [];
 
     // Generate PDF using server-side rendering
     const pdfBuffer = await pdfGenerationService.generateRFQDocumentPDF(
@@ -102,11 +96,11 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error generating RFQ document PDF:', error);
-    
+
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to generate PDF',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );

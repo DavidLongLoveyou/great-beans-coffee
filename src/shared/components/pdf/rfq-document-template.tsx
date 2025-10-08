@@ -42,16 +42,16 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
   const calculateTotalValue = (): number => {
     return products.reduce((total: number, product: CoffeeProduct) => {
       const quantity = rfq.quantityRequirements.quantity;
-      return total + (product.pricing.basePrice * quantity);
+      return total + product.pricing.basePrice * quantity;
     }, 0);
   };
 
   return (
-    <div className="pdf-template bg-white text-black min-h-screen p-8 font-sans">
+    <div className="pdf-template min-h-screen bg-white p-8 font-sans text-black">
       {/* Watermark */}
       {includeWatermark && (
-        <div className="fixed inset-0 flex items-center justify-center opacity-5 pointer-events-none z-0">
-          <div className="text-6xl font-bold transform rotate-45 text-gray-400">
+        <div className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center opacity-5">
+          <div className="rotate-45 transform text-6xl font-bold text-gray-400">
             THE GREAT BEANS
           </div>
         </div>
@@ -59,10 +59,10 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
 
       {/* Header */}
       {includeHeader && (
-        <header className="border-b-2 border-amber-600 pb-6 mb-8 relative z-10">
-          <div className="flex justify-between items-start">
+        <header className="relative z-10 mb-8 border-b-2 border-amber-600 pb-6">
+          <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-amber-800 mb-2">
+              <h1 className="mb-2 text-3xl font-bold text-amber-800">
                 THE GREAT BEANS
               </h1>
               <p className="text-gray-600">Premium Vietnamese Coffee Exports</p>
@@ -80,7 +80,7 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
       <main className="relative z-10">
         {/* RFQ Title */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          <h2 className="mb-2 text-2xl font-bold text-gray-800">
             {t('title')} #{rfq.id}
           </h2>
           <p className="text-lg text-gray-600">{t('subtitle')}</p>
@@ -88,16 +88,22 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
 
         {/* RFQ Overview */}
         <section className="mb-8">
-          <h3 className="text-xl font-semibold text-amber-700 mb-4 border-b border-gray-300 pb-2">
+          <h3 className="mb-4 border-b border-gray-300 pb-2 text-xl font-semibold text-amber-700">
             {tRfq('overview')}
           </h3>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold text-gray-700 mb-2">{tRfq('requestDetails')}</h4>
+              <h4 className="mb-2 font-semibold text-gray-700">
+                {tRfq('requestDetails')}
+              </h4>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{tRfq('submittedDate')}:</span>
-                  <span className="font-medium">{formatDate(rfq.createdAt)}</span>
+                  <span className="text-gray-600">
+                    {tRfq('submittedDate')}:
+                  </span>
+                  <span className="font-medium">
+                    {formatDate(rfq.createdAt)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('status')}:</span>
@@ -105,34 +111,56 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('urgency')}:</span>
-                  <span className="font-medium capitalize">{rfq.urgencyReason || rfq.priority}</span>
+                  <span className="font-medium capitalize">
+                    {rfq.urgencyReason || rfq.priority}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{tRfq('estimatedValue')}:</span>
-                  <span className="font-medium">{formatCurrency(calculateTotalValue())}</span>
+                  <span className="text-gray-600">
+                    {tRfq('estimatedValue')}:
+                  </span>
+                  <span className="font-medium">
+                    {formatCurrency(calculateTotalValue())}
+                  </span>
                 </div>
               </div>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-700 mb-2">{tRfq('deliveryRequirements')}</h4>
+              <h4 className="mb-2 font-semibold text-gray-700">
+                {tRfq('deliveryRequirements')}
+              </h4>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{tRfq('preferredDeliveryDate')}:</span>
+                  <span className="text-gray-600">
+                    {tRfq('preferredDeliveryDate')}:
+                  </span>
                   <span className="font-medium">
-                    {rfq.deliveryRequirements.preferredDeliveryDate ? formatDate(rfq.deliveryRequirements.preferredDeliveryDate) : 'TBD'}
+                    {rfq.deliveryRequirements.preferredDeliveryDate
+                      ? formatDate(
+                          rfq.deliveryRequirements.preferredDeliveryDate
+                        )
+                      : 'TBD'}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{tRfq('shippingMethod')}:</span>
-                  <span className="font-medium">{rfq.deliveryRequirements.packaging || 'TBD'}</span>
+                  <span className="text-gray-600">
+                    {tRfq('shippingMethod')}:
+                  </span>
+                  <span className="font-medium">
+                    {rfq.deliveryRequirements.packaging || 'TBD'}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('incoterms')}:</span>
-                  <span className="font-medium">{rfq.deliveryRequirements.incoterms || 'TBD'}</span>
+                  <span className="font-medium">
+                    {rfq.deliveryRequirements.incoterms || 'TBD'}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('destination')}:</span>
-                  <span className="font-medium">{rfq.deliveryRequirements.destinationPort || 'TBD'}</span>
+                  <span className="font-medium">
+                    {rfq.deliveryRequirements.destinationPort || 'TBD'}
+                  </span>
                 </div>
               </div>
             </div>
@@ -141,33 +169,45 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
 
         {/* Client Information */}
         <section className="mb-8">
-          <h3 className="text-xl font-semibold text-amber-700 mb-4 border-b border-gray-300 pb-2">
+          <h3 className="mb-4 border-b border-gray-300 pb-2 text-xl font-semibold text-amber-700">
             {tRfq('clientInformation')}
           </h3>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold text-gray-700 mb-2">{tRfq('companyDetails')}</h4>
+              <h4 className="mb-2 font-semibold text-gray-700">
+                {tRfq('companyDetails')}
+              </h4>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('companyName')}:</span>
-                  <span className="font-medium">{rfq.companyInfo.companyName}</span>
+                  <span className="font-medium">
+                    {rfq.companyInfo.companyName}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('industry')}:</span>
-                  <span className="font-medium">{rfq.companyInfo.businessType || 'Coffee Trading'}</span>
+                  <span className="font-medium">
+                    {rfq.companyInfo.businessType || 'Coffee Trading'}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('country')}:</span>
-                  <span className="font-medium">{rfq.companyInfo.address.country}</span>
+                  <span className="font-medium">
+                    {rfq.companyInfo.address.country}
+                  </span>
                 </div>
               </div>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-700 mb-2">{tRfq('contactPerson')}</h4>
+              <h4 className="mb-2 font-semibold text-gray-700">
+                {tRfq('contactPerson')}
+              </h4>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('name')}:</span>
-                  <span className="font-medium">{rfq.companyInfo.contactPerson}</span>
+                  <span className="font-medium">
+                    {rfq.companyInfo.contactPerson}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('email')}:</span>
@@ -175,7 +215,9 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('phone')}:</span>
-                  <span className="font-medium">{rfq.companyInfo.phone || 'Not provided'}</span>
+                  <span className="font-medium">
+                    {rfq.companyInfo.phone || 'Not provided'}
+                  </span>
                 </div>
               </div>
             </div>
@@ -184,38 +226,60 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
 
         {/* Product Requirements */}
         <section className="mb-8">
-          <h3 className="text-xl font-semibold text-amber-700 mb-4 border-b border-gray-300 pb-2">
+          <h3 className="mb-4 border-b border-gray-300 pb-2 text-xl font-semibold text-amber-700">
             {tRfq('productRequirements')}
           </h3>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse border border-gray-300">
               <thead>
                 <tr className="bg-amber-50">
-                  <th className="border border-gray-300 px-4 py-2 text-left">{tRfq('product')}</th>
-                  <th className="border border-gray-300 px-4 py-2 text-left">{tRfq('quantity')}</th>
-                  <th className="border border-gray-300 px-4 py-2 text-left">{tRfq('unitPrice')}</th>
-                  <th className="border border-gray-300 px-4 py-2 text-left">{tRfq('totalValue')}</th>
-                  <th className="border border-gray-300 px-4 py-2 text-left">{tRfq('specifications')}</th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">
+                    {tRfq('product')}
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">
+                    {tRfq('quantity')}
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">
+                    {tRfq('unitPrice')}
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">
+                    {tRfq('totalValue')}
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">
+                    {tRfq('specifications')}
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {products.map((product, index) => {
                   const quantity = rfq.quantityRequirements.quantity;
-                  const totalValue = product ? product.pricing.basePrice * quantity : 0;
-                  
+                  const totalValue = product
+                    ? product.pricing.basePrice * quantity
+                    : 0;
+
                   return (
-                    <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                    <tr
+                      key={index}
+                      className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}
+                    >
                       <td className="border border-gray-300 px-4 py-2">
                         <div>
-                          <div className="font-medium">{product?.name?.en || 'Unknown Product'}</div>
-                          <div className="text-sm text-gray-600">{product?.type} - {product?.origin?.region}</div>
+                          <div className="font-medium">
+                            {product?.name?.en || 'Unknown Product'}
+                          </div>
+                          <div className="text-sm text-gray-600">
+                            {product?.type} - {product?.origin?.region}
+                          </div>
                         </div>
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
-                        {quantity.toLocaleString()} {rfq.quantityRequirements.unit}
+                        {quantity.toLocaleString()}{' '}
+                        {rfq.quantityRequirements.unit}
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
-                        {product ? formatCurrency(product.pricing.basePrice) : 'TBD'}
+                        {product
+                          ? formatCurrency(product.pricing.basePrice)
+                          : 'TBD'}
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
                         {formatCurrency(totalValue)}
@@ -224,11 +288,16 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
                         <div className="text-sm">
                           {product.specifications && (
                             <div className="space-y-1">
-                              {Object.entries(product.specifications).map(([key, value]) => (
-                                <div key={key}>
-                                  <span className="text-gray-600">{key}:</span> {String(value)}
-                                </div>
-                              ))}
+                              {Object.entries(product.specifications).map(
+                                ([key, value]) => (
+                                  <div key={key}>
+                                    <span className="text-gray-600">
+                                      {key}:
+                                    </span>{' '}
+                                    {String(value)}
+                                  </div>
+                                )
+                              )}
                             </div>
                           )}
                         </div>
@@ -255,11 +324,11 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
         {/* Additional Requirements */}
         {rfq.additionalRequirements && (
           <section className="mb-8">
-            <h3 className="text-xl font-semibold text-amber-700 mb-4 border-b border-gray-300 pb-2">
+            <h3 className="mb-4 border-b border-gray-300 pb-2 text-xl font-semibold text-amber-700">
               {tRfq('additionalRequirements')}
             </h3>
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+            <div className="rounded-lg bg-blue-50 p-4">
+              <p className="whitespace-pre-wrap leading-relaxed text-gray-700">
                 {rfq.additionalRequirements}
               </p>
             </div>
@@ -268,25 +337,35 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
 
         {/* Payment Terms */}
         <section className="mb-8">
-          <h3 className="text-xl font-semibold text-amber-700 mb-4 border-b border-gray-300 pb-2">
+          <h3 className="mb-4 border-b border-gray-300 pb-2 text-xl font-semibold text-amber-700">
             {tRfq('paymentTerms')}
           </h3>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold text-gray-700 mb-2">{tRfq('preferredTerms')}</h4>
+              <h4 className="mb-2 font-semibold text-gray-700">
+                {tRfq('preferredTerms')}
+              </h4>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{tRfq('paymentMethod')}:</span>
-                  <span className="font-medium">{rfq.paymentTerms.paymentMethod || 'Letter of Credit'}</span>
+                  <span className="text-gray-600">
+                    {tRfq('paymentMethod')}:
+                  </span>
+                  <span className="font-medium">
+                    {rfq.paymentTerms.paymentMethod || 'Letter of Credit'}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('creditPeriod')}:</span>
-                  <span className="font-medium">{rfq.paymentTerms.creditPeriod || 30} days</span>
+                  <span className="font-medium">
+                    {rfq.paymentTerms.creditPeriod || 30} days
+                  </span>
                 </div>
               </div>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-700 mb-2">{tRfq('documentation')}</h4>
+              <h4 className="mb-2 font-semibold text-gray-700">
+                {tRfq('documentation')}
+              </h4>
               <div className="space-y-1 text-sm text-gray-600">
                 <p>• Commercial Invoice</p>
                 <p>• Packing List</p>
@@ -300,10 +379,10 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
 
         {/* Next Steps */}
         <section className="mb-8">
-          <h3 className="text-xl font-semibold text-amber-700 mb-4 border-b border-gray-300 pb-2">
+          <h3 className="mb-4 border-b border-gray-300 pb-2 text-xl font-semibold text-amber-700">
             {tRfq('nextSteps')}
           </h3>
-          <div className="bg-green-50 p-4 rounded-lg">
+          <div className="rounded-lg bg-green-50 p-4">
             <ol className="space-y-2 text-sm text-gray-700">
               <li>1. Review and validate all product specifications</li>
               <li>2. Confirm availability and delivery timeline</li>
@@ -316,12 +395,14 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
 
         {/* Contact Information */}
         <section className="mb-8">
-          <h3 className="text-xl font-semibold text-amber-700 mb-4 border-b border-gray-300 pb-2">
+          <h3 className="mb-4 border-b border-gray-300 pb-2 text-xl font-semibold text-amber-700">
             {tCommon('contactUs')}
           </h3>
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold text-gray-700 mb-2">Sales Representative</h4>
+              <h4 className="mb-2 font-semibold text-gray-700">
+                Sales Representative
+              </h4>
               <div className="space-y-1 text-sm text-gray-600">
                 <p>Name: Nguyen Van Duc</p>
                 <p>Email: duc.nguyen@thegreatbeans.com</p>
@@ -330,7 +411,9 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
               </div>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-700 mb-2">Export Department</h4>
+              <h4 className="mb-2 font-semibold text-gray-700">
+                Export Department
+              </h4>
               <div className="space-y-1 text-sm text-gray-600">
                 <p>Email: export@thegreatbeans.com</p>
                 <p>Phone: +84 28 1234 5679</p>
@@ -343,8 +426,8 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
 
       {/* Footer */}
       {includeFooter && (
-        <footer className="border-t-2 border-amber-600 pt-6 mt-8 relative z-10">
-          <div className="flex justify-between items-center text-sm text-gray-600">
+        <footer className="relative z-10 mt-8 border-t-2 border-amber-600 pt-6">
+          <div className="flex items-center justify-between text-sm text-gray-600">
             <div>
               <p>&copy; 2024 The Great Beans. All rights reserved.</p>
               <p>Ho Chi Minh City, Vietnam</p>

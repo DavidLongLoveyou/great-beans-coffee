@@ -1,7 +1,7 @@
 import { Locale } from '@/i18n';
 import { ContentManager } from '@/lib/contentlayer';
 
-import { seoConfig } from './seo-utils';
+import { seoConfig } from '../config/seo';
 
 interface RSSItem {
   title: string;
@@ -54,7 +54,7 @@ function generateRSSXML(
       <title><![CDATA[${item.title}]]></title>
       <link>${escapeXml(item.link)}</link>
       <description><![CDATA[${item.description}]]></description>
-      <author>${escapeXml(seoConfig.organization.email)} (${escapeXml(item.author)})</author>
+      <author>${escapeXml(seoConfig.contactEmail)} (${escapeXml(item.author)})</author>
       <category>${escapeXml(item.category)}</category>
       <pubDate>${item.date.toUTCString()}</pubDate>
       <guid isPermaLink="true">${escapeXml(item.link)}</guid>

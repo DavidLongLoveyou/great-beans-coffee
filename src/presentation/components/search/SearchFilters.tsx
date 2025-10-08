@@ -82,7 +82,11 @@ export function SearchFilters({
     onFilterChange(filterId, value);
   };
 
-  const handleMultiSelectChange = (filterId: string, optionValue: string, checked: boolean) => {
+  const handleMultiSelectChange = (
+    filterId: string,
+    optionValue: string,
+    checked: boolean
+  ) => {
     const filter = filters.find(f => f.id === filterId);
     if (!filter) return;
 
@@ -112,7 +116,8 @@ export function SearchFilters({
   };
 
   const getActiveFilterBadges = () => {
-    const badges: Array<{ filterId: string; label: string; value?: string }> = [];
+    const badges: Array<{ filterId: string; label: string; value?: string }> =
+      [];
 
     filters.forEach(filter => {
       if (filter.type === 'multiselect' && Array.isArray(filter.value)) {
@@ -160,24 +165,28 @@ export function SearchFilters({
           </PopoverTrigger>
           <PopoverContent className="w-80 p-4" align="start">
             <div className="space-y-4">
-              {filters.map((filter) => (
+              {filters.map(filter => (
                 <div key={filter.id} className="space-y-2">
                   <Label className="text-sm font-medium">{filter.label}</Label>
                   {filter.type === 'select' && (
                     <Select
-                      value={filter.value as string || ''}
-                      onValueChange={(value) => handleFilterChange(filter.id, value)}
+                      value={(filter.value as string) || ''}
+                      onValueChange={value =>
+                        handleFilterChange(filter.id, value)
+                      }
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder={filter.placeholder || 'Select...'} />
+                        <SelectValue
+                          placeholder={filter.placeholder || 'Select...'}
+                        />
                       </SelectTrigger>
                       <SelectContent>
-                        {filter.options.map((option) => (
+                        {filter.options.map(option => (
                           <SelectItem key={option.value} value={option.value}>
-                            <div className="flex items-center justify-between w-full">
+                            <div className="flex w-full items-center justify-between">
                               <span>{option.label}</span>
                               {option.count && (
-                                <span className="text-xs text-gray-500 ml-2">
+                                <span className="ml-2 text-xs text-gray-500">
                                   ({option.count})
                                 </span>
                               )}
@@ -188,19 +197,29 @@ export function SearchFilters({
                     </Select>
                   )}
                   {filter.type === 'multiselect' && (
-                    <div className="space-y-2 max-h-40 overflow-y-auto">
-                      {filter.options.map((option) => (
-                        <div key={option.value} className="flex items-center space-x-2">
+                    <div className="max-h-40 space-y-2 overflow-y-auto">
+                      {filter.options.map(option => (
+                        <div
+                          key={option.value}
+                          className="flex items-center space-x-2"
+                        >
                           <Checkbox
                             id={`${filter.id}-${option.value}`}
-                            checked={Array.isArray(filter.value) && filter.value.includes(option.value)}
-                            onCheckedChange={(checked) =>
-                              handleMultiSelectChange(filter.id, option.value, checked as boolean)
+                            checked={
+                              Array.isArray(filter.value) &&
+                              filter.value.includes(option.value)
+                            }
+                            onCheckedChange={checked =>
+                              handleMultiSelectChange(
+                                filter.id,
+                                option.value,
+                                checked as boolean
+                              )
                             }
                           />
                           <Label
                             htmlFor={`${filter.id}-${option.value}`}
-                            className="text-sm flex-1 cursor-pointer"
+                            className="flex-1 cursor-pointer text-sm"
                           >
                             <div className="flex items-center justify-between">
                               <span>{option.label}</span>
@@ -217,7 +236,7 @@ export function SearchFilters({
                   )}
                 </div>
               ))}
-              
+
               {activeFiltersCount > 0 && (
                 <>
                   <Separator />
@@ -240,7 +259,7 @@ export function SearchFilters({
             <SelectValue placeholder="Sort by..." />
           </SelectTrigger>
           <SelectContent>
-            {sortOptions.map((option) => (
+            {sortOptions.map(option => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
               </SelectItem>
@@ -260,23 +279,25 @@ export function SearchFilters({
           <span className="text-sm font-medium text-gray-700">Filters:</span>
         </div>
 
-        {filters.map((filter) => (
+        {filters.map(filter => (
           <div key={filter.id} className="min-w-0">
             {filter.type === 'select' && (
               <Select
-                value={filter.value as string || ''}
-                onValueChange={(value) => handleFilterChange(filter.id, value)}
+                value={(filter.value as string) || ''}
+                onValueChange={value => handleFilterChange(filter.id, value)}
               >
                 <SelectTrigger className="w-40">
-                  <SelectValue placeholder={filter.placeholder || filter.label} />
+                  <SelectValue
+                    placeholder={filter.placeholder || filter.label}
+                  />
                 </SelectTrigger>
                 <SelectContent>
-                  {filter.options.map((option) => (
+                  {filter.options.map(option => (
                     <SelectItem key={option.value} value={option.value}>
-                      <div className="flex items-center justify-between w-full">
+                      <div className="flex w-full items-center justify-between">
                         <span>{option.label}</span>
                         {option.count && (
-                          <span className="text-xs text-gray-500 ml-2">
+                          <span className="ml-2 text-xs text-gray-500">
                             ({option.count})
                           </span>
                         )}
@@ -293,26 +314,35 @@ export function SearchFilters({
                     <span className="truncate">
                       {Array.isArray(filter.value) && filter.value.length > 0
                         ? `${filter.label} (${filter.value.length})`
-                        : filter.label
-                      }
+                        : filter.label}
                     </span>
                     <ChevronDown className="h-4 w-4 opacity-50" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-60 p-4">
-                  <div className="space-y-2 max-h-60 overflow-y-auto">
-                    {filter.options.map((option) => (
-                      <div key={option.value} className="flex items-center space-x-2">
+                  <div className="max-h-60 space-y-2 overflow-y-auto">
+                    {filter.options.map(option => (
+                      <div
+                        key={option.value}
+                        className="flex items-center space-x-2"
+                      >
                         <Checkbox
                           id={`${filter.id}-${option.value}`}
-                          checked={Array.isArray(filter.value) && filter.value.includes(option.value)}
-                          onCheckedChange={(checked) =>
-                            handleMultiSelectChange(filter.id, option.value, checked as boolean)
+                          checked={
+                            Array.isArray(filter.value) &&
+                            filter.value.includes(option.value)
+                          }
+                          onCheckedChange={checked =>
+                            handleMultiSelectChange(
+                              filter.id,
+                              option.value,
+                              checked as boolean
+                            )
                           }
                         />
                         <Label
                           htmlFor={`${filter.id}-${option.value}`}
-                          className="text-sm flex-1 cursor-pointer"
+                          className="flex-1 cursor-pointer text-sm"
                         >
                           <div className="flex items-center justify-between">
                             <span>{option.label}</span>
@@ -339,7 +369,7 @@ export function SearchFilters({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {sortOptions.map((option) => (
+              {sortOptions.map(option => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
                 </SelectItem>
@@ -369,7 +399,7 @@ export function SearchFilters({
               <button
                 type="button"
                 onClick={() => removeFilter(badge.filterId, badge.value)}
-                className="ml-1 hover:bg-gray-300 rounded-full p-0.5"
+                className="ml-1 rounded-full p-0.5 hover:bg-gray-300"
               >
                 <X className="h-3 w-3" />
               </button>

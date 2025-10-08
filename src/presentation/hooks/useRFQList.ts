@@ -2,7 +2,10 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import { RFQItem } from '@/presentation/components/rfq/RFQListTable';
-import { RFQFilters, RFQSortConfig } from '@/presentation/components/rfq/RFQListFilters';
+import {
+  RFQFilters,
+  RFQSortConfig,
+} from '@/presentation/components/rfq/RFQListFilters';
 
 export interface UseRFQListProps {
   initialData: RFQItem[];
@@ -13,16 +16,16 @@ export interface UseRFQListReturn {
   // Data
   filteredRFQs: RFQItem[];
   paginatedRFQs: RFQItem[];
-  
+
   // Filters
   filters: RFQFilters;
   setFilters: (filters: RFQFilters) => void;
   resetFilters: () => void;
-  
+
   // Sorting
   sortConfig: RFQSortConfig;
   setSortConfig: (config: RFQSortConfig) => void;
-  
+
   // Pagination
   pagination: {
     page: number;
@@ -31,11 +34,11 @@ export interface UseRFQListReturn {
   };
   setPage: (page: number) => void;
   setPageSize: (pageSize: number) => void;
-  
+
   // Stats
   totalCount: number;
   filteredCount: number;
-  
+
   // Loading state
   loading: boolean;
   setLoading: (loading: boolean) => void;
@@ -57,7 +60,8 @@ export function useRFQList({
   initialPageSize = 25,
 }: UseRFQListProps): UseRFQListReturn {
   const [filters, setFilters] = useState<RFQFilters>(defaultFilters);
-  const [sortConfig, setSortConfig] = useState<RFQSortConfig>(defaultSortConfig);
+  const [sortConfig, setSortConfig] =
+    useState<RFQSortConfig>(defaultSortConfig);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(initialPageSize);
   const [loading, setLoading] = useState(false);
@@ -73,8 +77,9 @@ export function useRFQList({
           rfq.productType.toLowerCase().includes(searchLower) ||
           rfq.companyName.toLowerCase().includes(searchLower) ||
           rfq.contactPerson.toLowerCase().includes(searchLower) ||
-          (rfq.assignedTo && rfq.assignedTo.toLowerCase().includes(searchLower));
-        
+          (rfq.assignedTo &&
+            rfq.assignedTo.toLowerCase().includes(searchLower));
+
         if (!matchesSearch) return false;
       }
 
@@ -91,29 +96,38 @@ export function useRFQList({
       // Date range filter
       if (filters.dateFrom || filters.dateTo) {
         const submittedDate = new Date(rfq.submittedAt);
-        
+
         if (filters.dateFrom && submittedDate < filters.dateFrom) {
           return false;
         }
-        
+
         if (filters.dateTo && submittedDate > filters.dateTo) {
           return false;
         }
       }
 
       // Value range filter
-      if (filters.minValue !== undefined && rfq.estimatedValue < filters.minValue) {
+      if (
+        filters.minValue !== undefined &&
+        rfq.estimatedValue < filters.minValue
+      ) {
         return false;
       }
-      
-      if (filters.maxValue !== undefined && rfq.estimatedValue > filters.maxValue) {
+
+      if (
+        filters.maxValue !== undefined &&
+        rfq.estimatedValue > filters.maxValue
+      ) {
         return false;
       }
 
       // Assigned to filter
       if (filters.assignedTo) {
         const assignedToLower = filters.assignedTo.toLowerCase();
-        if (!rfq.assignedTo || !rfq.assignedTo.toLowerCase().includes(assignedToLower)) {
+        if (
+          !rfq.assignedTo ||
+          !rfq.assignedTo.toLowerCase().includes(assignedToLower)
+        ) {
           return false;
         }
       }
@@ -129,13 +143,17 @@ export function useRFQList({
       let bValue: any = b[sortConfig.field as keyof RFQItem];
 
       // Handle different data types
-      if (sortConfig.field === 'submittedAt' || 
-          sortConfig.field === 'lastUpdate' || 
-          sortConfig.field === 'responseDeadline') {
+      if (
+        sortConfig.field === 'submittedAt' ||
+        sortConfig.field === 'lastUpdate' ||
+        sortConfig.field === 'responseDeadline'
+      ) {
         aValue = new Date(aValue).getTime();
         bValue = new Date(bValue).getTime();
-      } else if (sortConfig.field === 'estimatedValue' || 
-                 sortConfig.field === 'quantity') {
+      } else if (
+        sortConfig.field === 'estimatedValue' ||
+        sortConfig.field === 'quantity'
+      ) {
         aValue = Number(aValue);
         bValue = Number(bValue);
       } else if (sortConfig.field === 'priority') {
@@ -208,16 +226,16 @@ export function useRFQList({
     // Data
     filteredRFQs: sortedRFQs,
     paginatedRFQs,
-    
+
     // Filters
     filters,
     setFilters: handleFiltersChange,
     resetFilters,
-    
+
     // Sorting
     sortConfig,
     setSortConfig: handleSortChange,
-    
+
     // Pagination
     pagination: {
       page,
@@ -226,11 +244,11 @@ export function useRFQList({
     },
     setPage,
     setPageSize: handlePageSizeChange,
-    
+
     // Stats
     totalCount: initialData.length,
     filteredCount: sortedRFQs.length,
-    
+
     // Loading
     loading,
     setLoading,

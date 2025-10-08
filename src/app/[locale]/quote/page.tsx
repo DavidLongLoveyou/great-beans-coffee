@@ -33,6 +33,7 @@ import {
   SelectValue,
 } from '@/presentation/components/ui/select';
 import { Textarea } from '@/presentation/components/ui/textarea';
+import { LogisticsCostEstimator } from '@/components/ui/LogisticsCostEstimator';
 import { useRfqForm, useMultiStepForm } from '@/presentation/hooks';
 import { useHydrationSafeRfqNumber } from '@/shared/hooks/useHydrationSafeRfqNumber';
 
@@ -690,6 +691,28 @@ export default function QuotePage({
                     }
                   />
                 </div>
+
+                {/* Logistics Cost Estimator */}
+                {formData.quantity &&
+                  formData.unit &&
+                  formData.destinationCountry && (
+                    <div className="mt-8 border-t pt-6">
+                      <h3 className="mb-4 text-lg font-semibold">
+                        Shipping Cost Estimate
+                      </h3>
+                      <p className="mb-4 text-sm text-muted-foreground">
+                        Get an estimated shipping cost based on your
+                        requirements. This tool will help you understand the
+                        logistics costs for your order.
+                      </p>
+                      <LogisticsCostEstimator
+                        onEstimateCalculated={estimate => {
+                          // Optional: Update form data with shipping estimate
+                          console.log('Shipping estimate:', estimate);
+                        }}
+                      />
+                    </div>
+                  )}
               </div>
             )}
 

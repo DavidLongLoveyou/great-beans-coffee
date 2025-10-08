@@ -129,9 +129,13 @@ export function SearchInput({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     onChange(newValue);
-    
+
     if (showSuggestions) {
-      setIsOpen(newValue.length > 0 || recentSearches.length > 0 || popularSearches.length > 0);
+      setIsOpen(
+        newValue.length > 0 ||
+          recentSearches.length > 0 ||
+          popularSearches.length > 0
+      );
     }
   };
 
@@ -169,26 +173,26 @@ export function SearchInput({
   const sizeClasses = {
     sm: 'h-9',
     md: 'h-11',
-    lg: 'h-14'
+    lg: 'h-14',
   };
 
   const iconSizeClasses = {
     sm: 'h-3.5 w-3.5',
     md: 'h-4 w-4',
-    lg: 'h-5 w-5'
+    lg: 'h-5 w-5',
   };
 
   const paddingClasses = {
     sm: 'pl-8 pr-8',
     md: 'pl-10 pr-10',
-    lg: 'pl-12 pr-12'
+    lg: 'pl-12 pr-12',
   };
 
   // Variant styles
   const variantClasses = {
     default: 'border-gray-200 bg-white shadow-sm',
     hero: 'border-gray-300 bg-white/95 backdrop-blur-sm shadow-lg',
-    compact: 'border-gray-200 bg-gray-50'
+    compact: 'border-gray-200 bg-gray-50',
   };
 
   const containerClasses = cn(
@@ -211,11 +215,13 @@ export function SearchInput({
           <div className={inputWrapperClasses}>
             <div className="relative">
               {/* Search Icon */}
-              <div className={cn(
-                'absolute left-3 top-1/2 -translate-y-1/2 transition-colors duration-200',
-                size === 'lg' && 'left-4',
-                isFocused ? 'text-amber-600' : 'text-gray-400'
-              )}>
+              <div
+                className={cn(
+                  'absolute left-3 top-1/2 -translate-y-1/2 transition-colors duration-200',
+                  size === 'lg' && 'left-4',
+                  isFocused ? 'text-amber-600' : 'text-gray-400'
+                )}
+              >
                 <Search className={iconSizeClasses[size]} />
               </div>
 
@@ -239,11 +245,11 @@ export function SearchInput({
                   sizeClasses[size],
                   paddingClasses[size],
                   variantClasses[variant],
-                  'border-0 focus:ring-0 focus:border-0 transition-all duration-200',
-                  'placeholder:text-gray-500 text-gray-900',
+                  'border-0 transition-all duration-200 focus:border-0 focus:ring-0',
+                  'text-gray-900 placeholder:text-gray-500',
                   variant === 'hero' && 'text-lg placeholder:text-gray-400',
                   loading && 'animate-pulse',
-                  disabled && 'opacity-50 cursor-not-allowed'
+                  disabled && 'cursor-not-allowed opacity-50'
                 )}
               />
 
@@ -256,8 +262,8 @@ export function SearchInput({
                   onClick={handleClear}
                   className={cn(
                     'absolute right-2 top-1/2 -translate-y-1/2 p-1.5',
-                    'hover:bg-gray-100 transition-all duration-200',
-                    'opacity-0 group-hover:opacity-100 focus:opacity-100',
+                    'transition-all duration-200 hover:bg-gray-100',
+                    'opacity-0 focus:opacity-100 group-hover:opacity-100',
                     size === 'lg' && 'right-3 p-2'
                   )}
                 >
@@ -267,23 +273,31 @@ export function SearchInput({
 
               {/* Loading Spinner */}
               {loading && (
-                <div className={cn(
-                  'absolute right-3 top-1/2 -translate-y-1/2',
-                  size === 'lg' && 'right-4'
-                )}>
-                  <div className={cn(
-                    'animate-spin rounded-full border-2 border-gray-300 border-t-amber-600',
-                    iconSizeClasses[size]
-                  )} />
+                <div
+                  className={cn(
+                    'absolute right-3 top-1/2 -translate-y-1/2',
+                    size === 'lg' && 'right-4'
+                  )}
+                >
+                  <div
+                    className={cn(
+                      'animate-spin rounded-full border-2 border-gray-300 border-t-amber-600',
+                      iconSizeClasses[size]
+                    )}
+                  />
                 </div>
               )}
 
               {/* Focus Ring Effect */}
-              <div className={cn(
-                'absolute inset-0 rounded-lg pointer-events-none transition-all duration-200',
-                isFocused && variant === 'hero' && 'bg-gradient-to-r from-amber-500/5 to-orange-500/5',
-                'opacity-0 group-hover:opacity-100'
-              )} />
+              <div
+                className={cn(
+                  'pointer-events-none absolute inset-0 rounded-lg transition-all duration-200',
+                  isFocused &&
+                    variant === 'hero' &&
+                    'bg-gradient-to-r from-amber-500/5 to-orange-500/5',
+                  'opacity-0 group-hover:opacity-100'
+                )}
+              />
             </div>
           </div>
         </PopoverTrigger>
@@ -292,7 +306,7 @@ export function SearchInput({
         {currentSuggestions.length > 0 && (
           <PopoverContent
             className={cn(
-              'w-full p-0 border-0 shadow-xl',
+              'w-full border-0 p-0 shadow-xl',
               'bg-white/95 backdrop-blur-sm',
               'animate-in fade-in-0 zoom-in-95 slide-in-from-top-2',
               'duration-200'
@@ -301,7 +315,7 @@ export function SearchInput({
             side="bottom"
             sideOffset={8}
           >
-            <div className="max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+            <div className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent max-h-80 overflow-y-auto">
               {currentSuggestions.map((suggestion, index) => (
                 <button
                   key={suggestion.id}
@@ -311,12 +325,12 @@ export function SearchInput({
                     'flex w-full items-center gap-3 px-4 py-3 text-left',
                     'hover:bg-gradient-to-r hover:from-amber-50 hover:to-orange-50',
                     'focus:bg-gradient-to-r focus:from-amber-50 focus:to-orange-50',
-                    'focus:outline-none transition-all duration-150',
+                    'transition-all duration-150 focus:outline-none',
                     'border-b border-gray-100 last:border-b-0',
                     'group/item'
                   )}
                   style={{
-                    animationDelay: `${index * 50}ms`
+                    animationDelay: `${index * 50}ms`,
                   }}
                 >
                   {/* Icon */}
@@ -330,42 +344,55 @@ export function SearchInput({
                     {suggestion.type === 'trending' && (
                       <Sparkles className="h-4 w-4 text-gray-400" />
                     )}
-                    {(suggestion.type === 'category' || suggestion.type === 'tag') && (
+                    {(suggestion.type === 'category' ||
+                      suggestion.type === 'tag') && (
                       <Search className="h-4 w-4 text-gray-400" />
                     )}
                   </div>
-                  
+
                   {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <span className="text-sm text-gray-900 group-hover/item:text-gray-800 transition-colors duration-150">
+                  <div className="min-w-0 flex-1">
+                    <span className="text-sm text-gray-900 transition-colors duration-150 group-hover/item:text-gray-800">
                       {suggestion.text}
                     </span>
                     {suggestion.description && (
-                      <p className="text-xs text-gray-500 mt-0.5 truncate">
+                      <p className="mt-0.5 truncate text-xs text-gray-500">
                         {suggestion.description}
                       </p>
                     )}
                   </div>
 
                   {/* Badges */}
-                  <div className="flex-shrink-0 flex items-center gap-1">
+                  <div className="flex flex-shrink-0 items-center gap-1">
                     {suggestion.type === 'recent' && (
-                      <Badge variant="secondary" className="text-xs bg-blue-50 text-blue-700 border-blue-200">
+                      <Badge
+                        variant="secondary"
+                        className="border-blue-200 bg-blue-50 text-xs text-blue-700"
+                      >
                         Recent
                       </Badge>
                     )}
                     {suggestion.type === 'popular' && (
-                      <Badge variant="secondary" className="text-xs bg-green-50 text-green-700 border-green-200">
+                      <Badge
+                        variant="secondary"
+                        className="border-green-200 bg-green-50 text-xs text-green-700"
+                      >
                         Popular
                       </Badge>
                     )}
                     {suggestion.type === 'trending' && (
-                      <Badge variant="secondary" className="text-xs bg-amber-50 text-amber-700 border-amber-200">
+                      <Badge
+                        variant="secondary"
+                        className="border-amber-200 bg-amber-50 text-xs text-amber-700"
+                      >
                         Trending
                       </Badge>
                     )}
                     {suggestion.count && (
-                      <Badge variant="outline" className="text-xs text-gray-600">
+                      <Badge
+                        variant="outline"
+                        className="text-xs text-gray-600"
+                      >
                         {suggestion.count}
                       </Badge>
                     )}
@@ -375,14 +402,17 @@ export function SearchInput({
             </div>
 
             {/* Footer */}
-            {!value.trim() && (recentSearches.length > 0 || popularSearches.length > 0) && (
-              <div className="border-t border-gray-100 bg-gray-50/50 p-3">
-                <p className="text-xs text-gray-500 flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {recentSearches.length > 0 ? 'Recent searches' : 'Popular searches'}
-                </p>
-              </div>
-            )}
+            {!value.trim() &&
+              (recentSearches.length > 0 || popularSearches.length > 0) && (
+                <div className="border-t border-gray-100 bg-gray-50/50 p-3">
+                  <p className="flex items-center gap-1 text-xs text-gray-500">
+                    <Clock className="h-3 w-3" />
+                    {recentSearches.length > 0
+                      ? 'Recent searches'
+                      : 'Popular searches'}
+                  </p>
+                </div>
+              )}
           </PopoverContent>
         )}
       </Popover>

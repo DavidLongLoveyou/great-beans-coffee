@@ -24,7 +24,7 @@ function generateAlternateRefs(
   // Add x-default
   alternates.push({
     url: `${baseUrl}/en${path}`,
-    hreflang: 'x-default' as any,
+    hreflang: 'x-default',
   });
 
   return alternates;
@@ -223,7 +223,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
         sitemap.push({
           url: `${baseUrl}/${locale}/${contentType}/${slug}`,
-          lastModified: new Date(content.updatedAt || content.publishedAt),
+          lastModified: new Date(
+            content.updatedAt || content.publishedAt || new Date()
+          ),
           changeFrequency: changeFreq,
           priority,
           alternates: {

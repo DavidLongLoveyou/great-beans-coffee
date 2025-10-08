@@ -11,7 +11,7 @@ import { getMarketConfig } from '@/shared/config/markets';
 export function formatDate(date: Date | string, locale: Locale): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   const config = getMarketConfig(locale);
-  
+
   return new Intl.DateTimeFormat(locale, {
     timeZone: config.timezone,
     year: 'numeric',
@@ -26,7 +26,7 @@ export function formatDate(date: Date | string, locale: Locale): string {
 export function formatDateTime(date: Date | string, locale: Locale): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   const config = getMarketConfig(locale);
-  
+
   return new Intl.DateTimeFormat(locale, {
     timeZone: config.timezone,
     year: 'numeric',
@@ -43,7 +43,7 @@ export function formatDateTime(date: Date | string, locale: Locale): string {
 export function formatDateLong(date: Date | string, locale: Locale): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   const config = getMarketConfig(locale);
-  
+
   return new Intl.DateTimeFormat(locale, {
     timeZone: config.timezone,
     year: 'numeric',
@@ -55,10 +55,13 @@ export function formatDateLong(date: Date | string, locale: Locale): string {
 /**
  * Format date and time with full details for RFQ timestamps
  */
-export function formatDateTimeLong(date: Date | string, locale: Locale): string {
+export function formatDateTimeLong(
+  date: Date | string,
+  locale: Locale
+): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   const config = getMarketConfig(locale);
-  
+
   return new Intl.DateTimeFormat(locale, {
     timeZone: config.timezone,
     year: 'numeric',
@@ -72,13 +75,16 @@ export function formatDateTimeLong(date: Date | string, locale: Locale): string 
 /**
  * Format relative time (e.g., "2 days ago", "in 3 hours")
  */
-export function formatRelativeTime(date: Date | string, locale: Locale): string {
+export function formatRelativeTime(
+  date: Date | string,
+  locale: Locale
+): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - dateObj.getTime()) / 1000);
-  
+
   const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-  
+
   // Define time units in seconds
   const units = [
     { unit: 'year', seconds: 31536000 },
@@ -89,21 +95,24 @@ export function formatRelativeTime(date: Date | string, locale: Locale): string 
     { unit: 'minute', seconds: 60 },
     { unit: 'second', seconds: 1 },
   ] as const;
-  
+
   for (const { unit, seconds } of units) {
     const interval = Math.floor(Math.abs(diffInSeconds) / seconds);
     if (interval >= 1) {
       return rtf.format(diffInSeconds < 0 ? interval : -interval, unit);
     }
   }
-  
+
   return rtf.format(0, 'second');
 }
 
 /**
  * Format deadline with urgency indicator
  */
-export function formatDeadline(date: Date | string, locale: Locale): {
+export function formatDeadline(
+  date: Date | string,
+  locale: Locale
+): {
   formatted: string;
   relative: string;
   isUrgent: boolean;
@@ -112,7 +121,7 @@ export function formatDeadline(date: Date | string, locale: Locale): {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   const now = new Date();
   const diffInHours = (dateObj.getTime() - now.getTime()) / (1000 * 60 * 60);
-  
+
   return {
     formatted: formatDateTime(dateObj, locale),
     relative: formatRelativeTime(dateObj, locale),
@@ -127,28 +136,31 @@ export function formatDeadline(date: Date | string, locale: Locale): {
 export function formatBusinessHours(locale: Locale): string {
   const config = getMarketConfig(locale);
   const { start, end, timezone } = config.businessHours;
-  
+
   // Create date objects for formatting
   const today = new Date();
   const startTime = new Date(`${today.toDateString()} ${start}`);
   const endTime = new Date(`${today.toDateString()} ${end}`);
-  
+
   const timeFormat = new Intl.DateTimeFormat(locale, {
     timeZone: timezone,
     hour: '2-digit',
     minute: '2-digit',
   });
-  
+
   return `${timeFormat.format(startTime)} - ${timeFormat.format(endTime)} (${timezone})`;
 }
 
 /**
  * Check if a date is within business hours
  */
-export function isWithinBusinessHours(date: Date | string, locale: Locale): boolean {
+export function isWithinBusinessHours(
+  date: Date | string,
+  locale: Locale
+): boolean {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   const config = getMarketConfig(locale);
-  
+
   // Convert to market timezone
   const marketTime = new Intl.DateTimeFormat('en-CA', {
     timeZone: config.timezone,
@@ -156,26 +168,32 @@ export function isWithinBusinessHours(date: Date | string, locale: Locale): bool
     hour: '2-digit',
     minute: '2-digit',
   }).format(dateObj);
-  
+
   const [hours, minutes] = marketTime.split(':').map(Number);
   if (hours === undefined || minutes === undefined) {
     return false; // Invalid time format
   }
   const currentMinutes = hours * 60 + minutes;
-  
-  const [startHours, startMinutes] = config.businessHours.start.split(':').map(Number);
+
+  const [startHours, startMinutes] = config.businessHours.start
+    .split(':')
+    .map(Number);
   if (startHours === undefined || startMinutes === undefined) {
     return false; // Invalid start time format
   }
   const startTotalMinutes = startHours * 60 + startMinutes;
-  
-  const [endHours, endMinutes] = config.businessHours.end.split(':').map(Number);
+
+  const [endHours, endMinutes] = config.businessHours.end
+    .split(':')
+    .map(Number);
   if (endHours === undefined || endMinutes === undefined) {
     return false; // Invalid end time format
   }
   const endTotalMinutes = endHours * 60 + endMinutes;
-  
-  return currentMinutes >= startTotalMinutes && currentMinutes <= endTotalMinutes;
+
+  return (
+    currentMinutes >= startTotalMinutes && currentMinutes <= endTotalMinutes
+  );
 }
 
 /**
@@ -184,14 +202,14 @@ export function isWithinBusinessHours(date: Date | string, locale: Locale): bool
 export function getTimezoneAbbreviation(locale: Locale): string {
   const config = getMarketConfig(locale);
   const now = new Date();
-  
+
   const timeZoneName = new Intl.DateTimeFormat('en', {
     timeZone: config.timezone,
     timeZoneName: 'short',
   })
     .formatToParts(now)
     .find(part => part.type === 'timeZoneName')?.value;
-  
+
   return timeZoneName || config.timezone;
 }
 

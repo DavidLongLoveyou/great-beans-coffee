@@ -107,7 +107,7 @@ module.exports = {
           950: 'hsl(var(--forest-950))', // Deep forest black - emphasis
         },
 
-        // Professional Sage Green - Secondary Brand Color
+        // Sage Green - Secondary/Neutral Brand Color
         sage: {
           50: 'hsl(var(--sage-50))', // Very light sage
           100: 'hsl(var(--sage-100))', // Light sage
@@ -121,21 +121,45 @@ module.exports = {
           900: 'hsl(var(--sage-900))', // Almost black sage
         },
 
-        // Professional Emerald - Accent Green
+        // Emerald - Accent Color for CTAs and highlights
         emerald: {
           50: 'hsl(var(--emerald-50))',
           100: 'hsl(var(--emerald-100))',
           200: 'hsl(var(--emerald-200))',
           300: 'hsl(var(--emerald-300))',
           400: 'hsl(var(--emerald-400))',
-          500: 'hsl(var(--emerald-500))', // Emerald accent
+          500: 'hsl(var(--emerald-500))',
           600: 'hsl(var(--emerald-600))',
           700: 'hsl(var(--emerald-700))',
           800: 'hsl(var(--emerald-800))',
           900: 'hsl(var(--emerald-900))',
         },
+        gold: {
+          50: 'hsl(var(--gold-50))',
+          100: 'hsl(var(--gold-100))',
+          200: 'hsl(var(--gold-200))',
+          300: 'hsl(var(--gold-300))',
+          400: 'hsl(var(--gold-400))',
+          500: 'hsl(var(--gold-500))',
+          600: 'hsl(var(--gold-600))',
+          700: 'hsl(var(--gold-700))',
+          800: 'hsl(var(--gold-800))',
+          900: 'hsl(var(--gold-900))',
+        },
+        coffee: {
+          50: 'hsl(var(--coffee-50))',
+          100: 'hsl(var(--coffee-100))',
+          200: 'hsl(var(--coffee-200))',
+          300: 'hsl(var(--coffee-300))',
+          400: 'hsl(var(--coffee-400))',
+          500: 'hsl(var(--coffee-500))',
+          600: 'hsl(var(--coffee-600))',
+          700: 'hsl(var(--coffee-700))',
+          800: 'hsl(var(--coffee-800))',
+          900: 'hsl(var(--coffee-900))',
+        },
 
-        // Green for coffee beans/sustainability (secondary green)
+        // Bean Green - Coffee-specific brand color
         bean: {
           50: 'hsl(var(--bean-50))',
           100: 'hsl(var(--bean-100))',
@@ -149,7 +173,7 @@ module.exports = {
           900: 'hsl(var(--bean-900))',
         },
 
-        // Status colors for B2B
+        // Status colors
         success: 'hsl(var(--success))',
         warning: 'hsl(var(--warning))',
         error: 'hsl(var(--error))',
@@ -157,7 +181,7 @@ module.exports = {
       },
 
       fontFamily: {
-        // Professional typography for B2B
+        // Professional typography system
         sans: ['Inter', 'system-ui', 'sans-serif'],
         serif: ['Playfair Display', 'Georgia', 'serif'],
         mono: ['JetBrains Mono', 'Consolas', 'monospace'],
@@ -166,7 +190,7 @@ module.exports = {
       },
 
       fontSize: {
-        // Professional typography scale
+        // Base sizes
         xs: ['0.75rem', { lineHeight: '1rem' }],
         sm: ['0.875rem', { lineHeight: '1.25rem' }],
         base: ['1rem', { lineHeight: '1.5rem' }],
@@ -181,7 +205,7 @@ module.exports = {
         '8xl': ['6rem', { lineHeight: '1' }],
         '9xl': ['8rem', { lineHeight: '1' }],
 
-        // Display sizes for hero sections
+        // Display sizes for professional headings
         'display-sm': [
           '2.25rem',
           { lineHeight: '2.5rem', letterSpacing: '-0.025em' },
@@ -205,7 +229,7 @@ module.exports = {
       },
 
       spacing: {
-        // Extended spacing for professional layouts
+        // Custom spacing values
         18: '4.5rem',
         88: '22rem',
         128: '32rem',
@@ -220,29 +244,29 @@ module.exports = {
       },
 
       boxShadow: {
-        // Professional shadows for B2B UI
+        // Professional shadow system
         soft: '0 2px 8px 0 rgba(0, 0, 0, 0.05)',
         medium: '0 4px 16px 0 rgba(0, 0, 0, 0.1)',
         strong: '0 8px 32px 0 rgba(0, 0, 0, 0.15)',
 
-        // Forest Green themed shadows - Primary brand
+        // Brand-specific shadows
         forest: '0 4px 16px 0 rgba(34, 139, 34, 0.15)',
         'forest-soft': '0 2px 8px 0 rgba(34, 139, 34, 0.08)',
         'forest-medium': '0 6px 20px 0 rgba(34, 139, 34, 0.12)',
         'forest-strong': '0 8px 32px 0 rgba(34, 139, 34, 0.2)',
         'forest-glow': '0 0 20px 0 rgba(34, 139, 34, 0.3)',
 
-        // Sage Green themed shadows - Secondary brand
+        // Sage shadows
         sage: '0 4px 16px 0 rgba(107, 142, 107, 0.15)',
         'sage-soft': '0 2px 8px 0 rgba(107, 142, 107, 0.08)',
         'sage-medium': '0 6px 20px 0 rgba(107, 142, 107, 0.12)',
 
-        // Emerald themed shadows - Accent
+        // Emerald shadows
         emerald: '0 4px 16px 0 rgba(16, 185, 129, 0.15)',
         'emerald-soft': '0 2px 8px 0 rgba(16, 185, 129, 0.08)',
         'emerald-glow': '0 0 20px 0 rgba(16, 185, 129, 0.25)',
 
-        // Professional elevation shadows
+        // Elevation system
         'elevation-1':
           '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
         'elevation-2':
@@ -289,6 +313,54 @@ module.exports = {
             opacity: '0',
           },
         },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(2rem)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeInDown: {
+          '0%': { opacity: '0', transform: 'translateY(-2rem)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideInLeft: {
+          '0%': { opacity: '0', transform: 'translateX(-2rem)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        slideInRight: {
+          '0%': { opacity: '0', transform: 'translateX(2rem)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        scaleIn: {
+          '0%': { opacity: '0', transform: 'scale(0.9)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        coffeeStream: {
+          '0%, 100%': { transform: 'translateY(0) scaleY(1)', opacity: '0.6' },
+          '50%': { transform: 'translateY(-0.5rem) scaleY(1.1)', opacity: '0.8' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-0.5rem)' },
+        },
+        pulseGlow: {
+          '0%, 100%': { boxShadow: '0 0 5px rgba(34, 139, 34, 0.3)' },
+          '50%': { boxShadow: '0 0 20px rgba(34, 139, 34, 0.6)' },
+        },
+        'bounce-gentle': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        loading: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
       },
 
       animation: {
@@ -299,6 +371,14 @@ module.exports = {
         'slide-in-right': 'slide-in-right 0.5s ease-out',
         'scale-in': 'scale-in 0.3s ease-out',
         'forest-steam': 'forest-steam 2s ease-in-out infinite',
+        'fade-in-up': 'fadeInUp 0.6s ease-out',
+        'fade-in-down': 'fadeInDown 0.6s ease-out',
+        'slide-up': 'slideUp 0.5s ease-out',
+        'coffee-steam': 'coffeeStream 2s ease-in-out infinite',
+        'float': 'float 3s ease-in-out infinite',
+        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+        'bounce-gentle': 'bounce-gentle 2s infinite',
+        'loading': 'loading 1.5s ease-in-out infinite',
       },
 
       backgroundImage: {

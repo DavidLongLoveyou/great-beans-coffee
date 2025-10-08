@@ -5,7 +5,7 @@ const yaml = require('js-yaml');
 function fixYamlFrontmatter(filePath) {
   try {
     const content = fs.readFileSync(filePath, 'utf8');
-    
+
     // Extract frontmatter and content
     const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
     if (!frontmatterMatch) {
@@ -14,21 +14,26 @@ function fixYamlFrontmatter(filePath) {
     }
 
     const [, frontmatterStr, bodyContent] = frontmatterMatch;
-    
+
     // Parse and fix the frontmatter
     let frontmatter;
     try {
       frontmatter = yaml.load(frontmatterStr);
     } catch (parseError) {
       console.log(`YAML parse error in ${filePath}:`, parseError.message);
-      
+
       // Try to fix common issues
       let fixedFrontmatter = frontmatterStr
         // Fix array syntax - convert ['item1', 'item2'] to proper YAML
-        .replace(/\[\s*'([^']+)'(?:\s*,\s*'([^']+)')*\s*\]/g, (match, ...items) => {
-          const allItems = match.match(/'([^']+)'/g).map(item => item.slice(1, -1));
-          return '\n' + allItems.map(item => `  - '${item}'`).join('\n');
-        })
+        .replace(
+          /\[\s*'([^']+)'(?:\s*,\s*'([^']+)')*\s*\]/g,
+          (match, ...items) => {
+            const allItems = match
+              .match(/'([^']+)'/g)
+              .map(item => item.slice(1, -1));
+            return '\n' + allItems.map(item => `  - '${item}'`).join('\n');
+          }
+        )
         // Fix boolean values
         .replace(/:\s*true\r?\n/g, ': true\n')
         .replace(/:\s*false\r?\n/g, ': false\n')
@@ -44,7 +49,10 @@ function fixYamlFrontmatter(filePath) {
         frontmatter = yaml.load(fixedFrontmatter);
         console.log(`Fixed YAML in ${filePath}`);
       } catch (secondError) {
-        console.log(`Still can't parse YAML in ${filePath}:`, secondError.message);
+        console.log(
+          `Still can't parse YAML in ${filePath}:`,
+          secondError.message
+        );
         return;
       }
     }
@@ -75,7 +83,7 @@ function fixYamlFrontmatter(filePath) {
       lineWidth: 120,
       noRefs: true,
       quotingType: '"',
-      forceQuotes: false
+      forceQuotes: false,
     });
 
     // Reconstruct the file
@@ -84,7 +92,6 @@ function fixYamlFrontmatter(filePath) {
     // Write back to file
     fs.writeFileSync(filePath, newContent, 'utf8');
     console.log(`✅ Fixed ${filePath}`);
-
   } catch (error) {
     console.error(`❌ Error processing ${filePath}:`, error.message);
   }
@@ -97,11 +104,11 @@ function processDirectory(dirPath) {
   }
 
   const items = fs.readdirSync(dirPath);
-  
+
   for (const item of items) {
     const itemPath = path.join(dirPath, item);
     const stat = fs.statSync(itemPath);
-    
+
     if (stat.isDirectory()) {
       processDirectory(itemPath);
     } else if (item.endsWith('.mdx')) {

@@ -12,7 +12,7 @@ const logger = createScopedLogger('SitemapBlog');
  * Generate and serve the blog-specific sitemap.xml
  * This includes all blog posts across all supported languages
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     // Generate blog-specific sitemap entries
     const entries = await generateContentSitemap('blog');
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
 /**
  * Handle HEAD requests for sitemap validation
  */
-export async function HEAD(request: NextRequest) {
+export async function HEAD(_request: NextRequest) {
   return new NextResponse(null, {
     status: 200,
     headers: {

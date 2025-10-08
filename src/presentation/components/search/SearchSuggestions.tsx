@@ -1,11 +1,25 @@
 'use client';
 
-import { Search, TrendingUp, Clock, Hash, ArrowRight, Sparkles, Fire, Star } from 'lucide-react';
+import {
+  Search,
+  TrendingUp,
+  Clock,
+  Hash,
+  ArrowRight,
+  Sparkles,
+  Flame,
+  Star,
+} from 'lucide-react';
 import Link from 'next/link';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/presentation/components/ui/card';
 import { Skeleton } from '@/presentation/components/ui/skeleton';
 import { cn } from '@/shared/utils/cn';
 
@@ -38,12 +52,18 @@ export interface SearchSuggestionsProps {
   variant?: 'default' | 'compact';
 }
 
-function SuggestionSkeleton({ variant = 'default' }: { variant?: 'default' | 'compact' }) {
+function SuggestionSkeleton({
+  variant = 'default',
+}: {
+  variant?: 'default' | 'compact';
+}) {
   return (
-    <div className={cn(
-      'flex items-center gap-3 animate-pulse',
-      variant === 'compact' ? 'p-2' : 'p-3'
-    )}>
+    <div
+      className={cn(
+        'flex animate-pulse items-center gap-3',
+        variant === 'compact' ? 'p-2' : 'p-3'
+      )}
+    >
       <Skeleton className="h-4 w-4 rounded" />
       <div className="flex-1 space-y-1">
         <Skeleton className="h-4 w-3/4" />
@@ -68,17 +88,29 @@ function SuggestionItem({
   const getIcon = () => {
     switch (suggestion.type) {
       case 'recent':
-        return <Clock className="h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-colors" />;
+        return (
+          <Clock className="h-4 w-4 text-gray-400 transition-colors group-hover:text-gray-600" />
+        );
       case 'popular':
-        return <Fire className="h-4 w-4 text-orange-500 group-hover:text-orange-600 transition-colors" />;
+        return (
+          <Flame className="h-4 w-4 text-orange-500 transition-colors group-hover:text-orange-600" />
+        );
       case 'trending':
-        return <TrendingUp className="h-4 w-4 text-red-500 group-hover:text-red-600 transition-colors" />;
+        return (
+          <TrendingUp className="h-4 w-4 text-red-500 transition-colors group-hover:text-red-600" />
+        );
       case 'category':
-        return <Hash className="h-4 w-4 text-green-500 group-hover:text-green-600 transition-colors" />;
+        return (
+          <Hash className="h-4 w-4 text-green-500 transition-colors group-hover:text-green-600" />
+        );
       case 'tag':
-        return <Hash className="h-4 w-4 text-purple-500 group-hover:text-purple-600 transition-colors" />;
+        return (
+          <Hash className="h-4 w-4 text-purple-500 transition-colors group-hover:text-purple-600" />
+        );
       default:
-        return <Search className="h-4 w-4 text-gray-400 group-hover:text-blue-500 transition-colors" />;
+        return (
+          <Search className="h-4 w-4 text-gray-400 transition-colors group-hover:text-blue-500" />
+        );
     }
   };
 
@@ -104,47 +136,53 @@ function SuggestionItem({
   };
 
   const content = (
-    <div className={cn(
-      'group flex items-center gap-3 transition-all duration-200 ease-out cursor-pointer rounded-lg',
-      'hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-indigo-50/30',
-      'hover:shadow-sm hover:scale-[1.02] hover:-translate-y-0.5',
-      'border border-transparent hover:border-blue-200/50',
-      'animate-in fade-in-0 slide-in-from-left-2',
-      variant === 'compact' ? 'p-2' : 'p-3'
-    )}
-    style={{
-      animationDelay: `${index * 50}ms`,
-      animationDuration: '300ms'
-    }}>
+    <div
+      className={cn(
+        'group flex cursor-pointer items-center gap-3 rounded-lg transition-all duration-200 ease-out',
+        'hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-indigo-50/30',
+        'hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-sm',
+        'border border-transparent hover:border-blue-200/50',
+        'animate-in fade-in-0 slide-in-from-left-2',
+        variant === 'compact' ? 'p-2' : 'p-3'
+      )}
+      style={{
+        animationDelay: `${index * 50}ms`,
+        animationDuration: '300ms',
+      }}
+    >
       <div className="flex-shrink-0 transition-transform duration-200 group-hover:scale-110">
         {getIcon()}
       </div>
-      
-      <div className="flex-1 min-w-0">
-        <div className={cn(
-          'font-medium text-gray-900 truncate transition-colors duration-200',
-          'group-hover:text-blue-700',
-          variant === 'compact' ? 'text-sm' : 'text-sm'
-        )}>
+
+      <div className="min-w-0 flex-1">
+        <div
+          className={cn(
+            'truncate font-medium text-gray-900 transition-colors duration-200',
+            'group-hover:text-blue-700',
+            variant === 'compact' ? 'text-sm' : 'text-sm'
+          )}
+        >
           {suggestion.text}
         </div>
         {variant === 'default' && suggestion.description && (
-          <div className="text-xs text-gray-500 truncate group-hover:text-gray-600 transition-colors">
+          <div className="truncate text-xs text-gray-500 transition-colors group-hover:text-gray-600">
             {suggestion.description}
           </div>
         )}
       </div>
-      
+
       <div className="flex items-center gap-2">
         {suggestion.count && (
-          <Badge className={cn(
-            'text-xs font-medium transition-all duration-200',
-            getTypeColor()
-          )}>
+          <Badge
+            className={cn(
+              'text-xs font-medium transition-all duration-200',
+              getTypeColor()
+            )}
+          >
             {suggestion.count.toLocaleString()}
           </Badge>
         )}
-        <ArrowRight className="h-3 w-3 text-gray-400 transition-all duration-200 group-hover:text-blue-500 group-hover:translate-x-0.5" />
+        <ArrowRight className="h-3 w-3 text-gray-400 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-blue-500" />
       </div>
     </div>
   );
@@ -184,39 +222,47 @@ function SuggestionSection({
   if (items.length === 0) return null;
 
   return (
-    <Card className={cn(
-      'transition-all duration-300 ease-out',
-      'hover:shadow-md hover:shadow-gray-200/50',
-      'border-gray-200 hover:border-gray-300',
-      'animate-in fade-in-0 slide-in-from-bottom-4'
-    )}
-    style={{
-      animationDelay: `${sectionIndex * 100}ms`,
-      animationDuration: '400ms'
-    }}>
-      <CardHeader className={cn(
-        'transition-all duration-200',
-        variant === 'compact' ? 'pb-2 pt-3 px-3' : 'pb-3'
-      )}>
-        <CardTitle className={cn(
-          'font-semibold flex items-center gap-2 text-gray-800',
-          variant === 'compact' ? 'text-sm' : 'text-sm'
-        )}>
+    <Card
+      className={cn(
+        'transition-all duration-300 ease-out',
+        'hover:shadow-md hover:shadow-gray-200/50',
+        'border-gray-200 hover:border-gray-300',
+        'animate-in fade-in-0 slide-in-from-bottom-4'
+      )}
+      style={{
+        animationDelay: `${sectionIndex * 100}ms`,
+        animationDuration: '400ms',
+      }}
+    >
+      <CardHeader
+        className={cn(
+          'transition-all duration-200',
+          variant === 'compact' ? 'px-3 pb-2 pt-3' : 'pb-3'
+        )}
+      >
+        <CardTitle
+          className={cn(
+            'flex items-center gap-2 font-semibold text-gray-800',
+            variant === 'compact' ? 'text-sm' : 'text-sm'
+          )}
+        >
           <span className="transition-transform duration-200 hover:scale-110">
             {icon}
           </span>
           {title}
           {items.length > maxItems && (
-            <Badge variant="outline" className="text-xs ml-auto">
+            <Badge variant="outline" className="ml-auto text-xs">
               {items.length}
             </Badge>
           )}
         </CardTitle>
       </CardHeader>
-      <CardContent className={cn(
-        'transition-all duration-200',
-        variant === 'compact' ? 'pt-0 px-3 pb-3' : 'pt-0'
-      )}>
+      <CardContent
+        className={cn(
+          'transition-all duration-200',
+          variant === 'compact' ? 'px-3 pb-3 pt-0' : 'pt-0'
+        )}
+      >
         <div className="space-y-1">
           {items.slice(0, maxItems).map((item, index) => (
             <SuggestionItem
@@ -229,10 +275,10 @@ function SuggestionSection({
           ))}
         </div>
         {items.length > maxItems && (
-          <div className="pt-3 text-center border-t border-gray-100 mt-3">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+          <div className="mt-3 border-t border-gray-100 pt-3 text-center">
+            <Button
+              variant="ghost"
+              size="sm"
               className={cn(
                 'text-xs transition-all duration-200',
                 'hover:bg-blue-50 hover:text-blue-700',
@@ -240,7 +286,7 @@ function SuggestionSection({
               )}
             >
               <span>View all {items.length} items</span>
-              <ArrowRight className="h-3 w-3 ml-1 transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5" />
             </Button>
           </div>
         )}
@@ -269,32 +315,40 @@ export function SearchSuggestions({
   variant = 'default',
 }: SearchSuggestionsProps) {
   // Convert arrays to suggestion objects
-  const recentSuggestions: SearchSuggestion[] = recentSearches.map((search, index) => ({
-    id: `recent-${index}`,
-    text: search,
-    type: 'recent',
-  }));
+  const recentSuggestions: SearchSuggestion[] = recentSearches.map(
+    (search, index) => ({
+      id: `recent-${index}`,
+      text: search,
+      type: 'recent',
+    })
+  );
 
-  const popularSuggestions: SearchSuggestion[] = popularSearches.map((search, index) => ({
-    id: `popular-${index}`,
-    text: search,
-    type: 'popular',
-  }));
+  const popularSuggestions: SearchSuggestion[] = popularSearches.map(
+    (search, index) => ({
+      id: `popular-${index}`,
+      text: search,
+      type: 'popular',
+    })
+  );
 
-  const trendingSuggestions: SearchSuggestion[] = trendingTopics.map((topic, index) => ({
-    id: `trending-${index}`,
-    text: topic,
-    type: 'trending',
-  }));
+  const trendingSuggestions: SearchSuggestion[] = trendingTopics.map(
+    (topic, index) => ({
+      id: `trending-${index}`,
+      text: topic,
+      type: 'trending',
+    })
+  );
 
-  const categorySuggestions: SearchSuggestion[] = categories.map((category, index) => ({
-    id: `category-${index}`,
-    text: category.name,
-    type: 'category',
-    count: category.count,
-    url: category.url,
-    description: `${category.count} items`,
-  }));
+  const categorySuggestions: SearchSuggestion[] = categories.map(
+    (category, index) => ({
+      id: `category-${index}`,
+      text: category.name,
+      type: 'category',
+      count: category.count,
+      url: category.url,
+      description: `${category.count} items`,
+    })
+  );
 
   const tagSuggestions: SearchSuggestion[] = tags.map((tag, index) => ({
     id: `tag-${index}`,
@@ -348,10 +402,9 @@ export function SearchSuggestions({
   let sectionIndex = 0;
 
   return (
-    <div className={cn(
-      'space-y-4 animate-in fade-in-0 duration-500',
-      className
-    )}>
+    <div
+      className={cn('space-y-4 duration-500 animate-in fade-in-0', className)}
+    >
       {/* Custom Suggestions */}
       {suggestions.length > 0 && (
         <SuggestionSection
@@ -382,7 +435,7 @@ export function SearchSuggestions({
       {showPopular && popularSuggestions.length > 0 && (
         <SuggestionSection
           title="Popular Searches"
-          icon={<Fire className="h-4 w-4 text-orange-500" />}
+          icon={<Flame className="h-4 w-4 text-orange-500" />}
           items={popularSuggestions}
           onItemClick={handleSuggestionClick}
           maxItems={maxItems}
@@ -437,19 +490,19 @@ export function SearchSuggestions({
         trendingSuggestions.length === 0 &&
         categorySuggestions.length === 0 &&
         tagSuggestions.length === 0 && (
-          <Card className="animate-in fade-in-0 slide-in-from-bottom-4 duration-500">
+          <Card className="duration-500 animate-in fade-in-0 slide-in-from-bottom-4">
             <CardContent className="pt-6">
-              <div className="text-center py-12">
+              <div className="py-12 text-center">
                 <div className="relative">
-                  <Search className="h-12 w-12 text-gray-300 mx-auto mb-4 transition-all duration-300 hover:text-gray-400 hover:scale-110" />
-                  <div className="absolute -top-1 -right-1">
-                    <Sparkles className="h-4 w-4 text-blue-400 animate-pulse" />
+                  <Search className="mx-auto mb-4 h-12 w-12 text-gray-300 transition-all duration-300 hover:scale-110 hover:text-gray-400" />
+                  <div className="absolute -right-1 -top-1">
+                    <Sparkles className="h-4 w-4 animate-pulse text-blue-400" />
                   </div>
                 </div>
-                <div className="text-gray-600 text-base font-medium mb-2">
+                <div className="mb-2 text-base font-medium text-gray-600">
                   Start typing to see search suggestions
                 </div>
-                <div className="text-gray-500 text-sm max-w-sm mx-auto">
+                <div className="mx-auto max-w-sm text-sm text-gray-500">
                   Discover coffee products, market insights, and origin stories
                 </div>
               </div>

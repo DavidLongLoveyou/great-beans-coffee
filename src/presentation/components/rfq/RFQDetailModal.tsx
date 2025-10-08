@@ -225,7 +225,11 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
           </div>
         </DialogHeader>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-4 sm:mt-6">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="mt-4 sm:mt-6"
+        >
           <TabsList className="grid w-full grid-cols-2 gap-1 sm:grid-cols-5 sm:gap-0">
             <TabsTrigger value="overview" className="text-xs sm:text-sm">
               {t('detail.tabs.overview')}
@@ -258,7 +262,9 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                     <label className="text-xs font-medium text-gray-600 sm:text-sm">
                       {t('detail.productType')}
                     </label>
-                    <p className="text-base font-semibold sm:text-lg">{rfq.productType}</p>
+                    <p className="text-base font-semibold sm:text-lg">
+                      {rfq.productType}
+                    </p>
                   </div>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
                     <div>
@@ -286,7 +292,11 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                       <div className="mt-1 flex flex-wrap gap-1 sm:gap-2">
                         {rfq.productRequirements.certifications.map(
                           (cert, index) => (
-                            <Badge key={index} variant="outline" className="text-xs">
+                            <Badge
+                              key={index}
+                              variant="outline"
+                              className="text-xs"
+                            >
                               {cert}
                             </Badge>
                           )
@@ -690,9 +700,13 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                     {rfq.quotes.map((quote, index) => (
                       <div key={quote.id} className="rounded-lg border p-4">
                         <div className="mb-4 flex items-center justify-between">
-                          <h4 className="font-semibold">{t('detail.quoteNumber', { number: index + 1 })}</h4>
+                          <h4 className="font-semibold">
+                            {t('detail.quoteNumber', { number: index + 1 })}
+                          </h4>
                           <Badge variant="outline">
-                            {t('detail.validUntil', { date: formatDate(quote.validUntil) })}
+                            {t('detail.validUntil', {
+                              date: formatDate(quote.validUntil),
+                            })}
                           </Badge>
                         </div>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -744,7 +758,9 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                           </div>
                         )}
                         <div className="mt-4 flex gap-2">
-                          <Button className="flex-1">{t('detail.acceptQuote')}</Button>
+                          <Button className="flex-1">
+                            {t('detail.acceptQuote')}
+                          </Button>
                           <Button variant="outline" className="flex-1">
                             {t('detail.negotiate')}
                           </Button>

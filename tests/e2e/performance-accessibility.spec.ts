@@ -13,7 +13,14 @@ test.describe('Performance and Accessibility', () => {
         return new Promise(resolve => {
           new PerformanceObserver(list => {
             const entries = list.getEntries();
-            const metrics: { loadTime?: number; domContentLoaded?: number; firstContentfulPaint?: number; largestContentfulPaint?: number; fcp?: number; lcp?: number } = {};
+            const metrics: {
+              loadTime?: number;
+              domContentLoaded?: number;
+              firstContentfulPaint?: number;
+              largestContentfulPaint?: number;
+              fcp?: number;
+              lcp?: number;
+            } = {};
 
             entries.forEach(entry => {
               if (entry.entryType === 'navigation') {

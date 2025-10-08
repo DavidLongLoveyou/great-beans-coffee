@@ -7,7 +7,11 @@ import { usePDFGeneration } from '@/shared/hooks/use-pdf-generation';
 import { Download, FileText, Loader2 } from 'lucide-react';
 import { cn } from '@/shared/utils';
 
-export type PDFType = 'productSpec' | 'rfqDocument' | 'marketReport' | 'certificate';
+export type PDFType =
+  | 'productSpec'
+  | 'rfqDocument'
+  | 'marketReport'
+  | 'certificate';
 
 interface PDFDownloadButtonProps {
   type: PDFType;
@@ -80,7 +84,9 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
       switch (type) {
         case 'productSpec':
           if (!entityData) {
-            throw new Error('Product data is required for product spec PDF generation');
+            throw new Error(
+              'Product data is required for product spec PDF generation'
+            );
           }
           await generateProductSpecSheet(entityData, {
             ...options,
@@ -89,7 +95,9 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
           break;
         case 'rfqDocument':
           if (!entityData) {
-            throw new Error('RFQ data is required for RFQ document PDF generation');
+            throw new Error(
+              'RFQ data is required for RFQ document PDF generation'
+            );
           }
           await generateRFQDocument(entityData, {
             ...options,
@@ -99,7 +107,9 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
         case 'marketReport':
         case 'certificate':
           if (!entityData) {
-            throw new Error('Entity data is required for HTML-based PDF generation');
+            throw new Error(
+              'Entity data is required for HTML-based PDF generation'
+            );
           }
           await generateFromHTML(entityData, `${type}-${entityId}`, {
             ...options,
@@ -112,7 +122,8 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
 
       onSuccess?.(`${type}-${entityId}.pdf`);
     } catch (err) {
-      const error = err instanceof Error ? err : new Error('Unknown error occurred');
+      const error =
+        err instanceof Error ? err : new Error('Unknown error occurred');
       onError?.(error);
       console.error('PDF generation failed:', error);
     }
@@ -137,9 +148,7 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
         </>
       ) : (
         <>
-          {showIcon && (
-            <Download className="mr-2 h-4 w-4" />
-          )}
+          {showIcon && <Download className="mr-2 h-4 w-4" />}
           {getButtonText()}
         </>
       )}
@@ -202,11 +211,11 @@ export const BatchPDFDownloadButton: React.FC<BatchPDFDownloadButtonProps> = ({
 
     try {
       const filenames: string[] = [];
-      
+
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
         if (!item) continue;
-        
+
         // Generate PDF based on type
         const response = await fetch(`/api/pdf/${item.type}`, {
           method: 'POST',
@@ -214,7 +223,8 @@ export const BatchPDFDownloadButton: React.FC<BatchPDFDownloadButtonProps> = ({
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            [`${item.type === 'productSpec' ? 'productId' : 'rfqId'}`]: item.entityId,
+            [`${item.type === 'productSpec' ? 'productId' : 'rfqId'}`]:
+              item.entityId,
             locale,
             options,
           }),
@@ -225,8 +235,9 @@ export const BatchPDFDownloadButton: React.FC<BatchPDFDownloadButtonProps> = ({
         }
 
         const blob = await response.blob();
-        const filename = item.filename || `${item.type}-${item.entityId}-${Date.now()}.pdf`;
-        
+        const filename =
+          item.filename || `${item.type}-${item.entityId}-${Date.now()}.pdf`;
+
         // Download the file
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -243,7 +254,8 @@ export const BatchPDFDownloadButton: React.FC<BatchPDFDownloadButtonProps> = ({
 
       onSuccess?.(filenames);
     } catch (err) {
-      const error = err instanceof Error ? err : new Error('Batch download failed');
+      const error =
+        err instanceof Error ? err : new Error('Batch download failed');
       onError?.(error);
       console.error('Batch PDF generation failed:', error);
     } finally {

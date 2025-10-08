@@ -47,15 +47,17 @@ export interface SearchResult {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    
+
     const query = searchParams.get('q') || '';
-    const type = searchParams.get('type') as SearchParams['type'] || 'all';
+    const type = (searchParams.get('type') as SearchParams['type']) || 'all';
     const category = searchParams.get('category') || undefined;
     const locale = (searchParams.get('locale') as Locale) || 'en';
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = Math.min(parseInt(searchParams.get('limit') || '20', 10), 50);
-    const sortBy = searchParams.get('sortBy') as SearchParams['sortBy'] || 'relevance';
-    const sortOrder = searchParams.get('sortOrder') as SearchParams['sortOrder'] || 'desc';
+    const sortBy =
+      (searchParams.get('sortBy') as SearchParams['sortBy']) || 'relevance';
+    const sortOrder =
+      (searchParams.get('sortOrder') as SearchParams['sortOrder']) || 'desc';
 
     // Validate parameters
     if (page < 1) {
@@ -94,34 +96,37 @@ export async function GET(request: NextRequest) {
     // Filter by type if specified
     if (type !== 'all') {
       const typeMap: Record<string, string[]> = {
-        'blog': ['blog'],
+        blog: ['blog'],
         'market-reports': ['market-report'],
-        'services': ['service'],
-        'products': ['product'],
+        services: ['service'],
+        products: ['product'],
       };
-      
+
       const allowedTypes = typeMap[type] || [];
       searchResults = searchResults.filter(item => {
         // Determine item type based on URL pattern
         if (item.url.includes('/blog/')) return allowedTypes.includes('blog');
-        if (item.url.includes('/market-reports/')) return allowedTypes.includes('market-report');
-        if (item.url.includes('/services/')) return allowedTypes.includes('service');
-        if (item.url.includes('/products/')) return allowedTypes.includes('product');
+        if (item.url.includes('/market-reports/'))
+          return allowedTypes.includes('market-report');
+        if (item.url.includes('/services/'))
+          return allowedTypes.includes('service');
+        if (item.url.includes('/products/'))
+          return allowedTypes.includes('product');
         return false;
       });
     }
 
     // Filter by category if specified
     if (category) {
-      searchResults = searchResults.filter(item => 
-        item.category?.toLowerCase() === category.toLowerCase()
+      searchResults = searchResults.filter(
+        item => item.category?.toLowerCase() === category.toLowerCase()
       );
     }
 
     // Sort results
     searchResults.sort((a, b) => {
       let comparison = 0;
-      
+
       switch (sortBy) {
         case 'date':
           const dateA = new Date(a.publishedAt || 0).getTime();
@@ -134,12 +139,20 @@ export async function GET(request: NextRequest) {
         case 'relevance':
         default:
           // Simple relevance scoring based on title match
-          const titleMatchA = a.title.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
-          const titleMatchB = b.title.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
+          const titleMatchA = a.title
+            .toLowerCase()
+            .includes(query.toLowerCase())
+            ? 1
+            : 0;
+          const titleMatchB = b.title
+            .toLowerCase()
+            .includes(query.toLowerCase())
+            ? 1
+            : 0;
           comparison = titleMatchB - titleMatchA;
           break;
       }
-      
+
       return sortOrder === 'desc' ? -comparison : comparison;
     });
 

@@ -85,6 +85,30 @@
     --emerald-800: 160 84% 20%; /* Very dark emerald #065f46 */
     --emerald-900: 160 84% 15%; /* Almost black emerald #064e3b */
 
+    /* Professional Gold - Premium Accent */
+    --gold-50: 45 100% 97%; /* Very light gold #fffef7 */
+    --gold-100: 45 100% 93%; /* Light gold #fffbeb */
+    --gold-200: 45 96% 89%; /* Soft gold #fef3c7 */
+    --gold-300: 45 93% 83%; /* Medium gold #fde68a */
+    --gold-400: 45 90% 72%; /* Gold #fcd34d */
+    --gold-500: 45 93% 47%; /* Primary gold #f59e0b */
+    --gold-600: 45 93% 38%; /* Dark gold #d97706 */
+    --gold-700: 45 96% 28%; /* Darker gold #b45309 */
+    --gold-800: 45 96% 22%; /* Very dark gold #92400e */
+    --gold-900: 45 96% 16%; /* Almost black gold #78350f */
+
+    /* Coffee Brown - Warm Accent */
+    --coffee-50: 30 40% 97%; /* Very light coffee #faf9f7 */
+    --coffee-100: 30 40% 94%; /* Light coffee #f5f2ed */
+    --coffee-200: 30 40% 88%; /* Soft coffee #e8e0d4 */
+    --coffee-300: 30 40% 78%; /* Medium coffee #d4c4b0 */
+    --coffee-400: 30 40% 65%; /* Coffee #b8a082 */
+    --coffee-500: 30 40% 45%; /* Primary coffee #8b7355 */
+    --coffee-600: 30 40% 35%; /* Dark coffee #6b5940 */
+    --coffee-700: 30 40% 25%; /* Darker coffee #4d412e */
+    --coffee-800: 30 40% 18%; /* Very dark coffee #362d20 */
+    --coffee-900: 30 40% 12%; /* Almost black coffee #241e16 */
+
     /* Status colors */
     --success: 120 61% 34%; /* Forest Green for success */
     --warning: 45 100% 50%;
@@ -156,6 +180,30 @@
     --emerald-700: 160 84% 86%; /* Lighter emerald */
     --emerald-800: 160 85% 93%; /* Very light emerald */
     --emerald-900: 160 85% 97%; /* Almost white emerald */
+
+    /* Gold - Dark Mode */
+    --gold-50: 45 96% 8%;
+    --gold-100: 45 96% 12%;
+    --gold-200: 45 96% 16%;
+    --gold-300: 45 96% 22%;
+    --gold-400: 45 96% 30%;
+    --gold-500: 45 93% 55%; /* Primary gold (lighter in dark) */
+    --gold-600: 45 90% 65%;
+    --gold-700: 45 93% 75%;
+    --gold-800: 45 96% 85%;
+    --gold-900: 45 100% 95%;
+
+    /* Coffee Brown - Dark Mode */
+    --coffee-50: 30 40% 8%;
+    --coffee-100: 30 40% 12%;
+    --coffee-200: 30 40% 16%;
+    --coffee-300: 30 40% 22%;
+    --coffee-400: 30 40% 30%;
+    --coffee-500: 30 40% 55%; /* Primary coffee (lighter in dark) */
+    --coffee-600: 30 40% 65%;
+    --coffee-700: 30 40% 75%;
+    --coffee-800: 30 40% 85%;
+    --coffee-900: 30 40% 95%;
   }
 }
 
@@ -170,12 +218,18 @@
 
   body {
     @apply bg-background font-body text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
     font-feature-settings:
       'rlig' 1,
-      'calt' 1;
+      'calt' 1,
+      'cv02',
+      'cv03',
+      'cv04',
+      'cv11';
+    font-variation-settings: normal;
   }
 
-  /* Professional typography */
+  /* Enhanced Typography */
   h1,
   h2,
   h3,
@@ -183,6 +237,44 @@
   h5,
   h6 {
     @apply font-display font-semibold tracking-tight;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  /* Professional Gradient Text Classes */
+  .text-gradient-forest {
+    @apply bg-gradient-to-r from-forest-600 to-forest-800 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-emerald {
+    @apply bg-gradient-to-r from-emerald-500 to-emerald-700 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-gold-500 to-gold-700 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-premium {
+    @apply bg-gradient-to-r from-gold-500 via-emerald-500 to-forest-600 bg-clip-text text-transparent;
+  }
+
+  /* Professional Background Gradients */
+  .bg-gradient-forest {
+    @apply bg-gradient-to-br from-forest-50 via-white to-emerald-50;
+  }
+
+  .bg-gradient-forest-dark {
+    @apply bg-gradient-to-br from-forest-900 via-forest-800 to-forest-900;
+  }
+
+  .bg-gradient-premium {
+    @apply bg-gradient-to-br from-gold-50 via-emerald-50 to-forest-50;
+  }
+
+  .bg-gradient-hero {
+    @apply bg-gradient-to-br from-forest-900 via-forest-800 to-emerald-900;
   }
 
   h1 {
@@ -214,6 +306,72 @@
 
   .dark ::selection {
     @apply bg-forest-700 text-forest-100;
+  }
+
+  /* Enhanced Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-forest-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-forest-400 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-forest-500;
+  }
+
+  /* Professional Focus States */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2 focus:ring-offset-white;
+  }
+
+  .focus-ring-dark {
+    @apply focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-forest-900;
+  }
+
+  /* Enhanced Button Hover Effects */
+  .btn-hover-lift {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg;
+  }
+
+  .btn-hover-glow {
+    @apply transition-all duration-300 hover:shadow-forest-glow;
+  }
+
+  /* Professional Card Hover Effects */
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-elevation-3 hover:-translate-y-1;
+  }
+
+  .card-hover-glow {
+    @apply transition-all duration-300 hover:shadow-forest-medium hover:-translate-y-1;
+  }
+
+  /* Enhanced Loading States */
+  .loading-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--forest-100)) 0%,
+      hsl(var(--forest-200)) 50%,
+      hsl(var(--forest-100)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
   }
 }
 
@@ -433,6 +591,81 @@
   }
 }
 
+/* Professional Animations */
+@layer components {
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .animate-fade-in-down {
+    animation: fadeInDown 0.6s ease-out;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.6s ease-out;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.6s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out;
+  }
+
+  .animate-coffee-steam {
+    animation: coffeeStream 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  /* Professional Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* High Contrast Mode Support */
+  @media (prefers-contrast: high) {
+    .text-gradient-forest,
+    .text-gradient-emerald,
+    .text-gradient-gold,
+    .text-gradient-premium {
+      @apply text-forest-900 bg-none;
+    }
+  }
+
+  /* Enhanced Print Styles */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    
+    body {
+      @apply text-black bg-white;
+    }
+    
+    .print-break-before {
+      page-break-before: always;
+    }
+    
+    .print-break-after {
+      page-break-after: always;
+    }
+  }
+}
+
 /* Keyframe animations */
 @keyframes fadeIn {
   from {
@@ -440,6 +673,50 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
@@ -462,6 +739,35 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes coffeeStream {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-0.5rem) scaleY(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.5rem);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(34, 139, 34, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(34, 139, 34, 0.6);
   }
 }
 
