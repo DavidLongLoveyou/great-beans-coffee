@@ -2,12 +2,13 @@
 
 import React, { forwardRef } from 'react';
 
-import { CoffeeCupLoader } from '@/presentation/components/ui/CoffeeCupLoader';
+import {
+  CoffeeCupLoader,
+  CoffeeCupSpinner,
+} from '@/presentation/components/ui/CoffeeCupLoader';
 import { cn } from '@/shared/utils/cn';
 
 import { SizeVariant } from '../types';
-
-import { CoffeeCupSpinner } from '@/presentation/components/ui/CoffeeCupSpinner';
 
 interface LoadingSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: SizeVariant;
