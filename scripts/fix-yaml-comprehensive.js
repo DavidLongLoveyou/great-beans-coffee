@@ -1,104 +1,113 @@
 const fs = require('fs');
 const path = require('path');
 
-function fixYamlInFile(filePath) {
-  try {
-    let content = fs.readFileSync(filePath, 'utf8');
-    let modified = false;
-
-    // Remove carriage returns that cause YAML parsing issues
-    if (content.includes('\r')) {
-      content = content.replace(/\r/g, '');
-      modified = true;
-    }
-
-    // Fix array syntax issues - ensure proper spacing and formatting
-    // Fix arrays that might have syntax issues
-    content = content.replace(
-      /\[\s*\n\s*([^[\]]+)\s*\n\s*\]/g,
-      (match, items) => {
-        const cleanItems = items
-          .split(',')
-          .map(item => item.trim().replace(/^['"]|['"]$/g, ''))
-          .filter(item => item);
-        return `[${cleanItems.map(item => `'${item}'`).join(', ')}]`;
-      }
-    );
-
-    // Fix multi-line arrays
-    content = content.replace(
-      /(\w+):\s*\[\s*\n([\s\S]*?)\n\s*\]/g,
-      (match, key, items) => {
-        const lines = items
-          .split('\n')
-          .map(line => line.trim())
-          .filter(line => line && !line.startsWith('#'));
-        const cleanItems = [];
-
-        for (const line of lines) {
-          const cleaned = line.replace(/^['"]|['"]$|,$/, '').trim();
-          if (cleaned && cleaned !== '') {
-            cleanItems.push(cleaned);
-          }
-        }
-
-        if (cleanItems.length === 0) {
-          return `${key}: []`;
-        }
-
-        return `${key}: [${cleanItems.map(item => `'${item}'`).join(', ')}]`;
-      }
-    );
-
-    // Fix boolean values that might have extra characters
-    content = content.replace(/^(\s*\w+):\s*true\s*[\r\n]*$/gm, '$1: true');
-    content = content.replace(/^(\s*\w+):\s*false\s*[\r\n]*$/gm, '$1: false');
-
-    // Fix number values that might have extra characters
-    content = content.replace(/^(\s*\w+):\s*(\d+)\s*[\r\n]*$/gm, '$1: $2');
-
-    // Fix string values that might have extra characters
-    content = content.replace(
-      /^(\s*\w+):\s*'([^']+)'\s*[\r\n]*$/gm,
-      "$1: '$2'"
-    );
-
-    if (modified || content !== fs.readFileSync(filePath, 'utf8')) {
-      fs.writeFileSync(filePath, content, 'utf8');
-      console.log(`Fixed YAML in: ${filePath}`);
-      return true;
-    }
-
-    return false;
-  } catch (error) {
-    console.error(`Error fixing YAML in ${filePath}:`, error.message);
-    return false;
-  }
-}
-
-function walkDirectory(dir) {
+// Function to recursively find all MDX files
+function findMDXFiles(dir, fileList = []) {
   const files = fs.readdirSync(dir);
-  let totalFixed = 0;
-
-  for (const file of files) {
+  
+  files.forEach(file => {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
-
+    
     if (stat.isDirectory()) {
-      totalFixed += walkDirectory(filePath);
+      findMDXFiles(filePath, fileList);
     } else if (file.endsWith('.mdx')) {
-      if (fixYamlInFile(filePath)) {
-        totalFixed++;
-      }
+      fileList.push(filePath);
     }
-  }
-
-  return totalFixed;
+  });
+  
+  return fileList;
 }
 
-// Fix all MDX files in content directory
+// Function to fix YAML frontmatter issues
+function fixYAMLIssues(content) {
+  let fixed = content;
+  
+  // Fix carriage return issues in YAML values
+  fixed = fixed.replace(/: ([^'\[\n]+)\r/g, ': $1');
+  fixed = fixed.replace(/: '([^']+)'\r/g, ": '$1'");
+  fixed = fixed.replace(/: "([^"]+)"\r/g, ': "$1"');
+  fixed = fixed.replace(/: (\d+)\r/g, ': $1');
+  fixed = fixed.replace(/: (true|false)\r/g, ': $1');
+  
+  // Fix array syntax issues - ensure proper spacing and remove invalid entries
+  fixed = fixed.replace(/chartTypes:\s*\[([^\]]+)\]/g, (match, content) => {
+    // Clean up the array content
+    const cleanContent = content
+      .split(',')
+      .map(item => item.trim())
+      .filter(item => item && item !== "'--'" && item !== '"--"' && item !== '--')
+      .join(', ');
+    return `chartTypes: [${cleanContent}]`;
+  });
+  
+  // Fix other array fields
+  fixed = fixed.replace(/tags:\s*\[([^\]]+)\]/g, (match, content) => {
+    const cleanContent = content
+      .split(',')
+      .map(item => item.trim())
+      .join(', ');
+    return `tags: [${cleanContent}]`;
+  });
+  
+  fixed = fixed.replace(/keywords:\s*\[([^\]]+)\]/g, (match, content) => {
+    const cleanContent = content
+      .split(',')
+      .map(item => item.trim())
+      .join(', ');
+    return `keywords: [${cleanContent}]`;
+  });
+  
+  fixed = fixed.replace(/targetMarkets:\s*\[([^\]]+)\]/g, (match, content) => {
+    const cleanContent = content
+      .split(',')
+      .map(item => item.trim())
+      .join(', ');
+    return `targetMarkets: [${cleanContent}]`;
+  });
+  
+  fixed = fixed.replace(/certifications:\s*\[([^\]]+)\]/g, (match, content) => {
+    const cleanContent = content
+      .split(',')
+      .map(item => item.trim())
+      .join(', ');
+    return `certifications: [${cleanContent}]`;
+  });
+  
+  // Remove invalid fields
+  fixed = fixed.replace(/^qualityLabs:.*$/gm, '');
+  
+  // Clean up extra empty lines in frontmatter
+  const parts = fixed.split('---');
+  if (parts.length >= 3) {
+    parts[1] = parts[1].replace(/\n\n+/g, '\n');
+    fixed = parts.join('---');
+  }
+  
+  return fixed;
+}
+
+// Main execution
 const contentDir = path.join(__dirname, '..', 'content');
-console.log('Fixing YAML issues in MDX files...');
-const fixedCount = walkDirectory(contentDir);
-console.log(`Fixed YAML issues in ${fixedCount} files.`);
-console.log('Done!');
+const mdxFiles = findMDXFiles(contentDir);
+
+console.log(`Found ${mdxFiles.length} MDX files to process...`);
+
+let fixedCount = 0;
+
+mdxFiles.forEach(filePath => {
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const fixedContent = fixYAMLIssues(content);
+    
+    if (content !== fixedContent) {
+      fs.writeFileSync(filePath, fixedContent, 'utf8');
+      console.log(`Fixed: ${path.relative(contentDir, filePath)}`);
+      fixedCount++;
+    }
+  } catch (error) {
+    console.error(`Error processing ${filePath}:`, error.message);
+  }
+});
+
+console.log(`\nFixed ${fixedCount} files with YAML issues.`);

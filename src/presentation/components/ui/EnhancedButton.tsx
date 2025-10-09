@@ -280,9 +280,11 @@ export function ButtonGroup({
     className
   );
 
+  const childrenArray = React.Children.toArray(children);
+
   return (
     <div className={groupClasses} role="group">
-      {React.Children.toArray(children).map((child, index) => {
+      {childrenArray.map((child, index) => {
         const childElement = child as React.ReactElement;
         return (
           <div
@@ -292,19 +294,19 @@ export function ButtonGroup({
               orientation === 'vertical' && index > 0 && '-mt-px',
               orientation === 'horizontal' && index === 0 && 'rounded-r-none',
               orientation === 'horizontal' &&
-                index === children.length - 1 &&
+                index === childrenArray.length - 1 &&
                 'rounded-l-none',
               orientation === 'horizontal' &&
                 index > 0 &&
-                index < children.length - 1 &&
+                index < childrenArray.length - 1 &&
                 'rounded-none',
               orientation === 'vertical' && index === 0 && 'rounded-b-none',
               orientation === 'vertical' &&
-                index === children.length - 1 &&
+                index === childrenArray.length - 1 &&
                 'rounded-t-none',
               orientation === 'vertical' &&
                 index > 0 &&
-                index < children.length - 1 &&
+                index < childrenArray.length - 1 &&
                 'rounded-none'
             )}
           >

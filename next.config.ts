@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 import { withContentlayer } from 'next-contentlayer2';
 import createNextIntlPlugin from 'next-intl/plugin';
-import withBundleAnalyzer from '@next/bundle-analyzer';
+const withBundleAnalyzer = require('@next/bundle-analyzer');
 
 const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 

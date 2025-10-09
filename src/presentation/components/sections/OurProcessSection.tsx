@@ -21,7 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { AnimatedIcon } from '@/presentation/components/ui/MicroInteractions';
+import { AnimatedIcon, FadeInScroll } from '@/presentation/components/ui/MicroInteractions';
 import {
   ScrollReveal,
   StaggeredChildren,
@@ -35,7 +35,7 @@ interface OurProcessSectionProps {
 
 interface ProcessStep {
   id: string;
-  icon: React.ComponentType<{ className?: string; size?: number }>;
+  icon: React.ComponentType<any>;
   title: string;
   description: string;
   details: string[];
@@ -49,6 +49,78 @@ interface ProcessStep {
     accent: string;
   };
 }
+
+// Helper function to get Tailwind classes for colors
+const getColorClasses = (colorKey: string): {
+  primary: string; 
+  secondary: string; 
+  accent: string;
+  border: string;
+  bg: string;
+  text: string;
+  bgSecondary: string;
+  bgAccent: string;
+  textAccent: string;
+} => {
+  const colorMap: Record<string, { 
+    primary: string; 
+    secondary: string; 
+    accent: string;
+    border: string;
+    bg: string;
+    text: string;
+    bgSecondary: string;
+    bgAccent: string;
+    textAccent: string;
+  }> = {
+    'gold-500': {
+      primary: 'gold-500',
+      secondary: 'gold-100', 
+      accent: 'gold-600',
+      border: 'border-gold-500',
+      bg: 'bg-gold-500',
+      text: 'text-gold-500',
+      bgSecondary: 'bg-gold-100',
+      bgAccent: 'bg-gold-600',
+      textAccent: 'text-gold-600'
+    },
+    'emerald-600': {
+      primary: 'emerald-600',
+      secondary: 'emerald-100',
+      accent: 'emerald-800', 
+      border: 'border-emerald-600',
+      bg: 'bg-emerald-600',
+      text: 'text-emerald-600',
+      bgSecondary: 'bg-emerald-100',
+      bgAccent: 'bg-emerald-800',
+      textAccent: 'text-emerald-800'
+    },
+    'blue-600': {
+      primary: 'blue-600',
+      secondary: 'blue-100',
+      accent: 'blue-800',
+      border: 'border-blue-600', 
+      bg: 'bg-blue-600',
+      text: 'text-blue-600',
+      bgSecondary: 'bg-blue-100',
+      bgAccent: 'bg-blue-800',
+      textAccent: 'text-blue-800'
+    },
+    'purple-600': {
+      primary: 'purple-600',
+      secondary: 'purple-100',
+      accent: 'purple-800',
+      border: 'border-purple-600',
+      bg: 'bg-purple-600', 
+      text: 'text-purple-600',
+      bgSecondary: 'bg-purple-100',
+      bgAccent: 'bg-purple-800',
+      textAccent: 'text-purple-800'
+    }
+  };
+  
+  return colorMap[colorKey] ?? colorMap['gold-500']!;
+};
 
 export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
   const t = useTranslations('homepage');
@@ -197,24 +269,26 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
             const Icon = step.icon;
             const isActive = index === activeStep;
 
+            const colorClasses = getColorClasses(step.color.primary);
+            
             return (
               <MagneticHover key={step.id}>
                 <button
                   onClick={() => setActiveStep(index)}
                   className={`group relative flex items-center gap-3 rounded-xl border-2 px-6 py-4 transition-all duration-300 hover:scale-105 hover:shadow-lg ${
                     isActive
-                      ? `border-${step.color.primary} bg-${step.color.primary} text-white shadow-lg`
+                      ? `${colorClasses.border} ${colorClasses.bg} text-white shadow-lg`
                       : 'border-forest-200 bg-white text-forest-600 hover:border-forest-400 hover:bg-forest-50'
                   }`}
                 >
                   <div
                     className={`rounded-lg p-2 transition-all duration-300 ${
-                      isActive ? 'bg-white/20' : `bg-${step.color.secondary}`
+                      isActive ? 'bg-white/20' : colorClasses.bgSecondary
                     }`}
                   >
                     <Icon
                       className={`h-5 w-5 transition-all duration-300 ${
-                        isActive ? 'text-white' : `text-${step.color.primary}`
+                        isActive ? 'text-white' : colorClasses.text
                       }`}
                     />
                   </div>
@@ -253,7 +327,7 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                 <CardHeader>
                   <div className="flex items-center gap-4">
                     <div
-                      className={`rounded-xl bg-${currentStep.color.primary} p-3`}
+                      className={`rounded-xl ${getColorClasses(currentStep.color?.primary || 'gold-500').bg} p-3`}
                     >
                       <currentStep.icon className="h-8 w-8 text-white" />
                     </div>
@@ -274,7 +348,7 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                     {currentStep.details.map((detail, index) => (
                       <div key={index} className="flex items-start gap-3">
                         <CheckCircle
-                          className={`mt-0.5 h-5 w-5 flex-shrink-0 text-${currentStep.color.primary}`}
+                          className={`mt-0.5 h-5 w-5 flex-shrink-0 ${getColorClasses(currentStep.color?.primary || 'gold-500').text}`}
                         />
                         <span className="text-forest-700">{detail}</span>
                       </div>
@@ -286,7 +360,7 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                     {currentStep.stats.map((stat, index) => (
                       <div key={index} className="text-center">
                         <div
-                          className={`text-2xl font-bold text-${currentStep.color.primary}`}
+                          className={`text-2xl font-bold ${getColorClasses(currentStep.color?.primary || 'gold-500').text}`}
                         >
                           {stat.value}
                         </div>
@@ -314,6 +388,8 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                         const isActive = index === activeStep;
                         const isPassed = index < activeStep;
 
+                        const stepColorClasses = getColorClasses(step.color?.primary || 'gold-500');
+                        
                         return (
                           <div key={step.id} className="relative">
                             <div className="flex items-center gap-4">
@@ -321,9 +397,9 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                               <div
                                 className={`relative z-10 rounded-full p-3 transition-all duration-300 ${
                                   isActive
-                                    ? `bg-${step.color.primary} shadow-lg`
+                                    ? `${stepColorClasses.bg} shadow-lg`
                                     : isPassed
-                                      ? `bg-${step.color.accent} shadow-md`
+                                      ? `${stepColorClasses.bgAccent} shadow-md`
                                       : 'bg-forest-100'
                                 }`}
                               >
@@ -341,7 +417,7 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                                 <div
                                   className={`font-semibold transition-colors ${
                                     isActive
-                                      ? `text-${step.color.primary}`
+                                      ? stepColorClasses.text
                                       : 'text-forest-700'
                                   }`}
                                 >
@@ -355,7 +431,7 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                               {/* Status Badge */}
                               {isActive && (
                                 <Badge
-                                  className={`bg-${step.color.primary} text-white`}
+                                  className={`${stepColorClasses.bg} text-white`}
                                 >
                                   Active
                                 </Badge>
@@ -363,7 +439,7 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                               {isPassed && (
                                 <AnimatedIcon>
                                   <CheckCircle
-                                    className={`h-5 w-5 text-${step.color.accent}`}
+                                    className={`h-5 w-5 ${stepColorClasses.textAccent}`}
                                   />
                                 </AnimatedIcon>
                               )}
@@ -374,7 +450,7 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                               <div
                                 className={`absolute left-6 top-12 h-8 w-0.5 transition-colors ${
                                   isPassed
-                                    ? `bg-${step.color.accent}`
+                                    ? stepColorClasses.bgAccent
                                     : 'bg-forest-200'
                                 }`}
                               ></div>

@@ -160,8 +160,8 @@ export default function QuotesPage({ params: _params }: QuotesPageProps) {
     });
 
     filtered.sort((a, b) => {
-      let aValue: string | number | Date = a[sortBy as keyof Quote];
-      let bValue: string | number | Date = b[sortBy as keyof Quote];
+      let aValue: string | number | Date = a[sortBy as keyof Quote] ?? '';
+      let bValue: string | number | Date = b[sortBy as keyof Quote] ?? '';
 
       if (sortBy === 'requestedAt' || sortBy === 'expiresAt') {
         aValue = new Date(aValue as string);

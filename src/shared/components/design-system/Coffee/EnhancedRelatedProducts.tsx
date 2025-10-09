@@ -202,6 +202,7 @@ export function EnhancedRelatedProducts({
       bulkOptions[0] || {
         quantity: 1,
         unit: 'MT',
+        pricePerUnit: basePrice,
         discount: 0,
         leadTime: 14,
         packaging: 'Standard',
@@ -652,7 +653,7 @@ export function EnhancedRelatedProducts({
 
       <Tabs
         value={activeTab}
-        onValueChange={(value: string) => setActiveTab(value)}
+        onValueChange={(value) => setActiveTab(value as 'recommendations' | 'bulk' | 'comparison')}
         className="w-full"
       >
         <TabsList className="mx-auto grid w-full max-w-md grid-cols-3">

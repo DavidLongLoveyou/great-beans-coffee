@@ -150,8 +150,7 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
                     {tRfq('shippingMethod')}:
                   </span>
                   <span className="font-medium">
-                    {rfq.deliveryRequirements.shippingMethod ||
-                      'Coffee Trading'}
+                    {'To be determined'}
                   </span>
                 </div>
                 <div className="flex justify-between">

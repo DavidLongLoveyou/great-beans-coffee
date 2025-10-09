@@ -4,8 +4,8 @@ import { Download, FileText, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
-import type { CoffeeProduct } from '@/domain/entities/coffee-product.entity';
-import type { RFQ } from '@/domain/entities/rfq.entity';
+import type { CoffeeProduct, CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
+import type { RFQ, RFQEntity } from '@/domain/entities/rfq.entity';
 import { Button } from '@/presentation/components/ui/button';
 import { usePDFGeneration } from '@/shared/hooks/use-pdf-generation';
 import { cn } from '@/shared/utils';
@@ -91,7 +91,7 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
               'Product data is required for product spec PDF generation'
             );
           }
-          await generateProductSpecSheet(entityData, {
+          await generateProductSpecSheet(entityData as unknown as CoffeeProductEntity, {
             ...options,
             language: locale || 'en',
           });
@@ -102,22 +102,60 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
               'RFQ data is required for RFQ document PDF generation'
             );
           }
-          await generateRFQDocument(entityData, {
+          await generateRFQDocument(entityData as unknown as RFQEntity, {
             ...options,
             language: locale || 'en',
           });
           break;
         case 'marketReport':
+          if (!entityData) {
+            throw new Error('Market report data is required');
+          }
+          // Create a temporary HTML element for market report
+          const marketReportElement = document.createElement('div');
+          marketReportElement.innerHTML = `
+            <div style="padding: 20px; font-family: Arial, sans-serif;">
+              <h1>Market Report</h1>
+              <p>Generated on: ${new Date().toLocaleDateString()}</p>
+              <pre>${JSON.stringify(entityData, null, 2)}</pre>
+            </div>
+          `;
+          document.body.appendChild(marketReportElement);
+          try {
+            await generateFromHTML(
+              marketReportElement,
+              `market-report-${new Date().toISOString().split('T')[0]}.pdf`
+            );
+          } finally {
+            document.body.removeChild(marketReportElement);
+          }
+          break;
+
         case 'certificate':
           if (!entityData) {
-            throw new Error(
-              'Entity data is required for HTML-based PDF generation'
-            );
+            throw new Error('Certificate data is required');
           }
-          await generateFromHTML(entityData, `${type}-${entityId}`, {
-            ...options,
-            language: locale || 'en',
-          });
+          // Create a temporary HTML element for certificate
+          const certificateElement = document.createElement('div');
+          certificateElement.innerHTML = `
+            <div style="padding: 20px; font-family: Arial, sans-serif; text-align: center;">
+              <h1>Certificate</h1>
+              <p>This certifies that the following information is accurate:</p>
+              <div style="margin: 20px 0; text-align: left;">
+                <pre>${JSON.stringify(entityData, null, 2)}</pre>
+              </div>
+              <p>Generated on: ${new Date().toLocaleDateString()}</p>
+            </div>
+          `;
+          document.body.appendChild(certificateElement);
+          try {
+            await generateFromHTML(
+              certificateElement,
+              `certificate-${new Date().toISOString().split('T')[0]}.pdf`
+            );
+          } finally {
+            document.body.removeChild(certificateElement);
+          }
           break;
         default:
           throw new Error(`Unsupported PDF type: ${type}`);

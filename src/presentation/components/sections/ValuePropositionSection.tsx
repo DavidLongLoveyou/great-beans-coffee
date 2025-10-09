@@ -20,9 +20,11 @@ import {
   FloatingElement,
 } from '@/presentation/components/ui/ScrollAnimations';
 
-interface ValuePropositionSectionProps {}
+interface ValuePropositionSectionProps {
+  locale: string;
+}
 
-export function ValuePropositionSection({}: ValuePropositionSectionProps) {
+export function ValuePropositionSection({ locale }: ValuePropositionSectionProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -362,7 +364,7 @@ export function ValuePropositionSection({}: ValuePropositionSectionProps) {
               { name: 'EU Organic', desc: 'European Organic' },
               { name: 'JAS Organic', desc: 'Japan Agricultural Standards' },
               { name: 'KOSHER', desc: 'Kosher Certification' },
-            ].map(cert => (
+            ].map((cert, index) => (
               <motion.div
                 key={cert.name}
                 className="group relative overflow-hidden rounded-lg border border-coffee-200 bg-white p-4 text-center shadow-sm transition-all duration-300 hover:border-coffee-300 hover:shadow-md"
@@ -438,7 +440,7 @@ export function ValuePropositionSection({}: ValuePropositionSectionProps) {
               { number: '500+', label: 'B2B Partners', icon: Users },
               { number: '15+', label: 'Years Experience', icon: TrendingUp },
               { number: '99.8%', label: 'On-Time Delivery', icon: Truck },
-            ].map(stat => (
+            ].map((stat, index) => (
               <motion.div
                 key={stat.label}
                 className="text-center"

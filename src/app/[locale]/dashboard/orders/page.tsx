@@ -203,8 +203,8 @@ export default function OrdersPage({ params: _params }: OrdersPageProps) {
     });
 
     filtered.sort((a, b) => {
-      let aValue: string | number | Date = a[sortBy as keyof Order];
-      let bValue: string | number | Date = b[sortBy as keyof Order];
+      let aValue: string | number | Date = a[sortBy as keyof Order] ?? '';
+      let bValue: string | number | Date = b[sortBy as keyof Order] ?? '';
 
       if (sortBy === 'orderDate' || sortBy === 'deliveryDate') {
         aValue = new Date(aValue as string);
