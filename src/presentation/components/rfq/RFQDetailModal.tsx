@@ -22,8 +22,6 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { formatDateTimeLong, formatDeadline } from '@/lib/date-utils';
-import { useMarket } from '@/shared/hooks/useMarket';
-
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -47,6 +45,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
+import { useMarket } from '@/shared/hooks/useMarket';
 
 interface RFQDetailModalProps {
   isOpen: boolean;

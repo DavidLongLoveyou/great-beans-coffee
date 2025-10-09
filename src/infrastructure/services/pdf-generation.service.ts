@@ -10,11 +10,12 @@
  * Supports both client-side (jsPDF) and server-side (Puppeteer) generation
  */
 
-import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { createScopedLogger } from '@/shared/utils/logger';
+import jsPDF from 'jspdf';
+
 import { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
 import { RFQEntity } from '@/domain/entities/rfq.entity';
+import { createScopedLogger } from '@/shared/utils/logger';
 
 const logger = createScopedLogger('PDFGenerationService');
 

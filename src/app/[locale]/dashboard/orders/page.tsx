@@ -1,7 +1,5 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import Link from 'next/link';
 import {
   ArrowUpDown,
   CheckCircle,
@@ -19,7 +17,9 @@ import {
   Truck,
   XCircle,
 } from 'lucide-react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { useState, useMemo } from 'react';
 
 import { type Locale } from '@/i18n';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';

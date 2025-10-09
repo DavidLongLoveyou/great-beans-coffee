@@ -3,8 +3,15 @@
 import { Filter, X, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
-import { Button } from '@/presentation/components/ui/button';
 import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
+import { Checkbox } from '@/presentation/components/ui/checkbox';
+import { Label } from '@/presentation/components/ui/label';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/presentation/components/ui/popover';
 import {
   Select,
   SelectContent,
@@ -12,13 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/presentation/components/ui/select';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/presentation/components/ui/popover';
-import { Checkbox } from '@/presentation/components/ui/checkbox';
-import { Label } from '@/presentation/components/ui/label';
 import { Separator } from '@/presentation/components/ui/separator';
 import { cn } from '@/shared/utils/cn';
 

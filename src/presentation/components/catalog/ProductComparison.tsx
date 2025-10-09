@@ -1,9 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
 import { X, Download, ShoppingCart, FileText } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import React, { useState } from 'react';
 
+import type { CatalogProduct } from '@/data/product-catalog';
+import {
+  CoffeeGrade as CatalogCoffeeGrade,
+  ProcessingMethod as CatalogProcessingMethod,
+} from '@/data/product-catalog';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -12,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { Checkbox } from '@/presentation/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -27,22 +33,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/presentation/components/ui/table';
-import { Checkbox } from '@/presentation/components/ui/checkbox';
 import { CertificationBadge } from '@/shared/components/design-system/Coffee/CertificationBadge';
 import { CoffeeGradeIndicator } from '@/shared/components/design-system/Coffee/CoffeeGradeIndicator';
 import { OriginFlag } from '@/shared/components/design-system/Coffee/OriginFlag';
 import { ProcessingMethodBadge } from '@/shared/components/design-system/Coffee/ProcessingMethodBadge';
-import { CardImage } from '@/shared/components/performance/OptimizedImage';
 import type {
   CoffeeOrigin,
   CoffeeGrade,
   ProcessingMethod,
 } from '@/shared/components/design-system/types';
-import type { CatalogProduct } from '@/data/product-catalog';
-import {
-  CoffeeGrade as CatalogCoffeeGrade,
-  ProcessingMethod as CatalogProcessingMethod,
-} from '@/data/product-catalog';
+import { CardImage } from '@/shared/components/performance/OptimizedImage';
 
 // Helper function to map region string to CoffeeOrigin type
 const mapRegionToOrigin = (region: string): CoffeeOrigin => {

@@ -1,5 +1,6 @@
-import { Prisma, RFQStatus as PrismaRFQStatus } from '@prisma/client';
 import { randomUUID } from 'crypto';
+
+import { Prisma, RFQStatus as PrismaRFQStatus } from '@prisma/client';
 
 import {
   RFQEntity,

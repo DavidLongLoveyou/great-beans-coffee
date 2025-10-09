@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
 import {
   Calculator,
   Ship,
@@ -12,7 +11,15 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useState, useEffect, useMemo } from 'react';
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/presentation/components/ui';
+import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
   Card,
@@ -30,19 +37,12 @@ import {
   SelectValue,
 } from '@/presentation/components/ui/select';
 import { Separator } from '@/presentation/components/ui/separator';
-import { Badge } from '@/presentation/components/ui/badge';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/presentation/components/ui';
+import { getMarketConfig } from '@/shared/config/markets';
 import { useMarket, useMarketShipping } from '@/shared/hooks/useMarket';
 import {
   calculateShippingEstimate,
   getNearestPort,
 } from '@/shared/utils/market';
-import { getMarketConfig } from '@/shared/config/markets';
 
 interface LogisticsCostEstimatorProps {
   className?: string;

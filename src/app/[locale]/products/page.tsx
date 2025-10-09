@@ -13,24 +13,6 @@ import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
 
 import {
-  ProductFilters,
-  type ProductFilters as ProductFiltersType,
-} from '@/presentation/components/catalog/ProductFilters';
-import { ProductGrid } from '@/presentation/components/catalog/ProductGrid';
-import type { Product } from '@/presentation/components/catalog/ProductGrid';
-import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
-import { ContentSection } from '@/presentation/components/layout/ContentSection';
-import { ServerButton } from '@/presentation/components/ui/server-button';
-import { Badge } from '@/presentation/components/ui/badge';
-import { Button } from '@/presentation/components/ui/button';
-import type {
-  CoffeeGrade,
-  ProcessingMethod,
-  CoffeeCertification,
-} from '@/shared/components/design-system/types';
-import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
-import { SectionHeading } from '@/shared/components/typography/SectionHeading';
-import {
   VIETNAMESE_COFFEE_CATALOG,
   searchProducts,
   filterProducts,
@@ -41,6 +23,24 @@ import {
   CertificationType,
   type ProductFilters as CatalogProductFilters,
 } from '@/data/product-catalog';
+import {
+  ProductFilters,
+  type ProductFilters as ProductFiltersType,
+} from '@/presentation/components/catalog/ProductFilters';
+import { ProductGrid } from '@/presentation/components/catalog/ProductGrid';
+import type { Product } from '@/presentation/components/catalog/ProductGrid';
+import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
+import { ContentSection } from '@/presentation/components/layout/ContentSection';
+import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
+import { ServerButton } from '@/presentation/components/ui/server-button';
+import type {
+  CoffeeGrade,
+  ProcessingMethod,
+  CoffeeCertification,
+} from '@/shared/components/design-system/types';
+import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
+import { SectionHeading } from '@/shared/components/typography/SectionHeading';
 
 // Convert catalog product to grid product format
 const convertCatalogToGridProduct = (

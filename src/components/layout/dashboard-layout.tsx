@@ -1,9 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 import {
   LayoutDashboard,
   FileText,
@@ -20,15 +16,19 @@ import {
   Bell,
   Search,
 } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
-import { Button } from '@/presentation/components/ui/button';
-import { Input } from '@/presentation/components/ui/input';
-import { Badge } from '@/presentation/components/ui/badge';
+import { cn } from '@/lib/utils';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@/presentation/components/ui/avatar';
+import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,12 +37,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/presentation/components/ui/dropdown-menu';
+import { Input } from '@/presentation/components/ui/input';
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from '@/presentation/components/ui/sheet';
-import { cn } from '@/lib/utils';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;

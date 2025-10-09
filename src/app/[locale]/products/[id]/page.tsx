@@ -29,9 +29,21 @@ import {
 } from 'lucide-react';
 import { type Metadata } from 'next';
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
+import { BulkPricingCalculator } from '@/components/ui/BulkPricingCalculator';
+import { LogisticsCostEstimator } from '@/components/ui/LogisticsCostEstimator';
+import {
+  getProductById,
+  searchProducts,
+  filterProducts,
+  type CatalogProduct,
+  CoffeeType,
+  CoffeeGrade,
+  ProcessingMethod,
+  CertificationType,
+} from '@/data/product-catalog';
 import { type Locale } from '@/i18n';
 import { SEOHead } from '@/presentation/components/seo/SEOHead';
 import { Badge } from '@/presentation/components/ui/badge';
@@ -69,24 +81,12 @@ import {
   CoffeeHeading,
   SectionHeading,
 } from '@/shared/components/design-system/Typography/Heading';
+import { ProductSpecDownloadButton } from '@/shared/components/pdf';
 import { generateB2BProductSchema } from '@/shared/utils/enhanced-structured-data';
-import { LogisticsCostEstimator } from '@/components/ui/LogisticsCostEstimator';
-import { BulkPricingCalculator } from '@/components/ui/BulkPricingCalculator';
 import {
   generateMetadata as generateSEOMetadata,
   generateOrganizationSchema,
 } from '@/shared/utils/seo-utils';
-import { ProductSpecDownloadButton } from '@/shared/components/pdf';
-import {
-  getProductById,
-  searchProducts,
-  filterProducts,
-  type CatalogProduct,
-  CoffeeType,
-  CoffeeGrade,
-  ProcessingMethod,
-  CertificationType,
-} from '@/data/product-catalog';
 
 interface ProductDetailPageProps {
   params: Promise<{

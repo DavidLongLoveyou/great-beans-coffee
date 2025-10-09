@@ -24,27 +24,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
-import { type Locale } from '@/i18n';
-import { SEOHead } from '@/presentation/components/seo';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/presentation/components/ui/card';
-import { ServerButton } from '@/presentation/components/ui/server-button';
-import { Badge } from '@/presentation/components/ui/badge';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/presentation/components/ui/tabs';
-import {
-  generateMetadata as generateSEOMetadata,
-  generateServiceSchema,
-} from '@/shared/utils/seo-utils';
+import { CertificationType } from '@/data/product-catalog';
 import {
   getServiceByCode,
   filterServices,
@@ -55,9 +35,29 @@ import {
   DeliveryTimeframe,
   PricingModel,
 } from '@/data/service-catalog';
+import { type Locale } from '@/i18n';
+import { SEOHead } from '@/presentation/components/seo';
+import { Badge } from '@/presentation/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/presentation/components/ui/card';
+import { ServerButton } from '@/presentation/components/ui/server-button';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/presentation/components/ui/tabs';
 import { CertificationBadge } from '@/shared/components/design-system/Coffee';
-import { CertificationType } from '@/data/product-catalog';
 import type { CoffeeCertification } from '@/shared/components/design-system/types';
+import {
+  generateMetadata as generateSEOMetadata,
+  generateServiceSchema,
+} from '@/shared/utils/seo-utils';
 
 // Helper function to convert CertificationType enum to CoffeeCertification format
 const mapCertificationToDesignSystem = (

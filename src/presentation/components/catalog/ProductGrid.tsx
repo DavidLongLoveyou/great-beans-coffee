@@ -17,7 +17,6 @@ import { useState, useMemo } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
-import { Checkbox } from '@/presentation/components/ui/checkbox';
 import {
   Card,
   CardContent,
@@ -25,6 +24,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { Checkbox } from '@/presentation/components/ui/checkbox';
 import {
   Select,
   SelectContent,

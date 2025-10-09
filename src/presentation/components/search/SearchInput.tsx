@@ -3,14 +3,14 @@
 import { Search, X, Clock, TrendingUp, Sparkles } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-import { Input } from '@/presentation/components/ui/input';
+import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
+import { Input } from '@/presentation/components/ui/input';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/presentation/components/ui/popover';
-import { Badge } from '@/presentation/components/ui/badge';
 import { cn } from '@/shared/utils/cn';
 
 interface SearchSuggestion {

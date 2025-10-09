@@ -20,7 +20,6 @@ import {
 import { useTranslations } from 'next-intl';
 
 import { formatDateTime } from '@/lib/date-utils';
-import { useMarket } from '@/shared/hooks/useMarket';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -30,14 +29,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/presentation/components/ui/table';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -52,6 +43,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/presentation/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/presentation/components/ui/table';
+import { useMarket } from '@/shared/hooks/useMarket';
 
 export interface RFQItem {
   id: string;

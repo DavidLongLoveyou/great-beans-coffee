@@ -1,24 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { Search, Filter, X, TrendingUp, Clock, Hash } from 'lucide-react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Search, Filter, X, TrendingUp, Clock, Hash } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { type Locale } from '@/i18n';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
 import { ContentSection } from '@/presentation/components/layout/ContentSection';
-import { SectionHeading } from '@/shared/components/typography/SectionHeading';
-import { Button } from '@/presentation/components/ui/button';
-import { Card, CardContent } from '@/presentation/components/ui/card';
-import { Badge } from '@/presentation/components/ui/badge';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/presentation/components/ui/sheet';
 import {
   SearchInput,
   SearchFilters,
@@ -29,6 +18,17 @@ import {
   type SearchResultItem,
   type SearchSuggestion,
 } from '@/presentation/components/search';
+import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
+import { Card, CardContent } from '@/presentation/components/ui/card';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/presentation/components/ui/sheet';
+import { SectionHeading } from '@/shared/components/typography/SectionHeading';
 import { cn } from '@/shared/utils/cn';
 
 interface SearchFiltersState {

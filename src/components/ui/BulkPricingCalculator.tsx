@@ -1,19 +1,5 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent } from '@/presentation/components/ui/card';
-import { SectionHeading } from '@/shared/components/design-system/Typography/Heading';
-import { Button } from '@/presentation/components/ui/button';
-import { Input } from '@/presentation/components/ui/input';
-import { Label } from '@/presentation/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/presentation/components/ui/select';
-import { Badge } from '@/presentation/components/ui/badge';
 import {
   Calculator,
   TrendingDown,
@@ -26,7 +12,22 @@ import {
   Download,
   Share2,
 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+
 import { type CatalogProduct } from '@/data/product-catalog';
+import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
+import { Card, CardContent } from '@/presentation/components/ui/card';
+import { Input } from '@/presentation/components/ui/input';
+import { Label } from '@/presentation/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/presentation/components/ui/select';
+import { SectionHeading } from '@/shared/components/design-system/Typography/Heading';
 
 interface BulkPricingCalculatorProps {
   product: CatalogProduct;

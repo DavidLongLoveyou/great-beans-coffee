@@ -1,4 +1,5 @@
 import { LucideIcon } from 'lucide-react';
+
 import { Typography } from '@/presentation/components/ui/typography';
 
 interface PageHeaderProps {

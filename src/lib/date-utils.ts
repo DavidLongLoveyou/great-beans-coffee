@@ -2,8 +2,8 @@
 // DATE UTILITIES - LOCALIZED FORMATTING
 // ================================
 
-import { Locale } from '@/shared/types/locale.types';
 import { getMarketConfig } from '@/shared/config/markets';
+import { Locale } from '@/shared/types/locale.types';
 
 /**
  * Format date with locale-specific formatting

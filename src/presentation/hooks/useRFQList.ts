@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
-import { RFQItem } from '@/presentation/components/rfq/RFQListTable';
+
 import {
   RFQFilters,
   RFQSortConfig,
 } from '@/presentation/components/rfq/RFQListFilters';
+import { RFQItem } from '@/presentation/components/rfq/RFQListTable';
 
 export interface UseRFQListProps {
   initialData: RFQItem[];

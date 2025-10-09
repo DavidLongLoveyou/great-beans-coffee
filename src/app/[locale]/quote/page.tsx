@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import React, { use } from 'react';
 
+import { LogisticsCostEstimator } from '@/components/ui/LogisticsCostEstimator';
 import { type Locale } from '@/i18n';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -33,7 +34,6 @@ import {
   SelectValue,
 } from '@/presentation/components/ui/select';
 import { Textarea } from '@/presentation/components/ui/textarea';
-import { LogisticsCostEstimator } from '@/components/ui/LogisticsCostEstimator';
 import { useRfqForm, useMultiStepForm } from '@/presentation/hooks';
 import { useHydrationSafeRfqNumber } from '@/shared/hooks/useHydrationSafeRfqNumber';
 

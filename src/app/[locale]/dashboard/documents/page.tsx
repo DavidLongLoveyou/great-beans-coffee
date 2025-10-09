@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useMemo } from 'react';
 import {
   AlertTriangle,
   Archive,
@@ -24,6 +23,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useState, useMemo } from 'react';
 
 import { type Locale } from '@/i18n';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
