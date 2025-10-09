@@ -1,9 +1,14 @@
 'use client';
 
 import { Coffee, Globe, Award, ArrowRight } from 'lucide-react';
+
 import { EnhancedButton } from '@/presentation/components/ui/EnhancedButton';
-import { ScrollReveal, StaggeredChildren, FloatingElement, MagneticHover } from '@/presentation/components/ui/ScrollAnimations';
-import { OptimizedBackgroundImage } from '@/presentation/components/ui/OptimizedImage';
+import {
+  ScrollReveal,
+  StaggeredChildren,
+  FloatingElement,
+  MagneticHover,
+} from '@/presentation/components/ui/ScrollAnimations';
 
 interface HeroSectionProps {
   title: string;
@@ -44,7 +49,7 @@ export function HeroSection({
             {/* Premium Badge */}
             <ScrollReveal direction="down" delay={0.2}>
               <MagneticHover strength={0.2}>
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/20 px-3 py-2 sm:mb-6 sm:px-4 backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/20">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/20 px-3 py-2 backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/20 sm:mb-6 sm:px-4">
                   <Award className="h-4 w-4 text-emerald-400" />
                   <span className="text-xs font-medium text-emerald-200 sm:text-sm">
                     Premium Vietnamese Coffee Export
@@ -56,11 +61,7 @@ export function HeroSection({
             {/* Main Title */}
             <StaggeredChildren staggerDelay={0.1} childDelay={0.4}>
               <h1 className="mb-4 text-3xl font-bold leading-tight text-white sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
-                <span className="block">Premium</span>
-                <span className="text-gradient-emerald block bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
-                  Vietnamese Coffee
-                </span>
-                <span className="block">Export Solutions</span>
+                {title}
               </h1>
             </StaggeredChildren>
 
@@ -163,7 +164,7 @@ export function HeroSection({
                     <Award className="h-6 w-6 text-emerald-200 lg:h-8 lg:w-8" />
                   </div>
                 </FloatingElement>
-                
+
                 <FloatingElement amplitude={10} frequency={4} delay={1}>
                   <div className="absolute -bottom-4 -left-4 flex hidden h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-forest-400/40 to-forest-600/40 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:shadow-lg sm:block lg:-bottom-8 lg:-left-8 lg:h-20 lg:w-20">
                     <Globe className="h-8 w-8 text-forest-200 lg:h-10 lg:w-10" />
@@ -177,18 +178,22 @@ export function HeroSection({
                       <div className="text-xs font-semibold text-emerald-400 sm:text-sm">
                         Premium Grade
                       </div>
-                      <div className="text-xs text-forest-200">ISO Certified</div>
+                      <div className="text-xs text-forest-200">
+                        ISO Certified
+                      </div>
                     </div>
                   </MagneticHover>
                 </ScrollReveal>
-                
+
                 <ScrollReveal direction="right" delay={1.2} duration={0.6}>
                   <MagneticHover strength={0.15}>
                     <div className="absolute bottom-1/4 right-2 rounded-lg border border-emerald-400/30 bg-forest-800/80 px-2 py-1 backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50 hover:bg-forest-800/90 hover:shadow-lg sm:-right-6 sm:px-4 sm:py-2 lg:-right-12">
                       <div className="text-xs font-semibold text-emerald-400 sm:text-sm">
                         Global Export
                       </div>
-                      <div className="text-xs text-forest-200">25+ Countries</div>
+                      <div className="text-xs text-forest-200">
+                        25+ Countries
+                      </div>
                     </div>
                   </MagneticHover>
                 </ScrollReveal>

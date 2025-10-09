@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { getRfqByIdUseCase } from '@/infrastructure/di/container';
-import { createScopedLogger } from '@/shared/utils/logger';
+import { RFQEntity } from '../../../../domain/entities/rfq.entity';
+import { getRfqByIdUseCase } from '../../../../infrastructure/di/container';
+import { createScopedLogger } from '../../../../shared/utils/logger';
 
 const logger = createScopedLogger('RFQ-ID-API');
 
@@ -46,32 +47,34 @@ export async function GET(
 
     logger.info('RFQ fetched successfully', { rfqId: id });
 
+    const rfq = result.rfq as RFQEntity;
+
     return NextResponse.json({
       success: true,
       message: result.message,
       data: {
-        id: result.rfq!.id,
-        rfqNumber: result.rfq!.rfqNumber,
-        status: result.rfq!.status,
-        priority: result.rfq!.priority,
-        companyInfo: result.rfq!.companyInfo,
-        productRequirements: result.rfq!.productRequirements,
-        quantityRequirements: result.rfq!.quantityRequirements,
-        deliveryRequirements: result.rfq!.deliveryRequirements,
-        paymentTerms: result.rfq!.paymentTerms,
-        additionalRequirements: result.rfq!.additionalRequirements,
-        sampleRequired: result.rfq!.sampleRequired,
-        submittedAt: result.rfq!.submittedAt,
-        lastActivityAt: result.rfq!.lastActivityAt,
+        id: rfq.id,
+        rfqNumber: rfq.rfqNumber,
+        status: rfq.status,
+        priority: rfq.priority,
+        companyInfo: rfq.companyInfo,
+        productRequirements: rfq.productRequirements,
+        quantityRequirements: rfq.quantityRequirements,
+        deliveryRequirements: rfq.deliveryRequirements,
+        paymentTerms: rfq.paymentTerms,
+        additionalRequirements: rfq.additionalRequirements,
+        sampleRequired: rfq.sampleRequired,
+        submittedAt: rfq.submittedAt,
+        lastActivityAt: rfq.lastActivityAt,
         // Include additional fields if they exist
-        assignedTo: result.rfq!.assignedTo,
-        estimatedValue: result.rfq!.estimatedValue,
-        probability: result.rfq!.probability,
-        competitorInfo: result.rfq!.competitorInfo,
-        quoteSentAt: result.rfq!.quoteSentAt,
-        quoteValidUntil: result.rfq!.quoteValidUntil,
-        documents: result.rfq!.documents,
-        communications: result.rfq!.communications,
+        assignedTo: rfq.assignedTo,
+        estimatedValue: rfq.estimatedValue,
+        probability: rfq.probability,
+        competitorInfo: rfq.competitorInfo,
+        quoteSentAt: rfq.quoteSentAt,
+        quoteValidUntil: rfq.quoteValidUntil,
+        documents: rfq.documents,
+        communications: rfq.communications,
       },
     });
   } catch (error) {

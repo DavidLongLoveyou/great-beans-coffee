@@ -1,21 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { rfqRepository } from '@/infrastructure/database/repositories';
-import { createScopedLogger } from '@/shared/utils/logger';
+import { rfqRepository } from '../../../../../infrastructure/di/container';
+import { CommunicationType } from '../../../../../shared/types/business.types';
+import { createScopedLogger } from '../../../../../shared/utils/logger';
 
 const logger = createScopedLogger('RFQ-Communications-API');
 
 // Validation schema for adding communication
 const addCommunicationSchema = z.object({
-  type: z.enum([
-    'EMAIL',
-    'PHONE_CALL',
-    'MEETING',
-    'QUOTE_SENT',
-    'SAMPLE_SENT',
-    'INTERNAL_NOTE',
-  ]),
+  type: z.nativeEnum(CommunicationType),
   subject: z.string().optional(),
   content: z.string().min(1, 'Content is required'),
   isInternal: z.boolean().default(false),

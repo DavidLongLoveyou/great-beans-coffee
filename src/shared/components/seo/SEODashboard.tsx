@@ -328,7 +328,8 @@ export function SEODashboard({
                         <div className="space-y-3">
                           {auditState.result.issues.map((issue, index) => (
                             <div
-                              key={index}
+                              // eslint-disable-next-line react/no-array-index-key
+                              key={`issue-${issue.title}-${index}`}
                               className="flex items-start space-x-3 rounded-lg border p-3"
                             >
                               {getIssueIcon(issue.type)}
@@ -370,7 +371,8 @@ export function SEODashboard({
                           {auditState.result.recommendations.map(
                             (rec, index) => (
                               <div
-                                key={index}
+                                // eslint-disable-next-line react/no-array-index-key
+                                key={`recommendation-${rec.title}-${index}`}
                                 className="space-y-2 rounded-lg border p-3"
                               >
                                 <div className="flex items-center justify-between">
@@ -654,7 +656,8 @@ export function SEODashboard({
                         <div className="space-y-3">
                           {batchState.results.map((result, index) => (
                             <div
-                              key={index}
+                              // eslint-disable-next-line react/no-array-index-key
+                              key={`batch-result-${result.url}-${index}`}
                               className="flex items-center justify-between rounded-lg border p-3"
                             >
                               <div className="flex-1">

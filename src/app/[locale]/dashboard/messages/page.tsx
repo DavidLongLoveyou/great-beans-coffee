@@ -1,55 +1,47 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { useTranslations } from 'next-intl';
 import {
-  MessageSquare,
-  Bell,
-  Ticket,
-  Search,
-  Filter,
-  Plus,
-  Send,
-  Paperclip,
-  MoreVertical,
-  Phone,
-  Video,
-  Star,
-  Archive,
-  Trash2,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  User,
-  Calendar,
-  Tag,
   ArrowLeft,
+  Archive,
+  Bell,
+  Calendar,
+  CheckCircle,
+  Clock,
+  MessageSquare,
+  MoreVertical,
+  Paperclip,
+  Phone,
+  Plus,
+  Search,
+  Send,
+  Star,
+  Tag,
+  Trash2,
+  User,
+  Video,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
 import { PageHeader } from '@/components/layout/page-header';
-import { Typography } from '@/presentation/components/ui/typography';
-import { Button } from '@/presentation/components/ui/button';
-import { Input } from '@/presentation/components/ui/input';
-import { Textarea } from '@/presentation/components/ui/textarea';
-import { Badge } from '@/presentation/components/ui/badge';
+import { cn } from '@/lib/utils';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@/presentation/components/ui/avatar';
+import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
+import { Card, CardContent } from '@/presentation/components/ui/card';
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/presentation/components/ui/card';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/presentation/components/ui/tabs';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/presentation/components/ui/dropdown-menu';
+import { Input } from '@/presentation/components/ui/input';
+import { ScrollArea } from '@/presentation/components/ui/scroll-area';
 import {
   Select,
   SelectContent,
@@ -58,14 +50,13 @@ import {
   SelectValue,
 } from '@/presentation/components/ui/select';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/presentation/components/ui/dropdown-menu';
-import { Separator } from '@/presentation/components/ui/separator';
-import { ScrollArea } from '@/presentation/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/presentation/components/ui/tabs';
+import { Textarea } from '@/presentation/components/ui/textarea';
+import { Typography } from '@/presentation/components/ui/typography';
 
 // Mock data
 const mockConversations = [

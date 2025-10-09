@@ -1,16 +1,24 @@
 import { Prisma, RFQStatus as PrismaRFQStatus } from '@prisma/client';
+import { randomUUID } from 'crypto';
 
 import {
   RFQEntity,
   type RFQ,
   type RFQStatus,
+  type RFQPriority,
+  type RFQQuote,
 } from '../../../domain/entities/rfq.entity';
+import {
+  type RFQSearchCriteria,
+  type RFQSearchResult,
+  type RFQAnalytics,
+} from '../../../domain/repositories/rfq.repository';
 import { prisma } from '../prisma';
 
 export interface IRFQRepository {
   findById(id: string): Promise<RFQEntity | null>;
   findByRfqNumber(rfqNumber: string): Promise<RFQEntity | null>;
-  findAll(filters?: RFQFilters): Promise<RFQEntity[]>;
+  findAll(filters?: RFQSearchCriteria): Promise<RFQEntity[]>;
   findByStatus(status: string): Promise<RFQEntity[]>;
   findByCompany(companyId: string): Promise<RFQEntity[]>;
   findPending(): Promise<RFQEntity[]>;
@@ -22,22 +30,6 @@ export interface IRFQRepository {
   addCommunication(rfqId: string, communication: any): Promise<void>;
   addDocument(rfqId: string, document: any): Promise<void>;
   getAnalytics(startDate?: Date, endDate?: Date): Promise<any>;
-}
-
-export interface RFQFilters {
-  status?: string[];
-  priority?: string[];
-  businessType?: string[];
-  companyId?: string;
-  productType?: string[];
-  minValue?: number;
-  maxValue?: number;
-  dateFrom?: Date;
-  dateTo?: Date;
-  limit?: number;
-  offset?: number;
-  sortBy?: 'createdAt' | 'updatedAt';
-  sortOrder?: 'asc' | 'desc';
 }
 
 export class RFQRepository implements IRFQRepository {
@@ -133,38 +125,78 @@ export class RFQRepository implements IRFQRepository {
     return rfq ? this.mapToEntity(rfq) : null;
   }
 
-  async findAll(filters?: RFQFilters): Promise<RFQEntity[]> {
+  async findAll(filters?: RFQSearchCriteria): Promise<RFQEntity[]> {
     const where: Prisma.RFQWhereInput = {};
 
     if (filters) {
-      if (filters.status?.length) {
-        where.status = { in: filters.status as any[] };
-      }
-      if (filters.priority?.length) {
-        where.priority = { in: filters.priority as any[] };
-      }
-
-      if (filters.companyId) {
-        where.clientId = filters.companyId;
+      // Handle status filter (can be single value or array)
+      if (filters.status) {
+        if (Array.isArray(filters.status)) {
+          where.status = { in: filters.status as any[] };
+        } else {
+          where.status = filters.status as any;
+        }
       }
 
+      // Handle priority filter (can be single value or array)
+      if (filters.priority) {
+        if (Array.isArray(filters.priority)) {
+          where.priority = { in: filters.priority as any[] };
+        } else {
+          where.priority = filters.priority as any;
+        }
+      }
+
+      // Client filters
+      if (filters.clientId) {
+        where.clientId = filters.clientId;
+      }
+
+      // Value filters
       if (filters.minValue !== undefined || filters.maxValue !== undefined) {
         where.totalValue = {
           ...(filters.minValue !== undefined && { gte: filters.minValue }),
           ...(filters.maxValue !== undefined && { lte: filters.maxValue }),
         };
       }
-      if (filters.dateFrom || filters.dateTo) {
+
+      // Date filters
+      if (filters.submittedAfter || filters.submittedBefore) {
         where.createdAt = {
-          ...(filters.dateFrom && { gte: filters.dateFrom }),
-          ...(filters.dateTo && { lte: filters.dateTo }),
+          ...(filters.submittedAfter && { gte: filters.submittedAfter }),
+          ...(filters.submittedBefore && { lte: filters.submittedBefore }),
         };
+      }
+
+      // Text search
+      if (filters.searchTerm) {
+        where.OR = [
+          { companyName: { contains: filters.searchTerm } },
+          { contactPerson: { contains: filters.searchTerm } },
+          { notes: { contains: filters.searchTerm } },
+        ];
       }
     }
 
     const orderBy: Prisma.RFQOrderByWithRelationInput = {};
     if (filters?.sortBy) {
-      orderBy[filters.sortBy] = filters.sortOrder || 'desc';
+      // Map domain sortBy values to database fields
+      let sortField: keyof Prisma.RFQOrderByWithRelationInput;
+      switch (filters.sortBy) {
+        case 'submittedAt':
+          sortField = 'createdAt';
+          break;
+        case 'estimatedValue':
+          sortField = 'totalValue';
+          break;
+        case 'responseDeadline':
+          sortField = 'deadline';
+          break;
+        default:
+          sortField =
+            filters.sortBy as keyof Prisma.RFQOrderByWithRelationInput;
+      }
+      orderBy[sortField] = filters.sortOrder || 'desc';
     } else {
       orderBy.createdAt = 'desc';
     }
@@ -174,7 +206,8 @@ export class RFQRepository implements IRFQRepository {
       include: this.getIncludeClause(),
       orderBy,
       ...(filters?.limit && { take: filters.limit }),
-      ...(filters?.offset && { skip: filters.offset }),
+      ...(filters?.page &&
+        filters?.limit && { skip: (filters.page - 1) * filters.limit }),
     });
 
     return rfqs.map(rfq => this.mapToEntity(rfq));
@@ -182,8 +215,8 @@ export class RFQRepository implements IRFQRepository {
 
   async findByStatus(status: string): Promise<RFQEntity[]> {
     return this.findAll({
-      status: [status],
-      sortBy: 'createdAt',
+      status: status as any,
+      sortBy: 'submittedAt',
       sortOrder: 'desc',
     });
   }
@@ -325,7 +358,129 @@ export class RFQRepository implements IRFQRepository {
     throw new Error('addDocument not implemented - missing RFQDocument model');
   }
 
-  async getAnalytics(startDate?: Date, endDate?: Date): Promise<any> {
+  async getCommunicationHistory(id: string): Promise<any[]> {
+    // Placeholder implementation - would need RFQCommunication model
+    return [];
+  }
+
+  async markAsRead(
+    id: string,
+    communicationId: string,
+    readBy: string
+  ): Promise<RFQEntity> {
+    // Placeholder implementation - would need RFQCommunication model
+    const rfq = await this.findById(id);
+    if (!rfq) {
+      throw new Error('RFQ not found');
+    }
+    return rfq;
+  }
+
+  async getQuotes(id: string): Promise<RFQQuote[]> {
+    // Placeholder implementation - would need RFQQuote model
+    return [];
+  }
+
+  async createQuote(
+    id: string,
+    quote: Omit<RFQQuote, 'id' | 'createdAt'>
+  ): Promise<RFQQuote> {
+    // Placeholder implementation - would need RFQQuote model
+    const rfq = await this.findById(id);
+    if (!rfq) {
+      throw new Error('RFQ not found');
+    }
+
+    // Create a mock quote object for now
+    const createdQuote: RFQQuote = {
+      id: randomUUID(),
+      createdAt: new Date(),
+      ...quote,
+    };
+
+    return createdQuote;
+  }
+
+  async updateQuoteStatus(
+    id: string,
+    quoteId: string,
+    status: string,
+    notes?: string,
+    updatedBy?: string
+  ): Promise<RFQQuote> {
+    // Placeholder implementation - would need RFQQuote model
+    const rfq = await this.findById(id);
+    if (!rfq) {
+      throw new Error('RFQ not found');
+    }
+
+    // Create a mock updated quote object for now
+    const updatedQuote: RFQQuote = {
+      id: quoteId,
+      rfqId: id,
+      version: '1.0',
+      status: status as any, // Cast to RFQQuote status enum
+      currency: 'USD',
+      totalAmount: 0,
+      validUntil: new Date(),
+      createdAt: new Date(),
+      createdBy: updatedBy || 'system',
+      updatedAt: new Date(),
+      updatedBy: updatedBy,
+      items: [],
+      shipping: {
+        method: 'Standard',
+        cost: 0,
+        estimatedDays: 7,
+        incoterms: 'FOB',
+      },
+      paymentTerms: {
+        method: 'Bank Transfer',
+        terms: 'Net 30',
+      },
+      notes,
+      attachments: [],
+    };
+
+    return updatedQuote;
+  }
+
+  async getPerformanceMetrics(
+    assigneeId?: string,
+    dateRange?: { start: Date; end: Date }
+  ): Promise<any> {
+    // Placeholder implementation
+    return {
+      totalRFQs: 0,
+      quotedRFQs: 0,
+      acceptedRFQs: 0,
+      averageResponseTime: 0,
+      conversionRate: 0,
+    };
+  }
+
+  async search(criteria: RFQSearchCriteria): Promise<RFQSearchResult> {
+    // Use existing findAll method with filters
+    const rfqs = await this.findAll(criteria);
+
+    // Return in RFQSearchResult format
+    const page = criteria.page || 1;
+    const limit = criteria.limit || 50;
+    const total = rfqs.length;
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      rfqs,
+      total,
+      page,
+      limit,
+      totalPages,
+      hasNext: page < totalPages,
+      hasPrevious: page > 1,
+    };
+  }
+
+  async getAnalytics(startDate?: Date, endDate?: Date): Promise<RFQAnalytics> {
     const whereClause =
       startDate && endDate
         ? {
@@ -381,32 +536,48 @@ export class RFQRepository implements IRFQRepository {
       ),
     ]);
 
+    const statusBreakdownMap = statusBreakdown.reduce(
+      (acc, item) => {
+        acc[item.status] = item._count;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
+
+    const priorityBreakdownMap = priorityBreakdown.reduce(
+      (acc, item) => {
+        acc[item.priority] = item._count;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
+
+    const businessTypeBreakdownMap = businessTypeBreakdown.reduce(
+      (acc, item) => {
+        const key = item.businessType || 'UNKNOWN';
+        acc[key] = item._count;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
+
     return {
       totalRFQs,
-      statusBreakdown: statusBreakdown.reduce(
-        (acc, item) => {
-          acc[item.status] = item._count;
-          return acc;
-        },
-        {} as Record<string, number>
-      ),
-      priorityBreakdown: priorityBreakdown.reduce(
-        (acc, item) => {
-          acc[item.priority] = item._count;
-          return acc;
-        },
-        {} as Record<string, number>
-      ),
-      businessTypeBreakdown: businessTypeBreakdown.reduce(
-        (acc, item) => {
-          const key = item.businessType || 'UNKNOWN';
-          acc[key] = item._count;
-          return acc;
-        },
-        {} as Record<string, number>
-      ),
-      conversionRate,
+      rfqsByStatus: statusBreakdownMap as Record<RFQStatus, number>,
+      rfqsByPriority: priorityBreakdownMap as Record<RFQPriority, number>,
+      rfqsByCountry: {}, // Placeholder - need to implement country breakdown
+      averageResponseTime: 0, // Placeholder
       averageResponseTimeHours: 0, // Placeholder until RFQCommunication model is added
+      conversionRate,
+      totalEstimatedValue: 0, // Placeholder
+      averageRFQValue: 0, // Placeholder
+      topRequestedProducts: [], // Placeholder
+      monthlyTrends: [], // Placeholder
+      // Breakdown properties (aliases for compatibility)
+      statusBreakdown: statusBreakdownMap,
+      priorityBreakdown: priorityBreakdownMap,
+      businessTypeBreakdown: businessTypeBreakdownMap,
+      countryBreakdown: {}, // Placeholder
     };
   }
 }

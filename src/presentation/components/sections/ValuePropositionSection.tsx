@@ -1,5 +1,6 @@
 'use client';
 
+import { motion, useInView, Variants } from 'framer-motion';
 import {
   Shield,
   Award,
@@ -10,37 +11,23 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
-import { Badge } from '@/presentation/components/ui/badge';
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/presentation/components/ui/card';
-import { 
-  ScrollReveal, 
-  StaggeredChildren, 
+  ScrollReveal,
+  StaggeredChildren,
   MagneticHover,
-  FloatingElement 
+  FloatingElement,
 } from '@/presentation/components/ui/ScrollAnimations';
 
-interface ValuePropositionSectionProps {
-  locale: string;
-}
+interface ValuePropositionSectionProps {}
 
-export function ValuePropositionSection({
-  locale,
-}: ValuePropositionSectionProps) {
-  const t = useTranslations('homepage');
+export function ValuePropositionSection({}: ValuePropositionSectionProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   // Animation variants
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -52,7 +39,7 @@ export function ValuePropositionSection({
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 30,
@@ -64,61 +51,12 @@ export function ValuePropositionSection({
       scale: 1,
       transition: {
         duration: 0.6,
-        ease: [0.4, 0, 0.2, 1],
+        ease: 'easeOut',
       },
     },
   };
 
-  const cardVariants = {
-    hidden: {
-      opacity: 0,
-      y: 50,
-      scale: 0.9,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.7,
-        ease: [0.4, 0, 0.2, 1],
-      },
-    },
-    hover: {
-      y: -8,
-      scale: 1.02,
-      transition: {
-        duration: 0.3,
-        ease: [0.4, 0, 0.2, 1],
-      },
-    },
-  };
-
-  const iconVariants = {
-    hidden: {
-      scale: 0,
-      rotate: -180,
-    },
-    visible: {
-      scale: 1,
-      rotate: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.4, 0, 0.2, 1],
-        delay: 0.3,
-      },
-    },
-    hover: {
-      scale: 1.1,
-      rotate: 5,
-      transition: {
-        duration: 0.2,
-        ease: [0.4, 0, 0.2, 1],
-      },
-    },
-  };
-
-  const badgeVariants = {
+  const badgeVariants: Variants = {
     hidden: {
       opacity: 0,
       scale: 0.8,
@@ -130,29 +68,14 @@ export function ValuePropositionSection({
       y: 0,
       transition: {
         duration: 0.5,
-        ease: [0.4, 0, 0.2, 1],
+        ease: 'easeOut',
       },
     },
     hover: {
       scale: 1.05,
       transition: {
         duration: 0.2,
-        ease: [0.4, 0, 0.2, 1],
-      },
-    },
-  };
-
-  const featureVariants = {
-    hidden: {
-      opacity: 0,
-      x: -20,
-    },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.4,
-        ease: [0.4, 0, 0.2, 1],
+        ease: 'easeOut',
       },
     },
   };
@@ -240,7 +163,7 @@ export function ValuePropositionSection({
           transition={{
             duration: 4,
             repeat: Infinity,
-            ease: [0.4, 0, 0.6, 1],
+            ease: 'easeInOut',
           }}
         />
         <motion.div
@@ -253,7 +176,7 @@ export function ValuePropositionSection({
           transition={{
             duration: 5,
             repeat: Infinity,
-            ease: [0.4, 0, 0.6, 1],
+            ease: 'easeInOut',
             delay: 1,
           }}
         />
@@ -267,7 +190,7 @@ export function ValuePropositionSection({
           transition={{
             duration: 6,
             repeat: Infinity,
-            ease: [0.4, 0, 0.6, 1],
+            ease: 'easeInOut',
             delay: 0.5,
           }}
         />
@@ -297,8 +220,8 @@ export function ValuePropositionSection({
               </h2>
 
               <p className="mx-auto max-w-4xl text-xl leading-relaxed text-coffee-600 transition-all duration-300 hover:text-coffee-700">
-                We combine traditional Vietnamese coffee expertise with modern B2B
-                solutions, delivering exceptional quality and service to
+                We combine traditional Vietnamese coffee expertise with modern
+                B2B solutions, delivering exceptional quality and service to
                 international partners worldwide.
               </p>
             </StaggeredChildren>
@@ -308,76 +231,83 @@ export function ValuePropositionSection({
         {/* Value Propositions Grid */}
         <StaggeredChildren staggerDelay={0.2}>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {valueProps.map((prop, index) => {
-            const Icon = prop.icon;
-            const isCoffee = prop.color === 'coffee';
+            {valueProps.map((prop, index) => {
+              const Icon = prop.icon;
+              const isCoffee = prop.color === 'coffee';
 
-            return (
-              <ScrollReveal direction="up" delay={index * 0.1} duration={0.6}>
-                <MagneticHover strength={0.05}>
-                  <div
-                    className={`group relative overflow-hidden rounded-lg border-2 backdrop-blur-sm shadow-lg transition-all duration-300 ${
-                      isCoffee
-                        ? 'border-coffee-200 bg-gradient-to-br from-white/90 to-coffee-50/80 hover:border-coffee-300 hover:shadow-coffee-200/20 hover:-translate-y-2'
-                        : 'border-gold-200 bg-gradient-to-br from-white/90 to-gold-50/80 hover:border-gold-300 hover:shadow-gold-200/20 hover:-translate-y-2'
-                    }`}
-                  >
-                {/* Gradient Overlay */}
-                <div
-                  className={`absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-10 ${
-                    isCoffee
-                      ? 'bg-gradient-to-br from-coffee-400 to-coffee-600'
-                      : 'bg-gradient-to-br from-gold-400 to-gold-600'
-                  }`}
-                />
-
-                <div className="relative px-6 pb-4 pt-6">
-                  <FloatingElement>
+              return (
+                <ScrollReveal
+                  key={prop.title}
+                  direction="up"
+                  delay={index * 0.1}
+                  duration={0.6}
+                >
+                  <MagneticHover strength={0.05}>
                     <div
-                      className={`mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl transition-all duration-300 group-hover:scale-110 ${
+                      className={`group relative overflow-hidden rounded-lg border-2 shadow-lg backdrop-blur-sm transition-all duration-300 ${
                         isCoffee
-                          ? 'bg-gradient-to-br from-forest-100 to-forest-200 shadow-forest-soft'
-                          : 'bg-gradient-to-br from-gold-100 to-gold-200 shadow-gold-soft'
+                          ? 'border-coffee-200 bg-gradient-to-br from-white/90 to-coffee-50/80 hover:-translate-y-2 hover:border-coffee-300 hover:shadow-coffee-200/20'
+                          : 'border-gold-200 bg-gradient-to-br from-white/90 to-gold-50/80 hover:-translate-y-2 hover:border-gold-300 hover:shadow-gold-200/20'
                       }`}
                     >
-                      <Icon
-                        className={`h-10 w-10 transition-colors duration-300 ${isCoffee ? 'text-forest-600' : 'text-emerald-600'}`}
-                      />
-                    </div>
-                  </FloatingElement>
-
-                  <h3 className="text-center text-xl font-bold text-forest-800 transition-colors duration-300 group-hover:text-forest-900">
-                    {prop.title}
-                  </h3>
-                </div>
-
-                <div className="relative px-6 pb-6 text-center">
-                  <p className="mb-6 leading-relaxed text-forest-600 transition-colors duration-300 group-hover:text-forest-700">
-                    {prop.description}
-                  </p>
-
-                  {/* Features List */}
-                  <div className="space-y-2">
-                    {prop.features.map((feature, featureIndex) => (
+                      {/* Gradient Overlay */}
                       <div
-                        key={feature}
-                        className="flex items-center justify-center gap-2 text-sm transition-all duration-300 hover:scale-105 hover:translate-x-1"
-                      >
-                        <CheckCircle
-                          className={`h-4 w-4 flex-shrink-0 transition-colors duration-300 ${isCoffee ? 'text-coffee-500' : 'text-gold-500'}`}
-                        />
-                        <span className={`font-medium transition-colors duration-300 ${isCoffee ? 'text-coffee-700' : 'text-gold-700'}`}>
-                          {feature}
-                        </span>
+                        className={`absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-10 ${
+                          isCoffee
+                            ? 'bg-gradient-to-br from-coffee-400 to-coffee-600'
+                            : 'bg-gradient-to-br from-gold-400 to-gold-600'
+                        }`}
+                      />
+
+                      <div className="relative px-6 pb-4 pt-6">
+                        <FloatingElement>
+                          <div
+                            className={`mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl transition-all duration-300 group-hover:scale-110 ${
+                              isCoffee
+                                ? 'bg-gradient-to-br from-forest-100 to-forest-200 shadow-forest-soft'
+                                : 'shadow-gold-soft bg-gradient-to-br from-gold-100 to-gold-200'
+                            }`}
+                          >
+                            <Icon
+                              className={`h-10 w-10 transition-colors duration-300 ${isCoffee ? 'text-forest-600' : 'text-emerald-600'}`}
+                            />
+                          </div>
+                        </FloatingElement>
+
+                        <h3 className="text-center text-xl font-bold text-forest-800 transition-colors duration-300 group-hover:text-forest-900">
+                          {prop.title}
+                        </h3>
                       </div>
-                    ))}
-                  </div>
-                </div>
-                  </div>
-                </MagneticHover>
-              </ScrollReveal>
-            );
-          })}
+
+                      <div className="relative px-6 pb-6 text-center">
+                        <p className="mb-6 leading-relaxed text-forest-600 transition-colors duration-300 group-hover:text-forest-700">
+                          {prop.description}
+                        </p>
+
+                        {/* Features List */}
+                        <div className="space-y-2">
+                          {prop.features.map((feature, _featureIndex) => (
+                            <div
+                              key={feature}
+                              className="flex items-center justify-center gap-2 text-sm transition-all duration-300 hover:translate-x-1 hover:scale-105"
+                            >
+                              <CheckCircle
+                                className={`h-4 w-4 flex-shrink-0 transition-colors duration-300 ${isCoffee ? 'text-coffee-500' : 'text-gold-500'}`}
+                              />
+                              <span
+                                className={`font-medium transition-colors duration-300 ${isCoffee ? 'text-coffee-700' : 'text-gold-700'}`}
+                              >
+                                {feature}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </MagneticHover>
+                </ScrollReveal>
+              );
+            })}
           </div>
         </StaggeredChildren>
 
@@ -396,7 +326,7 @@ export function ValuePropositionSection({
                 transition={{
                   duration: 2,
                   repeat: Infinity,
-                  ease: [0.4, 0, 0.6, 1],
+                  ease: 'easeInOut',
                 }}
               >
                 <Shield className="h-5 w-5 text-coffee-600" />
@@ -432,7 +362,7 @@ export function ValuePropositionSection({
               { name: 'EU Organic', desc: 'European Organic' },
               { name: 'JAS Organic', desc: 'Japan Agricultural Standards' },
               { name: 'KOSHER', desc: 'Kosher Certification' },
-            ].map((cert, index) => (
+            ].map(cert => (
               <motion.div
                 key={cert.name}
                 className="group relative overflow-hidden rounded-lg border border-coffee-200 bg-white p-4 text-center shadow-sm transition-all duration-300 hover:border-coffee-300 hover:shadow-md"
@@ -447,7 +377,7 @@ export function ValuePropositionSection({
                 transition={{
                   duration: 3,
                   repeat: Infinity,
-                  ease: [0.4, 0, 0.6, 1],
+                  ease: 'easeInOut',
                   delay: index * 0.1,
                 }}
               >
@@ -459,7 +389,7 @@ export function ValuePropositionSection({
                   transition={{
                     duration: 4,
                     repeat: Infinity,
-                    ease: [0.4, 0, 0.6, 1],
+                    ease: 'easeInOut',
                     delay: index * 0.2,
                   }}
                 >
@@ -488,7 +418,7 @@ export function ValuePropositionSection({
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                ease: [0.4, 0, 0.6, 1],
+                ease: 'easeInOut',
               }}
             >
               <Users className="h-5 w-5 text-gold-600" />
@@ -508,7 +438,7 @@ export function ValuePropositionSection({
               { number: '500+', label: 'B2B Partners', icon: Users },
               { number: '15+', label: 'Years Experience', icon: TrendingUp },
               { number: '99.8%', label: 'On-Time Delivery', icon: Truck },
-            ].map((stat, index) => (
+            ].map(stat => (
               <motion.div
                 key={stat.label}
                 className="text-center"
@@ -522,7 +452,7 @@ export function ValuePropositionSection({
                 transition={{
                   duration: 3,
                   repeat: Infinity,
-                  ease: [0.4, 0, 0.6, 1],
+                  ease: 'easeInOut',
                   delay: index * 0.2,
                 }}
               >
@@ -534,7 +464,7 @@ export function ValuePropositionSection({
                   transition={{
                     duration: 2,
                     repeat: Infinity,
-                    ease: [0.4, 0, 0.6, 1],
+                    ease: 'easeInOut',
                     delay: index * 0.3,
                   }}
                 >
@@ -548,7 +478,7 @@ export function ValuePropositionSection({
                   transition={{
                     duration: 2,
                     repeat: Infinity,
-                    ease: [0.4, 0, 0.6, 1],
+                    ease: 'easeInOut',
                     delay: index * 0.4,
                   }}
                 >
@@ -588,7 +518,7 @@ export function ValuePropositionSection({
                 transition={{
                   duration: 3,
                   repeat: Infinity,
-                  ease: [0.4, 0, 0.6, 1],
+                  ease: 'easeInOut',
                   delay: i * 0.2,
                 }}
               >
@@ -599,7 +529,7 @@ export function ValuePropositionSection({
                   transition={{
                     duration: 4,
                     repeat: Infinity,
-                    ease: [0.4, 0, 0.6, 1],
+                    ease: 'easeInOut',
                     delay: i * 0.3,
                   }}
                 >

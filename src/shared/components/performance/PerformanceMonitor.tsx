@@ -165,21 +165,32 @@ export function PerformanceMonitor({
     });
 
     // First Input Delay
+    interface FirstInputEntry extends PerformanceEntry {
+      processingStart: number;
+    }
+
     const fidObserver = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
-      entries.forEach((entry: any) => {
-        const fid = entry.processingStart - entry.startTime;
+      entries.forEach(entry => {
+        const fidEntry = entry as FirstInputEntry;
+        const fid = fidEntry.processingStart - fidEntry.startTime;
         setMetrics(prev => ({ ...prev, fid }));
       });
     });
 
     // Cumulative Layout Shift
+    interface LayoutShiftEntry extends PerformanceEntry {
+      hadRecentInput: boolean;
+      value: number;
+    }
+
     const clsObserver = new PerformanceObserver(entryList => {
       const entries = entryList.getEntries();
-      entries.forEach((entry: any) => {
-        if (!entry.hadRecentInput) {
-          clsValue += entry.value;
-          clsEntries.push(entry);
+      entries.forEach(entry => {
+        const clsEntry = entry as LayoutShiftEntry;
+        if (!clsEntry.hadRecentInput) {
+          clsValue += clsEntry.value;
+          clsEntries.push(clsEntry);
         }
       });
 

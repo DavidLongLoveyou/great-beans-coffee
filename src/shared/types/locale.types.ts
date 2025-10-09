@@ -2,8 +2,12 @@
 // LOCALE & INTERNATIONALIZATION TYPES
 // ================================
 
-import { SelectOption } from './common.types';
 import { type Locale } from '@/i18n';
+
+import { SelectOption } from './common.types';
+
+// Re-export Locale type for other modules
+export type { Locale };
 
 export interface LocaleConfig {
   code: Locale;

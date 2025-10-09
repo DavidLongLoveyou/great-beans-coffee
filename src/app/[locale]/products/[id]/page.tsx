@@ -80,6 +80,7 @@ import { ProductSpecDownloadButton } from '@/shared/components/pdf';
 import {
   getProductById,
   searchProducts,
+  filterProducts,
   type CatalogProduct,
   CoffeeType,
   CoffeeGrade,
@@ -115,7 +116,7 @@ export async function generateMetadata({
 
   const productName = product.name[locale] || product.name.en;
   const productDescription =
-    product.shortDescription[locale] || product.shortDescription.en;
+    product.description[locale] || product.description.en;
   const originInfo = `${product.origin.region}, ${product.origin.country}`;
 
   // Enhanced SEO keywords based on product attributes
@@ -132,7 +133,7 @@ export async function generateMetadata({
     ...product.certifications
       .map(cert => cert?.toLowerCase().replace('_', ' '))
       .filter((cert): cert is string => Boolean(cert)),
-  ];
+  ].filter((keyword): keyword is string => Boolean(keyword));
 
   return generateSEOMetadata({
     title: `${productName} - Premium Vietnamese Coffee | The Great Beans`,
@@ -141,7 +142,10 @@ export async function generateMetadata({
     url: `/products/${id}`,
     type: 'product',
     keywords,
-    images: product.images.filter(img => img.isPrimary).map(img => img.url),
+    image:
+      product.images.find(img => img.isPrimary)?.url ||
+      product.images[0]?.url ||
+      '/images/logo.svg',
   });
 }
 
@@ -158,12 +162,28 @@ const mapCertificationToDesignSystem = (cert: CertificationType) => {
       icon: '🌳',
     },
     [CertificationType.UTZ]: { variant: 'utz' as const, icon: '✓' },
-    [CertificationType.ISO]: { variant: 'iso' as const, icon: '🛡️' },
+    [CertificationType.UTZ_CERTIFIED]: { variant: 'utz' as const, icon: '✓' },
+    [CertificationType.C_CAFE_PRACTICES]: {
+      variant: 'default' as const,
+      icon: '☕',
+    },
+    [CertificationType.ISO_22000]: { variant: 'iso' as const, icon: '🛡️' },
     [CertificationType.HACCP]: { variant: 'haccp' as const, icon: '🔬' },
     [CertificationType.BRC]: { variant: 'brc' as const, icon: '📋' },
-    [CertificationType.BIRD_FRIENDLY]: { variant: 'bird-friendly' as const, icon: '🐦' },
-    [CertificationType.SHADE_GROWN]: { variant: 'shade-grown' as const, icon: '🌿' },
-    [CertificationType.DIRECT_TRADE]: { variant: 'direct-trade' as const, icon: '🤝' },
+    [CertificationType.BIRD_FRIENDLY]: {
+      variant: 'bird-friendly' as const,
+      icon: '🐦',
+    },
+    [CertificationType.SHADE_GROWN]: {
+      variant: 'shade-grown' as const,
+      icon: '🌿',
+    },
+    [CertificationType.DIRECT_TRADE]: {
+      variant: 'direct-trade' as const,
+      icon: '🤝',
+    },
+    [CertificationType.KOSHER]: { variant: 'default' as const, icon: '✡️' },
+    [CertificationType.HALAL]: { variant: 'default' as const, icon: '☪️' },
   };
   return certMap[cert] || { variant: 'default' as const, icon: '✓' };
 };
@@ -175,13 +195,16 @@ const mapCertificationToEnhanced = (cert: CertificationType): string => {
     [CertificationType.FAIR_TRADE]: 'fair-trade',
     [CertificationType.RAINFOREST_ALLIANCE]: 'rainforest-alliance',
     [CertificationType.UTZ]: 'utz',
+    [CertificationType.UTZ_CERTIFIED]: 'utz',
+    [CertificationType.C_CAFE_PRACTICES]: 'organic',
     [CertificationType.BIRD_FRIENDLY]: 'bird-friendly',
     [CertificationType.SHADE_GROWN]: 'shade-grown',
     [CertificationType.DIRECT_TRADE]: 'direct-trade',
-    [CertificationType.ISO]: 'iso',
+    [CertificationType.ISO_22000]: 'iso',
     [CertificationType.HACCP]: 'haccp',
     [CertificationType.BRC]: 'brc',
-    [CertificationType.SQF]: 'sqf',
+    [CertificationType.KOSHER]: 'organic',
+    [CertificationType.HALAL]: 'organic',
   };
   return certMap[cert] || 'organic';
 };
@@ -200,19 +223,20 @@ export default async function ProductDetailPage({
   }
 
   // Get related products for recommendations
-  const relatedProducts = searchProducts({
-    type: product.type,
-    limit: 4,
-  }).filter(p => p.id !== product.id);
+  const relatedProducts = filterProducts({
+    type: [product.type],
+  })
+    .filter(p => p.id !== product.id)
+    .slice(0, 4);
 
   // Generate structured data
   const organizationSchema = generateOrganizationSchema();
   const productSchema = generateB2BProductSchema(
     {
       id: product.id,
-      name: product.name[locale] || product.name.en,
+      name: product.name[locale] || product.name.en || '',
       description:
-        product.shortDescription[locale] || product.shortDescription.en,
+        product.shortDescription[locale] || product.shortDescription.en || '',
       images: product.images.map(img => img.url),
       category: product.type,
       sku: product.sku,
@@ -229,7 +253,7 @@ export default async function ProductDetailPage({
         max: product.availability.leadTime + 7,
       },
       targetMarkets: ['Global'],
-      incoterms: product.pricing.incoterms,
+      incoterms: [product.pricing.incoterms],
     },
     locale
   );
@@ -266,7 +290,7 @@ export default async function ProductDetailPage({
       <SEOHead structuredData={structuredData} />
       <div className="min-h-screen">
         {/* Breadcrumb */}
-        <div className="border-coffee-200 bg-coffee-50 border-b">
+        <div className="border-b border-coffee-200 bg-coffee-50">
           <ContentContainer className="py-4">
             <div className="flex items-center space-x-2 text-sm">
               <Link
@@ -283,7 +307,7 @@ export default async function ProductDetailPage({
                 Products
               </Link>
               <span className="text-coffee-400">/</span>
-              <span className="text-coffee-900 font-medium">
+              <span className="font-medium text-coffee-900">
                 {product.name[locale] || product.name.en}
               </span>
             </div>
@@ -353,26 +377,26 @@ export default async function ProductDetailPage({
               <div className="lg:col-span-2">
                 {/* Product Header */}
                 <Card className="mb-6 shadow-lg">
-                  <CardHeader className="from-coffee-50 to-gold-50 bg-gradient-to-r">
+                  <CardHeader className="bg-gradient-to-r from-coffee-50 to-gold-50">
                     <div className="flex items-start justify-between">
                       <div>
                         <CoffeeHeading
                           variant="heading-xl"
-                          className="text-coffee-800 mb-2"
+                          className="mb-2 text-coffee-800"
                         >
                           {product.name[locale] || product.name.en}
                         </CoffeeHeading>
-                        <CardDescription className="text-coffee-600 text-lg">
+                        <CardDescription className="text-lg text-coffee-600">
                           {product.shortDescription[locale] ||
                             product.shortDescription.en}
                         </CardDescription>
-                        <p className="text-coffee-500 mt-2 font-mono text-sm">
+                        <p className="mt-2 font-mono text-sm text-coffee-500">
                           SKU: {product.sku}
                         </p>
                       </div>
                       <div className="space-y-2 text-right">
                         {product.isFeatured && (
-                          <Badge className="bg-gold-500 mb-2 text-white">
+                          <Badge className="mb-2 bg-gold-500 text-white">
                             <Star className="mr-1 h-3 w-3" />
                             Featured
                           </Badge>
@@ -395,35 +419,35 @@ export default async function ProductDetailPage({
                   <CardContent className="p-6">
                     {/* Key Details with Design System Components */}
                     <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-                      <div className="border-coffee-100 bg-coffee-50 rounded-lg border p-4 text-center">
-                        <Coffee className="text-coffee-600 mx-auto mb-2 h-6 w-6" />
+                      <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
+                        <Coffee className="mx-auto mb-2 h-6 w-6 text-coffee-600" />
                         <CoffeeGradeIndicator
                           grade={
                             product.grade.toLowerCase().replace('_', '-') as any
                           }
                         />
-                        <p className="text-coffee-600 mt-1 text-xs">Grade</p>
+                        <p className="mt-1 text-xs text-coffee-600">Grade</p>
                       </div>
-                      <div className="border-coffee-100 bg-coffee-50 rounded-lg border p-4 text-center">
+                      <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
                         <ProcessingMethodBadge
                           method={product.processingMethod.toLowerCase() as any}
                         />
-                        <p className="text-coffee-600 mt-1 text-xs">
+                        <p className="mt-1 text-xs text-coffee-600">
                           Processing
                         </p>
                       </div>
-                      <div className="border-coffee-100 bg-coffee-50 rounded-lg border p-4 text-center">
+                      <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
                         <OriginFlag
                           origin={product.origin.country.toLowerCase() as any}
                         />
-                        <p className="text-coffee-600 mt-1 text-xs">Origin</p>
+                        <p className="mt-1 text-xs text-coffee-600">Origin</p>
                       </div>
-                      <div className="border-coffee-100 bg-coffee-50 rounded-lg border p-4 text-center">
-                        <MapPin className="text-coffee-600 mx-auto mb-2 h-6 w-6" />
-                        <p className="text-coffee-800 text-sm font-medium">
+                      <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
+                        <MapPin className="mx-auto mb-2 h-6 w-6 text-coffee-600" />
+                        <p className="text-sm font-medium text-coffee-800">
                           {product.origin.altitude}m
                         </p>
-                        <p className="text-coffee-600 text-xs">Altitude</p>
+                        <p className="text-xs text-coffee-600">Altitude</p>
                       </div>
                     </div>
 
@@ -436,7 +460,7 @@ export default async function ProductDetailPage({
                 <Card>
                   <CardContent className="p-6">
                     <Tabs defaultValue="description" className="w-full">
-                      <TabsList className="border-coffee-200 bg-coffee-50 grid w-full grid-cols-7 border">
+                      <TabsList className="grid w-full grid-cols-7 border border-coffee-200 bg-coffee-50">
                         <TabsTrigger
                           value="description"
                           className="data-[state=active]:bg-gold-500 data-[state=active]:text-white"
@@ -486,18 +510,18 @@ export default async function ProductDetailPage({
                           <CardContent className="p-6">
                             <SectionHeading
                               size="lg"
-                              className="text-coffee-800 mb-4"
+                              className="mb-4 text-coffee-800"
                             >
                               Product Description
                             </SectionHeading>
-                            <div className="text-coffee-700 mb-6 whitespace-pre-line leading-relaxed">
+                            <div className="mb-6 whitespace-pre-line leading-relaxed text-coffee-700">
                               {product.longDescription?.[locale] ||
                                 product.longDescription?.en}
                             </div>
 
                             <SectionHeading
                               size="md"
-                              className="text-coffee-800 mb-4 mt-6"
+                              className="mb-4 mt-6 text-coffee-800"
                             >
                               Certifications & Quality Assurance
                             </SectionHeading>
@@ -527,7 +551,7 @@ export default async function ProductDetailPage({
                           <CardContent className="p-6">
                             <SectionHeading
                               size="lg"
-                              className="text-coffee-800 mb-6"
+                              className="mb-6 text-coffee-800"
                             >
                               Technical Specifications
                             </SectionHeading>
@@ -535,48 +559,48 @@ export default async function ProductDetailPage({
                               <div>
                                 <SectionHeading
                                   size="md"
-                                  className="text-coffee-700 mb-4"
+                                  className="mb-4 text-coffee-700"
                                 >
                                   Physical Properties
                                 </SectionHeading>
                                 <div className="space-y-3">
-                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                    <span className="text-coffee-700 text-sm">
+                                  <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                    <span className="text-sm text-coffee-700">
                                       Moisture Content:
                                     </span>
-                                    <span className="text-coffee-800 font-semibold">
+                                    <span className="font-semibold text-coffee-800">
                                       {product.specifications.moisture}%
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                    <span className="text-coffee-700 text-sm">
+                                  <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                    <span className="text-sm text-coffee-700">
                                       Screen Size:
                                     </span>
-                                    <span className="text-coffee-800 font-semibold">
+                                    <span className="font-semibold text-coffee-800">
                                       {product.specifications.screenSize}
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                    <span className="text-coffee-700 text-sm">
+                                  <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                    <span className="text-sm text-coffee-700">
                                       Defect Rate:
                                     </span>
-                                    <span className="text-coffee-800 font-semibold">
+                                    <span className="font-semibold text-coffee-800">
                                       {product.specifications.defectRate}%
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                    <span className="text-coffee-700 text-sm">
+                                  <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                    <span className="text-sm text-coffee-700">
                                       Bulk Density:
                                     </span>
-                                    <span className="text-coffee-800 font-semibold">
+                                    <span className="font-semibold text-coffee-800">
                                       {product.specifications.density} g/ml
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                    <span className="text-coffee-700 text-sm">
+                                  <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                    <span className="text-sm text-coffee-700">
                                       Bean Size:
                                     </span>
-                                    <span className="text-coffee-800 font-semibold">
+                                    <span className="font-semibold text-coffee-800">
                                       {product.specifications.screenSize} mesh
                                     </span>
                                   </div>
@@ -586,7 +610,7 @@ export default async function ProductDetailPage({
                               <div>
                                 <SectionHeading
                                   size="md"
-                                  className="text-coffee-700 mb-4"
+                                  className="mb-4 text-coffee-700"
                                 >
                                   Quality & Sensory
                                 </SectionHeading>
@@ -599,35 +623,35 @@ export default async function ProductDetailPage({
                                       {product.specifications.cuppingScore}/100
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                    <span className="text-coffee-700 text-sm">
+                                  <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                    <span className="text-sm text-coffee-700">
                                       Acidity Level:
                                     </span>
-                                    <span className="text-coffee-800 font-semibold">
+                                    <span className="font-semibold text-coffee-800">
                                       {product.specifications.acidity}
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                    <span className="text-coffee-700 text-sm">
+                                  <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                    <span className="text-sm text-coffee-700">
                                       Body:
                                     </span>
-                                    <span className="text-coffee-800 font-semibold">
+                                    <span className="font-semibold text-coffee-800">
                                       {product.specifications.body}
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                    <span className="text-coffee-700 text-sm">
+                                  <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                    <span className="text-sm text-coffee-700">
                                       Aroma:
                                     </span>
-                                    <span className="text-coffee-800 font-semibold">
+                                    <span className="font-semibold text-coffee-800">
                                       {product.specifications.aroma}
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                    <span className="text-coffee-700 text-sm">
+                                  <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                    <span className="text-sm text-coffee-700">
                                       Aftertaste:
                                     </span>
-                                    <span className="text-coffee-800 font-semibold">
+                                    <span className="font-semibold text-coffee-800">
                                       {product.specifications.aftertaste}
                                     </span>
                                   </div>
@@ -637,47 +661,47 @@ export default async function ProductDetailPage({
                               <div>
                                 <SectionHeading
                                   size="md"
-                                  className="text-coffee-700 mb-4"
+                                  className="mb-4 text-coffee-700"
                                 >
                                   Chemical Analysis
                                 </SectionHeading>
                                 <div className="space-y-3">
                                   {product.specifications.caffeine && (
-                                    <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                      <span className="text-coffee-700 text-sm">
+                                    <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                      <span className="text-sm text-coffee-700">
                                         Caffeine:
                                       </span>
-                                      <span className="text-coffee-800 font-semibold">
+                                      <span className="font-semibold text-coffee-800">
                                         {product.specifications.caffeine}%
                                       </span>
                                     </div>
                                   )}
                                   {product.specifications.ash && (
-                                    <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                      <span className="text-coffee-700 text-sm">
+                                    <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                      <span className="text-sm text-coffee-700">
                                         Ash Content:
                                       </span>
-                                      <span className="text-coffee-800 font-semibold">
+                                      <span className="font-semibold text-coffee-800">
                                         {product.specifications.ash}%
                                       </span>
                                     </div>
                                   )}
                                   {product.specifications.lipids && (
-                                    <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                      <span className="text-coffee-700 text-sm">
+                                    <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                      <span className="text-sm text-coffee-700">
                                         Lipids:
                                       </span>
-                                      <span className="text-coffee-800 font-semibold">
+                                      <span className="font-semibold text-coffee-800">
                                         {product.specifications.lipids}%
                                       </span>
                                     </div>
                                   )}
                                   {product.specifications.proteins && (
-                                    <div className="bg-coffee-50 flex items-center justify-between rounded-lg p-3">
-                                      <span className="text-coffee-700 text-sm">
+                                    <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
+                                      <span className="text-sm text-coffee-700">
                                         Proteins:
                                       </span>
-                                      <span className="text-coffee-800 font-semibold">
+                                      <span className="font-semibold text-coffee-800">
                                         {product.specifications.proteins}%
                                       </span>
                                     </div>
@@ -752,28 +776,28 @@ export default async function ProductDetailPage({
 
                             <SectionHeading
                               size="md"
-                              className="text-coffee-700 mb-4 mt-8"
+                              className="mb-4 mt-8 text-coffee-700"
                             >
                               Packaging Options
                             </SectionHeading>
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                              {product.packaging?.options?.map(
+                              {(product.packagingOptions || []).map(
                                 (option, index) => (
                                   <div
                                     key={index}
-                                    className="border-coffee-200 from-coffee-50 to-gold-50 rounded-lg border bg-gradient-to-br p-4"
+                                    className="rounded-lg border border-coffee-200 bg-gradient-to-br from-coffee-50 to-gold-50 p-4"
                                   >
                                     <div className="mb-3 flex items-center">
-                                      <Package className="text-coffee-600 mr-2 h-5 w-5" />
-                                      <span className="text-coffee-800 font-semibold">
-                                        {option.type}
+                                      <Package className="mr-2 h-5 w-5 text-coffee-600" />
+                                      <span className="font-semibold text-coffee-800">
+                                        {option}
                                       </span>
                                     </div>
-                                    <p className="text-coffee-700 mb-1 text-sm font-medium">
-                                      {option.weight}
+                                    <p className="mb-1 text-sm font-medium text-coffee-700">
+                                      Standard packaging
                                     </p>
-                                    <p className="text-coffee-600 text-xs">
-                                      {option.description}
+                                    <p className="text-xs text-coffee-600">
+                                      Professional packaging option
                                     </p>
                                   </div>
                                 )
@@ -790,7 +814,7 @@ export default async function ProductDetailPage({
                             <CardContent className="p-6">
                               <SectionHeading
                                 size="lg"
-                                className="text-coffee-800 mb-6"
+                                className="mb-6 text-coffee-800"
                               >
                                 <div className="flex items-center">
                                   <Package className="mr-3 h-6 w-6" />
@@ -853,7 +877,7 @@ export default async function ProductDetailPage({
                               {/* Processing Status */}
                               {product.availability.processingStatus && (
                                 <div className="mb-6">
-                                  <h4 className="text-coffee-700 mb-3 text-sm font-semibold">
+                                  <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                     Processing Pipeline
                                   </h4>
                                   <div className="space-y-2">
@@ -905,7 +929,7 @@ export default async function ProductDetailPage({
                               {product.availability
                                 .qualityGradeDistribution && (
                                 <div>
-                                  <h4 className="text-coffee-700 mb-3 text-sm font-semibold">
+                                  <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                     Quality Grade Distribution
                                   </h4>
                                   <div className="space-y-2">
@@ -913,16 +937,16 @@ export default async function ProductDetailPage({
                                       (grade, index) => (
                                         <div
                                           key={index}
-                                          className="bg-coffee-50 flex items-center justify-between rounded p-3"
+                                          className="flex items-center justify-between rounded bg-coffee-50 p-3"
                                         >
-                                          <span className="text-coffee-700 text-sm">
+                                          <span className="text-sm text-coffee-700">
                                             {grade.grade}
                                           </span>
                                           <div className="text-right">
-                                            <span className="text-coffee-800 font-medium">
+                                            <span className="font-medium text-coffee-800">
                                               {grade.quantity} MT
                                             </span>
-                                            <span className="text-coffee-600 ml-2 text-xs">
+                                            <span className="ml-2 text-xs text-coffee-600">
                                               ({grade.percentage}%)
                                             </span>
                                           </div>
@@ -940,7 +964,7 @@ export default async function ProductDetailPage({
                             <CardContent className="p-6">
                               <SectionHeading
                                 size="lg"
-                                className="text-coffee-800 mb-6"
+                                className="mb-6 text-coffee-800"
                               >
                                 <div className="flex items-center">
                                   <BarChart3 className="mr-3 h-6 w-6" />
@@ -950,7 +974,7 @@ export default async function ProductDetailPage({
 
                               {/* Harvest & Production Schedule */}
                               <div className="mb-6">
-                                <h4 className="text-coffee-700 mb-3 text-sm font-semibold">
+                                <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                   Harvest & Production Schedule
                                 </h4>
                                 <div className="space-y-3">
@@ -987,7 +1011,7 @@ export default async function ProductDetailPage({
                               {/* Warehouse Locations */}
                               {product.availability.warehouseLocations && (
                                 <div className="mb-6">
-                                  <h4 className="text-coffee-700 mb-3 text-sm font-semibold">
+                                  <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                     Warehouse Locations
                                   </h4>
                                   <div className="space-y-2">
@@ -1019,7 +1043,7 @@ export default async function ProductDetailPage({
                               {/* Forecast Data */}
                               {product.availability.forecastData && (
                                 <div className="mb-6">
-                                  <h4 className="text-coffee-700 mb-3 text-sm font-semibold">
+                                  <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                     Market Forecast (Next 3 Months)
                                   </h4>
                                   <div className="space-y-3">
@@ -1055,7 +1079,7 @@ export default async function ProductDetailPage({
                               {product.availability.forecastData
                                 ?.riskFactors && (
                                 <div>
-                                  <h4 className="text-coffee-700 mb-3 text-sm font-semibold">
+                                  <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                     Risk Factors
                                   </h4>
                                   <div className="space-y-2">
@@ -1108,7 +1132,7 @@ export default async function ProductDetailPage({
                           <CardContent className="p-6">
                             <SectionHeading
                               size="lg"
-                              className="text-coffee-800 mb-6"
+                              className="mb-6 text-coffee-800"
                             >
                               Origin Information
                             </SectionHeading>
@@ -1116,13 +1140,13 @@ export default async function ProductDetailPage({
                               <div>
                                 <SectionHeading
                                   size="md"
-                                  className="text-coffee-700 mb-4"
+                                  className="mb-4 text-coffee-700"
                                 >
                                   Location Details
                                 </SectionHeading>
                                 <div className="space-y-4">
-                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
-                                    <Globe className="text-coffee-600 mr-3 h-5 w-5" />
+                                  <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                    <Globe className="mr-3 h-5 w-5 text-coffee-600" />
                                     <span className="text-coffee-800">
                                       Country:{' '}
                                       <span className="font-semibold">
@@ -1130,8 +1154,8 @@ export default async function ProductDetailPage({
                                       </span>
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
-                                    <MapPin className="text-coffee-600 mr-3 h-5 w-5" />
+                                  <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                    <MapPin className="mr-3 h-5 w-5 text-coffee-600" />
                                     <span className="text-coffee-800">
                                       Region:{' '}
                                       <span className="font-semibold">
@@ -1140,8 +1164,8 @@ export default async function ProductDetailPage({
                                       </span>
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
-                                    <Thermometer className="text-coffee-600 mr-3 h-5 w-5" />
+                                  <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                    <Thermometer className="mr-3 h-5 w-5 text-coffee-600" />
                                     <span className="text-coffee-800">
                                       Altitude:{' '}
                                       <span className="font-semibold">
@@ -1155,13 +1179,13 @@ export default async function ProductDetailPage({
                               <div>
                                 <SectionHeading
                                   size="md"
-                                  className="text-coffee-700 mb-4"
+                                  className="mb-4 text-coffee-700"
                                 >
                                   Farming Information
                                 </SectionHeading>
                                 <div className="space-y-4">
-                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
-                                    <Clock className="text-coffee-600 mr-3 h-5 w-5" />
+                                  <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                    <Clock className="mr-3 h-5 w-5 text-coffee-600" />
                                     <span className="text-coffee-800">
                                       Harvest Season:{' '}
                                       <span className="font-semibold">
@@ -1169,8 +1193,8 @@ export default async function ProductDetailPage({
                                       </span>
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
-                                    <Award className="text-coffee-600 mr-3 h-5 w-5" />
+                                  <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                    <Award className="mr-3 h-5 w-5 text-coffee-600" />
                                     <span className="text-coffee-800">
                                       Farming Method:{' '}
                                       <span className="font-semibold">
@@ -1178,8 +1202,8 @@ export default async function ProductDetailPage({
                                       </span>
                                     </span>
                                   </div>
-                                  <div className="bg-coffee-50 flex items-center rounded-lg p-3">
-                                    <Scale className="text-coffee-600 mr-3 h-5 w-5" />
+                                  <div className="flex items-center rounded-lg bg-coffee-50 p-3">
+                                    <Scale className="mr-3 h-5 w-5 text-coffee-600" />
                                     <span className="text-coffee-800">
                                       Production Capacity:{' '}
                                       <span className="font-semibold">
@@ -1202,37 +1226,40 @@ export default async function ProductDetailPage({
                           <CardContent className="p-6">
                             <SectionHeading
                               size="lg"
-                              className="text-coffee-800 mb-6"
+                              className="mb-6 text-coffee-800"
                             >
                               Quality Test Results
                             </SectionHeading>
                             <div className="space-y-4">
-                              {product.qualityTests?.map((test, index) => (
-                                <div
-                                  key={index}
-                                  className="border-coffee-200 from-coffee-50 to-gold-50 flex items-center justify-between rounded-lg border bg-gradient-to-r p-4"
-                                >
-                                  <div>
-                                    <p className="text-coffee-800 font-semibold">
-                                      {test.parameter}
-                                    </p>
-                                    <p className="text-coffee-600 text-sm">
-                                      Standard: {test.standard}
-                                    </p>
-                                  </div>
-                                  <div className="text-right">
-                                    <p className="text-coffee-800 font-semibold">
-                                      {test.value}
-                                    </p>
-                                    <div className="flex items-center">
-                                      <CheckCircle className="mr-1 h-4 w-4 text-green-600" />
-                                      <span className="text-sm font-medium text-green-600">
-                                        {test.status}
-                                      </span>
+                              {product.qualityTests &&
+                                Object.entries(product.qualityTests).map(
+                                  ([key, value], index) => (
+                                    <div
+                                      key={index}
+                                      className="flex items-center justify-between rounded-lg border border-coffee-200 bg-gradient-to-r from-coffee-50 to-gold-50 p-4"
+                                    >
+                                      <div>
+                                        <p className="font-semibold text-coffee-800">
+                                          {key}
+                                        </p>
+                                        <p className="text-sm text-coffee-600">
+                                          Test Result
+                                        </p>
+                                      </div>
+                                      <div className="text-right">
+                                        <p className="font-semibold text-coffee-800">
+                                          {value}
+                                        </p>
+                                        <div className="flex items-center">
+                                          <CheckCircle className="mr-1 h-4 w-4 text-green-600" />
+                                          <span className="text-sm font-medium text-green-600">
+                                            Passed
+                                          </span>
+                                        </div>
+                                      </div>
                                     </div>
-                                  </div>
-                                </div>
-                              ))}
+                                  )
+                                )}
                             </div>
                           </CardContent>
                         </Card>
@@ -1243,7 +1270,7 @@ export default async function ProductDetailPage({
                           <CardContent className="p-6">
                             <SectionHeading
                               size="lg"
-                              className="text-coffee-800 mb-6"
+                              className="mb-6 text-coffee-800"
                             >
                               Shipping Cost Calculator
                             </SectionHeading>
@@ -1285,19 +1312,19 @@ export default async function ProductDetailPage({
                           <CardContent className="p-6">
                             <SectionHeading
                               size="lg"
-                              className="text-coffee-800 mb-6"
+                              className="mb-6 text-coffee-800"
                             >
                               Available Documents
                             </SectionHeading>
 
                             {/* Generate Product Spec Sheet - Prominent CTA */}
-                            <div className="border-gold-200 from-gold-50 to-coffee-50 mb-6 rounded-lg border bg-gradient-to-r p-6 shadow-sm">
+                            <div className="mb-6 rounded-lg border border-gold-200 bg-gradient-to-r from-gold-50 to-coffee-50 p-6 shadow-sm">
                               <div className="flex items-center justify-between">
                                 <div>
-                                  <h3 className="text-coffee-800 mb-2 text-lg font-semibold">
+                                  <h3 className="mb-2 text-lg font-semibold text-coffee-800">
                                     Product Specification Sheet
                                   </h3>
-                                  <p className="text-coffee-600 text-sm">
+                                  <p className="text-sm text-coffee-600">
                                     Generate a comprehensive PDF specification
                                     sheet with all product details, quality
                                     parameters, and certifications.
@@ -1307,7 +1334,7 @@ export default async function ProductDetailPage({
                                   productId={product.id}
                                   variant="default"
                                   size="lg"
-                                  className="bg-coffee-600 hover:bg-coffee-700 text-white"
+                                  className="bg-coffee-600 text-white hover:bg-coffee-700"
                                 >
                                   <FileText className="mr-2 h-5 w-5" />
                                   Generate PDF
@@ -1320,11 +1347,11 @@ export default async function ProductDetailPage({
                               {product.documents.map((doc, index) => (
                                 <div
                                   key={`doc-${index}`}
-                                  className="border-coffee-200 from-coffee-50 to-gold-50 rounded-lg border bg-gradient-to-r p-4 transition-shadow hover:shadow-md"
+                                  className="rounded-lg border border-coffee-200 bg-gradient-to-r from-coffee-50 to-gold-50 p-4 transition-shadow hover:shadow-md"
                                 >
                                   <div className="flex items-start justify-between">
                                     <div className="flex items-start">
-                                      <div className="text-coffee-600 mr-3 mt-1">
+                                      <div className="mr-3 mt-1 text-coffee-600">
                                         {doc.type === 'SPECIFICATION' && (
                                           <FileText className="h-5 w-5" />
                                         )}
@@ -1345,17 +1372,17 @@ export default async function ProductDetailPage({
                                         )}
                                       </div>
                                       <div className="flex-1">
-                                        <p className="text-coffee-800 mb-1 font-semibold">
+                                        <p className="mb-1 font-semibold text-coffee-800">
                                           {doc.name[locale] || doc.name.en}
                                         </p>
                                         {doc.description && (
-                                          <p className="text-coffee-600 mb-2 text-sm leading-relaxed">
+                                          <p className="mb-2 text-sm leading-relaxed text-coffee-600">
                                             {doc.description[locale] ||
                                               doc.description.en}
                                           </p>
                                         )}
-                                        <div className="text-coffee-500 flex items-center gap-3 text-xs">
-                                          <span className="bg-coffee-100 text-coffee-700 rounded-full px-2 py-1 font-medium">
+                                        <div className="flex items-center gap-3 text-xs text-coffee-500">
+                                          <span className="rounded-full bg-coffee-100 px-2 py-1 font-medium text-coffee-700">
                                             {doc.type.replace('_', ' ')}
                                           </span>
                                           {doc.size && (
@@ -1374,7 +1401,7 @@ export default async function ProductDetailPage({
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      className="hover:bg-coffee-50 hover:border-coffee-300 transition-colors"
+                                      className="transition-colors hover:border-coffee-300 hover:bg-coffee-50"
                                     >
                                       <Download className="mr-2 h-4 w-4" />
                                       Download
@@ -1401,31 +1428,50 @@ export default async function ProductDetailPage({
               <EnhancedRelatedProducts
                 products={relatedProducts.map(relatedProduct => {
                   const productName =
-                    relatedProduct.name[locale] || relatedProduct.name.en;
+                    relatedProduct.name[locale] || relatedProduct.name.en || '';
                   const productDescription =
                     relatedProduct.shortDescription[locale] ||
-                    relatedProduct.shortDescription.en;
+                    relatedProduct.shortDescription.en ||
+                    '';
 
                   return {
                     id: relatedProduct.id,
                     name: productName,
                     shortDescription: productDescription,
-                    images: relatedProduct.images,
-                    pricing: relatedProduct.pricing,
+                    images: relatedProduct.images.map(img => ({
+                      url: img.url,
+                      alt: img.alt[locale] || img.alt.en || '',
+                      isPrimary: img.isPrimary,
+                    })),
+                    pricing: {
+                      basePrice: relatedProduct.pricing.basePrice,
+                      unit: relatedProduct.pricing.unit,
+                      minimumOrder: relatedProduct.pricing.minimumOrder,
+                      incoterms: [relatedProduct.pricing.incoterms],
+                    },
                     grade: relatedProduct.grade,
-                    origin: relatedProduct.origin,
+                    origin: {
+                      region: relatedProduct.origin.region,
+                      country: relatedProduct.origin.country,
+                    },
                     processingMethod: relatedProduct.processingMethod,
                     certifications: relatedProduct.certifications,
-                    availability: relatedProduct.availability,
+                    availability: {
+                      inStock: relatedProduct.availability.inStock,
+                      leadTime: relatedProduct.availability.leadTime,
+                    },
                     isFeatured: relatedProduct.isFeatured,
                     specifications: {
                       moisture:
-                        relatedProduct.specifications?.moisture || 'N/A',
+                        relatedProduct.specifications?.moisture?.toString() ||
+                        'N/A',
                       screenSize:
                         relatedProduct.specifications?.screenSize || 'N/A',
                       defectRate:
-                        relatedProduct.specifications?.defectRate || 'N/A',
-                      cuppingScore: relatedProduct.specifications?.cuppingScore,
+                        relatedProduct.specifications?.defectRate?.toString() ||
+                        'N/A',
+                      cuppingScore:
+                        relatedProduct.specifications?.cuppingScore || 0,
                     },
                   };
                 })}

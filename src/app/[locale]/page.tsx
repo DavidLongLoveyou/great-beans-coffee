@@ -1,15 +1,5 @@
+import { Users, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
-import {
-  Coffee,
-  Globe,
-  Award,
-  Users,
-  ArrowRight,
-  CheckCircle,
-  Package,
-  Truck,
-  Shield,
-} from 'lucide-react';
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -18,20 +8,12 @@ import { OurProcessSection } from '@/presentation/components/sections/OurProcess
 import { ServerHeroSection } from '@/presentation/components/sections/ServerHeroSection';
 import { TestimonialsSection } from '@/presentation/components/sections/TestimonialsSection';
 import { ValuePropositionSection } from '@/presentation/components/sections/ValuePropositionSection';
-import { Badge } from '@/presentation/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/presentation/components/ui/card';
-import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
   FadeInScroll,
   AnimatedIcon,
   FloatingElement,
 } from '@/presentation/components/ui/MicroInteractions';
+import { ServerButton } from '@/presentation/components/ui/server-button';
 import { generateMetadata as generateSEOMetadata } from '@/shared/utils/seo-utils';
 
 // Generate SEO metadata for the homepage
@@ -125,7 +107,7 @@ export default async function HomePage({
 
             <FadeInScroll delay={0.4}>
               <h2 className="mb-6 text-4xl font-bold leading-tight text-white md:text-5xl">
-                Ready to Partner with Vietnam's
+                Ready to Partner with Vietnam&apos;s
                 <span className="text-gradient-emerald block bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
                   Leading Coffee Exporter?
                 </span>

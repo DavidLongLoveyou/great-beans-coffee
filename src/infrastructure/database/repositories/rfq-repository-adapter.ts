@@ -1,4 +1,4 @@
-import { RFQEntity } from '@/domain/entities/rfq.entity';
+import { RFQEntity, RFQQuote } from '@/domain/entities/rfq.entity';
 import type {
   IRFQRepository,
   RFQSearchCriteria,
@@ -163,6 +163,30 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     readBy: string
   ): Promise<RFQEntity> {
     throw new Error('Method not implemented');
+  }
+
+  async getQuotes(id: string): Promise<any[]> {
+    return this.repository.getQuotes(id);
+  }
+
+  async createQuote(id: string, quote: any): Promise<RFQQuote> {
+    return this.repository.createQuote(id, quote);
+  }
+
+  async updateQuoteStatus(
+    id: string,
+    quoteId: string,
+    status: string,
+    notes?: string,
+    updatedBy?: string
+  ): Promise<RFQQuote> {
+    return this.repository.updateQuoteStatus(
+      id,
+      quoteId,
+      status,
+      notes,
+      updatedBy
+    );
   }
 
   async addQuote(id: string, quote: any): Promise<RFQEntity> {

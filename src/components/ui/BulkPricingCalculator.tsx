@@ -164,7 +164,7 @@ export function BulkPricingCalculator({
   return (
     <Card className={`shadow-lg ${className}`}>
       <CardContent className="p-6">
-        <SectionHeading size="lg" className="text-coffee-800 mb-6">
+        <SectionHeading size="lg" className="mb-6 text-coffee-800">
           <div className="flex items-center">
             <Calculator className="mr-3 h-6 w-6" />
             Bulk Pricing Calculator
@@ -176,7 +176,7 @@ export function BulkPricingCalculator({
           <div>
             <Label
               htmlFor="quantity"
-              className="text-coffee-700 text-sm font-medium"
+              className="text-sm font-medium text-coffee-700"
             >
               Quantity
             </Label>
@@ -194,7 +194,7 @@ export function BulkPricingCalculator({
           <div>
             <Label
               htmlFor="unit"
-              className="text-coffee-700 text-sm font-medium"
+              className="text-sm font-medium text-coffee-700"
             >
               Unit
             </Label>
@@ -214,7 +214,7 @@ export function BulkPricingCalculator({
           <div>
             <Label
               htmlFor="incoterms"
-              className="text-coffee-700 text-sm font-medium"
+              className="text-sm font-medium text-coffee-700"
             >
               Incoterms
             </Label>
@@ -351,17 +351,17 @@ export function BulkPricingCalculator({
                 </div>
               )}
 
-              <div className="bg-gold-50 border-gold-200 rounded-lg border p-4">
+              <div className="rounded-lg border border-gold-200 bg-gold-50 p-4">
                 <div className="mb-2 flex items-center justify-between">
-                  <DollarSign className="text-gold-600 h-5 w-5" />
-                  <span className="text-gold-700 text-xs font-medium">
+                  <DollarSign className="h-5 w-5 text-gold-600" />
+                  <span className="text-xs font-medium text-gold-700">
                     TOTAL
                   </span>
                 </div>
-                <p className="text-gold-800 text-lg font-bold">
+                <p className="text-lg font-bold text-gold-800">
                   ${calculation.totalWithShipping.toLocaleString()}
                 </p>
-                <p className="text-gold-600 text-xs">Including all costs</p>
+                <p className="text-xs text-gold-600">Including all costs</p>
               </div>
             </div>
 
@@ -369,7 +369,7 @@ export function BulkPricingCalculator({
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button
                 onClick={exportQuote}
-                className="bg-coffee-600 hover:bg-coffee-700 flex-1"
+                className="flex-1 bg-coffee-600 hover:bg-coffee-700"
               >
                 <Download className="mr-2 h-4 w-4" />
                 Export Quote
@@ -403,7 +403,7 @@ export function BulkPricingCalculator({
             {showBreakdown && (
               <Card className="bg-gray-50">
                 <CardContent className="p-4">
-                  <h4 className="text-coffee-800 mb-3 text-sm font-semibold">
+                  <h4 className="mb-3 text-sm font-semibold text-coffee-800">
                     Price Breakdown
                   </h4>
                   <div className="space-y-2 text-sm">
@@ -445,7 +445,7 @@ export function BulkPricingCalculator({
                             ${calculation.estimatedShipping.toLocaleString()}
                           </span>
                         </div>
-                        <div className="text-coffee-800 flex justify-between border-t pt-2 font-bold">
+                        <div className="flex justify-between border-t pt-2 font-bold text-coffee-800">
                           <span>Grand Total</span>
                           <span>
                             ${calculation.totalWithShipping.toLocaleString()}
@@ -467,8 +467,11 @@ export function BulkPricingCalculator({
                     Quote Valid Until
                   </h4>
                   <p className="text-xs text-blue-700">
-                    This quote is valid until {product.pricing.priceValidUntil}.
-                    Prices are subject to market conditions and availability.
+                    This quote is valid until{' '}
+                    {new Date(
+                      product.pricing.priceValidUntil
+                    ).toLocaleDateString()}
+                    . Prices are subject to market conditions and availability.
                   </p>
                 </div>
               </div>

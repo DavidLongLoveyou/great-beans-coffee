@@ -1,32 +1,29 @@
 'use client';
 
+import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import {
-  Package,
-  Search,
-  Filter,
+  ArrowUpDown,
+  CheckCircle,
+  Clock,
+  DollarSign,
   Download,
   Eye,
-  Truck,
   FileText,
-  DollarSign,
-  Calendar,
-  MapPin,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  XCircle,
-  Plus,
-  ArrowUpDown,
   MoreHorizontal,
-  Ship,
+  Package,
   Plane,
-  Building,
+  Plus,
+  Search,
+  Ship,
+  Truck,
+  XCircle,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
-import { useState, useMemo } from 'react';
 
 import { type Locale } from '@/i18n';
+import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
+import { ContentSection } from '@/presentation/components/layout/ContentSection';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -41,7 +38,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/presentation/components/ui/dropdown-menu';
 import { Input } from '@/presentation/components/ui/input';
@@ -61,14 +57,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/presentation/components/ui/table';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/presentation/components/ui/tabs';
-import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
-import { ContentSection } from '@/presentation/components/layout/ContentSection';
 import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
 
 interface OrdersPageProps {
@@ -192,7 +180,7 @@ const mockOrders: Order[] = [
   },
 ];
 
-export default function OrdersPage({ params }: OrdersPageProps) {
+export default function OrdersPage({ params: _params }: OrdersPageProps) {
   const t = useTranslations('orders');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -215,12 +203,12 @@ export default function OrdersPage({ params }: OrdersPageProps) {
     });
 
     filtered.sort((a, b) => {
-      let aValue: any = a[sortBy as keyof Order];
-      let bValue: any = b[sortBy as keyof Order];
+      let aValue: string | number | Date = a[sortBy as keyof Order];
+      let bValue: string | number | Date = b[sortBy as keyof Order];
 
       if (sortBy === 'orderDate' || sortBy === 'deliveryDate') {
-        aValue = new Date(aValue);
-        bValue = new Date(bValue);
+        aValue = new Date(aValue as string);
+        bValue = new Date(bValue as string);
       }
 
       if (sortOrder === 'asc') {

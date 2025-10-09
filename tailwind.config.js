@@ -343,7 +343,10 @@ module.exports = {
         },
         coffeeStream: {
           '0%, 100%': { transform: 'translateY(0) scaleY(1)', opacity: '0.6' },
-          '50%': { transform: 'translateY(-0.5rem) scaleY(1.1)', opacity: '0.8' },
+          '50%': {
+            transform: 'translateY(-0.5rem) scaleY(1.1)',
+            opacity: '0.8',
+          },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
@@ -375,10 +378,10 @@ module.exports = {
         'fade-in-down': 'fadeInDown 0.6s ease-out',
         'slide-up': 'slideUp 0.5s ease-out',
         'coffee-steam': 'coffeeStream 2s ease-in-out infinite',
-        'float': 'float 3s ease-in-out infinite',
+        float: 'float 3s ease-in-out infinite',
         'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
         'bounce-gentle': 'bounce-gentle 2s infinite',
-        'loading': 'loading 1.5s ease-in-out infinite',
+        loading: 'loading 1.5s ease-in-out infinite',
       },
 
       backgroundImage: {

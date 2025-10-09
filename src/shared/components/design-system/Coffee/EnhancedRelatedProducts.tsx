@@ -7,18 +7,15 @@ import {
   Package,
   Clock,
   Star,
-  ArrowRight,
   Plus,
   Minus,
   Eye,
   Download,
   CheckCircle,
-  AlertCircle,
   Users,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
@@ -30,21 +27,12 @@ import {
   CardTitle,
 } from '@/presentation/components/ui/card';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/presentation/components/ui/dialog';
-import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/presentation/components/ui/select';
-import { Separator } from '@/presentation/components/ui/separator';
 import {
   Tabs,
   TabsContent,
@@ -210,8 +198,14 @@ export function EnhancedRelatedProducts({
     basePrice: number,
     quantity: number
   ): BulkOption => {
-    const option =
-      bulkOptions.find(opt => quantity >= opt.quantity) || bulkOptions[0];
+    const option = bulkOptions.find(opt => quantity >= opt.quantity) ||
+      bulkOptions[0] || {
+        quantity: 1,
+        unit: 'MT',
+        discount: 0,
+        leadTime: 14,
+        packaging: 'Standard',
+      };
     return {
       ...option,
       pricePerUnit: basePrice * (1 - option.discount / 100),
@@ -226,7 +220,7 @@ export function EnhancedRelatedProducts({
     const reason = getRecommendationReason(product);
 
     return (
-      <Card className="border-coffee-200/50 hover:shadow-coffee-glow group relative overflow-hidden transition-all duration-300 hover:shadow-xl">
+      <Card className="hover:shadow-coffee-glow group relative overflow-hidden border-coffee-200/50 transition-all duration-300 hover:shadow-xl">
         {/* Recommendation Badge */}
         <div className="absolute left-3 top-3 z-10">
           <TooltipProvider>
@@ -266,7 +260,7 @@ export function EnhancedRelatedProducts({
         </div>
 
         {/* Product Image */}
-        <div className="bg-coffee-50 relative aspect-video">
+        <div className="relative aspect-video bg-coffee-50">
           <CardImage
             src={primaryImage?.url || '/images/coffee-beans-placeholder.jpg'}
             alt={primaryImage?.alt || product.name}
@@ -285,7 +279,7 @@ export function EnhancedRelatedProducts({
 
           {/* Featured Badge */}
           {product.isFeatured && (
-            <Badge className="bg-gold-500 absolute bottom-3 right-3 text-white">
+            <Badge className="absolute bottom-3 right-3 bg-gold-500 text-white">
               <Star className="mr-1 h-3 w-3" />
               Featured
             </Badge>
@@ -293,10 +287,10 @@ export function EnhancedRelatedProducts({
         </div>
 
         <CardHeader className="pb-4">
-          <CardTitle className="text-coffee-800 group-hover:text-coffee-600 text-lg font-semibold transition-colors">
+          <CardTitle className="text-lg font-semibold text-coffee-800 transition-colors group-hover:text-coffee-600">
             {product.name}
           </CardTitle>
-          <CardDescription className="text-coffee-600 text-sm">
+          <CardDescription className="text-sm text-coffee-600">
             {product.shortDescription}
           </CardDescription>
 
@@ -318,10 +312,10 @@ export function EnhancedRelatedProducts({
           {/* Pricing Information */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-coffee-700 text-sm font-medium">
+              <span className="text-sm font-medium text-coffee-700">
                 Base Price:
               </span>
-              <span className="text-coffee-800 text-lg font-bold">
+              <span className="text-lg font-bold text-coffee-800">
                 ${product.pricing.basePrice.toLocaleString()}/
                 {product.pricing.unit}
               </span>
@@ -347,7 +341,7 @@ export function EnhancedRelatedProducts({
 
           {/* Quantity Selector */}
           <div className="space-y-2">
-            <label className="text-coffee-700 text-sm font-medium">
+            <label className="text-sm font-medium text-coffee-700">
               Quantity (MT):
             </label>
             <div className="flex items-center gap-2">
@@ -390,11 +384,11 @@ export function EnhancedRelatedProducts({
 
           {/* Lead Time & MOQ */}
           <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="text-coffee-600 flex items-center gap-1">
+            <div className="flex items-center gap-1 text-coffee-600">
               <Clock className="h-3 w-3" />
               <span>{product.availability.leadTime} days</span>
             </div>
-            <div className="text-coffee-600 flex items-center gap-1">
+            <div className="flex items-center gap-1 text-coffee-600">
               <Package className="h-3 w-3" />
               <span>MOQ: {product.pricing.minimumOrder} MT</span>
             </div>
@@ -411,7 +405,7 @@ export function EnhancedRelatedProducts({
             <Button
               size="sm"
               asChild
-              className="bg-coffee-600 hover:bg-coffee-700 flex-1"
+              className="flex-1 bg-coffee-600 hover:bg-coffee-700"
             >
               <Link
                 href={`/${locale}/quote?product=${product.id}&quantity=${quantity}`}
@@ -429,7 +423,7 @@ export function EnhancedRelatedProducts({
   const BulkOptionsPanel = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-coffee-800 mb-2 text-xl font-semibold">
+        <h3 className="mb-2 text-xl font-semibold text-coffee-800">
           Bulk Purchase Options
         </h3>
         <p className="text-coffee-600">
@@ -439,13 +433,13 @@ export function EnhancedRelatedProducts({
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {bulkOptions.map((option, index) => (
+        {bulkOptions.map((option, _index) => (
           <Card
-            key={index}
-            className="border-coffee-200 hover:border-coffee-300 transition-colors"
+            key={`bulk-${option.quantity}-${option.unit}`}
+            className="border-coffee-200 transition-colors hover:border-coffee-300"
           >
             <CardHeader className="pb-3">
-              <CardTitle className="text-coffee-800 text-lg">
+              <CardTitle className="text-lg text-coffee-800">
                 {option.quantity} {option.unit}
               </CardTitle>
               {option.discount > 0 && (
@@ -458,11 +452,11 @@ export function EnhancedRelatedProducts({
               )}
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="text-coffee-800 text-2xl font-bold">
+              <div className="text-2xl font-bold text-coffee-800">
                 ${option.pricePerUnit.toLocaleString()}
-                <span className="text-coffee-600 text-sm font-normal">/MT</span>
+                <span className="text-sm font-normal text-coffee-600">/MT</span>
               </div>
-              <div className="text-coffee-600 space-y-2 text-sm">
+              <div className="space-y-2 text-sm text-coffee-600">
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4" />
                   <span>{option.leadTime} days delivery</span>
@@ -480,16 +474,16 @@ export function EnhancedRelatedProducts({
         ))}
       </div>
 
-      <div className="bg-coffee-50 rounded-lg p-6">
-        <h4 className="text-coffee-800 mb-3 font-semibold">
+      <div className="rounded-lg bg-coffee-50 p-6">
+        <h4 className="mb-3 font-semibold text-coffee-800">
           Bulk Purchase Benefits
         </h4>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="flex items-start gap-3">
             <CheckCircle className="mt-0.5 h-5 w-5 text-emerald-500" />
             <div>
-              <h5 className="text-coffee-700 font-medium">Volume Discounts</h5>
-              <p className="text-coffee-600 text-sm">
+              <h5 className="font-medium text-coffee-700">Volume Discounts</h5>
+              <p className="text-sm text-coffee-600">
                 Save up to 10.5% on large orders
               </p>
             </div>
@@ -497,10 +491,10 @@ export function EnhancedRelatedProducts({
           <div className="flex items-start gap-3">
             <CheckCircle className="mt-0.5 h-5 w-5 text-emerald-500" />
             <div>
-              <h5 className="text-coffee-700 font-medium">
+              <h5 className="font-medium text-coffee-700">
                 Priority Processing
               </h5>
-              <p className="text-coffee-600 text-sm">
+              <p className="text-sm text-coffee-600">
                 Faster handling for bulk orders
               </p>
             </div>
@@ -508,8 +502,8 @@ export function EnhancedRelatedProducts({
           <div className="flex items-start gap-3">
             <CheckCircle className="mt-0.5 h-5 w-5 text-emerald-500" />
             <div>
-              <h5 className="text-coffee-700 font-medium">Flexible Payment</h5>
-              <p className="text-coffee-600 text-sm">
+              <h5 className="font-medium text-coffee-700">Flexible Payment</h5>
+              <p className="text-sm text-coffee-600">
                 Extended payment terms available
               </p>
             </div>
@@ -517,8 +511,8 @@ export function EnhancedRelatedProducts({
           <div className="flex items-start gap-3">
             <CheckCircle className="mt-0.5 h-5 w-5 text-emerald-500" />
             <div>
-              <h5 className="text-coffee-700 font-medium">Quality Assurance</h5>
-              <p className="text-coffee-600 text-sm">
+              <h5 className="font-medium text-coffee-700">Quality Assurance</h5>
+              <p className="text-sm text-coffee-600">
                 Consistent quality across batches
               </p>
             </div>
@@ -531,7 +525,7 @@ export function EnhancedRelatedProducts({
   const ComparisonPanel = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-coffee-800 mb-2 text-xl font-semibold">
+        <h3 className="mb-2 text-xl font-semibold text-coffee-800">
           Product Comparison
         </h3>
         <p className="text-coffee-600">
@@ -541,8 +535,8 @@ export function EnhancedRelatedProducts({
 
       {selectedProducts.size === 0 ? (
         <div className="py-12 text-center">
-          <Scale className="text-coffee-300 mx-auto mb-4 h-16 w-16" />
-          <h4 className="text-coffee-700 mb-2 text-lg font-medium">
+          <Scale className="mx-auto mb-4 h-16 w-16 text-coffee-300" />
+          <h4 className="mb-2 text-lg font-medium text-coffee-700">
             No Products Selected
           </h4>
           <p className="text-coffee-600">
@@ -552,7 +546,7 @@ export function EnhancedRelatedProducts({
       ) : (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-coffee-700 text-sm font-medium">
+            <span className="text-sm font-medium text-coffee-700">
               {selectedProducts.size} product(s) selected
             </span>
             <Button
@@ -647,10 +641,10 @@ export function EnhancedRelatedProducts({
   return (
     <div className={cn('space-y-8', className)}>
       <div className="text-center">
-        <h2 className="text-coffee-800 mb-4 text-3xl font-bold">
+        <h2 className="mb-4 text-3xl font-bold text-coffee-800">
           Recommended for Your Business
         </h2>
-        <p className="text-coffee-600 mx-auto max-w-3xl text-lg">
+        <p className="mx-auto max-w-3xl text-lg text-coffee-600">
           Discover complementary products, explore bulk options, and compare
           specifications to optimize your coffee sourcing strategy.
         </p>
@@ -658,7 +652,7 @@ export function EnhancedRelatedProducts({
 
       <Tabs
         value={activeTab}
-        onValueChange={value => setActiveTab(value as any)}
+        onValueChange={(value: string) => setActiveTab(value)}
         className="w-full"
       >
         <TabsList className="mx-auto grid w-full max-w-md grid-cols-3">
@@ -687,13 +681,13 @@ export function EnhancedRelatedProducts({
           </div>
 
           {selectedProducts.size > 0 && (
-            <div className="bg-coffee-50 rounded-lg p-6">
+            <div className="rounded-lg bg-coffee-50 p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-coffee-800 font-semibold">
+                  <h4 className="font-semibold text-coffee-800">
                     {selectedProducts.size} product(s) selected
                   </h4>
-                  <p className="text-coffee-600 text-sm">
+                  <p className="text-sm text-coffee-600">
                     Switch to comparison tab to analyze side by side
                   </p>
                 </div>
@@ -729,11 +723,11 @@ export function EnhancedRelatedProducts({
       </Tabs>
 
       {/* Call to Action */}
-      <div className="from-coffee-800 to-coffee-600 rounded-xl bg-gradient-to-r p-8 text-center text-white">
+      <div className="rounded-xl bg-gradient-to-r from-coffee-800 to-coffee-600 p-8 text-center text-white">
         <h3 className="mb-4 text-2xl font-bold">
           Need Help Choosing the Right Products?
         </h3>
-        <p className="text-coffee-100 mx-auto mb-6 max-w-2xl">
+        <p className="mx-auto mb-6 max-w-2xl text-coffee-100">
           Our coffee experts are here to help you select the perfect products
           for your business needs. Get personalized recommendations and custom
           quotes.
@@ -748,7 +742,7 @@ export function EnhancedRelatedProducts({
           <Button
             variant="outline"
             size="lg"
-            className="hover:text-coffee-800 border-white text-white hover:bg-white"
+            className="border-white text-white hover:bg-white hover:text-coffee-800"
             asChild
           >
             <Link href={`/${locale}/catalog`}>

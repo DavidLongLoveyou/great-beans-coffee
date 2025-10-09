@@ -2,13 +2,12 @@
 
 import React, { forwardRef } from 'react';
 
+import { CoffeeCupLoader } from '@/presentation/components/ui/CoffeeCupLoader';
 import { cn } from '@/shared/utils/cn';
-import {
-  CoffeeCupLoader,
-  CoffeeCupSpinner,
-} from '@/presentation/components/ui/CoffeeCupLoader';
 
 import { SizeVariant } from '../types';
+
+import { CoffeeCupSpinner } from '@/presentation/components/ui/CoffeeCupSpinner';
 
 interface LoadingSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: SizeVariant;
@@ -73,7 +72,7 @@ export const CoffeeSpinner = forwardRef<
       {/* Coffee cup base */}
       <div
         className={cn(
-          'border-coffee-300 bg-coffee-100 rounded-full border-2',
+          'rounded-full border-2 border-coffee-300 bg-coffee-100',
           spinnerSizes[size],
           className
         )}
@@ -81,13 +80,13 @@ export const CoffeeSpinner = forwardRef<
 
       {/* Steam animation */}
       <div className="absolute -top-1 left-1/2 -translate-x-1/2 transform">
-        <div className="animate-coffee-steam bg-coffee-400 h-2 w-0.5 rounded-full opacity-60" />
+        <div className="h-2 w-0.5 animate-coffee-steam rounded-full bg-coffee-400 opacity-60" />
         <div
-          className="animate-coffee-steam bg-coffee-400 ml-1 h-2 w-0.5 rounded-full opacity-40"
+          className="ml-1 h-2 w-0.5 animate-coffee-steam rounded-full bg-coffee-400 opacity-40"
           style={{ animationDelay: '0.5s' }}
         />
         <div
-          className="animate-coffee-steam bg-coffee-400 ml-1 h-2 w-0.5 rounded-full opacity-30"
+          className="ml-1 h-2 w-0.5 animate-coffee-steam rounded-full bg-coffee-400 opacity-30"
           style={{ animationDelay: '1s' }}
         />
       </div>
@@ -124,7 +123,7 @@ export const DotsSpinner = forwardRef<
         <div
           key={`dot-${dotCount}-delay-${index * 0.2}s`}
           className={cn(
-            'bg-coffee-500 animate-pulse rounded-full',
+            'animate-pulse rounded-full bg-coffee-500',
             dotSizes[size]
           )}
           style={{
@@ -177,7 +176,11 @@ export const PremiumCoffeeLoader = forwardRef<
       ref={ref}
       {...props}
     >
-      <CoffeeCupLoader size={size} showText={showText} text={text} />
+      <CoffeeCupLoader
+        size={size}
+        showText={showText}
+        {...(text !== undefined && { text })}
+      />
     </div>
   );
 });

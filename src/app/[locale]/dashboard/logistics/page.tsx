@@ -1,26 +1,27 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 import {
   Calculator,
-  Ship,
-  Truck,
-  Plane,
-  MapPin,
   Calendar,
   DollarSign,
-  Package,
-  Clock,
-  Info,
-  ArrowRight,
-  Globe,
   FileText,
-  AlertCircle,
-  CheckCircle,
+  Globe,
+  Info,
+  MapPin,
+  Package,
+  Plane,
   RefreshCw,
+  Ship,
+  Truck,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
+import { DashboardLayout } from '@/components/layout/dashboard-layout';
+import { PageHeader } from '@/components/layout/page-header';
+import { Alert, AlertDescription } from '@/presentation/components/ui/alert';
+import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
 import {
   Card,
   CardContent,
@@ -28,7 +29,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { Button } from '@/presentation/components/ui/button';
 import { Input } from '@/presentation/components/ui/input';
 import { Label } from '@/presentation/components/ui/label';
 import {
@@ -38,17 +38,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/presentation/components/ui/select';
+import { Separator } from '@/presentation/components/ui/separator';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
-import { Badge } from '@/presentation/components/ui/badge';
-import { Separator } from '@/presentation/components/ui/separator';
-import { Alert, AlertDescription } from '@/presentation/components/ui/alert';
-import { DashboardLayout } from '@/components/layout/dashboard-layout';
-import { PageHeader } from '@/components/layout/page-header';
 import { Typography } from '@/presentation/components/ui/typography';
 
 // Mock data for shipping calculations

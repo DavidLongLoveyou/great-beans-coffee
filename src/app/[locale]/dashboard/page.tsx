@@ -1,29 +1,24 @@
 'use client';
 
-import {
-  BarChart3,
-  Package,
-  FileText,
-  Users,
-  Settings,
-  TrendingUp,
-  DollarSign,
-  ShoppingCart,
-  Clock,
-  AlertCircle,
-  CheckCircle,
-  ArrowUpRight,
-  Download,
-  Plus,
-  Bell,
-  Search,
-  Filter,
-} from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 import { useState } from 'react';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import {
+  AlertCircle,
+  ArrowUpRight,
+  BarChart3,
+  Bell,
+  DollarSign,
+  Download,
+  FileText,
+  Package,
+  Plus,
+  TrendingUp,
+} from 'lucide-react';
 
 import { type Locale } from '@/i18n';
+import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
+import { ContentSection } from '@/presentation/components/layout/ContentSection';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -33,17 +28,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { Input } from '@/presentation/components/ui/input';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
-import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
-import { ContentSection } from '@/presentation/components/layout/ContentSection';
 import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
-import { SectionHeading } from '@/shared/components/typography/SectionHeading';
 
 interface DashboardPageProps {
   params: Promise<{
@@ -130,7 +121,7 @@ const mockDashboardData = {
   ],
 };
 
-export default function DashboardPage({ params }: DashboardPageProps) {
+export default function DashboardPage({ params: _params }: DashboardPageProps) {
   const t = useTranslations('dashboard');
   const [activeTab, setActiveTab] = useState('overview');
 

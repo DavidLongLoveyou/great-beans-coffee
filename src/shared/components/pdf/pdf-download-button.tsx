@@ -1,10 +1,13 @@
 'use client';
 
-import React from 'react';
+import { Download, FileText, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import React from 'react';
+
+import type { CoffeeProduct } from '@/domain/entities/coffee-product.entity';
+import type { RFQ } from '@/domain/entities/rfq.entity';
 import { Button } from '@/presentation/components/ui/button';
 import { usePDFGeneration } from '@/shared/hooks/use-pdf-generation';
-import { Download, FileText, Loader2 } from 'lucide-react';
 import { cn } from '@/shared/utils';
 
 export type PDFType =
@@ -16,7 +19,7 @@ export type PDFType =
 interface PDFDownloadButtonProps {
   type: PDFType;
   entityId: string;
-  entityData?: any;
+  entityData?: CoffeeProduct | RFQ | Record<string, unknown>;
   locale?: string;
   options?: {
     format?: 'A4' | 'Letter' | 'Legal';
@@ -57,7 +60,7 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
     generateRFQDocument,
     generateFromHTML,
     isGenerating,
-    error,
+    error: _error,
   } = usePDFGeneration();
 
   const getButtonText = () => {
@@ -125,7 +128,6 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
       const error =
         err instanceof Error ? err : new Error('Unknown error occurred');
       onError?.(error);
-      console.error('PDF generation failed:', error);
     }
   };
 
@@ -174,7 +176,7 @@ interface BatchPDFDownloadButtonProps {
   items: Array<{
     type: PDFType;
     entityId: string;
-    entityData?: any;
+    entityData?: CoffeeProduct | RFQ | Record<string, unknown>;
     filename?: string;
   }>;
   locale?: string;
@@ -257,7 +259,6 @@ export const BatchPDFDownloadButton: React.FC<BatchPDFDownloadButtonProps> = ({
       const error =
         err instanceof Error ? err : new Error('Batch download failed');
       onError?.(error);
-      console.error('Batch PDF generation failed:', error);
     } finally {
       setIsGenerating(false);
       setProgress(0);

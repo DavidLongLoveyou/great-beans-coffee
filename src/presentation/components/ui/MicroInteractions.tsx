@@ -1,12 +1,19 @@
 'use client';
 
-import { motion, HTMLMotionProps, useScroll, useTransform } from 'framer-motion';
+import {
+  motion,
+  HTMLMotionProps,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
+import React, { ReactNode } from 'react';
+
+import { cn } from '@/lib/utils';
 import {
   useScrollAnimation,
   useHoverAnimation,
+  useStaggeredScrollAnimation,
 } from '@/presentation/hooks/useScrollAnimation';
-import { cn } from '@/lib/utils';
-import { ReactNode } from 'react';
 
 // Fade In on Scroll Component
 interface FadeInScrollProps extends HTMLMotionProps<'div'> {
@@ -26,17 +33,22 @@ export function FadeInScroll({
   ...props
 }: FadeInScrollProps) {
   const { ref, isInView, animationVariants } = useScrollAnimation({
-    threshold,
-    triggerOnce,
+    amount: threshold,
+    once: triggerOnce,
     delay,
   });
 
   return (
     <motion.div
-      ref={ref}
+      ref={ref as React.LegacyRef<HTMLDivElement>}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
       variants={animationVariants}
+      transition={{
+        duration: 0.6,
+        delay,
+        ease: 'easeInOut',
+      }}
       className={className}
       {...props}
     >
@@ -60,48 +72,37 @@ export function StaggeredFadeIn({
   childClassName,
   ...props
 }: StaggeredFadeInProps) {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: staggerDelay,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
-    },
-  };
+  const { ref, isInView, containerVariants, itemVariants } =
+    useStaggeredScrollAnimation({
+      staggerDelay,
+      childrenCount: Array.isArray(children) ? children.length : 1,
+    });
 
   return (
     <motion.div
+      ref={ref as React.LegacyRef<HTMLDivElement>}
       initial="hidden"
-      animate="visible"
+      animate={isInView ? 'visible' : 'hidden'}
       variants={containerVariants}
       className={className}
       {...props}
     >
-      {Array.isArray(children)
-        ? children.map((child, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className={childClassName}
-            >
-              {child}
-            </motion.div>
-          ))
-        : children}
+      {React.Children.toArray(children).map((child, index) => {
+        const childElement = child as React.ReactElement;
+        return (
+          <motion.div
+            key={childElement.key || `stagger-item-${index}`}
+            variants={itemVariants}
+            transition={{
+              duration: 0.5,
+              ease: 'easeInOut',
+            }}
+            className={childClassName}
+          >
+            {child}
+          </motion.div>
+        );
+      })}
     </motion.div>
   );
 }
@@ -126,14 +127,13 @@ export function HoverLift({
       whileHover={{
         y: -liftHeight,
         scale,
-        transition: {
-          duration: 0.2,
-          ease: [0.25, 0.46, 0.45, 0.94],
-        },
       }}
       whileTap={{
         scale: 0.98,
-        transition: { duration: 0.1 },
+      }}
+      transition={{
+        duration: 0.2,
+        ease: 'easeOut',
       }}
       className={cn('cursor-pointer', className)}
       {...props}
@@ -163,15 +163,15 @@ export function AnimatedButton({
   const { buttonHoverVariants } = useHoverAnimation();
 
   const baseClasses =
-    'relative overflow-hidden font-medium transition-all duration-200 rounded-lg';
+    'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variantClasses = {
     primary:
-      'bg-forest-600 text-white hover:bg-forest-700 shadow-lg hover:shadow-forest-medium',
+      'bg-forest-600 text-white hover:bg-forest-700 focus:ring-forest-500',
     secondary:
-      'bg-emerald-100 text-forest-800 hover:bg-emerald-200 shadow-md hover:shadow-emerald-soft',
+      'bg-emerald-100 text-forest-700 hover:bg-emerald-200 focus:ring-emerald-500',
     outline:
-      'border-2 border-forest-600 text-forest-600 hover:bg-forest-600 hover:text-white',
+      'border-2 border-forest-600 text-forest-600 hover:bg-forest-600 hover:text-white focus:ring-forest-500',
   };
 
   const sizeClasses = {
@@ -186,6 +186,10 @@ export function AnimatedButton({
       initial="initial"
       whileHover="hover"
       whileTap="tap"
+      transition={{
+        duration: 0.2,
+        ease: 'easeInOut',
+      }}
       className={cn(
         baseClasses,
         variantClasses[variant],
@@ -196,24 +200,14 @@ export function AnimatedButton({
       disabled={loading}
       {...props}
     >
-      {/* Ripple Effect Background */}
-      <motion.div
-        className="absolute inset-0 bg-white opacity-0"
-        whileHover={{ opacity: 0.1 }}
-        transition={{ duration: 0.2 }}
-      />
-
-      {/* Button Content */}
-      <span className="relative z-10 flex items-center justify-center gap-2">
-        {loading && (
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-            className="h-4 w-4 rounded-full border-2 border-current border-t-transparent"
-          />
-        )}
-        {children}
-      </span>
+      {loading ? (
+        <div className="flex items-center gap-2">
+          <LoadingSpinner size="sm" color="white" />
+          <span>Loading...</span>
+        </div>
+      ) : (
+        children
+      )}
     </motion.button>
   );
 }
@@ -238,10 +232,10 @@ export function AnimatedIcon({
       whileHover={{
         rotate: hoverRotate,
         scale: hoverScale,
-        transition: {
-          duration: 0.2,
-          ease: [0.25, 0.46, 0.45, 0.94],
-        },
+      }}
+      transition={{
+        duration: 0.2,
+        ease: 'easeInOut',
       }}
       className={cn('inline-block', className)}
       {...props}
@@ -271,21 +265,17 @@ export function AnimatedCard({
       whileHover={{
         y: hoverLift ? -4 : 0,
         scale: 1.01,
-        boxShadow: hoverShadow
-          ? '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
-          : undefined,
-        transition: {
-          duration: 0.2,
-          ease: [0.25, 0.46, 0.45, 0.94],
-        },
       }}
       whileTap={{
         scale: 0.99,
-        transition: { duration: 0.1 },
+      }}
+      transition={{
+        duration: 0.2,
+        ease: 'easeOut',
       }}
       className={cn(
         'cursor-pointer transition-all duration-200',
-        hoverShadow && 'shadow-md',
+        hoverShadow && 'shadow-md hover:shadow-xl',
         className
       )}
       {...props}
@@ -317,7 +307,7 @@ export function FloatingElement({
         transition: {
           duration,
           repeat: Infinity,
-          ease: 'easeInOut',
+          ease: [0.42, 0, 0.58, 1],
         },
       }}
       className={className}
@@ -429,7 +419,7 @@ export function LoadingState({
       transition={{ duration: 0.2 }}
     >
       {children}
-      
+
       {loading && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -439,7 +429,7 @@ export function LoadingState({
         >
           <div className="flex items-center gap-3">
             <LoadingSpinner size="md" color="forest" />
-            <span className="text-forest-700 font-medium">{loadingText}</span>
+            <span className="font-medium text-forest-700">{loadingText}</span>
           </div>
         </motion.div>
       )}
@@ -498,11 +488,7 @@ export function ParallaxElement({
   const y = useTransform(scrollY, [0, 1000], [0, -1000 * speed]);
 
   return (
-    <motion.div
-      style={{ y }}
-      className={className}
-      {...props}
-    >
+    <motion.div style={{ y }} className={className} {...props}>
       {children}
     </motion.div>
   );
@@ -522,7 +508,7 @@ export function PageTransition({ children, className }: PageTransitionProps) {
       exit={{ opacity: 0, y: -20 }}
       transition={{
         duration: 0.3,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: 'easeOut',
       }}
       className={className}
     >

@@ -1,7 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
+
 import { cn } from '@/lib/utils';
+
+// Static array for steam particles to avoid array index keys
+const STEAM_PARTICLES = [
+  { id: 'steam-left', delay: 0 },
+  { id: 'steam-center', delay: 0.3 },
+  { id: 'steam-right', delay: 0.6 },
+];
 
 interface CoffeeCupLoaderProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -28,33 +36,18 @@ export function CoffeeCupLoader({
       y: [-10, -20, -10],
       opacity: [0.3, 0.8, 0.3],
       scale: [0.8, 1.2, 0.8],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      },
     },
   };
 
   const cupVariants = {
     animate: {
       rotate: [0, 2, -2, 0],
-      transition: {
-        duration: 4,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      },
     },
   };
 
   const coffeeVariants = {
     animate: {
       y: [0, -2, 0],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      },
     },
   };
 
@@ -65,6 +58,11 @@ export function CoffeeCupLoader({
         <motion.svg
           variants={cupVariants}
           animate="animate"
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: 'linear',
+          }}
           viewBox="0 0 100 100"
           className="h-full w-full"
           fill="none"
@@ -82,6 +80,11 @@ export function CoffeeCupLoader({
           <motion.ellipse
             variants={coffeeVariants}
             animate="animate"
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
             cx="45"
             cy="32"
             rx="22"
@@ -112,15 +115,20 @@ export function CoffeeCupLoader({
 
         {/* Steam */}
         <div className="absolute -top-2 left-1/2 -translate-x-1/2 transform">
-          {[...Array(3)].map((_, i) => (
+          {STEAM_PARTICLES.map((particle, i) => (
             <motion.div
-              key={i}
+              key={particle.id}
               variants={steamVariants}
               animate="animate"
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: 'linear',
+                delay: particle.delay,
+              }}
               className="absolute h-4 w-1 rounded-full bg-gradient-to-t from-gray-300 to-transparent opacity-60"
               style={{
                 left: `${(i - 1) * 4}px`,
-                animationDelay: `${i * 0.3}s`,
               }}
             />
           ))}
@@ -157,7 +165,7 @@ export function CoffeeCupLoader({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-coffee-600 mt-4 text-sm font-medium"
+          className="mt-4 text-sm font-medium text-coffee-600"
         >
           {text}
         </motion.p>

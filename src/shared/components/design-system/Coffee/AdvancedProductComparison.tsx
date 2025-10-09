@@ -4,16 +4,12 @@ import {
   X,
   Download,
   ShoppingCart,
-  FileText,
-  Calculator,
   TrendingUp,
   BarChart3,
   Scale,
   DollarSign,
   Package,
-  Truck,
   Clock,
-  Award,
   AlertTriangle,
   CheckCircle,
   Info,
@@ -21,8 +17,9 @@ import {
   Target,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo, Fragment, ReactNode } from 'react';
 
+import type { Product } from '@/presentation/components/catalog/ProductGrid';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -34,10 +31,18 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/presentation/components/ui/dialog';
+import { Input } from '@/presentation/components/ui/input';
+import { Label } from '@/presentation/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/presentation/components/ui/select';
 import {
   Table,
   TableBody,
@@ -53,15 +58,6 @@ import {
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/presentation/components/ui/select';
-import { Input } from '@/presentation/components/ui/input';
-import { Label } from '@/presentation/components/ui/label';
-import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -73,9 +69,36 @@ import {
   OriginFlag,
   ProcessingMethodBadge,
 } from '@/shared/components/design-system/Coffee';
+import type { CoffeeOrigin } from '@/shared/components/design-system/types';
 import { CardImage } from '@/shared/components/performance/OptimizedImage';
 
-import type { Product } from '@/presentation/components/catalog/ProductGrid';
+// Helper function to map region string to CoffeeOrigin type
+const mapRegionToOrigin = (region: string): CoffeeOrigin => {
+  const regionLower = region.toLowerCase();
+
+  // Map common region names to CoffeeOrigin values
+  const regionMap: Record<string, CoffeeOrigin> = {
+    vietnam: 'vietnam',
+    'viet nam': 'vietnam',
+    brazil: 'brazil',
+    colombia: 'colombia',
+    ethiopia: 'ethiopia',
+    guatemala: 'guatemala',
+    honduras: 'honduras',
+    peru: 'peru',
+    indonesia: 'indonesia',
+    india: 'india',
+    'costa rica': 'costa-rica',
+    nicaragua: 'nicaragua',
+    ecuador: 'ecuador',
+    mexico: 'mexico',
+    panama: 'panama',
+    jamaica: 'jamaica',
+    kenya: 'kenya',
+  };
+
+  return regionMap[regionLower] || 'vietnam'; // Default to vietnam if not found
+};
 
 interface AdvancedProductComparisonProps {
   products: Product[];
@@ -96,10 +119,17 @@ interface BulkAnalysis {
   qualityScore: number;
 }
 
+interface ExportData {
+  products: Product[];
+  analysis: BulkAnalysis | null;
+  timestamp: string;
+  format: 'csv' | 'pdf' | 'excel';
+}
+
 interface ComparisonRow {
   label: string;
   key: string;
-  render: (product: Product) => React.ReactNode;
+  render: (product: Product) => ReactNode;
   category:
     | 'basic'
     | 'specifications'
@@ -117,14 +147,14 @@ export function AdvancedProductComparison({
   onClose,
   onRemoveProduct,
   onRequestQuote,
-  locale,
+  locale: _locale,
 }: AdvancedProductComparisonProps) {
-  const t = useTranslations('catalog.comparison');
+  const _t = useTranslations('catalog.comparison');
   const [selectedProducts, setSelectedProducts] = useState<Set<string>>(
     new Set(products.map(p => p.id))
   );
   const [bulkQuantity, setBulkQuantity] = useState<number>(1000);
-  const [targetBudget, setTargetBudget] = useState<number>(50000);
+  const [_targetBudget, _setTargetBudget] = useState<number>(50000);
   const [activeTab, setActiveTab] = useState<string>('comparison');
   const [sortBy, setSortBy] = useState<string>('price');
   const [filterBy, setFilterBy] = useState<string>('all');
@@ -152,6 +182,20 @@ export function AdvancedProductComparison({
       return sum + bulkPrice * quantity;
     }, 0);
 
+    const qualityScore =
+      selectedProductsArray.reduce((sum, product) => {
+        let score = 0;
+        if (product.grade === 'grade-1') score += 15;
+        if (
+          product.specifications?.cuppingScore &&
+          product.specifications.cuppingScore >= 85
+        )
+          score += 10;
+        if (product.certifications && product.certifications.length > 0)
+          score += 5;
+        return sum + score;
+      }, 0) / selectedProductsArray.length;
+
     const averagePrice = totalValue / bulkQuantity;
     const standardPrice =
       selectedProductsArray.reduce(
@@ -160,16 +204,7 @@ export function AdvancedProductComparison({
       ) / selectedProductsArray.length;
     const potentialSavings = (standardPrice - averagePrice) * bulkQuantity;
 
-    // Quality score calculation
-    const qualityScore =
-      selectedProductsArray.reduce((sum, product) => {
-        let score = 0;
-        if (product.specifications.cuppingScore)
-          score += product.specifications.cuppingScore;
-        if (product.certifications.length > 0) score += 10;
-        if (product.grade === 'Grade 1') score += 15;
-        return sum + score;
-      }, 0) / selectedProductsArray.length;
+    // Remove duplicate quality score calculation since it's already calculated above
 
     // Risk assessment
     const riskFactors = selectedProductsArray.reduce((factors, product) => {
@@ -269,6 +304,14 @@ export function AdvancedProductComparison({
             <h4 className="text-sm font-semibold">{product.name}</h4>
             <p className="text-xs text-muted-foreground">{product.sku}</p>
           </div>
+          <div className="flex items-center justify-center gap-1">
+            <OriginFlag
+              origin={mapRegionToOrigin(product.origin?.region || 'vietnam')}
+            />
+            <span className="text-xs text-muted-foreground">
+              {product.origin?.province || 'Unknown'}
+            </span>
+          </div>
         </div>
       ),
     },
@@ -280,7 +323,14 @@ export function AdvancedProductComparison({
       render: product => (
         <div className="space-y-2">
           <Badge variant="secondary">{product.type}</Badge>
-          <CoffeeGradeIndicator grade={product.grade} />
+          <div className="flex items-center gap-2">
+            <CoffeeGradeIndicator grade={product.grade} />
+            {product.grade === 'grade-1' && (
+              <Badge variant="secondary" className="text-xs">
+                Premium Grade
+              </Badge>
+            )}
+          </div>
         </div>
       ),
     },
@@ -292,8 +342,12 @@ export function AdvancedProductComparison({
       render: product => (
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <OriginFlag region={product.origin.region} />
-            <span className="text-sm font-medium">{product.origin.region}</span>
+            <OriginFlag
+              origin={mapRegionToOrigin(product.origin?.region || 'Vietnam')}
+            />
+            <span className="text-sm font-medium">
+              {product.origin?.region || 'Vietnam'}
+            </span>
           </div>
           <ProcessingMethodBadge method={product.processingMethod} />
           <p className="text-xs text-muted-foreground">
@@ -476,9 +530,9 @@ export function AdvancedProductComparison({
       importance: 'medium',
       render: product => (
         <div className="flex flex-wrap gap-1">
-          {product.certifications.length > 0 ? (
-            product.certifications.map((cert, index) => (
-              <CertificationBadge key={index} certification={cert} />
+          {product.certifications && product.certifications.length > 0 ? (
+            product.certifications.map(cert => (
+              <CertificationBadge key={cert} certification={cert} />
             ))
           ) : (
             <span className="text-sm text-muted-foreground">None</span>
@@ -517,7 +571,7 @@ export function AdvancedProductComparison({
       if (!acc[row.category]) {
         acc[row.category] = [];
       }
-      acc[row.category].push(row);
+      acc[row.category]!.push(row);
       return acc;
     },
     {} as Record<string, ComparisonRow[]>
@@ -580,7 +634,7 @@ export function AdvancedProductComparison({
     window.URL.revokeObjectURL(url);
   };
 
-  const generateAdvancedCSV = (data: any): string => {
+  const generateAdvancedCSV = (_data: ExportData): string => {
     // Implementation would generate comprehensive CSV with business analysis
     return 'Advanced CSV content with business metrics...';
   };
@@ -699,7 +753,7 @@ export function AdvancedProductComparison({
                   </TableHeader>
                   <TableBody>
                     {Object.entries(groupedRows).map(([category, rows]) => (
-                      <React.Fragment key={category}>
+                      <Fragment key={category}>
                         <TableRow className="bg-muted/50">
                           <TableCell
                             colSpan={sortedProducts.length + 1}
@@ -741,7 +795,7 @@ export function AdvancedProductComparison({
                             ))}
                           </TableRow>
                         ))}
-                      </React.Fragment>
+                      </Fragment>
                     ))}
                   </TableBody>
                 </Table>

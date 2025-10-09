@@ -1,30 +1,27 @@
 'use client';
 
-import {
-  FileText,
-  Search,
-  Filter,
-  Download,
-  Eye,
-  Edit,
-  Trash2,
-  Clock,
-  CheckCircle,
-  XCircle,
-  AlertCircle,
-  Plus,
-  Calendar,
-  DollarSign,
-  Package,
-  User,
-  ArrowUpDown,
-  MoreHorizontal,
-} from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 import { useState, useMemo } from 'react';
+import {
+  AlertCircle,
+  ArrowUpDown,
+  CheckCircle,
+  Clock,
+  Download,
+  Edit,
+  Eye,
+  FileText,
+  MoreHorizontal,
+  Plus,
+  Search,
+  Trash2,
+  XCircle,
+} from 'lucide-react';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import { type Locale } from '@/i18n';
+import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
+import { ContentSection } from '@/presentation/components/layout/ContentSection';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -58,14 +55,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/presentation/components/ui/table';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/presentation/components/ui/tabs';
-import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
-import { ContentSection } from '@/presentation/components/layout/ContentSection';
 import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
 
 interface QuotesPageProps {
@@ -149,7 +138,7 @@ const mockQuotes: Quote[] = [
   },
 ];
 
-export default function QuotesPage({ params }: QuotesPageProps) {
+export default function QuotesPage({ params: _params }: QuotesPageProps) {
   const t = useTranslations('quotes');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -171,12 +160,12 @@ export default function QuotesPage({ params }: QuotesPageProps) {
     });
 
     filtered.sort((a, b) => {
-      let aValue: any = a[sortBy as keyof Quote];
-      let bValue: any = b[sortBy as keyof Quote];
+      let aValue: string | number | Date = a[sortBy as keyof Quote];
+      let bValue: string | number | Date = b[sortBy as keyof Quote];
 
       if (sortBy === 'requestedAt' || sortBy === 'expiresAt') {
-        aValue = new Date(aValue);
-        bValue = new Date(bValue);
+        aValue = new Date(aValue as string);
+        bValue = new Date(bValue as string);
       }
 
       if (sortOrder === 'asc') {

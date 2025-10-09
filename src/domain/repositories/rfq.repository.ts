@@ -6,20 +6,8 @@ import {
   type Incoterms,
   type RFQCommunication,
   type RFQDocument,
+  type RFQQuote,
 } from '../entities/rfq.entity';
-
-// Quote type for RFQ management
-export interface RFQQuote {
-  id: string;
-  rfqId: string;
-  status: 'DRAFT' | 'SENT' | 'VIEWED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';
-  totalAmount: number;
-  currency: string;
-  validUntil: Date;
-  createdAt: Date;
-  createdBy: string;
-  notes?: string;
-}
 
 // Search and filter criteria
 export interface RFQSearchCriteria {
@@ -97,11 +85,17 @@ export interface RFQAnalytics {
   rfqsByPriority: Record<RFQPriority, number>;
   rfqsByCountry: Record<string, number>;
   averageResponseTime: number; // in hours
+  averageResponseTimeHours: number; // alias for averageResponseTime
   conversionRate: number; // percentage of RFQs that become orders
   totalEstimatedValue: number;
   averageRFQValue: number;
   topRequestedProducts: Array<{ product: string; count: number }>;
   monthlyTrends: Array<{ month: string; count: number; value: number }>;
+  // Breakdown properties
+  statusBreakdown: Record<RFQStatus, number>;
+  priorityBreakdown: Record<RFQPriority, number>;
+  businessTypeBreakdown: Record<string, number>;
+  countryBreakdown: Record<string, number>;
 }
 
 export interface RFQPerformanceMetrics {
@@ -184,7 +178,7 @@ export interface IRFQRepository {
   // Communication management
   addCommunication(
     id: string,
-    communication: Omit<RFQCommunication, 'id' | 'timestamp'>
+    communication: Omit<RFQCommunication, 'id' | 'createdAt'>
   ): Promise<RFQEntity>;
   getCommunicationHistory(id: string): Promise<RFQCommunication[]>;
   markAsRead(
@@ -194,6 +188,11 @@ export interface IRFQRepository {
   ): Promise<RFQEntity>;
 
   // Quote management
+  getQuotes(id: string): Promise<RFQQuote[]>;
+  createQuote(
+    id: string,
+    quote: Omit<RFQQuote, 'id' | 'createdAt'>
+  ): Promise<RFQQuote>;
   addQuote(
     id: string,
     quote: Omit<RFQQuote, 'id' | 'createdAt'>
@@ -203,6 +202,13 @@ export interface IRFQRepository {
     quoteId: string,
     updates: Partial<RFQQuote>
   ): Promise<RFQEntity>;
+  updateQuoteStatus(
+    id: string,
+    quoteId: string,
+    status: string,
+    notes?: string,
+    updatedBy?: string
+  ): Promise<RFQQuote>;
   acceptQuote(
     id: string,
     quoteId: string,

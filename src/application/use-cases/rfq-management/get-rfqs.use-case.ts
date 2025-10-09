@@ -3,15 +3,15 @@ import { IRFQRepository } from '@/domain/repositories/rfq.repository';
 import { createScopedLogger } from '@/shared/utils/logger';
 
 export interface GetRfqsRequest {
-  page?: number;
-  limit?: number;
-  status?: string;
-  priority?: string;
-  companyName?: string;
-  dateFrom?: Date;
-  dateTo?: Date;
-  sortBy?: 'submittedAt' | 'updatedAt' | 'priority' | 'status';
-  sortOrder?: 'asc' | 'desc';
+  page?: number | undefined;
+  limit?: number | undefined;
+  status?: string | undefined;
+  priority?: string | undefined;
+  companyName?: string | undefined;
+  dateFrom?: Date | undefined;
+  dateTo?: Date | undefined;
+  sortBy?: 'submittedAt' | 'updatedAt' | 'priority' | 'status' | undefined;
+  sortOrder?: 'asc' | 'desc' | undefined;
 }
 
 export interface GetRfqsResponse {

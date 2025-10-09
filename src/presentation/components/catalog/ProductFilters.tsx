@@ -469,7 +469,7 @@ export function ProductFilters({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {originOptions.map(origin => (
+                      {origins.map(origin => (
                         <SelectItem key={origin.value} value={origin.value}>
                           {origin.label}
                         </SelectItem>
@@ -493,7 +493,7 @@ export function ProductFilters({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {harvestSeasonOptions.map(season => (
+                      {harvestSeasons.map(season => (
                         <SelectItem key={season.value} value={season.value}>
                           {season.label}
                         </SelectItem>
@@ -688,7 +688,7 @@ export function ProductFilters({
                   Certifications (Multiple Selection)
                 </Label>
                 <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-                  {multiCertificationOptions.map(cert => (
+                  {certifications.map(cert => (
                     <div
                       key={cert.value}
                       className="flex items-center space-x-2"

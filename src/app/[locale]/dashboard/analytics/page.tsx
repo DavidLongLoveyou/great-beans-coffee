@@ -349,9 +349,9 @@ export default function AnalyticsPage({ params: _params }: AnalyticsPageProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {productPerformance.map((product, index) => (
+                  {productPerformance.map(product => (
                     <div
-                      key={index}
+                      key={product.name}
                       className="flex items-center justify-between rounded-lg border p-4"
                     >
                       <div className="flex-1">
@@ -402,8 +402,8 @@ export default function AnalyticsPage({ params: _params }: AnalyticsPageProps) {
                         dataKey="value"
                         label={({ name, value }) => `${name}: ${value}%`}
                       >
-                        {marketDistribution.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        {marketDistribution.map(entry => (
+                          <Cell key={`cell-${entry.name}`} fill={entry.color} />
                         ))}
                       </Pie>
                       <Tooltip />
@@ -421,9 +421,9 @@ export default function AnalyticsPage({ params: _params }: AnalyticsPageProps) {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {topCountries.map((country, index) => (
+                    {topCountries.map(country => (
                       <div
-                        key={index}
+                        key={country.country}
                         className="flex items-center justify-between"
                       >
                         <div className="flex items-center gap-3">
@@ -473,8 +473,11 @@ export default function AnalyticsPage({ params: _params }: AnalyticsPageProps) {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  {customerSegments.map((segment, index) => (
-                    <div key={index} className="rounded-lg border p-4">
+                  {customerSegments.map(segment => (
+                    <div
+                      key={segment.segment}
+                      className="rounded-lg border p-4"
+                    >
                       <div className="mb-3 flex items-center justify-between">
                         <h4 className="font-medium">{segment.segment}</h4>
                         <Badge variant="outline">

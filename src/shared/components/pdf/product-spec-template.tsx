@@ -1,5 +1,6 @@
-import React from 'react';
 import { useTranslations } from 'next-intl';
+import React from 'react';
+
 import { CoffeeProduct } from '@/domain/entities/coffee-product.entity';
 
 interface ProductSpecTemplateProps {
@@ -253,9 +254,9 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
               {tProducts('certifications')}
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              {product.certifications.map((cert, index) => (
+              {product.certifications.map(cert => (
                 <div
-                  key={index}
+                  key={`cert-${cert}`}
                   className="rounded-lg border border-gray-200 p-4"
                 >
                   <h4 className="font-semibold text-gray-700">
@@ -334,7 +335,7 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
             </div>
             <div className="text-right">
               <p>www.thegreatbeans.com</p>
-              <p>Connecting Vietnam's finest coffee to the world</p>
+              <p>Connecting Vietnam&apos;s finest coffee to the world</p>
             </div>
           </div>
         </footer>

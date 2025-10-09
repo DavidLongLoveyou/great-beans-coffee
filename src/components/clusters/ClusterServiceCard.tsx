@@ -50,11 +50,11 @@ export function ClusterServiceCard({
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
-            <div className="bg-coffee-100 flex h-12 w-12 items-center justify-center rounded-lg">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-coffee-100">
               {service.icon}
             </div>
             <div>
-              <CardTitle className="text-coffee-800 text-lg font-semibold">
+              <CardTitle className="text-lg font-semibold text-coffee-800">
                 {service.name}
               </CardTitle>
               <Badge variant="outline" className="mt-1">
@@ -73,8 +73,8 @@ export function ClusterServiceCard({
 
       <CardContent className="space-y-4">
         {/* Service Capabilities */}
-        <div className="bg-coffee-50 rounded-lg p-3">
-          <h4 className="text-coffee-800 mb-2 text-sm font-medium">
+        <div className="rounded-lg bg-coffee-50 p-3">
+          <h4 className="mb-2 text-sm font-medium text-coffee-800">
             Capacity & Timeline
           </h4>
           <div className="grid grid-cols-1 gap-2 text-xs">
@@ -101,7 +101,7 @@ export function ClusterServiceCard({
 
         {/* Key Features */}
         <div>
-          <h4 className="text-coffee-800 mb-2 text-sm font-medium">
+          <h4 className="mb-2 text-sm font-medium text-coffee-800">
             Key Features
           </h4>
           <ul className="space-y-1">
@@ -122,7 +122,7 @@ export function ClusterServiceCard({
         {/* Certifications */}
         {service.certifications.length > 0 && (
           <div>
-            <h4 className="text-coffee-800 mb-2 text-sm font-medium">
+            <h4 className="mb-2 text-sm font-medium text-coffee-800">
               Certifications
             </h4>
             <div className="flex flex-wrap gap-1">
@@ -136,10 +136,10 @@ export function ClusterServiceCard({
         )}
 
         {/* Pricing Information */}
-        <div className="border-gold-200 bg-gold-50 rounded-lg border p-3">
+        <div className="rounded-lg border border-gold-200 bg-gold-50 p-3">
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-coffee-800 text-sm font-medium">
+              <span className="text-sm font-medium text-coffee-800">
                 {service.pricing.model}
               </span>
               {service.pricing.startingPrice && (

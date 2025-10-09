@@ -29,6 +29,9 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
+// Type for structured data objects
+type StructuredDataObject = Record<string, unknown>;
+
 /**
  * POST /api/seo/audit
  *
@@ -39,7 +42,7 @@ function isRateLimited(ip: string): boolean {
  *   url: string;
  *   content?: string;
  *   metadata?: Metadata;
- *   structuredData?: any[];
+ *   structuredData?: StructuredDataObject[];
  *   config?: Partial<SEOAuditConfig>;
  * }
  */

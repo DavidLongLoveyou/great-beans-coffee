@@ -1,8 +1,8 @@
 'use client';
 
+import React, { useState } from 'react';
 import { X, Download, ShoppingCart, FileText } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
@@ -27,18 +27,85 @@ import {
   TableHeader,
   TableRow,
 } from '@/presentation/components/ui/table';
-import {
-  CertificationBadge,
-  CoffeeGradeIndicator,
-  OriginFlag,
-  ProcessingMethodBadge,
-} from '@/shared/components/design-system/Coffee';
+import { Checkbox } from '@/presentation/components/ui/checkbox';
+import { CertificationBadge } from '@/shared/components/design-system/Coffee/CertificationBadge';
+import { CoffeeGradeIndicator } from '@/shared/components/design-system/Coffee/CoffeeGradeIndicator';
+import { OriginFlag } from '@/shared/components/design-system/Coffee/OriginFlag';
+import { ProcessingMethodBadge } from '@/shared/components/design-system/Coffee/ProcessingMethodBadge';
 import { CardImage } from '@/shared/components/performance/OptimizedImage';
+import type {
+  CoffeeOrigin,
+  CoffeeGrade,
+  ProcessingMethod,
+} from '@/shared/components/design-system/types';
+import type { CatalogProduct } from '@/data/product-catalog';
+import {
+  CoffeeGrade as CatalogCoffeeGrade,
+  ProcessingMethod as CatalogProcessingMethod,
+} from '@/data/product-catalog';
 
-import type { Product } from './ProductGrid';
+// Helper function to map region string to CoffeeOrigin type
+const mapRegionToOrigin = (region: string): CoffeeOrigin => {
+  const regionLower = region.toLowerCase();
+
+  // Map common region names to CoffeeOrigin values
+  const regionMap: Record<string, CoffeeOrigin> = {
+    vietnam: 'vietnam',
+    'viet nam': 'vietnam',
+    brazil: 'brazil',
+    colombia: 'colombia',
+    ethiopia: 'ethiopia',
+    guatemala: 'guatemala',
+    honduras: 'honduras',
+    peru: 'peru',
+    indonesia: 'indonesia',
+    india: 'india',
+    'costa rica': 'costa-rica',
+    nicaragua: 'nicaragua',
+    ecuador: 'ecuador',
+    mexico: 'mexico',
+    panama: 'panama',
+    jamaica: 'jamaica',
+    kenya: 'kenya',
+  };
+
+  return regionMap[regionLower] || 'vietnam'; // Default to vietnam if not found
+};
+
+// Helper function to map catalog grade to design system grade
+const mapCatalogGradeToDesignGrade = (
+  grade: CatalogCoffeeGrade
+): CoffeeGrade => {
+  const gradeMap: Record<CatalogCoffeeGrade, CoffeeGrade> = {
+    [CatalogCoffeeGrade.GRADE_1]: 'grade-1',
+    [CatalogCoffeeGrade.GRADE_2]: 'grade-2',
+    [CatalogCoffeeGrade.GRADE_3]: 'grade-3',
+    [CatalogCoffeeGrade.SPECIALTY]: 'specialty',
+    [CatalogCoffeeGrade.PREMIUM]: 'premium',
+    [CatalogCoffeeGrade.COMMERCIAL]: 'standard',
+  };
+
+  return gradeMap[grade] || 'standard';
+};
+
+// Helper function to map catalog processing method to design system processing method
+const mapCatalogProcessingToDesignProcessing = (
+  method: CatalogProcessingMethod
+): ProcessingMethod => {
+  const methodMap: Record<CatalogProcessingMethod, ProcessingMethod> = {
+    [CatalogProcessingMethod.WASHED]: 'washed',
+    [CatalogProcessingMethod.NATURAL]: 'natural',
+    [CatalogProcessingMethod.HONEY]: 'honey',
+    [CatalogProcessingMethod.WET_HULLED]: 'wet-hulled',
+    [CatalogProcessingMethod.SEMI_WASHED]: 'semi-washed',
+    [CatalogProcessingMethod.PULPED_NATURAL]: 'natural', // Map to natural as closest equivalent
+  };
+
+  return methodMap[method] || 'washed';
+};
 
 interface ProductComparisonProps {
-  products: Product[];
+  products: CatalogProduct[];
   isOpen: boolean;
   onClose: () => void;
   onRemoveProduct: (productId: string) => void;
@@ -49,7 +116,7 @@ interface ProductComparisonProps {
 interface ComparisonRow {
   label: string;
   key: string;
-  render: (product: Product) => React.ReactNode;
+  render: (product: CatalogProduct) => React.ReactNode;
   category:
     | 'basic'
     | 'specifications'
@@ -82,17 +149,19 @@ export function ProductComparison({
           <div className="relative mx-auto h-20 w-20">
             <CardImage
               src={
-                product.images.find(img => img.isPrimary)?.url ||
+                product.images.find((img: any) => img.isPrimary)?.url ||
                 product.images[0]?.url ||
                 ''
               }
-              alt={product.name}
+              alt={product.name[locale] || product.name.en || 'Product image'}
               className="rounded-lg object-cover"
               fill
             />
           </div>
           <div className="text-center">
-            <h4 className="text-sm font-semibold">{product.name}</h4>
+            <h4 className="text-sm font-semibold">
+              {product.name[locale] || product.name.en}
+            </h4>
             <p className="text-xs text-muted-foreground">{product.sku}</p>
           </div>
         </div>
@@ -108,14 +177,22 @@ export function ProductComparison({
       label: t('fields.grade'),
       key: 'grade',
       category: 'basic',
-      render: product => <CoffeeGradeIndicator grade={product.grade} />,
+      render: product => (
+        <CoffeeGradeIndicator
+          grade={mapCatalogGradeToDesignGrade(product.grade)}
+        />
+      ),
     },
     {
       label: t('fields.processing'),
       key: 'processing',
       category: 'basic',
       render: product => (
-        <ProcessingMethodBadge method={product.processingMethod} />
+        <ProcessingMethodBadge
+          method={mapCatalogProcessingToDesignProcessing(
+            product.processingMethod
+          )}
+        />
       ),
     },
     {
@@ -125,14 +202,20 @@ export function ProductComparison({
       render: product => (
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <OriginFlag region={product.origin.region} />
-            <span className="text-sm font-medium">{product.origin.region}</span>
+            <OriginFlag
+              origin={mapRegionToOrigin(product.origin?.region || 'vietnam')}
+              size="sm"
+              showLabel
+            />
+            <span className="text-sm font-medium">
+              {product.origin?.region || 'Unknown'}
+            </span>
           </div>
           <p className="text-xs text-muted-foreground">
-            {product.origin.province}
+            {product.origin?.province || 'Unknown'}
           </p>
           <p className="text-xs text-muted-foreground">
-            {product.origin.altitude}m
+            {product.origin?.altitude || 0}m
           </p>
         </div>
       ),
@@ -144,7 +227,9 @@ export function ProductComparison({
       key: 'moisture',
       category: 'specifications',
       render: product => (
-        <span className="text-sm">{product.specifications.moisture}%</span>
+        <span className="text-sm">
+          {product.specifications?.moisture || 0}%
+        </span>
       ),
     },
     {
@@ -152,7 +237,9 @@ export function ProductComparison({
       key: 'screenSize',
       category: 'specifications',
       render: product => (
-        <span className="text-sm">{product.specifications.screenSize}</span>
+        <span className="text-sm">
+          {product.specifications?.screenSize || 'N/A'}
+        </span>
       ),
     },
     {
@@ -160,7 +247,9 @@ export function ProductComparison({
       key: 'defectRate',
       category: 'specifications',
       render: product => (
-        <span className="text-sm">{product.specifications.defectRate}%</span>
+        <span className="text-sm">
+          {product.specifications?.defectRate || 0}%
+        </span>
       ),
     },
     {
@@ -169,7 +258,7 @@ export function ProductComparison({
       category: 'specifications',
       render: product => (
         <div className="text-center">
-          {product.specifications.cuppingScore ? (
+          {product.specifications?.cuppingScore ? (
             <div className="space-y-1">
               <span className="text-lg font-bold text-amber-600">
                 {product.specifications.cuppingScore}
@@ -191,10 +280,10 @@ export function ProductComparison({
       render: product => (
         <div className="text-center">
           <span className="text-lg font-bold text-green-600">
-            ${product.pricing.basePrice.toFixed(2)}
+            ${product.pricing?.basePrice?.toFixed(2) || '0.00'}
           </span>
           <p className="text-xs text-muted-foreground">
-            per {product.pricing.unit}
+            per {product.pricing?.unit || 'kg'}
           </p>
         </div>
       ),
@@ -208,14 +297,14 @@ export function ProductComparison({
       render: product => (
         <div className="space-y-1">
           <Badge
-            variant={product.availability.inStock ? 'default' : 'destructive'}
+            variant={product.availability?.inStock ? 'default' : 'destructive'}
           >
-            {product.availability.inStock ? t('inStock') : t('outOfStock')}
+            {product.availability?.inStock ? t('inStock') : t('outOfStock')}
           </Badge>
-          {product.availability.inStock && (
+          {product.availability?.inStock && (
             <p className="text-xs text-muted-foreground">
-              {product.availability.stockQuantity.toLocaleString()}{' '}
-              {product.pricing.unit}
+              {product.availability.stockQuantity?.toLocaleString() || 0}{' '}
+              {product.pricing?.unit || 'kg'}
             </p>
           )}
         </div>
@@ -227,7 +316,7 @@ export function ProductComparison({
       category: 'availability',
       render: product => (
         <span className="text-sm">
-          {product.availability.leadTime} {t('days')}
+          {product.availability?.leadTime || 0} {t('days')}
         </span>
       ),
     },
@@ -236,7 +325,9 @@ export function ProductComparison({
       key: 'harvestSeason',
       category: 'availability',
       render: product => (
-        <span className="text-sm">{product.availability.harvestSeason}</span>
+        <span className="text-sm">
+          {product.availability?.harvestSeason || 'N/A'}
+        </span>
       ),
     },
 
@@ -247,12 +338,12 @@ export function ProductComparison({
       category: 'certifications',
       render: product => (
         <div className="flex flex-wrap gap-1">
-          {product.certifications.length > 0 ? (
-            product.certifications.map((cert, index) => (
+          {product.certifications && product.certifications.length > 0 ? (
+            product.certifications.map((cert: any, index: number) => (
               <CertificationBadge key={index} certification={cert} />
             ))
           ) : (
-            <span className="text-sm text-muted-foreground">None</span>
+            <span className="text-xs text-muted-foreground">None</span>
           )}
         </div>
       ),
@@ -264,7 +355,7 @@ export function ProductComparison({
       if (!acc[row.category]) {
         acc[row.category] = [];
       }
-      acc[row.category].push(row);
+      acc[row.category]!.push(row);
       return acc;
     },
     {} as Record<string, ComparisonRow[]>
@@ -294,7 +385,7 @@ export function ProductComparison({
 
   const handleExportComparison = () => {
     // Generate CSV or PDF export
-    const csvContent = generateComparisonCSV(products, comparisonRows);
+    const csvContent = generateComparisonCSV(products, comparisonRows, locale);
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -403,10 +494,14 @@ export function ProductComparison({
 }
 
 function generateComparisonCSV(
-  products: Product[],
-  rows: ComparisonRow[]
+  products: CatalogProduct[],
+  rows: ComparisonRow[],
+  locale: string
 ): string {
-  const headers = ['Specification', ...products.map(p => p.name)];
+  const headers = [
+    'Specification',
+    ...products.map(p => p.name[locale] || p.name.en),
+  ];
   const csvRows = [headers.join(',')];
 
   rows.forEach(row => {
@@ -424,13 +519,15 @@ function generateComparisonCSV(
           case 'processing':
             return product.processingMethod;
           case 'origin':
-            return `${product.origin.region}, ${product.origin.province} (${product.origin.altitude}m)`;
+            return product.origin
+              ? `${product.origin.region || 'Unknown'}, ${product.origin.province || 'Unknown'} (${product.origin.altitude || 0}m)`
+              : 'N/A';
           case 'basePrice':
-            return `$${product.pricing.basePrice.toFixed(2)} per ${product.pricing.unit}`;
+            return `$${product.pricing?.basePrice?.toFixed(2) || '0.00'} per ${product.pricing?.unit || 'kg'}`;
           case 'stockStatus':
-            return product.availability.inStock ? 'In Stock' : 'Out of Stock';
+            return product.availability?.inStock ? 'In Stock' : 'Out of Stock';
           case 'certifications':
-            return product.certifications.join(', ') || 'None';
+            return product.certifications?.join(', ') || 'None';
           default:
             return 'N/A';
         }

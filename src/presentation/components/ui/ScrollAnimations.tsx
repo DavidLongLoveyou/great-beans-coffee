@@ -1,7 +1,14 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useInView,
+} from 'framer-motion';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
+
 import { cn } from '@/lib/utils';
 
 // Enhanced Scroll Reveal Component
@@ -27,7 +34,7 @@ export function ScrollReveal({
   threshold = 0.1,
 }: ScrollRevealProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, margin: `-${threshold * 100}%` });
+  const isInView = useInView(ref, { once, margin: `${-threshold * 100}%` });
 
   const getInitialPosition = () => {
     switch (direction) {
@@ -50,11 +57,6 @@ export function ScrollReveal({
       x: 0,
       y: 0,
       opacity: 1,
-      transition: {
-        duration,
-        delay,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
     },
   };
 
@@ -63,8 +65,13 @@ export function ScrollReveal({
       ref={ref}
       className={className}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      animate={isInView ? 'visible' : 'hidden'}
       variants={variants}
+      transition={{
+        duration,
+        delay,
+        ease: 'easeOut',
+      }}
     >
       {children}
     </motion.div>
@@ -88,12 +95,22 @@ export function ParallaxScroll({
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],
+    offset: ['start end', 'end start'],
   });
 
-  const transform = direction === 'vertical' 
-    ? useTransform(scrollYProgress, [0, 1], [0, speed * 100])
-    : useTransform(scrollYProgress, [0, 1], [0, speed * 100]);
+  const verticalTransform = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, speed * 100]
+  );
+  const horizontalTransform = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, speed * 100]
+  );
+
+  const transform =
+    direction === 'vertical' ? verticalTransform : horizontalTransform;
 
   const smoothTransform = useSpring(transform, {
     stiffness: 100,
@@ -104,7 +121,11 @@ export function ParallaxScroll({
   return (
     <div ref={ref} className={cn('relative', className)}>
       <motion.div
-        style={direction === 'vertical' ? { y: smoothTransform } : { x: smoothTransform }}
+        style={
+          direction === 'vertical'
+            ? { y: smoothTransform }
+            : { x: smoothTransform }
+        }
       >
         {children}
       </motion.div>
@@ -149,10 +170,6 @@ export function StaggeredChildren({
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
     },
   };
 
@@ -161,17 +178,24 @@ export function StaggeredChildren({
       ref={ref}
       className={className}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      animate={isInView ? 'visible' : 'hidden'}
       variants={containerVariants}
     >
-      {Array.isArray(children)
-        ? children.map((child, index) => (
-            <motion.div key={index} variants={childVariants}>
+      {Array.isArray(children) ? (
+        React.Children.toArray(children).map((child, index) => {
+          const childElement = child as React.ReactElement;
+          return (
+            <motion.div
+              key={childElement.key || `stagger-child-${index}`}
+              variants={childVariants}
+            >
               {child}
             </motion.div>
-          ))
-        : <motion.div variants={childVariants}>{children}</motion.div>
-      }
+          );
+        })
+      ) : (
+        <motion.div variants={childVariants}>{children}</motion.div>
+      )}
     </motion.div>
   );
 }
@@ -246,10 +270,10 @@ export function MagneticHover({
       const rect = element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      
+
       const deltaX = (e.clientX - centerX) * strength;
       const deltaY = (e.clientY - centerY) * strength;
-      
+
       setPosition({ x: deltaX, y: deltaY });
     };
 
@@ -272,7 +296,7 @@ export function MagneticHover({
       className={className}
       animate={position}
       transition={{
-        type: "spring",
+        type: 'spring',
         stiffness: 150,
         damping: 15,
         mass: 0.1,
@@ -304,6 +328,16 @@ export function TextReveal({
 
   const words = text.split(' ');
 
+  // Create words with unique IDs to avoid array index keys
+  const wordsWithIds = useMemo(
+    () =>
+      words.map((word, index) => ({
+        id: `word-${word}-${index}-${word.length}`,
+        text: word,
+      })),
+    [words]
+  );
+
   const containerVariants = {
     hidden: {},
     visible: {
@@ -322,10 +356,6 @@ export function TextReveal({
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
     },
   };
 
@@ -334,16 +364,16 @@ export function TextReveal({
       ref={ref}
       className={cn('overflow-hidden', className)}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      animate={isInView ? 'visible' : 'hidden'}
       variants={containerVariants}
     >
-      {words.map((word, index) => (
+      {wordsWithIds.map(wordObj => (
         <motion.span
-          key={index}
-          className="inline-block mr-1"
+          key={wordObj.id}
+          className="mr-1 inline-block"
           variants={wordVariants}
         >
-          {word}
+          {wordObj.text}
         </motion.span>
       ))}
     </motion.div>
@@ -375,7 +405,7 @@ export function FloatingElement({
       transition={{
         duration: frequency,
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: 'easeInOut',
         delay,
       }}
     >

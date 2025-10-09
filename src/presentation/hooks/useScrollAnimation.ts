@@ -4,9 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'framer-motion';
 
 interface UseScrollAnimationOptions {
-  threshold?: number;
-  triggerOnce?: boolean;
-  rootMargin?: string;
+  amount?: number | 'some' | 'all';
+  once?: boolean;
   delay?: number;
 }
 
@@ -24,27 +23,21 @@ interface ScrollAnimationReturn {
       opacity: number;
       y: number;
       scale?: number;
-      transition: {
-        duration: number;
-        delay?: number;
-        ease: number[];
-      };
     };
   };
 }
 
 export function useScrollAnimation({
-  threshold = 0.1,
-  triggerOnce = true,
-  rootMargin = '-50px',
-  delay = 0,
+  amount = 0.3,
+  once = true,
+  delay: _delay = 0,
 }: UseScrollAnimationOptions = {}): ScrollAnimationReturn {
   const ref = useRef<HTMLElement>(null);
   const [hasBeenInView, setHasBeenInView] = useState(false);
 
   const isInView = useInView(ref, {
-    threshold,
-    margin: rootMargin,
+    amount,
+    once,
   });
 
   useEffect(() => {
@@ -53,7 +46,7 @@ export function useScrollAnimation({
     }
   }, [isInView, hasBeenInView]);
 
-  const shouldAnimate = triggerOnce ? hasBeenInView : isInView;
+  const shouldAnimate = once ? hasBeenInView : isInView;
 
   const animationVariants = {
     hidden: {
@@ -65,11 +58,6 @@ export function useScrollAnimation({
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: {
-        duration: 0.6,
-        delay,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
     },
   };
 
@@ -83,11 +71,10 @@ export function useScrollAnimation({
 
 // Specialized hook for staggered children animations
 export function useStaggeredScrollAnimation({
-  threshold = 0.1,
-  triggerOnce = true,
-  rootMargin = '-50px',
+  amount = 0.1,
+  once = true,
   staggerDelay = 0.1,
-  childrenCount = 1,
+  childrenCount: _childrenCount = 1,
 }: UseScrollAnimationOptions & {
   staggerDelay?: number;
   childrenCount?: number;
@@ -96,8 +83,8 @@ export function useStaggeredScrollAnimation({
   const [hasBeenInView, setHasBeenInView] = useState(false);
 
   const isInView = useInView(ref, {
-    threshold,
-    margin: rootMargin,
+    amount,
+    once,
   });
 
   useEffect(() => {
@@ -106,7 +93,7 @@ export function useStaggeredScrollAnimation({
     }
   }, [isInView, hasBeenInView]);
 
-  const shouldAnimate = triggerOnce ? hasBeenInView : isInView;
+  const shouldAnimate = once ? hasBeenInView : isInView;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -129,10 +116,6 @@ export function useStaggeredScrollAnimation({
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
     },
   };
 
@@ -152,16 +135,9 @@ export function useHoverAnimation() {
     hover: {
       scale: 1.02,
       y: -2,
-      transition: {
-        duration: 0.2,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
     },
     tap: {
       scale: 0.98,
-      transition: {
-        duration: 0.1,
-      },
     },
   };
 
@@ -169,16 +145,9 @@ export function useHoverAnimation() {
     initial: { scale: 1 },
     hover: {
       scale: 1.05,
-      transition: {
-        duration: 0.2,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
     },
     tap: {
       scale: 0.95,
-      transition: {
-        duration: 0.1,
-      },
     },
   };
 
@@ -187,10 +156,6 @@ export function useHoverAnimation() {
     hover: {
       rotate: 5,
       scale: 1.1,
-      transition: {
-        duration: 0.2,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      },
     },
   };
 

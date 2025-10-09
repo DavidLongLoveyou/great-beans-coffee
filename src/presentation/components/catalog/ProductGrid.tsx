@@ -154,11 +154,17 @@ export function ProductGrid({
     // Helper function to get grade priority (higher number = better grade)
     const getGradePriority = (grade: CoffeeGrade): number => {
       const gradeMap: Record<CoffeeGrade, number> = {
-        'grade-1': 5,
-        'grade-2': 4,
-        'grade-3': 3,
-        'grade-4': 2,
-        'grade-5': 1,
+        specialty: 10,
+        premium: 9,
+        'grade-1': 8,
+        'grade-2': 7,
+        'grade-3': 6,
+        'grade-4': 5,
+        'screen-18': 4,
+        'screen-16': 3,
+        'screen-14': 2,
+        exchange: 1,
+        standard: 0,
       };
       return gradeMap[grade] || 0;
     };
@@ -182,7 +188,7 @@ export function ProductGrid({
       };
 
       const firstMonth = harvestSeason.toLowerCase().split(/[\s-]+/)[0];
-      return monthMap[firstMonth] || 0;
+      return firstMonth ? monthMap[firstMonth] || 0 : 0;
     };
 
     switch (sortBy) {

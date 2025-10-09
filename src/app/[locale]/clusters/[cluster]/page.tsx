@@ -153,20 +153,20 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
     <>
       <SEOHead structuredData={structuredData} />
       {/* Hero Section */}
-      <HeroSection className="from-coffee-900 to-coffee-700 bg-gradient-to-r py-20 text-white">
+      <HeroSection className="bg-gradient-to-r from-coffee-900 to-coffee-700 py-20 text-white">
         <ContentContainer>
           <div className="mx-auto max-w-4xl text-center">
             <SectionHeading size="xl" className="mb-6 text-white">
               {cluster.title}
             </SectionHeading>
-            <p className="text-coffee-100 mb-8 text-xl leading-relaxed">
+            <p className="mb-8 text-xl leading-relaxed text-coffee-100">
               {cluster.description}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <CoffeeButton size="lg">{t('requestQuote')}</CoffeeButton>
               <CoffeeButton
                 size="lg"
-                className="hover:text-coffee-900 border-white text-white hover:bg-white"
+                className="border-white text-white hover:bg-white hover:text-coffee-900"
               >
                 {t('downloadCatalog')}
               </CoffeeButton>
@@ -242,14 +242,14 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
             <SectionHeading size="xl" className="mb-6 text-white">
               {t('cta.title')}
             </SectionHeading>
-            <p className="text-coffee-100 mb-8 text-xl">
+            <p className="mb-8 text-xl text-coffee-100">
               {t('cta.description')}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <CoffeeButton size="lg">{t('cta.primaryAction')}</CoffeeButton>
               <CoffeeButton
                 size="lg"
-                className="hover:text-coffee-900 border-white text-white hover:bg-white"
+                className="border-white text-white hover:bg-white hover:text-coffee-900"
               >
                 {t('cta.secondaryAction')}
               </CoffeeButton>

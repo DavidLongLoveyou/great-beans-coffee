@@ -1,16 +1,14 @@
 'use client';
 
 import {
-  Sprout,
-  Truck,
+  ArrowRight,
+  Award,
+  CheckCircle,
+  Coffee,
+  Globe,
   Shield,
   Ship,
-  CheckCircle,
-  ArrowRight,
-  Coffee,
-  Award,
-  Users,
-  Globe,
+  Sprout,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
@@ -23,13 +21,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
+import { AnimatedIcon } from '@/presentation/components/ui/MicroInteractions';
 import {
   ScrollReveal,
   StaggeredChildren,
   MagneticHover,
   FloatingElement,
 } from '@/presentation/components/ui/ScrollAnimations';
-import { EnhancedButton } from '@/presentation/components/ui/EnhancedButton';
 
 interface OurProcessSectionProps {
   locale: string;
@@ -37,7 +35,7 @@ interface OurProcessSectionProps {
 
 interface ProcessStep {
   id: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string; size?: number }>;
   title: string;
   description: string;
   details: string[];
@@ -52,7 +50,7 @@ interface ProcessStep {
   };
 }
 
-export function OurProcessSection({ locale }: OurProcessSectionProps) {
+export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
   const t = useTranslations('homepage');
   const [activeStep, setActiveStep] = useState(0);
 
@@ -97,11 +95,11 @@ export function OurProcessSection({ locale }: OurProcessSectionProps) {
         { label: 'Quality Checks', value: '15+' },
         { label: 'Defect Rate', value: '<3%' },
       ],
-      colors: {
-         primary: 'emerald-600',
-         secondary: 'emerald-100',
-         accent: 'emerald-800',
-       },
+      color: {
+        primary: 'emerald-600',
+        secondary: 'emerald-100',
+        accent: 'emerald-800',
+      },
     },
     {
       id: 'certification',
@@ -143,11 +141,11 @@ export function OurProcessSection({ locale }: OurProcessSectionProps) {
         { label: 'Monthly Capacity', value: '5,000MT' },
         { label: 'On-time Delivery', value: '99.2%' },
       ],
-      colors: {
-          primary: 'forest-600',
-          secondary: 'forest-100',
-          accent: 'forest-800',
-        },
+      color: {
+        primary: 'forest-600',
+        secondary: 'forest-100',
+        accent: 'forest-800',
+      },
     },
   ];
 
@@ -161,10 +159,10 @@ export function OurProcessSection({ locale }: OurProcessSectionProps) {
     <section className="relative overflow-hidden bg-gradient-to-br from-sage-50 via-white to-emerald-50 py-24">
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-5">
-        <FloatingElement duration={20} yOffset={30}>
+        <FloatingElement amplitude={30} frequency={20} delay={0}>
           <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full bg-emerald-400 blur-3xl"></div>
         </FloatingElement>
-        <FloatingElement duration={25} yOffset={-20}>
+        <FloatingElement amplitude={20} frequency={25} delay={1}>
           <div className="absolute bottom-1/4 right-1/4 h-80 w-80 rounded-full bg-forest-400 blur-3xl"></div>
         </FloatingElement>
       </div>
@@ -222,7 +220,9 @@ export function OurProcessSection({ locale }: OurProcessSectionProps) {
                   </div>
 
                   <div className="text-left">
-                    <div className="font-semibold transition-all duration-300">{step.title}</div>
+                    <div className="font-semibold transition-all duration-300">
+                      {step.title}
+                    </div>
                     <div
                       className={`text-sm transition-all duration-300 ${
                         isActive ? 'text-white/80' : 'text-forest-500'
@@ -386,7 +386,7 @@ export function OurProcessSection({ locale }: OurProcessSectionProps) {
                   </StaggeredChildren>
 
                   {/* Quality Assurance Badge */}
-                  <FadeInScroll delay={0.6}>
+                  <ScrollReveal delay={0.6}>
                     <div className="mt-8 rounded-lg border border-emerald-200 bg-emerald-50 p-4">
                       <div className="flex items-center gap-3">
                         <AnimatedIcon>
@@ -403,7 +403,7 @@ export function OurProcessSection({ locale }: OurProcessSectionProps) {
                         </div>
                       </div>
                     </div>
-                  </FadeInScroll>
+                  </ScrollReveal>
                 </CardContent>
               </Card>
             </MagneticHover>
@@ -420,7 +420,7 @@ export function OurProcessSection({ locale }: OurProcessSectionProps) {
                     <MagneticHover>
                       <Badge
                         variant="outline"
-                        className="border-gold-200 bg-gold-50 text-gold-600 shadow-gold-soft transition-all duration-300 hover:border-gold-300 hover:bg-gold-100 hover:shadow-md"
+                        className="shadow-gold-soft border-gold-200 bg-gold-50 text-gold-600 transition-all duration-300 hover:border-gold-300 hover:bg-gold-100 hover:shadow-md"
                       >
                         <Globe className="mr-2 h-4 w-4 text-gold-800 transition-all duration-300" />
                         Global Reach
@@ -430,7 +430,8 @@ export function OurProcessSection({ locale }: OurProcessSectionProps) {
                       Connecting Vietnam to the World
                     </h3>
                     <p className="mt-2 text-forest-700 transition-all duration-300 hover:text-forest-800">
-                      Our extensive network ensures Vietnamese coffee reaches every corner of the globe
+                      Our extensive network ensures Vietnamese coffee reaches
+                      every corner of the globe
                     </p>
 
                     {/* Global Statistics Card */}
@@ -452,35 +453,45 @@ export function OurProcessSection({ locale }: OurProcessSectionProps) {
 
                             <ScrollReveal delay={0.4}>
                               <p className="mb-8 text-xl text-forest-100 transition-all duration-300">
-                                Delivering premium Vietnamese coffee to international markets with unmatched quality and reliability
+                                Delivering premium Vietnamese coffee to
+                                international markets with unmatched quality and
+                                reliability
                               </p>
                             </ScrollReveal>
 
-                            <StaggeredChildren delay={0.6}>
+                            <StaggeredChildren childDelay={0.6}>
                               <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
                                 <div className="text-center transition-all duration-300 hover:scale-105">
                                   <div className="text-3xl font-bold text-gold-400 transition-all duration-300">
                                     500+
                                   </div>
-                                  <div className="text-forest-200 transition-all duration-300">Partner Farms</div>
+                                  <div className="text-forest-200 transition-all duration-300">
+                                    Partner Farms
+                                  </div>
                                 </div>
                                 <div className="text-center transition-all duration-300 hover:scale-105">
                                   <div className="text-3xl font-bold text-emerald-400 transition-all duration-300">
                                     45+
                                   </div>
-                                  <div className="text-forest-200 transition-all duration-300">Export Markets</div>
+                                  <div className="text-forest-200 transition-all duration-300">
+                                    Export Markets
+                                  </div>
                                 </div>
                                 <div className="text-center transition-all duration-300 hover:scale-105">
                                   <div className="text-3xl font-bold text-emerald-400 transition-all duration-300">
                                     50,000MT
                                   </div>
-                                  <div className="text-forest-200 transition-all duration-300">Annual Capacity</div>
+                                  <div className="text-forest-200 transition-all duration-300">
+                                    Annual Capacity
+                                  </div>
                                 </div>
                                 <div className="text-center transition-all duration-300 hover:scale-105">
                                   <div className="text-3xl font-bold text-emerald-400 transition-all duration-300">
                                     99.2%
                                   </div>
-                                  <div className="text-forest-200 transition-all duration-300">On-time Delivery</div>
+                                  <div className="text-forest-200 transition-all duration-300">
+                                    On-time Delivery
+                                  </div>
                                 </div>
                               </div>
                             </StaggeredChildren>

@@ -85,6 +85,7 @@ export interface ProductPricing {
   incoterms: string; // FOB, CIF, CFR
   minimumOrder: number; // MT
   priceValidUntil: Date;
+  paymentTerms: string; // e.g., "30 days net", "L/C at sight"
   discountTiers?: Array<{
     minQuantity: number;
     discountPercent: number;
@@ -248,6 +249,7 @@ export const VIETNAMESE_COFFEE_CATALOG: CatalogProduct[] = [
       incoterms: 'FOB Ho Chi Minh Port',
       minimumOrder: 20,
       priceValidUntil: new Date('2024-12-31'),
+      paymentTerms: '30 days net',
       discountTiers: [
         { minQuantity: 50, discountPercent: 2 },
         { minQuantity: 100, discountPercent: 4 },
@@ -486,6 +488,7 @@ export const VIETNAMESE_COFFEE_CATALOG: CatalogProduct[] = [
       incoterms: 'FOB Ho Chi Minh Port',
       minimumOrder: 20,
       priceValidUntil: new Date('2024-12-31'),
+      paymentTerms: 'L/C at sight',
       discountTiers: [
         { minQuantity: 50, discountPercent: 2 },
         { minQuantity: 100, discountPercent: 4 },
@@ -596,6 +599,7 @@ export const VIETNAMESE_COFFEE_CATALOG: CatalogProduct[] = [
       incoterms: 'FOB Ho Chi Minh Port',
       minimumOrder: 5,
       priceValidUntil: new Date('2024-12-31'),
+      paymentTerms: 'T/T 50% advance, 50% on shipment',
       discountTiers: [
         { minQuantity: 10, discountPercent: 2 },
         { minQuantity: 20, discountPercent: 4 },
@@ -829,6 +833,7 @@ export const VIETNAMESE_COFFEE_CATALOG: CatalogProduct[] = [
       incoterms: 'FOB Ho Chi Minh Port',
       minimumOrder: 1,
       priceValidUntil: new Date('2024-12-31'),
+      paymentTerms: 'L/C 90 days',
       discountTiers: [
         { minQuantity: 5, discountPercent: 3 },
         { minQuantity: 10, discountPercent: 5 },
@@ -938,6 +943,7 @@ export const VIETNAMESE_COFFEE_CATALOG: CatalogProduct[] = [
       incoterms: 'FOB Ho Chi Minh Port',
       minimumOrder: 50,
       priceValidUntil: new Date('2024-12-31'),
+      paymentTerms: '60 days net',
       discountTiers: [
         { minQuantity: 100, discountPercent: 2 },
         { minQuantity: 200, discountPercent: 4 },

@@ -56,6 +56,31 @@ import {
   PricingModel,
 } from '@/data/service-catalog';
 import { CertificationBadge } from '@/shared/components/design-system/Coffee';
+import { CertificationType } from '@/data/product-catalog';
+import type { CoffeeCertification } from '@/shared/components/design-system/types';
+
+// Helper function to convert CertificationType enum to CoffeeCertification format
+const mapCertificationToDesignSystem = (
+  cert: CertificationType
+): CoffeeCertification => {
+  const certMap: Record<CertificationType, CoffeeCertification> = {
+    [CertificationType.ORGANIC]: 'organic',
+    [CertificationType.FAIR_TRADE]: 'fair-trade',
+    [CertificationType.RAINFOREST_ALLIANCE]: 'rainforest-alliance',
+    [CertificationType.UTZ]: 'utz',
+    [CertificationType.UTZ_CERTIFIED]: 'utz',
+    [CertificationType.C_CAFE_PRACTICES]: 'organic',
+    [CertificationType.BIRD_FRIENDLY]: 'bird-friendly',
+    [CertificationType.SHADE_GROWN]: 'shade-grown',
+    [CertificationType.DIRECT_TRADE]: 'direct-trade',
+    [CertificationType.ISO_22000]: 'iso-22000',
+    [CertificationType.HACCP]: 'haccp',
+    [CertificationType.BRC]: 'brc',
+    [CertificationType.KOSHER]: 'organic',
+    [CertificationType.HALAL]: 'organic',
+  };
+  return certMap[cert] || 'organic';
+};
 
 interface ServicePageProps {
   params: Promise<{ locale: Locale; slug: string }>;
@@ -103,11 +128,11 @@ export async function generateMetadata({
     });
   }
 
-  const serviceName = service.name[locale] || service.name.en;
+  const serviceName = service.name[locale] || service.name.en || '';
   const serviceDescription =
-    service.shortDescription[locale] || service.shortDescription.en;
+    service.shortDescription[locale] || service.shortDescription.en || '';
   const capabilities = service.capabilities.map(
-    cap => cap.name[locale] || cap.name.en
+    cap => cap.name[locale] || cap.name.en || ''
   );
 
   return generateSEOMetadata({
@@ -142,9 +167,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
     notFound();
   }
 
-  const serviceName = service.name[locale] || service.name.en;
+  const serviceName = service.name[locale] || service.name.en || '';
   const serviceDescription =
-    service.shortDescription[locale] || service.shortDescription.en;
+    service.shortDescription[locale] || service.shortDescription.en || '';
   const serviceLongDescription =
     service.longDescription[locale] || service.longDescription.en;
 
@@ -169,7 +194,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const breadcrumbs = [
     { name: 'Home', url: `/${locale}` },
     { name: 'Services', url: `/${locale}/services` },
-    { name: serviceName, url: `/${locale}/services/${slug}` },
+    { name: serviceName || 'Service', url: `/${locale}/services/${slug}` },
   ];
 
   return (
@@ -231,7 +256,10 @@ export default async function ServicePage({ params }: ServicePageProps) {
             {service.certifications.length > 0 && (
               <div className="mt-6 flex flex-wrap justify-center gap-2">
                 {service.certifications.map((cert, index) => (
-                  <CertificationBadge key={index} certification={cert} />
+                  <CertificationBadge
+                    key={index}
+                    certification={mapCertificationToDesignSystem(cert)}
+                  />
                 ))}
               </div>
             )}
@@ -596,7 +624,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                   relatedService.shortDescription[locale] ||
                   relatedService.shortDescription.en;
                 const RelatedIcon =
-                  serviceTypeIcons[relatedService.type] ||
+                  serviceIcons[relatedService.type] ||
                   serviceCategoryIcons[relatedService.category] ||
                   serviceIcons.default;
 

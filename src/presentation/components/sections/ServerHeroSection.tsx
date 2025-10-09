@@ -1,8 +1,8 @@
 'use client';
 
+import { motion, Variants } from 'framer-motion';
 import { Coffee, Globe, Award, ArrowRight, Play, Pause } from 'lucide-react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 
 import { ServerButton } from '@/presentation/components/ui/server-button';
@@ -20,7 +20,7 @@ interface ServerHeroSectionProps {
 }
 
 // Animation variants for staggered entrance
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -31,38 +31,38 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      ease: 'easeOut',
     },
   },
 };
 
-const floatingVariants = {
+const floatingVariants: Variants = {
   animate: {
     y: [-10, 10, -10],
     rotate: [0, 5, -5, 0],
     transition: {
       duration: 4,
       repeat: Infinity,
-      ease: [0.4, 0, 0.6, 1],
+      ease: 'easeInOut',
     },
   },
 };
 
-const coffeeBeamVariants = {
+const coffeeBeamVariants: Variants = {
   animate: {
     scale: [1, 1.1, 1],
     opacity: [0.3, 0.6, 0.3],
     transition: {
       duration: 3,
       repeat: Infinity,
-      ease: [0.4, 0, 0.6, 1],
+      ease: 'easeInOut',
     },
   },
 };
@@ -235,7 +235,10 @@ export function ServerHeroSection({
             <motion.div
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gradient-to-r from-gold-500/20 to-coffee-500/20 px-4 py-2 backdrop-blur-sm"
               variants={itemVariants}
-              whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(255, 215, 0, 0.3)' }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 0 20px rgba(255, 215, 0, 0.3)',
+              }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
               <Award className="h-4 w-4 text-gold-400" />
@@ -269,7 +272,11 @@ export function ServerHeroSection({
             >
               <motion.div
                 className="flex items-center gap-2 rounded-lg border border-gold-400/20 bg-gradient-to-r from-gold-500/10 to-coffee-500/10 px-3 py-2 text-forest-100 backdrop-blur-sm"
-                whileHover={{ scale: 1.05, x: 5, backgroundColor: 'rgba(255, 215, 0, 0.1)' }}
+                whileHover={{
+                  scale: 1.05,
+                  x: 5,
+                  backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                }}
                 transition={{ type: 'spring', stiffness: 300 }}
               >
                 <Coffee className="h-5 w-5 text-gold-400" />
@@ -279,7 +286,11 @@ export function ServerHeroSection({
               </motion.div>
               <motion.div
                 className="flex items-center gap-2 rounded-lg border border-coffee-400/20 bg-gradient-to-r from-coffee-500/10 to-gold-500/10 px-3 py-2 text-forest-100 backdrop-blur-sm"
-                whileHover={{ scale: 1.05, x: 5, backgroundColor: 'rgba(139, 69, 19, 0.1)' }}
+                whileHover={{
+                  scale: 1.05,
+                  x: 5,
+                  backgroundColor: 'rgba(139, 69, 19, 0.1)',
+                }}
                 transition={{ type: 'spring', stiffness: 300 }}
               >
                 <Globe className="h-5 w-5 text-coffee-400" />
@@ -289,7 +300,11 @@ export function ServerHeroSection({
               </motion.div>
               <motion.div
                 className="flex items-center gap-2 rounded-lg border border-emerald-400/20 bg-gradient-to-r from-emerald-500/10 to-forest-500/10 px-3 py-2 text-forest-100 backdrop-blur-sm"
-                whileHover={{ scale: 1.05, x: 5, backgroundColor: 'rgba(34, 139, 34, 0.1)' }}
+                whileHover={{
+                  scale: 1.05,
+                  x: 5,
+                  backgroundColor: 'rgba(34, 139, 34, 0.1)',
+                }}
                 transition={{ type: 'spring', stiffness: 300 }}
               >
                 <Award className="h-5 w-5 text-emerald-400" />
@@ -402,7 +417,7 @@ export function ServerHeroSection({
                   transition={{
                     duration: 4,
                     repeat: Infinity,
-                    ease: [0.4, 0, 0.6, 1],
+                    ease: 'easeInOut',
                   }}
                 />
                 <motion.div
@@ -415,7 +430,7 @@ export function ServerHeroSection({
                     transition={{
                       duration: 20,
                       repeat: Infinity,
-                      ease: [0, 0, 1, 1],
+                      ease: 'linear',
                     }}
                   >
                     <Coffee className="h-32 w-32 text-gold-400 drop-shadow-lg" />
@@ -433,9 +448,12 @@ export function ServerHeroSection({
                 transition={{
                   duration: 3,
                   repeat: Infinity,
-                  ease: [0.4, 0, 0.6, 1],
+                  ease: 'easeInOut',
                 }}
-                whileHover={{ scale: 1.2, boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)' }}
+                whileHover={{
+                  scale: 1.2,
+                  boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)',
+                }}
               >
                 <Award className="h-8 w-8 text-gold-200 drop-shadow-sm" />
               </motion.div>
@@ -448,21 +466,28 @@ export function ServerHeroSection({
                 transition={{
                   duration: 4,
                   repeat: Infinity,
-                  ease: [0.4, 0, 0.6, 1],
+                  ease: 'easeInOut',
                   delay: 1,
                 }}
-                whileHover={{ scale: 1.2, boxShadow: '0 0 20px rgba(139, 69, 19, 0.4)' }}
+                whileHover={{
+                  scale: 1.2,
+                  boxShadow: '0 0 20px rgba(139, 69, 19, 0.4)',
+                }}
               >
                 <Globe className="h-10 w-10 text-coffee-200 drop-shadow-sm" />
               </motion.div>
 
               {/* Quality Indicators */}
               <motion.div
-                className="absolute -left-12 top-1/4 rounded-lg border border-gold-400/40 bg-gradient-to-br from-gold-900/80 to-coffee-900/80 px-4 py-2 backdrop-blur-sm shadow-lg"
+                className="absolute -left-12 top-1/4 rounded-lg border border-gold-400/40 bg-gradient-to-br from-gold-900/80 to-coffee-900/80 px-4 py-2 shadow-lg backdrop-blur-sm"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1, duration: 0.6 }}
-                whileHover={{ scale: 1.05, x: -5, boxShadow: '0 0 15px rgba(255, 215, 0, 0.3)' }}
+                whileHover={{
+                  scale: 1.05,
+                  x: -5,
+                  boxShadow: '0 0 15px rgba(255, 215, 0, 0.3)',
+                }}
               >
                 <div className="text-sm font-semibold text-gold-300">
                   Premium Grade
@@ -470,11 +495,15 @@ export function ServerHeroSection({
                 <div className="text-xs text-gold-200">ISO Certified</div>
               </motion.div>
               <motion.div
-                className="absolute -right-12 bottom-1/4 rounded-lg border border-coffee-400/40 bg-gradient-to-br from-coffee-900/80 to-gold-900/80 px-4 py-2 backdrop-blur-sm shadow-lg"
+                className="absolute -right-12 bottom-1/4 rounded-lg border border-coffee-400/40 bg-gradient-to-br from-coffee-900/80 to-gold-900/80 px-4 py-2 shadow-lg backdrop-blur-sm"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2, duration: 0.6 }}
-                whileHover={{ scale: 1.05, x: 5, boxShadow: '0 0 15px rgba(139, 69, 19, 0.3)' }}
+                whileHover={{
+                  scale: 1.05,
+                  x: 5,
+                  boxShadow: '0 0 15px rgba(139, 69, 19, 0.3)',
+                }}
               >
                 <div className="text-sm font-semibold text-coffee-300">
                   Global Export

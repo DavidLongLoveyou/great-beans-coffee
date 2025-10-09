@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { onCLS, onFCP, onINP, onLCP, onTTFB, type Metric } from 'web-vitals';
 
 import { createScopedLogger } from '@/shared/utils/logger';
@@ -79,81 +79,89 @@ export function CoreWebVitalsMonitor({
   };
 
   // Send metric to analytics
-  const sendToAnalytics = async (metric: WebVitalMetric) => {
-    if (!enableAnalytics) return;
+  const sendToAnalytics = useCallback(
+    async (metric: WebVitalMetric) => {
+      if (!enableAnalytics) return;
 
-    try {
-      // Send to Google Analytics 4 if available
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', metric.name, {
-          event_category: 'Web Vitals',
-          event_label: metric.id,
-          value: Math.round(
-            metric.name === 'CLS' ? metric.value * 1000 : metric.value
-          ),
-          metric_rating: metric.rating,
-          metric_delta: metric.delta,
-          navigation_type: metric.navigationType,
-        });
-      }
+      try {
+        // Send to Google Analytics 4 if available
+        if (typeof window !== 'undefined' && window.gtag) {
+          window.gtag('event', metric.name, {
+            event_category: 'Web Vitals',
+            event_label: metric.id,
+            value: Math.round(
+              metric.name === 'CLS' ? metric.value * 1000 : metric.value
+            ),
+            metric_rating: metric.rating,
+            metric_delta: metric.delta,
+            navigation_type: metric.navigationType,
+          });
+        }
 
-      // Send to custom analytics endpoint
-      if (analyticsEndpoint) {
-        await fetch(analyticsEndpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            metric,
-            timestamp: Date.now(),
-            url: window.location.href,
-            userAgent: navigator.userAgent,
-            connection: (navigator as any).connection?.effectiveType,
-          }),
-        });
+        // Send to custom analytics endpoint
+        if (analyticsEndpoint) {
+          await fetch(analyticsEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              metric,
+              timestamp: Date.now(),
+              url: window.location.href,
+              userAgent: navigator.userAgent,
+              connection: (
+                navigator as { connection?: { effectiveType: string } }
+              ).connection?.effectiveType,
+            }),
+          });
+        }
+      } catch (error) {
+        if (enableConsoleLogging) {
+          logger.error('Failed to send Web Vitals metric to analytics:', error);
+        }
       }
-    } catch (error) {
-      if (enableConsoleLogging) {
-        logger.error('Failed to send Web Vitals metric to analytics:', error);
-      }
-    }
-  };
+    },
+    [enableAnalytics, analyticsEndpoint, enableConsoleLogging]
+  );
 
   // Handle metric capture
-  const handleMetric = (metric: Metric) => {
-    const webVitalMetric: WebVitalMetric = {
-      name: metric.name,
-      value: metric.value,
-      rating: getPerformanceRating(metric.name, metric.value),
-      delta: metric.delta,
-      id: metric.id,
-      navigationType: metric.navigationType || 'navigate',
-    };
+  const handleMetric = useCallback(
+    (metric: Metric) => {
+      const webVitalMetric: WebVitalMetric = {
+        name: metric.name,
+        value: metric.value,
+        rating: getPerformanceRating(metric.name, metric.value),
+        delta: metric.delta,
+        id: metric.id,
+        navigationType: metric.navigationType || 'navigate',
+      };
 
-    // Update state
-    setMetrics(prev => ({
-      ...prev,
-      [metric.name]: webVitalMetric,
-    }));
+      // Update state
+      setMetrics(prev => ({
+        ...prev,
+        [metric.name]: webVitalMetric,
+      }));
 
-    // Log to console if enabled and in development
-    if (enableConsoleLogging && process.env.NODE_ENV === 'development') {
-      logger.info(`[Core Web Vitals] ${metric.name}:`, webVitalMetric);
-    }
+      // Log to console if enabled and in development
+      if (enableConsoleLogging && process.env.NODE_ENV === 'development') {
+        logger.info(`[Core Web Vitals] ${metric.name}:`, webVitalMetric);
+      }
 
-    // Send to analytics (only once per metric per page load)
-    const metricKey = `${metric.name}-${metric.id}`;
-    if (!sentMetrics.current.has(metricKey)) {
-      sentMetrics.current.add(metricKey);
-      sendToAnalytics(webVitalMetric);
-    }
+      // Send to analytics (only once per metric per page load)
+      const metricKey = `${metric.name}-${metric.id}`;
+      if (!sentMetrics.current.has(metricKey)) {
+        sentMetrics.current.add(metricKey);
+        sendToAnalytics(webVitalMetric);
+      }
 
-    // Call custom handler
-    if (onMetricCapture) {
-      onMetricCapture(webVitalMetric);
-    }
-  };
+      // Call custom handler
+      if (onMetricCapture) {
+        onMetricCapture(webVitalMetric);
+      }
+    },
+    [enableConsoleLogging, onMetricCapture, sendToAnalytics]
+  );
 
   // Initialize Web Vitals monitoring
   useEffect(() => {
@@ -191,14 +199,20 @@ export function CoreWebVitalsMonitor({
 
       // Monitor Layout Shifts for debugging
       try {
+        interface LayoutShiftEntry extends PerformanceEntry {
+          value: number;
+          sources: Array<{ node?: Element }>;
+        }
+
         const layoutShiftObserver = new PerformanceObserver(list => {
           for (const entry of list.getEntries()) {
-            if ((entry as any).value > 0.1) {
+            const layoutShiftEntry = entry as LayoutShiftEntry;
+            if (layoutShiftEntry.value > 0.1) {
               // Significant layout shifts
               if (enableConsoleLogging) {
                 logger.warn('[Performance] Layout Shift detected:', {
-                  value: (entry as any).value,
-                  sources: (entry as any).sources,
+                  value: layoutShiftEntry.value,
+                  sources: layoutShiftEntry.sources,
                   startTime: entry.startTime,
                 });
               }
@@ -222,8 +236,10 @@ export function CoreWebVitalsMonitor({
   }, [
     enableAnalytics,
     enableConsoleLogging,
+    enableVisualIndicator,
     onMetricCapture,
     analyticsEndpoint,
+    handleMetric,
   ]);
 
   // Visual indicator component

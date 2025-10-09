@@ -122,7 +122,16 @@ export function EnhancedOptimizedImage({
 
       // Track in analytics
       if (typeof window !== 'undefined' && 'gtag' in window) {
-        (window as any).gtag('event', 'image_load_time', {
+        const gtag = (
+          window as {
+            gtag: (
+              command: string,
+              action: string,
+              parameters: Record<string, unknown>
+            ) => void;
+          }
+        ).gtag;
+        gtag('event', 'image_load_time', {
           event_category: 'Performance',
           event_label: `${category}_image`,
           value: Math.round(loadTime),
@@ -153,7 +162,16 @@ export function EnhancedOptimizedImage({
 
     // Track error in analytics
     if (trackPerformance && typeof window !== 'undefined' && 'gtag' in window) {
-      (window as any).gtag('event', 'image_load_error', {
+      const gtag = (
+        window as {
+          gtag: (
+            command: string,
+            action: string,
+            parameters: Record<string, unknown>
+          ) => void;
+        }
+      ).gtag;
+      gtag('event', 'image_load_error', {
         event_category: 'Performance',
         event_label: `${category}_image_error`,
         custom_map: {

@@ -159,7 +159,8 @@ export function EnhancedSEOHead({
       {/* Preload critical resources */}
       {preloadResources.map((resource, index) => (
         <link
-          key={index}
+          // eslint-disable-next-line react/no-array-index-key
+          key={`preload-${resource.href}-${index}`}
           rel="preload"
           href={resource.href}
           as={resource.as}
@@ -186,10 +187,11 @@ export function EnhancedSEOHead({
       {/* Structured Data - JSON-LD */}
       {validSchemas.map((schema, index) => (
         <Script
+          // eslint-disable-next-line react/no-array-index-key
           key={`schema-${index}`}
           id={`structured-data-${index}`}
           type="application/ld+json"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(schema, null, 0),
           }}

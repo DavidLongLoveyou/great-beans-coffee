@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { rfqRepository } from '@/infrastructure/database/repositories';
-import { createScopedLogger } from '@/shared/utils/logger';
+import { rfqRepository } from '../../../../../infrastructure/di/container';
+import { createScopedLogger } from '../../../../../shared/utils/logger';
 
 const logger = createScopedLogger('RFQ-Quotes-API');
 
@@ -20,7 +20,7 @@ const createQuoteSchema = z.object({
         unit: z.string().min(1, 'Unit is required'),
         unitPrice: z.number().positive('Unit price must be positive'),
         totalPrice: z.number().positive('Total price must be positive'),
-        specifications: z.record(z.any()).optional(),
+        specifications: z.record(z.string(), z.any()).optional(),
       })
     )
     .min(1, 'At least one item is required'),
@@ -140,7 +140,9 @@ export async function POST(
 
     // Create quote using repository
     const quote = await rfqRepository.createQuote(id, {
+      rfqId: id,
       version: validatedData.version,
+      status: 'DRAFT' as const,
       currency: validatedData.currency,
       totalAmount,
       validUntil: validatedData.validUntil,

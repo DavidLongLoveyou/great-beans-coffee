@@ -119,14 +119,21 @@ export function PerformanceInitializer() {
 
       // Monitor layout shifts
       try {
+        interface LayoutShiftEntry extends PerformanceEntry {
+          hadRecentInput: boolean;
+          value: number;
+        }
+
         const clsObserver = new PerformanceObserver(list => {
           list.getEntries().forEach(entry => {
-            if (
-              entry.entryType === 'layout-shift' &&
-              !(entry as any).hadRecentInput
-            ) {
-              if (process.env.NODE_ENV === 'development') {
-                logger.info(`Layout shift detected: ${(entry as any).value}`);
+            if (entry.entryType === 'layout-shift') {
+              const layoutShiftEntry = entry as LayoutShiftEntry;
+              if (!layoutShiftEntry.hadRecentInput) {
+                if (process.env.NODE_ENV === 'development') {
+                  logger.info(
+                    `Layout shift detected: ${layoutShiftEntry.value}`
+                  );
+                }
               }
             }
           });

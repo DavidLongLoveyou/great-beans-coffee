@@ -204,9 +204,12 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Search API error:', error);
+    // Log error for monitoring (replace with proper logging service in production)
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
+
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: errorMessage },
       { status: 500 }
     );
   }

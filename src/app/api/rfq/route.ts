@@ -4,8 +4,8 @@ import { z } from 'zod';
 import {
   submitRfqUseCase,
   getRfqsUseCase,
-} from '@/infrastructure/di/container';
-import { createScopedLogger } from '@/shared/utils/logger';
+} from '../../../infrastructure/di/container';
+import { createScopedLogger } from '../../../shared/utils/logger';
 
 const logger = createScopedLogger('RFQ-API');
 
@@ -38,7 +38,8 @@ const submitRfqSchema = z.object({
   isRecurringOrder: z.boolean().default(false),
   recurringFrequency: z
     .enum(['MONTHLY', 'QUARTERLY', 'SEMI_ANNUAL', 'ANNUAL'])
-    .optional(),
+    .optional()
+    .or(z.undefined()),
 
   // Payment Terms
   paymentTerms: z.string().min(1, 'Payment terms are required'),
@@ -55,7 +56,7 @@ const submitRfqSchema = z.object({
   businessType: z.string().min(1, 'Business type is required'),
 
   // Additional Details (optional)
-  additionalRequirements: z.string().optional(),
+  additionalRequirements: z.string().optional().or(z.undefined()),
   sampleRequired: z.boolean().default(false),
   urgency: z.enum(['low', 'medium', 'high']).default('medium'),
 
@@ -65,23 +66,29 @@ const submitRfqSchema = z.object({
 
 // Validation schema for RFQ listing
 const getRfqsSchema = z.object({
-  page: z.string().transform(Number).pipe(z.number().positive()).default('1'),
+  page: z
+    .string()
+    .optional()
+    .or(z.undefined())
+    .transform(val => Math.max(1, Number(val) || 1)),
   limit: z
     .string()
-    .transform(Number)
-    .pipe(z.number().positive().max(100))
-    .default('10'),
-  status: z.string().optional(),
-  priority: z.string().optional(),
-  companyName: z.string().optional(),
+    .optional()
+    .or(z.undefined())
+    .transform(val => Math.min(100, Math.max(1, Number(val) || 10))),
+  status: z.string().optional().or(z.undefined()),
+  priority: z.string().optional().or(z.undefined()),
+  companyName: z.string().optional().or(z.undefined()),
   dateFrom: z
     .string()
     .transform(str => (str ? new Date(str) : undefined))
-    .optional(),
+    .optional()
+    .or(z.undefined()),
   dateTo: z
     .string()
     .transform(str => (str ? new Date(str) : undefined))
-    .optional(),
+    .optional()
+    .or(z.undefined()),
   sortBy: z
     .enum(['submittedAt', 'updatedAt', 'priority', 'status'])
     .default('submittedAt'),

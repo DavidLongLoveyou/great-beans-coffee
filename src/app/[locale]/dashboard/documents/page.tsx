@@ -1,29 +1,29 @@
 'use client';
 
+import { useState, useMemo } from 'react';
 import {
-  FileText,
-  Upload,
-  Download,
-  Eye,
-  Trash2,
-  Search,
-  Building,
-  Shield,
-  Truck,
-  Award,
-  FileCheck,
   AlertTriangle,
-  Clock,
-  CheckCircle,
-  XCircle,
-  Share,
-  Edit,
   Archive,
+  Award,
+  Building,
+  CheckCircle,
+  Clock,
+  Download,
+  Edit,
+  Eye,
+  FileCheck,
+  FileText,
+  Search,
+  Share,
+  Shield,
   Star,
   StarOff,
+  Trash2,
+  Truck,
+  Upload,
+  XCircle,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState, useMemo } from 'react';
 
 import { type Locale } from '@/i18n';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
@@ -70,12 +70,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/presentation/components/ui/table';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/presentation/components/ui/tabs';
 import { Textarea } from '@/presentation/components/ui/textarea';
 import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
 

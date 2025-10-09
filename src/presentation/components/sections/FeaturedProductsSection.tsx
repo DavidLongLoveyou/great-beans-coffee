@@ -1,9 +1,9 @@
 'use client';
 
+import { motion, useInView, Variants } from 'framer-motion';
 import {
   Coffee,
   ArrowRight,
-  CheckCircle,
   Star,
   ChevronLeft,
   ChevronRight,
@@ -12,24 +12,15 @@ import {
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
 
 import { Badge } from '@/presentation/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/presentation/components/ui/card';
-import { ServerButton } from '@/presentation/components/ui/server-button';
-import { 
-  ScrollReveal, 
-  StaggeredChildren, 
-  MagneticHover,
-  FloatingElement 
-} from '@/presentation/components/ui/ScrollAnimations';
 import { EnhancedButton } from '@/presentation/components/ui/EnhancedButton';
+import {
+  ScrollReveal,
+  StaggeredChildren,
+  MagneticHover,
+  FloatingElement,
+} from '@/presentation/components/ui/ScrollAnimations';
 
 interface FeaturedProductsSectionProps {
   locale: string;
@@ -57,7 +48,7 @@ interface Product {
 }
 
 // Animation variants
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -68,40 +59,12 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] },
-  },
-  hover: {
-    y: -8,
-    scale: 1.02,
-    transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
-  },
-};
-
-const badgeVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.4, delay: 0.2 },
-  },
-  hover: {
-    scale: 1.1,
-    transition: { duration: 0.2 },
+    transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
 
@@ -232,7 +195,7 @@ export function FeaturedProductsSection({
           transition={{
             duration: 4,
             repeat: Infinity,
-            ease: [0.4, 0, 0.6, 1],
+            ease: 'easeInOut',
           }}
         />
         <motion.div
@@ -244,7 +207,7 @@ export function FeaturedProductsSection({
           transition={{
             duration: 5,
             repeat: Infinity,
-            ease: [0.4, 0, 0.6, 1],
+            ease: 'easeInOut',
             delay: 1,
           }}
         />
@@ -255,7 +218,7 @@ export function FeaturedProductsSection({
         <ScrollReveal direction="up" delay={0.2} duration={0.8}>
           <div className="mb-20 text-center">
             <MagneticHover strength={0.1}>
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/20 px-6 py-3 shadow-emerald-soft backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-500/30 hover:shadow-emerald-medium">
+              <div className="hover:shadow-emerald-medium mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/20 px-6 py-3 shadow-emerald-soft backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-500/30">
                 <FloatingElement>
                   <Coffee className="h-5 w-5 text-emerald-400" />
                 </FloatingElement>
@@ -288,7 +251,7 @@ export function FeaturedProductsSection({
             <MagneticHover strength={0.2}>
               <button
                 onClick={prevProduct}
-                className="absolute left-0 top-1/2 z-20 -translate-x-4 -translate-y-1/2 rounded-full bg-emerald-800/80 p-3 text-gold-400 shadow-emerald-medium backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90 hover:shadow-gold-strong"
+                className="shadow-emerald-medium hover:shadow-gold-strong absolute left-0 top-1/2 z-20 -translate-x-4 -translate-y-1/2 rounded-full bg-emerald-800/80 p-3 text-gold-400 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
@@ -299,7 +262,7 @@ export function FeaturedProductsSection({
             <MagneticHover strength={0.2}>
               <button
                 onClick={nextProduct}
-                className="absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-4 rounded-full bg-emerald-800/80 p-3 text-gold-400 shadow-emerald-medium backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90 hover:shadow-gold-strong"
+                className="shadow-emerald-medium hover:shadow-gold-strong absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-4 rounded-full bg-emerald-800/80 p-3 text-gold-400 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
@@ -316,10 +279,14 @@ export function FeaturedProductsSection({
                   featuredProducts.length <= 3;
 
                 return (
-                  <ScrollReveal direction="up" delay={index * 0.1} duration={0.6}>
+                  <ScrollReveal
+                    key={product.id}
+                    direction="up"
+                    delay={index * 0.1}
+                    duration={0.6}
+                  >
                     <MagneticHover strength={0.05}>
                       <div
-                        key={product.id}
                         className={`group relative overflow-hidden rounded-lg border border-forest-600/30 bg-forest-800/50 shadow-forest-medium backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 ${
                           isActive
                             ? 'shadow-gold-strong scale-105 border-gold-400/50 bg-forest-700/60'
@@ -327,202 +294,208 @@ export function FeaturedProductsSection({
                         } ${isVisible ? 'opacity-100' : 'opacity-50'}`}
                         data-testid="product-card"
                       >
-                  {/* Popular Badge */}
-                  {product.isPopular && (
-                    <motion.div
-                      className="absolute left-4 top-4 z-10 rounded-full bg-forest-600/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm"
-                      initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                    >
-                      <Badge className="border-gold-400/50 bg-gold-500/80 text-gold-100 shadow-gold-soft">
-                        <Star className="mr-1 h-3 w-3 fill-current" />
-                        Popular
-                      </Badge>
-                    </motion.div>
-                  )}
-
-                  <div className="p-6 pb-4">
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: 0.1 }}
-                    >
-                      <Badge
-                        className={`w-fit border shadow-sm ${getBadgeStyles(product.badge.variant)}`}
-                      >
-                        {product.badge.text}
-                      </Badge>
-                    </motion.div>
-
-                    <motion.h3
-                      className="mt-4 text-xl font-bold text-white transition-colors group-hover:text-gold-200"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: 0.2 }}
-                    >
-                      {t(`products.${product.key}.name`)}
-                    </motion.h3>
-
-                    <motion.p
-                      className="mt-2 leading-relaxed text-coffee-200"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: 0.3 }}
-                    >
-                      {t(`products.${product.key}.description`)}
-                    </motion.p>
-                  </div>
-
-                  <div className="space-y-6 px-6">
-                    {/* Key Features */}
-                    <motion.div
-                      className="space-y-3"
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: 0.4 }}
-                    >
-                      <h4 className="text-sm font-semibold text-gold-300">
-                        Key Features
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {product.features.map((feature, index) => (
+                        {/* Popular Badge */}
+                        {product.isPopular && (
                           <motion.div
-                            key={index}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                              duration: 0.3,
-                              delay: 0.5 + index * 0.1,
-                            }}
-                            whileHover={{ scale: 1.05 }}
+                            className="absolute left-4 top-4 z-10 rounded-full bg-forest-600/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm"
+                            initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
+                            whileHover={{ scale: 1.1, rotate: 5 }}
                           >
-                            <Badge
-                              variant="outline"
-                              className="border-coffee-500 bg-coffee-700/50 text-coffee-100 hover:border-gold-400/50 hover:bg-gold-500/20"
-                            >
-                              {feature}
+                            <Badge className="shadow-gold-soft border-gold-400/50 bg-gold-500/80 text-gold-100">
+                              <Star className="mr-1 h-3 w-3 fill-current" />
+                              Popular
                             </Badge>
                           </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
+                        )}
 
-                    {/* Specifications */}
-                    <motion.div
-                      className="space-y-3"
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: 0.6 }}
-                    >
-                      <h4 className="text-sm font-semibold text-gold-300">
-                        Specifications
-                      </h4>
-                      <div className="grid grid-cols-2 gap-3 text-sm">
-                        <motion.div
-                          className="text-coffee-200"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 0.7 }}
-                          whileHover={{ x: 5 }}
-                        >
-                          <span className="text-coffee-300">Grade:</span>
-                          <span className="ml-2 font-medium text-gold-400">
-                            {product.grade}
-                          </span>
-                        </motion.div>
-                        <motion.div
-                          className="text-coffee-200"
-                          initial={{ opacity: 0, x: 10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 0.8 }}
-                          whileHover={{ x: -5 }}
-                        >
-                          <span className="text-coffee-300">Origin:</span>
-                          <span className="ml-2 font-medium text-gold-400">
-                            {product.origin}
-                          </span>
-                        </motion.div>
-                        <motion.div
-                          className="text-coffee-200"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 0.9 }}
-                          whileHover={{ x: 5 }}
-                        >
-                          <span className="text-coffee-300">Processing:</span>
-                          <span className="ml-2 font-medium text-gold-400">
-                            {product.processingMethod}
-                          </span>
-                        </motion.div>
-                        <motion.div
-                          className="text-coffee-200"
-                          initial={{ opacity: 0, x: 10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 1.0 }}
-                          whileHover={{ x: -5 }}
-                        >
-                          <span className="text-coffee-300">Moisture:</span>
-                          <span className="ml-2 font-medium text-gold-400">
-                            {product.specifications.moisture}
-                          </span>
-                        </motion.div>
-                      </div>
-                    </motion.div>
+                        <div className="p-6 pb-4">
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 0.1 }}
+                          >
+                            <Badge
+                              className={`w-fit border shadow-sm ${getBadgeStyles(product.badge.variant)}`}
+                            >
+                              {product.badge.text}
+                            </Badge>
+                          </motion.div>
 
-                    {/* Cupping Score */}
-                    {product.specifications.cuppingScore && (
-                      <motion.div
-                        className="rounded-lg border border-gold-400/30 bg-gold-500/10 p-3"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.4, delay: 0.9 }}
-                        whileHover={{ scale: 1.02 }}
-                      >
-                        <div className="flex items-center gap-2 text-sm">
-                          <Star className="h-4 w-4 fill-current text-gold-400" />
-                          <span className="text-gold-300">
-                            Cupping Score:
-                          </span>
-                          <span className="font-bold text-gold-400">
-                            {product.specifications.cuppingScore}+
-                          </span>
+                          <motion.h3
+                            className="mt-4 text-xl font-bold text-white transition-colors group-hover:text-gold-200"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 0.2 }}
+                          >
+                            {t(`products.${product.id}.name`)}
+                          </motion.h3>
+
+                          <motion.p
+                            className="mt-2 leading-relaxed text-coffee-200"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 0.3 }}
+                          >
+                            {t(`products.${product.id}.description`)}
+                          </motion.p>
                         </div>
-                      </motion.div>
-                    )}
 
-                    {/* Action Buttons */}
-                    <div className="flex gap-3 pt-4">
-                      <div className="flex-1">
-                        <EnhancedButton
-                          asChild
-                          variant="forest"
-                          size="md"
-                          className="w-full"
-                        >
-                          <Link href={`/${locale}/products/${product.id}`}>
-                            <ArrowRight className="mr-2 h-4 w-4" />
-                            View Details
-                          </Link>
-                        </EnhancedButton>
+                        <div className="space-y-6 px-6">
+                          {/* Key Features */}
+                          <motion.div
+                            className="space-y-3"
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 0.4 }}
+                          >
+                            <h4 className="text-sm font-semibold text-gold-300">
+                              Key Features
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {product.features.map((feature, index) => (
+                                <motion.div
+                                  key={index}
+                                  initial={{ opacity: 0, scale: 0.8 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{
+                                    duration: 0.3,
+                                    delay: 0.5 + index * 0.1,
+                                  }}
+                                  whileHover={{ scale: 1.05 }}
+                                >
+                                  <Badge
+                                    variant="outline"
+                                    className="border-coffee-500 bg-coffee-700/50 text-coffee-100 hover:border-gold-400/50 hover:bg-gold-500/20"
+                                  >
+                                    {feature}
+                                  </Badge>
+                                </motion.div>
+                              ))}
+                            </div>
+                          </motion.div>
+
+                          {/* Specifications */}
+                          <motion.div
+                            className="space-y-3"
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 0.6 }}
+                          >
+                            <h4 className="text-sm font-semibold text-gold-300">
+                              Specifications
+                            </h4>
+                            <div className="grid grid-cols-2 gap-3 text-sm">
+                              <motion.div
+                                className="text-coffee-200"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.3, delay: 0.7 }}
+                                whileHover={{ x: 5 }}
+                              >
+                                <span className="text-coffee-300">Grade:</span>
+                                <span className="ml-2 font-medium text-gold-400">
+                                  {product.grade}
+                                </span>
+                              </motion.div>
+                              <motion.div
+                                className="text-coffee-200"
+                                initial={{ opacity: 0, x: 10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.3, delay: 0.8 }}
+                                whileHover={{ x: -5 }}
+                              >
+                                <span className="text-coffee-300">Origin:</span>
+                                <span className="ml-2 font-medium text-gold-400">
+                                  {product.origin}
+                                </span>
+                              </motion.div>
+                              <motion.div
+                                className="text-coffee-200"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.3, delay: 0.9 }}
+                                whileHover={{ x: 5 }}
+                              >
+                                <span className="text-coffee-300">
+                                  Processing:
+                                </span>
+                                <span className="ml-2 font-medium text-gold-400">
+                                  {product.processingMethod}
+                                </span>
+                              </motion.div>
+                              <motion.div
+                                className="text-coffee-200"
+                                initial={{ opacity: 0, x: 10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.3, delay: 1.0 }}
+                                whileHover={{ x: -5 }}
+                              >
+                                <span className="text-coffee-300">
+                                  Moisture:
+                                </span>
+                                <span className="ml-2 font-medium text-gold-400">
+                                  {product.specifications.moisture}
+                                </span>
+                              </motion.div>
+                            </div>
+                          </motion.div>
+
+                          {/* Cupping Score */}
+                          {product.specifications.cuppingScore && (
+                            <motion.div
+                              className="rounded-lg border border-gold-400/30 bg-gold-500/10 p-3"
+                              initial={{ opacity: 0, scale: 0.95 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ duration: 0.4, delay: 0.9 }}
+                              whileHover={{ scale: 1.02 }}
+                            >
+                              <div className="flex items-center gap-2 text-sm">
+                                <Star className="h-4 w-4 fill-current text-gold-400" />
+                                <span className="text-gold-300">
+                                  Cupping Score:
+                                </span>
+                                <span className="font-bold text-gold-400">
+                                  {product.specifications.cuppingScore}+
+                                </span>
+                              </div>
+                            </motion.div>
+                          )}
+
+                          {/* Action Buttons */}
+                          <div className="flex gap-3 pt-4">
+                            <div className="flex-1">
+                              <EnhancedButton
+                                asChild
+                                variant="primary"
+                                size="md"
+                                className="w-full"
+                              >
+                                <Link
+                                  href={`/${locale}/products/${product.id}`}
+                                >
+                                  <ArrowRight className="mr-2 h-4 w-4" />
+                                  View Details
+                                </Link>
+                              </EnhancedButton>
+                            </div>
+                            <EnhancedButton
+                              variant="outline"
+                              size="sm"
+                              className="border-coffee-500 text-coffee-200 hover:border-gold-400 hover:bg-gold-500/20 hover:text-gold-200"
+                            >
+                              <Download className="h-4 w-4" />
+                            </EnhancedButton>
+                          </div>
+                        </div>
                       </div>
-                      <EnhancedButton
-                        variant="outline"
-                        size="icon"
-                        className="border-coffee-500 text-coffee-200 hover:border-gold-400 hover:bg-gold-500/20 hover:text-gold-200"
-                      >
-                        <Download className="h-4 w-4" />
-                      </EnhancedButton>
-                    </div>
-                  </div>
-                       </div>
-                     </MagneticHover>
-                   </ScrollReveal>
-                 );
-               })}
-             </div>
-           </StaggeredChildren>
+                    </MagneticHover>
+                  </ScrollReveal>
+                );
+              })}
+            </div>
+          </StaggeredChildren>
 
           {/* Carousel Indicators */}
           <ScrollReveal direction="up" delay={0.3}>
@@ -548,7 +521,7 @@ export function FeaturedProductsSection({
           <div className="mt-16 text-center">
             <EnhancedButton
               asChild
-              variant="forest"
+              variant="primary"
               size="lg"
               className="px-10 py-4 text-lg font-semibold"
             >

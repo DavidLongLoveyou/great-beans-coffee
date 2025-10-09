@@ -121,7 +121,9 @@ export async function PATCH(
       },
     });
   } catch (error) {
-    console.error('Error updating RFQ status:', error);
+    // Log error for monitoring (replace with proper logging service in production)
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -131,7 +133,7 @@ export async function PATCH(
     }
 
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: errorMessage },
       { status: 500 }
     );
   }
@@ -155,9 +157,12 @@ export async function GET(
       statusHistory: rfq.statusHistory,
     });
   } catch (error) {
-    console.error('Error fetching RFQ status:', error);
+    // Log error for monitoring (replace with proper logging service in production)
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
+
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: errorMessage },
       { status: 500 }
     );
   }

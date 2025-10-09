@@ -1,7 +1,8 @@
-import React from 'react';
 import { useTranslations } from 'next-intl';
-import { RFQ } from '@/domain/entities/rfq.entity';
+import React from 'react';
+
 import { CoffeeProduct } from '@/domain/entities/coffee-product.entity';
+import { RFQ } from '@/domain/entities/rfq.entity';
 
 interface RFQDocumentTemplateProps {
   rfq: RFQ;
@@ -137,7 +138,9 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
                   <span className="font-medium">
                     {rfq.deliveryRequirements.preferredDeliveryDate
                       ? formatDate(
-                          rfq.deliveryRequirements.preferredDeliveryDate
+                          new Date(
+                            rfq.deliveryRequirements.preferredDeliveryDate
+                          )
                         )
                       : 'TBD'}
                   </span>
@@ -146,6 +149,13 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
                   <span className="text-gray-600">
                     {tRfq('shippingMethod')}:
                   </span>
+                  <span className="font-medium">
+                    {rfq.deliveryRequirements.shippingMethod ||
+                      'Coffee Trading'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">{tRfq('packaging')}:</span>
                   <span className="font-medium">
                     {rfq.deliveryRequirements.packaging || 'TBD'}
                   </span>
@@ -259,7 +269,7 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
 
                   return (
                     <tr
-                      key={index}
+                      key={product?.id || `product-${index}`}
                       className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}
                     >
                       <td className="border border-gray-300 px-4 py-2">
@@ -434,7 +444,7 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
             </div>
             <div className="text-right">
               <p>www.thegreatbeans.com</p>
-              <p>Connecting Vietnam's finest coffee to the world</p>
+              <p>Connecting Vietnam&apos;s finest coffee to the world</p>
             </div>
           </div>
         </footer>

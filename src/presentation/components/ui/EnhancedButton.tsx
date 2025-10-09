@@ -1,11 +1,14 @@
 'use client';
 
-import { forwardRef, useState } from 'react';
-import { motion, HTMLMotionProps } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { Slot } from '@radix-ui/react-slot';
+import { motion, HTMLMotionProps, Variants } from 'framer-motion';
+import React, { forwardRef, useState } from 'react';
+
+import { cn } from '@/shared/utils/cn';
+
 import { LoadingSpinner } from './MicroInteractions';
 
-interface EnhancedButtonProps extends Omit<HTMLMotionProps<"button">, 'size'> {
+interface EnhancedButtonProps extends Omit<HTMLMotionProps<'button'>, 'size'> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   loading?: boolean;
@@ -13,22 +16,27 @@ interface EnhancedButtonProps extends Omit<HTMLMotionProps<"button">, 'size'> {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   fullWidth?: boolean;
+  asChild?: boolean;
   children: React.ReactNode;
 }
 
 const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>(
-  ({
-    variant = 'primary',
-    size = 'md',
-    loading = false,
-    disabled = false,
-    leftIcon,
-    rightIcon,
-    fullWidth = false,
-    children,
-    className,
-    ...props
-  }, ref) => {
+  (
+    {
+      variant = 'primary',
+      size = 'md',
+      loading = false,
+      disabled = false,
+      leftIcon,
+      rightIcon,
+      fullWidth = false,
+      asChild = false,
+      children,
+      className,
+      ...props
+    },
+    ref
+  ) => {
     const [isPressed, setIsPressed] = useState(false);
 
     const baseClasses = cn(
@@ -91,36 +99,53 @@ const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>(
       xl: 'h-6 w-6',
     };
 
-    const buttonVariants = {
+    const buttonVariants: Variants = {
       initial: { scale: 1 },
-      hover: { 
+      hover: {
         scale: 1.02,
-        transition: { duration: 0.2, ease: "easeOut" }
+        transition: { duration: 0.2, ease: 'easeOut' },
       },
-      tap: { 
+      tap: {
         scale: 0.98,
-        transition: { duration: 0.1, ease: "easeInOut" }
+        transition: { duration: 0.1, ease: 'easeInOut' },
       },
     };
 
-    const rippleVariants = {
+    const rippleVariants: Variants = {
       initial: { scale: 0, opacity: 0.5 },
       animate: {
         scale: 4,
         opacity: 0,
-        transition: { duration: 0.6, ease: "easeOut" }
+        transition: { duration: 0.6, ease: 'easeOut' },
       },
     };
 
-    const shimmerVariants = {
+    const shimmerVariants: Variants = {
       initial: { x: '-100%' },
       hover: {
         x: '100%',
-        transition: { duration: 0.6, ease: "easeInOut" }
+        transition: { duration: 0.6, ease: 'easeInOut' },
       },
     };
 
     const isDisabled = disabled || loading;
+    const _Comp = asChild ? Slot : motion.button;
+
+    if (asChild) {
+      return (
+        <Slot
+          ref={ref}
+          className={cn(
+            baseClasses,
+            variantClasses[variant],
+            sizeClasses[size],
+            className
+          )}
+        >
+          {children}
+        </Slot>
+      );
+    }
 
     return (
       <motion.button
@@ -133,8 +158,8 @@ const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>(
         )}
         variants={buttonVariants}
         initial="initial"
-        whileHover={!isDisabled ? "hover" : "initial"}
-        whileTap={!isDisabled ? "tap" : "initial"}
+        whileHover={!isDisabled ? 'hover' : 'initial'}
+        whileTap={!isDisabled ? 'tap' : 'initial'}
         onMouseDown={() => setIsPressed(true)}
         onMouseUp={() => setIsPressed(false)}
         onMouseLeave={() => setIsPressed(false)}
@@ -154,7 +179,7 @@ const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>(
         {/* Ripple Effect */}
         {isPressed && !isDisabled && (
           <motion.div
-            className="absolute inset-0 bg-white/20 rounded-full"
+            className="absolute inset-0 rounded-full bg-white/20"
             variants={rippleVariants}
             initial="initial"
             animate="animate"
@@ -162,12 +187,9 @@ const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>(
         )}
 
         {/* Content */}
-        <div className="relative flex items-center justify-center gap-inherit">
+        <div className="gap-inherit relative flex items-center justify-center">
           {loading ? (
-            <LoadingSpinner 
-              size={size === 'sm' ? 'sm' : 'md'} 
-              color="white" 
-            />
+            <LoadingSpinner size={size === 'sm' ? 'sm' : 'md'} color="white" />
           ) : (
             <>
               {leftIcon && (
@@ -180,11 +202,9 @@ const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>(
                   {leftIcon}
                 </motion.span>
               )}
-              
-              <span className="relative">
-                {children}
-              </span>
-              
+
+              <span className="relative">{children}</span>
+
               {rightIcon && (
                 <motion.span
                   className={cn('flex-shrink-0', iconSizes[size])}
@@ -208,7 +228,8 @@ EnhancedButton.displayName = 'EnhancedButton';
 export { EnhancedButton };
 
 // Icon Button Component
-interface IconButtonProps extends Omit<EnhancedButtonProps, 'leftIcon' | 'rightIcon' | 'children'> {
+interface IconButtonProps
+  extends Omit<EnhancedButtonProps, 'leftIcon' | 'rightIcon' | 'children'> {
   icon: React.ReactNode;
   'aria-label': string;
 }
@@ -250,8 +271,8 @@ export function ButtonGroup({
   children,
   className,
   orientation = 'horizontal',
-  size = 'md',
-  variant = 'outline',
+  size: _size = 'md',
+  variant: _variant = 'outline',
 }: ButtonGroupProps) {
   const groupClasses = cn(
     'inline-flex',
@@ -261,24 +282,36 @@ export function ButtonGroup({
 
   return (
     <div className={groupClasses} role="group">
-      {Array.isArray(children) &&
-        children.map((child, index) => (
+      {React.Children.toArray(children).map((child, index) => {
+        const childElement = child as React.ReactElement;
+        return (
           <div
-            key={index}
+            key={childElement.key || `button-group-${index}`}
             className={cn(
               orientation === 'horizontal' && index > 0 && '-ml-px',
               orientation === 'vertical' && index > 0 && '-mt-px',
               orientation === 'horizontal' && index === 0 && 'rounded-r-none',
-              orientation === 'horizontal' && index === children.length - 1 && 'rounded-l-none',
-              orientation === 'horizontal' && index > 0 && index < children.length - 1 && 'rounded-none',
+              orientation === 'horizontal' &&
+                index === children.length - 1 &&
+                'rounded-l-none',
+              orientation === 'horizontal' &&
+                index > 0 &&
+                index < children.length - 1 &&
+                'rounded-none',
               orientation === 'vertical' && index === 0 && 'rounded-b-none',
-              orientation === 'vertical' && index === children.length - 1 && 'rounded-t-none',
-              orientation === 'vertical' && index > 0 && index < children.length - 1 && 'rounded-none'
+              orientation === 'vertical' &&
+                index === children.length - 1 &&
+                'rounded-t-none',
+              orientation === 'vertical' &&
+                index > 0 &&
+                index < children.length - 1 &&
+                'rounded-none'
             )}
           >
             {child}
           </div>
-        ))}
+        );
+      })}
     </div>
   );
 }

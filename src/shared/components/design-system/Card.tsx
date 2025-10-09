@@ -244,7 +244,7 @@ export const ServiceCard = forwardRef<
   <Card variant="elevated" hover ref={ref} {...props}>
     <CardHeader>
       {icon && (
-        <div className="bg-coffee-100 mb-4 flex h-12 w-12 items-center justify-center rounded-lg">
+        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-coffee-100">
           {icon}
         </div>
       )}
@@ -259,7 +259,7 @@ export const ServiceCard = forwardRef<
               key={`feature-${title}-${feature.slice(0, 20)}`}
               className="flex items-center text-sm"
             >
-              <div className="bg-coffee-500 mr-3 h-1.5 w-1.5 rounded-full" />
+              <div className="mr-3 h-1.5 w-1.5 rounded-full bg-coffee-500" />
               {feature}
             </li>
           ))}

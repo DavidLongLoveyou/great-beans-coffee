@@ -43,12 +43,14 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error generating product spec PDF:', error);
+    // Log error for monitoring (replace with proper logging service in production)
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
 
     return NextResponse.json(
       {
         error: 'Failed to generate PDF',
-        details: error instanceof Error ? error.message : 'Unknown error',
+        details: errorMessage,
       },
       { status: 500 }
     );
@@ -94,12 +96,14 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error generating product spec PDF:', error);
+    // Log error for monitoring (replace with proper logging service in production)
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
 
     return NextResponse.json(
       {
         error: 'Failed to generate PDF',
-        details: error instanceof Error ? error.message : 'Unknown error',
+        details: errorMessage,
       },
       { status: 500 }
     );

@@ -219,7 +219,9 @@ interface ProductSchemaProps {
   mpn?: string;
   seller: {
     name: string;
-    url: string;
+    url?: string;
+    logo?: string;
+    description?: string;
   };
   rating?: {
     ratingValue: string;
@@ -241,7 +243,9 @@ interface ServiceSchemaProps {
   serviceType: string;
   provider: {
     name: string;
-    url: string;
+    url?: string;
+    logo?: string;
+    description?: string;
   };
   areaServed: string | string[];
   offers?: Array<{
@@ -270,7 +274,8 @@ interface ArticleSchemaProps {
   publisher: {
     name: string;
     logo: string;
-    url: string;
+    url?: string;
+    description?: string;
   };
   datePublished: string;
   dateModified?: string;
@@ -347,7 +352,11 @@ export class SchemaGenerator {
           availability: 'https://schema.org/InStock',
           seller: {
             '@type': 'Organization',
+            '@context': 'https://schema.org',
             name: props.name,
+            url: props.url,
+            logo: props.logo,
+            description: props.description,
           },
         })),
       };
@@ -392,7 +401,11 @@ export class SchemaGenerator {
         availability: `https://schema.org/${props.availability}`,
         seller: {
           '@type': 'Organization',
+          '@context': 'https://schema.org',
           name: props.seller.name,
+          url: props.seller.url || this.baseUrl,
+          logo: props.seller.logo || `${this.baseUrl}/images/logo.png`,
+          description: props.seller.description || props.description,
         },
         ...(props.price &&
           props.currency && {
@@ -455,8 +468,12 @@ export class SchemaGenerator {
       description: props.description,
       serviceType: props.serviceType,
       provider: {
+        '@context': 'https://schema.org',
         '@type': 'Organization',
         name: props.provider.name,
+        url: props.provider.url || this.baseUrl,
+        logo: props.provider.logo || `${this.baseUrl}/images/logo.png`,
+        description: props.provider.description || props.description,
       },
       areaServed: props.areaServed,
     };
@@ -479,7 +496,11 @@ export class SchemaGenerator {
           availability: 'https://schema.org/InStock',
           seller: {
             '@type': 'Organization',
+            '@context': 'https://schema.org',
             name: props.provider.name,
+            url: props.provider.url || this.baseUrl,
+            logo: props.provider.logo || `${this.baseUrl}/images/logo.png`,
+            description: props.provider.description || props.description,
           },
         })),
       };
@@ -527,7 +548,10 @@ export class SchemaGenerator {
       },
       publisher: {
         '@type': 'Organization',
+        '@context': 'https://schema.org',
         name: props.publisher.name,
+        url: props.publisher.url || this.baseUrl,
+        description: props.publisher.description || props.description,
         logo: {
           '@type': 'ImageObject',
           url: props.publisher.logo,

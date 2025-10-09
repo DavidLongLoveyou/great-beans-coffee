@@ -54,9 +54,9 @@ const convertCatalogToGridProduct = (
   return {
     id: catalogProduct.id,
     sku: catalogProduct.sku,
-    name: catalogProduct.name[locale] || catalogProduct.name.en,
+    name: catalogProduct.name[locale] || catalogProduct.name.en || '',
     shortDescription:
-      catalogProduct.description[locale] || catalogProduct.description.en,
+      catalogProduct.description[locale] || catalogProduct.description.en || '',
     type: catalogProduct.type,
     grade: catalogProduct.grade.toLowerCase().replace('_', '-') as CoffeeGrade,
     processingMethod:
@@ -82,7 +82,7 @@ const convertCatalogToGridProduct = (
     ) as CoffeeCertification[],
     images: catalogProduct.images.map(img => ({
       url: img.url,
-      alt: img.alt[locale] || img.alt.en,
+      alt: img.alt[locale] || img.alt.en || '',
       isPrimary: img.isPrimary,
     })),
     isFeatured: catalogProduct.isFeatured,
@@ -90,7 +90,7 @@ const convertCatalogToGridProduct = (
       moisture: catalogProduct.specifications.moisture,
       screenSize: catalogProduct.specifications.screenSize,
       defectRate: catalogProduct.specifications.defectRate,
-      cuppingScore: catalogProduct.specifications.cuppingScore,
+      cuppingScore: catalogProduct.specifications.cuppingScore || 0,
     },
   };
 };
@@ -229,17 +229,16 @@ export default function ProductsPage() {
       });
     }
 
-    // Minimum order range filter
-    if (filters.minimumOrderRange) {
-      filtered = filtered.filter(product => {
-        // Assuming minimum order is stored in pricing or availability
-        const minOrder = product.pricing.minimumOrder || 0;
-        return (
-          minOrder >= filters.minimumOrderRange.min &&
-          minOrder <= filters.minimumOrderRange.max
-        );
-      });
-    }
+    // Minimum order range filter - disabled as minimumOrder is not part of Product type
+    // if (filters.minimumOrderRange) {
+    //   filtered = filtered.filter(product => {
+    //     const minOrder = 0; // Default value since minimumOrder is not available
+    //     return (
+    //       minOrder >= filters.minimumOrderRange.min &&
+    //       minOrder <= filters.minimumOrderRange.max
+    //     );
+    //   });
+    // }
 
     // Cupping score range filter
     if (filters.cuppingScoreRange) {
@@ -332,7 +331,7 @@ export default function ProductsPage() {
           p.type,
           p.grade,
           p.processingMethod,
-          `"${p.origin.region}, ${p.origin.country}"`,
+          `"${p.origin.region}, ${p.origin.province}"`,
           p.pricing.basePrice,
           p.availability.inStock ? 'Yes' : 'No',
           `"${p.certifications.join(', ')}"`,

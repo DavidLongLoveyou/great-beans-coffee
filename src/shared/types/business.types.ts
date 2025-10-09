@@ -875,6 +875,9 @@ export enum CommunicationType {
   VIDEO_CALL = 'VIDEO_CALL',
   CHAT = 'CHAT',
   DOCUMENT = 'DOCUMENT',
+  QUOTE_SENT = 'QUOTE_SENT',
+  SAMPLE_SENT = 'SAMPLE_SENT',
+  INTERNAL_NOTE = 'INTERNAL_NOTE',
 }
 
 export enum CommunicationDirection {

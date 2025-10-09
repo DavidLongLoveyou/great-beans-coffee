@@ -1,25 +1,22 @@
 'use client';
 
-import React, { forwardRef, useState } from 'react';
 import {
   ExternalLink,
   Info,
-  Calendar,
-  MapPin,
   Award,
   CheckCircle,
   AlertTriangle,
 } from 'lucide-react';
+import React, { forwardRef, useState } from 'react';
 
-import { cn } from '@/shared/utils/cn';
+import { Badge } from '@/presentation/components/ui/badge';
+import { Button } from '@/presentation/components/ui/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { Badge } from '@/presentation/components/ui/badge';
-import { Button } from '@/presentation/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -34,6 +31,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/presentation/components/ui/tooltip';
+import { cn } from '@/shared/utils/cn';
 
 import { CertificationBadgeProps, CoffeeCertification } from '../types';
 
@@ -462,7 +460,7 @@ export const EnhancedCertificationBadge = forwardRef<
       showDetails = false,
       expiryDate,
       certificateNumber,
-      issuedBy,
+      issuedBy: _issuedBy,
       ...props
     },
     ref
@@ -659,9 +657,9 @@ export const EnhancedCertificationBadge = forwardRef<
                   <div>
                     <strong>Recognized Markets:</strong>
                     <div className="mt-1 flex flex-wrap gap-1">
-                      {certData.recognizedMarkets.map((market, index) => (
+                      {certData.recognizedMarkets.map(market => (
                         <Badge
-                          key={index}
+                          key={`market-${market}`}
                           variant="outline"
                           className="text-xs"
                         >
@@ -680,9 +678,9 @@ export const EnhancedCertificationBadge = forwardRef<
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
-                    {certData.benefits.map((benefit, index) => (
+                    {certData.benefits.map(benefit => (
                       <li
-                        key={index}
+                        key={`benefit-${benefit.slice(0, 30)}`}
                         className="flex items-start gap-2 text-sm"
                       >
                         <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" />
@@ -700,9 +698,9 @@ export const EnhancedCertificationBadge = forwardRef<
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
-                    {certData.requirements.map((requirement, index) => (
+                    {certData.requirements.map(requirement => (
                       <li
-                        key={index}
+                        key={`requirement-${requirement.slice(0, 30)}`}
                         className="flex items-start gap-2 text-sm"
                       >
                         <div className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-600" />
@@ -766,13 +764,15 @@ export const EnhancedCertificationList = forwardRef<
       >
         {displayCertifications.map((cert, index) => (
           <EnhancedCertificationBadge
-            key={`${cert.type}-${index}`}
+            key={`${cert.type}-${cert.certificateNumber || cert.issuedBy || index}`}
             certification={cert.type}
             size={size}
             showDetails={showDetails}
-            expiryDate={cert.expiryDate}
-            certificateNumber={cert.certificateNumber}
-            issuedBy={cert.issuedBy}
+            {...(cert.expiryDate && { expiryDate: cert.expiryDate })}
+            {...(cert.certificateNumber && {
+              certificateNumber: cert.certificateNumber,
+            })}
+            {...(cert.issuedBy && { issuedBy: cert.issuedBy })}
           />
         ))}
 

@@ -22,8 +22,13 @@ export interface SubmitRfqRequest {
   deliveryLocation: string;
 
   // Recurring Order
-  isRecurringOrder?: boolean;
-  recurringFrequency?: 'MONTHLY' | 'QUARTERLY' | 'SEMI_ANNUAL' | 'ANNUAL';
+  isRecurringOrder?: boolean | undefined;
+  recurringFrequency?:
+    | 'MONTHLY'
+    | 'QUARTERLY'
+    | 'SEMI_ANNUAL'
+    | 'ANNUAL'
+    | undefined;
 
   // Payment Terms
   paymentTerms: string;
@@ -38,12 +43,12 @@ export interface SubmitRfqRequest {
   businessType: string;
 
   // Additional Details
-  additionalRequirements?: string;
+  additionalRequirements?: string | undefined;
   sampleRequired: boolean;
   urgency: 'low' | 'medium' | 'high';
 
   // Metadata
-  locale?: string;
+  locale?: string | undefined;
 }
 
 export interface SubmitRfqResponse {

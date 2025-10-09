@@ -147,18 +147,74 @@ export const RFQDocumentSchema = z.object({
 export const RFQCommunicationSchema = z.object({
   id: z.string().uuid(),
   type: z.enum([
-    'NOTE',
     'EMAIL',
     'PHONE_CALL',
     'MEETING',
+    'VIDEO_CALL',
+    'CHAT',
+    'DOCUMENT',
     'QUOTE_SENT',
     'SAMPLE_SENT',
+    'INTERNAL_NOTE',
   ]),
   subject: z.string().optional(),
   content: z.string(),
   isInternal: z.boolean().default(false),
   createdBy: z.string().uuid(),
   createdAt: z.date(),
+  attachments: z.array(z.string().url()).optional(),
+});
+
+// RFQ Quote Item Schema
+export const RFQQuoteItemSchema = z.object({
+  productId: z.string().optional(),
+  description: z.string().min(1),
+  quantity: z.number().positive(),
+  unit: z.string().min(1),
+  unitPrice: z.number().positive(),
+  totalPrice: z.number().positive(),
+  specifications: z.record(z.string(), z.any()).optional(),
+});
+
+// RFQ Quote Shipping Schema
+export const RFQQuoteShippingSchema = z.object({
+  method: z.string().min(1),
+  cost: z.number().nonnegative(),
+  estimatedDays: z.number().positive(),
+  incoterms: z.string().min(1),
+});
+
+// RFQ Quote Payment Terms Schema
+export const RFQQuotePaymentTermsSchema = z.object({
+  method: z.string().min(1),
+  terms: z.string().min(1),
+  advancePercentage: z.number().min(0).max(100).optional(),
+});
+
+// RFQ Quote Schema
+export const RFQQuoteSchema = z.object({
+  id: z.string().uuid(),
+  rfqId: z.string().uuid(),
+  version: z.string().default('1.0'),
+  status: z.enum([
+    'DRAFT',
+    'SENT',
+    'VIEWED',
+    'ACCEPTED',
+    'REJECTED',
+    'EXPIRED',
+  ]),
+  currency: z.string().length(3),
+  totalAmount: z.number().positive(),
+  validUntil: z.date(),
+  createdAt: z.date(),
+  createdBy: z.string().uuid(),
+  updatedAt: z.date().optional(),
+  updatedBy: z.string().uuid().optional(),
+  items: z.array(RFQQuoteItemSchema).min(1),
+  shipping: RFQQuoteShippingSchema,
+  paymentTerms: RFQQuotePaymentTermsSchema,
+  notes: z.string().optional(),
   attachments: z.array(z.string().url()).optional(),
 });
 
@@ -227,6 +283,10 @@ export type PaymentTerms = z.infer<typeof PaymentTermsSchema>;
 export type CompanyInfo = z.infer<typeof CompanyInfoSchema>;
 export type RFQDocument = z.infer<typeof RFQDocumentSchema>;
 export type RFQCommunication = z.infer<typeof RFQCommunicationSchema>;
+export type RFQQuoteItem = z.infer<typeof RFQQuoteItemSchema>;
+export type RFQQuoteShipping = z.infer<typeof RFQQuoteShippingSchema>;
+export type RFQQuotePaymentTerms = z.infer<typeof RFQQuotePaymentTermsSchema>;
+export type RFQQuote = z.infer<typeof RFQQuoteSchema>;
 export type RFQ = z.infer<typeof RFQSchema>;
 
 // RFQ Entity Class
@@ -262,6 +322,42 @@ export class RFQEntity {
   }
   get submittedAt(): Date {
     return this.data.submittedAt;
+  }
+  get paymentTerms(): PaymentTerms {
+    return this.data.paymentTerms;
+  }
+  get additionalRequirements(): string | undefined {
+    return this.data.additionalRequirements;
+  }
+  get sampleRequired(): boolean {
+    return this.data.sampleRequired;
+  }
+  get lastActivityAt(): Date {
+    return this.data.lastActivityAt;
+  }
+  get assignedTo(): string | undefined {
+    return this.data.assignedTo;
+  }
+  get estimatedValue(): number | undefined {
+    return this.data.estimatedValue;
+  }
+  get probability(): number | undefined {
+    return this.data.probability;
+  }
+  get competitorInfo(): string | undefined {
+    return this.data.competitorInfo;
+  }
+  get quoteSentAt(): Date | undefined {
+    return this.data.quoteSentAt;
+  }
+  get quoteValidUntil(): Date | undefined {
+    return this.data.quoteValidUntil;
+  }
+  get documents(): RFQDocument[] | undefined {
+    return this.data.documents;
+  }
+  get communications(): RFQCommunication[] | undefined {
+    return this.data.communications;
   }
 
   // Business Logic Methods

@@ -1,8 +1,11 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { useState, useRef, useEffect } from 'react';
+
 import { cn } from '@/lib/utils';
+
 import { Skeleton, LoadingSpinner } from './MicroInteractions';
 
 interface OptimizedImageProps {
@@ -30,7 +33,7 @@ export function OptimizedImage({
   height,
   className,
   priority = false,
-  quality = 75,
+  quality: _quality = 75,
   placeholder = 'blur',
   blurDataURL,
   sizes,
@@ -52,7 +55,7 @@ export function OptimizedImage({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setIsInView(true);
           observer.disconnect();
         }
@@ -88,7 +91,7 @@ export function OptimizedImage({
       scale: 1,
       transition: {
         duration: 0.4,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: 'easeOut' as const,
       },
     },
   };
@@ -126,10 +129,11 @@ export function OptimizedImage({
             className="absolute inset-0 flex items-center justify-center bg-forest-50"
           >
             {placeholder === 'blur' && blurDataURL ? (
-              <img
+              <Image
                 src={blurDataURL}
                 alt=""
-                className={cn(imageClasses, 'blur-sm scale-110')}
+                fill
+                className={cn(imageClasses, 'scale-110 blur-sm')}
               />
             ) : (
               <Skeleton
@@ -153,7 +157,7 @@ export function OptimizedImage({
             className="absolute inset-0 flex flex-col items-center justify-center bg-forest-50 text-forest-600"
           >
             <svg
-              className="h-12 w-12 mb-2 text-forest-400"
+              className="mb-2 h-12 w-12 text-forest-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -185,7 +189,7 @@ export function OptimizedImage({
             className={imageClasses}
             variants={imageVariants}
             initial="hidden"
-            animate={isLoading ? "hidden" : "visible"}
+            animate={isLoading ? 'hidden' : 'visible'}
           />
         )}
       </AnimatePresence>
@@ -223,19 +227,15 @@ export function OptimizedBackgroundImage({
         priority={priority}
         className="absolute inset-0"
       />
-      
+
       {overlay && (
         <div
           className="absolute inset-0 bg-forest-900"
           style={{ opacity: overlayOpacity }}
         />
       )}
-      
-      {children && (
-        <div className="relative z-10">
-          {children}
-        </div>
-      )}
+
+      {children && <div className="relative z-10">{children}</div>}
     </div>
   );
 }

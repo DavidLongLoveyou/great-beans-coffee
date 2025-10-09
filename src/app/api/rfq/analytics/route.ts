@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { rfqRepository } from '@/infrastructure/database/repositories';
-import { createScopedLogger } from '@/shared/utils/logger';
+import { rfqRepository } from '../../../../infrastructure/di/container';
+import { createScopedLogger } from '../../../../shared/utils/logger';
 
 const logger = createScopedLogger('RFQ-Analytics-API');
 
@@ -37,12 +37,23 @@ export async function GET(request: NextRequest) {
 
     logger.info('Fetching RFQ analytics', validatedParams);
 
+    // Convert dateFrom/dateTo to dateRange format
+    const dateRange =
+      validatedParams.dateFrom && validatedParams.dateTo
+        ? {
+            start: new Date(validatedParams.dateFrom),
+            end: new Date(validatedParams.dateTo),
+          }
+        : undefined;
+
     // Get analytics data from repository
-    const analytics = await rfqRepository.getAnalytics(validatedParams);
+    const analytics = await rfqRepository.getAnalytics(dateRange);
 
     // Get performance metrics
-    const performanceMetrics =
-      await rfqRepository.getPerformanceMetrics(validatedParams);
+    const performanceMetrics = await rfqRepository.getPerformanceMetrics(
+      undefined, // assigneeId
+      dateRange
+    );
 
     // Calculate additional metrics
     const currentDate = new Date();

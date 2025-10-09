@@ -199,7 +199,8 @@ export function LazyTextSection({
         <div className="space-y-2">
           {Array.from({ length: lines }).map((_, i) => (
             <div
-              key={i}
+              // eslint-disable-next-line react/no-array-index-key
+              key={`text-line-${i}`}
               className={cn(
                 'h-4 animate-pulse rounded bg-gray-200',
                 i === lines - 1 ? 'w-3/4' : 'w-full'
@@ -242,7 +243,11 @@ export function LazyCardGrid({
       fallback={
         <div className={cn('grid gap-6', gridClass)}>
           {Array.from({ length: cardCount }).map((_, i) => (
-            <div key={i} className="space-y-4">
+            <div
+              // eslint-disable-next-line react/no-array-index-key
+              key={`card-skeleton-${i}`}
+              className="space-y-4"
+            >
               <div className="aspect-video animate-pulse rounded-lg bg-gray-200" />
               <div className="space-y-2">
                 <div className="h-4 animate-pulse rounded bg-gray-200" />

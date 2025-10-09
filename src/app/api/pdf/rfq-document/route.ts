@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
 import { rfqRepository } from '@/infrastructure/database/repositories';
 import { pdfGenerationService } from '@/infrastructure/services/pdf-generation.service';
 
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
     // For now, we'll use an empty array of products since RFQ doesn't contain
     // specific product IDs. In a real implementation, you might want to fetch
     // products based on the product requirements
-    const validProducts: unknown[] = [];
+    const validProducts: CoffeeProductEntity[] = [];
 
     // Generate PDF using server-side rendering
     const pdfBuffer = await pdfGenerationService.generateRFQDocumentPDF(
@@ -45,12 +46,14 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error generating RFQ document PDF:', error);
+    // Log error for monitoring (replace with proper logging service in production)
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
 
     return NextResponse.json(
       {
         error: 'Failed to generate PDF',
-        details: error instanceof Error ? error.message : 'Unknown error',
+        details: errorMessage,
       },
       { status: 500 }
     );
@@ -76,7 +79,7 @@ export async function GET(request: NextRequest) {
     // For now, we'll use an empty array of products since RFQ doesn't contain
     // specific product IDs. In a real implementation, you might want to fetch
     // products based on the product requirements
-    const validProducts: unknown[] = [];
+    const validProducts: CoffeeProductEntity[] = [];
 
     // Generate PDF using server-side rendering
     const pdfBuffer = await pdfGenerationService.generateRFQDocumentPDF(
@@ -95,12 +98,14 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error generating RFQ document PDF:', error);
+    // Log error for monitoring (replace with proper logging service in production)
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
 
     return NextResponse.json(
       {
         error: 'Failed to generate PDF',
-        details: error instanceof Error ? error.message : 'Unknown error',
+        details: errorMessage,
       },
       { status: 500 }
     );

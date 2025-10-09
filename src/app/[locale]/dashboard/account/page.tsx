@@ -157,10 +157,14 @@ export default function AccountPage({ params: _params }: AccountPageProps) {
   const [teamMembers, setTeamMembers] = useState(mockTeamMembers);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [showAddMember, setShowAddMember] = useState(false);
-  const [newMember, setNewMember] = useState({
+  const [newMember, setNewMember] = useState<{
+    name: string;
+    email: string;
+    role: 'admin' | 'manager' | 'buyer' | 'viewer';
+  }>({
     name: '',
     email: '',
-    role: 'viewer' as const,
+    role: 'viewer',
   });
 
   // Notification preferences
@@ -568,9 +572,9 @@ export default function AccountPage({ params: _params }: AccountPageProps) {
                           </Label>
                           <Select
                             value={newMember.role}
-                            onValueChange={(value: any) =>
-                              setNewMember({ ...newMember, role: value })
-                            }
+                            onValueChange={(
+                              value: 'admin' | 'manager' | 'buyer' | 'viewer'
+                            ) => setNewMember({ ...newMember, role: value })}
                           >
                             <SelectTrigger>
                               <SelectValue />
