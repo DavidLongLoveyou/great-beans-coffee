@@ -26,6 +26,16 @@ import {
   BarChart3,
   BookOpen,
   HardDrive,
+  Loader2,
+  Eye,
+  Building,
+  Phone,
+  Mail,
+  ExternalLink,
+  Zap,
+  Droplets,
+  Mountain,
+  Leaf,
 } from 'lucide-react';
 import { type Metadata } from 'next';
 import Link from 'next/link';
@@ -34,16 +44,6 @@ import { getTranslations } from 'next-intl/server';
 
 import { BulkPricingCalculator } from '@/components/ui/BulkPricingCalculator';
 import { LogisticsCostEstimator } from '@/components/ui/LogisticsCostEstimator';
-import {
-  getProductById,
-  searchProducts,
-  filterProducts,
-  type CatalogProduct,
-  CoffeeType,
-  CoffeeGrade,
-  ProcessingMethod,
-  CertificationType,
-} from '@/data/product-catalog';
 import { type Locale } from '@/i18n';
 import { SEOHead } from '@/presentation/components/seo/SEOHead';
 import { Badge } from '@/presentation/components/ui/badge';
@@ -53,6 +53,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
+  CardTitle,
 } from '@/presentation/components/ui/card';
 import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
@@ -61,6 +62,8 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
+import { Progress } from '@/presentation/components/ui/progress';
+import { Separator } from '@/presentation/components/ui/separator';
 import { CoffeeButton } from '@/shared/components/design-system/Button';
 import { ProductCard } from '@/shared/components/design-system/Card';
 import {
@@ -72,6 +75,7 @@ import {
   EnhancedRelatedProducts,
 } from '@/shared/components/design-system/Coffee';
 import { EnhancedCertificationBadge } from '@/shared/components/design-system/Coffee/EnhancedCertificationBadge';
+import { ProductImageGallery, type ProductImage } from '@/components/features/products/ProductImageGallery';
 import {
   ContentSection,
   ContentContainer,
@@ -87,6 +91,113 @@ import {
   generateMetadata as generateSEOMetadata,
   generateOrganizationSchema,
 } from '@/shared/utils/seo-utils';
+import { CertificationType } from '@/data/product-catalog';
+
+// API Types for enhanced product details
+interface ApiProductDetail {
+  id: string;
+  sku: string;
+  name: string;
+  description: string;
+  coffeeType: string;
+  grade: string;
+  processing: string;
+  origin: string;
+  region: string;
+  farm?: string;
+  altitude: number;
+  cuppingScore: number;
+  harvestSeason: string;
+  minimumOrder: number;
+  inStock: boolean;
+  isActive: boolean;
+  isFeatured: boolean;
+  images: Array<{
+    id?: string;
+    url: string;
+    cloudinaryId?: string;
+    alt?: string;
+    caption?: string;
+    isPrimary?: boolean;
+    category?: string;
+  }>;
+  createdAt: string;
+  updatedAt: string;
+  translations: Array<{
+    locale: string;
+    name: string;
+    description: string;
+    tastingNotes?: string;
+  }>;
+  certifications: Array<{
+    certification: {
+      id: string;
+      name: string;
+      type: string;
+      description?: string;
+      translations: Array<{
+        locale: string;
+        name: string;
+        description?: string;
+      }>;
+    };
+  }>;
+  suppliers: Array<{
+    supplier: {
+      id: string;
+      name: string;
+      contactPerson?: string;
+      email?: string;
+      phone?: string;
+      address?: string;
+      country?: string;
+      contacts: Array<{
+        name: string;
+        role: string;
+        email: string;
+        phone?: string;
+      }>;
+    };
+  }>;
+  specificationItems: Array<{
+    id: string;
+    name: string;
+    value: string;
+    unit?: string;
+    category: string;
+    sortOrder: number;
+  }>;
+  pricingModels: Array<{
+    pricingModel: {
+      id: string;
+      name: string;
+      type: string;
+      basePrice: number;
+      currency: string;
+      minimumQuantity: number;
+      maximumQuantity?: number;
+      validFrom: string;
+      validTo?: string;
+      incoterms: string;
+    };
+  }>;
+  inventory?: Array<{
+    id: string;
+    quantity: number;
+    unit: string;
+    location: string;
+    lastUpdated: string;
+  }>;
+  qualityReports?: Array<{
+    id: string;
+    reportDate: string;
+    cuppingScore: number;
+    moisture: number;
+    defects: number;
+    screenSize: string;
+    reportUrl?: string;
+  }>;
+}
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -95,14 +206,67 @@ interface ProductDetailPageProps {
   }>;
 }
 
+// Fetch product details from API
+async function fetchProductDetails(id: string, locale: string = 'en'): Promise<ApiProductDetail | null> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const response = await fetch(
+      `${baseUrl}/api/products/${id}?locale=${locale}&includeInventory=true&includeQuality=true`,
+      {
+        next: { revalidate: 300 }, // Revalidate every 5 minutes
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error(`Failed to fetch product: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.success ? data.data : null;
+  } catch (error) {
+    console.error('Error fetching product details:', error);
+    return null;
+  }
+}
+
+// Fetch related products
+async function fetchRelatedProducts(productId: string, coffeeType: string, locale: string = 'en'): Promise<ApiProductDetail[]> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const response = await fetch(
+      `${baseUrl}/api/products?coffeeType=${coffeeType}&limit=4&locale=${locale}`,
+      {
+        next: { revalidate: 600 }, // Revalidate every 10 minutes
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch related products: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    if (data.success && data.products) {
+      // Filter out the current product
+      return data.products.filter((p: ApiProductDetail) => p.id !== productId);
+    }
+    return [];
+  } catch (error) {
+    console.error('Error fetching related products:', error);
+    return [];
+  }
+}
+
 export async function generateMetadata({
   params,
 }: ProductDetailPageProps): Promise<Metadata> {
   const { locale, id } = await params;
   const t = await getTranslations({ locale, namespace: 'products' });
 
-  // Get product data from catalog
-  const product = getProductById(id);
+  // Get product data from API
+  const product = await fetchProductDetails(id, locale);
 
   if (!product) {
     return generateSEOMetadata({
@@ -114,38 +278,36 @@ export async function generateMetadata({
     });
   }
 
-  const productName = product.name[locale] || product.name.en;
-  const productDescription =
-    product.description[locale] || product.description.en;
-  const originInfo = `${product.origin.region}, ${product.origin.country}`;
+  // Get localized content
+  const translation = product.translations?.find(t => t.locale === locale);
+  const productName = translation?.name || product.name;
+  const productDescription = translation?.description || product.description;
+  const originInfo = `${product.region}, ${product.origin}`;
 
   // Enhanced SEO keywords based on product attributes
   const keywords = [
     productName,
-    product.type.toLowerCase(),
+    product.coffeeType.toLowerCase(),
     product.grade.toLowerCase().replace('_', ' '),
-    product.processingMethod.toLowerCase(),
+    product.processing.toLowerCase(),
     'vietnamese coffee',
     'coffee beans',
     'wholesale coffee',
     'b2b coffee',
     originInfo.toLowerCase(),
     ...product.certifications
-      .map(cert => cert?.toLowerCase().replace('_', ' '))
+      .map(cert => cert.certification.name?.toLowerCase().replace('_', ' '))
       .filter((cert): cert is string => Boolean(cert)),
   ].filter((keyword): keyword is string => Boolean(keyword));
 
   return generateSEOMetadata({
     title: `${productName} - Premium Vietnamese Coffee | The Great Beans`,
-    description: `${productDescription} | ${originInfo} | ${product.type} ${product.grade} | Wholesale & B2B Coffee Supply`,
+    description: `${productDescription} | ${originInfo} | ${product.coffeeType} ${product.grade} | Wholesale & B2B Coffee Supply`,
     locale,
     url: `/products/${id}`,
     type: 'product',
     keywords,
-    image:
-      product.images.find(img => img.isPrimary)?.url ||
-      product.images[0]?.url ||
-      '/images/logo.svg',
+    image: product.images[0] || '/images/logo.svg',
   });
 }
 
@@ -209,51 +371,89 @@ const mapCertificationToEnhanced = (cert: CertificationType): string => {
   return certMap[cert] || 'organic';
 };
 
+// Helper function to get specification value from specificationItems array
+const getSpecificationValue = (
+  specificationItems: Array<{
+    id: string;
+    name: string;
+    value: string;
+    unit?: string;
+    category: string;
+    sortOrder: number;
+  }>,
+  name: string
+): string => {
+  const item = specificationItems.find(
+    (spec) => spec.name.toLowerCase() === name.toLowerCase()
+  );
+  return item?.value || 'N/A';
+};
+
+// Helper function to get specification value with unit
+const getSpecificationValueWithUnit = (
+  specificationItems: Array<{
+    id: string;
+    name: string;
+    value: string;
+    unit?: string;
+    category: string;
+    sortOrder: number;
+  }>,
+  name: string
+): string => {
+  const item = specificationItems.find(
+    (spec) => spec.name.toLowerCase() === name.toLowerCase()
+  );
+  if (!item) return 'N/A';
+  return item.unit ? `${item.value}${item.unit}` : item.value;
+};
+
 export default async function ProductDetailPage({
   params,
 }: ProductDetailPageProps) {
   const { locale, id } = await params;
   const t = await getTranslations('products');
 
-  // Get product data from catalog
-  const product = getProductById(id);
+  // Get product data from API
+  const product = await fetchProductDetails(id, locale);
 
   if (!product) {
     notFound();
   }
 
   // Get related products for recommendations
-  const relatedProducts = filterProducts({
-    type: [product.type],
-  })
-    .filter(p => p.id !== product.id)
-    .slice(0, 4);
+  const relatedProducts = await fetchRelatedProducts(product.id, product.coffeeType, locale);
 
   // Generate structured data
   const organizationSchema = generateOrganizationSchema();
+  
+  // Get localized content
+  const translation = product.translations?.find(t => t.locale === locale);
+  const productName = translation?.name || product.name;
+  const productDescription = translation?.description || product.description;
+  
   const productSchema = generateB2BProductSchema(
     {
       id: product.id,
-      name: product.name[locale] || product.name.en || '',
-      description:
-        product.shortDescription[locale] || product.shortDescription.en || '',
-      images: product.images.map(img => img.url),
-      category: product.type,
+      name: productName,
+      description: productDescription,
+      images: product.images,
+      category: product.coffeeType,
       sku: product.sku,
-      origin: `${product.origin.region}, ${product.origin.country}`,
+      origin: `${product.region}, ${product.origin}`,
       certifications: product.certifications.map(cert => ({
-        name: cert,
-        identifier: `${cert}-${product.id}`,
+        name: cert.certification.name,
+        identifier: `${cert.certification.id}-${product.id}`,
         issuer: 'The Great Beans',
       })),
-      minOrderQuantity: product.pricing.minimumOrder * 1000, // Convert MT to kg
+      minOrderQuantity: product.minimumOrder * 1000, // Convert MT to kg
       unitOfMeasure: 'kg',
       leadTime: {
-        min: product.availability.leadTime,
-        max: product.availability.leadTime + 7,
+        min: 14,
+        max: 21,
       },
       targetMarkets: ['Global'],
-      incoterms: [product.pricing.incoterms],
+      incoterms: product.pricingModels[0]?.pricingModel?.incoterms ? [product.pricingModels[0].pricingModel.incoterms] : ['FOB'],
     },
     locale
   );
@@ -277,7 +477,7 @@ export default async function ProductDetailPage({
       {
         '@type': 'ListItem',
         position: 3,
-        name: product.name[locale] || product.name.en,
+        name: productName,
         item: `https://thegreatbeans.com/${locale}/products/${id}`,
       },
     ],
@@ -308,7 +508,7 @@ export default async function ProductDetailPage({
               </Link>
               <span className="text-coffee-400">/</span>
               <span className="font-medium text-coffee-900">
-                {product.name[locale] || product.name.en}
+                {productName}
               </span>
             </div>
           </ContentContainer>
@@ -327,27 +527,28 @@ export default async function ProductDetailPage({
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
               {/* Left Column - Product Images */}
               <div className="lg:col-span-1">
-                <Card>
+                <ProductImageGallery
+                  images={product.images.map((image, index): ProductImage => ({
+                    id: image.id || `${product.id}-${index}`,
+                    url: image.url,
+                    cloudinaryId: image.cloudinaryId,
+                    alt: image.alt || `${productName} - Image ${index + 1}`,
+                    caption: image.caption,
+                    isPrimary: image.isPrimary ?? (index === 0),
+                    category: (image.category as ProductImage['category']) || 'product',
+                  }))}
+                  productName={productName}
+                  showThumbnails={true}
+                  showControls={true}
+                  showImageInfo={true}
+                  enableZoom={true}
+                  enableShare={true}
+                />
+
+                {/* Action Buttons */}
+                <Card className="mt-6">
                   <CardContent className="p-6">
-                    {/* Main Product Image */}
-                    <div className="mb-4 flex h-80 w-full items-center justify-center rounded-lg bg-gradient-to-br from-amber-100 to-amber-200">
-                      <Coffee className="h-24 w-24 text-amber-600" />
-                    </div>
-
-                    {/* Thumbnail Images */}
-                    <div className="grid grid-cols-3 gap-2">
-                      {product.images.map((image, index) => (
-                        <div
-                          key={index}
-                          className="flex h-20 w-full cursor-pointer items-center justify-center rounded border-2 border-transparent bg-gradient-to-br from-amber-50 to-amber-100 hover:border-green-500"
-                        >
-                          <Coffee className="h-8 w-8 text-amber-500" />
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="mt-6 space-y-3">
+                    <div className="space-y-3">
                       <ServerButton
                         asChild
                         className="w-full transform bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-amber-600 hover:to-amber-700 hover:shadow-xl"
@@ -384,11 +585,10 @@ export default async function ProductDetailPage({
                           variant="heading-xl"
                           className="mb-2 text-coffee-800"
                         >
-                          {product.name[locale] || product.name.en}
+                          {productName}
                         </CoffeeHeading>
                         <CardDescription className="text-lg text-coffee-600">
-                          {product.shortDescription[locale] ||
-                            product.shortDescription.en}
+                          {productDescription}
                         </CardDescription>
                         <p className="mt-2 font-mono text-sm text-coffee-500">
                           SKU: {product.sku}
@@ -515,8 +715,7 @@ export default async function ProductDetailPage({
                               Product Description
                             </SectionHeading>
                             <div className="mb-6 whitespace-pre-line leading-relaxed text-coffee-700">
-                              {product.longDescription?.[locale] ||
-                                product.longDescription?.en}
+                              {product.longDescription}
                             </div>
 
                             <SectionHeading
@@ -569,7 +768,7 @@ export default async function ProductDetailPage({
                                       Moisture Content:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {product.specifications.moisture}%
+                                      {getSpecificationValueWithUnit(product.specificationItems, 'moisture')}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -577,7 +776,7 @@ export default async function ProductDetailPage({
                                       Screen Size:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {product.specifications.screenSize}
+                                      {getSpecificationValue(product.specificationItems, 'screenSize')}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -585,7 +784,7 @@ export default async function ProductDetailPage({
                                       Defect Rate:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {product.specifications.defectRate}%
+                                      {getSpecificationValueWithUnit(product.specificationItems, 'defectRate')}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -593,7 +792,7 @@ export default async function ProductDetailPage({
                                       Bulk Density:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {product.specifications.density} g/ml
+                                      {getSpecificationValueWithUnit(product.specificationItems, 'density')}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -601,7 +800,7 @@ export default async function ProductDetailPage({
                                       Bean Size:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {product.specifications.screenSize} mesh
+                                      {getSpecificationValueWithUnit(product.specificationItems, 'screenSize')}
                                     </span>
                                   </div>
                                 </div>
@@ -620,7 +819,7 @@ export default async function ProductDetailPage({
                                       Cupping Score:
                                     </span>
                                     <span className="font-semibold text-emerald-800">
-                                      {product.specifications.cuppingScore}/100
+                                      {getSpecificationValue(product.specificationItems, 'cuppingScore')}/100
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -628,7 +827,7 @@ export default async function ProductDetailPage({
                                       Acidity Level:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {product.specifications.acidity}
+                                      {getSpecificationValue(product.specificationItems, 'acidity')}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -636,7 +835,7 @@ export default async function ProductDetailPage({
                                       Body:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {product.specifications.body}
+                                      {getSpecificationValue(product.specificationItems, 'body')}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -644,7 +843,7 @@ export default async function ProductDetailPage({
                                       Aroma:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {product.specifications.aroma}
+                                      {getSpecificationValue(product.specificationItems, 'aroma')}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -652,7 +851,7 @@ export default async function ProductDetailPage({
                                       Aftertaste:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {product.specifications.aftertaste}
+                                      {getSpecificationValue(product.specificationItems, 'aftertaste')}
                                     </span>
                                   </div>
                                 </div>
@@ -666,43 +865,43 @@ export default async function ProductDetailPage({
                                   Chemical Analysis
                                 </SectionHeading>
                                 <div className="space-y-3">
-                                  {product.specifications.caffeine && (
+                                  {getSpecificationValue(product.specificationItems, 'caffeine') !== 'N/A' && (
                                     <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
                                       <span className="text-sm text-coffee-700">
                                         Caffeine:
                                       </span>
                                       <span className="font-semibold text-coffee-800">
-                                        {product.specifications.caffeine}%
+                                        {getSpecificationValueWithUnit(product.specificationItems, 'caffeine')}
                                       </span>
                                     </div>
                                   )}
-                                  {product.specifications.ash && (
+                                  {getSpecificationValue(product.specificationItems, 'ash') !== 'N/A' && (
                                     <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
                                       <span className="text-sm text-coffee-700">
                                         Ash Content:
                                       </span>
                                       <span className="font-semibold text-coffee-800">
-                                        {product.specifications.ash}%
+                                        {getSpecificationValueWithUnit(product.specificationItems, 'ash')}
                                       </span>
                                     </div>
                                   )}
-                                  {product.specifications.lipids && (
+                                  {getSpecificationValue(product.specificationItems, 'lipids') !== 'N/A' && (
                                     <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
                                       <span className="text-sm text-coffee-700">
                                         Lipids:
                                       </span>
                                       <span className="font-semibold text-coffee-800">
-                                        {product.specifications.lipids}%
+                                        {getSpecificationValueWithUnit(product.specificationItems, 'lipids')}
                                       </span>
                                     </div>
                                   )}
-                                  {product.specifications.proteins && (
+                                  {getSpecificationValue(product.specificationItems, 'proteins') !== 'N/A' && (
                                     <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
                                       <span className="text-sm text-coffee-700">
                                         Proteins:
                                       </span>
                                       <span className="font-semibold text-coffee-800">
-                                        {product.specifications.proteins}%
+                                        {getSpecificationValueWithUnit(product.specificationItems, 'proteins')}
                                       </span>
                                     </div>
                                   )}
@@ -1373,12 +1572,11 @@ export default async function ProductDetailPage({
                                       </div>
                                       <div className="flex-1">
                                         <p className="mb-1 font-semibold text-coffee-800">
-                                          {doc.name[locale] || doc.name.en}
+                                          {doc.name}
                                         </p>
                                         {doc.description && (
                                           <p className="mb-2 text-sm leading-relaxed text-coffee-600">
-                                            {doc.description[locale] ||
-                                              doc.description.en}
+                                            {doc.description}
                                           </p>
                                         )}
                                         <div className="flex items-center gap-3 text-xs text-coffee-500">
@@ -1427,12 +1625,8 @@ export default async function ProductDetailPage({
             <ContentContainer>
               <EnhancedRelatedProducts
                 products={relatedProducts.map(relatedProduct => {
-                  const productName =
-                    relatedProduct.name[locale] || relatedProduct.name.en || '';
-                  const productDescription =
-                    relatedProduct.shortDescription[locale] ||
-                    relatedProduct.shortDescription.en ||
-                    '';
+                  const productName = relatedProduct.name || '';
+                  const productDescription = relatedProduct.shortDescription || '';
 
                   return {
                     id: relatedProduct.id,
@@ -1440,7 +1634,7 @@ export default async function ProductDetailPage({
                     shortDescription: productDescription,
                     images: relatedProduct.images.map(img => ({
                       url: img.url,
-                      alt: img.alt[locale] || img.alt.en || '',
+                      alt: img.alt || '',
                       isPrimary: img.isPrimary,
                     })),
                     pricing: {
@@ -1463,21 +1657,19 @@ export default async function ProductDetailPage({
                     isFeatured: relatedProduct.isFeatured,
                     specifications: {
                       moisture:
-                        relatedProduct.specifications?.moisture?.toString() ||
-                        'N/A',
+                        getSpecificationValue(relatedProduct.specificationItems, 'moisture'),
                       screenSize:
-                        relatedProduct.specifications?.screenSize || 'N/A',
+                        getSpecificationValue(relatedProduct.specificationItems, 'screenSize'),
                       defectRate:
-                        relatedProduct.specifications?.defectRate?.toString() ||
-                        'N/A',
+                        getSpecificationValue(relatedProduct.specificationItems, 'defectRate'),
                       cuppingScore:
-                        relatedProduct.specifications?.cuppingScore || 0,
+                        parseInt(getSpecificationValue(relatedProduct.specificationItems, 'cuppingScore')) || 0,
                     },
                   };
                 })}
                 currentProduct={{
                   id: product.id,
-                  type: product.type,
+                  type: product.coffeeType,
                   grade: product.grade,
                 }}
                 locale={locale}

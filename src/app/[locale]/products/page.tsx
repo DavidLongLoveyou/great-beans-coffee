@@ -8,21 +8,13 @@ import {
   Download,
   FileText,
   Package,
+  Loader2,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-import {
-  VIETNAMESE_COFFEE_CATALOG,
-  searchProducts,
-  filterProducts,
-  type CatalogProduct,
-  CoffeeType,
-  CoffeeGrade as CatalogCoffeeGrade,
-  ProcessingMethod as CatalogProcessingMethod,
-  CertificationType,
-  type ProductFilters as CatalogProductFilters,
-} from '@/data/product-catalog';
+import type { CoffeeCertification } from '@/shared/components/design-system/types';
+
 import {
   ProductFilters,
   type ProductFilters as ProductFiltersType,
@@ -34,63 +26,140 @@ import { ContentSection } from '@/presentation/components/layout/ContentSection'
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import { ServerButton } from '@/presentation/components/ui/server-button';
-import type {
-  CoffeeGrade,
-  ProcessingMethod,
-  CoffeeCertification,
-} from '@/shared/components/design-system/types';
 import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
 import { SectionHeading } from '@/shared/components/typography/SectionHeading';
 
-// Convert catalog product to grid product format
-const convertCatalogToGridProduct = (
-  catalogProduct: CatalogProduct,
+// API Types
+interface ApiProduct {
+  id: string;
+  sku: string;
+  name: string;
+  description: string;
+  coffeeType: string;
+  grade: string;
+  processing: string;
+  origin: string;
+  altitude: number;
+  cuppingScore: number;
+  harvestSeason: string;
+  minimumOrder: number;
+  inStock: boolean;
+  isActive: boolean;
+  isFeatured: boolean;
+  images: string[];
+  certifications: Array<{
+    certification: {
+      name: string;
+      type: string;
+    };
+  }>;
+  pricing: Array<{
+    type: string;
+    basePrice: number;
+    currency: string;
+    minimumQuantity: number;
+  }>;
+  translations: Array<{
+    locale: string;
+    name: string;
+    description: string;
+  }>;
+}
+
+interface ApiResponse {
+  products: ApiProduct[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+  filters?: {
+    coffeeTypes: string[];
+    grades: string[];
+    processingMethods: string[];
+    origins: string[];
+    certifications: string[];
+  };
+}
+
+// Convert API product to grid product format
+const convertApiToGridProduct = (
+  apiProduct: ApiProduct,
   locale: string = 'en'
 ): Product => {
-  const primaryImage =
-    catalogProduct.images.find(img => img.isPrimary) ||
-    catalogProduct.images[0];
+  // Get localized content
+  const translation = apiProduct.translations?.find(t => t.locale === locale);
+  const localizedName = translation?.name || apiProduct.name;
+  const localizedDescription = translation?.description || apiProduct.description;
+
+  // Convert certifications
+  const certifications: CoffeeCertification[] = apiProduct.certifications?.map(cert => {
+     // Map certification names to CoffeeCertification type
+     const certName = cert.certification.name.toLowerCase().replace(/\s+/g, '-');
+     const validCertifications: Record<string, CoffeeCertification> = {
+       'organic': 'organic',
+       'fair-trade': 'fair-trade',
+       'fairtrade': 'fair-trade',
+       'rainforest-alliance': 'rainforest-alliance',
+       'utz': 'utz',
+       'bird-friendly': 'bird-friendly',
+       'shade-grown': 'shade-grown',
+       'direct-trade': 'direct-trade',
+       'c-cafe': 'c-cafe',
+       '4c': '4c',
+       'iso-22000': 'iso-22000',
+       'haccp': 'haccp',
+       'brc': 'brc',
+       'ifs': 'ifs'
+     };
+     return validCertifications[certName] || 'organic';
+   }) || [];
+
+  // Get pricing information
+  const pricing = apiProduct.pricing?.[0] || {
+    type: 'FOB',
+    basePrice: 0,
+    currency: 'USD',
+    minimumQuantity: 1000,
+  };
 
   return {
-    id: catalogProduct.id,
-    sku: catalogProduct.sku,
-    name: catalogProduct.name[locale] || catalogProduct.name.en || '',
-    shortDescription:
-      catalogProduct.description[locale] || catalogProduct.description.en || '',
-    type: catalogProduct.type,
-    grade: catalogProduct.grade.toLowerCase().replace('_', '-') as CoffeeGrade,
-    processingMethod:
-      catalogProduct.processingMethod.toLowerCase() as ProcessingMethod,
+    id: apiProduct.id,
+    sku: apiProduct.sku,
+    name: localizedName,
+    shortDescription: localizedDescription,
+    type: apiProduct.coffeeType,
+    grade: apiProduct.grade as any,
+    processingMethod: apiProduct.processing as any,
     origin: {
-      region: catalogProduct.origin.region,
-      province: catalogProduct.origin.province,
-      altitude: catalogProduct.origin.altitude,
+      region: apiProduct.origin,
+      province: apiProduct.origin,
+      altitude: apiProduct.altitude,
     },
     pricing: {
-      basePrice: catalogProduct.pricing.basePrice,
-      currency: catalogProduct.pricing.currency,
-      unit: catalogProduct.pricing.unit,
+      basePrice: pricing.basePrice,
+      currency: pricing.currency,
+      unit: 'MT',
     },
     availability: {
-      inStock: catalogProduct.availability.inStock,
-      stockQuantity: catalogProduct.availability.stockQuantity,
-      leadTime: catalogProduct.availability.leadTime,
-      harvestSeason: catalogProduct.availability.harvestSeason,
+      inStock: apiProduct.inStock,
+      stockQuantity: 0, // Default value since not provided by API
+      leadTime: 30, // Default value
+      harvestSeason: apiProduct.harvestSeason,
     },
-    certifications: catalogProduct.certifications.map(cert =>
-      cert.toLowerCase().replace('_', '-')
-    ) as CoffeeCertification[],
-    images: catalogProduct.images.map(img => ({
-      url: img.url,
-      alt: img.alt[locale] || img.alt.en || '',
-      isPrimary: img.isPrimary,
+    certifications: certifications,
+    images: (apiProduct.images || []).map((img: string, index: number) => ({
+      url: img,
+      alt: `${localizedName} - Image ${index + 1}`,
+      isPrimary: index === 0,
     })),
-    isFeatured: catalogProduct.isFeatured,
+    isFeatured: apiProduct.isFeatured,
     specifications: {
-      moisture: catalogProduct.specifications.moisture,
-      screenSize: catalogProduct.specifications.screenSize,
-      defectRate: catalogProduct.specifications.defectRate,
-      cuppingScore: catalogProduct.specifications.cuppingScore || 0,
+      moisture: 12, // Default value since not provided by API
+      screenSize: '16+', // Default value
+      defectRate: 5, // Default value
+      cuppingScore: apiProduct.cuppingScore,
     },
   };
 };
@@ -108,13 +177,22 @@ const processingMethods = ['ALL', 'NATURAL', 'WASHED', 'HONEY', 'WET_HULLED'];
 
 export default function ProductsPage() {
   const t = useTranslations('products');
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedProducts, setSelectedProducts] = useState<Set<string>>(
     new Set()
   );
   const [showBulkActions, setShowBulkActions] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 20,
+    total: 0,
+    totalPages: 0,
+  });
+
+  // Initialize filters
   const [filters, setFilters] = useState<ProductFiltersType>({
     search: '',
     coffeeType: 'ALL',
@@ -133,155 +211,66 @@ export default function ProductsPage() {
     incoterms: 'ALL',
   });
 
-  // Initialize products from catalog
+  // Fetch products from API
+  const fetchProducts = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Build query parameters
+      const params = new URLSearchParams({
+        page: pagination.page.toString(),
+        limit: pagination.limit.toString(),
+      });
+
+      // Add filters to query
+      if (filters.search) params.append('search', filters.search);
+      if (filters.coffeeType !== 'ALL') params.append('coffeeType', filters.coffeeType);
+      if (filters.grade !== 'ALL') params.append('grade', filters.grade);
+      if (filters.processingMethod !== 'ALL') params.append('processing', filters.processingMethod);
+      if (filters.origin !== 'ALL') params.append('origin', filters.origin);
+      if (filters.inStock !== null) params.append('inStock', filters.inStock.toString());
+      if (filters.priceRange.min > 0) params.append('minPrice', filters.priceRange.min.toString());
+      if (filters.priceRange.max < 10000) params.append('maxPrice', filters.priceRange.max.toString());
+      if (filters.cuppingScoreRange.min > 0) params.append('minCuppingScore', filters.cuppingScoreRange.min.toString());
+      if (filters.cuppingScoreRange.max < 100) params.append('maxCuppingScore', filters.cuppingScoreRange.max.toString());
+      if (filters.altitudeRange.min > 0) params.append('minAltitude', filters.altitudeRange.min.toString());
+      if (filters.altitudeRange.max < 2000) params.append('maxAltitude', filters.altitudeRange.max.toString());
+      if (filters.certifications.length > 0) {
+        filters.certifications.forEach(cert => params.append('certifications', cert));
+      }
+
+      const response = await fetch(`/api/products/search?${params.toString()}`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+
+      const data: ApiResponse = await response.json();
+      
+      // Convert API products to grid format
+      const convertedProducts = data.products.map(product => 
+        convertApiToGridProduct(product, 'en')
+      );
+
+      setProducts(convertedProducts);
+      setPagination(data.pagination);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Error fetching products:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [filters, pagination.page, pagination.limit]);
+
+  // Fetch products on component mount and filter changes
   useEffect(() => {
-    const products = VIETNAMESE_COFFEE_CATALOG.filter(
-      product => product.isActive
-    ).map(product => convertCatalogToGridProduct(product, 'en'));
-    setAllProducts(products);
-    setFilteredProducts(products);
-  }, []);
+    fetchProducts();
+  }, [fetchProducts]);
 
-  // Update filtered products when filters change
-  useEffect(() => {
-    let filtered = [...allProducts];
-
-    // Apply search filter
-    if (filters.search) {
-      filtered = filtered.filter(
-        product =>
-          product.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-          product.shortDescription
-            .toLowerCase()
-            .includes(filters.search.toLowerCase()) ||
-          product.origin.region
-            .toLowerCase()
-            .includes(filters.search.toLowerCase()) ||
-          product.sku.toLowerCase().includes(filters.search.toLowerCase())
-      );
-    }
-
-    // Apply type filter
-    if (filters.coffeeType && filters.coffeeType !== 'ALL') {
-      filtered = filtered.filter(
-        product => product.type === filters.coffeeType
-      );
-    }
-
-    // Apply grade filter
-    if (filters.grade && filters.grade !== 'ALL') {
-      filtered = filtered.filter(product => product.grade === filters.grade);
-    }
-
-    // Apply processing method filter
-    if (filters.processingMethod && filters.processingMethod !== 'ALL') {
-      filtered = filtered.filter(
-        product => product.processingMethod === filters.processingMethod
-      );
-    }
-
-    // Apply certification filter
-    if (filters.certification && filters.certification !== 'ALL') {
-      filtered = filtered.filter(product =>
-        product.certifications.includes(
-          filters.certification as CoffeeCertification
-        )
-      );
-    }
-
-    // Apply price range filter
-    if (filters.priceRange) {
-      filtered = filtered.filter(
-        product =>
-          product.pricing.basePrice >= filters.priceRange.min &&
-          product.pricing.basePrice <= filters.priceRange.max
-      );
-    }
-
-    // Apply stock status filter
-    if (filters.inStock !== null) {
-      filtered = filtered.filter(
-        product => product.availability.inStock === filters.inStock
-      );
-    }
-
-    // Apply advanced B2B filters
-    // Origin filter
-    if (filters.origin && filters.origin !== 'ALL') {
-      filtered = filtered.filter(
-        product =>
-          product.origin.region
-            .toLowerCase()
-            .includes(filters.origin.toLowerCase()) ||
-          product.origin.province
-            ?.toLowerCase()
-            .includes(filters.origin.toLowerCase())
-      );
-    }
-
-    // Harvest season filter (based on availability data)
-    if (filters.harvestSeason && filters.harvestSeason !== 'ALL') {
-      // This would need to be implemented based on harvest season data in the catalog
-      // For now, we'll filter based on availability patterns
-      filtered = filtered.filter(product => {
-        // Placeholder logic - in real implementation, this would check harvest season data
-        return true;
-      });
-    }
-
-    // Minimum order range filter - disabled as minimumOrder is not part of Product type
-    // if (filters.minimumOrderRange) {
-    //   filtered = filtered.filter(product => {
-    //     const minOrder = 0; // Default value since minimumOrder is not available
-    //     return (
-    //       minOrder >= filters.minimumOrderRange.min &&
-    //       minOrder <= filters.minimumOrderRange.max
-    //     );
-    //   });
-    // }
-
-    // Cupping score range filter
-    if (filters.cuppingScoreRange) {
-      filtered = filtered.filter(product => {
-        const cuppingScore = product.specifications?.cuppingScore || 0;
-        return (
-          cuppingScore >= filters.cuppingScoreRange.min &&
-          cuppingScore <= filters.cuppingScoreRange.max
-        );
-      });
-    }
-
-    // Altitude range filter
-    if (filters.altitudeRange) {
-      filtered = filtered.filter(product => {
-        const altitude = product.origin.altitude || 0;
-        return (
-          altitude >= filters.altitudeRange.min &&
-          altitude <= filters.altitudeRange.max
-        );
-      });
-    }
-
-    // Multiple certifications filter
-    if (filters.certifications && filters.certifications.length > 0) {
-      filtered = filtered.filter(product =>
-        filters.certifications.some(cert =>
-          product.certifications.includes(cert as CoffeeCertification)
-        )
-      );
-    }
-
-    // Incoterms filter (would need to be added to product data)
-    if (filters.incoterms && filters.incoterms !== 'ALL') {
-      // Placeholder - in real implementation, this would check Incoterms data
-      filtered = filtered.filter(product => {
-        // This would check against product.shipping.incoterms or similar
-        return true;
-      });
-    }
-
-    setFilteredProducts(filtered);
-  }, [filters, allProducts]);
+  // Apply local filtering for immediate UI feedback (minimal since API handles most filtering)
+  // This is mainly for UI responsiveness while API request is in progress
+  const filteredProducts = products;
 
   // Handle product selection for bulk actions
   const handleProductSelect = (productId: string, selected: boolean) => {
@@ -420,8 +409,9 @@ export default function ProductsPage() {
               <ProductFilters
                 filters={filters}
                 onFiltersChange={setFilters}
-                totalProducts={allProducts.length}
+                totalProducts={pagination.total}
                 filteredProducts={filteredProducts.length}
+                loading={loading}
               />
             </div>
 
@@ -476,10 +466,23 @@ export default function ProductsPage() {
               <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
                   <h2 className="text-lg font-semibold text-forest-800">
-                    {filteredProducts.length} Product
-                    {filteredProducts.length !== 1 ? 's' : ''} Found
+                    {loading ? (
+                      <span className="flex items-center gap-2">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Loading...
+                      </span>
+                    ) : (
+                      <>
+                        {pagination.total} Product{pagination.total !== 1 ? 's' : ''} Found
+                        {filteredProducts.length !== pagination.total && (
+                          <span className="text-sm text-gray-500">
+                            ({filteredProducts.length} shown)
+                          </span>
+                        )}
+                      </>
+                    )}
                   </h2>
-                  {filteredProducts.length > 0 && (
+                  {!loading && filteredProducts.length > 0 && (
                     <Button
                       onClick={handleSelectAll}
                       variant="outline"
@@ -499,7 +502,7 @@ export default function ProductsPage() {
                     variant="outline"
                     size="sm"
                     className="border-forest-300 text-forest-600 hover:bg-forest-50"
-                    disabled={filteredProducts.length === 0}
+                    disabled={loading || filteredProducts.length === 0}
                   >
                     <FileText className="mr-2 h-4 w-4" />
                     Export Catalog
@@ -507,17 +510,112 @@ export default function ProductsPage() {
                 </div>
               </div>
 
-              <ProductGrid
-                products={filteredProducts}
-                locale="en"
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-                selectedProducts={selectedProducts}
-                onProductSelect={handleProductSelect}
-                showSelection={true}
-              />
-            </div>
-          </div>
+              {loading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="h-8 w-8 animate-spin text-forest-600" />
+                  <span className="ml-2 text-forest-600">Loading products...</span>
+                </div>
+              ) : error ? (
+                <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-center">
+                  <div className="text-red-600">
+                    <Coffee className="mx-auto mb-2 h-8 w-8" />
+                    <h3 className="mb-2 text-lg font-semibold">Error Loading Products</h3>
+                    <p className="mb-4">{error}</p>
+                    <Button onClick={fetchProducts} className="bg-red-600 text-white hover:bg-red-700">
+                      Try Again
+                    </Button>
+                  </div>
+                </div>
+              ) : filteredProducts.length === 0 ? (
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-12 text-center">
+                  <Coffee className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+                  <h3 className="mb-2 text-lg font-semibold text-gray-600">
+                    No Products Found
+                  </h3>
+                  <p className="text-gray-500">
+                    Try adjusting your filters to see more products.
+                  </p>
+                </div>
+              ) : (
+                <>
+                   <ProductGrid
+                     products={filteredProducts}
+                     locale="en"
+                     viewMode={viewMode}
+                     onViewModeChange={setViewMode}
+                     selectedProducts={selectedProducts}
+                     onProductSelect={handleProductSelect}
+                     showSelection={true}
+                   />
+                   
+                   {/* Pagination Controls */}
+                   {pagination.totalPages > 1 && (
+                     <div className="mt-8 flex items-center justify-between">
+                       <div className="text-sm text-gray-600">
+                         Showing {((pagination.page - 1) * pagination.limit) + 1} to{' '}
+                         {Math.min(pagination.page * pagination.limit, pagination.total)} of{' '}
+                         {pagination.total} products
+                       </div>
+                       
+                       <div className="flex items-center gap-2">
+                         <Button
+                           variant="outline"
+                           size="sm"
+                           onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
+                           disabled={pagination.page <= 1 || loading}
+                         >
+                           Previous
+                         </Button>
+                         
+                         <div className="flex items-center gap-1">
+                           {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                             const pageNum = i + 1;
+                             const isCurrentPage = pageNum === pagination.page;
+                             
+                             return (
+                               <Button
+                                 key={pageNum}
+                                 variant={isCurrentPage ? "default" : "outline"}
+                                 size="sm"
+                                 onClick={() => setPagination(prev => ({ ...prev, page: pageNum }))}
+                                 disabled={loading}
+                                 className={isCurrentPage ? "bg-forest-600 text-white" : ""}
+                               >
+                                 {pageNum}
+                               </Button>
+                             );
+                           })}
+                           
+                           {pagination.totalPages > 5 && (
+                             <>
+                               <span className="px-2 text-gray-400">...</span>
+                               <Button
+                                 variant="outline"
+                                 size="sm"
+                                 onClick={() => setPagination(prev => ({ ...prev, page: pagination.totalPages }))}
+                                 disabled={loading}
+                               >
+                                 {pagination.totalPages}
+                               </Button>
+                             </>
+                           )}
+                         </div>
+                         
+                         <Button
+                           variant="outline"
+                           size="sm"
+                           onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
+                           disabled={pagination.page >= pagination.totalPages || loading}
+                         >
+                           Next
+                         </Button>
+                       </div>
+                     </div>
+                   )}
+                 </>
+               )}
+             </div>
+           </div>
         </ContentContainer>
       </ContentSection>
 
