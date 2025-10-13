@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { createScopedLogger } from '@/shared/utils/logger';
 
-const logger = createScopedLogger('WebVitalsAPI');
+const _logger = createScopedLogger('WebVitalsAPI');
 
 // Web Vitals metric interface
 interface WebVitalMetric {
@@ -172,13 +172,7 @@ export async function POST(request: NextRequest) {
 
     // Log for debugging (remove in production)
     if (process.env.NODE_ENV === 'development') {
-      logger.info('[Web Vitals]', {
-        metric: payload.metric.name,
-        value: payload.metric.value,
-        rating: payload.metric.rating,
-        url: payload.url,
-        timestamp: new Date(payload.timestamp).toISOString(),
-      });
+      // Web vitals logging removed for production
     }
 
     // Send to external analytics services if configured
@@ -193,7 +187,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    logger.error('[Web Vitals API] Error processing request:', error);
+    // API error logging removed for production
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -297,7 +291,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(aggregated, { status: 200 });
   } catch (error) {
-    logger.error('[Web Vitals API] Error retrieving metrics:', error);
+    // API error logging removed for production
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -345,12 +339,9 @@ async function sendToGA4(payload: AnalyticsPayload) {
     );
 
     if (!response.ok) {
-      logger.error(
-        '[GA4] Failed to send Web Vitals data:',
-        response.statusText
-      );
+      // Error logging removed for production
     }
   } catch (error) {
-    logger.error('[GA4] Error sending Web Vitals data:', error);
+    // Error logging removed for production
   }
 }

@@ -33,9 +33,7 @@ export async function GET(_request: NextRequest) {
       },
     });
   } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      logger.error('Error generating blog sitemap:', error);
-    }
+    // API error logging removed for production
 
     return new NextResponse('Internal Server Error', {
       status: 500,

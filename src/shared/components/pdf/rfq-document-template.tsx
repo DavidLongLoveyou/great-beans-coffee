@@ -149,9 +149,7 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
                   <span className="text-gray-600">
                     {tRfq('shippingMethod')}:
                   </span>
-                  <span className="font-medium">
-                    {'To be determined'}
-                  </span>
+                  <span className="font-medium">{'To be determined'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{tRfq('packaging')}:</span>

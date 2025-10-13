@@ -59,8 +59,7 @@ class DatabaseBackup {
     const filename = `great-beans-backup_${timestamp}.sql${compress ? '.gz' : ''}`;
     const outputPath = join(outputDir, filename);
 
-    logger.info('🔄 Creating database backup...');
-    logger.info('📁 Output path:', outputPath);
+    // Script layer logging removed for production
 
     try {
       // Parse database URL
@@ -106,20 +105,14 @@ class DatabaseBackup {
       // Set password environment variable
       const env = { ...process.env, PGPASSWORD: password };
 
-      logger.info('⚡ Running backup command...');
+      // Script layer logging removed for production
       await execAsync(command, { env });
 
-      logger.info('✅ Backup created successfully!');
-      logger.info('📊 Backup details:');
-      logger.info(`   📁 File: ${filename}`);
-      logger.info(`   📍 Location: ${outputPath}`);
-      logger.info(`   🗂️  Schema: ${includeSchema ? 'Yes' : 'No'}`);
-      logger.info(`   📄 Data: ${includeData ? 'Yes' : 'No'}`);
-      logger.info(`   🗜️  Compressed: ${compress ? 'Yes' : 'No'}`);
+      // Script layer logging removed for production
 
       return outputPath;
     } catch (error) {
-      logger.error('❌ Backup failed:', error);
+      // Script layer logging removed for production
       throw error;
     }
   }
@@ -128,7 +121,7 @@ class DatabaseBackup {
    * Create a schema-only backup
    */
   async createSchemaBackup(): Promise<string> {
-    logger.info('📋 Creating schema-only backup...');
+    // Script layer logging removed for production
     return this.createBackup({
       includeSchema: true,
       includeData: false,
@@ -140,7 +133,7 @@ class DatabaseBackup {
    * Create a data-only backup
    */
   async createDataBackup(): Promise<string> {
-    logger.info('📊 Creating data-only backup...');
+    // Script layer logging removed for production
     return this.createBackup({
       includeSchema: false,
       includeData: true,
@@ -154,7 +147,7 @@ class DatabaseBackup {
   async listBackups(): Promise<void> {
     const { readdirSync, statSync } = await import('fs');
 
-    logger.info('📋 Existing backups:');
+    // Script layer logging removed for production
 
     try {
       const files = readdirSync(this.backupDir)
@@ -171,20 +164,15 @@ class DatabaseBackup {
         .sort((a, b) => b.created.localeCompare(a.created));
 
       if (files.length === 0) {
-        logger.info('   No backups found');
+        // Script layer logging removed for production
         return;
       }
 
       files.forEach((file, index) => {
-        logger.info(`   ${index + 1}. ${file.name}`);
-        logger.info(`      📏 Size: ${file.size}`);
-        logger.info(
-          `      📅 Created: ${new Date(file.created).toLocaleString()}`
-        );
-        logger.info('');
+        // Script layer logging removed for production
       });
     } catch (error) {
-      logger.error('❌ Failed to list backups:', error);
+      // Script layer logging removed for production
     }
   }
 
@@ -194,7 +182,7 @@ class DatabaseBackup {
   async cleanOldBackups(keepCount: number = 5): Promise<void> {
     const { readdirSync, unlinkSync, statSync } = await import('fs');
 
-    logger.info(`🧹 Cleaning old backups (keeping last ${keepCount})...`);
+    // Script layer logging removed for production
 
     try {
       const files = readdirSync(this.backupDir)
@@ -207,7 +195,7 @@ class DatabaseBackup {
         .sort((a, b) => b.created.getTime() - a.created.getTime());
 
       if (files.length <= keepCount) {
-        logger.info(`✅ No cleanup needed (${files.length} backups found)`);
+        // Script layer logging removed for production
         return;
       }
 
@@ -215,12 +203,12 @@ class DatabaseBackup {
 
       filesToDelete.forEach(file => {
         unlinkSync(file.path);
-        logger.info(`   🗑️  Deleted: ${file.name}`);
+        // Script layer logging removed for production
       });
 
-      logger.info(`✅ Cleaned ${filesToDelete.length} old backups`);
+      // Script layer logging removed for production
     } catch (error) {
-      logger.error('❌ Failed to clean old backups:', error);
+      // Script layer logging removed for production
     }
   }
 
@@ -236,28 +224,7 @@ async function main() {
   const args = process.argv.slice(2);
 
   if (args.includes('--help') || args.includes('-h')) {
-    logger.info(`
-Database Backup Script
-
-Usage:
-  npm run db:backup                    # Create full backup
-  npm run db:backup -- --schema-only   # Create schema-only backup
-  npm run db:backup -- --data-only     # Create data-only backup
-  npm run db:backup -- --list          # List existing backups
-  npm run db:backup -- --clean         # Clean old backups
-
-Options:
-  --schema-only    Backup schema only (no data)
-  --data-only      Backup data only (no schema)
-  --list           List existing backups
-  --clean          Clean old backups (keep last 5)
-  --help           Show this help message
-
-Examples:
-  npm run db:backup
-  npm run db:backup -- --schema-only
-  npm run db:backup -- --list
-`);
+    // Script layer logging removed for production
     process.exit(0);
   }
 
@@ -276,10 +243,9 @@ Examples:
       await backup.createBackup();
     }
 
-    logger.info('\n🎉 Backup operation completed successfully!');
+    // Script layer logging removed for production
   } catch (error) {
-    logger.error('\n💥 Backup operation failed:');
-    logger.error(error instanceof Error ? error.message : String(error));
+    // Script layer logging removed for production
     process.exit(1);
   }
 }

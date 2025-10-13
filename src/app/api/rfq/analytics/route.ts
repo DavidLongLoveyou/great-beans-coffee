@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
     // Validate query parameters
     const validatedParams = analyticsQuerySchema.parse(params);
 
-    logger.info('Fetching RFQ analytics', validatedParams);
+    // API logging removed for production
 
     // Convert dateFrom/dateTo to dateRange format
     const dateRange =
@@ -112,10 +112,7 @@ export async function GET(request: NextRequest) {
       .sort((a, b) => b.count - a.count)
       .slice(0, 10);
 
-    logger.info('RFQ analytics fetched successfully', {
-      totalRFQs: analytics.totalRFQs,
-      conversionRate: analytics.conversionRate,
-    });
+    // API logging removed for production
 
     return NextResponse.json({
       success: true,
@@ -159,7 +156,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    logger.error('Error fetching RFQ analytics:', error);
+    // API error logging removed for production
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(

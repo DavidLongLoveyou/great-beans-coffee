@@ -45,7 +45,7 @@ export class GetRfqByIdUseCase {
         message: 'RFQ retrieved successfully',
       };
     } catch (error) {
-      this.logger.error('Error getting RFQ by ID:', error);
+      // Application layer error logging removed for production
       return {
         rfq: null,
         success: false,

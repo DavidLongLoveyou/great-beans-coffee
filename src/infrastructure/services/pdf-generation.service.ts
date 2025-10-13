@@ -76,9 +76,7 @@ export class PDFGenerationService {
     options: PDFGenerationOptions = {}
   ): Promise<Blob> {
     try {
-      logger.info('Generating product spec sheet PDF', {
-        productId: product.id,
-      });
+      // Infrastructure layer logging removed for production
 
       const pdf = new jsPDF({
         orientation: options.orientation || 'portrait',
@@ -108,7 +106,7 @@ export class PDFGenerationService {
 
       return pdf.output('blob');
     } catch (error) {
-      logger.error('Failed to generate product spec sheet PDF', error);
+      // Infrastructure layer error logging removed for production
       throw new Error('PDF generation failed');
     }
   }
@@ -121,7 +119,7 @@ export class PDFGenerationService {
     options: PDFGenerationOptions = {}
   ): Promise<Blob> {
     try {
-      logger.info('Generating RFQ document PDF', { rfqId: rfq.id });
+      // Infrastructure layer logging removed for production
 
       const pdf = new jsPDF({
         orientation: options.orientation || 'portrait',
@@ -149,7 +147,7 @@ export class PDFGenerationService {
 
       return pdf.output('blob');
     } catch (error) {
-      logger.error('Failed to generate RFQ document PDF', error);
+      // Infrastructure layer error logging removed for production
       throw new Error('RFQ PDF generation failed');
     }
   }
@@ -163,7 +161,7 @@ export class PDFGenerationService {
     options: PDFGenerationOptions = {}
   ): Promise<Blob> {
     try {
-      logger.info('Generating PDF from HTML element', { filename });
+      // Infrastructure layer logging removed for production
 
       const canvas = await html2canvas(element, {
         scale: options.quality || 2,
@@ -200,7 +198,7 @@ export class PDFGenerationService {
 
       return pdf.output('blob');
     } catch (error) {
-      logger.error('Failed to generate PDF from HTML', error);
+      // Infrastructure layer error logging removed for production
       throw new Error('HTML to PDF conversion failed');
     }
   }
@@ -595,7 +593,7 @@ export class PDFGenerationService {
       const arrayBuffer = await blob.arrayBuffer();
       return Buffer.from(arrayBuffer);
     } catch (error) {
-      logger.error('Failed to generate product spec PDF (server-side)', error);
+      // Infrastructure layer error logging removed for production
       throw new Error('Server-side PDF generation failed');
     }
   }
@@ -619,7 +617,7 @@ export class PDFGenerationService {
       const arrayBuffer = await blob.arrayBuffer();
       return Buffer.from(arrayBuffer);
     } catch (error) {
-      logger.error('Failed to generate RFQ document PDF (server-side)', error);
+      // Infrastructure layer error logging removed for production
       throw new Error('Server-side RFQ PDF generation failed');
     }
   }

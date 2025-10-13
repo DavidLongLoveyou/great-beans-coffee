@@ -8,78 +8,137 @@ import {
   type RFQStatus,
   type RFQPriority,
   type RFQQuote,
+  type RFQDocument,
+  type RFQCommunication,
 } from '../../../domain/entities/rfq.entity';
 import {
   type RFQSearchCriteria,
   type RFQSearchResult,
   type RFQAnalytics,
+  type IRFQRepository,
 } from '../../../domain/repositories/rfq.repository';
 import { prisma } from '../prisma';
 
-export interface IRFQRepository {
-  findById(id: string): Promise<RFQEntity | null>;
-  findByRfqNumber(rfqNumber: string): Promise<RFQEntity | null>;
-  findAll(filters?: RFQSearchCriteria): Promise<RFQEntity[]>;
-  findByStatus(status: string): Promise<RFQEntity[]>;
-  findByCompany(companyId: string): Promise<RFQEntity[]>;
-  findPending(): Promise<RFQEntity[]>;
-  findExpiringSoon(days?: number): Promise<RFQEntity[]>;
-  create(data: Omit<RFQ, 'id' | 'createdAt' | 'updatedAt'>): Promise<RFQEntity>;
-  update(id: string, data: Partial<RFQ>): Promise<RFQEntity>;
-  updateStatus(id: string, status: string, notes?: string): Promise<RFQEntity>;
-  delete(id: string): Promise<void>;
-  addCommunication(rfqId: string, communication: any): Promise<void>;
-  addDocument(rfqId: string, document: any): Promise<void>;
-  getAnalytics(startDate?: Date, endDate?: Date): Promise<any>;
-}
+// Type for Prisma RFQ result with includes
+type PrismaRFQWithIncludes = {
+  id: string;
+  rfqNumber: string;
+  clientId?: string | null;
+  status: string;
+  priority: string;
+  companyName: string;
+  contactPerson: string;
+  email: string;
+  phone?: string | null;
+  country: string;
+  businessType?: string | null;
+  productRequirements?: any;
+  deliveryRequirements?: any;
+  paymentRequirements?: any;
+  additionalRequirements?: string | null;
+  sampleRequired: boolean;
+  urgency: string;
+  totalValue?: number | null;
+  currency: string;
+  incoterms?: string | null;
+  destination?: string | null;
+  deadline?: Date | null;
+  locale: string;
+  createdAt: Date;
+  updatedAt: Date;
+  assignedTo?: string | null;
+  createdBy?: string | null;
+  updatedBy?: string | null;
+  notes?: string | null;
+  products?: Array<{
+    id: string;
+    productId: string;
+    quantity: number;
+    specifications?: string | null;
+  }>;
+  services?: Array<{
+    id: string;
+    serviceId: string;
+    specifications?: string | null;
+  }>;
+  client?: {
+    id: string;
+    name: string;
+    email: string;
+    country: string;
+  } | null;
+  assignee?: {
+    id: string;
+    name: string;
+    email: string;
+  } | null;
+  creator?: {
+    id: string;
+    name: string;
+    email: string;
+  } | null;
+};
 
 export class RFQRepository implements IRFQRepository {
-  private mapToEntity(rfq: any): RFQEntity {
+  private mapToEntity(rfq: PrismaRFQWithIncludes): RFQEntity {
     return new RFQEntity({
       id: rfq.id,
       rfqNumber: rfq.rfqNumber,
-      status: rfq.status,
-      priority: rfq.priority,
+      status: rfq.status as RFQStatus,
+      priority: rfq.priority as RFQPriority,
+
+      // Map company information to nested structure
       companyInfo: {
         companyName: rfq.companyName,
         contactPerson: rfq.contactPerson,
         email: rfq.email,
-        phone: rfq.phone,
+        phone: rfq.phone || '',
         address: {
-          street: rfq.address?.street || '',
-          city: rfq.address?.city || '',
-          postalCode: rfq.address?.postalCode || '',
-          country: rfq.country || '',
+          street: '',
+          city: '',
+          postalCode: '',
+          country: rfq.country,
         },
-        businessType: rfq.businessType || 'IMPORTER',
+        businessType: (rfq.businessType as any) || 'IMPORTER',
       },
+
+      // Map product requirements
       productRequirements: rfq.productRequirements || {
         coffeeType: 'ARABICA',
       },
+
+      // Map quantity requirements
       quantityRequirements: {
-        quantity: rfq.quantity || 1,
-        unit: rfq.unit || 'MT',
-        isRecurringOrder: rfq.isRecurringOrder || false,
+        quantity: 1,
+        unit: 'MT',
+        isRecurringOrder: false,
       },
+
+      // Map delivery requirements
       deliveryRequirements: rfq.deliveryRequirements || {
-        incoterms: 'FOB',
-        destinationPort: rfq.destinationPort || '',
-        destinationCountry: rfq.country || '',
-        preferredDeliveryDate: rfq.preferredDeliveryDate || new Date(),
-        latestDeliveryDate: rfq.latestDeliveryDate || new Date(),
+        incoterms: (rfq.incoterms as any) || 'FOB',
+        destinationPort: rfq.destination || '',
+        destinationCountry: rfq.country,
+        preferredDeliveryDate: rfq.deadline || new Date(),
+        latestDeliveryDate: rfq.deadline || new Date(),
         packaging: 'JUTE_BAGS_60KG',
       },
+
+      // Map payment terms
       paymentTerms: rfq.paymentRequirements || {
-        preferredCurrency: 'USD',
+        preferredCurrency: rfq.currency || 'USD',
         paymentMethod: 'LC',
-        paymentTerms: rfq.paymentTerms || '',
+        paymentTerms: '',
       },
+
       additionalRequirements: rfq.additionalRequirements,
-      sampleRequired: rfq.sampleRequired || false,
-      estimatedValue: rfq.totalValue,
+      sampleRequired: rfq.sampleRequired,
       assignedTo: rfq.assignedTo,
-      submittedAt: rfq.submittedAt || rfq.createdAt,
-      lastActivityAt: rfq.lastActivityAt || rfq.updatedAt,
+      estimatedValue: rfq.totalValue,
+
+      // Map timestamps
+      submittedAt: rfq.createdAt,
+      lastActivityAt: rfq.updatedAt,
       createdAt: rfq.createdAt,
       updatedAt: rfq.updatedAt,
       updatedBy: rfq.updatedBy || rfq.createdBy || '',
@@ -260,10 +319,18 @@ export class RFQRepository implements IRFQRepository {
   }
 
   async create(
-    data: Omit<RFQ, 'id' | 'createdAt' | 'updatedAt'>
+    data: Omit<RFQ, 'id' | 'rfqNumber' | 'submittedAt' | 'updatedAt'>
   ): Promise<RFQEntity> {
-    const createData: any = {
-      rfqNumber: data.rfqNumber,
+    // Generate RFQ number
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const timestamp = now.getTime().toString().slice(-6);
+    const rfqNumber = `RFQ-${year}${month}${day}-${timestamp}`;
+
+    const createData = {
+      rfqNumber,
       status: data.status,
       priority: data.priority,
       companyName: data.companyInfo.companyName,
@@ -274,16 +341,15 @@ export class RFQRepository implements IRFQRepository {
       deliveryRequirements: data.deliveryRequirements as any,
       paymentRequirements: data.paymentTerms as any,
       sampleRequired: data.sampleRequired,
+      ...(data.companyInfo.phone && { phone: data.companyInfo.phone }),
+      ...(data.companyInfo.businessType && {
+        businessType: data.companyInfo.businessType,
+      }),
+      ...(data.additionalRequirements && {
+        additionalRequirements: data.additionalRequirements,
+      }),
+      ...(data.updatedBy && { updatedBy: data.updatedBy }),
     };
-
-    // Add optional fields only if they exist
-    if (data.companyInfo.phone) createData.phone = data.companyInfo.phone;
-    if (data.companyInfo.businessType)
-      createData.businessType = data.companyInfo.businessType;
-    if (data.additionalRequirements)
-      createData.additionalRequirements = data.additionalRequirements;
-    if (data.assignedTo) createData.assignedTo = data.assignedTo;
-    if (data.updatedBy) createData.updatedBy = data.updatedBy;
 
     const rfq = await prisma.rFQ.create({
       data: createData,
@@ -294,10 +360,9 @@ export class RFQRepository implements IRFQRepository {
   }
 
   async update(id: string, data: Partial<RFQ>): Promise<RFQEntity> {
-    const updateData: any = { ...data };
+    const updateData = { ...data, updatedAt: new Date() };
     delete updateData.id;
     delete updateData.createdAt;
-    updateData.updatedAt = new Date();
 
     const rfq = await prisma.rFQ.update({
       where: { id },
@@ -313,8 +378,12 @@ export class RFQRepository implements IRFQRepository {
     status: string,
     notes?: string
   ): Promise<RFQEntity> {
-    const updateData: any = {
-      status,
+    const updateData: {
+      status: PrismaRFQStatus;
+      updatedAt: Date;
+      internalNotes?: string;
+    } = {
+      status: status as PrismaRFQStatus,
       updatedAt: new Date(),
     };
 
@@ -328,15 +397,14 @@ export class RFQRepository implements IRFQRepository {
       include: this.getIncludeClause(),
     });
 
-    // Add status change communication
-    await this.addCommunication(id, {
-      type: 'STATUS_CHANGE',
-      direction: 'INTERNAL',
-      subject: `Status changed to ${status}`,
-      content: notes || `RFQ status updated to ${status}`,
-      userId: null, // System generated
-      isInternal: true,
-    });
+    // TODO: Add status change communication when RFQCommunication model is implemented
+    // await this.addCommunication(id, {
+    //   type: 'INTERNAL_NOTE',
+    //   subject: `Status changed to ${status}`,
+    //   content: notes || `RFQ status updated to ${status}`,
+    //   createdBy: 'system', // System generated
+    //   isInternal: true,
+    // });
 
     return this.mapToEntity(rfq);
   }
@@ -347,14 +415,20 @@ export class RFQRepository implements IRFQRepository {
     });
   }
 
-  async addCommunication(rfqId: string, communication: any): Promise<void> {
+  async addCommunication(
+    rfqId: string,
+    communication: Omit<RFQCommunication, 'id' | 'createdAt'>
+  ): Promise<RFQEntity> {
     // TODO: Implement when RFQCommunication model is added to schema
     throw new Error(
       'addCommunication not implemented - missing RFQCommunication model'
     );
   }
 
-  async addDocument(rfqId: string, document: any): Promise<void> {
+  async addDocument(
+    rfqId: string,
+    document: Omit<RFQDocument, 'id' | 'uploadedAt'>
+  ): Promise<RFQEntity> {
     // TODO: Implement when RFQDocument model is added to schema
     throw new Error('addDocument not implemented - missing RFQDocument model');
   }
@@ -481,16 +555,18 @@ export class RFQRepository implements IRFQRepository {
     };
   }
 
-  async getAnalytics(startDate?: Date, endDate?: Date): Promise<RFQAnalytics> {
-    const whereClause =
-      startDate && endDate
-        ? {
-            createdAt: {
-              gte: startDate,
-              lte: endDate,
-            },
-          }
-        : {};
+  async getAnalytics(dateRange?: {
+    start: Date;
+    end: Date;
+  }): Promise<RFQAnalytics> {
+    const whereClause = dateRange
+      ? {
+          createdAt: {
+            gte: dateRange.start,
+            lte: dateRange.end,
+          },
+        }
+      : {};
 
     const [
       totalRFQs,
@@ -584,3 +660,7 @@ export class RFQRepository implements IRFQRepository {
 }
 
 export const rfqRepository = new RFQRepository();
+
+// Stub implementations for interface compliance - these methods are not yet implemented
+// but are required by the IRFQRepository interface. They throw "Not implemented" errors
+// to maintain type safety while allowing compilation to succeed.

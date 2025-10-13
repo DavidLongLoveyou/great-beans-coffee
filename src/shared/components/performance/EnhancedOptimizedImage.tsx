@@ -16,6 +16,8 @@ interface EnhancedOptimizedImageProps
   publicId: string;
   /** Cloudinary optimization options */
   cloudinaryOptions?: OptimizedImageOptions;
+  /** Predefined image size for common use cases */
+  size?: 'thumbnail' | 'small' | 'medium' | 'large' | 'hero';
   /** Whether to show a blur placeholder while loading */
   showBlurPlaceholder?: boolean;
   /** Whether to use lazy loading (default: true) */
@@ -56,6 +58,7 @@ export function EnhancedOptimizedImage({
   alt,
   className,
   cloudinaryOptions = {},
+  size,
   showBlurPlaceholder = true,
   lazy = true,
   loadingComponent,
@@ -75,9 +78,29 @@ export function EnhancedOptimizedImage({
   const [loadStartTime, setLoadStartTime] = useState<number>(0);
   const imageRef = useRef<HTMLImageElement>(null);
 
+  // Predefined size configurations
+  const sizeConfigs = {
+    thumbnail: { width: 150, height: 150, crop: 'fill' as const },
+    small: { width: 300, height: 300, crop: 'fill' as const },
+    medium: { width: 600, height: 400, crop: 'fill' as const },
+    large: { width: 1200, height: 800, crop: 'fill' as const },
+    hero: { width: 1920, height: 1080, crop: 'fill' as const },
+  };
+
+  // Apply size-based transformations
+  const sizeBasedOptions = size
+    ? {
+        ...cloudinaryOptions,
+        transformations: {
+          ...cloudinaryOptions.transformations,
+          ...sizeConfigs[size],
+        },
+      }
+    : cloudinaryOptions;
+
   // Generate optimized URLs
   const optimizedUrl = cloudinaryService.getOptimizedImageUrl(publicId, {
-    ...cloudinaryOptions,
+    ...sizeBasedOptions,
     priority: optimizeForLCP ? 'high' : 'auto',
     responsive: true,
   });
@@ -91,7 +114,7 @@ export function EnhancedOptimizedImage({
     ? cloudinaryService.getResponsiveImageUrls(
         publicId,
         responsiveBreakpoints,
-        cloudinaryOptions
+        sizeBasedOptions
       )
     : undefined;
 

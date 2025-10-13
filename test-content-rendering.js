@@ -14,17 +14,19 @@ console.log('🧪 Testing Content Rendering...\n');
 // Test 1: Check if contentlayer build is working
 console.log('1️⃣ Testing Contentlayer Build...');
 try {
-  const buildOutput = execSync('npx contentlayer2 build', { 
+  const buildOutput = execSync('npx contentlayer2 build', {
     encoding: 'utf8',
-    cwd: __dirname 
+    cwd: __dirname,
   });
-  
+
   // Extract document count from output
   const documentMatch = buildOutput.match(/(\d+) documents? generated/);
   const documentCount = documentMatch ? parseInt(documentMatch[1]) : 0;
-  
-  console.log(`✅ Contentlayer build successful: ${documentCount} documents generated`);
-  
+
+  console.log(
+    `✅ Contentlayer build successful: ${documentCount} documents generated`
+  );
+
   if (documentCount === 0) {
     console.log('⚠️  Warning: No documents were generated');
   }
@@ -69,24 +71,23 @@ try {
       console.log('  URL:', firstPost.url);
     }
   `;
-  
+
   fs.writeFileSync(path.join(__dirname, 'temp-test.mjs'), testImport);
-  
-  const importOutput = execSync('node temp-test.mjs', { 
+
+  const importOutput = execSync('node temp-test.mjs', {
     encoding: 'utf8',
-    cwd: __dirname 
+    cwd: __dirname,
   });
-  
+
   console.log('✅ Content import successful:');
   console.log(importOutput);
-  
+
   // Clean up
   fs.unlinkSync(path.join(__dirname, 'temp-test.mjs'));
-  
 } catch (error) {
   console.log('❌ Content import failed:');
   console.log(error.message);
-  
+
   // Clean up on error
   const tempFile = path.join(__dirname, 'temp-test.mjs');
   if (fs.existsSync(tempFile)) {
@@ -102,18 +103,22 @@ const contentTypes = ['blog', 'market-reports', 'origin-stories', 'services'];
 contentTypes.forEach(type => {
   const typePath = path.join(contentDir, type);
   if (fs.existsSync(typePath)) {
-    const locales = fs.readdirSync(typePath).filter(item => 
-      fs.statSync(path.join(typePath, item)).isDirectory()
-    );
-    
+    const locales = fs
+      .readdirSync(typePath)
+      .filter(item => fs.statSync(path.join(typePath, item)).isDirectory());
+
     let totalFiles = 0;
     locales.forEach(locale => {
       const localePath = path.join(typePath, locale);
-      const files = fs.readdirSync(localePath).filter(file => file.endsWith('.mdx'));
+      const files = fs
+        .readdirSync(localePath)
+        .filter(file => file.endsWith('.mdx'));
       totalFiles += files.length;
     });
-    
-    console.log(`✅ ${type}: ${totalFiles} files across ${locales.length} locales`);
+
+    console.log(
+      `✅ ${type}: ${totalFiles} files across ${locales.length} locales`
+    );
   } else {
     console.log(`❌ ${type}: Directory not found`);
   }

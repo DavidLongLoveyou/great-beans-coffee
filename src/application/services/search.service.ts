@@ -131,7 +131,7 @@ export class SearchService implements ISearchService {
         totalPages,
       };
     } catch (error) {
-      this.logger.error('Search failed:', error);
+      // Application layer error logging removed for production
       return {
         items: [],
         total: 0,
@@ -170,7 +170,7 @@ export class SearchService implements ISearchService {
 
       return Array.from(suggestions).slice(0, 10);
     } catch (error) {
-      this.logger.error('Failed to get search suggestions:', error);
+      // Application layer error logging removed for production
       return [];
     }
   }
@@ -193,7 +193,7 @@ export class SearchService implements ISearchService {
 
       return popularTerms;
     } catch (error) {
-      this.logger.error('Failed to get popular search terms:', error);
+      // Application layer error logging removed for production
       return [];
     }
   }

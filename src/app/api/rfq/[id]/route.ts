@@ -30,7 +30,7 @@ export async function GET(
   try {
     const { id } = await params;
 
-    logger.info('Fetching RFQ by ID', { rfqId: id });
+    // API logging removed for production
 
     // Get RFQ using the use case
     const result = await getRfqByIdUseCase.execute({ id });
@@ -45,7 +45,7 @@ export async function GET(
       );
     }
 
-    logger.info('RFQ fetched successfully', { rfqId: id });
+    // API logging removed for production
 
     const rfq = result.rfq as RFQEntity;
 
@@ -78,7 +78,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    logger.error('Error fetching RFQ by ID:', error);
+    // API error logging removed for production
 
     return NextResponse.json(
       {
@@ -104,14 +104,11 @@ export async function PATCH(
     // Validate request body
     const validatedData = updateRfqSchema.parse(body);
 
-    logger.info('Updating RFQ', {
-      rfqId: id,
-      updates: Object.keys(validatedData),
-    });
+    // API logging removed for production
 
     // For now, we'll return a success response
     // In a real implementation, you would use an UpdateRfqUseCase
-    logger.info('RFQ updated successfully', { rfqId: id });
+    // API logging removed for production
 
     return NextResponse.json({
       success: true,
@@ -123,7 +120,7 @@ export async function PATCH(
       },
     });
   } catch (error) {
-    logger.error('Error updating RFQ:', error);
+    // API error logging removed for production
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -159,11 +156,11 @@ export async function DELETE(
   try {
     const { id } = await params;
 
-    logger.info('Deleting RFQ', { rfqId: id });
+    // API logging removed for production
 
     // For now, we'll return a success response
     // In a real implementation, you would use a DeleteRfqUseCase
-    logger.info('RFQ deleted successfully', { rfqId: id });
+    // API logging removed for production
 
     return NextResponse.json({
       success: true,
@@ -174,7 +171,7 @@ export async function DELETE(
       },
     });
   } catch (error) {
-    logger.error('Error deleting RFQ:', error);
+    // API error logging removed for production
 
     return NextResponse.json(
       {

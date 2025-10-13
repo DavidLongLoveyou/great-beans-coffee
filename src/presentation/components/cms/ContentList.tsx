@@ -71,7 +71,7 @@ import {
   TooltipTrigger,
 } from '@/presentation/components/ui/tooltip';
 
-interface ContentItem {
+export interface ContentItem {
   id: string;
   title: string;
   slug: string;
@@ -141,30 +141,35 @@ export function ContentList({
   // Get unique values for filters
   const uniqueTypes = Array.from(new Set(items.map(item => item.type)));
   const uniqueLocales = Array.from(new Set(items.map(item => item.locale)));
-  const uniqueCategories = Array.from(new Set(items.map(item => item.category)));
+  const uniqueCategories = Array.from(
+    new Set(items.map(item => item.category))
+  );
 
   // Filter and sort items
   const filteredAndSortedItems = useMemo(() => {
     let filtered = items.filter(item => {
-      const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           item.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           item.author.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch =
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.author.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesType = selectedType === 'all' || item.type === selectedType;
-      const matchesStatus = selectedStatus === 'all' || item.status === selectedStatus;
-      const matchesLocale = selectedLocale === 'all' || item.locale === selectedLocale;
-      
+      const matchesStatus =
+        selectedStatus === 'all' || item.status === selectedStatus;
+      const matchesLocale =
+        selectedLocale === 'all' || item.locale === selectedLocale;
+
       return matchesSearch && matchesType && matchesStatus && matchesLocale;
     });
 
     // Sort items
     filtered.sort((a, b) => {
-      let aValue: unknown = a[sortField];
-      let bValue: unknown = b[sortField];
+      let aValue: string | number = a[sortField] as string | number;
+      let bValue: string | number = b[sortField] as string | number;
 
       if (sortField === 'publishedAt' || sortField === 'updatedAt') {
-        aValue = new Date(aValue).getTime();
-        bValue = new Date(bValue).getTime();
-      } else if (typeof aValue === 'string') {
+        aValue = new Date(aValue as string).getTime();
+        bValue = new Date(bValue as string).getTime();
+      } else if (typeof aValue === 'string' && typeof bValue === 'string') {
         aValue = aValue.toLowerCase();
         bValue = bValue.toLowerCase();
       }
@@ -177,7 +182,15 @@ export function ContentList({
     });
 
     return filtered;
-  }, [items, searchQuery, selectedType, selectedStatus, selectedLocale, sortField, sortDirection]);
+  }, [
+    items,
+    searchQuery,
+    selectedType,
+    selectedStatus,
+    selectedLocale,
+    sortField,
+    sortDirection,
+  ]);
 
   // Pagination
   const totalPages = Math.ceil(filteredAndSortedItems.length / itemsPerPage);
@@ -197,7 +210,11 @@ export function ContentList({
 
   const getSortIcon = (field: SortField) => {
     if (sortField !== field) return null;
-    return sortDirection === 'asc' ? <SortAsc className="h-3 w-3" /> : <SortDesc className="h-3 w-3" />;
+    return sortDirection === 'asc' ? (
+      <SortAsc className="h-3 w-3" />
+    ) : (
+      <SortDesc className="h-3 w-3" />
+    );
   };
 
   const getStatusBadge = (status: ContentItem['status']) => {
@@ -222,7 +239,9 @@ export function ContentList({
       <div className="flex h-64 items-center justify-center">
         <div className="text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-          <p className="mt-2 text-sm text-muted-foreground">Loading content...</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Loading content...
+          </p>
         </div>
       </div>
     );
@@ -235,7 +254,8 @@ export function ContentList({
         <div>
           <h2 className="text-2xl font-bold">Content Management</h2>
           <p className="text-muted-foreground">
-            Manage your blog posts, market reports, origin stories, and service pages
+            Manage your blog posts, market reports, origin stories, and service
+            pages
           </p>
         </div>
         <DropdownMenu>
@@ -247,7 +267,8 @@ export function ContentList({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {Object.entries(contentTypeLabels).map(([type, label]) => {
-              const IconComponent = contentTypeIcons[type as keyof typeof contentTypeIcons];
+              const IconComponent =
+                contentTypeIcons[type as keyof typeof contentTypeIcons];
               return (
                 <DropdownMenuItem
                   key={type}
@@ -276,7 +297,7 @@ export function ContentList({
                 <Input
                   placeholder="Search content..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="pl-9"
                 />
               </div>
@@ -290,7 +311,7 @@ export function ContentList({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Types</SelectItem>
-                  {uniqueTypes.map((type) => (
+                  {uniqueTypes.map(type => (
                     <SelectItem key={type} value={type}>
                       {contentTypeLabels[type]}
                     </SelectItem>
@@ -322,7 +343,7 @@ export function ContentList({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Languages</SelectItem>
-                  {uniqueLocales.map((locale) => (
+                  {uniqueLocales.map(locale => (
                     <SelectItem key={locale} value={locale}>
                       {locale.toUpperCase()}
                     </SelectItem>
@@ -333,7 +354,10 @@ export function ContentList({
 
             <div className="space-y-2">
               <label className="text-sm font-medium">View</label>
-              <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as 'table' | 'grid')}>
+              <Tabs
+                value={viewMode}
+                onValueChange={value => setViewMode(value as 'table' | 'grid')}
+              >
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="table">Table</TabsTrigger>
                   <TabsTrigger value="grid">Grid</TabsTrigger>
@@ -397,7 +421,7 @@ export function ContentList({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginatedItems.map((item) => {
+              {paginatedItems.map(item => {
                 const IconComponent = contentTypeIcons[item.type];
                 return (
                   <TableRow key={item.id}>
@@ -419,7 +443,9 @@ export function ContentList({
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            {item.featured ? 'Remove from featured' : 'Mark as featured'}
+                            {item.featured
+                              ? 'Remove from featured'
+                              : 'Mark as featured'}
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -446,7 +472,9 @@ export function ContentList({
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <IconComponent className="h-4 w-4" />
-                        <span className="text-sm">{contentTypeLabels[item.type]}</span>
+                        <span className="text-sm">
+                          {contentTypeLabels[item.type]}
+                        </span>
                       </div>
                     </TableCell>
                     <TableCell>{getStatusBadge(item.status)}</TableCell>
@@ -459,7 +487,9 @@ export function ContentList({
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Calendar className="h-3 w-3 text-muted-foreground" />
-                        <span className="text-sm">{formatDate(item.publishedAt)}</span>
+                        <span className="text-sm">
+                          {formatDate(item.publishedAt)}
+                        </span>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -470,7 +500,11 @@ export function ContentList({
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0"
+                          >
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
@@ -510,7 +544,7 @@ export function ContentList({
         </Card>
       ) : (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {paginatedItems.map((item) => {
+          {paginatedItems.map(item => {
             const IconComponent = contentTypeIcons[item.type];
             return (
               <Card key={item.id} className="overflow-hidden">
@@ -536,7 +570,11 @@ export function ContentList({
                     </div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                        >
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -568,8 +606,12 @@ export function ContentList({
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                  <CardTitle className="line-clamp-2 text-lg">{item.title}</CardTitle>
-                  <CardDescription className="line-clamp-2">{item.excerpt}</CardDescription>
+                  <CardTitle className="line-clamp-2 text-lg">
+                    {item.title}
+                  </CardTitle>
+                  <CardDescription className="line-clamp-2">
+                    {item.excerpt}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -600,8 +642,11 @@ export function ContentList({
         <div className="flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
             Showing {(currentPage - 1) * itemsPerPage + 1} to{' '}
-            {Math.min(currentPage * itemsPerPage, filteredAndSortedItems.length)} of{' '}
-            {filteredAndSortedItems.length} results
+            {Math.min(
+              currentPage * itemsPerPage,
+              filteredAndSortedItems.length
+            )}{' '}
+            of {filteredAndSortedItems.length} results
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -615,10 +660,11 @@ export function ContentList({
             </Button>
             <div className="flex items-center gap-1">
               {Array.from({ length: totalPages }, (_, i) => i + 1)
-                .filter(page => 
-                  page === 1 || 
-                  page === totalPages || 
-                  (page >= currentPage - 1 && page <= currentPage + 1)
+                .filter(
+                  page =>
+                    page === 1 ||
+                    page === totalPages ||
+                    (page >= currentPage - 1 && page <= currentPage + 1)
                 )
                 .map((page, index, array) => (
                   <div key={page} className="flex items-center">
@@ -657,16 +703,22 @@ export function ContentList({
               <BookOpen className="mx-auto h-12 w-12 text-muted-foreground" />
               <h3 className="mt-4 text-lg font-semibold">No content found</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                {searchQuery || selectedType !== 'all' || selectedStatus !== 'all' || selectedLocale !== 'all'
+                {searchQuery ||
+                selectedType !== 'all' ||
+                selectedStatus !== 'all' ||
+                selectedLocale !== 'all'
                   ? 'Try adjusting your filters or search query.'
                   : 'Get started by creating your first piece of content.'}
               </p>
-              {(!searchQuery && selectedType === 'all' && selectedStatus === 'all' && selectedLocale === 'all') && (
-                <Button className="mt-4" onClick={() => onCreate?.('blog')}>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Create Content
-                </Button>
-              )}
+              {!searchQuery &&
+                selectedType === 'all' &&
+                selectedStatus === 'all' &&
+                selectedLocale === 'all' && (
+                  <Button className="mt-4" onClick={() => onCreate?.('blog')}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create Content
+                  </Button>
+                )}
             </div>
           </CardContent>
         </Card>

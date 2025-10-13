@@ -181,7 +181,7 @@ export function SEODashboard({
       document.body.removeChild(link);
       window.URL.revokeObjectURL(downloadUrl);
     } catch (error) {
-      logger.error('Download failed:', error);
+      // Download error logging removed for production
     }
   };
 

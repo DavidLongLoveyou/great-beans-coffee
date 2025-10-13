@@ -356,7 +356,7 @@ export function FeaturedProductsSection({
                             <div className="flex flex-wrap gap-2">
                               {product.features.map((feature, index) => (
                                 <motion.div
-                                  key={index}
+                                  key={`${product.id}-feature-${feature}`}
                                   initial={{ opacity: 0, scale: 0.8 }}
                                   animate={{ opacity: 1, scale: 1 }}
                                   transition={{
@@ -500,8 +500,8 @@ export function FeaturedProductsSection({
           {/* Carousel Indicators */}
           <ScrollReveal direction="up" delay={0.3}>
             <div className="mt-8 flex justify-center gap-2">
-              {featuredProducts.map((_, index) => (
-                <MagneticHover key={index} strength={0.1}>
+              {featuredProducts.map((product, index) => (
+                <MagneticHover key={`indicator-${product.id}`} strength={0.1}>
                   <button
                     onClick={() => setCurrentIndex(index)}
                     className={`h-2 rounded-full transition-all duration-300 hover:scale-125 ${

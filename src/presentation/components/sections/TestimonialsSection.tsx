@@ -1,6 +1,5 @@
 'use client';
 
-import { useInView } from 'framer-motion';
 import {
   Star,
   Quote,
@@ -11,6 +10,7 @@ import {
   ArrowLeft,
   ArrowRight,
 } from 'lucide-react';
+import { useInView } from 'framer-motion';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useState, useRef } from 'react';
@@ -148,14 +148,12 @@ const categoryColors = {
   manufacturer: 'bg-purple-100 text-purple-800 border-purple-200',
 };
 
-export function TestimonialsSection({
-  locale: _locale,
-}: TestimonialsSectionProps) {
+export function TestimonialsSection({}: TestimonialsSectionProps) {
   const t = useTranslations('testimonials');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const ref = useRef<HTMLElement>(null);
-  const _isInView = useInView(ref, { once: true, margin: '-100px' });
+  useInView(ref, { once: true, margin: '-100px' });
 
   const filteredTestimonials =
     selectedCategory === 'all'
@@ -361,7 +359,7 @@ export function TestimonialsSection({
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
                       <Star
-                        key={`star-${i}`}
+                        key={`star-${currentTestimonial?.id || 'default'}-${i}`}
                         className={`h-6 w-6 ${
                           i < (currentTestimonial?.rating || 0)
                             ? 'fill-amber-400 text-amber-400'

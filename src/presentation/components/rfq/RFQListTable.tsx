@@ -15,7 +15,7 @@ import {
   ChevronsRight,
   ChevronUp,
   ChevronDown,
-  MoreHorizontal,
+  MoreHorizontal as _MoreHorizontal,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -30,11 +30,11 @@ import {
   CardTitle,
 } from '@/presentation/components/ui/card';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenu as _DropdownMenu,
+  DropdownMenuContent as _DropdownMenuContent,
+  DropdownMenuItem as _DropdownMenuItem,
+  DropdownMenuSeparator as _DropdownMenuSeparator,
+  DropdownMenuTrigger as _DropdownMenuTrigger,
 } from '@/presentation/components/ui/dropdown-menu';
 import {
   Select,
@@ -104,7 +104,7 @@ interface RFQListTableProps {
   filteredCount: number;
 }
 
-const getStatusConfig = (t: any) => ({
+const getStatusConfig = (t: (key: string) => string) => ({
   SUBMITTED: {
     label: t('status.submitted'),
     color: 'bg-blue-100 text-blue-800',
@@ -142,7 +142,7 @@ const getStatusConfig = (t: any) => ({
   },
 });
 
-const getPriorityConfig = (t: any) => ({
+const getPriorityConfig = (t: (key: string) => string) => ({
   LOW: { label: t('priority.low'), color: 'bg-gray-100 text-gray-800' },
   MEDIUM: { label: t('priority.medium'), color: 'bg-blue-100 text-blue-800' },
   HIGH: { label: t('priority.high'), color: 'bg-orange-100 text-orange-800' },
@@ -204,7 +204,7 @@ export function RFQListTable({
     return formatDateTime(new Date(dateString), locale);
   };
 
-  const formatCurrencyLocal = (amount: number, currency: string) => {
+  const formatCurrencyLocal = (amount: number, _currency: string) => {
     return marketFormatCurrency(amount);
   };
 
@@ -284,9 +284,9 @@ export function RFQListTable({
               {loading ? (
                 // Loading skeleton
                 Array.from({ length: pagination.pageSize }).map((_, index) => (
-                  <TableRow key={index}>
+                  <TableRow key={`skeleton-row-${index}`}>
                     {Array.from({ length: 10 }).map((_, cellIndex) => (
-                      <TableCell key={cellIndex}>
+                      <TableCell key={`skeleton-cell-${index}-${cellIndex}`}>
                         <div className="h-4 w-full animate-pulse rounded bg-gray-200" />
                       </TableCell>
                     ))}
@@ -448,7 +448,7 @@ export function RFQListTable({
           {loading ? (
             // Loading skeleton for mobile
             Array.from({ length: pagination.pageSize }).map((_, index) => (
-              <Card key={index} className="p-4">
+              <Card key={`mobile-skeleton-${index}`} className="p-4">
                 <div className="space-y-3">
                   <div className="h-4 w-3/4 animate-pulse rounded bg-gray-200" />
                   <div className="h-3 w-1/2 animate-pulse rounded bg-gray-200" />

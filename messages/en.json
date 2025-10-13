@@ -131,7 +131,6 @@
         "destinationPort": "Destination Port",
         "destinationCountry": "Destination Country",
         "shippingMethod": "Shipping Method",
-        "incoterms": "Incoterms",
         "containerType": "Container Type",
         "calculateButton": "Calculate Shipping Cost",
         "calculating": "Calculating...",
@@ -812,23 +811,7 @@
         "updatedBy": "Updated by {name}"
       },
       "statusManagement": "Status Management",
-      "statusManagementDescription": "Track and manage the status of this RFQ",
-      "name": "Name",
-      "title": "Title",
-      "email": "Email",
-      "phone": "Phone",
-      "rfqTimeline": "RFQ Timeline",
-      "timelineDescription": "Track the progress and updates of your quote request",
-      "noTimelineEvents": "No timeline events available",
-      "receivedQuotes": "Received Quotes",
-      "quotesDescription": "Review and compare quotes from our team",
-      "quoteNumber": "Quote #",
-      "acceptQuote": "Accept Quote",
-      "negotiate": "Negotiate",
-      "noQuotesYet": "No quotes received yet",
-      "quotesWorkingMessage": "Our team is working on your request and will provide a quote soon.",
-      "close": "Close",
-      "contactSales": "Contact Sales"
+      "statusManagementDescription": "Track and manage the status of this RFQ"
     }
   },
   "blog": {
@@ -1115,6 +1098,7 @@
       "overview": "Overview",
       "quotes": "Quotes",
       "orders": "Orders",
+      "products": "Products",
       "analytics": "Analytics",
       "documents": "Documents",
       "logistics": "Logistics",
@@ -1165,15 +1149,67 @@
       "description": "Manage all your quote requests and track their status",
       "comingSoon": "Advanced quote management features coming soon"
     },
-    "orders": {
-      "title": "Order Management",
-      "description": "Track your orders from processing to delivery",
-      "comingSoon": "Comprehensive order tracking coming soon"
-    },
-    "analytics": {
-      "title": "Business Analytics",
-      "description": "Insights into your coffee sourcing performance and trends",
-      "comingSoon": "Detailed analytics and reporting coming soon"
+    "products": {
+      "title": "Product Management",
+      "description": "Manage your coffee product catalog, inventory, and pricing",
+      "tabs": {
+        "products": "Products",
+        "inventory": "Inventory",
+        "pricing": "Pricing"
+      },
+      "addProduct": "Add Product",
+      "editProduct": "Edit Product",
+      "deleteProduct": "Delete Product",
+      "searchPlaceholder": "Search products...",
+      "filterByCategory": "Filter by Category",
+      "filterByStatus": "Filter by Status",
+      "allCategories": "All Categories",
+      "allStatuses": "All Statuses",
+      "productsList": "Products List",
+      "productsListDescription": "Showing {count} products",
+      "productName": "Product Name",
+      "category": "Category",
+      "grade": "Grade",
+      "price": "Price",
+      "stock": "Stock",
+      "status": "Status",
+      "actions": "Actions",
+      "viewDetails": "View Details",
+      "inventory": {
+        "title": "Inventory Management",
+        "description": "Track stock levels, forecasting, and automated reorder alerts",
+        "stockLevels": "Stock Levels",
+        "lowStockAlerts": "Low Stock Alerts",
+        "forecasting": "Demand Forecasting",
+        "reports": "Inventory Reports",
+        "stockMovement": "Stock Movement",
+        "reorderPoint": "Reorder Point",
+        "currentStock": "Current Stock",
+        "reservedStock": "Reserved Stock",
+        "availableStock": "Available Stock",
+        "lastUpdated": "Last Updated",
+        "addStock": "Add Stock",
+        "removeStock": "Remove Stock",
+        "reorder": "Reorder"
+      },
+      "pricing": {
+        "title": "Pricing Management",
+        "description": "Manage dynamic pricing, bulk discounts, and market analysis",
+        "dynamicPricing": "Dynamic Pricing",
+        "bulkDiscounts": "Bulk Discounts",
+        "marketAnalysis": "Market Analysis",
+        "pricingRules": "Pricing Rules",
+        "pricingTiers": "Pricing Tiers",
+        "analytics": "Pricing Analytics",
+        "basePrice": "Base Price",
+        "currentPrice": "Current Price",
+        "marketPrice": "Market Price",
+        "profitMargin": "Profit Margin",
+        "lastUpdated": "Last Updated",
+        "updatePrice": "Update Price",
+        "addRule": "Add Rule",
+        "editRule": "Edit Rule"
+      }
     }
   },
   "quotes": {
@@ -1191,8 +1227,6 @@
     "quoteId": "Quote ID",
     "product": "Product",
     "quantity": "Quantity",
-    "status": "Status",
-    "priority": "Priority",
     "requested": "Requested",
     "expires": "Expires",
     "quotedPrice": "Quoted Price",
@@ -1341,7 +1375,6 @@
       "sendInvitation": "Send Invitation",
       "member": "Member",
       "role": "Role",
-      "status": "Status",
       "lastLogin": "Last Login",
       "actions": "Actions"
     },

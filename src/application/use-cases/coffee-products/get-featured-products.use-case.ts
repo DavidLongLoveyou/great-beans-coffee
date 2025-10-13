@@ -34,7 +34,7 @@ export class GetFeaturedProductsUseCase {
         total: products.length,
       };
     } catch (error) {
-      this.logger.error('Error fetching featured products:', error);
+      // Application layer error logging removed for production
       throw new Error('Failed to fetch featured products');
     }
   }

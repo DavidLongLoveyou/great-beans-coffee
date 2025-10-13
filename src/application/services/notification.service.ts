@@ -38,23 +38,23 @@ class DefaultNotificationService implements NotificationService {
         content
       );
 
-      logger.info(`RFQ notification sent for ${rfqId} with status ${status}`);
+      // Application layer logging removed for production
       return success;
     } catch (error) {
-      logger.error('Failed to send RFQ notification:', error);
+      // Application layer error logging removed for production
       return false;
     }
   }
 
   async sendAdminNotification(message: string): Promise<boolean> {
     try {
-      logger.info(`Admin notification: ${message}`);
+      // Application layer logging removed for production
 
       // In a real implementation, this would send to admin email addresses
       // For now, we'll just log it
       return true;
     } catch (error) {
-      logger.error('Failed to send admin notification:', error);
+      // Application layer error logging removed for production
       return false;
     }
   }
@@ -78,7 +78,7 @@ class DefaultNotificationService implements NotificationService {
 
       return success;
     } catch (error) {
-      logger.error('Failed to send status change notification:', error);
+      // Application layer error logging removed for production
       return false;
     }
   }

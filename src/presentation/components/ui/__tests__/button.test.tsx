@@ -91,13 +91,13 @@ describe('Button Component', () => {
   it('renders as child component when asChild is true', () => {
     render(
       <Button asChild>
-        <a href="/test">Link Button</a>
+        <a href="https://example.com">Link Button</a>
       </Button>
     );
 
     const link = screen.getByRole('link', { name: /link button/i });
     expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', '/test');
+    expect(link).toHaveAttribute('href', 'https://example.com');
     expect(link).toHaveClass('inline-flex', 'items-center', 'justify-center');
   });
 

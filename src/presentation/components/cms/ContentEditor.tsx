@@ -104,7 +104,7 @@ const defaultMetadata: ContentMetadata = {
   locale: 'en',
   category: '',
   featured: false,
-  publishedAt: new Date().toISOString().split('T')[0],
+  publishedAt: new Date().toISOString().split('T')[0] as string,
   author: 'Admin',
   coverImage: '',
   slug: '',
@@ -142,7 +142,7 @@ export function ContentEditor({
   const [showSettings, setShowSettings] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [history, setHistory] = useState<string[]>([initialContent]);
   const [historyIndex, setHistoryIndex] = useState(0);
@@ -162,83 +162,104 @@ export function ContentEditor({
 
   // Track unsaved changes
   useEffect(() => {
-    setHasUnsavedChanges(content !== initialContent || JSON.stringify(metadata) !== JSON.stringify({ ...defaultMetadata, ...initialMetadata }));
+    setHasUnsavedChanges(
+      content !== initialContent ||
+        JSON.stringify(metadata) !==
+          JSON.stringify({ ...defaultMetadata, ...initialMetadata })
+    );
   }, [content, metadata, initialContent, initialMetadata]);
 
-  const insertText = useCallback((before: string, after: string = '') => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
+  const insertText = useCallback(
+    (before: string, after: string = '') => {
+      const textarea = textareaRef.current;
+      if (!textarea) return;
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = content.substring(start, end);
-    const newText = content.substring(0, start) + before + selectedText + after + content.substring(end);
-    
-    setContent(newText);
-    
-    // Update history
-    const newHistory = history.slice(0, historyIndex + 1);
-    newHistory.push(newText);
-    setHistory(newHistory);
-    setHistoryIndex(newHistory.length - 1);
-    
-    // Focus and set cursor position
-    setTimeout(() => {
-      textarea.focus();
-      const newCursorPos = start + before.length + selectedText.length;
-      textarea.setSelectionRange(newCursorPos, newCursorPos);
-    }, 0);
-  }, [content, history, historyIndex]);
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = content.substring(start, end);
+      const newText =
+        content.substring(0, start) +
+        before +
+        selectedText +
+        after +
+        content.substring(end);
 
-  const handleToolbarAction = useCallback((action: string) => {
-    switch (action) {
-      case 'bold':
-        insertText('**', '**');
-        break;
-      case 'italic':
-        insertText('*', '*');
-        break;
-      case 'h1':
-        insertText('# ');
-        break;
-      case 'h2':
-        insertText('## ');
-        break;
-      case 'h3':
-        insertText('### ');
-        break;
-      case 'ul':
-        insertText('- ');
-        break;
-      case 'ol':
-        insertText('1. ');
-        break;
-      case 'quote':
-        insertText('> ');
-        break;
-      case 'code':
-        insertText('```\n', '\n```');
-        break;
-      case 'link':
-        insertText('[', '](url)');
-        break;
-      case 'image':
-        insertText('![alt text](', ')');
-        break;
-    }
-  }, [insertText]);
+      setContent(newText);
+
+      // Update history
+      const newHistory = history.slice(0, historyIndex + 1);
+      newHistory.push(newText);
+      setHistory(newHistory);
+      setHistoryIndex(newHistory.length - 1);
+
+      // Focus and set cursor position
+      setTimeout(() => {
+        textarea.focus();
+        const newCursorPos = start + before.length + selectedText.length;
+        textarea.setSelectionRange(newCursorPos, newCursorPos);
+      }, 0);
+    },
+    [content, history, historyIndex]
+  );
+
+  const handleToolbarAction = useCallback(
+    (action: string) => {
+      switch (action) {
+        case 'bold':
+          insertText('**', '**');
+          break;
+        case 'italic':
+          insertText('*', '*');
+          break;
+        case 'h1':
+          insertText('# ');
+          break;
+        case 'h2':
+          insertText('## ');
+          break;
+        case 'h3':
+          insertText('### ');
+          break;
+        case 'ul':
+          insertText('- ');
+          break;
+        case 'ol':
+          insertText('1. ');
+          break;
+        case 'quote':
+          insertText('> ');
+          break;
+        case 'code':
+          insertText('```\n', '\n```');
+          break;
+        case 'link':
+          insertText('[', '](url)');
+          break;
+        case 'image':
+          insertText('![alt text](', ')');
+          break;
+      }
+    },
+    [insertText]
+  );
 
   const handleUndo = useCallback(() => {
     if (historyIndex > 0) {
       setHistoryIndex(historyIndex - 1);
-      setContent(history[historyIndex - 1]);
+      const previousContent = history[historyIndex - 1];
+      if (previousContent !== undefined) {
+        setContent(previousContent);
+      }
     }
   }, [history, historyIndex]);
 
   const handleRedo = useCallback(() => {
     if (historyIndex < history.length - 1) {
       setHistoryIndex(historyIndex + 1);
-      setContent(history[historyIndex + 1]);
+      const nextContent = history[historyIndex + 1];
+      if (nextContent !== undefined) {
+        setContent(nextContent);
+      }
     }
   }, [history, historyIndex]);
 
@@ -248,7 +269,7 @@ export function ContentEditor({
       await onSave(content, metadata);
       setHasUnsavedChanges(false);
     } catch (error) {
-      console.error('Failed to save content:', error);
+      // Error handling - could be logged to external service in production
     } finally {
       setIsSaving(false);
     }
@@ -261,7 +282,10 @@ export function ContentEditor({
     setShowPreview(!showPreview);
   };
 
-  const updateMetadata = (key: keyof ContentMetadata, value: ContentMetadata[keyof ContentMetadata]) => {
+  const updateMetadata = (
+    key: keyof ContentMetadata,
+    value: ContentMetadata[keyof ContentMetadata]
+  ) => {
     setMetadata(prev => ({ ...prev, [key]: value }));
   };
 
@@ -272,7 +296,10 @@ export function ContentEditor({
   };
 
   const removeKeyword = (keyword: string) => {
-    updateMetadata('keywords', metadata.keywords.filter(k => k !== keyword));
+    updateMetadata(
+      'keywords',
+      metadata.keywords.filter(k => k !== keyword)
+    );
   };
 
   return (
@@ -307,7 +334,7 @@ export function ContentEditor({
               <TooltipContent>Undo</TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -338,14 +365,14 @@ export function ContentEditor({
                   Configure metadata and SEO settings for your content
                 </DialogDescription>
               </DialogHeader>
-              
+
               <Tabs defaultValue="general" className="w-full">
                 <TabsList className="grid w-full grid-cols-3">
                   <TabsTrigger value="general">General</TabsTrigger>
                   <TabsTrigger value="seo">SEO</TabsTrigger>
                   <TabsTrigger value="publishing">Publishing</TabsTrigger>
                 </TabsList>
-                
+
                 <TabsContent value="general" className="space-y-4">
                   <div className="grid gap-4">
                     <div>
@@ -353,7 +380,7 @@ export function ContentEditor({
                       <Input
                         id="title"
                         value={metadata.title}
-                        onChange={(e) => updateMetadata('title', e.target.value)}
+                        onChange={e => updateMetadata('title', e.target.value)}
                         placeholder="Enter content title"
                       />
                     </div>
@@ -362,7 +389,9 @@ export function ContentEditor({
                       <Textarea
                         id="description"
                         value={metadata.description}
-                        onChange={(e) => updateMetadata('description', e.target.value)}
+                        onChange={e =>
+                          updateMetadata('description', e.target.value)
+                        }
                         placeholder="Brief description of the content"
                         rows={3}
                       />
@@ -372,7 +401,9 @@ export function ContentEditor({
                       <Textarea
                         id="excerpt"
                         value={metadata.excerpt}
-                        onChange={(e) => updateMetadata('excerpt', e.target.value)}
+                        onChange={e =>
+                          updateMetadata('excerpt', e.target.value)
+                        }
                         placeholder="Short excerpt for previews"
                         rows={2}
                       />
@@ -382,13 +413,15 @@ export function ContentEditor({
                       <Input
                         id="coverImage"
                         value={metadata.coverImage}
-                        onChange={(e) => updateMetadata('coverImage', e.target.value)}
+                        onChange={e =>
+                          updateMetadata('coverImage', e.target.value)
+                        }
                         placeholder="https://example.com/image.jpg"
                       />
                     </div>
                   </div>
                 </TabsContent>
-                
+
                 <TabsContent value="seo" className="space-y-4">
                   <div className="grid gap-4">
                     <div>
@@ -396,7 +429,9 @@ export function ContentEditor({
                       <Input
                         id="seoTitle"
                         value={metadata.seoTitle}
-                        onChange={(e) => updateMetadata('seoTitle', e.target.value)}
+                        onChange={e =>
+                          updateMetadata('seoTitle', e.target.value)
+                        }
                         placeholder="SEO optimized title"
                       />
                     </div>
@@ -405,7 +440,9 @@ export function ContentEditor({
                       <Textarea
                         id="seoDescription"
                         value={metadata.seoDescription}
-                        onChange={(e) => updateMetadata('seoDescription', e.target.value)}
+                        onChange={e =>
+                          updateMetadata('seoDescription', e.target.value)
+                        }
                         placeholder="SEO meta description"
                         rows={3}
                       />
@@ -415,14 +452,14 @@ export function ContentEditor({
                       <Input
                         id="slug"
                         value={metadata.slug}
-                        onChange={(e) => updateMetadata('slug', e.target.value)}
+                        onChange={e => updateMetadata('slug', e.target.value)}
                         placeholder="url-friendly-slug"
                       />
                     </div>
                     <div>
                       <Label>Keywords</Label>
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        {metadata.keywords.map((keyword) => (
+                      <div className="mb-2 flex flex-wrap gap-2">
+                        {metadata.keywords.map(keyword => (
                           <span
                             key={keyword}
                             className="inline-flex items-center gap-1 rounded-md bg-blue-100 px-2 py-1 text-sm text-blue-800"
@@ -439,7 +476,7 @@ export function ContentEditor({
                       </div>
                       <Input
                         placeholder="Add keyword and press Enter"
-                        onKeyDown={(e) => {
+                        onKeyDown={e => {
                           if (e.key === 'Enter') {
                             e.preventDefault();
                             addKeyword(e.currentTarget.value);
@@ -450,12 +487,15 @@ export function ContentEditor({
                     </div>
                   </div>
                 </TabsContent>
-                
+
                 <TabsContent value="publishing" className="space-y-4">
                   <div className="grid gap-4">
                     <div>
                       <Label htmlFor="locale">Language</Label>
-                      <Select value={metadata.locale} onValueChange={(value) => updateMetadata('locale', value)}>
+                      <Select
+                        value={metadata.locale}
+                        onValueChange={value => updateMetadata('locale', value)}
+                      >
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -472,7 +512,9 @@ export function ContentEditor({
                       <Input
                         id="category"
                         value={metadata.category}
-                        onChange={(e) => updateMetadata('category', e.target.value)}
+                        onChange={e =>
+                          updateMetadata('category', e.target.value)
+                        }
                         placeholder="Content category"
                       />
                     </div>
@@ -481,7 +523,7 @@ export function ContentEditor({
                       <Input
                         id="author"
                         value={metadata.author}
-                        onChange={(e) => updateMetadata('author', e.target.value)}
+                        onChange={e => updateMetadata('author', e.target.value)}
                         placeholder="Content author"
                       />
                     </div>
@@ -491,20 +533,27 @@ export function ContentEditor({
                         id="publishedAt"
                         type="date"
                         value={metadata.publishedAt}
-                        onChange={(e) => updateMetadata('publishedAt', e.target.value)}
+                        onChange={e =>
+                          updateMetadata('publishedAt', e.target.value)
+                        }
                       />
                     </div>
                     <div className="flex items-center space-x-2">
                       <Switch
                         id="featured"
                         checked={metadata.featured}
-                        onCheckedChange={(checked) => updateMetadata('featured', checked)}
+                        onCheckedChange={checked =>
+                          updateMetadata('featured', checked)
+                        }
                       />
                       <Label htmlFor="featured">Featured Content</Label>
                     </div>
                     <div>
                       <Label htmlFor="status">Status</Label>
-                      <Select value={metadata.status} onValueChange={(value) => updateMetadata('status', value)}>
+                      <Select
+                        value={metadata.status}
+                        onValueChange={value => updateMetadata('status', value)}
+                      >
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -518,9 +567,12 @@ export function ContentEditor({
                   </div>
                 </TabsContent>
               </Tabs>
-              
+
               <DialogFooter>
-                <Button variant="outline" onClick={() => setShowSettings(false)}>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowSettings(false)}
+                >
                   Cancel
                 </Button>
                 <Button onClick={() => setShowSettings(false)}>
@@ -531,11 +583,19 @@ export function ContentEditor({
           </Dialog>
 
           <Button variant="outline" size="sm" onClick={handlePreview}>
-            {showPreview ? <EyeOff className="mr-2 h-4 w-4" /> : <Eye className="mr-2 h-4 w-4" />}
+            {showPreview ? (
+              <EyeOff className="mr-2 h-4 w-4" />
+            ) : (
+              <Eye className="mr-2 h-4 w-4" />
+            )}
             {showPreview ? 'Hide Preview' : 'Preview'}
           </Button>
-          
-          <Button size="sm" onClick={handleSave} disabled={isSaving || isLoading}>
+
+          <Button
+            size="sm"
+            onClick={handleSave}
+            disabled={isSaving || isLoading}
+          >
             <Save className="mr-2 h-4 w-4" />
             {isSaving ? 'Saving...' : 'Save'}
           </Button>
@@ -573,7 +633,7 @@ export function ContentEditor({
           <Textarea
             ref={textareaRef}
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={e => setContent(e.target.value)}
             placeholder="Start writing your content in Markdown..."
             className="flex-1 resize-none border-0 focus-visible:ring-0"
             style={{ minHeight: '500px' }}
@@ -589,7 +649,11 @@ export function ContentEditor({
             <div className="h-full overflow-auto p-4">
               <div className="prose prose-sm max-w-none">
                 {/* This would be replaced with actual MDX rendering */}
-                <div dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br>') }} />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: content.replace(/\n/g, '<br>'),
+                  }}
+                />
               </div>
             </div>
           </div>

@@ -169,9 +169,7 @@ export function AnalyticsProvider({
     setIsLoaded(true);
     initializedRef.current = true;
 
-    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
-      logger.info('[Analytics] Google Analytics initialized');
-    }
+    // Analytics logging removed for production
   };
 
   // Track page view
@@ -183,9 +181,7 @@ export function AnalyticsProvider({
       page_location: url,
     });
 
-    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
-      logger.info('[Analytics] Page view tracked:', { url, title });
-    }
+    // Analytics logging removed for production
   };
 
   // Track custom event
@@ -210,9 +206,7 @@ export function AnalyticsProvider({
 
     window.gtag('event', eventName, eventParams);
 
-    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
-      logger.info('[Analytics] Event tracked:', { eventName, eventData });
-    }
+    // Analytics logging removed for production
   };
 
   // Track e-commerce event
@@ -221,12 +215,7 @@ export function AnalyticsProvider({
 
     window.gtag('event', eventName, eventData as any);
 
-    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
-      logger.info('[Analytics] E-commerce event tracked:', {
-        eventName,
-        eventData,
-      });
-    }
+    // Analytics logging removed for production
   };
 
   // Set user properties
@@ -237,9 +226,7 @@ export function AnalyticsProvider({
       user_properties: properties,
     } as any);
 
-    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
-      logger.info('[Analytics] User properties set:', properties);
-    }
+    // Analytics logging removed for production
   };
 
   // Set consent
@@ -257,9 +244,7 @@ export function AnalyticsProvider({
       });
     }
 
-    if (config.enableConsoleLogging && process.env.NODE_ENV === 'development') {
-      logger.info('[Analytics] Consent updated:', consent);
-    }
+    // Analytics logging removed for production
   };
 
   // Enable analytics

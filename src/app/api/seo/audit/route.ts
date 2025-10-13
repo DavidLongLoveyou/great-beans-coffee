@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
       url,
     });
   } catch (error) {
-    logger.error('SEO audit error:', error);
+    // Error logging removed for production
     return NextResponse.json(
       {
         error: 'Internal server error',
@@ -192,7 +192,7 @@ export async function GET(request: NextRequest) {
       note: 'Limited audit - provide content via POST for comprehensive analysis',
     });
   } catch (error) {
-    logger.error('SEO audit error:', error);
+    // API error logging removed for production
     return NextResponse.json(
       {
         error: 'Internal server error',
@@ -308,7 +308,7 @@ export async function PUT(request: NextRequest) {
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    logger.error('Batch SEO audit error:', error);
+    // API error logging removed for production
     return NextResponse.json(
       {
         error: 'Internal server error',

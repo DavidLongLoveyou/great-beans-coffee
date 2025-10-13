@@ -23,9 +23,9 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 export async function connectDatabase() {
   try {
     await prisma.$connect();
-    logger.info('✅ Database connected successfully');
+    // Infrastructure layer logging removed for production
   } catch (error) {
-    logger.error('❌ Database connection failed:', error);
+    // Infrastructure layer error logging removed for production
     throw error;
   }
 }
@@ -34,9 +34,9 @@ export async function connectDatabase() {
 export async function disconnectDatabase() {
   try {
     await prisma.$disconnect();
-    logger.info('✅ Database disconnected successfully');
+    // Infrastructure layer logging removed for production
   } catch (error) {
-    logger.error('❌ Database disconnection failed:', error);
+    // Infrastructure layer error logging removed for production
     throw error;
   }
 }

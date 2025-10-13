@@ -1,11 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
+
 import matter from 'gray-matter';
+
+import { NextRequest, NextResponse } from 'next/server';
 
 function getContentDirectory(type: string, locale: string): string {
   const baseDir = path.join(process.cwd(), 'content');
-  
+
   switch (type) {
     case 'blog':
       return path.join(baseDir, 'blog', locale);
@@ -22,15 +24,22 @@ function getContentDirectory(type: string, locale: string): string {
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const [type, locale, slug] = id.split('-', 3);
-    
+
+    if (!type || !locale || !slug) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid content ID format' },
+        { status: 400 }
+      );
+    }
+
     const contentDir = getContentDirectory(type, locale);
     const filePath = path.join(contentDir, `${slug}.mdx`);
-    
+
     // Check if file exists
     try {
       await fs.access(filePath);
@@ -40,11 +49,11 @@ export async function POST(
         { status: 404 }
       );
     }
-    
+
     // Read existing content
     const existingContent = await fs.readFile(filePath, 'utf-8');
     const { data: metadata, content } = matter(existingContent);
-    
+
     // Update metadata to archived status
     const updatedMetadata = {
       ...metadata,
@@ -52,11 +61,11 @@ export async function POST(
       archivedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     // Write updated content
     const updatedFileContent = matter.stringify(content, updatedMetadata);
     await fs.writeFile(filePath, updatedFileContent, 'utf-8');
-    
+
     return NextResponse.json({
       success: true,
       data: {
@@ -70,7 +79,7 @@ export async function POST(
       },
     });
   } catch (error) {
-    console.error('Error archiving content:', error);
+    // Error logging removed for production
     return NextResponse.json(
       { success: false, error: 'Failed to archive content' },
       { status: 500 }
@@ -80,15 +89,22 @@ export async function POST(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const [type, locale, slug] = id.split('-', 3);
-    
+
+    if (!type || !locale || !slug) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid content ID format' },
+        { status: 400 }
+      );
+    }
+
     const contentDir = getContentDirectory(type, locale);
     const filePath = path.join(contentDir, `${slug}.mdx`);
-    
+
     // Check if file exists
     try {
       await fs.access(filePath);
@@ -98,11 +114,11 @@ export async function DELETE(
         { status: 404 }
       );
     }
-    
+
     // Read existing content
     const existingContent = await fs.readFile(filePath, 'utf-8');
     const { data: metadata, content } = matter(existingContent);
-    
+
     // Update metadata to restore from archive
     const updatedMetadata = {
       ...metadata,
@@ -111,11 +127,11 @@ export async function DELETE(
       restoredAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     // Write updated content
     const updatedFileContent = matter.stringify(content, updatedMetadata);
     await fs.writeFile(filePath, updatedFileContent, 'utf-8');
-    
+
     return NextResponse.json({
       success: true,
       data: {
@@ -129,7 +145,7 @@ export async function DELETE(
       },
     });
   } catch (error) {
-    console.error('Error restoring content from archive:', error);
+    // Error logging removed for production
     return NextResponse.json(
       { success: false, error: 'Failed to restore content from archive' },
       { status: 500 }

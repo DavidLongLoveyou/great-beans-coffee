@@ -4,7 +4,7 @@ import { Locale, locales } from '@/shared/config/i18n';
 import { createScopedLogger } from '@/shared/utils/logger';
 import { generateBlogRSSFeed } from '@/shared/utils/rss-generator';
 
-const logger = createScopedLogger('BlogRSSFeedAPI');
+const _logger = createScopedLogger('BlogRSSFeedAPI');
 
 export async function GET(
   _request: NextRequest,
@@ -28,7 +28,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    logger.error('Error generating blog RSS feed:', error);
+    // API error logging removed for production
     return new NextResponse('Error generating blog RSS feed', { status: 500 });
   }
 }

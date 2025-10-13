@@ -21,17 +21,9 @@ import { ContentSection } from '@/presentation/components/layout/ContentSection'
 import { RFQDetailModal } from '@/presentation/components/rfq/RFQDetailModal';
 import { RFQListFilters } from '@/presentation/components/rfq/RFQListFilters';
 import { RFQListTable } from '@/presentation/components/rfq/RFQListTable';
-import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/presentation/components/ui/card';
+import { Card, CardContent } from '@/presentation/components/ui/card';
 import { useRFQList } from '@/presentation/hooks/useRFQList';
-import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
 import { SectionHeading } from '@/shared/components/typography/SectionHeading';
 import { useMarket } from '@/shared/hooks/useMarket';
 
@@ -152,7 +144,7 @@ const statusConfig = {
   },
 };
 
-const priorityConfig = {
+const _priorityConfig = {
   LOW: { label: 'Low', color: 'bg-gray-100 text-gray-800' },
   MEDIUM: { label: 'Medium', color: 'bg-blue-100 text-blue-800' },
   HIGH: { label: 'High', color: 'bg-orange-100 text-orange-800' },
@@ -197,15 +189,15 @@ export default function RFQTrackingPage() {
     setLoading(false);
   };
 
-  const formatDateLocal = (dateString: string) => {
+  const _formatDateLocal = (dateString: string) => {
     return formatDateTime(new Date(dateString), locale);
   };
 
-  const formatCurrencyLocal = (amount: number, currency: string) => {
+  const _formatCurrencyLocal = (amount: number, _currency: string) => {
     return marketFormatCurrency(amount);
   };
 
-  const getStatusIcon = (status: keyof typeof statusConfig) => {
+  const _getStatusIcon = (status: keyof typeof statusConfig) => {
     const Icon = statusConfig[status].icon;
     return <Icon className="h-4 w-4" />;
   };

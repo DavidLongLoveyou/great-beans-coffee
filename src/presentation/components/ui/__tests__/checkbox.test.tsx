@@ -146,7 +146,7 @@ describe('Checkbox Component', () => {
     );
 
     const label = screen.getByText('Test Label');
-    const checkbox = screen.getByRole('checkbox');
+    const _checkbox = screen.getByRole('checkbox');
 
     // Clicking label should toggle checkbox
     await user.click(label);

@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    logger.error('Error submitting sitemaps:', error);
+    // Error logging removed for production
 
     return NextResponse.json(
       {
@@ -76,7 +76,7 @@ export async function GET(_request: NextRequest) {
       },
     });
   } catch (error) {
-    logger.error('Error checking sitemap health:', error);
+    // API error logging removed for production
 
     return NextResponse.json(
       {

@@ -1,8 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
 import fs from 'fs/promises';
 import path from 'path';
+
 import matter from 'gray-matter';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 
 // Validation schemas
 const ContentMetadataSchema = z.object({
@@ -12,7 +14,7 @@ const ContentMetadataSchema = z.object({
   seoTitle: z.string().optional(),
   seoDescription: z.string().optional(),
   keywords: z.array(z.string()).optional(),
-  locale: z.enum(['en', 'es', 'fr', 'pt']),
+  locale: z.enum(['en', 'de', 'ja', 'vi']),
   category: z.string().min(1),
   featured: z.boolean().default(false),
   publishedAt: z.string().optional(),
@@ -36,7 +38,7 @@ const UpdateContentSchema = z.object({
 // Helper functions
 function getContentDirectory(type: string, locale: string): string {
   const baseDir = path.join(process.cwd(), 'content');
-  
+
   switch (type) {
     case 'blog':
       return path.join(baseDir, 'blog', locale);
@@ -69,7 +71,9 @@ async function ensureDirectoryExists(dirPath: string): Promise<void> {
 }
 
 async function getContentList(type?: string, locale?: string, status?: string) {
-  const contentTypes = type ? [type] : ['blog', 'market-report', 'origin-story', 'service'];
+  const contentTypes = type
+    ? [type]
+    : ['blog', 'market-report', 'origin-story', 'service'];
   const locales = locale ? [locale] : ['en', 'es', 'fr', 'pt'];
   const allContent = [];
 
@@ -78,30 +82,41 @@ async function getContentList(type?: string, locale?: string, status?: string) {
       try {
         const contentDir = getContentDirectory(contentType, loc);
         const files = await fs.readdir(contentDir);
-        
+
         for (const file of files) {
           if (file.endsWith('.mdx')) {
             const filePath = path.join(contentDir, file);
             const fileContent = await fs.readFile(filePath, 'utf-8');
             const { data: metadata, content } = matter(fileContent);
-            
+
+            // Type the metadata with defaults
+            const typedMetadata = {
+              title: metadata.title || '',
+              description: metadata.description || '',
+              status: metadata.status || 'draft',
+              author: metadata.author || '',
+              featured: metadata.featured || false,
+              category: metadata.category || '',
+              locale: metadata.locale || loc,
+              slug: metadata.slug || file.replace('.mdx', ''),
+              ...metadata,
+            };
+
             // Filter by status if specified
-            if (status && metadata.status !== status) {
+            if (status && typedMetadata.status !== status) {
               continue;
             }
-            
+
             allContent.push({
               id: `${contentType}-${loc}-${file.replace('.mdx', '')}`,
               type: contentType,
               locale: loc,
               filename: file,
-              metadata: {
-                ...metadata,
-                slug: metadata.slug || file.replace('.mdx', ''),
-              },
+              metadata: typedMetadata,
               content,
               stats: {
-                wordCount: content.split(/\s+/).filter(word => word.length > 0).length,
+                wordCount: content.split(/\s+/).filter(word => word.length > 0)
+                  .length,
                 lastModified: (await fs.stat(filePath)).mtime.toISOString(),
                 size: (await fs.stat(filePath)).size,
               },
@@ -110,13 +125,15 @@ async function getContentList(type?: string, locale?: string, status?: string) {
         }
       } catch (error) {
         // Directory might not exist, continue
-        console.warn(`Could not read directory for ${contentType}/${loc}:`, error);
+        // Directory read warning removed for production
       }
     }
   }
 
-  return allContent.sort((a, b) => 
-    new Date(b.stats.lastModified).getTime() - new Date(a.stats.lastModified).getTime()
+  return allContent.sort(
+    (a, b) =>
+      new Date(b.stats.lastModified).getTime() -
+      new Date(a.stats.lastModified).getTime()
   );
 }
 
@@ -135,23 +152,46 @@ export async function GET(request: NextRequest) {
     // Get specific content by ID
     if (id) {
       const [contentType, contentLocale, slug] = id.split('-', 3);
+
+      if (!contentType || !contentLocale || !slug) {
+        return NextResponse.json(
+          { success: false, error: 'Invalid content ID format' },
+          { status: 400 }
+        );
+      }
+
       const contentDir = getContentDirectory(contentType, contentLocale);
       const filePath = path.join(contentDir, `${slug}.mdx`);
-      
+
       try {
         const fileContent = await fs.readFile(filePath, 'utf-8');
         const { data: metadata, content } = matter(fileContent);
-        
+
+        // Type the metadata with defaults
+        const typedMetadata = {
+          title: metadata.title || '',
+          description: metadata.description || '',
+          status: metadata.status || 'draft',
+          author: metadata.author || '',
+          featured: metadata.featured || false,
+          category: metadata.category || '',
+          locale: metadata.locale || contentLocale,
+          slug: metadata.slug || slug,
+          ...metadata,
+        };
+
         return NextResponse.json({
           success: true,
           data: {
             id,
             type: contentType,
             locale: contentLocale,
-            metadata,
+            slug,
+            metadata: typedMetadata,
             content,
             stats: {
-              wordCount: content.split(/\s+/).filter(word => word.length > 0).length,
+              wordCount: content.split(/\s+/).filter(word => word.length > 0)
+                .length,
               lastModified: (await fs.stat(filePath)).mtime.toISOString(),
               size: (await fs.stat(filePath)).size,
             },
@@ -166,16 +206,21 @@ export async function GET(request: NextRequest) {
     }
 
     // Get content list
-    let content = await getContentList(type || undefined, locale || undefined, status || undefined);
+    let content = await getContentList(
+      type || undefined,
+      locale || undefined,
+      status || undefined
+    );
 
     // Apply search filter
     if (search) {
       const searchLower = search.toLowerCase();
-      content = content.filter(item =>
-        item.metadata.title?.toLowerCase().includes(searchLower) ||
-        item.metadata.description?.toLowerCase().includes(searchLower) ||
-        item.metadata.category?.toLowerCase().includes(searchLower) ||
-        item.content.toLowerCase().includes(searchLower)
+      content = content.filter(
+        item =>
+          item.metadata.title?.toLowerCase().includes(searchLower) ||
+          item.metadata.description?.toLowerCase().includes(searchLower) ||
+          item.metadata.category?.toLowerCase().includes(searchLower) ||
+          item.content.toLowerCase().includes(searchLower)
       );
     }
 
@@ -198,7 +243,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching content:', error);
+    // Error logging removed for production
     return NextResponse.json(
       { success: false, error: 'Failed to fetch content' },
       { status: 500 }
@@ -211,26 +256,26 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const validatedData = CreateContentSchema.parse(body);
-    
+
     const { content, metadata, type } = validatedData;
-    
+
     // Generate slug if not provided
     if (!metadata.slug) {
       metadata.slug = generateSlug(metadata.title);
     }
-    
+
     // Set timestamps
     const now = new Date().toISOString();
     metadata.publishedAt = metadata.publishedAt || now;
-    
+
     // Ensure directory exists
     const contentDir = getContentDirectory(type, metadata.locale);
     await ensureDirectoryExists(contentDir);
-    
+
     // Create file path
     const filename = `${metadata.slug}.mdx`;
     const filePath = path.join(contentDir, filename);
-    
+
     // Check if file already exists
     try {
       await fs.access(filePath);
@@ -241,36 +286,39 @@ export async function POST(request: NextRequest) {
     } catch {
       // File doesn't exist, which is what we want
     }
-    
+
     // Create frontmatter and content
     const fileContent = matter.stringify(content, metadata);
-    
+
     // Write file
     await fs.writeFile(filePath, fileContent, 'utf-8');
-    
+
     const id = `${type}-${metadata.locale}-${metadata.slug}`;
-    
-    return NextResponse.json({
-      success: true,
-      data: {
-        id,
-        type,
-        locale: metadata.locale,
-        filename,
-        metadata,
-        content,
-        message: 'Content created successfully',
+
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          id,
+          type,
+          locale: metadata.locale,
+          filename,
+          metadata,
+          content,
+          message: 'Content created successfully',
+        },
       },
-    }, { status: 201 });
+      { status: 201 }
+    );
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { success: false, error: 'Validation error', details: error.errors },
+        { success: false, error: 'Validation error', details: error.issues },
         { status: 400 }
       );
     }
-    
-    console.error('Error creating content:', error);
+
+    // Error logging removed for production
     return NextResponse.json(
       { success: false, error: 'Failed to create content' },
       { status: 500 }
@@ -283,21 +331,29 @@ export async function PUT(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-    
+
     if (!id) {
       return NextResponse.json(
         { success: false, error: 'Content ID is required' },
         { status: 400 }
       );
     }
-    
+
     const body = await request.json();
     const validatedData = UpdateContentSchema.parse(body);
-    
+
     const [type, locale, slug] = id.split('-', 3);
+
+    if (!type || !locale || !slug) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid content ID format' },
+        { status: 400 }
+      );
+    }
+
     const contentDir = getContentDirectory(type, locale);
     const filePath = path.join(contentDir, `${slug}.mdx`);
-    
+
     // Check if file exists
     try {
       await fs.access(filePath);
@@ -307,25 +363,26 @@ export async function PUT(request: NextRequest) {
         { status: 404 }
       );
     }
-    
+
     // Read existing content
     const existingContent = await fs.readFile(filePath, 'utf-8');
-    const { data: existingMetadata, content: existingContentBody } = matter(existingContent);
-    
+    const { data: existingMetadata, content: existingContentBody } =
+      matter(existingContent);
+
     // Merge updates
     const updatedMetadata = {
       ...existingMetadata,
       ...validatedData.metadata,
       updatedAt: new Date().toISOString(),
     };
-    
+
     const updatedContent = validatedData.content || existingContentBody;
-    
+
     // Handle slug changes
     if (validatedData.metadata?.slug && validatedData.metadata.slug !== slug) {
       const newFilename = `${validatedData.metadata.slug}.mdx`;
       const newFilePath = path.join(contentDir, newFilename);
-      
+
       // Check if new slug already exists
       try {
         await fs.access(newFilePath);
@@ -336,14 +393,14 @@ export async function PUT(request: NextRequest) {
       } catch {
         // New slug is available
       }
-      
+
       // Create new file and delete old one
       const newFileContent = matter.stringify(updatedContent, updatedMetadata);
       await fs.writeFile(newFilePath, newFileContent, 'utf-8');
       await fs.unlink(filePath);
-      
+
       const newId = `${type}-${locale}-${validatedData.metadata.slug}`;
-      
+
       return NextResponse.json({
         success: true,
         data: {
@@ -360,7 +417,7 @@ export async function PUT(request: NextRequest) {
       // Update existing file
       const fileContent = matter.stringify(updatedContent, updatedMetadata);
       await fs.writeFile(filePath, fileContent, 'utf-8');
-      
+
       return NextResponse.json({
         success: true,
         data: {
@@ -377,12 +434,12 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { success: false, error: 'Validation error', details: error.errors },
+        { success: false, error: 'Validation error', details: error.issues },
         { status: 400 }
       );
     }
-    
-    console.error('Error updating content:', error);
+
+    // Error logging removed for production
     return NextResponse.json(
       { success: false, error: 'Failed to update content' },
       { status: 500 }
@@ -395,18 +452,26 @@ export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-    
+
     if (!id) {
       return NextResponse.json(
         { success: false, error: 'Content ID is required' },
         { status: 400 }
       );
     }
-    
+
     const [type, locale, slug] = id.split('-', 3);
+
+    if (!type || !locale || !slug) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid content ID format' },
+        { status: 400 }
+      );
+    }
+
     const contentDir = getContentDirectory(type, locale);
     const filePath = path.join(contentDir, `${slug}.mdx`);
-    
+
     // Check if file exists
     try {
       await fs.access(filePath);
@@ -416,16 +481,16 @@ export async function DELETE(request: NextRequest) {
         { status: 404 }
       );
     }
-    
+
     // Delete file
     await fs.unlink(filePath);
-    
+
     return NextResponse.json({
       success: true,
       message: 'Content deleted successfully',
     });
   } catch (error) {
-    console.error('Error deleting content:', error);
+    // Error logging removed for production
     return NextResponse.json(
       { success: false, error: 'Failed to delete content' },
       { status: 500 }

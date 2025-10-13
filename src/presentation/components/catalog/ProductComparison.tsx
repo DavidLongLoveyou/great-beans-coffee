@@ -340,7 +340,10 @@ export function ProductComparison({
         <div className="flex flex-wrap gap-1">
           {product.certifications && product.certifications.length > 0 ? (
             product.certifications.map((cert: any, index: number) => (
-              <CertificationBadge key={index} certification={cert} />
+              <CertificationBadge
+                key={`cert-${cert.name || cert}-${index}`}
+                certification={cert}
+              />
             ))
           ) : (
             <span className="text-xs text-muted-foreground">None</span>

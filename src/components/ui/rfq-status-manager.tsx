@@ -178,7 +178,7 @@ export function RFQStatusManager({
       setSelectedTransition(null);
       setNote('');
     } catch (error) {
-      console.error('Failed to update status:', error);
+      // Status update error handling removed for production
     } finally {
       setIsLoading(false);
     }

@@ -57,15 +57,12 @@ export async function GET(
   try {
     const { id } = await params;
 
-    logger.info('Fetching quotes for RFQ', { rfqId: id });
+    // API logging removed for production
 
     // Get quotes from repository
     const quotes = await rfqRepository.getQuotes(id);
 
-    logger.info('RFQ quotes fetched successfully', {
-      rfqId: id,
-      quoteCount: quotes.length,
-    });
+    // API logging removed for production
 
     return NextResponse.json({
       success: true,
@@ -91,18 +88,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    logger.error('Error fetching RFQ quotes:', error);
-
-    if (error instanceof Error && error.message.includes('not found')) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'RFQ not found',
-        },
-        { status: 404 }
-      );
-    }
-
+    // API error logging removed for production
     return NextResponse.json(
       {
         success: false,
@@ -132,11 +118,7 @@ export async function POST(
       validatedData.items.reduce((sum, item) => sum + item.totalPrice, 0) +
       validatedData.shipping.cost;
 
-    logger.info('Creating quote for RFQ', {
-      rfqId: id,
-      totalAmount,
-      currency: validatedData.currency,
-    });
+    // API logging removed for production
 
     // Create quote using repository
     const quote = await rfqRepository.createQuote(id, {
@@ -154,10 +136,7 @@ export async function POST(
       createdBy: validatedData.createdBy,
     });
 
-    logger.info('Quote created successfully', {
-      rfqId: id,
-      quoteId: quote.id,
-    });
+    // API logging removed for production
 
     return NextResponse.json(
       {
@@ -185,7 +164,7 @@ export async function POST(
       { status: 201 }
     );
   } catch (error) {
-    logger.error('Error creating quote for RFQ:', error);
+    // API error logging removed for production
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -230,6 +209,10 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params;
+
+    // API logging removed for production
+
+    // Validate request body
     const body = await request.json();
 
     // Validate request body
@@ -246,12 +229,6 @@ export async function PATCH(
       );
     }
 
-    logger.info('Updating quote status', {
-      rfqId: id,
-      quoteId,
-      newStatus: validatedData.status,
-    });
-
     // Update quote status using repository
     const updatedQuote = await rfqRepository.updateQuoteStatus(
       id,
@@ -260,12 +237,6 @@ export async function PATCH(
       validatedData.notes,
       validatedData.updatedBy
     );
-
-    logger.info('Quote status updated successfully', {
-      rfqId: id,
-      quoteId,
-      status: validatedData.status,
-    });
 
     return NextResponse.json({
       success: true,
@@ -281,7 +252,7 @@ export async function PATCH(
       },
     });
   } catch (error) {
-    logger.error('Error updating quote status:', error);
+    // API error logging removed for production
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -301,7 +272,7 @@ export async function PATCH(
       return NextResponse.json(
         {
           success: false,
-          message: 'RFQ or quote not found',
+          message: 'RFQ not found',
         },
         { status: 404 }
       );

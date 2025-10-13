@@ -17,25 +17,12 @@ import {
   Globe,
   Truck,
   Shield,
-  Factory,
-  Users,
   TrendingUp,
   Calendar,
-  DollarSign,
   AlertCircle,
   BarChart3,
   BookOpen,
   HardDrive,
-  Loader2,
-  Eye,
-  Building,
-  Phone,
-  Mail,
-  ExternalLink,
-  Zap,
-  Droplets,
-  Mountain,
-  Leaf,
 } from 'lucide-react';
 import { type Metadata } from 'next';
 import Link from 'next/link';
@@ -53,7 +40,6 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from '@/presentation/components/ui/card';
 import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
@@ -62,24 +48,20 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
-import { Progress } from '@/presentation/components/ui/progress';
-import { Separator } from '@/presentation/components/ui/separator';
-import { CoffeeButton } from '@/shared/components/design-system/Button';
-import { ProductCard } from '@/shared/components/design-system/Card';
 import {
-  CertificationBadge,
   CoffeeGradeIndicator,
   OriginFlag,
   ProcessingMethodBadge,
-  TastingNotes,
   EnhancedRelatedProducts,
 } from '@/shared/components/design-system/Coffee';
 import { EnhancedCertificationBadge } from '@/shared/components/design-system/Coffee/EnhancedCertificationBadge';
-import { ProductImageGallery, type ProductImage } from '@/components/features/products/ProductImageGallery';
+import {
+  ProductImageGallery,
+  type ProductImage,
+} from '@/components/features/products/ProductImageGallery';
 import {
   ContentSection,
   ContentContainer,
-  ProductGrid,
 } from '@/shared/components/design-system/Layout';
 import {
   CoffeeHeading,
@@ -207,7 +189,10 @@ interface ProductDetailPageProps {
 }
 
 // Fetch product details from API
-async function fetchProductDetails(id: string, locale: string = 'en'): Promise<ApiProductDetail | null> {
+async function fetchProductDetails(
+  id: string,
+  locale: string = 'en'
+): Promise<ApiProductDetail | null> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
     const response = await fetch(
@@ -227,13 +212,16 @@ async function fetchProductDetails(id: string, locale: string = 'en'): Promise<A
     const data = await response.json();
     return data.success ? data.data : null;
   } catch (error) {
-    console.error('Error fetching product details:', error);
     return null;
   }
 }
 
 // Fetch related products
-async function fetchRelatedProducts(productId: string, coffeeType: string, locale: string = 'en'): Promise<ApiProductDetail[]> {
+async function fetchRelatedProducts(
+  productId: string,
+  coffeeType: string,
+  locale: string = 'en'
+): Promise<ApiProductDetail[]> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
     const response = await fetch(
@@ -244,7 +232,9 @@ async function fetchRelatedProducts(productId: string, coffeeType: string, local
     );
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch related products: ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch related products: ${response.statusText}`
+      );
     }
 
     const data = await response.json();
@@ -254,16 +244,82 @@ async function fetchRelatedProducts(productId: string, coffeeType: string, local
     }
     return [];
   } catch (error) {
-    console.error('Error fetching related products:', error);
     return [];
   }
+}
+
+// Helper functions to safely access product data
+function getProductPricing(product: ApiProductDetail) {
+  const pricing = product.pricingModels?.[0]?.pricingModel;
+  return {
+    basePrice: pricing?.basePrice || 0,
+    currency: pricing?.currency || 'USD',
+    unit: 'MT',
+    incoterms: pricing?.incoterms || 'FOB',
+    minimumOrder: product.minimumOrder || 1,
+    priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+    paymentTerms: '30 days net',
+    discountTiers: [],
+  };
+}
+
+function getProductOrigin(product: ApiProductDetail) {
+  return {
+    region: product.region || 'Unknown Region',
+    country: (product as any).country || 'Unknown Country',
+    province: (product as any).province || 'Unknown Province',
+    altitude: product.altitude || 0,
+    farmSize: 'Unknown',
+    coordinates: {
+      latitude: 0,
+      longitude: 0,
+    },
+    soilType: 'Unknown',
+    climate: 'Unknown',
+    harvestSeason: product.harvestSeason || 'Unknown Season',
+    farmingMethod: (product as any).farmingMethod || 'Unknown Method',
+  };
+}
+
+function getProductAvailability(product: ApiProductDetail) {
+  const inventory = product.inventory?.[0];
+  return {
+    inStock: product.inStock,
+    stockQuantity: inventory?.quantity || 0,
+    harvestSeason: product.harvestSeason || 'Unknown',
+    availableFrom: new Date(),
+    availableUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year from now
+    leadTime: 30, // Default lead time
+    productionCapacity: 1000, // Default capacity
+    reservedQuantity: 0,
+    availableQuantity: inventory?.quantity || 0,
+    reorderLevel: 100,
+    nextHarvestDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000), // 6 months from now
+    qualityGradeDistribution: [],
+    warehouseLocations: [],
+    processingStatus: {
+      raw: 0,
+      processing: 0,
+      ready: inventory?.quantity || 0,
+      lastUpdated: new Date(),
+    },
+    forecastData: {
+      expectedDemand: 500,
+      plannedProduction: 1000,
+      riskFactors: [],
+    },
+  };
+}
+
+function getProcessingMethod(product: ApiProductDetail) {
+  return product.processing;
 }
 
 export async function generateMetadata({
   params,
 }: ProductDetailPageProps): Promise<Metadata> {
   const { locale, id } = await params;
-  const t = await getTranslations({ locale, namespace: 'products' });
+  const _t = await getTranslations({ locale, namespace: 'products' });
 
   // Get product data from API
   const product = await fetchProductDetails(id, locale);
@@ -282,14 +338,15 @@ export async function generateMetadata({
   const translation = product.translations?.find(t => t.locale === locale);
   const productName = translation?.name || product.name;
   const productDescription = translation?.description || product.description;
-  const originInfo = `${product.region}, ${product.origin}`;
+  const origin = getProductOrigin(product);
+  const originInfo = `${origin.region}, ${origin.country}`;
 
   // Enhanced SEO keywords based on product attributes
   const keywords = [
     productName,
     product.coffeeType.toLowerCase(),
     product.grade.toLowerCase().replace('_', ' '),
-    product.processing.toLowerCase(),
+    getProcessingMethod(product).toLowerCase(),
     'vietnamese coffee',
     'coffee beans',
     'wholesale coffee',
@@ -307,12 +364,12 @@ export async function generateMetadata({
     url: `/products/${id}`,
     type: 'product',
     keywords,
-    image: product.images[0] || '/images/logo.svg',
+    image: product.images?.[0]?.url || '/images/logo.svg',
   });
 }
 
 // Helper function to map certification types to design system
-const mapCertificationToDesignSystem = (cert: CertificationType) => {
+const _mapCertificationToDesignSystem = (cert: CertificationType) => {
   const certMap = {
     [CertificationType.ORGANIC]: { variant: 'organic' as const, icon: '🌱' },
     [CertificationType.FAIR_TRADE]: {
@@ -384,7 +441,7 @@ const getSpecificationValue = (
   name: string
 ): string => {
   const item = specificationItems.find(
-    (spec) => spec.name.toLowerCase() === name.toLowerCase()
+    spec => spec.name.toLowerCase() === name.toLowerCase()
   );
   return item?.value || 'N/A';
 };
@@ -402,7 +459,7 @@ const getSpecificationValueWithUnit = (
   name: string
 ): string => {
   const item = specificationItems.find(
-    (spec) => spec.name.toLowerCase() === name.toLowerCase()
+    spec => spec.name.toLowerCase() === name.toLowerCase()
   );
   if (!item) return 'N/A';
   return item.unit ? `${item.value}${item.unit}` : item.value;
@@ -412,7 +469,7 @@ export default async function ProductDetailPage({
   params,
 }: ProductDetailPageProps) {
   const { locale, id } = await params;
-  const t = await getTranslations('products');
+  const _t = await getTranslations('products');
 
   // Get product data from API
   const product = await fetchProductDetails(id, locale);
@@ -422,38 +479,44 @@ export default async function ProductDetailPage({
   }
 
   // Get related products for recommendations
-  const relatedProducts = await fetchRelatedProducts(product.id, product.coffeeType, locale);
+  const relatedProducts = await fetchRelatedProducts(
+    product.id,
+    product.coffeeType,
+    locale
+  );
 
   // Generate structured data
   const organizationSchema = generateOrganizationSchema();
-  
+
   // Get localized content
   const translation = product.translations?.find(t => t.locale === locale);
   const productName = translation?.name || product.name;
   const productDescription = translation?.description || product.description;
-  
+  const origin = getProductOrigin(product);
+  const pricing = getProductPricing(product);
+
   const productSchema = generateB2BProductSchema(
     {
       id: product.id,
       name: productName,
       description: productDescription,
-      images: product.images,
+      images: product.images?.map(img => img.url) || [],
       category: product.coffeeType,
       sku: product.sku,
-      origin: `${product.region}, ${product.origin}`,
+      origin: `${origin.region}, ${origin.country}`,
       certifications: product.certifications.map(cert => ({
         name: cert.certification.name,
         identifier: `${cert.certification.id}-${product.id}`,
         issuer: 'The Great Beans',
       })),
-      minOrderQuantity: product.minimumOrder * 1000, // Convert MT to kg
+      minOrderQuantity: pricing.minimumOrder * 1000, // Convert MT to kg
       unitOfMeasure: 'kg',
       leadTime: {
         min: 14,
         max: 21,
       },
       targetMarkets: ['Global'],
-      incoterms: product.pricingModels[0]?.pricingModel?.incoterms ? [product.pricingModels[0].pricingModel.incoterms] : ['FOB'],
+      incoterms: [pricing.incoterms],
     },
     locale
   );
@@ -507,9 +570,7 @@ export default async function ProductDetailPage({
                 Products
               </Link>
               <span className="text-coffee-400">/</span>
-              <span className="font-medium text-coffee-900">
-                {productName}
-              </span>
+              <span className="font-medium text-coffee-900">{productName}</span>
             </div>
           </ContentContainer>
         </div>
@@ -528,15 +589,19 @@ export default async function ProductDetailPage({
               {/* Left Column - Product Images */}
               <div className="lg:col-span-1">
                 <ProductImageGallery
-                  images={product.images.map((image, index): ProductImage => ({
-                    id: image.id || `${product.id}-${index}`,
-                    url: image.url,
-                    cloudinaryId: image.cloudinaryId,
-                    alt: image.alt || `${productName} - Image ${index + 1}`,
-                    caption: image.caption,
-                    isPrimary: image.isPrimary ?? (index === 0),
-                    category: (image.category as ProductImage['category']) || 'product',
-                  }))}
+                  images={product.images.map(
+                    (image, index): ProductImage => ({
+                      id: image.id || `${product.id}-${index}`,
+                      url: image.url,
+                      cloudinaryId: image.cloudinaryId || '',
+                      alt: image.alt || `${productName} - Image ${index + 1}`,
+                      caption: image.caption || '',
+                      isPrimary: image.isPrimary ?? index === 0,
+                      category:
+                        (image.category as ProductImage['category']) ||
+                        'product',
+                    })
+                  )}
                   productName={productName}
                   showThumbnails={true}
                   showControls={true}
@@ -603,13 +668,13 @@ export default async function ProductDetailPage({
                         )}
                         <Badge
                           variant={
-                            product.availability.inStock
+                            getProductAvailability(product).inStock
                               ? 'default'
                               : 'destructive'
                           }
                           className="block"
                         >
-                          {product.availability.inStock
+                          {getProductAvailability(product).inStock
                             ? 'In Stock'
                             : 'Out of Stock'}
                         </Badge>
@@ -630,7 +695,9 @@ export default async function ProductDetailPage({
                       </div>
                       <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
                         <ProcessingMethodBadge
-                          method={product.processingMethod.toLowerCase() as any}
+                          method={
+                            getProcessingMethod(product).toLowerCase() as any
+                          }
                         />
                         <p className="mt-1 text-xs text-coffee-600">
                           Processing
@@ -638,21 +705,55 @@ export default async function ProductDetailPage({
                       </div>
                       <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
                         <OriginFlag
-                          origin={product.origin.country.toLowerCase() as any}
+                          origin={
+                            getProductOrigin(
+                              product
+                            ).country.toLowerCase() as any
+                          }
                         />
                         <p className="mt-1 text-xs text-coffee-600">Origin</p>
                       </div>
                       <div className="rounded-lg border border-coffee-100 bg-coffee-50 p-4 text-center">
                         <MapPin className="mx-auto mb-2 h-6 w-6 text-coffee-600" />
                         <p className="text-sm font-medium text-coffee-800">
-                          {product.origin.altitude}m
+                          {getProductOrigin(product).altitude}m
                         </p>
                         <p className="text-xs text-coffee-600">Altitude</p>
                       </div>
                     </div>
 
                     {/* Interactive Bulk Pricing Calculator */}
-                    <BulkPricingCalculator product={product} />
+                    <BulkPricingCalculator
+                      product={{
+                        id: product.id,
+                        sku: product.id,
+                        name: { en: product.name },
+                        description: { en: product.description },
+                        shortDescription: { en: product.description },
+                        type: 'robusta' as any,
+                        grade: 'grade1' as any,
+                        processingMethod: 'natural' as any,
+                        specifications: {} as any,
+                        pricing: getProductPricing(product),
+                        availability: getProductAvailability(product),
+                        certifications: [],
+                        origin: getProductOrigin(product),
+                        images:
+                          product.images?.map((img: any) => ({
+                            ...img,
+                            isPrimary: img.isPrimary || false,
+                          })) || [],
+                        documents: [],
+                        packagingOptions: [],
+                        isActive: true,
+                        isFeatured: product.isFeatured || false,
+                        sortOrder: 0,
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                        createdBy: 'system',
+                        updatedBy: 'system',
+                      }}
+                    />
                   </CardContent>
                 </Card>
 
@@ -715,7 +816,7 @@ export default async function ProductDetailPage({
                               Product Description
                             </SectionHeading>
                             <div className="mb-6 whitespace-pre-line leading-relaxed text-coffee-700">
-                              {product.longDescription}
+                              {product.description}
                             </div>
 
                             <SectionHeading
@@ -725,21 +826,23 @@ export default async function ProductDetailPage({
                               Certifications & Quality Assurance
                             </SectionHeading>
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                              {product.certifications.map((cert, index) => {
-                                // Convert enum to proper CoffeeCertification format
-                                const certKey = mapCertificationToEnhanced(
-                                  cert
-                                ) as any;
-                                return (
-                                  <EnhancedCertificationBadge
-                                    key={index}
-                                    certification={certKey}
-                                    size="lg"
-                                    showDetails={true}
-                                    className="w-full"
-                                  />
-                                );
-                              })}
+                              {product.certifications.map(
+                                (cert: any, index: number) => {
+                                  // Convert enum to proper CoffeeCertification format
+                                  const certKey = mapCertificationToEnhanced(
+                                    cert
+                                  ) as any;
+                                  return (
+                                    <EnhancedCertificationBadge
+                                      key={`cert-${cert}-${index}`}
+                                      certification={certKey}
+                                      size="lg"
+                                      showDetails={true}
+                                      className="w-full"
+                                    />
+                                  );
+                                }
+                              )}
                             </div>
                           </CardContent>
                         </Card>
@@ -768,7 +871,10 @@ export default async function ProductDetailPage({
                                       Moisture Content:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {getSpecificationValueWithUnit(product.specificationItems, 'moisture')}
+                                      {getSpecificationValueWithUnit(
+                                        product.specificationItems,
+                                        'moisture'
+                                      )}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -776,7 +882,10 @@ export default async function ProductDetailPage({
                                       Screen Size:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {getSpecificationValue(product.specificationItems, 'screenSize')}
+                                      {getSpecificationValue(
+                                        product.specificationItems,
+                                        'screenSize'
+                                      )}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -784,7 +893,10 @@ export default async function ProductDetailPage({
                                       Defect Rate:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {getSpecificationValueWithUnit(product.specificationItems, 'defectRate')}
+                                      {getSpecificationValueWithUnit(
+                                        product.specificationItems,
+                                        'defectRate'
+                                      )}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -792,7 +904,10 @@ export default async function ProductDetailPage({
                                       Bulk Density:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {getSpecificationValueWithUnit(product.specificationItems, 'density')}
+                                      {getSpecificationValueWithUnit(
+                                        product.specificationItems,
+                                        'density'
+                                      )}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -800,7 +915,10 @@ export default async function ProductDetailPage({
                                       Bean Size:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {getSpecificationValueWithUnit(product.specificationItems, 'screenSize')}
+                                      {getSpecificationValueWithUnit(
+                                        product.specificationItems,
+                                        'screenSize'
+                                      )}
                                     </span>
                                   </div>
                                 </div>
@@ -819,7 +937,11 @@ export default async function ProductDetailPage({
                                       Cupping Score:
                                     </span>
                                     <span className="font-semibold text-emerald-800">
-                                      {getSpecificationValue(product.specificationItems, 'cuppingScore')}/100
+                                      {getSpecificationValue(
+                                        product.specificationItems,
+                                        'cuppingScore'
+                                      )}
+                                      /100
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -827,7 +949,10 @@ export default async function ProductDetailPage({
                                       Acidity Level:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {getSpecificationValue(product.specificationItems, 'acidity')}
+                                      {getSpecificationValue(
+                                        product.specificationItems,
+                                        'acidity'
+                                      )}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -835,7 +960,10 @@ export default async function ProductDetailPage({
                                       Body:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {getSpecificationValue(product.specificationItems, 'body')}
+                                      {getSpecificationValue(
+                                        product.specificationItems,
+                                        'body'
+                                      )}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -843,7 +971,10 @@ export default async function ProductDetailPage({
                                       Aroma:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {getSpecificationValue(product.specificationItems, 'aroma')}
+                                      {getSpecificationValue(
+                                        product.specificationItems,
+                                        'aroma'
+                                      )}
                                     </span>
                                   </div>
                                   <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
@@ -851,7 +982,10 @@ export default async function ProductDetailPage({
                                       Aftertaste:
                                     </span>
                                     <span className="font-semibold text-coffee-800">
-                                      {getSpecificationValue(product.specificationItems, 'aftertaste')}
+                                      {getSpecificationValue(
+                                        product.specificationItems,
+                                        'aftertaste'
+                                      )}
                                     </span>
                                   </div>
                                 </div>
@@ -865,43 +999,67 @@ export default async function ProductDetailPage({
                                   Chemical Analysis
                                 </SectionHeading>
                                 <div className="space-y-3">
-                                  {getSpecificationValue(product.specificationItems, 'caffeine') !== 'N/A' && (
+                                  {getSpecificationValue(
+                                    product.specificationItems,
+                                    'caffeine'
+                                  ) !== 'N/A' && (
                                     <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
                                       <span className="text-sm text-coffee-700">
                                         Caffeine:
                                       </span>
                                       <span className="font-semibold text-coffee-800">
-                                        {getSpecificationValueWithUnit(product.specificationItems, 'caffeine')}
+                                        {getSpecificationValueWithUnit(
+                                          product.specificationItems,
+                                          'caffeine'
+                                        )}
                                       </span>
                                     </div>
                                   )}
-                                  {getSpecificationValue(product.specificationItems, 'ash') !== 'N/A' && (
+                                  {getSpecificationValue(
+                                    product.specificationItems,
+                                    'ash'
+                                  ) !== 'N/A' && (
                                     <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
                                       <span className="text-sm text-coffee-700">
                                         Ash Content:
                                       </span>
                                       <span className="font-semibold text-coffee-800">
-                                        {getSpecificationValueWithUnit(product.specificationItems, 'ash')}
+                                        {getSpecificationValueWithUnit(
+                                          product.specificationItems,
+                                          'ash'
+                                        )}
                                       </span>
                                     </div>
                                   )}
-                                  {getSpecificationValue(product.specificationItems, 'lipids') !== 'N/A' && (
+                                  {getSpecificationValue(
+                                    product.specificationItems,
+                                    'lipids'
+                                  ) !== 'N/A' && (
                                     <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
                                       <span className="text-sm text-coffee-700">
                                         Lipids:
                                       </span>
                                       <span className="font-semibold text-coffee-800">
-                                        {getSpecificationValueWithUnit(product.specificationItems, 'lipids')}
+                                        {getSpecificationValueWithUnit(
+                                          product.specificationItems,
+                                          'lipids'
+                                        )}
                                       </span>
                                     </div>
                                   )}
-                                  {getSpecificationValue(product.specificationItems, 'proteins') !== 'N/A' && (
+                                  {getSpecificationValue(
+                                    product.specificationItems,
+                                    'proteins'
+                                  ) !== 'N/A' && (
                                     <div className="flex items-center justify-between rounded-lg bg-coffee-50 p-3">
                                       <span className="text-sm text-coffee-700">
                                         Proteins:
                                       </span>
                                       <span className="font-semibold text-coffee-800">
-                                        {getSpecificationValueWithUnit(product.specificationItems, 'proteins')}
+                                        {getSpecificationValueWithUnit(
+                                          product.specificationItems,
+                                          'proteins'
+                                        )}
                                       </span>
                                     </div>
                                   )}
@@ -980,10 +1138,10 @@ export default async function ProductDetailPage({
                               Packaging Options
                             </SectionHeading>
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                              {(product.packagingOptions || []).map(
-                                (option, index) => (
+                              {((product as any).packagingOptions || []).map(
+                                (option: any, index: number) => (
                                   <div
-                                    key={index}
+                                    key={`packaging-${option}-${index}`}
                                     className="rounded-lg border border-coffee-200 bg-gradient-to-br from-coffee-50 to-gold-50 p-4"
                                   >
                                     <div className="mb-3 flex items-center">
@@ -1031,7 +1189,11 @@ export default async function ProductDetailPage({
                                     <CheckCircle className="h-5 w-5 text-green-600" />
                                   </div>
                                   <p className="text-2xl font-bold text-green-800">
-                                    {product.availability.stockQuantity} MT
+                                    {
+                                      getProductAvailability(product)
+                                        .stockQuantity
+                                    }{' '}
+                                    MT
                                   </p>
                                 </div>
                                 <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
@@ -1042,12 +1204,15 @@ export default async function ProductDetailPage({
                                     <TrendingUp className="h-5 w-5 text-blue-600" />
                                   </div>
                                   <p className="text-2xl font-bold text-blue-800">
-                                    {product.availability.availableQuantity ||
-                                      product.availability.stockQuantity}{' '}
+                                    {getProductAvailability(product)
+                                      .availableQuantity ||
+                                      getProductAvailability(product)
+                                        .stockQuantity}{' '}
                                     MT
                                   </p>
                                 </div>
-                                {product.availability.reservedQuantity && (
+                                {getProductAvailability(product)
+                                  .reservedQuantity && (
                                   <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
                                     <div className="flex items-center justify-between">
                                       <span className="text-sm font-medium text-amber-700">
@@ -1056,7 +1221,11 @@ export default async function ProductDetailPage({
                                       <AlertCircle className="h-5 w-5 text-amber-600" />
                                     </div>
                                     <p className="text-2xl font-bold text-amber-800">
-                                      {product.availability.reservedQuantity} MT
+                                      {
+                                        getProductAvailability(product)
+                                          .reservedQuantity
+                                      }{' '}
+                                      MT
                                     </p>
                                   </div>
                                 )}
@@ -1068,13 +1237,15 @@ export default async function ProductDetailPage({
                                     <Calendar className="h-5 w-5 text-purple-600" />
                                   </div>
                                   <p className="text-2xl font-bold text-purple-800">
-                                    {product.availability.leadTime} days
+                                    {getProductAvailability(product).leadTime}{' '}
+                                    days
                                   </p>
                                 </div>
                               </div>
 
                               {/* Processing Status */}
-                              {product.availability.processingStatus && (
+                              {getProductAvailability(product)
+                                .processingStatus && (
                                 <div className="mb-6">
                                   <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                     Processing Pipeline
@@ -1086,8 +1257,8 @@ export default async function ProductDetailPage({
                                       </span>
                                       <span className="font-medium text-gray-800">
                                         {
-                                          product.availability.processingStatus
-                                            .raw
+                                          getProductAvailability(product)
+                                            .processingStatus?.raw
                                         }{' '}
                                         MT
                                       </span>
@@ -1098,8 +1269,8 @@ export default async function ProductDetailPage({
                                       </span>
                                       <span className="font-medium text-yellow-800">
                                         {
-                                          product.availability.processingStatus
-                                            .processing
+                                          getProductAvailability(product)
+                                            .processingStatus?.processing
                                         }{' '}
                                         MT
                                       </span>
@@ -1110,8 +1281,8 @@ export default async function ProductDetailPage({
                                       </span>
                                       <span className="font-medium text-green-800">
                                         {
-                                          product.availability.processingStatus
-                                            .ready
+                                          getProductAvailability(product)
+                                            .processingStatus?.ready
                                         }{' '}
                                         MT
                                       </span>
@@ -1119,23 +1290,27 @@ export default async function ProductDetailPage({
                                   </div>
                                   <p className="mt-2 text-xs text-gray-500">
                                     Last updated:{' '}
-                                    {product.availability.processingStatus.lastUpdated.toLocaleDateString()}
+                                    {getProductAvailability(
+                                      product
+                                    ).processingStatus?.lastUpdated?.toLocaleDateString()}
                                   </p>
                                 </div>
                               )}
 
                               {/* Quality Grade Distribution */}
-                              {product.availability
+                              {getProductAvailability(product)
                                 .qualityGradeDistribution && (
                                 <div>
                                   <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                     Quality Grade Distribution
                                   </h4>
                                   <div className="space-y-2">
-                                    {product.availability.qualityGradeDistribution.map(
-                                      (grade, index) => (
+                                    {getProductAvailability(
+                                      product
+                                    ).qualityGradeDistribution?.map(
+                                      (grade: any, index: number) => (
                                         <div
-                                          key={index}
+                                          key={`grade-${grade.grade}-${index}`}
                                           className="flex items-center justify-between rounded bg-coffee-50 p-3"
                                         >
                                           <span className="text-sm text-coffee-700">
@@ -1182,16 +1357,22 @@ export default async function ProductDetailPage({
                                       Current Harvest Season
                                     </span>
                                     <span className="font-medium text-green-800">
-                                      {product.availability.harvestSeason}
+                                      {
+                                        getProductAvailability(product)
+                                          .harvestSeason
+                                      }
                                     </span>
                                   </div>
-                                  {product.availability.nextHarvestDate && (
+                                  {getProductAvailability(product)
+                                    .nextHarvestDate && (
                                     <div className="flex items-center justify-between rounded border border-blue-200 bg-blue-50 p-3">
                                       <span className="text-sm text-blue-700">
                                         Next Harvest
                                       </span>
                                       <span className="font-medium text-blue-800">
-                                        {product.availability.nextHarvestDate.toLocaleDateString()}
+                                        {getProductAvailability(
+                                          product
+                                        ).nextHarvestDate?.toLocaleDateString()}
                                       </span>
                                     </div>
                                   )}
@@ -1200,7 +1381,10 @@ export default async function ProductDetailPage({
                                       Production Capacity
                                     </span>
                                     <span className="font-medium text-purple-800">
-                                      {product.availability.productionCapacity}{' '}
+                                      {
+                                        getProductAvailability(product)
+                                          .productionCapacity
+                                      }{' '}
                                       MT/month
                                     </span>
                                   </div>
@@ -1208,16 +1392,19 @@ export default async function ProductDetailPage({
                               </div>
 
                               {/* Warehouse Locations */}
-                              {product.availability.warehouseLocations && (
+                              {getProductAvailability(product)
+                                .warehouseLocations && (
                                 <div className="mb-6">
                                   <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                     Warehouse Locations
                                   </h4>
                                   <div className="space-y-2">
-                                    {product.availability.warehouseLocations.map(
-                                      (location, index) => (
+                                    {getProductAvailability(
+                                      product
+                                    ).warehouseLocations?.map(
+                                      (location: any, index: number) => (
                                         <div
-                                          key={index}
+                                          key={`location-${location.location}-${index}`}
                                           className="flex items-center justify-between rounded bg-gray-50 p-3"
                                         >
                                           <div>
@@ -1240,7 +1427,7 @@ export default async function ProductDetailPage({
                               )}
 
                               {/* Forecast Data */}
-                              {product.availability.forecastData && (
+                              {getProductAvailability(product).forecastData && (
                                 <div className="mb-6">
                                   <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                     Market Forecast (Next 3 Months)
@@ -1252,8 +1439,8 @@ export default async function ProductDetailPage({
                                       </span>
                                       <span className="font-medium text-orange-800">
                                         {
-                                          product.availability.forecastData
-                                            .expectedDemand
+                                          getProductAvailability(product)
+                                            .forecastData?.expectedDemand
                                         }{' '}
                                         MT
                                       </span>
@@ -1264,8 +1451,8 @@ export default async function ProductDetailPage({
                                       </span>
                                       <span className="font-medium text-green-800">
                                         {
-                                          product.availability.forecastData
-                                            .plannedProduction
+                                          getProductAvailability(product)
+                                            .forecastData?.plannedProduction
                                         }{' '}
                                         MT
                                       </span>
@@ -1275,17 +1462,19 @@ export default async function ProductDetailPage({
                               )}
 
                               {/* Risk Factors */}
-                              {product.availability.forecastData
+                              {getProductAvailability(product).forecastData
                                 ?.riskFactors && (
                                 <div>
                                   <h4 className="mb-3 text-sm font-semibold text-coffee-700">
                                     Risk Factors
                                   </h4>
                                   <div className="space-y-2">
-                                    {product.availability.forecastData.riskFactors.map(
-                                      (risk, index) => (
+                                    {getProductAvailability(
+                                      product
+                                    ).forecastData?.riskFactors?.map(
+                                      (risk: string, index: number) => (
                                         <div
-                                          key={index}
+                                          key={`risk-${risk.slice(0, 20)}-${index}`}
                                           className="flex items-start rounded border border-red-200 bg-red-50 p-3"
                                         >
                                           <AlertCircle className="mr-2 mt-0.5 h-4 w-4 flex-shrink-0 text-red-600" />
@@ -1300,10 +1489,13 @@ export default async function ProductDetailPage({
                               )}
 
                               {/* Reorder Alert */}
-                              {product.availability.reorderLevel &&
-                                product.availability.availableQuantity &&
-                                product.availability.availableQuantity <=
-                                  product.availability.reorderLevel && (
+                              {getProductAvailability(product).reorderLevel &&
+                                getProductAvailability(product)
+                                  .availableQuantity &&
+                                getProductAvailability(product)
+                                  .availableQuantity! <=
+                                  getProductAvailability(product)
+                                    .reorderLevel! && (
                                   <div className="mt-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
                                     <div className="flex items-center">
                                       <AlertCircle className="mr-3 h-5 w-5 text-yellow-600" />
@@ -1313,7 +1505,11 @@ export default async function ProductDetailPage({
                                         </h4>
                                         <p className="text-xs text-yellow-700">
                                           Stock level is below reorder threshold
-                                          ({product.availability.reorderLevel}{' '}
+                                          (
+                                          {
+                                            getProductAvailability(product)
+                                              .reorderLevel
+                                          }{' '}
                                           MT). Consider placing orders early to
                                           ensure availability.
                                         </p>
@@ -1349,7 +1545,7 @@ export default async function ProductDetailPage({
                                     <span className="text-coffee-800">
                                       Country:{' '}
                                       <span className="font-semibold">
-                                        {product.origin.country}
+                                        {getProductOrigin(product).country}
                                       </span>
                                     </span>
                                   </div>
@@ -1358,8 +1554,8 @@ export default async function ProductDetailPage({
                                     <span className="text-coffee-800">
                                       Region:{' '}
                                       <span className="font-semibold">
-                                        {product.origin.region},{' '}
-                                        {product.origin.province}
+                                        {getProductOrigin(product).region},{' '}
+                                        {getProductOrigin(product).province}
                                       </span>
                                     </span>
                                   </div>
@@ -1368,8 +1564,8 @@ export default async function ProductDetailPage({
                                     <span className="text-coffee-800">
                                       Altitude:{' '}
                                       <span className="font-semibold">
-                                        {product.origin.altitude}m above sea
-                                        level
+                                        {getProductOrigin(product).altitude}m
+                                        above sea level
                                       </span>
                                     </span>
                                   </div>
@@ -1388,7 +1584,10 @@ export default async function ProductDetailPage({
                                     <span className="text-coffee-800">
                                       Harvest Season:{' '}
                                       <span className="font-semibold">
-                                        {product.origin.harvestSeason}
+                                        {
+                                          getProductOrigin(product)
+                                            .harvestSeason
+                                        }
                                       </span>
                                     </span>
                                   </div>
@@ -1397,7 +1596,10 @@ export default async function ProductDetailPage({
                                     <span className="text-coffee-800">
                                       Farming Method:{' '}
                                       <span className="font-semibold">
-                                        {product.origin.farmingMethod}
+                                        {
+                                          getProductOrigin(product)
+                                            .farmingMethod
+                                        }
                                       </span>
                                     </span>
                                   </div>
@@ -1407,7 +1609,7 @@ export default async function ProductDetailPage({
                                       Production Capacity:{' '}
                                       <span className="font-semibold">
                                         {
-                                          product.availability
+                                          getProductAvailability(product)
                                             .productionCapacity
                                         }
                                       </span>
@@ -1430,35 +1632,35 @@ export default async function ProductDetailPage({
                               Quality Test Results
                             </SectionHeading>
                             <div className="space-y-4">
-                              {product.qualityTests &&
-                                Object.entries(product.qualityTests).map(
-                                  ([key, value], index) => (
-                                    <div
-                                      key={index}
-                                      className="flex items-center justify-between rounded-lg border border-coffee-200 bg-gradient-to-r from-coffee-50 to-gold-50 p-4"
-                                    >
-                                      <div>
-                                        <p className="font-semibold text-coffee-800">
-                                          {key}
-                                        </p>
-                                        <p className="text-sm text-coffee-600">
-                                          Test Result
-                                        </p>
-                                      </div>
-                                      <div className="text-right">
-                                        <p className="font-semibold text-coffee-800">
-                                          {value}
-                                        </p>
-                                        <div className="flex items-center">
-                                          <CheckCircle className="mr-1 h-4 w-4 text-green-600" />
-                                          <span className="text-sm font-medium text-green-600">
-                                            Passed
-                                          </span>
-                                        </div>
+                              {(product as any).qualityTests &&
+                                Object.entries(
+                                  (product as any).qualityTests
+                                ).map(([key, value], index) => (
+                                  <div
+                                    key={`test-${key}-${index}`}
+                                    className="flex items-center justify-between rounded-lg border border-coffee-200 bg-gradient-to-r from-coffee-50 to-gold-50 p-4"
+                                  >
+                                    <div>
+                                      <p className="font-semibold text-coffee-800">
+                                        {key}
+                                      </p>
+                                      <p className="text-sm text-coffee-600">
+                                        Test Result
+                                      </p>
+                                    </div>
+                                    <div className="text-right">
+                                      <p className="font-semibold text-coffee-800">
+                                        {String(value)}
+                                      </p>
+                                      <div className="flex items-center">
+                                        <CheckCircle className="mr-1 h-4 w-4 text-green-600" />
+                                        <span className="text-sm font-medium text-green-600">
+                                          Passed
+                                        </span>
                                       </div>
                                     </div>
-                                  )
-                                )}
+                                  </div>
+                                ))}
                             </div>
                           </CardContent>
                         </Card>
@@ -1494,12 +1696,8 @@ export default async function ProductDetailPage({
 
                             <LogisticsCostEstimator
                               className="w-full"
-                              onEstimateCalculated={estimate => {
+                              onEstimateCalculated={_estimate => {
                                 // Optional: Handle estimate calculation for analytics or other purposes
-                                console.log(
-                                  'Shipping estimate calculated:',
-                                  estimate
-                                );
                               }}
                             />
                           </CardContent>
@@ -1543,70 +1741,73 @@ export default async function ProductDetailPage({
 
                             {/* Existing Documents */}
                             <div className="space-y-4">
-                              {product.documents.map((doc, index) => (
-                                <div
-                                  key={`doc-${index}`}
-                                  className="rounded-lg border border-coffee-200 bg-gradient-to-r from-coffee-50 to-gold-50 p-4 transition-shadow hover:shadow-md"
-                                >
-                                  <div className="flex items-start justify-between">
-                                    <div className="flex items-start">
-                                      <div className="mr-3 mt-1 text-coffee-600">
-                                        {doc.type === 'SPECIFICATION' && (
-                                          <FileText className="h-5 w-5" />
-                                        )}
-                                        {doc.type === 'CERTIFICATE' && (
-                                          <Award className="h-5 w-5" />
-                                        )}
-                                        {doc.type === 'QUALITY_CERTIFICATE' && (
-                                          <Shield className="h-5 w-5" />
-                                        )}
-                                        {doc.type === 'SAMPLE_REPORT' && (
-                                          <BarChart3 className="h-5 w-5" />
-                                        )}
-                                        {doc.type === 'BROCHURE' && (
-                                          <BookOpen className="h-5 w-5" />
-                                        )}
-                                        {doc.type === 'OTHER' && (
-                                          <FileText className="h-5 w-5" />
-                                        )}
-                                      </div>
-                                      <div className="flex-1">
-                                        <p className="mb-1 font-semibold text-coffee-800">
-                                          {doc.name}
-                                        </p>
-                                        {doc.description && (
-                                          <p className="mb-2 text-sm leading-relaxed text-coffee-600">
-                                            {doc.description}
-                                          </p>
-                                        )}
-                                        <div className="flex items-center gap-3 text-xs text-coffee-500">
-                                          <span className="rounded-full bg-coffee-100 px-2 py-1 font-medium text-coffee-700">
-                                            {doc.type.replace('_', ' ')}
-                                          </span>
-                                          {doc.size && (
-                                            <span className="flex items-center">
-                                              <HardDrive className="mr-1 h-3 w-3" />
-                                              {doc.size}
-                                            </span>
+                              {(product as any).documents?.map(
+                                (doc: any, index: number) => (
+                                  <div
+                                    key={`doc-${index}`}
+                                    className="rounded-lg border border-coffee-200 bg-gradient-to-r from-coffee-50 to-gold-50 p-4 transition-shadow hover:shadow-md"
+                                  >
+                                    <div className="flex items-start justify-between">
+                                      <div className="flex items-start">
+                                        <div className="mr-3 mt-1 text-coffee-600">
+                                          {doc.type === 'SPECIFICATION' && (
+                                            <FileText className="h-5 w-5" />
                                           )}
-                                          <span className="flex items-center">
-                                            <Globe className="mr-1 h-3 w-3" />
-                                            {doc.language.toUpperCase()}
-                                          </span>
+                                          {doc.type === 'CERTIFICATE' && (
+                                            <Award className="h-5 w-5" />
+                                          )}
+                                          {doc.type ===
+                                            'QUALITY_CERTIFICATE' && (
+                                            <Shield className="h-5 w-5" />
+                                          )}
+                                          {doc.type === 'SAMPLE_REPORT' && (
+                                            <BarChart3 className="h-5 w-5" />
+                                          )}
+                                          {doc.type === 'BROCHURE' && (
+                                            <BookOpen className="h-5 w-5" />
+                                          )}
+                                          {doc.type === 'OTHER' && (
+                                            <FileText className="h-5 w-5" />
+                                          )}
+                                        </div>
+                                        <div className="flex-1">
+                                          <p className="mb-1 font-semibold text-coffee-800">
+                                            {doc.name}
+                                          </p>
+                                          {doc.description && (
+                                            <p className="mb-2 text-sm leading-relaxed text-coffee-600">
+                                              {doc.description}
+                                            </p>
+                                          )}
+                                          <div className="flex items-center gap-3 text-xs text-coffee-500">
+                                            <span className="rounded-full bg-coffee-100 px-2 py-1 font-medium text-coffee-700">
+                                              {doc.type.replace('_', ' ')}
+                                            </span>
+                                            {doc.size && (
+                                              <span className="flex items-center">
+                                                <HardDrive className="mr-1 h-3 w-3" />
+                                                {doc.size}
+                                              </span>
+                                            )}
+                                            <span className="flex items-center">
+                                              <Globe className="mr-1 h-3 w-3" />
+                                              {doc.language.toUpperCase()}
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="transition-colors hover:border-coffee-300 hover:bg-coffee-50"
+                                      >
+                                        <Download className="mr-2 h-4 w-4" />
+                                        Download
+                                      </Button>
                                     </div>
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      className="transition-colors hover:border-coffee-300 hover:bg-coffee-50"
-                                    >
-                                      <Download className="mr-2 h-4 w-4" />
-                                      Download
-                                    </Button>
                                   </div>
-                                </div>
-                              ))}
+                                )
+                              )}
                             </div>
                           </CardContent>
                         </Card>
@@ -1625,45 +1826,59 @@ export default async function ProductDetailPage({
             <ContentContainer>
               <EnhancedRelatedProducts
                 products={relatedProducts.map(relatedProduct => {
-                  const productName = relatedProduct.name || '';
-                  const productDescription = relatedProduct.shortDescription || '';
-
+                  const _productName = relatedProduct.name || '';
+                  const productDescription = relatedProduct.description || '';
                   return {
                     id: relatedProduct.id,
-                    name: productName,
+                    name: relatedProduct.name,
                     shortDescription: productDescription,
                     images: relatedProduct.images.map(img => ({
                       url: img.url,
                       alt: img.alt || '',
-                      isPrimary: img.isPrimary,
+                      isPrimary: img.isPrimary || false,
                     })),
                     pricing: {
-                      basePrice: relatedProduct.pricing.basePrice,
-                      unit: relatedProduct.pricing.unit,
-                      minimumOrder: relatedProduct.pricing.minimumOrder,
-                      incoterms: [relatedProduct.pricing.incoterms],
+                      basePrice: getProductPricing(relatedProduct).basePrice,
+                      unit: getProductPricing(relatedProduct).unit,
+                      minimumOrder:
+                        getProductPricing(relatedProduct).minimumOrder,
+                      incoterms: [getProductPricing(relatedProduct).incoterms],
                     },
                     grade: relatedProduct.grade,
                     origin: {
-                      region: relatedProduct.origin.region,
-                      country: relatedProduct.origin.country,
+                      region: getProductOrigin(relatedProduct).region,
+                      country: getProductOrigin(relatedProduct).country,
                     },
-                    processingMethod: relatedProduct.processingMethod,
-                    certifications: relatedProduct.certifications,
+                    processingMethod: getProcessingMethod(relatedProduct),
+                    certifications:
+                      relatedProduct.certifications?.map(
+                        cert => cert.certification.name
+                      ) || [],
                     availability: {
-                      inStock: relatedProduct.availability.inStock,
-                      leadTime: relatedProduct.availability.leadTime,
+                      inStock: getProductAvailability(relatedProduct).inStock,
+                      leadTime: getProductAvailability(relatedProduct).leadTime,
                     },
                     isFeatured: relatedProduct.isFeatured,
                     specifications: {
-                      moisture:
-                        getSpecificationValue(relatedProduct.specificationItems, 'moisture'),
-                      screenSize:
-                        getSpecificationValue(relatedProduct.specificationItems, 'screenSize'),
-                      defectRate:
-                        getSpecificationValue(relatedProduct.specificationItems, 'defectRate'),
+                      moisture: getSpecificationValue(
+                        relatedProduct.specificationItems,
+                        'moisture'
+                      ),
+                      screenSize: getSpecificationValue(
+                        relatedProduct.specificationItems,
+                        'screenSize'
+                      ),
+                      defectRate: getSpecificationValue(
+                        relatedProduct.specificationItems,
+                        'defectRate'
+                      ),
                       cuppingScore:
-                        parseInt(getSpecificationValue(relatedProduct.specificationItems, 'cuppingScore')) || 0,
+                        parseInt(
+                          getSpecificationValue(
+                            relatedProduct.specificationItems,
+                            'cuppingScore'
+                          )
+                        ) || 0,
                     },
                   };
                 })}

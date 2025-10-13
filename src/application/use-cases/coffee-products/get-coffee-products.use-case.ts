@@ -43,7 +43,7 @@ export class GetCoffeeProductsUseCase {
         hasMore,
       };
     } catch (error) {
-      this.logger.error('Error fetching coffee products:', error);
+      // Application layer error logging removed for production
       throw new Error('Failed to fetch coffee products');
     }
   }

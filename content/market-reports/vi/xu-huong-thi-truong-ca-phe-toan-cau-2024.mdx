@@ -1,9 +1,5 @@
 ---
-
-
-
-
-title: "Xu Hướng Thị Trường Cà Phê Toàn Cầu 2024: Phân Tích Dữ Liệu Cho Chiến Lược Tìm Nguồn Cung"
+title: 'Xu Hướng Thị Trường Cà Phê Toàn Cầu 2024: Phân Tích Dữ Liệu Cho Chiến Lược Tìm Nguồn Cung'
 description: >
   Phân tích toàn diện xu hướng thị trường cà phê toàn cầu với trực quan hóa dữ liệu tương tác, bao gồm mô hình tiêu dùng, động lực giá và cơ hội mới nổi cho người mua B2B.
 publishedAt: '2024-01-25'
@@ -55,9 +51,6 @@ chartTypes:
   - 'pie'
   - 'map'
   - 'scatter'
-
-
-
 ---
 
 import { MarketChart } from '@/components/charts/MarketChart';
@@ -110,9 +103,19 @@ Thị trường cà phê thể hiện khả năng phục hồi và tiềm năng 
     regions: [
       { name: 'Bắc Mỹ', consumption: 28.5, growth: 1.8, color: '#8B4513' },
       { name: 'Châu Âu', consumption: 52.2, growth: 0.9, color: '#D2691E' },
-      { name: 'Châu Á-Thái Bình Dương', consumption: 35.8, growth: 4.2, color: '#CD853F' },
+      {
+        name: 'Châu Á-Thái Bình Dương',
+        consumption: 35.8,
+        growth: 4.2,
+        color: '#CD853F',
+      },
       { name: 'Mỹ Latinh', consumption: 22.1, growth: 2.5, color: '#DEB887' },
-      { name: 'Châu Phi & Trung Đông', consumption: 12.8, growth: 3.8, color: '#F4A460' }
+      {
+        name: 'Châu Phi & Trung Đông',
+        consumption: 12.8,
+        growth: 3.8,
+        color: '#F4A460',
+      },
     ],
     unit: 'triệu bao',
     year: 2024,
@@ -143,11 +146,13 @@ Thị trường cà phê thể hiện khả năng phục hồi và tiềm năng 
   type="pie"
   data={{
     labels: ['Arabica', 'Robusta', 'Hỗn Hợp Đặc Biệt', 'Cà Phê Hòa Tan'],
-    datasets: [{
+    datasets: [
+      {
         data: [62.3, 23.8, 8.7, 5.2],
         backgroundColor: ['#8B4513', '#D2691E', '#CD853F', '#DEB887'],
         borderWidth: 2,
-      }],
+      },
+    ],
   }}
   title="Tiêu Dùng Cà Phê Toàn Cầu Theo Loại (2024)"
   description="Phân bổ thị phần qua các danh mục cà phê"
@@ -171,14 +176,14 @@ Thị trường cà phê thể hiện khả năng phục hồi và tiềm năng 
       { month: 'Th4 2023', price: 172.8, volume: 11.8 },
       { month: 'Th7 2023', price: 165.2, volume: 13.1 },
       { month: 'Th10 2023', price: 158.9, volume: 12.9 },
-      { month: 'Th1 2024', price: 162.4, volume: 13.2 }
+      { month: 'Th1 2024', price: 162.4, volume: 13.2 },
     ],
     robusta: [
       { month: 'Th1 2023', price: 89.2, volume: 8.7 },
       { month: 'Th4 2023', price: 92.1, volume: 8.9 },
       { month: 'Th7 2023', price: 88.5, volume: 9.2 },
       { month: 'Th10 2023', price: 85.3, volume: 9.1 },
-      { month: 'Th1 2024', price: 87.8, volume: 9.3 }
+      { month: 'Th1 2024', price: 87.8, volume: 9.3 },
     ],
   }}
   title="Xu Hướng Giá Cà Phê: Arabica vs Robusta (2023-2024)"
@@ -207,7 +212,8 @@ Thị trường cà phê thể hiện khả năng phục hồi và tiềm năng 
   type="line"
   data={{
     labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025'],
-    datasets: [{
+    datasets: [
+      {
         label: 'Arabica (¢/lb)',
         data: [162.4, 168.2, 171.5, 169.8, 173.1],
         borderColor: '#8B4513',
@@ -220,7 +226,8 @@ Thị trường cà phê thể hiện khả năng phục hồi và tiềm năng 
         borderColor: '#D2691E',
         backgroundColor: 'rgba(210, 105, 30, 0.1)',
         tension: 0.4,
-      }],
+      },
+    ],
   }}
   title="Dự Báo Giá Cà Phê 2024-2025"
   description="Biến động giá dự kiến dựa trên phân tích cung-cầu"
@@ -241,7 +248,8 @@ Thị trường cà phê thể hiện khả năng phục hồi và tiềm năng 
   type="bar"
   data={{
     labels: ['2020', '2021', '2022', '2023', '2024E'],
-    datasets: [{
+    datasets: [
+      {
         label: 'Rainforest Alliance',
         data: [12.8, 14.2, 15.9, 17.3, 18.7],
         backgroundColor: '#228B22',
@@ -260,7 +268,8 @@ Thị trường cà phê thể hiện khả năng phục hồi và tiềm năng 
         label: 'UTZ/4C',
         data: [15.2, 16.1, 17.0, 17.8, 18.5],
         backgroundColor: '#98FB98',
-      }],
+      },
+    ],
   }}
   title="Khối Lượng Thị Trường Cà Phê Được Chứng Nhận (Triệu Bao)"
   description="Tăng trưởng chứng nhận cà phê bền vững 2020-2024"
@@ -325,7 +334,8 @@ Thị trường cà phê thể hiện khả năng phục hồi và tiềm năng 
 <MarketChart
   type="scatter"
   data={{
-    datasets: [{
+    datasets: [
+      {
         label: 'Thị Trường Cà Phê',
         data: [
           { x: 15.2, y: 8.3, label: 'Mỹ', size: 28.5 },
@@ -335,11 +345,12 @@ Thị trường cà phê thể hiện khả năng phục hồi và tiềm năng 
           { x: 28.3, y: 18.9, label: 'Trung Quốc', size: 4.2 },
           { x: 16.4, y: 9.7, label: 'Anh', size: 3.1 },
           { x: 14.9, y: 7.8, label: 'Pháp', size: 5.4 },
-          { x: 25.6, y: 16.2, label: 'Úc', size: 1.9 }
+          { x: 25.6, y: 16.2, label: 'Úc', size: 1.9 },
         ],
         backgroundColor: 'rgba(139, 69, 19, 0.6)',
         borderColor: '#8B4513',
-      }],
+      },
+    ],
   }}
   options={{
     scales: {

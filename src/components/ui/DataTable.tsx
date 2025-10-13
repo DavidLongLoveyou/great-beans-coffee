@@ -2,21 +2,21 @@
 
 import React, { useState, useMemo } from 'react';
 
-interface Column {
-  key: string;
+interface Column<T = Record<string, unknown>> {
+  key: keyof T | string;
   label: string;
   type?: 'text' | 'number' | 'currency' | 'percentage' | 'date';
   sortable?: boolean;
   width?: string;
   align?: 'left' | 'center' | 'right';
-  format?: (value: any) => string;
+  format?: (value: unknown) => string;
   currency?: string;
   precision?: number;
 }
 
-interface DataTableProps {
-  data: Record<string, any>[];
-  columns: Column[];
+interface DataTableProps<T = Record<string, unknown>> {
+  data: T[];
+  columns: Column<T>[];
   title?: string;
   searchable?: boolean;
   sortable?: boolean;
@@ -28,19 +28,24 @@ interface DataTableProps {
   showRowNumbers?: boolean;
 }
 
-export const DataTable: React.FC<DataTableProps> = ({
-  data,
-  columns,
-  title,
-  searchable = true,
-  sortable = true,
-  exportable = false,
-  pageSize = 10,
-  className = '',
-  striped = true,
-  compact = false,
-  showRowNumbers = false,
-}) => {
+export const DataTable = <
+  T extends Record<string, unknown> = Record<string, unknown>,
+>(
+  props: DataTableProps<T>
+) => {
+  const {
+    data,
+    columns,
+    title,
+    searchable = true,
+    sortable = true,
+    exportable = false,
+    pageSize = 10,
+    className = '',
+    striped = true,
+    compact = false,
+    showRowNumbers = false,
+  } = props;
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState<{
     key: string;
@@ -69,7 +74,16 @@ export const DataTable: React.FC<DataTableProps> = ({
 
       if (aValue === bValue) return 0;
 
-      const comparison = aValue < bValue ? -1 : 1;
+      // Handle null/undefined values
+      if (aValue == null && bValue == null) return 0;
+      if (aValue == null) return 1;
+      if (bValue == null) return -1;
+
+      // Convert to string for comparison if not numbers
+      const aComp = typeof aValue === 'number' ? aValue : String(aValue);
+      const bComp = typeof bValue === 'number' ? bValue : String(bValue);
+
+      const comparison = aComp < bComp ? -1 : 1;
       return sortConfig.direction === 'desc' ? comparison * -1 : comparison;
     });
   }, [filteredData, sortConfig]);
@@ -96,7 +110,7 @@ export const DataTable: React.FC<DataTableProps> = ({
     });
   };
 
-  const formatValue = (value: any, column: Column) => {
+  const formatValue = (value: unknown, column: Column) => {
     if (value === null || value === undefined) return '-';
 
     if (column.format) {
@@ -122,7 +136,7 @@ export const DataTable: React.FC<DataTableProps> = ({
         });
 
       case 'date':
-        return new Date(value).toLocaleDateString();
+        return new Date(value as string | number | Date).toLocaleDateString();
 
       default:
         return String(value);
@@ -228,7 +242,7 @@ export const DataTable: React.FC<DataTableProps> = ({
               )}
               {columns.map(column => (
                 <th
-                  key={column.key}
+                  key={String(column.key)}
                   className={`cursor-pointer px-4 py-3 text-xs font-medium uppercase tracking-wider text-gray-500 transition-colors hover:bg-gray-100 ${
                     column.align === 'center'
                       ? 'text-center'
@@ -237,7 +251,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                         : 'text-left'
                   } ${compact ? 'py-2' : ''}`}
                   style={{ width: column.width }}
-                  onClick={() => handleSort(column.key)}
+                  onClick={() => handleSort(String(column.key))}
                 >
                   <div className="flex items-center space-x-1">
                     <span>{column.label}</span>
@@ -264,7 +278,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                 )}
                 {columns.map(column => (
                   <td
-                    key={column.key}
+                    key={String(column.key)}
                     className={`whitespace-nowrap px-4 py-4 text-sm text-gray-900 ${
                       column.align === 'center'
                         ? 'text-center'
@@ -339,12 +353,12 @@ export const DataTable: React.FC<DataTableProps> = ({
 
 // Preset components for common data types
 export const PriceTable: React.FC<
-  Omit<DataTableProps, 'columns'> & {
+  Omit<DataTableProps<Record<string, unknown>>, 'columns'> & {
     priceColumn: string;
     currency?: string;
   }
 > = ({ priceColumn, currency = 'USD', ...props }) => {
-  const columns: Column[] = [
+  const columns: Column<Record<string, unknown>>[] = [
     ...(props.data.length > 0 && props.data[0]
       ? Object.keys(props.data[0])
           .filter(key => key !== priceColumn)
@@ -364,16 +378,16 @@ export const PriceTable: React.FC<
     },
   ];
 
-  return <DataTable {...props} columns={columns} />;
+  return <DataTable data={props.data} {...props} columns={columns} />;
 };
 
 export const VolumeTable: React.FC<
-  Omit<DataTableProps, 'columns'> & {
+  Omit<DataTableProps<Record<string, unknown>>, 'columns'> & {
     volumeColumn: string;
     unit?: string;
   }
 > = ({ volumeColumn, unit = 'MT', ...props }) => {
-  const columns: Column[] = [
+  const columns: Column<Record<string, unknown>>[] = [
     ...(props.data.length > 0 && props.data[0]
       ? Object.keys(props.data[0])
           .filter(key => key !== volumeColumn)
@@ -392,7 +406,7 @@ export const VolumeTable: React.FC<
     },
   ];
 
-  return <DataTable {...props} columns={columns} />;
+  return <DataTable data={props.data} {...props} columns={columns} />;
 };
 
 export default DataTable;

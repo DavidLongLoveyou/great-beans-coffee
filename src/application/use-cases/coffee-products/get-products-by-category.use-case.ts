@@ -82,7 +82,7 @@ export class GetProductsByCategoryUseCase {
         value,
       };
     } catch (error) {
-      this.logger.error('Error fetching products by category:', error);
+      // Application layer error logging removed for production
       throw new Error('Failed to fetch products by category');
     }
   }

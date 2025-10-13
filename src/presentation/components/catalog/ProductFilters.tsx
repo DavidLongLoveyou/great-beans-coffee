@@ -58,6 +58,7 @@ interface ProductFiltersProps {
   onFiltersChange: (filters: ProductFilters) => void;
   totalProducts: number;
   filteredProducts: number;
+  loading?: boolean;
 }
 
 const coffeeTypes = [
@@ -136,6 +137,7 @@ export function ProductFilters({
   onFiltersChange,
   totalProducts,
   filteredProducts,
+  loading = false,
 }: ProductFiltersProps) {
   const t = useTranslations('products.filters');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -262,7 +264,8 @@ export function ProductFilters({
               placeholder="Search by name, origin, or description..."
               value={filters.search}
               onChange={e => updateFilter('search', e.target.value)}
-              className="border-forest-200 pl-10 focus:border-emerald-400 focus:ring-emerald-400"
+              disabled={loading}
+              className="border-forest-200 pl-10 focus:border-emerald-400 focus:ring-emerald-400 disabled:opacity-50"
             />
             {filters.search && (
               <Button
@@ -289,8 +292,9 @@ export function ProductFilters({
                 <Select
                   value={filters.coffeeType}
                   onValueChange={value => updateFilter('coffeeType', value)}
+                  disabled={loading}
                 >
-                  <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
+                  <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 disabled:opacity-50">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

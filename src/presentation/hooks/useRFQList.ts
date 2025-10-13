@@ -140,8 +140,8 @@ export function useRFQList({
   // Sort filtered RFQs
   const sortedRFQs = useMemo(() => {
     const sorted = [...filteredRFQs].sort((a, b) => {
-      let aValue: any = a[sortConfig.field as keyof RFQItem];
-      let bValue: any = b[sortConfig.field as keyof RFQItem];
+      let aValue: unknown = a[sortConfig.field as keyof RFQItem];
+      let bValue: unknown = b[sortConfig.field as keyof RFQItem];
 
       // Handle different data types
       if (
@@ -149,8 +149,8 @@ export function useRFQList({
         sortConfig.field === 'lastUpdate' ||
         sortConfig.field === 'responseDeadline'
       ) {
-        aValue = new Date(aValue).getTime();
-        bValue = new Date(bValue).getTime();
+        aValue = new Date(aValue as string | number | Date).getTime();
+        bValue = new Date(bValue as string | number | Date).getTime();
       } else if (
         sortConfig.field === 'estimatedValue' ||
         sortConfig.field === 'quantity'
@@ -179,10 +179,10 @@ export function useRFQList({
         bValue = String(bValue || '').toLowerCase();
       }
 
-      if (aValue < bValue) {
+      if ((aValue as number | string) < (bValue as number | string)) {
         return sortConfig.direction === 'asc' ? -1 : 1;
       }
-      if (aValue > bValue) {
+      if ((aValue as number | string) > (bValue as number | string)) {
         return sortConfig.direction === 'asc' ? 1 : -1;
       }
       return 0;

@@ -5,10 +5,10 @@ function cleanYamlFrontmatter(content) {
   // Split content into frontmatter and body
   const parts = content.split('---');
   if (parts.length < 3) return content;
-  
+
   let frontmatter = parts[1];
   const body = parts.slice(2).join('---');
-  
+
   // Clean up frontmatter
   frontmatter = frontmatter
     // Remove carriage returns
@@ -26,19 +26,19 @@ function cleanYamlFrontmatter(content) {
     // Ensure proper array formatting (already done by previous script)
     // Remove any empty lines at the start/end of frontmatter
     .trim();
-  
+
   return `---\n${frontmatter}\n---${body}`;
 }
 
 function processDirectory(dirPath) {
   let fixedCount = 0;
-  
+
   function processFile(filePath) {
     if (path.extname(filePath) === '.mdx') {
       try {
         const content = fs.readFileSync(filePath, 'utf8');
         const cleanedContent = cleanYamlFrontmatter(content);
-        
+
         if (content !== cleanedContent) {
           fs.writeFileSync(filePath, cleanedContent, 'utf8');
           console.log(`Fixed: ${path.relative(process.cwd(), filePath)}`);
@@ -49,14 +49,14 @@ function processDirectory(dirPath) {
       }
     }
   }
-  
+
   function walkDirectory(dir) {
     const items = fs.readdirSync(dir);
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         walkDirectory(fullPath);
       } else {
@@ -64,7 +64,7 @@ function processDirectory(dirPath) {
       }
     }
   }
-  
+
   walkDirectory(dirPath);
   return fixedCount;
 }

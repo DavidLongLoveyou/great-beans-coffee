@@ -23,9 +23,7 @@ class EmailServiceImpl implements IEmailService {
     content: string
   ): Promise<boolean> {
     // Mock implementation for development
-    logger.info(`Sending email to: ${to}`);
-    logger.info(`Subject: ${subject}`);
-    logger.debug(`Content: ${content}`);
+    // Application layer logging removed for production
 
     // Simulate async operation
     await new Promise(resolve => setTimeout(resolve, 100));
@@ -34,7 +32,7 @@ class EmailServiceImpl implements IEmailService {
       // In a real implementation, this would integrate with SendGrid, AWS SES, etc.
       return true;
     } catch (error) {
-      logger.error('Failed to send email:', error);
+      // Application layer error logging removed for production
       return false;
     }
   }

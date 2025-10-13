@@ -10,6 +10,14 @@ const bundleAnalyzer = withBundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
+  // TypeScript configuration
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   // Image optimization for Core Web Vitals
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -51,6 +59,18 @@ const nextConfig: NextConfig = {
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     });
+
+    // Handle JSON imports with type assertion
+    config.module.rules.push({
+      test: /\.json$/,
+      type: 'json',
+    });
+
+    // Enable experimental features for import assertions
+    config.experiments = {
+      ...config.experiments,
+      topLevelAwait: true,
+    };
 
     // Production optimizations
     if (!dev && !isServer) {

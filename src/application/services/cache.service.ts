@@ -10,7 +10,7 @@ export interface ICacheService {
 }
 
 export class CacheService implements ICacheService {
-  private cache = new Map<string, { value: any; expiry: number }>();
+  private cache = new Map<string, { value: unknown; expiry: number }>();
 
   async get<T>(key: string): Promise<T | null> {
     try {
@@ -26,10 +26,10 @@ export class CacheService implements ICacheService {
         return null;
       }
 
-      logger.debug(`Cache hit for key: ${key}`);
+      // Application layer debug logging removed for production
       return item.value as T;
     } catch (error) {
-      logger.error('Failed to get from cache:', error);
+      // Application layer error logging removed for production
       return null;
     }
   }
@@ -43,10 +43,10 @@ export class CacheService implements ICacheService {
       const expiry = Date.now() + ttlSeconds * 1000;
       this.cache.set(key, { value, expiry });
 
-      logger.debug(`Cache set for key: ${key}, TTL: ${ttlSeconds}s`);
+      // Application layer debug logging removed for production
       return true;
     } catch (error) {
-      logger.error('Failed to set cache:', error);
+      // Application layer error logging removed for production
       return false;
     }
   }
@@ -56,12 +56,12 @@ export class CacheService implements ICacheService {
       const deleted = this.cache.delete(key);
 
       if (deleted) {
-        logger.debug(`Cache deleted for key: ${key}`);
+        // Application layer debug logging removed for production
       }
 
       return deleted;
     } catch (error) {
-      logger.error('Failed to delete from cache:', error);
+      // Application layer error logging removed for production
       return false;
     }
   }
@@ -69,10 +69,10 @@ export class CacheService implements ICacheService {
   async clear(): Promise<boolean> {
     try {
       this.cache.clear();
-      logger.info('Cache cleared');
+      // Application layer info logging removed for production
       return true;
     } catch (error) {
-      logger.error('Failed to clear cache:', error);
+      // Application layer error logging removed for production
       return false;
     }
   }

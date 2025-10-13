@@ -7,7 +7,7 @@ import {
   Calendar,
   SortAsc,
   SortDesc,
-  RefreshCw,
+  RefreshCw as _RefreshCw,
   X,
   ChevronUp,
   ChevronDown,
@@ -65,7 +65,7 @@ interface RFQListFiltersProps {
   totalCount: number;
 }
 
-const getStatusOptions = (t: any) => [
+const getStatusOptions = (t: (key: string) => string) => [
   { value: 'ALL', label: t('filters.status.all') },
   { value: 'SUBMITTED', label: t('status.submitted') },
   { value: 'UNDER_REVIEW', label: t('status.underReview') },
@@ -76,7 +76,7 @@ const getStatusOptions = (t: any) => [
   { value: 'EXPIRED', label: t('status.expired') },
 ];
 
-const getPriorityOptions = (t: any) => [
+const getPriorityOptions = (t: (key: string) => string) => [
   { value: 'ALL', label: t('filters.priority.all') },
   { value: 'LOW', label: t('priority.low') },
   { value: 'MEDIUM', label: t('priority.medium') },
@@ -84,7 +84,7 @@ const getPriorityOptions = (t: any) => [
   { value: 'URGENT', label: t('priority.urgent') },
 ];
 
-const getSortOptions = (t: any) => [
+const getSortOptions = (t: (key: string) => string) => [
   { value: 'submittedAt', label: t('filters.sort.submittedDate') },
   { value: 'lastUpdate', label: t('filters.sort.lastUpdate') },
   { value: 'responseDeadline', label: t('filters.sort.deadline') },
@@ -100,7 +100,7 @@ export function RFQListFilters({
   onReset,
   sortConfig,
   onSortChange,
-  loading = false,
+  loading: _loading = false,
   filteredCount,
   totalCount,
 }: RFQListFiltersProps) {
@@ -119,14 +119,14 @@ export function RFQListFilters({
   }, [filters]);
 
   // Handle filter changes
-  const handleFilterChange = (key: keyof RFQFilters, value: any) => {
+  const handleFilterChange = (key: keyof RFQFilters, value: unknown) => {
     const newFilters = { ...tempFilters, [key]: value };
     setTempFilters(newFilters);
     onFiltersChange(newFilters);
   };
 
   // Handle sort changes
-  const handleSortChange = (field: string) => {
+  const _handleSortChange = (field: string) => {
     const newDirection =
       sortConfig.field === field && sortConfig.direction === 'asc'
         ? 'desc'
@@ -139,7 +139,7 @@ export function RFQListFilters({
   };
 
   // Handle reset
-  const handleReset = () => {
+  const _handleReset = () => {
     onReset();
     setShowAdvanced(false);
   };

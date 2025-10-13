@@ -706,9 +706,9 @@ export default function QuotePage({
                         logistics costs for your order.
                       </p>
                       <LogisticsCostEstimator
-                        onEstimateCalculated={estimate => {
+                        onEstimateCalculated={_estimate => {
                           // Optional: Update form data with shipping estimate
-                          console.log('Shipping estimate:', estimate);
+                          // Shipping estimate tracking removed for production
                         }}
                       />
                     </div>

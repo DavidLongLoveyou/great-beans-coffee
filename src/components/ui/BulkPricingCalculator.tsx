@@ -156,7 +156,7 @@ export function BulkPricingCalculator({
     };
 
     // In a real app, this would generate a PDF or send to CRM
-    console.log('Quote exported:', quoteData);
+    // Quote export tracking removed for production
     alert(
       'Quote exported! In production, this would generate a PDF or send to your CRM.'
     );

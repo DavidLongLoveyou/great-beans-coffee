@@ -37,7 +37,7 @@ export class TranslationService implements ITranslationService {
       // Mock translation
       return `[${toLang.toUpperCase()}] ${text}`;
     } catch (error) {
-      this.logger.error('Translation failed:', error);
+      // Application layer error logging removed for production
       return text; // Return original text if translation fails
     }
   }
@@ -75,7 +75,7 @@ export class TranslationService implements ITranslationService {
       // Default to English
       return 'en';
     } catch (error) {
-      this.logger.error('Language detection failed:', error);
+      // Application layer error logging removed for production
       return 'en';
     }
   }

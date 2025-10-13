@@ -132,12 +132,7 @@ export function OptimizedImage({
       const loadTime = performance.now() - loadStartTime;
 
       // Track performance metrics
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.log(
-          `Image load time: ${loadTime}ms (${optimizeForLCP ? 'LCP' : 'standard'} image, Cloudinary: ${useCloudinary})`
-        );
-      }
+      // Performance tracking removed for production
     }
 
     onLoadComplete?.();
@@ -156,12 +151,7 @@ export function OptimizedImage({
 
     if (trackPerformance) {
       // Track error metrics
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.warn(
-          `Image load error: ${optimizeForLCP ? 'LCP' : 'standard'} image, Cloudinary: ${useCloudinary}`
-        );
-      }
+      // Error tracking removed for production
     }
 
     onLoadError?.();

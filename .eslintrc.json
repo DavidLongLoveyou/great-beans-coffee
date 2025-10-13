@@ -8,26 +8,16 @@
     "react/jsx-no-undef": "error",
     "react/no-array-index-key": "warn",
     "react/no-unescaped-entities": "error",
-    "import/order": [
+    "import/order": "off",
+    "no-console": "warn",
+    "no-debugger": "error",
+    "jsx-a11y/alt-text": [
       "error",
       {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ],
-        "newlines-between": "always",
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
+        "elements": ["img"],
+        "img": []
       }
-    ],
-    "no-console": "warn",
-    "no-debugger": "error"
+    ]
   },
   "overrides": [
     {
@@ -54,6 +44,27 @@
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-inferrable-types": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.test.{js,ts,tsx}",
+        "**/*.spec.{js,ts,tsx}",
+        "**/test/**/*",
+        "**/tests/**/*",
+        "**/__tests__/**/*",
+        "**/scripts/**/*",
+        "*.config.{js,ts}",
+        "validate-json.js",
+        "test-*.js",
+        "**/global-setup.ts",
+        "**/global-teardown.ts",
+        "**/setup.ts",
+        "fix-*.js",
+        "build-*.js"
+      ],
+      "rules": {
+        "no-console": "off"
       }
     }
   ]

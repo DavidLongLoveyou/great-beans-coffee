@@ -16,28 +16,16 @@ export interface Logger {
  */
 export const logger: Logger = {
   info: (message: string, ...args: unknown[]) => {
-    if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
-      console.log(`[INFO] ${message}`, ...args);
-    }
+    // Logging disabled for production readiness
   },
   error: (message: string, ...args: unknown[]) => {
-    if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
-      console.error(`[ERROR] ${message}`, ...args);
-    }
+    // Error logging disabled for production readiness
   },
   warn: (message: string, ...args: unknown[]) => {
-    if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
-      console.warn(`[WARN] ${message}`, ...args);
-    }
+    // Warning logging disabled for production readiness
   },
   debug: (message: string, ...args: unknown[]) => {
-    if (process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line no-console
-      console.debug(`[DEBUG] ${message}`, ...args);
-    }
+    // Debug logging disabled for production readiness
   },
 };
 

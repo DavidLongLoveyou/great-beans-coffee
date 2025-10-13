@@ -203,7 +203,7 @@ export function PerformanceMonitor({
       fidObserver.observe({ entryTypes: ['first-input'] });
       clsObserver.observe({ entryTypes: ['layout-shift'] });
     } catch (error) {
-      logger.warn('Performance Observer not supported:', error);
+      // Performance Observer error logging removed for production
     }
 
     // Collect initial metrics

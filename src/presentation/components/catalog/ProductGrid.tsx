@@ -722,8 +722,6 @@ export function ProductGrid({
           }}
           onRequestQuote={(productIds, analysisData) => {
             // Handle quote request with business analysis data
-            console.log('Quote requested for products:', productIds);
-            console.log('Business analysis:', analysisData);
             // This would typically navigate to a quote form or open a modal
           }}
         />

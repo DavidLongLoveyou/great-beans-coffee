@@ -4,7 +4,10 @@ import { Download, FileText, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
-import type { CoffeeProduct, CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
+import type {
+  CoffeeProduct,
+  CoffeeProductEntity,
+} from '@/domain/entities/coffee-product.entity';
 import type { RFQ, RFQEntity } from '@/domain/entities/rfq.entity';
 import { Button } from '@/presentation/components/ui/button';
 import { usePDFGeneration } from '@/shared/hooks/use-pdf-generation';
@@ -91,10 +94,13 @@ export const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({
               'Product data is required for product spec PDF generation'
             );
           }
-          await generateProductSpecSheet(entityData as unknown as CoffeeProductEntity, {
-            ...options,
-            language: locale || 'en',
-          });
+          await generateProductSpecSheet(
+            entityData as unknown as CoffeeProductEntity,
+            {
+              ...options,
+              language: locale || 'en',
+            }
+          );
           break;
         case 'rfqDocument':
           if (!entityData) {

@@ -1,10 +1,6 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 
-import { GetCoffeeProductsUseCase } from '@/application/use-cases/coffee-products/get-coffee-products.use-case';
-import {
-  createMockCoffeeProduct,
-  createMockPaginatedResponse,
-} from '@/test/utils';
+import { createMockCoffeeProduct } from '@/test/utils';
 
 import { useCoffeeProducts } from '../use-coffee-products';
 

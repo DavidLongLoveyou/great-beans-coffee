@@ -24,7 +24,9 @@ interface ValuePropositionSectionProps {
   locale: string;
 }
 
-export function ValuePropositionSection({ locale }: ValuePropositionSectionProps) {
+export function ValuePropositionSection({
+  locale: _locale,
+}: ValuePropositionSectionProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 

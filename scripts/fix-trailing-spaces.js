@@ -3,21 +3,26 @@ const path = require('path');
 
 function removeTrailingSpaces(content) {
   // Remove trailing spaces from each line
-  return content.split('\n').map(line => line.trimEnd()).join('\n');
+  return content
+    .split('\n')
+    .map(line => line.trimEnd())
+    .join('\n');
 }
 
 function processDirectory(dirPath) {
   let fixedCount = 0;
-  
+
   function processFile(filePath) {
     if (path.extname(filePath) === '.mdx') {
       try {
         const content = fs.readFileSync(filePath, 'utf8');
         const fixedContent = removeTrailingSpaces(content);
-        
+
         if (content !== fixedContent) {
           fs.writeFileSync(filePath, fixedContent, 'utf8');
-          console.log(`Removed trailing spaces in: ${path.relative(process.cwd(), filePath)}`);
+          console.log(
+            `Removed trailing spaces in: ${path.relative(process.cwd(), filePath)}`
+          );
           fixedCount++;
         }
       } catch (error) {
@@ -25,14 +30,14 @@ function processDirectory(dirPath) {
       }
     }
   }
-  
+
   function walkDirectory(dir) {
     const items = fs.readdirSync(dir);
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         walkDirectory(fullPath);
       } else {
@@ -40,7 +45,7 @@ function processDirectory(dirPath) {
       }
     }
   }
-  
+
   walkDirectory(dirPath);
   return fixedCount;
 }

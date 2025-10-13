@@ -44,7 +44,7 @@ export class GetCoffeeProductBySlugUseCase {
         relatedProducts,
       };
     } catch (error) {
-      this.logger.error('Error fetching coffee product by slug:', error);
+      // Application layer error logging removed for production
       throw new Error('Failed to fetch coffee product');
     }
   }
@@ -85,7 +85,7 @@ export class GetCoffeeProductBySlugUseCase {
       // Return max 4 related products
       return relatedProducts.slice(0, 4);
     } catch (error) {
-      this.logger.error('Error fetching related products:', error);
+      // Application layer error logging removed for production
       return [];
     }
   }

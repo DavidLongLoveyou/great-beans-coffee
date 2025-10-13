@@ -117,9 +117,7 @@ export function CoreWebVitalsMonitor({
           });
         }
       } catch (error) {
-        if (enableConsoleLogging) {
-          logger.error('Failed to send Web Vitals metric to analytics:', error);
-        }
+        // Error logging removed for production
       }
     },
     [enableAnalytics, analyticsEndpoint, enableConsoleLogging]
@@ -144,9 +142,7 @@ export function CoreWebVitalsMonitor({
       }));
 
       // Log to console if enabled and in development
-      if (enableConsoleLogging && process.env.NODE_ENV === 'development') {
-        logger.info(`[Core Web Vitals] ${metric.name}:`, webVitalMetric);
-      }
+      // Development logging removed for production
 
       // Send to analytics (only once per metric per page load)
       const metricKey = `${metric.name}-${metric.id}`;
@@ -181,14 +177,7 @@ export function CoreWebVitalsMonitor({
         const longTaskObserver = new PerformanceObserver(list => {
           for (const entry of list.getEntries()) {
             if (entry.duration > 50) {
-              // Tasks longer than 50ms
-              if (enableConsoleLogging) {
-                logger.warn('[Performance] Long Task detected:', {
-                  duration: entry.duration,
-                  startTime: entry.startTime,
-                  name: entry.name,
-                });
-              }
+              // Performance logging removed for production
             }
           }
         });
@@ -208,14 +197,7 @@ export function CoreWebVitalsMonitor({
           for (const entry of list.getEntries()) {
             const layoutShiftEntry = entry as LayoutShiftEntry;
             if (layoutShiftEntry.value > 0.1) {
-              // Significant layout shifts
-              if (enableConsoleLogging) {
-                logger.warn('[Performance] Layout Shift detected:', {
-                  value: layoutShiftEntry.value,
-                  sources: layoutShiftEntry.sources,
-                  startTime: entry.startTime,
-                });
-              }
+              // Performance logging removed for production
             }
           }
         });

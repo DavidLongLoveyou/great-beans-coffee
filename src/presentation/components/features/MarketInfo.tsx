@@ -34,7 +34,7 @@ export function MarketInfo({
 }: MarketInfoProps) {
   const {
     config,
-    formatCurrency,
+    formatCurrency: _formatCurrency,
     formatDate,
     businessHours,
     coffeeGradingStandards,

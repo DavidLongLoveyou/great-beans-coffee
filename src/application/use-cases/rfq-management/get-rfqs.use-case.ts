@@ -121,7 +121,7 @@ export class GetRfqsUseCase {
         message: 'RFQs retrieved successfully',
       };
     } catch (error) {
-      this.logger.error('Error getting RFQs:', error);
+      // Application layer error logging removed for production
       return {
         rfqs: [],
         total: 0,

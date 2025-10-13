@@ -5,13 +5,13 @@ function fixEllipsisIssues(content) {
   // Split content into frontmatter and body
   const parts = content.split('---');
   if (parts.length < 3) return content;
-  
+
   let frontmatter = parts[1];
   const body = parts.slice(2).join('---');
-  
+
   // Remove ellipsis characters from YAML strings
   frontmatter = frontmatter.replace(/…/g, '');
-  
+
   // Fix any strings that might have become too long or malformed
   frontmatter = frontmatter.replace(
     /^(\s*)(excerpt|seoDescription|description):\s*'([^']*)'$/gm,
@@ -25,22 +25,24 @@ function fixEllipsisIssues(content) {
       return `${indent}${key}: '${cleanValue}'`;
     }
   );
-  
+
   return `---\n${frontmatter}\n---${body}`;
 }
 
 function processDirectory(dirPath) {
   let fixedCount = 0;
-  
+
   function processFile(filePath) {
     if (path.extname(filePath) === '.mdx') {
       try {
         const content = fs.readFileSync(filePath, 'utf8');
         const fixedContent = fixEllipsisIssues(content);
-        
+
         if (content !== fixedContent) {
           fs.writeFileSync(filePath, fixedContent, 'utf8');
-          console.log(`Fixed ellipsis in: ${path.relative(process.cwd(), filePath)}`);
+          console.log(
+            `Fixed ellipsis in: ${path.relative(process.cwd(), filePath)}`
+          );
           fixedCount++;
         }
       } catch (error) {
@@ -48,14 +50,14 @@ function processDirectory(dirPath) {
       }
     }
   }
-  
+
   function walkDirectory(dir) {
     const items = fs.readdirSync(dir);
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         walkDirectory(fullPath);
       } else {
@@ -63,7 +65,7 @@ function processDirectory(dirPath) {
       }
     }
   }
-  
+
   walkDirectory(dirPath);
   return fixedCount;
 }

@@ -375,7 +375,7 @@ export interface IContentRepository {
     format: 'JSON' | 'MARKDOWN' | 'HTML'
   ): Promise<string>;
   importContent(
-    data: any[],
+    data: Partial<Content>[],
     format: 'JSON' | 'CSV'
   ): Promise<{ success: number; errors: string[] }>;
 

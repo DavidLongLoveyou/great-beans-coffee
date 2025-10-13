@@ -371,7 +371,7 @@ export function LogisticsCostEstimator({
       setEstimate(newEstimate);
       onEstimateCalculated?.(newEstimate);
     } catch (error) {
-      console.error('Error calculating shipping estimate:', error);
+      // Shipping calculation error handling removed for production
     } finally {
       setIsCalculating(false);
     }

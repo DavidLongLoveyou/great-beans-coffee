@@ -29,7 +29,6 @@ import {
   SheetTrigger,
 } from '@/presentation/components/ui/sheet';
 import { SectionHeading } from '@/shared/components/typography/SectionHeading';
-import { cn } from '@/shared/utils/cn';
 
 interface SearchFiltersState {
   type: string;
@@ -73,7 +72,7 @@ interface SearchPageProps {
 }
 
 export default function SearchPage({ params }: SearchPageProps) {
-  const t = useTranslations('search');
+  const _t = useTranslations('search');
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -217,7 +216,7 @@ export default function SearchPage({ params }: SearchPageProps) {
         setTotalCount(data.total);
         setCurrentPage(page);
       } catch (err) {
-        console.error('Search error:', err);
+        // Error handling removed for production
         setResults([]);
         setTotalCount(0);
       } finally {
@@ -378,7 +377,8 @@ export default function SearchPage({ params }: SearchPageProps) {
                       <span className="font-semibold text-gray-900">
                         {totalCount.toLocaleString()}
                       </span>{' '}
-                      results for <span className="font-medium">"{query}"</span>
+                      results for{' '}
+                      <span className="font-medium">&quot;{query}&quot;</span>
                     </span>
                   )}
                 </div>

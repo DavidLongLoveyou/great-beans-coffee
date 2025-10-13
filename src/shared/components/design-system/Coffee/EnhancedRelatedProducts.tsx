@@ -653,7 +653,9 @@ export function EnhancedRelatedProducts({
 
       <Tabs
         value={activeTab}
-        onValueChange={(value) => setActiveTab(value as 'recommendations' | 'bulk' | 'comparison')}
+        onValueChange={value =>
+          setActiveTab(value as 'recommendations' | 'bulk' | 'comparison')
+        }
         className="w-full"
       >
         <TabsList className="mx-auto grid w-full max-w-md grid-cols-3">

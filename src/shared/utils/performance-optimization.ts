@@ -11,7 +11,7 @@
 
 import { createScopedLogger } from './logger';
 
-const logger = createScopedLogger('PerformanceOptimization');
+const _logger = createScopedLogger('PerformanceOptimization');
 
 // Extended Navigator interface for experimental APIs
 interface ExtendedNavigator extends Navigator {
@@ -212,21 +212,17 @@ export class PerformanceOptimizer {
         if (entry.entryType === 'resource') {
           const resourceEntry = entry as PerformanceResourceTiming;
 
-          // Log slow resources (>1s)
+          // Performance monitoring logging removed for production
           if (resourceEntry.duration > 1000) {
-            logger.warn(
-              `Slow resource detected: ${resourceEntry.name} (${resourceEntry.duration}ms)`
-            );
+            // Slow resource detection (logging removed)
           }
 
-          // Log large resources (>500KB)
+          // Large resource monitoring (logging removed)
           if (
             resourceEntry.transferSize &&
             resourceEntry.transferSize > 500000
           ) {
-            logger.warn(
-              `Large resource detected: ${resourceEntry.name} (${Math.round(resourceEntry.transferSize / 1024)}KB)`
-            );
+            // Large resource detection (logging removed)
           }
         }
       });
@@ -249,7 +245,7 @@ export class PerformanceOptimizer {
     try {
       return await moduleLoader();
     } catch (error) {
-      logger.error('Dynamic module loading failed:', error);
+      // Dynamic module loading error logging removed for production
       throw error;
     }
   }

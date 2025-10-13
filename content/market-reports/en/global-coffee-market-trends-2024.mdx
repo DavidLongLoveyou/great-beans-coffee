@@ -1,9 +1,5 @@
 ---
-
-
-
-
-title: "Global Coffee Market Trends 2024: Data-Driven Insights for Strategic Sourcing"
+title: 'Global Coffee Market Trends 2024: Data-Driven Insights for Strategic Sourcing'
 description: >
   Comprehensive analysis of global coffee market trends with interactive data visualizations, covering consumption patterns, price dynamics, and emerging opportunities for B2B buyers.
 publishedAt: '2024-01-25'
@@ -55,9 +51,6 @@ chartTypes:
   - 'pie'
   - 'map'
   - 'scatter'
-
-
-
 ---
 
 import { MarketChart } from '@/components/charts/MarketChart';
@@ -108,11 +101,31 @@ The coffee market demonstrates resilience and growth potential, with several tra
 <ConsumptionMap
   data={{
     regions: [
-      { name: 'North America', consumption: 28.5, growth: 1.8, color: '#8B4513' },
+      {
+        name: 'North America',
+        consumption: 28.5,
+        growth: 1.8,
+        color: '#8B4513',
+      },
       { name: 'Europe', consumption: 52.2, growth: 0.9, color: '#D2691E' },
-      { name: 'Asia-Pacific', consumption: 35.8, growth: 4.2, color: '#CD853F' },
-      { name: 'Latin America', consumption: 22.1, growth: 2.5, color: '#DEB887' },
-      { name: 'Africa & Middle East', consumption: 12.8, growth: 3.8, color: '#F4A460' }
+      {
+        name: 'Asia-Pacific',
+        consumption: 35.8,
+        growth: 4.2,
+        color: '#CD853F',
+      },
+      {
+        name: 'Latin America',
+        consumption: 22.1,
+        growth: 2.5,
+        color: '#DEB887',
+      },
+      {
+        name: 'Africa & Middle East',
+        consumption: 12.8,
+        growth: 3.8,
+        color: '#F4A460',
+      },
     ],
     unit: 'million bags',
     year: 2024,
@@ -143,11 +156,13 @@ The coffee market demonstrates resilience and growth potential, with several tra
   type="pie"
   data={{
     labels: ['Arabica', 'Robusta', 'Specialty Blends', 'Instant Coffee'],
-    datasets: [{
+    datasets: [
+      {
         data: [62.3, 23.8, 8.7, 5.2],
         backgroundColor: ['#8B4513', '#D2691E', '#CD853F', '#DEB887'],
         borderWidth: 2,
-      }],
+      },
+    ],
   }}
   title="Global Coffee Consumption by Type (2024)"
   description="Market share distribution across coffee categories"
@@ -171,14 +186,14 @@ The coffee market demonstrates resilience and growth potential, with several tra
       { month: 'Apr 2023', price: 172.8, volume: 11.8 },
       { month: 'Jul 2023', price: 165.2, volume: 13.1 },
       { month: 'Oct 2023', price: 158.9, volume: 12.9 },
-      { month: 'Jan 2024', price: 162.4, volume: 13.2 }
+      { month: 'Jan 2024', price: 162.4, volume: 13.2 },
     ],
     robusta: [
       { month: 'Jan 2023', price: 89.2, volume: 8.7 },
       { month: 'Apr 2023', price: 92.1, volume: 8.9 },
       { month: 'Jul 2023', price: 88.5, volume: 9.2 },
       { month: 'Oct 2023', price: 85.3, volume: 9.1 },
-      { month: 'Jan 2024', price: 87.8, volume: 9.3 }
+      { month: 'Jan 2024', price: 87.8, volume: 9.3 },
     ],
   }}
   title="Coffee Price Trends: Arabica vs Robusta (2023-2024)"
@@ -207,7 +222,8 @@ The coffee market demonstrates resilience and growth potential, with several tra
   type="line"
   data={{
     labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025'],
-    datasets: [{
+    datasets: [
+      {
         label: 'Arabica (¢/lb)',
         data: [162.4, 168.2, 171.5, 169.8, 173.1],
         borderColor: '#8B4513',
@@ -220,7 +236,8 @@ The coffee market demonstrates resilience and growth potential, with several tra
         borderColor: '#D2691E',
         backgroundColor: 'rgba(210, 105, 30, 0.1)',
         tension: 0.4,
-      }],
+      },
+    ],
   }}
   title="Coffee Price Forecast 2024-2025"
   description="Projected price movements based on supply-demand analysis"
@@ -241,7 +258,8 @@ The coffee market demonstrates resilience and growth potential, with several tra
   type="bar"
   data={{
     labels: ['2020', '2021', '2022', '2023', '2024E'],
-    datasets: [{
+    datasets: [
+      {
         label: 'Rainforest Alliance',
         data: [12.8, 14.2, 15.9, 17.3, 18.7],
         backgroundColor: '#228B22',
@@ -260,7 +278,8 @@ The coffee market demonstrates resilience and growth potential, with several tra
         label: 'UTZ/4C',
         data: [15.2, 16.1, 17.0, 17.8, 18.5],
         backgroundColor: '#98FB98',
-      }],
+      },
+    ],
   }}
   title="Certified Coffee Market Volume (Million Bags)"
   description="Growth in sustainable coffee certifications 2020-2024"
@@ -325,7 +344,8 @@ The coffee market demonstrates resilience and growth potential, with several tra
 <MarketChart
   type="scatter"
   data={{
-    datasets: [{
+    datasets: [
+      {
         label: 'Coffee Markets',
         data: [
           { x: 15.2, y: 8.3, label: 'USA', size: 28.5 },
@@ -335,11 +355,12 @@ The coffee market demonstrates resilience and growth potential, with several tra
           { x: 28.3, y: 18.9, label: 'China', size: 4.2 },
           { x: 16.4, y: 9.7, label: 'UK', size: 3.1 },
           { x: 14.9, y: 7.8, label: 'France', size: 5.4 },
-          { x: 25.6, y: 16.2, label: 'Australia', size: 1.9 }
+          { x: 25.6, y: 16.2, label: 'Australia', size: 1.9 },
         ],
         backgroundColor: 'rgba(139, 69, 19, 0.6)',
         borderColor: '#8B4513',
-      }],
+      },
+    ],
   }}
   options={{
     scales: {

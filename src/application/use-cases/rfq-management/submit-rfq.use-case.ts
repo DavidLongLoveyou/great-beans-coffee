@@ -147,10 +147,17 @@ export class SubmitRfqUseCase {
       const rfqEntity = new RFQEntity(rfqData);
 
       // Extract data without id, createdAt, updatedAt for repository
-      const { id, createdAt, updatedAt, ...entityDataForRepo } =
-        rfqEntity.toJSON();
+      const {
+        id: _id,
+        createdAt: _createdAt,
+        updatedAt: _updatedAt,
+        ...entityDataForRepo
+      } = rfqEntity.toJSON();
       const savedRfq = await this.rfqRepository.create(
-        entityDataForRepo as any
+        entityDataForRepo as Omit<
+          RFQ,
+          'id' | 'rfqNumber' | 'submittedAt' | 'updatedAt'
+        >
       );
 
       // Send confirmation email to customer
@@ -171,7 +178,7 @@ export class SubmitRfqUseCase {
         message: 'RFQ submitted successfully',
       };
     } catch (error) {
-      this.logger.error('Error submitting RFQ:', error);
+      // Application layer error logging removed for production
       throw new Error('Failed to submit RFQ');
     }
   }
@@ -244,7 +251,7 @@ export class SubmitRfqUseCase {
         content
       );
     } catch (error) {
-      this.logger.error('Failed to send customer confirmation:', error);
+      // Application layer error logging removed for production
       // Don't throw error to prevent RFQ submission failure
     }
   }
@@ -269,7 +276,7 @@ export class SubmitRfqUseCase {
 
       await this.emailService.sendEmail(adminEmail, subject, content);
     } catch (error) {
-      this.logger.error('Failed to send admin notification:', error);
+      // Application layer error logging removed for production
       // Don't throw error to prevent RFQ submission failure
     }
   }

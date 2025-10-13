@@ -382,28 +382,24 @@ export function EnhancedSEOHead({
             schemas.forEach((schema, index) => {
               try {
                 const data = JSON.parse(schema.textContent);
-                if (process.env.NODE_ENV === 'development') {
-                  logger.info(\`Schema \${index + 1} (\${data['@type']}):\`, data);
-                }
+                // Schema validation logging removed for production
                 
                 // Basic validation
                 if (!data['@context'] || !data['@type']) {
-                  if (process.env.NODE_ENV === 'development') {
-                    logger.warn(\`⚠️ Schema \${index + 1} missing required @context or @type\`);
-                  }
+                  // Validation warning removed for production
                 }
                 
                 // Validate required fields based on type
                 if (data['@type'] === 'Organization' && (!data.name || !data.url)) {
-                  logger.warn(\`⚠️ Organization schema missing required fields\`);
+                  // Validation warning removed for production
                 }
                 
                 if (data['@type'] === 'Product' && (!data.name || !data.description)) {
-                  logger.warn(\`⚠️ Product schema missing required fields\`);
+                  // Validation warning removed for production
                 }
                 
               } catch (error) {
-                logger.error(\`❌ Invalid JSON-LD in schema \${index + 1}:\`, error);
+                // Error logging removed for production
               }
             });
             console.groupEnd();

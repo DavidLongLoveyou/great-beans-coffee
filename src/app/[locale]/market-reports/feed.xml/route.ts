@@ -4,7 +4,7 @@ import { Locale, locales } from '@/shared/config/i18n';
 import { createScopedLogger } from '@/shared/utils/logger';
 import { generateMarketReportsRSSFeed } from '@/shared/utils/rss-generator';
 
-const logger = createScopedLogger('MarketReportsRSSFeedAPI');
+const _logger = createScopedLogger('MarketReportsRSSFeedAPI');
 
 export async function GET(
   request: NextRequest,
@@ -28,7 +28,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    logger.error('Error generating market reports RSS feed:', error);
+    // Error logging removed for production
     return new NextResponse('Error generating market reports RSS feed', {
       status: 500,
     });

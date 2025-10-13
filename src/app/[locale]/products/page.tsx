@@ -23,7 +23,7 @@ import { ProductGrid } from '@/presentation/components/catalog/ProductGrid';
 import type { Product } from '@/presentation/components/catalog/ProductGrid';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
 import { ContentSection } from '@/presentation/components/layout/ContentSection';
-import { Badge } from '@/presentation/components/ui/badge';
+
 import { Button } from '@/presentation/components/ui/button';
 import { ServerButton } from '@/presentation/components/ui/server-button';
 import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
@@ -91,30 +91,34 @@ const convertApiToGridProduct = (
   // Get localized content
   const translation = apiProduct.translations?.find(t => t.locale === locale);
   const localizedName = translation?.name || apiProduct.name;
-  const localizedDescription = translation?.description || apiProduct.description;
+  const localizedDescription =
+    translation?.description || apiProduct.description;
 
   // Convert certifications
-  const certifications: CoffeeCertification[] = apiProduct.certifications?.map(cert => {
-     // Map certification names to CoffeeCertification type
-     const certName = cert.certification.name.toLowerCase().replace(/\s+/g, '-');
-     const validCertifications: Record<string, CoffeeCertification> = {
-       'organic': 'organic',
-       'fair-trade': 'fair-trade',
-       'fairtrade': 'fair-trade',
-       'rainforest-alliance': 'rainforest-alliance',
-       'utz': 'utz',
-       'bird-friendly': 'bird-friendly',
-       'shade-grown': 'shade-grown',
-       'direct-trade': 'direct-trade',
-       'c-cafe': 'c-cafe',
-       '4c': '4c',
-       'iso-22000': 'iso-22000',
-       'haccp': 'haccp',
-       'brc': 'brc',
-       'ifs': 'ifs'
-     };
-     return validCertifications[certName] || 'organic';
-   }) || [];
+  const certifications: CoffeeCertification[] =
+    apiProduct.certifications?.map(cert => {
+      // Map certification names to CoffeeCertification type
+      const certName = cert.certification.name
+        .toLowerCase()
+        .replace(/\s+/g, '-');
+      const validCertifications: Record<string, CoffeeCertification> = {
+        organic: 'organic',
+        'fair-trade': 'fair-trade',
+        fairtrade: 'fair-trade',
+        'rainforest-alliance': 'rainforest-alliance',
+        utz: 'utz',
+        'bird-friendly': 'bird-friendly',
+        'shade-grown': 'shade-grown',
+        'direct-trade': 'direct-trade',
+        'c-cafe': 'c-cafe',
+        '4c': '4c',
+        'iso-22000': 'iso-22000',
+        haccp: 'haccp',
+        brc: 'brc',
+        ifs: 'ifs',
+      };
+      return validCertifications[certName] || 'organic';
+    }) || [];
 
   // Get pricing information
   const pricing = apiProduct.pricing?.[0] || {
@@ -164,8 +168,8 @@ const convertApiToGridProduct = (
   };
 };
 
-const coffeeTypes = ['ALL', 'ROBUSTA', 'ARABICA', 'SPECIALTY', 'BLEND'];
-const grades = [
+const _coffeeTypes = ['ALL', 'ROBUSTA', 'ARABICA', 'SPECIALTY', 'BLEND'];
+const _grades = [
   'ALL',
   'GRADE_1',
   'GRADE_2',
@@ -173,10 +177,10 @@ const grades = [
   'SCREEN_18',
   'SCREEN_16',
 ];
-const processingMethods = ['ALL', 'NATURAL', 'WASHED', 'HONEY', 'WET_HULLED'];
+const _processingMethods = ['ALL', 'NATURAL', 'WASHED', 'HONEY', 'WET_HULLED'];
 
 export default function ProductsPage() {
-  const t = useTranslations('products');
+  const _t = useTranslations('products');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedProducts, setSelectedProducts] = useState<Set<string>>(
     new Set()
@@ -225,31 +229,48 @@ export default function ProductsPage() {
 
       // Add filters to query
       if (filters.search) params.append('search', filters.search);
-      if (filters.coffeeType !== 'ALL') params.append('coffeeType', filters.coffeeType);
+      if (filters.coffeeType !== 'ALL')
+        params.append('coffeeType', filters.coffeeType);
       if (filters.grade !== 'ALL') params.append('grade', filters.grade);
-      if (filters.processingMethod !== 'ALL') params.append('processing', filters.processingMethod);
+      if (filters.processingMethod !== 'ALL')
+        params.append('processing', filters.processingMethod);
       if (filters.origin !== 'ALL') params.append('origin', filters.origin);
-      if (filters.inStock !== null) params.append('inStock', filters.inStock.toString());
-      if (filters.priceRange.min > 0) params.append('minPrice', filters.priceRange.min.toString());
-      if (filters.priceRange.max < 10000) params.append('maxPrice', filters.priceRange.max.toString());
-      if (filters.cuppingScoreRange.min > 0) params.append('minCuppingScore', filters.cuppingScoreRange.min.toString());
-      if (filters.cuppingScoreRange.max < 100) params.append('maxCuppingScore', filters.cuppingScoreRange.max.toString());
-      if (filters.altitudeRange.min > 0) params.append('minAltitude', filters.altitudeRange.min.toString());
-      if (filters.altitudeRange.max < 2000) params.append('maxAltitude', filters.altitudeRange.max.toString());
+      if (filters.inStock !== null)
+        params.append('inStock', filters.inStock.toString());
+      if (filters.priceRange.min > 0)
+        params.append('minPrice', filters.priceRange.min.toString());
+      if (filters.priceRange.max < 10000)
+        params.append('maxPrice', filters.priceRange.max.toString());
+      if (filters.cuppingScoreRange.min > 0)
+        params.append(
+          'minCuppingScore',
+          filters.cuppingScoreRange.min.toString()
+        );
+      if (filters.cuppingScoreRange.max < 100)
+        params.append(
+          'maxCuppingScore',
+          filters.cuppingScoreRange.max.toString()
+        );
+      if (filters.altitudeRange.min > 0)
+        params.append('minAltitude', filters.altitudeRange.min.toString());
+      if (filters.altitudeRange.max < 2000)
+        params.append('maxAltitude', filters.altitudeRange.max.toString());
       if (filters.certifications.length > 0) {
-        filters.certifications.forEach(cert => params.append('certifications', cert));
+        filters.certifications.forEach(cert =>
+          params.append('certifications', cert)
+        );
       }
 
       const response = await fetch(`/api/products/search?${params.toString()}`);
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
 
       const data: ApiResponse = await response.json();
-      
+
       // Convert API products to grid format
-      const convertedProducts = data.products.map(product => 
+      const convertedProducts = data.products.map(product =>
         convertApiToGridProduct(product, 'en')
       );
 
@@ -257,7 +278,6 @@ export default function ProductsPage() {
       setPagination(data.pagination);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching products:', err);
     } finally {
       setLoading(false);
     }
@@ -342,7 +362,7 @@ export default function ProductsPage() {
     const selectedProductData = filteredProducts.filter(p =>
       selectedProducts.has(p.id)
     );
-    const quoteData = {
+    const _quoteData = {
       products: selectedProductData.map(p => ({
         sku: p.sku,
         name: p.name,
@@ -355,7 +375,6 @@ export default function ProductsPage() {
     };
 
     // In a real app, this would send to an API
-    console.log('Bulk quote request:', quoteData);
     alert(
       `Quote request submitted for ${selectedProductData.length} products. Our sales team will contact you within 24 hours.`
     );
@@ -473,7 +492,8 @@ export default function ProductsPage() {
                       </span>
                     ) : (
                       <>
-                        {pagination.total} Product{pagination.total !== 1 ? 's' : ''} Found
+                        {pagination.total} Product
+                        {pagination.total !== 1 ? 's' : ''} Found
                         {filteredProducts.length !== pagination.total && (
                           <span className="text-sm text-gray-500">
                             ({filteredProducts.length} shown)
@@ -513,15 +533,22 @@ export default function ProductsPage() {
               {loading ? (
                 <div className="flex items-center justify-center py-12">
                   <Loader2 className="h-8 w-8 animate-spin text-forest-600" />
-                  <span className="ml-2 text-forest-600">Loading products...</span>
+                  <span className="ml-2 text-forest-600">
+                    Loading products...
+                  </span>
                 </div>
               ) : error ? (
                 <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-center">
                   <div className="text-red-600">
                     <Coffee className="mx-auto mb-2 h-8 w-8" />
-                    <h3 className="mb-2 text-lg font-semibold">Error Loading Products</h3>
+                    <h3 className="mb-2 text-lg font-semibold">
+                      Error Loading Products
+                    </h3>
                     <p className="mb-4">{error}</p>
-                    <Button onClick={fetchProducts} className="bg-red-600 text-white hover:bg-red-700">
+                    <Button
+                      onClick={fetchProducts}
+                      className="bg-red-600 text-white hover:bg-red-700"
+                    >
                       Try Again
                     </Button>
                   </div>
@@ -538,84 +565,119 @@ export default function ProductsPage() {
                 </div>
               ) : (
                 <>
-                   <ProductGrid
-                     products={filteredProducts}
-                     locale="en"
-                     viewMode={viewMode}
-                     onViewModeChange={setViewMode}
-                     selectedProducts={selectedProducts}
-                     onProductSelect={handleProductSelect}
-                     showSelection={true}
-                   />
-                   
-                   {/* Pagination Controls */}
-                   {pagination.totalPages > 1 && (
-                     <div className="mt-8 flex items-center justify-between">
-                       <div className="text-sm text-gray-600">
-                         Showing {((pagination.page - 1) * pagination.limit) + 1} to{' '}
-                         {Math.min(pagination.page * pagination.limit, pagination.total)} of{' '}
-                         {pagination.total} products
-                       </div>
-                       
-                       <div className="flex items-center gap-2">
-                         <Button
-                           variant="outline"
-                           size="sm"
-                           onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
-                           disabled={pagination.page <= 1 || loading}
-                         >
-                           Previous
-                         </Button>
-                         
-                         <div className="flex items-center gap-1">
-                           {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
-                             const pageNum = i + 1;
-                             const isCurrentPage = pageNum === pagination.page;
-                             
-                             return (
-                               <Button
-                                 key={pageNum}
-                                 variant={isCurrentPage ? "default" : "outline"}
-                                 size="sm"
-                                 onClick={() => setPagination(prev => ({ ...prev, page: pageNum }))}
-                                 disabled={loading}
-                                 className={isCurrentPage ? "bg-forest-600 text-white" : ""}
-                               >
-                                 {pageNum}
-                               </Button>
-                             );
-                           })}
-                           
-                           {pagination.totalPages > 5 && (
-                             <>
-                               <span className="px-2 text-gray-400">...</span>
-                               <Button
-                                 variant="outline"
-                                 size="sm"
-                                 onClick={() => setPagination(prev => ({ ...prev, page: pagination.totalPages }))}
-                                 disabled={loading}
-                               >
-                                 {pagination.totalPages}
-                               </Button>
-                             </>
-                           )}
-                         </div>
-                         
-                         <Button
-                           variant="outline"
-                           size="sm"
-                           onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
-                           disabled={pagination.page >= pagination.totalPages || loading}
-                         >
-                           Next
-                         </Button>
-                       </div>
-                     </div>
-                   )}
-                 </>
-               )}
-             </div>
-           </div>
+                  <ProductGrid
+                    products={filteredProducts}
+                    locale="en"
+                    viewMode={viewMode}
+                    onViewModeChange={setViewMode}
+                    selectedProducts={selectedProducts}
+                    onProductSelect={handleProductSelect}
+                    showSelection={true}
+                  />
+
+                  {/* Pagination Controls */}
+                  {pagination.totalPages > 1 && (
+                    <div className="mt-8 flex items-center justify-between">
+                      <div className="text-sm text-gray-600">
+                        Showing {(pagination.page - 1) * pagination.limit + 1}{' '}
+                        to{' '}
+                        {Math.min(
+                          pagination.page * pagination.limit,
+                          pagination.total
+                        )}{' '}
+                        of {pagination.total} products
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            setPagination(prev => ({
+                              ...prev,
+                              page: prev.page - 1,
+                            }))
+                          }
+                          disabled={pagination.page <= 1 || loading}
+                        >
+                          Previous
+                        </Button>
+
+                        <div className="flex items-center gap-1">
+                          {Array.from(
+                            { length: Math.min(5, pagination.totalPages) },
+                            (_, i) => {
+                              const pageNum = i + 1;
+                              const isCurrentPage = pageNum === pagination.page;
+
+                              return (
+                                <Button
+                                  key={pageNum}
+                                  variant={
+                                    isCurrentPage ? 'default' : 'outline'
+                                  }
+                                  size="sm"
+                                  onClick={() =>
+                                    setPagination(prev => ({
+                                      ...prev,
+                                      page: pageNum,
+                                    }))
+                                  }
+                                  disabled={loading}
+                                  className={
+                                    isCurrentPage
+                                      ? 'bg-forest-600 text-white'
+                                      : ''
+                                  }
+                                >
+                                  {pageNum}
+                                </Button>
+                              );
+                            }
+                          )}
+
+                          {pagination.totalPages > 5 && (
+                            <>
+                              <span className="px-2 text-gray-400">...</span>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() =>
+                                  setPagination(prev => ({
+                                    ...prev,
+                                    page: pagination.totalPages,
+                                  }))
+                                }
+                                disabled={loading}
+                              >
+                                {pagination.totalPages}
+                              </Button>
+                            </>
+                          )}
+                        </div>
+
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            setPagination(prev => ({
+                              ...prev,
+                              page: prev.page + 1,
+                            }))
+                          }
+                          disabled={
+                            pagination.page >= pagination.totalPages || loading
+                          }
+                        >
+                          Next
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
         </ContentContainer>
       </ContentSection>
 

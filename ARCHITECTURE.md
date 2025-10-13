@@ -203,7 +203,7 @@ components/
   - `getSpecificationValueWithUnit()` - Formatted value extraction with units
   - Enhanced null safety and error handling patterns
 
-- **API Interface Alignment**: 
+- **API Interface Alignment**:
   - Corrected frontend-backend data structure mapping
   - Fixed `specifications` vs `specificationItems` field alignment
   - Proper handling of array-based specification data

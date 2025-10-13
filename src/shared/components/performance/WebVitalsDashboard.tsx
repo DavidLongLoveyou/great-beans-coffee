@@ -387,9 +387,7 @@ export function WebVitalsDashboard({
                     metrics: Object.fromEntries(metrics),
                     timestamp: new Date().toISOString(),
                   };
-                  if (process.env.NODE_ENV === 'development') {
-                    logger.info('Web Vitals Report:', data);
-                  }
+                  // Development logging removed for production
                 }}
                 variant="outline"
                 size="sm"

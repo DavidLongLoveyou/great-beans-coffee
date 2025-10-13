@@ -1,17 +1,39 @@
 'use client';
 
-import { SearchIcon, SortAscIcon, SortDescIcon, GridIcon, ListIcon, LoaderIcon } from 'lucide-react';
+import {
+  SearchIcon,
+  SortAscIcon,
+  SortDescIcon,
+  GridIcon,
+  ListIcon,
+  LoaderIcon,
+} from 'lucide-react';
 import React, { useState } from 'react';
 
 import { Button } from '@/presentation/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/presentation/components/ui/card';
 import { Input } from '@/presentation/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/presentation/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/presentation/components/ui/select';
 import { Separator } from '@/presentation/components/ui/separator';
 import { Badge } from '@/presentation/components/ui/badge';
 import { cn } from '@/shared/utils';
 
-import { useContentSearch, SearchFilters, SearchSorting } from '@/shared/hooks/useContentSearch';
+import {
+  useContentSearch,
+  SearchFilters,
+  SearchSorting,
+} from '@/shared/hooks/useContentSearch';
 import { ContentFilters } from './ContentFilters';
 
 interface ContentSearchProps {
@@ -33,7 +55,7 @@ export function ContentSearch({
   compact = false,
 }: ContentSearchProps) {
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
-  
+
   const {
     query,
     setQuery,
@@ -119,7 +141,7 @@ export function ContentSearch({
           <Input
             placeholder="Search content by title, description, or content..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={e => setQuery(e.target.value)}
             className="pl-10"
           />
         </div>
@@ -133,7 +155,7 @@ export function ContentSearch({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {SORT_OPTIONS.map((option) => (
+                {SORT_OPTIONS.map(option => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
@@ -206,7 +228,8 @@ export function ContentSearch({
           {hasSearched && searchResponse && (
             <div className="mb-4 flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
-                {searchResponse.stats.totalResults} results found in {searchResponse.stats.searchTime}ms
+                {searchResponse.stats.totalResults} results found in{' '}
+                {searchResponse.stats.searchTime}ms
                 {query && (
                   <span className="ml-1">
                     for "<span className="font-medium">{query}</span>"
@@ -215,7 +238,8 @@ export function ContentSearch({
               </div>
               {searchResponse.pagination.totalPages > 1 && (
                 <div className="text-sm text-muted-foreground">
-                  Page {searchResponse.pagination.page} of {searchResponse.pagination.totalPages}
+                  Page {searchResponse.pagination.page} of{' '}
+                  {searchResponse.pagination.totalPages}
                 </div>
               )}
             </div>
@@ -245,7 +269,9 @@ export function ContentSearch({
                 <p className="text-muted-foreground">
                   No content found matching your search criteria.
                 </p>
-                {Object.values(filters).some(v => v !== undefined && v !== '' && v !== null) && (
+                {Object.values(filters).some(
+                  v => v !== undefined && v !== '' && v !== null
+                ) && (
                   <Button
                     variant="outline"
                     onClick={clearFilters}
@@ -260,12 +286,12 @@ export function ContentSearch({
 
           {/* Results List/Grid */}
           {results.length > 0 && (
-            <div className={cn(
-              viewMode === 'grid' 
-                ? 'grid gap-4 sm:grid-cols-2' 
-                : 'space-y-4'
-            )}>
-              {results.map((result) => (
+            <div
+              className={cn(
+                viewMode === 'grid' ? 'grid gap-4 sm:grid-cols-2' : 'space-y-4'
+              )}
+            >
+              {results.map(result => (
                 <Card
                   key={result.id}
                   className={cn(
@@ -276,15 +302,19 @@ export function ContentSearch({
                 >
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between gap-2">
-                      <CardTitle 
+                      <CardTitle
                         className="line-clamp-2 text-base"
-                        dangerouslySetInnerHTML={{ __html: result.titleHighlight }}
+                        dangerouslySetInnerHTML={{
+                          __html: result.titleHighlight,
+                        }}
                       />
                       <div className="flex shrink-0 gap-1">
                         <Badge className={getTypeColor(result.type)}>
                           {result.type}
                         </Badge>
-                        <Badge className={getStatusColor(result.metadata.status)}>
+                        <Badge
+                          className={getStatusColor(result.metadata.status)}
+                        >
                           {result.metadata.status}
                         </Badge>
                       </div>
@@ -292,14 +322,16 @@ export function ContentSearch({
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <p 
+                      <p
                         className="line-clamp-3 text-sm text-muted-foreground"
-                        dangerouslySetInnerHTML={{ __html: result.descriptionHighlight }}
+                        dangerouslySetInnerHTML={{
+                          __html: result.descriptionHighlight,
+                        }}
                       />
-                      
+
                       {result.excerpt && (
-                        <p 
-                          className="line-clamp-2 text-xs text-muted-foreground italic"
+                        <p
+                          className="line-clamp-2 text-xs italic text-muted-foreground"
                           dangerouslySetInnerHTML={{ __html: result.excerpt }}
                         />
                       )}
@@ -311,7 +343,10 @@ export function ContentSearch({
                           <span>{result.metadata.author}</span>
                           {result.metadata.category && (
                             <>
-                              <Separator orientation="vertical" className="h-3" />
+                              <Separator
+                                orientation="vertical"
+                                className="h-3"
+                              />
                               <span>{result.metadata.category}</span>
                             </>
                           )}
@@ -341,33 +376,44 @@ export function ContentSearch({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => handlePageChange(searchResponse.pagination.page - 1)}
+                onClick={() =>
+                  handlePageChange(searchResponse.pagination.page - 1)
+                }
                 disabled={!searchResponse.pagination.hasPrev}
               >
                 Previous
               </Button>
-              
+
               <div className="flex items-center gap-1">
-                {Array.from({ length: Math.min(5, searchResponse.pagination.totalPages) }, (_, i) => {
-                  const page = i + 1;
-                  return (
-                    <Button
-                      key={page}
-                      variant={page === searchResponse.pagination.page ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => handlePageChange(page)}
-                      className="w-8"
-                    >
-                      {page}
-                    </Button>
-                  );
-                })}
+                {Array.from(
+                  { length: Math.min(5, searchResponse.pagination.totalPages) },
+                  (_, i) => {
+                    const page = i + 1;
+                    return (
+                      <Button
+                        key={page}
+                        variant={
+                          page === searchResponse.pagination.page
+                            ? 'default'
+                            : 'outline'
+                        }
+                        size="sm"
+                        onClick={() => handlePageChange(page)}
+                        className="w-8"
+                      >
+                        {page}
+                      </Button>
+                    );
+                  }
+                )}
               </div>
 
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => handlePageChange(searchResponse.pagination.page + 1)}
+                onClick={() =>
+                  handlePageChange(searchResponse.pagination.page + 1)
+                }
                 disabled={!searchResponse.pagination.hasNext}
               >
                 Next
@@ -378,28 +424,30 @@ export function ContentSearch({
       </div>
 
       {/* Search Suggestions */}
-      {searchResponse && searchResponse.suggestions.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm">Suggestions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {searchResponse.suggestions.map((suggestion) => (
-                <Button
-                  key={suggestion}
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setQuery(suggestion)}
-                  className="h-auto py-1 text-xs"
-                >
-                  {suggestion}
-                </Button>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {searchResponse &&
+        searchResponse.suggestions &&
+        searchResponse.suggestions.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">Suggestions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-2">
+                {searchResponse.suggestions.map(suggestion => (
+                  <Button
+                    key={suggestion}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setQuery(suggestion)}
+                    className="h-auto py-1 text-xs"
+                  >
+                    {suggestion}
+                  </Button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
     </div>
   );
 }

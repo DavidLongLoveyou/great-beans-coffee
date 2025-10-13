@@ -9,17 +9,15 @@ import { ContentSection } from '@/presentation/components/layout/ContentSection'
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/presentation/components/ui/tabs';
-import { ContentList, ContentEditor, ContentPreview } from '@/presentation/components/cms';
+  ContentList,
+  ContentEditor,
+  ContentPreview,
+  type ContentItem,
+} from '@/presentation/components/cms';
 
 // Mock data for demonstration
 const mockContent = [
@@ -36,8 +34,10 @@ const mockContent = [
     publishedAt: '2024-01-15T10:00:00Z',
     updatedAt: '2024-01-16T14:30:00Z',
     views: 1250,
-    excerpt: 'Learn the professional techniques of coffee cupping to evaluate and appreciate the complex flavors in your coffee.',
-    coverImage: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&h=400&fit=crop',
+    excerpt:
+      'Learn the professional techniques of coffee cupping to evaluate and appreciate the complex flavors in your coffee.',
+    coverImage:
+      'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&h=400&fit=crop',
   },
   {
     id: '2',
@@ -52,8 +52,10 @@ const mockContent = [
     publishedAt: '2024-01-10T09:00:00Z',
     updatedAt: '2024-01-20T16:45:00Z',
     views: 890,
-    excerpt: 'Comprehensive analysis of global coffee market trends, pricing, and forecasts for the first quarter of 2024.',
-    coverImage: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=400&fit=crop',
+    excerpt:
+      'Comprehensive analysis of global coffee market trends, pricing, and forecasts for the first quarter of 2024.',
+    coverImage:
+      'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=400&fit=crop',
   },
   {
     id: '3',
@@ -68,8 +70,10 @@ const mockContent = [
     publishedAt: '2024-01-08T11:30:00Z',
     updatedAt: '2024-01-08T11:30:00Z',
     views: 2100,
-    excerpt: 'Discover the birthplace of coffee in the Ethiopian highlands and meet the farmers who cultivate these exceptional beans.',
-    coverImage: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&h=400&fit=crop',
+    excerpt:
+      'Discover the birthplace of coffee in the Ethiopian highlands and meet the farmers who cultivate these exceptional beans.',
+    coverImage:
+      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&h=400&fit=crop',
   },
   {
     id: '4',
@@ -84,8 +88,10 @@ const mockContent = [
     publishedAt: '2024-01-05T08:00:00Z',
     updatedAt: '2024-01-12T10:15:00Z',
     views: 750,
-    excerpt: 'Professional coffee export services with quality assurance, logistics support, and global shipping solutions.',
-    coverImage: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&h=400&fit=crop',
+    excerpt:
+      'Professional coffee export services with quality assurance, logistics support, and global shipping solutions.',
+    coverImage:
+      'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&h=400&fit=crop',
   },
   {
     id: '5',
@@ -100,24 +106,37 @@ const mockContent = [
     publishedAt: '2024-01-12T13:20:00Z',
     updatedAt: '2024-01-12T13:20:00Z',
     views: 680,
-    excerpt: 'Aprende las técnicas profesionales de catado de café para evaluar y apreciar los sabores complejos en tu café.',
-    coverImage: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=400&fit=crop',
+    excerpt:
+      'Aprende las técnicas profesionales de catado de café para evaluar y apreciar los sabores complejos en tu café.',
+    coverImage:
+      'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=400&fit=crop',
   },
 ];
 
 const mockMetadata = {
   title: 'The Art of Coffee Cupping: A Complete Guide',
-  description: 'Learn the professional techniques of coffee cupping to evaluate and appreciate the complex flavors in your coffee.',
-  excerpt: 'Learn the professional techniques of coffee cupping to evaluate and appreciate the complex flavors in your coffee.',
-  seoTitle: 'Coffee Cupping Guide: Professional Techniques & Tips | Great Beans',
-  seoDescription: 'Master the art of coffee cupping with our comprehensive guide. Learn professional techniques to evaluate coffee flavors, aromas, and quality like an expert.',
-  keywords: ['coffee cupping', 'coffee tasting', 'coffee evaluation', 'coffee quality', 'coffee education'],
+  description:
+    'Learn the professional techniques of coffee cupping to evaluate and appreciate the complex flavors in your coffee.',
+  excerpt:
+    'Learn the professional techniques of coffee cupping to evaluate and appreciate the complex flavors in your coffee.',
+  seoTitle:
+    'Coffee Cupping Guide: Professional Techniques & Tips | Great Beans',
+  seoDescription:
+    'Master the art of coffee cupping with our comprehensive guide. Learn professional techniques to evaluate coffee flavors, aromas, and quality like an expert.',
+  keywords: [
+    'coffee cupping',
+    'coffee tasting',
+    'coffee evaluation',
+    'coffee quality',
+    'coffee education',
+  ],
   locale: 'en',
   category: 'Education',
   featured: true,
   publishedAt: '2024-01-15T10:00:00Z',
   author: 'John Doe',
-  coverImage: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&h=400&fit=crop',
+  coverImage:
+    'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&h=400&fit=crop',
   slug: 'art-of-coffee-cupping-guide',
   status: 'published' as const,
 };
@@ -181,21 +200,25 @@ export default function CMSPage({
 }: {
   params: Promise<{ locale: Locale }>;
 }) {
-  const { locale } = use(params);
+  const { locale: _locale } = use(params);
   const [currentView, setCurrentView] = useState<ViewMode>('list');
-  const [selectedContent, setSelectedContent] = useState(mockContent[0]);
+  const [selectedContent, setSelectedContent] = useState<ContentItem | null>(
+    mockContent[0] as ContentItem
+  );
 
-  const handleEdit = (item: typeof mockContent[0]) => {
+  const handleEdit = (item: ContentItem) => {
     setSelectedContent(item);
     setCurrentView('editor');
   };
 
-  const handlePreview = (item: typeof mockContent[0]) => {
+  const handlePreview = (item: ContentItem) => {
     setSelectedContent(item);
     setCurrentView('preview');
   };
 
-  const handleCreate = (type: 'blog' | 'market-report' | 'origin-story' | 'service') => {
+  const handleCreate = (
+    type: 'blog' | 'market-report' | 'origin-story' | 'service'
+  ) => {
     // Create new content item
     const newItem = {
       id: Date.now().toString(),
@@ -211,6 +234,8 @@ export default function CMSPage({
       updatedAt: new Date().toISOString(),
       views: 0,
       excerpt: 'New content description...',
+      coverImage:
+        'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&h=400&fit=crop',
     };
     setSelectedContent(newItem);
     setCurrentView('editor');
@@ -229,7 +254,8 @@ export default function CMSPage({
             <div>
               <h1 className="text-3xl font-bold">Content Management System</h1>
               <p className="text-muted-foreground">
-                Create, edit, and manage your content across all languages and content types
+                Create, edit, and manage your content across all languages and
+                content types
               </p>
             </div>
           </div>
@@ -238,7 +264,9 @@ export default function CMSPage({
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Content</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Content
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">38</div>
@@ -275,9 +303,7 @@ export default function CMSPage({
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">4</div>
-                <p className="text-xs text-muted-foreground">
-                  EN, ES, FR, PT
-                </p>
+                <p className="text-xs text-muted-foreground">EN, ES, FR, PT</p>
               </CardContent>
             </Card>
           </div>
@@ -289,38 +315,34 @@ export default function CMSPage({
               onEdit={handleEdit}
               onPreview={handlePreview}
               onCreate={handleCreate}
-              onDelete={(item) => console.log('Delete:', item)}
-              onDuplicate={(item) => console.log('Duplicate:', item)}
-              onToggleFeatured={(item) => console.log('Toggle featured:', item)}
-              onArchive={(item) => console.log('Archive:', item)}
+              onDelete={_item => {}}
+              onDuplicate={_item => {}}
+              onToggleFeatured={_item => {}}
+              onArchive={_item => {}}
             />
           )}
 
-          {currentView === 'editor' && (
+          {currentView === 'editor' && selectedContent && (
             <ContentEditor
               initialContent={mockContentText}
               initialMetadata={mockMetadata}
               contentType={selectedContent.type}
-              onSave={(content, metadata) => {
-                console.log('Save:', { content, metadata });
+              onSave={async (_content, _metadata) => {
                 setCurrentView('list');
               }}
-              onCancel={handleBackToList}
-              onPreview={(content, metadata) => {
-                console.log('Preview:', { content, metadata });
+              onPreview={(_content, _metadata) => {
                 setCurrentView('preview');
               }}
             />
           )}
 
-          {currentView === 'preview' && (
+          {currentView === 'preview' && selectedContent && (
             <ContentPreview
               content={mockContentText}
               metadata={mockMetadata}
               contentType={selectedContent.type}
               onEdit={handleBackToList}
               onPublish={() => {
-                console.log('Publish content');
                 setCurrentView('list');
               }}
             />

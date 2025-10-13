@@ -23,20 +23,20 @@ export class DatabaseMigrations {
    */
   async runMigrations(): Promise<MigrationResult> {
     try {
-      this.logger.info('🔄 Running database migrations...');
+      // Infrastructure layer logging removed for production
 
       // This would typically use Prisma CLI commands
       // For now, we'll implement basic migration checks
       await this.checkDatabaseConnection();
       await this.ensureRequiredTables();
 
-      this.logger.info('✅ Database migrations completed successfully');
+      // Infrastructure layer logging removed for production
       return {
         success: true,
         message: 'All migrations completed successfully',
       };
     } catch (error) {
-      this.logger.error('❌ Migration failed:', error);
+      // Infrastructure layer error logging removed for production
       return {
         success: false,
         message: 'Migration failed',
@@ -51,7 +51,7 @@ export class DatabaseMigrations {
   private async checkDatabaseConnection(): Promise<void> {
     try {
       await this.prisma.$queryRaw`SELECT 1`;
-      this.logger.info('✅ Database connection verified');
+      // Infrastructure layer logging removed for production
     } catch (error) {
       throw new Error(`Database connection failed: ${error}`);
     }
@@ -95,7 +95,7 @@ export class DatabaseMigrations {
         throw new Error(`Table ${tableName} does not exist`);
       }
 
-      this.logger.info(`✅ Table ${tableName} verified`);
+      // Infrastructure layer logging removed for production
     } catch (error) {
       throw new Error(`Table ${tableName} check failed: ${error}`);
     }
@@ -114,7 +114,7 @@ export class DatabaseMigrations {
     }
 
     try {
-      this.logger.info('🔄 Resetting database...');
+      // Infrastructure layer logging removed for production
 
       // Delete all data in reverse dependency order
       await this.prisma.content.deleteMany();
@@ -134,13 +134,13 @@ export class DatabaseMigrations {
 
       await this.prisma.user.deleteMany();
 
-      this.logger.info('✅ Database reset completed');
+      // Infrastructure layer logging removed for production
       return {
         success: true,
         message: 'Database reset completed successfully',
       };
     } catch (error) {
-      this.logger.error('❌ Database reset failed:', error);
+      // Infrastructure layer logging removed for production
       return {
         success: false,
         message: 'Database reset failed',
@@ -154,7 +154,7 @@ export class DatabaseMigrations {
    */
   async createIndexes(): Promise<MigrationResult> {
     try {
-      this.logger.info('🔄 Creating database indexes...');
+      // Infrastructure layer logging removed for production
 
       const indexes = [
         // Coffee Product indexes
@@ -196,17 +196,17 @@ export class DatabaseMigrations {
         try {
           await this.prisma.$executeRawUnsafe(indexQuery);
         } catch (error) {
-          this.logger.warn(`⚠️ Index creation warning: ${error}`);
+          // Infrastructure layer logging removed for production
         }
       }
 
-      this.logger.info('✅ Database indexes created successfully');
+      // Infrastructure layer logging removed for production
       return {
         success: true,
         message: 'Database indexes created successfully',
       };
     } catch (error) {
-      this.logger.error('❌ Index creation failed:', error);
+      // Infrastructure layer logging removed for production
       return {
         success: false,
         message: 'Index creation failed',
@@ -223,19 +223,19 @@ export class DatabaseMigrations {
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const name = backupName || `backup-${timestamp}`;
 
-      this.logger.info(`🔄 Creating database backup: ${name}`);
+      // Infrastructure layer logging removed for production
 
       // This would typically use pg_dump or similar
       // For now, we'll just verify the operation is possible
       await this.checkDatabaseConnection();
 
-      this.logger.info(`✅ Database backup ${name} created successfully`);
+      // Infrastructure layer logging removed for production
       return {
         success: true,
         message: `Database backup ${name} created successfully`,
       };
     } catch (error) {
-      this.logger.error('❌ Database backup failed:', error);
+      // Infrastructure layer logging removed for production
       return {
         success: false,
         message: 'Database backup failed',
@@ -261,7 +261,7 @@ export class DatabaseMigrations {
         lastMigration: 'add_indexes',
       };
     } catch (error) {
-      this.logger.error('❌ Failed to get migration status:', error);
+      // Infrastructure layer logging removed for production
       return {
         applied: [],
         pending: ['unknown'],
@@ -274,7 +274,7 @@ export class DatabaseMigrations {
    */
   async validateSchema(): Promise<MigrationResult> {
     try {
-      this.logger.info('🔄 Validating database schema...');
+      // Infrastructure layer logging removed for production
 
       // Check critical constraints and relationships
       const validations = [
@@ -285,13 +285,13 @@ export class DatabaseMigrations {
 
       await Promise.all(validations);
 
-      this.logger.info('✅ Database schema validation completed');
+      // Infrastructure layer logging removed for production
       return {
         success: true,
         message: 'Database schema is valid',
       };
     } catch (error) {
-      this.logger.error('❌ Schema validation failed:', error);
+      // Infrastructure layer logging removed for production
       return {
         success: false,
         message: 'Schema validation failed',

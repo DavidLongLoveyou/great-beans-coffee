@@ -27,15 +27,12 @@ export async function GET(
   try {
     const { id } = await params;
 
-    logger.info('Fetching RFQ communication history', { rfqId: id });
+    // API logging removed for production
 
     // Get communication history from repository
     const communications = await rfqRepository.getCommunicationHistory(id);
 
-    logger.info('RFQ communication history fetched successfully', {
-      rfqId: id,
-      communicationCount: communications.length,
-    });
+    // API logging removed for production
 
     return NextResponse.json({
       success: true,
@@ -56,7 +53,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    logger.error('Error fetching RFQ communication history:', error);
+    // API error logging removed for production
 
     if (error instanceof Error && error.message.includes('not found')) {
       return NextResponse.json(
@@ -92,11 +89,7 @@ export async function POST(
     // Validate request body
     const validatedData = addCommunicationSchema.parse(body);
 
-    logger.info('Adding communication to RFQ', {
-      rfqId: id,
-      type: validatedData.type,
-      isInternal: validatedData.isInternal,
-    });
+    // API logging removed for production
 
     // Add communication using repository
     const updatedRfq = await rfqRepository.addCommunication(id, {
@@ -111,10 +104,7 @@ export async function POST(
     // Get the newly added communication (last one in the array)
     const newCommunication = updatedRfq.communications?.slice(-1)[0];
 
-    logger.info('Communication added successfully', {
-      rfqId: id,
-      communicationId: newCommunication?.id,
-    });
+    // API logging removed for production
 
     return NextResponse.json(
       {
@@ -139,7 +129,7 @@ export async function POST(
       { status: 201 }
     );
   } catch (error) {
-    logger.error('Error adding communication to RFQ:', error);
+    // API error logging removed for production
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -198,19 +188,12 @@ export async function PATCH(
       );
     }
 
-    logger.info('Marking communication as read', {
-      rfqId: id,
-      communicationId,
-      readBy,
-    });
+    // API logging removed for production
 
     // Mark communication as read using repository
     await rfqRepository.markAsRead(id, communicationId, readBy);
 
-    logger.info('Communication marked as read successfully', {
-      rfqId: id,
-      communicationId,
-    });
+    // API logging removed for production
 
     return NextResponse.json({
       success: true,
@@ -223,7 +206,7 @@ export async function PATCH(
       },
     });
   } catch (error) {
-    logger.error('Error marking communication as read:', error);
+    // API error logging removed for production
 
     if (error instanceof Error && error.message.includes('not found')) {
       return NextResponse.json(

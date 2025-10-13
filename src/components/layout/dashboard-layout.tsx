@@ -15,6 +15,7 @@ import {
   Settings,
   Bell,
   Search,
+  Coffee,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -53,6 +54,12 @@ const navigationItems = [
     title: 'Overview',
     href: '/dashboard',
     icon: LayoutDashboard,
+    badge: null,
+  },
+  {
+    title: 'Products',
+    href: '/dashboard/products',
+    icon: Coffee,
     badge: null,
   },
   {

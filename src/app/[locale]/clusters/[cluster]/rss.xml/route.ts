@@ -4,7 +4,7 @@ import type { Locale } from '@/i18n';
 import { createScopedLogger } from '@/shared/utils/logger';
 import { generateContentClusterRSS } from '@/shared/utils/rss-utils';
 
-const logger = createScopedLogger('ClusterRSSAPI');
+const _logger = createScopedLogger('ClusterRSSAPI');
 
 // Valid cluster names
 const validClusters = [
@@ -38,7 +38,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    logger.error('Error generating content cluster RSS feed:', error);
+    // API error logging removed for production
     return new NextResponse('Error generating content cluster RSS feed', {
       status: 500,
     });

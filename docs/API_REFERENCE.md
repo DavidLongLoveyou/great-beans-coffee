@@ -1,11 +1,13 @@
 # CMS API Reference
 
 ## Base URL
+
 ```
 http://localhost:3000/api/cms
 ```
 
 ## Authentication
+
 All CMS API endpoints require authentication. Include the authorization header in your requests:
 
 ```http
@@ -35,11 +37,13 @@ Retrieve a list of content items with optional filtering.
 | `sortOrder` | string | Sort order (`asc`, `desc`) | `desc` |
 
 **Example Request:**
+
 ```http
 GET /api/cms/content?type=blog&locale=en&status=published&limit=10
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -93,11 +97,13 @@ Retrieve a specific content item by ID.
 | `id` | string | Content ID (filename without extension) |
 
 **Example Request:**
+
 ```http
 GET /api/cms/content/2024-01-15-colombian-coffee-harvest
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -142,6 +148,7 @@ Create a new content item.
 **Endpoint:** `POST /content`
 
 **Request Body:**
+
 ```json
 {
   "type": "blog",
@@ -167,6 +174,7 @@ Create a new content item.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -190,6 +198,7 @@ Update an existing content item.
 | `id` | string | Content ID (filename without extension) |
 
 **Request Body:**
+
 ```json
 {
   "metadata": {
@@ -202,6 +211,7 @@ Update an existing content item.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -224,6 +234,7 @@ Delete a content item.
 | `id` | string | Content ID (filename without extension) |
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -247,6 +258,7 @@ Create a copy of existing content.
 | `id` | string | Content ID to duplicate |
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -271,6 +283,7 @@ Archive a content item (sets status to 'archived').
 | `id` | string | Content ID to archive |
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -293,6 +306,7 @@ Restore an archived content item (sets status to 'draft').
 | `id` | string | Content ID to restore |
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -315,6 +329,7 @@ Toggle the featured status of a content item.
 | `id` | string | Content ID to toggle featured status |
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -336,6 +351,7 @@ Perform advanced content search with filtering and sorting.
 **Endpoint:** `POST /search`
 
 **Request Body:**
+
 ```json
 {
   "query": "coffee harvest",
@@ -355,6 +371,7 @@ Perform advanced content search with filtering and sorting.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -434,11 +451,13 @@ Retrieve content statistics and analytics.
 | `timeframe` | string | Time period (`7d`, `30d`, `90d`, `1y`) | `30d` |
 
 **Example Request:**
+
 ```http
 GET /api/cms/stats?type=blog&locale=en&timeframe=30d
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -522,6 +541,7 @@ GET /api/cms/stats?type=blog&locale=en&timeframe=30d
 All endpoints return consistent error responses:
 
 ### 400 Bad Request
+
 ```json
 {
   "success": false,
@@ -534,6 +554,7 @@ All endpoints return consistent error responses:
 ```
 
 ### 401 Unauthorized
+
 ```json
 {
   "success": false,
@@ -542,6 +563,7 @@ All endpoints return consistent error responses:
 ```
 
 ### 403 Forbidden
+
 ```json
 {
   "success": false,
@@ -550,6 +572,7 @@ All endpoints return consistent error responses:
 ```
 
 ### 404 Not Found
+
 ```json
 {
   "success": false,
@@ -558,6 +581,7 @@ All endpoints return consistent error responses:
 ```
 
 ### 409 Conflict
+
 ```json
 {
   "success": false,
@@ -566,6 +590,7 @@ All endpoints return consistent error responses:
 ```
 
 ### 500 Internal Server Error
+
 ```json
 {
   "success": false,
@@ -583,6 +608,7 @@ API endpoints are rate limited to prevent abuse:
 - **Content creation**: 10 requests per minute per user
 
 Rate limit headers are included in responses:
+
 ```http
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
@@ -594,6 +620,7 @@ X-RateLimit-Reset: 1642694400
 Configure webhooks to receive notifications about content changes:
 
 ### Webhook Events
+
 - `content.created`
 - `content.updated`
 - `content.deleted`
@@ -602,6 +629,7 @@ Configure webhooks to receive notifications about content changes:
 - `content.featured`
 
 ### Webhook Payload
+
 ```json
 {
   "event": "content.published",
@@ -621,18 +649,19 @@ Configure webhooks to receive notifications about content changes:
 ## SDK Examples
 
 ### JavaScript/TypeScript
+
 ```typescript
 import { CMSClient } from '@/lib/cms-client';
 
 const cms = new CMSClient({
   baseURL: 'http://localhost:3000/api/cms',
-  apiKey: 'your-api-key'
+  apiKey: 'your-api-key',
 });
 
 // Get all blog posts
 const posts = await cms.content.list({
   type: 'blog',
-  status: 'published'
+  status: 'published',
 });
 
 // Create new content
@@ -643,22 +672,23 @@ const newPost = await cms.content.create({
     title: 'New Post',
     description: 'Post description',
     slug: 'new-post',
-    status: 'draft'
+    status: 'draft',
   },
-  content: '# New Post\n\nContent here...'
+  content: '# New Post\n\nContent here...',
 });
 
 // Search content
 const results = await cms.search({
   query: 'coffee',
   type: 'blog',
-  limit: 10
+  limit: 10,
 });
 ```
 
 ### cURL Examples
 
 #### Create Content
+
 ```bash
 curl -X POST http://localhost:3000/api/cms/content \
   -H "Content-Type: application/json" \
@@ -677,6 +707,7 @@ curl -X POST http://localhost:3000/api/cms/content \
 ```
 
 #### Search Content
+
 ```bash
 curl -X POST http://localhost:3000/api/cms/search \
   -H "Content-Type: application/json" \
@@ -707,6 +738,7 @@ npm run test:integration
 ## Support
 
 For API support and questions:
+
 - Documentation: `/docs/API_REFERENCE.md`
 - Issues: GitHub repository issues
 - Email: dev@greatbeans.com

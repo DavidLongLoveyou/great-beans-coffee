@@ -8,7 +8,7 @@ import {
   ArrowRight,
   Sparkles,
   Flame,
-  Star,
+  Star as _Star,
 } from 'lucide-react';
 import Link from 'next/link';
 

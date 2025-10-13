@@ -21,7 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { AnimatedIcon, FadeInScroll } from '@/presentation/components/ui/MicroInteractions';
+import { AnimatedIcon } from '@/presentation/components/ui/MicroInteractions';
 import {
   ScrollReveal,
   StaggeredChildren,
@@ -51,9 +51,11 @@ interface ProcessStep {
 }
 
 // Helper function to get Tailwind classes for colors
-const getColorClasses = (colorKey: string): {
-  primary: string; 
-  secondary: string; 
+const getColorClasses = (
+  colorKey: string
+): {
+  primary: string;
+  secondary: string;
   accent: string;
   border: string;
   bg: string;
@@ -62,67 +64,70 @@ const getColorClasses = (colorKey: string): {
   bgAccent: string;
   textAccent: string;
 } => {
-  const colorMap: Record<string, { 
-    primary: string; 
-    secondary: string; 
-    accent: string;
-    border: string;
-    bg: string;
-    text: string;
-    bgSecondary: string;
-    bgAccent: string;
-    textAccent: string;
-  }> = {
+  const colorMap: Record<
+    string,
+    {
+      primary: string;
+      secondary: string;
+      accent: string;
+      border: string;
+      bg: string;
+      text: string;
+      bgSecondary: string;
+      bgAccent: string;
+      textAccent: string;
+    }
+  > = {
     'gold-500': {
       primary: 'gold-500',
-      secondary: 'gold-100', 
+      secondary: 'gold-100',
       accent: 'gold-600',
       border: 'border-gold-500',
       bg: 'bg-gold-500',
       text: 'text-gold-500',
       bgSecondary: 'bg-gold-100',
       bgAccent: 'bg-gold-600',
-      textAccent: 'text-gold-600'
+      textAccent: 'text-gold-600',
     },
     'emerald-600': {
       primary: 'emerald-600',
       secondary: 'emerald-100',
-      accent: 'emerald-800', 
+      accent: 'emerald-800',
       border: 'border-emerald-600',
       bg: 'bg-emerald-600',
       text: 'text-emerald-600',
       bgSecondary: 'bg-emerald-100',
       bgAccent: 'bg-emerald-800',
-      textAccent: 'text-emerald-800'
+      textAccent: 'text-emerald-800',
     },
     'blue-600': {
       primary: 'blue-600',
       secondary: 'blue-100',
       accent: 'blue-800',
-      border: 'border-blue-600', 
+      border: 'border-blue-600',
       bg: 'bg-blue-600',
       text: 'text-blue-600',
       bgSecondary: 'bg-blue-100',
       bgAccent: 'bg-blue-800',
-      textAccent: 'text-blue-800'
+      textAccent: 'text-blue-800',
     },
     'purple-600': {
       primary: 'purple-600',
       secondary: 'purple-100',
       accent: 'purple-800',
       border: 'border-purple-600',
-      bg: 'bg-purple-600', 
+      bg: 'bg-purple-600',
       text: 'text-purple-600',
       bgSecondary: 'bg-purple-100',
       bgAccent: 'bg-purple-800',
-      textAccent: 'text-purple-800'
-    }
+      textAccent: 'text-purple-800',
+    },
   };
-  
+
   return colorMap[colorKey] ?? colorMap['gold-500']!;
 };
 
-export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
+export function OurProcessSection({}: OurProcessSectionProps) {
   const t = useTranslations('homepage');
   const [activeStep, setActiveStep] = useState(0);
 
@@ -270,7 +275,7 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
             const isActive = index === activeStep;
 
             const colorClasses = getColorClasses(step.color.primary);
-            
+
             return (
               <MagneticHover key={step.id}>
                 <button
@@ -346,7 +351,10 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                   {/* Process Details */}
                   <StaggeredChildren className="space-y-4">
                     {currentStep.details.map((detail, index) => (
-                      <div key={index} className="flex items-start gap-3">
+                      <div
+                        key={`${currentStep.id}-detail-${detail}`}
+                        className="flex items-start gap-3"
+                      >
                         <CheckCircle
                           className={`mt-0.5 h-5 w-5 flex-shrink-0 ${getColorClasses(currentStep.color?.primary || 'gold-500').text}`}
                         />
@@ -358,7 +366,10 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                   {/* Statistics */}
                   <StaggeredChildren className="grid grid-cols-3 gap-4 pt-6">
                     {currentStep.stats.map((stat, index) => (
-                      <div key={index} className="text-center">
+                      <div
+                        key={`${currentStep.id}-stat-${stat.label}`}
+                        className="text-center"
+                      >
                         <div
                           className={`text-2xl font-bold ${getColorClasses(currentStep.color?.primary || 'gold-500').text}`}
                         >
@@ -388,8 +399,10 @@ export function OurProcessSection({ locale: _locale }: OurProcessSectionProps) {
                         const isActive = index === activeStep;
                         const isPassed = index < activeStep;
 
-                        const stepColorClasses = getColorClasses(step.color?.primary || 'gold-500');
-                        
+                        const stepColorClasses = getColorClasses(
+                          step.color?.primary || 'gold-500'
+                        );
+
                         return (
                           <div key={step.id} className="relative">
                             <div className="flex items-center gap-4">

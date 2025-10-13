@@ -119,7 +119,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['largest-contentful-paint'] });
       this.observers.set('LCP', observer);
     } catch (error) {
-      logger.warn('LCP observation not supported:', error);
+      // Error logging removed for production
     }
   }
 
@@ -159,7 +159,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['first-input'] });
       this.observers.set('FID', observer);
     } catch (error) {
-      logger.warn('FID observation not supported:', error);
+      // Error logging removed for production
     }
   }
 
@@ -204,7 +204,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['event'] });
       this.observers.set('INP', observer);
     } catch (error) {
-      logger.warn('INP observation not supported:', error);
+      // Error logging removed for production
     }
   }
 
@@ -269,7 +269,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['layout-shift'] });
       this.observers.set('CLS', observer);
     } catch (error) {
-      logger.warn('CLS observation not supported:', error);
+      // Error logging removed for production
     }
   }
 
@@ -305,7 +305,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['paint'] });
       this.observers.set('FCP', observer);
     } catch (error) {
-      logger.warn('FCP observation not supported:', error);
+      // Error logging removed for production
     }
   }
 
@@ -342,7 +342,7 @@ export class CoreWebVitalsOptimizer {
       observer.observe({ entryTypes: ['navigation'] });
       this.observers.set('TTFB', observer);
     } catch (error) {
-      logger.warn('TTFB observation not supported:', error);
+      // Error logging removed for production
     }
   }
 
@@ -455,14 +455,7 @@ export class CoreWebVitalsOptimizer {
       });
     }
 
-    // Report to console in development
-    if (process.env.NODE_ENV === 'development') {
-      logger.info(`[Core Web Vitals] ${metric.name}:`, {
-        value: metric.value,
-        rating: metric.rating,
-        id: metric.id,
-      });
-    }
+    // Development logging removed for production
   }
 
   // Rating helper methods

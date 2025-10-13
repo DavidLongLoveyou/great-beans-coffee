@@ -18,9 +18,9 @@ import {
 } from 'recharts';
 
 // Type for Recharts data - compatible with their internal types
-type ChartDataPoint = Record<string, any>;
+type ChartDataPoint = Record<string, string | number>;
 
-interface MarketDataPoint {
+interface _MarketDataPoint {
   period: string;
   value: number;
   label?: string;
@@ -157,7 +157,7 @@ export const MarketChart: React.FC<MarketChartProps> = ({
               >
                 {data.map((entry, index) => (
                   <Cell
-                    key={`cell-${index}`}
+                    key={`cell-${entry.name || entry.period || index}`}
                     fill={colors[index % colors.length]}
                   />
                 ))}

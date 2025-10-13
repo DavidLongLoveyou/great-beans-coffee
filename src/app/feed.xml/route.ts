@@ -169,7 +169,7 @@ export async function GET(_request: NextRequest) {
       },
     });
   } catch (error) {
-    logger.error('Error generating RSS feed:', error);
+    // API error logging removed for production
     return new NextResponse('Error generating RSS feed', { status: 500 });
   }
 }

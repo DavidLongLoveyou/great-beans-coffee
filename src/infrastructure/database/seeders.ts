@@ -50,53 +50,48 @@ export class DatabaseSeeders {
    */
   async runAllSeeders(): Promise<SeedResult> {
     try {
-      this.logger.info('🌱 Starting comprehensive database seeding...');
-      this.logger.info(
-        `📊 Seeding ${seedDataStats.total} records across ${Object.keys(seedDataStats).length - 1} entity types`
-      );
+      // Infrastructure layer logging removed for production
+      // Infrastructure layer logging removed for production
 
       // Validate seed data before proceeding
       if (!seedDataValidation.isValid) {
-        this.logger.error('❌ Seed data validation failed:');
-        seedDataValidation.errors.forEach(error =>
-          this.logger.error(`  - ${error}`)
-        );
+        // Infrastructure layer error logging removed for production
         throw new Error('Seed data validation failed');
       }
 
       const seeded: string[] = [];
 
       // Run seeders in dependency order
-      this.logger.info('👥 Seeding users...');
+      // Infrastructure layer logging removed for production
       await this.seedUsers();
       seeded.push('users');
 
-      this.logger.info('🏢 Seeding client companies...');
+      // Infrastructure layer logging removed for production
       await this.seedClientCompanies();
       seeded.push('client-companies');
 
-      this.logger.info('☕ Seeding coffee products...');
+      // Infrastructure layer logging removed for production
       await this.seedCoffeeProducts();
       seeded.push('coffee-products');
 
-      this.logger.info('🛠️ Seeding business services...');
+      // Infrastructure layer logging removed for production
       await this.seedBusinessServices();
       seeded.push('business-services');
 
-      this.logger.info('📝 Seeding content...');
+      // Infrastructure layer logging removed for production
       await this.seedContent();
       seeded.push('content');
 
-      this.logger.info('🔗 Seeding cluster data...');
+      // Infrastructure layer logging removed for production
       await this.seedClusterData();
       seeded.push('cluster-data');
 
-      this.logger.info('💼 Seeding RFQs...');
+      // Infrastructure layer logging removed for production
       await this.seedRFQs();
       seeded.push('rfqs');
 
-      this.logger.info('✅ Database seeding completed successfully');
-      this.logger.info(`📈 Seeded ${seedDataStats.total} total records`);
+      // Infrastructure layer logging removed for production
+      // Infrastructure layer logging removed for production
 
       return {
         success: true,
@@ -105,7 +100,7 @@ export class DatabaseSeeders {
         stats: seedDataStats,
       };
     } catch (error) {
-      this.logger.error('❌ Seeding failed:', error);
+      // Infrastructure layer error logging removed for production
       return {
         success: false,
         message: 'Seeding failed',
@@ -160,7 +155,7 @@ export class DatabaseSeeders {
    * Seed comprehensive user data
    */
   async seedUsers(): Promise<void> {
-    this.logger.info(`  📝 Seeding ${usersData.length} users...`);
+    // Infrastructure layer logging removed for production
 
     for (const userData of usersData) {
       const user = {
@@ -181,16 +176,14 @@ export class DatabaseSeeders {
       });
     }
 
-    this.logger.info(`  ✅ Successfully seeded ${usersData.length} users`);
+    // Infrastructure layer logging removed for production
   }
 
   /**
    * Seed client companies
    */
   async seedClientCompanies(): Promise<void> {
-    this.logger.info(
-      `  📝 Seeding ${clientCompaniesData.length} client companies...`
-    );
+    // Infrastructure layer logging removed for production
 
     for (const companyData of clientCompaniesData) {
       // Map complex seed data to simple Prisma schema
@@ -221,9 +214,7 @@ export class DatabaseSeeders {
       });
     }
 
-    this.logger.info(
-      `  ✅ Successfully seeded ${clientCompaniesData.length} client companies`
-    );
+    // Infrastructure layer logging removed for production
   }
 
   /**
@@ -357,9 +348,7 @@ export class DatabaseSeeders {
    * Seed business services
    */
   async seedBusinessServices(): Promise<void> {
-    this.logger.info(
-      `  📝 Seeding ${businessServicesData.length} business services...`
-    );
+    // Infrastructure layer logging removed for production
 
     for (const serviceData of businessServicesData) {
       // Get English translation for basic fields
@@ -404,18 +393,14 @@ export class DatabaseSeeders {
       });
     }
 
-    this.logger.info(
-      `  ✅ Successfully seeded ${businessServicesData.length} business services`
-    );
+    // Infrastructure layer logging removed for production
   }
 
   /**
    * Seed coffee products
    */
   async seedCoffeeProducts(): Promise<void> {
-    this.logger.info(
-      `  📝 Seeding ${coffeeProductsData.length} coffee products...`
-    );
+    // Infrastructure layer logging removed for production
 
     for (const productData of coffeeProductsData) {
       // Map seed data to Prisma schema fields
@@ -458,16 +443,14 @@ export class DatabaseSeeders {
       });
     }
 
-    this.logger.info(
-      `  ✅ Successfully seeded ${coffeeProductsData.length} coffee products`
-    );
+    // Infrastructure layer logging removed for production
   }
 
   /**
    * Seed content
    */
   async seedContent(): Promise<void> {
-    this.logger.info(`  📝 Seeding ${contentData.length} content items...`);
+    // Infrastructure layer logging removed for production
 
     for (const contentItem of contentData) {
       const content = {
@@ -514,16 +497,14 @@ export class DatabaseSeeders {
       });
     }
 
-    this.logger.info(
-      `  ✅ Successfully seeded ${contentData.length} content items`
-    );
+    // Infrastructure layer logging removed for production
   }
 
   /**
    * Seed RFQs
    */
   async seedRFQs(): Promise<void> {
-    this.logger.info(`  📝 Seeding ${rfqsData.length} RFQs...`);
+    // Infrastructure layer logging removed for production
 
     for (const rfqData of rfqsData) {
       const rfq = {
@@ -564,14 +545,14 @@ export class DatabaseSeeders {
       });
     }
 
-    this.logger.info(`  ✅ Successfully seeded ${rfqsData.length} RFQs`);
+    // Infrastructure layer logging removed for production
   }
 
   /**
    * Seed cluster data (products, services, articles)
    */
   async seedClusterData(): Promise<void> {
-    this.logger.info(`  📝 Seeding cluster data...`);
+    // Infrastructure layer logging removed for production
 
     let totalProducts = 0;
     let totalServices = 0;
@@ -588,7 +569,7 @@ export class DatabaseSeeders {
 
     // Seed cluster products
     for (const [clusterId, products] of Object.entries(CLUSTER_PRODUCTS)) {
-      this.logger.info(`    📦 Seeding products for cluster: ${clusterId}`);
+      // Infrastructure layer logging removed for production
 
       for (const productData of products) {
         // Map cluster product data to database schema
@@ -681,7 +662,7 @@ export class DatabaseSeeders {
 
     // Seed cluster services
     for (const [clusterId, services] of Object.entries(CLUSTER_SERVICES)) {
-      this.logger.info(`    🔧 Seeding services for cluster: ${clusterId}`);
+      // Infrastructure layer logging removed for production
 
       for (const serviceData of services) {
         const service = {
@@ -757,7 +738,7 @@ export class DatabaseSeeders {
 
     // Seed cluster articles
     for (const [clusterId, articles] of Object.entries(CLUSTER_ARTICLES)) {
-      this.logger.info(`    📰 Seeding articles for cluster: ${clusterId}`);
+      // Infrastructure layer logging removed for production
 
       for (const articleData of articles) {
         const article = {
@@ -802,9 +783,7 @@ export class DatabaseSeeders {
       }
     }
 
-    this.logger.info(
-      `  ✅ Successfully seeded cluster data for ${Object.keys(CLUSTER_PRODUCTS).length} clusters`
-    );
+    // Infrastructure layer logging removed for production
   }
 
   /**
@@ -839,7 +818,7 @@ export class DatabaseSeeders {
    */
   async clearAllData(): Promise<SeedResult> {
     try {
-      this.logger.info('🧹 Clearing all data...');
+      // Infrastructure layer logging removed for production
 
       // Delete in reverse dependency order
       await this.prisma.rFQProduct.deleteMany();
@@ -849,14 +828,14 @@ export class DatabaseSeeders {
       await this.prisma.coffeeProduct.deleteMany();
       await this.prisma.user.deleteMany();
 
-      this.logger.info('✅ All data cleared successfully');
+      // Infrastructure layer logging removed for production
       return {
         success: true,
         message: 'All data cleared successfully',
         seeded: [],
       };
     } catch (error) {
-      this.logger.error('❌ Failed to clear data:', error);
+      // Infrastructure layer logging removed for production
       return {
         success: false,
         message: 'Failed to clear data',

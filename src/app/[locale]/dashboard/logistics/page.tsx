@@ -133,6 +133,15 @@ const mockTrackingData = [
   },
 ];
 
+interface CalculationResult {
+  cost: number;
+  transitDays: number;
+  method: string;
+  origin: string;
+  destination: string;
+  estimatedDelivery: string;
+}
+
 export default function LogisticsPage() {
   const t = useTranslations('logistics');
 
@@ -143,7 +152,8 @@ export default function LogisticsPage() {
   const [weight, setWeight] = useState('');
   const [containers, setContainers] = useState('');
   const [incoterm, setIncoterm] = useState('');
-  const [calculationResult, setCalculationResult] = useState<any>(null);
+  const [calculationResult, setCalculationResult] =
+    useState<CalculationResult | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
 
   // Calculate shipping cost

@@ -3,7 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AlertCircle, CheckCircle, AlertTriangle, Info } from 'lucide-react';
 
-import { Alert, AlertDescription, AlertTitle } from '@/presentation/components/ui/alert';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from '@/presentation/components/ui/alert';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -120,7 +124,8 @@ const VALIDATION_RULES: Record<string, ValidationRule[]> = {
       id: 'content-structure',
       field: 'content',
       rule: 'structure',
-      message: 'Should include Executive Summary, Market Analysis, and Forecast sections',
+      message:
+        'Should include Executive Summary, Market Analysis, and Forecast sections',
       severity: 'error',
       required: true,
     },
@@ -194,10 +199,15 @@ export function ContentValidator({
   onValidationChange,
   showDetails = true,
 }: ContentValidatorProps) {
-  const [validationResults, setValidationResults] = useState<ValidationResult[]>([]);
+  const [validationResults, setValidationResults] = useState<
+    ValidationResult[]
+  >([]);
   const [isValidating, setIsValidating] = useState(false);
 
-  const validateField = (rule: ValidationRule, value: unknown): ValidationResult => {
+  const validateField = (
+    rule: ValidationRule,
+    value: unknown
+  ): ValidationResult => {
     let passed = true;
     let message = rule.message;
 
@@ -220,7 +230,9 @@ export function ContentValidator({
 
       case 'minLength':
         if (typeof value === 'string') {
-          const wordCount = value.split(/\s+/).filter(word => word.length > 0).length;
+          const wordCount = value
+            .split(/\s+/)
+            .filter(word => word.length > 0).length;
           passed = wordCount >= 300;
           message = `${rule.message} (current: ${wordCount} words)`;
         }
@@ -249,12 +261,12 @@ export function ContentValidator({
           const hasMarketAnalysis = /market\s+analysis/i.test(value);
           const hasForecast = /forecast/i.test(value);
           passed = hasExecutiveSummary && hasMarketAnalysis && hasForecast;
-          
+
           const missing = [];
           if (!hasExecutiveSummary) missing.push('Executive Summary');
           if (!hasMarketAnalysis) missing.push('Market Analysis');
           if (!hasForecast) missing.push('Forecast');
-          
+
           if (!passed) {
             message = `Missing sections: ${missing.join(', ')}`;
           }
@@ -272,7 +284,10 @@ export function ContentValidator({
 
       case 'location':
         if (typeof value === 'string') {
-          passed = /\b(farm|region|altitude|climate|terroir|latitude|longitude)\b/i.test(value);
+          passed =
+            /\b(farm|region|altitude|climate|terroir|latitude|longitude)\b/i.test(
+              value
+            );
           if (!passed) {
             message = 'Missing specific location or geographical information';
           }
@@ -281,7 +296,10 @@ export function ContentValidator({
 
       case 'narrative':
         if (typeof value === 'string') {
-          passed = /\b(farmer|family|generation|story|tradition|heritage)\b/i.test(value);
+          passed =
+            /\b(farmer|family|generation|story|tradition|heritage)\b/i.test(
+              value
+            );
           if (!passed) {
             message = 'Missing personal narratives or farmer stories';
           }
@@ -298,7 +316,9 @@ export function ContentValidator({
 
       case 'benefits':
         if (typeof value === 'string') {
-          passed = /\b(benefit|advantage|feature|service|solution)\b/i.test(value);
+          passed = /\b(benefit|advantage|feature|service|solution)\b/i.test(
+            value
+          );
           if (!passed) {
             message = 'Missing clear service benefits or features';
           }
@@ -316,7 +336,10 @@ export function ContentValidator({
 
       case 'cta':
         if (typeof value === 'string') {
-          passed = /\b(contact|get\s+quote|learn\s+more|start|begin|order|request)\b/i.test(value);
+          passed =
+            /\b(contact|get\s+quote|learn\s+more|start|begin|order|request)\b/i.test(
+              value
+            );
           if (!passed) {
             message = 'Missing clear call-to-action';
           }
@@ -338,13 +361,13 @@ export function ContentValidator({
 
   const runValidation = useCallback(async () => {
     setIsValidating(true);
-    
+
     const rules = VALIDATION_RULES[contentType] || [];
     const results: ValidationResult[] = [];
 
     for (const rule of rules) {
       let value;
-      
+
       if (rule.field === 'content') {
         value = content;
       } else {
@@ -356,10 +379,10 @@ export function ContentValidator({
     }
 
     setValidationResults(results);
-    
+
     const hasErrors = results.some(r => r.severity === 'error' && !r.passed);
     const isValid = !hasErrors;
-    
+
     onValidationChange?.(isValid, results);
     setIsValidating(false);
   }, [content, metadata, contentType, onValidationChange]);
@@ -372,12 +395,19 @@ export function ContentValidator({
     return () => clearTimeout(debounceTimer);
   }, [content, metadata, contentType, runValidation]);
 
-  const errorCount = validationResults.filter(r => r.severity === 'error' && !r.passed).length;
-  const warningCount = validationResults.filter(r => r.severity === 'warning' && !r.passed).length;
-  const infoCount = validationResults.filter(r => r.severity === 'info' && !r.passed).length;
+  const errorCount = validationResults.filter(
+    r => r.severity === 'error' && !r.passed
+  ).length;
+  const warningCount = validationResults.filter(
+    r => r.severity === 'warning' && !r.passed
+  ).length;
+  const infoCount = validationResults.filter(
+    r => r.severity === 'info' && !r.passed
+  ).length;
   const passedCount = validationResults.filter(r => r.passed).length;
   const totalCount = validationResults.length;
-  const validationScore = totalCount > 0 ? Math.round((passedCount / totalCount) * 100) : 0;
+  const validationScore =
+    totalCount > 0 ? Math.round((passedCount / totalCount) * 100) : 0;
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
@@ -432,7 +462,9 @@ export function ContentValidator({
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span>Validation Progress</span>
-            <span>{passedCount}/{totalCount} checks passed</span>
+            <span>
+              {passedCount}/{totalCount} checks passed
+            </span>
           </div>
           <Progress value={validationScore} className="h-2" />
         </div>
@@ -468,7 +500,7 @@ export function ContentValidator({
         {/* Detailed Results */}
         {showDetails && (
           <div className="space-y-2">
-            {validationResults.map((result) => (
+            {validationResults.map(result => (
               <Alert
                 key={`${result.field}-${result.message}`}
                 className={`${getSeverityColor(result.severity)} ${

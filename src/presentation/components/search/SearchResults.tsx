@@ -485,7 +485,7 @@ function Pagination({
       </Button>
 
       {visiblePages.map((page, index) => (
-        <div key={index}>
+        <div key={`page-${page}-${index}`}>
           {page === '...' ? (
             <span className="px-3 py-2 text-gray-500">...</span>
           ) : (
@@ -556,7 +556,10 @@ export function SearchResults({
         )}
       >
         {Array.from({ length: layout === 'grid' ? 6 : 5 }).map((_, index) => (
-          <SearchResultSkeleton key={index} layout={layout} />
+          <SearchResultSkeleton
+            key={`skeleton-${layout}-${index}`}
+            layout={layout}
+          />
         ))}
       </div>
     );

@@ -49,7 +49,7 @@ export class SearchCoffeeProductsUseCase {
         query: query.trim(),
       };
     } catch (error) {
-      this.logger.error('Error searching coffee products:', error);
+      // Application layer error logging removed for production
       throw new Error('Failed to search coffee products');
     }
   }

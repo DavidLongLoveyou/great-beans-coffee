@@ -105,19 +105,11 @@ export async function POST(request: NextRequest) {
     // Validate request body
     const validatedData = submitRfqSchema.parse(body);
 
-    logger.info('Submitting RFQ', {
-      companyName: validatedData.companyName,
-      productType: validatedData.productType,
-      quantity: validatedData.quantity,
-    });
-
+    // API logging removed for production
     // Submit RFQ using the use case
     const result = await submitRfqUseCase.execute(validatedData);
 
-    logger.info('RFQ submitted successfully', {
-      rfqNumber: result.rfqNumber,
-      rfqId: result.rfq.id,
-    });
+    // API logging removed for production
 
     return NextResponse.json(
       {
@@ -133,7 +125,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    logger.error('Error submitting RFQ:', error);
+    // API error logging removed for production
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -182,16 +174,12 @@ export async function GET(request: NextRequest) {
     // Validate query parameters
     const validatedParams = getRfqsSchema.parse(params);
 
-    logger.info('Fetching RFQs', validatedParams);
+    // API logging removed for production
 
     // Get RFQs using the use case
     const result = await getRfqsUseCase.execute(validatedParams);
 
-    logger.info('RFQs fetched successfully', {
-      total: result.total,
-      page: result.page,
-      totalPages: result.totalPages,
-    });
+    // API logging removed for production
 
     return NextResponse.json({
       success: true,
@@ -222,7 +210,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    logger.error('Error fetching RFQs:', error);
+    // API error logging removed for production
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(

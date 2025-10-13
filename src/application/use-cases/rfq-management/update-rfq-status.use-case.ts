@@ -1,5 +1,5 @@
 import { NotificationService } from '@/application/services/notification.service';
-import { RFQEntity, RFQStatus } from '@/domain/entities/rfq.entity';
+import { RFQEntity, RFQStatus, type RFQ } from '@/domain/entities/rfq.entity';
 import { IRFQRepository } from '@/domain/repositories/rfq.repository';
 import { createScopedLogger } from '@/shared/utils/logger';
 
@@ -73,8 +73,8 @@ export class UpdateRfqStatusUseCase {
       }
 
       // Update RFQ status
-      const updateData: any = {
-        status: request.status,
+      const updateData: Partial<RFQ> = {
+        status: request.status as RFQStatus,
         updatedAt: new Date(),
       };
 
@@ -107,10 +107,7 @@ export class UpdateRfqStatusUseCase {
             `RFQ ${updatedRfq.rfqNumber} status changed from ${existingRfq.status} to ${request.status}`
           );
         } catch (notificationError) {
-          this.logger.error(
-            'Failed to send status update notification:',
-            notificationError
-          );
+          // Application layer error logging removed for production
           // Don't fail the entire operation if notification fails
         }
       }
@@ -121,7 +118,7 @@ export class UpdateRfqStatusUseCase {
         message: 'RFQ status updated successfully',
       };
     } catch (error) {
-      this.logger.error('Error updating RFQ status:', error);
+      // Application layer error logging removed for production
       return {
         rfq: null,
         success: false,

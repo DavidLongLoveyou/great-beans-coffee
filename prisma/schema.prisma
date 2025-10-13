@@ -95,11 +95,14 @@ model CoffeeProduct {
   updater User @relation("UpdatedBy", fields: [updatedBy], references: [id])
   
   // Related entities
-  translations    CoffeeProductTranslation[]
-  certifications  ProductCertification[]
-  specifications  ProductSpecification[]
-  rfqProducts     RFQProduct[]
-  pricingModels   ProductPricing[]
+  translations       CoffeeProductTranslation[]
+  certifications     ProductCertification[]
+  specificationItems ProductSpecification[]
+  rfqProducts        RFQProduct[]
+  pricingModels      ProductPricing[]
+  suppliers          ProductSupplier[]
+  inventory          ProductInventory[]
+  qualityReports     QualityReport[]
 
   @@map("coffee_products")
 }
@@ -222,6 +225,232 @@ model ProductCertification {
 
   @@unique([productId, certificationId])
   @@map("product_certifications")
+}
+
+// ============================================================================
+// SUPPLIER MANAGEMENT
+// ============================================================================
+
+model Supplier {
+  id          String        @id @default(cuid())
+  name        String
+  code        String        @unique
+  email       String?
+  phone       String?
+  website     String?
+  country     String
+  region      String?
+  city        String?
+  address     String?
+  postalCode  String?
+  
+  // Business Information
+  businessType    String?
+  establishedYear Int?
+  certifications  Json? // Array of certification IDs
+  capacity        String? // Production capacity
+  
+  // Quality & Compliance
+  qualityRating   Float?    // 1-5 rating
+  complianceScore Float?    // Compliance score
+  lastAuditDate   DateTime?
+  nextAuditDate   DateTime?
+  
+  // Financial
+  paymentTerms    String?
+  creditRating    String?
+  
+  // Status
+  status          SupplierStatus @default(ACTIVE)
+  isPreferred     Boolean        @default(false)
+  
+  // System fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  products        ProductSupplier[]
+  qualityReports  QualityReport[]
+  contacts        SupplierContact[]
+
+  @@map("suppliers")
+}
+
+model SupplierContact {
+  id         String  @id @default(cuid())
+  supplierId String
+  firstName  String
+  lastName   String
+  email      String
+  phone      String?
+  position   String?
+  department String?
+  isPrimary  Boolean @default(false)
+  isActive   Boolean @default(true)
+  
+  // Relations
+  supplier Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  
+  @@map("supplier_contacts")
+}
+
+model ProductSupplier {
+  id         String @id @default(cuid())
+  productId  String
+  supplierId String
+  
+  // Supplier-specific product info
+  supplierSku     String?
+  leadTime        Int?    // days
+  minimumOrder    Float?
+  maximumOrder    Float?
+  pricePerUnit    Float?
+  currency        String  @default("USD")
+  
+  // Quality & Compliance
+  qualityGrade    String?
+  lastDelivery    DateTime?
+  deliveryRating  Float?  // 1-5 rating
+  
+  // Status
+  isActive        Boolean @default(true)
+  isPrimary       Boolean @default(false)
+  
+  // Relations
+  product  CoffeeProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  supplier Supplier      @relation(fields: [supplierId], references: [id])
+  
+  @@unique([productId, supplierId])
+  @@map("product_suppliers")
+}
+
+enum SupplierStatus {
+  ACTIVE
+  INACTIVE
+  PENDING_APPROVAL
+  SUSPENDED
+  BLACKLISTED
+}
+
+// ============================================================================
+// INVENTORY MANAGEMENT
+// ============================================================================
+
+model ProductInventory {
+  id        String @id @default(cuid())
+  productId String
+  
+  // Stock Information
+  currentStock    Float   @default(0)
+  reservedStock   Float   @default(0)
+  availableStock  Float   @default(0)
+  unit            String  @default("MT") // Metric Tons
+  
+  // Warehouse Information
+  warehouse       String?
+  location        String?
+  batchNumber     String?
+  
+  // Dates
+  harvestDate     DateTime?
+  receivedDate    DateTime?
+  expiryDate      DateTime?
+  
+  // Quality Information
+  qualityGrade    String?
+  moistureContent Float?
+  defectRate      Float?
+  
+  // System fields
+  lastUpdated DateTime @default(now())
+  updatedBy   String?
+  
+  // Relations
+  product CoffeeProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@map("product_inventory")
+}
+
+// ============================================================================
+// QUALITY MANAGEMENT
+// ============================================================================
+
+model QualityReport {
+  id         String @id @default(cuid())
+  productId  String
+  supplierId String?
+  
+  // Report Information
+  reportNumber    String    @unique
+  reportType      QualityReportType
+  testDate        DateTime
+  reportDate      DateTime  @default(now())
+  
+  // Quality Metrics
+  cuppingScore    Float?
+  aroma           Float?
+  flavor          Float?
+  aftertaste      Float?
+  acidity         Float?
+  body            Float?
+  balance         Float?
+  uniformity      Float?
+  cleanCup        Float?
+  sweetness       Float?
+  
+  // Physical Analysis
+  moistureContent Float?
+  waterActivity   Float?
+  density         Float?
+  screenSize      String?
+  defectCount     Int?
+  defectRate      Float?
+  
+  // Chemical Analysis
+  caffeine        Float?
+  chlorogenicAcid Float?
+  trigonelline    Float?
+  
+  // Microbiological
+  totalPlateCount Int?
+  yeastMold       Int?
+  coliform        Int?
+  
+  // Certification
+  certifiedBy     String?
+  certifierName   String?
+  certificationNumber String?
+  
+  // Additional Data
+  notes           String?
+  attachments     Json? // Array of file URLs
+  
+  // Status
+  status          QualityReportStatus @default(PENDING)
+  
+  // Relations
+  product  CoffeeProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  supplier Supplier?     @relation(fields: [supplierId], references: [id])
+  
+  @@map("quality_reports")
+}
+
+enum QualityReportType {
+  CUPPING
+  PHYSICAL_ANALYSIS
+  CHEMICAL_ANALYSIS
+  MICROBIOLOGICAL
+  COMPREHENSIVE
+  INCOMING_INSPECTION
+  FINAL_INSPECTION
+}
+
+enum QualityReportStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  APPROVED
+  REJECTED
 }
 
 // ============================================================================

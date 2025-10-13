@@ -1,15 +1,15 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDebounce } from './useDebounce';
 
 export interface SearchFilters {
-  type?: 'blog' | 'market-report' | 'origin-story' | 'service';
-  locale?: 'en' | 'es' | 'fr' | 'pt';
-  status?: 'draft' | 'published' | 'archived';
-  category?: string;
-  author?: string;
-  featured?: boolean;
-  dateFrom?: string;
-  dateTo?: string;
+  type?: 'blog' | 'market-report' | 'origin-story' | 'service' | undefined;
+  locale?: 'en' | 'es' | 'fr' | 'pt' | undefined;
+  status?: 'draft' | 'published' | 'archived' | undefined;
+  category?: string | undefined;
+  author?: string | undefined;
+  featured?: boolean | undefined;
+  dateFrom?: string | undefined;
+  dateTo?: string | undefined;
 }
 
 export interface SearchSorting {
@@ -63,7 +63,7 @@ export interface SearchResponse {
     hasNext: boolean;
     hasPrev: boolean;
   };
-  suggestions: string[];
+  suggestions?: string[];
   stats: {
     totalResults: number;
     searchTime: number;
@@ -91,7 +91,8 @@ export interface UseContentSearchReturn {
   isLoading: boolean;
   error: string | null;
   hasSearched: boolean;
-  
+  searchResponse: SearchResponse | null;
+
   // Search response data
   totalResults: number;
   totalPages: number;
@@ -99,7 +100,7 @@ export interface UseContentSearchReturn {
   hasPrev: boolean;
   suggestions: string[];
   stats: SearchResponse['stats'] | null;
-  
+
   // Actions
   setQuery: (query: string) => void;
   setFilters: (filters: Partial<SearchFilters>) => void;
@@ -108,16 +109,22 @@ export interface UseContentSearchReturn {
   search: () => Promise<void>;
   clearSearch: () => void;
   resetFilters: () => void;
+  clearFilters: () => void;
   goToPage: (page: number) => void;
   nextPage: () => void;
   prevPage: () => void;
 }
 
 const DEFAULT_FILTERS: SearchFilters = {};
-const DEFAULT_SORTING: SearchSorting = { sortBy: 'relevance', sortOrder: 'desc' };
+const DEFAULT_SORTING: SearchSorting = {
+  sortBy: 'relevance',
+  sortOrder: 'desc',
+};
 const DEFAULT_PAGINATION: SearchPagination = { page: 1, limit: 10 };
 
-export function useContentSearch(options: UseContentSearchOptions = {}): UseContentSearchReturn {
+export function useContentSearch(
+  options: UseContentSearchOptions = {}
+): UseContentSearchReturn {
   const {
     initialQuery = '',
     initialFilters = DEFAULT_FILTERS,
@@ -126,21 +133,24 @@ export function useContentSearch(options: UseContentSearchOptions = {}): UseCont
     debounceMs = 300,
     autoSearch = true,
   } = options;
-  
+
   // State
   const [query, setQuery] = useState(initialQuery);
   const [filters, setFiltersState] = useState<SearchFilters>(initialFilters);
   const [sorting, setSortingState] = useState<SearchSorting>(initialSorting);
-  const [pagination, setPaginationState] = useState<SearchPagination>(initialPagination);
+  const [pagination, setPaginationState] =
+    useState<SearchPagination>(initialPagination);
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
-  const [searchResponse, setSearchResponse] = useState<SearchResponse | null>(null);
-  
+  const [searchResponse, setSearchResponse] = useState<SearchResponse | null>(
+    null
+  );
+
   // Debounced query for auto-search
   const debouncedQuery = useDebounce(query, debounceMs);
-  
+
   // Search function
   const search = useCallback(async () => {
     if (!query.trim()) {
@@ -149,10 +159,10 @@ export function useContentSearch(options: UseContentSearchOptions = {}): UseCont
       setHasSearched(false);
       return;
     }
-    
+
     setIsLoading(true);
     setError(null);
-    
+
     try {
       const searchData = {
         query: query.trim(),
@@ -160,7 +170,7 @@ export function useContentSearch(options: UseContentSearchOptions = {}): UseCont
         ...sorting,
         ...pagination,
       };
-      
+
       const response = await fetch('/api/cms/search', {
         method: 'POST',
         headers: {
@@ -168,17 +178,17 @@ export function useContentSearch(options: UseContentSearchOptions = {}): UseCont
         },
         body: JSON.stringify(searchData),
       });
-      
+
       if (!response.ok) {
         throw new Error(`Search failed: ${response.statusText}`);
       }
-      
+
       const data = await response.json();
-      
+
       if (!data.success) {
         throw new Error(data.error || 'Search failed');
       }
-      
+
       setResults(data.data.results);
       setSearchResponse(data.data);
       setHasSearched(true);
@@ -191,36 +201,39 @@ export function useContentSearch(options: UseContentSearchOptions = {}): UseCont
       setIsLoading(false);
     }
   }, [query, filters, sorting, pagination]);
-  
+
   // Auto-search effect
   useEffect(() => {
     if (autoSearch && debouncedQuery !== initialQuery) {
       search();
     }
   }, [debouncedQuery, autoSearch, search, initialQuery]);
-  
+
   // Pagination effect
   useEffect(() => {
     if (hasSearched) {
       search();
     }
   }, [pagination.page, hasSearched, search]);
-  
+
   // Action handlers
   const setFilters = useCallback((newFilters: Partial<SearchFilters>) => {
     setFiltersState(prev => ({ ...prev, ...newFilters }));
     setPaginationState(prev => ({ ...prev, page: 1 })); // Reset to first page
   }, []);
-  
+
   const setSorting = useCallback((newSorting: Partial<SearchSorting>) => {
     setSortingState(prev => ({ ...prev, ...newSorting }));
     setPaginationState(prev => ({ ...prev, page: 1 })); // Reset to first page
   }, []);
-  
-  const setPagination = useCallback((newPagination: Partial<SearchPagination>) => {
-    setPaginationState(prev => ({ ...prev, ...newPagination }));
-  }, []);
-  
+
+  const setPagination = useCallback(
+    (newPagination: Partial<SearchPagination>) => {
+      setPaginationState(prev => ({ ...prev, ...newPagination }));
+    },
+    []
+  );
+
   const clearSearch = useCallback(() => {
     setQuery('');
     setResults([]);
@@ -229,29 +242,37 @@ export function useContentSearch(options: UseContentSearchOptions = {}): UseCont
     setError(null);
     setPaginationState(DEFAULT_PAGINATION);
   }, []);
-  
+
   const resetFilters = useCallback(() => {
     setFiltersState(DEFAULT_FILTERS);
     setSortingState(DEFAULT_SORTING);
     setPaginationState(DEFAULT_PAGINATION);
   }, []);
-  
-  const goToPage = useCallback((page: number) => {
-    setPagination({ page });
-  }, [setPagination]);
-  
+
+  const clearFilters = useCallback(() => {
+    setFiltersState(DEFAULT_FILTERS);
+    setPaginationState(prev => ({ ...prev, page: 1 }));
+  }, []);
+
+  const goToPage = useCallback(
+    (page: number) => {
+      setPagination({ page });
+    },
+    [setPagination]
+  );
+
   const nextPage = useCallback(() => {
     if (searchResponse?.pagination.hasNext) {
       setPagination({ page: pagination.page + 1 });
     }
   }, [searchResponse?.pagination.hasNext, pagination.page, setPagination]);
-  
+
   const prevPage = useCallback(() => {
     if (searchResponse?.pagination.hasPrev) {
       setPagination({ page: pagination.page - 1 });
     }
   }, [searchResponse?.pagination.hasPrev, pagination.page, setPagination]);
-  
+
   // Computed values from search response
   const totalResults = searchResponse?.pagination.total || 0;
   const totalPages = searchResponse?.pagination.totalPages || 0;
@@ -259,7 +280,7 @@ export function useContentSearch(options: UseContentSearchOptions = {}): UseCont
   const hasPrev = searchResponse?.pagination.hasPrev || false;
   const suggestions = searchResponse?.suggestions || [];
   const stats = searchResponse?.stats || null;
-  
+
   return {
     // State
     query,
@@ -270,7 +291,8 @@ export function useContentSearch(options: UseContentSearchOptions = {}): UseCont
     isLoading,
     error,
     hasSearched,
-    
+    searchResponse,
+
     // Search response data
     totalResults,
     totalPages,
@@ -278,7 +300,7 @@ export function useContentSearch(options: UseContentSearchOptions = {}): UseCont
     hasPrev,
     suggestions,
     stats,
-    
+
     // Actions
     setQuery,
     setFilters,
@@ -287,6 +309,7 @@ export function useContentSearch(options: UseContentSearchOptions = {}): UseCont
     search,
     clearSearch,
     resetFilters,
+    clearFilters,
     goToPage,
     nextPage,
     prevPage,

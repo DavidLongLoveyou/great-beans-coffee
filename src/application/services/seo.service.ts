@@ -74,7 +74,7 @@ export class SEOService implements ISEOService {
 
       return metadata;
     } catch (error) {
-      this.logger.error('Failed to generate SEO metadata:', error);
+      // Application layer error logging removed for production
       return this.getDefaultMetadata();
     }
   }
@@ -151,7 +151,7 @@ export class SEOService implements ISEOService {
           return baseStructure;
       }
     } catch (error) {
-      this.logger.error('Failed to generate structured data:', error);
+      // Application layer error logging removed for production
       return {};
     }
   }
@@ -190,7 +190,7 @@ export class SEOService implements ISEOService {
 
       return urls.map(url => `${this.baseUrl}${url}`);
     } catch (error) {
-      this.logger.error('Failed to generate sitemap:', error);
+      // Application layer error logging removed for production
       return [];
     }
   }
@@ -219,13 +219,13 @@ export class SEOService implements ISEOService {
       }
 
       if (issues.length > 0) {
-        this.logger.warn('SEO metadata validation issues:', issues);
+        // Application layer warning logging removed for production
         return false;
       }
 
       return true;
     } catch (error) {
-      this.logger.error('Failed to validate metadata:', error);
+      // Application layer error logging removed for production
       return false;
     }
   }

@@ -65,12 +65,25 @@ export const PriceAnalysis: React.FC<PriceAnalysisProps> = ({
     return value.toString();
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: {
+    active?: boolean;
+    payload?: Array<{
+      name?: string;
+      value?: number;
+      color?: string;
+      dataKey?: string;
+    }>;
+    label?: string;
+  }) => {
     if (active && payload && payload.length) {
       return (
         <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-lg">
           <p className="mb-2 font-medium text-gray-900">{label}</p>
-          {payload.map((entry: any) => (
+          {payload.map(entry => (
             <p
               key={`tooltip-${entry.name}`}
               className="flex items-center justify-between text-sm"
@@ -79,10 +92,10 @@ export const PriceAnalysis: React.FC<PriceAnalysisProps> = ({
               <span>{entry.name}:</span>
               <span className="ml-2 font-medium">
                 {entry.dataKey === 'volume'
-                  ? formatVolume(entry.value)
+                  ? formatVolume(entry.value || 0)
                   : entry.dataKey === 'volatility'
-                    ? `${entry.value.toFixed(2)}%`
-                    : formatPrice(entry.value)}
+                    ? `${(entry.value || 0).toFixed(2)}%`
+                    : formatPrice(entry.value || 0)}
               </span>
             </p>
           ))}

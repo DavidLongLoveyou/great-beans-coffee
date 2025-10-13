@@ -3,7 +3,7 @@
 import {
   Package,
   Calendar,
-  MapPin,
+  MapPin as _MapPin,
   Truck,
   CreditCard,
   Building,
@@ -21,7 +21,10 @@ import {
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import { formatDateTimeLong, formatDeadline } from '@/lib/date-utils';
+import {
+  formatDateTimeLong,
+  formatDeadline as _formatDeadline,
+} from '@/lib/date-utils';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
@@ -38,7 +41,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/presentation/components/ui/dialog';
-import { Separator } from '@/presentation/components/ui/separator';
+import { Separator as _Separator } from '@/presentation/components/ui/separator';
 import {
   Tabs,
   TabsContent,
@@ -183,7 +186,7 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
     return formatDateTimeLong(dateString, locale);
   };
 
-  const formatCurrency = (amount: number, currency?: string) => {
+  const formatCurrency = (amount: number, _currency?: string) => {
     // Use the market-specific currency formatting
     return marketFormatCurrency(amount);
   };
@@ -292,7 +295,7 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                         {rfq.productRequirements.certifications.map(
                           (cert, index) => (
                             <Badge
-                              key={index}
+                              key={`cert-${cert}-${index}`}
                               variant="outline"
                               className="text-xs"
                             >
@@ -611,7 +614,7 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                   <div className="space-y-2">
                     {rfq.attachments.map((attachment, index) => (
                       <div
-                        key={index}
+                        key={`attachment-${attachment.name}-${index}`}
                         className="flex items-center justify-between rounded-lg border p-3"
                       >
                         <div className="flex items-center gap-3">
@@ -649,7 +652,10 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                 {rfq.timeline ? (
                   <div className="space-y-4">
                     {rfq.timeline.map((event, index) => (
-                      <div key={index} className="flex gap-4">
+                      <div
+                        key={`timeline-${event.status}-${event.date}-${index}`}
+                        className="flex gap-4"
+                      >
                         <div className="flex flex-col items-center">
                           <div className="h-3 w-3 rounded-full bg-forest-600"></div>
                           {index < rfq.timeline!.length - 1 && (

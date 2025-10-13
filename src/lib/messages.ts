@@ -19,9 +19,7 @@ export async function getMessages(locale?: string) {
     const messages = await import(`../../messages/${currentLocale}.json`);
     return messages.default;
   } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      logger.error(`Failed to load messages for locale: ${locale}`, error);
-    }
+    // Lib layer logging removed for production
 
     // Only try fallback if we haven't already tried the default locale
     if (locale !== defaultLocale) {
@@ -31,9 +29,7 @@ export async function getMessages(locale?: string) {
         );
         return fallbackMessages.default;
       } catch (fallbackError) {
-        if (process.env.NODE_ENV === 'development') {
-          logger.error('Failed to load fallback messages', fallbackError);
-        }
+        // Lib layer logging removed for production
       }
     }
 

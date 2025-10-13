@@ -1,8 +1,14 @@
-import { RFQEntity, RFQQuote } from '@/domain/entities/rfq.entity';
+import {
+  RFQEntity,
+  RFQQuote,
+  RFQDocument,
+  RFQCommunication,
+} from '@/domain/entities/rfq.entity';
 import type {
   IRFQRepository,
   RFQSearchCriteria,
   RFQSearchResult,
+  RFQAnalytics,
 } from '@/domain/repositories/rfq.repository';
 
 import { RFQRepository } from './rfq.repository';
@@ -148,9 +154,11 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     return [];
   }
 
-  async addCommunication(id: string, communication: any): Promise<RFQEntity> {
-    await this.repository.addCommunication(id, communication);
-    return this.findById(id) as Promise<RFQEntity>;
+  async addCommunication(
+    id: string,
+    communication: Omit<RFQCommunication, 'id' | 'createdAt'>
+  ): Promise<RFQEntity> {
+    return this.repository.addCommunication(id, communication);
   }
 
   async getCommunicationHistory(id: string): Promise<any[]> {
@@ -218,9 +226,11 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     throw new Error('Method not implemented');
   }
 
-  async addDocument(id: string, document: any): Promise<RFQEntity> {
-    await this.repository.addDocument(id, document);
-    return this.findById(id) as Promise<RFQEntity>;
+  async addDocument(
+    id: string,
+    document: Omit<RFQDocument, 'id' | 'uploadedAt'>
+  ): Promise<RFQEntity> {
+    return this.repository.addDocument(id, document);
   }
 
   async removeDocument(id: string, documentId: string): Promise<RFQEntity> {
@@ -330,8 +340,11 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     throw new Error('Method not implemented');
   }
 
-  async getAnalytics(filters?: any): Promise<any> {
-    return this.repository.getAnalytics();
+  async getAnalytics(dateRange?: {
+    start: Date;
+    end: Date;
+  }): Promise<RFQAnalytics> {
+    return this.repository.getAnalytics(dateRange);
   }
 
   async getPerformanceMetrics(

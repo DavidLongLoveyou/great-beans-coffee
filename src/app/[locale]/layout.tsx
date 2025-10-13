@@ -32,6 +32,16 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#8B4513" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Great Beans Coffee" />
+        <link rel="apple-touch-icon" href="/images/logo.svg" />
+        <meta name="msapplication-TileColor" content="#8B4513" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+      </head>
       <body className={inter.className}>
         <PerformanceInitializer />
         <NextIntlClientProvider messages={messages} locale={locale}>

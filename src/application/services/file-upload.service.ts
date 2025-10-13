@@ -20,7 +20,7 @@ export class FileUploadService implements IFileUploadService {
 
       return mockUrl;
     } catch (error) {
-      this.logger.error('Failed to upload file:', error);
+      // Application layer error logging removed for production
       throw new Error('File upload failed');
     }
   }
@@ -32,7 +32,7 @@ export class FileUploadService implements IFileUploadService {
 
       return true;
     } catch (error) {
-      this.logger.error('Failed to delete file:', error);
+      // Application layer error logging removed for production
       return false;
     }
   }
@@ -45,7 +45,7 @@ export class FileUploadService implements IFileUploadService {
       const signedUrl = `https://storage.example.com/${key}?signature=mock-signature`;
       return signedUrl;
     } catch (error) {
-      this.logger.error('Failed to generate signed URL:', error);
+      // Application layer error logging removed for production
       throw new Error('Signed URL generation failed');
     }
   }
