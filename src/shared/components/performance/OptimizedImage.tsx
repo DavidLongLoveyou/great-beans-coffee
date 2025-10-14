@@ -129,20 +129,14 @@ export function OptimizedImage({
     setIsLoading(false);
 
     if (trackPerformance && loadStartTime > 0) {
-      const loadTime = performance.now() - loadStartTime;
+      const _loadTime = performance.now() - loadStartTime;
 
       // Track performance metrics
       // Performance tracking removed for production
     }
 
     onLoadComplete?.();
-  }, [
-    onLoadComplete,
-    trackPerformance,
-    loadStartTime,
-    optimizeForLCP,
-    useCloudinary,
-  ]);
+  }, [onLoadComplete, trackPerformance, loadStartTime]);
 
   // Handle image load error
   const handleError = useCallback(() => {
@@ -155,7 +149,7 @@ export function OptimizedImage({
     }
 
     onLoadError?.();
-  }, [onLoadError, trackPerformance, optimizeForLCP, useCloudinary]);
+  }, [onLoadError, trackPerformance]);
 
   // Track load start time and preload critical images
   useEffect(() => {

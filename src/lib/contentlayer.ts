@@ -94,7 +94,7 @@ export class ContentManager {
    * Get featured market reports for a specific locale
    */
   static getFeaturedMarketReports(locale: Locale, limit = 3): MarketReport[] {
-    return this.getMarketReports(locale)
+    return ContentManager.getMarketReports(locale)
       .filter(report => report.featured)
       .slice(0, limit);
   }

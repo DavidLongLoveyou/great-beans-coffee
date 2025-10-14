@@ -106,6 +106,69 @@ export interface ClientRelationshipMetrics {
   growthTrend: 'GROWING' | 'STABLE' | 'DECLINING';
 }
 
+export interface CRMCompanyData {
+  externalId: string;
+  companyName: string;
+  taxId?: string;
+  industry?: string;
+  website?: string;
+  phone?: string;
+  email?: string;
+  address?: {
+    street: string;
+    city: string;
+    state?: string;
+    country: string;
+    postalCode?: string;
+  };
+  contacts?: Array<{
+    name: string;
+    email: string;
+    phone?: string;
+    role?: string;
+  }>;
+  annualRevenue?: number;
+  employeeCount?: number;
+  status?: string;
+  lastUpdated: Date;
+}
+
+export interface ClientReport {
+  companyId: string;
+  companyName: string;
+  generatedAt: Date;
+  reportPeriod: {
+    start: Date;
+    end: Date;
+  };
+  summary: {
+    totalOrders: number;
+    totalValue: number;
+    averageOrderValue: number;
+    relationshipScore: number;
+    riskLevel: string;
+  };
+  orderHistory: Array<{
+    orderId: string;
+    date: Date;
+    value: number;
+    status: string;
+  }>;
+  financialMetrics: {
+    creditLimit: number;
+    outstandingBalance: number;
+    paymentTerms: string;
+    averagePaymentDays: number;
+  };
+  contactActivity: Array<{
+    date: Date;
+    type: string;
+    summary: string;
+    contactedBy: string;
+  }>;
+  recommendations: string[];
+}
+
 // Repository interface
 export interface IClientCompanyRepository {
   // Basic CRUD operations
@@ -353,12 +416,14 @@ export interface IClientCompanyRepository {
   exportToCRM(
     companyIds: string[]
   ): Promise<{ success: number; errors: string[] }>;
-  importFromCRM(crmData: any[]): Promise<{ success: number; errors: string[] }>;
+  importFromCRM(
+    crmData: CRMCompanyData[]
+  ): Promise<{ success: number; errors: string[] }>;
 
   // Export and reporting
   exportToCSV(criteria?: ClientCompanySearchCriteria): Promise<string>;
   exportToExcel(criteria?: ClientCompanySearchCriteria): Promise<Buffer>;
-  generateClientReport(companyId: string): Promise<any>;
+  generateClientReport(companyId: string): Promise<ClientReport>;
 
   // Audit and history
   getHistory(id: string): Promise<

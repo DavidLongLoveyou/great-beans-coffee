@@ -1,7 +1,65 @@
 import { Prisma } from '@prisma/client';
 
-import { ContentEntity } from '../../../domain/entities/content.entity';
+import { ContentEntity, type ContentTranslation as EntityContentTranslation } from '../../../domain/entities/content.entity';
 import { prisma } from '../prisma';
+
+// Types for translation and sitemap data
+interface ContentTranslation {
+  title: string;
+  content: string;
+  excerpt?: string;
+  slug: string;
+}
+
+interface SitemapData {
+  id: string;
+  slug: string;
+  type: string;
+  lastModified: Date;
+  locale: string;
+}
+
+interface ContentUpdateData {
+  type?: string;
+  status?: string;
+  category?: string;
+  publishedAt?: Date | null;
+  title?: string;
+  slug?: string;
+  excerpt?: string | null;
+  content?: string;
+  locale?: string;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  metaKeywords?: string | null;
+  media?: Prisma.JsonValue;
+  tags?: string[] | null;
+}
+
+// Prisma content type - simplified based on actual schema
+type PrismaContent = {
+  id: string;
+  type: string;
+  status: string;
+  category?: string | null;
+  locale: string;
+  title: string;
+  content: string;
+  excerpt?: string | null;
+  slug: string;
+  authorId?: string | null;
+  featured: boolean;
+  publishedAt?: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  views: number;
+  tags?: string[] | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  metaKeywords?: string | null;
+  imageUrl?: string | null;
+  isArchived: boolean;
+}
 
 export interface IContentRepository {
   findById(id: string, locale?: string): Promise<ContentEntity | null>;
@@ -19,7 +77,7 @@ export interface IContentRepository {
   updateTranslation(
     id: string,
     locale: string,
-    translation: any
+    translation: ContentTranslation
   ): Promise<ContentEntity>;
   publish(id: string): Promise<ContentEntity>;
   unpublish(id: string): Promise<ContentEntity>;
@@ -30,7 +88,7 @@ export interface IContentRepository {
     locale?: string
   ): Promise<ContentEntity[]>;
   getPopularContent(limit?: number, locale?: string): Promise<ContentEntity[]>;
-  getSitemapData(locale?: string): Promise<any[]>;
+  getSitemapData(locale?: string): Promise<SitemapData[]>;
 }
 
 export interface ContentFilters {
@@ -49,7 +107,7 @@ export interface ContentFilters {
 }
 
 export class ContentRepository implements IContentRepository {
-  private mapToEntity(content: any, locale?: string): ContentEntity {
+  private mapToEntity(content: PrismaContent, locale?: string): ContentEntity {
     return new ContentEntity({
       id: content.id,
       contentId: content.id,
@@ -125,7 +183,7 @@ export class ContentRepository implements IContentRepository {
     slug: string,
     locale?: string
   ): Promise<ContentEntity | null> {
-    const whereClause: any = { slug, status: 'PUBLISHED' };
+    const whereClause: Prisma.ContentWhereInput = { slug, status: 'PUBLISHED' };
 
     if (locale) {
       whereClause.locale = locale;
@@ -146,13 +204,13 @@ export class ContentRepository implements IContentRepository {
 
     if (filters) {
       if (filters.type?.length) {
-        where.type = { in: filters.type as any[] };
+        where.type = { in: filters.type };
       }
       if (filters.category?.length) {
-        where.category = { in: filters.category as any[] };
+        where.category = { in: filters.category };
       }
       if (filters.status?.length) {
-        where.status = { in: filters.status as any[] };
+        where.status = { in: filters.status };
       }
       if (filters.authorId) {
         where.authorId = filters.authorId;
@@ -182,7 +240,7 @@ export class ContentRepository implements IContentRepository {
       orderBy.publishedAt = 'desc';
     }
 
-    const queryOptions: any = {
+    const queryOptions: Prisma.ContentFindManyArgs = {
       where,
       orderBy,
     };
@@ -255,7 +313,7 @@ export class ContentRepository implements IContentRepository {
   }
 
   async search(query: string, locale?: string): Promise<ContentEntity[]> {
-    const whereClause: any = {
+    const whereClause: Prisma.ContentWhereInput = {
       status: 'PUBLISHED',
       OR: [
         { title: { contains: query } },
@@ -323,9 +381,9 @@ export class ContentRepository implements IContentRepository {
   ): Promise<ContentEntity> {
     // Extract data from ContentEntity if needed
     const entityData =
-      data instanceof ContentEntity ? data.toJSON() : (data as any);
+      data instanceof ContentEntity ? data.toJSON() : data;
 
-    const updateData: any = {};
+    const updateData: ContentUpdateData = {};
 
     // Only update fields that exist in Prisma schema
     if (entityData.type) updateData.type = entityData.type;
@@ -337,7 +395,7 @@ export class ContentRepository implements IContentRepository {
     // Handle translations
     if (entityData.translations) {
       const defaultTranslation =
-        entityData.translations.find((t: any) => t.isDefault) ||
+        entityData.translations.find((t: EntityContentTranslation) => t.isDefault) ||
         entityData.translations[0];
       if (defaultTranslation) {
         updateData.title = defaultTranslation.title;
@@ -370,10 +428,10 @@ export class ContentRepository implements IContentRepository {
   async updateTranslation(
     id: string,
     locale: string,
-    translation: any
+    translation: ContentTranslation
   ): Promise<ContentEntity> {
     // Since we don't have separate translation table, update the main content
-    const updateData: any = {
+    const updateData = {
       locale,
       title: translation.title,
       content: translation.content,
@@ -464,7 +522,7 @@ export class ContentRepository implements IContentRepository {
     );
   }
 
-  async getSitemapData(locale?: string): Promise<any[]> {
+  async getSitemapData(locale?: string): Promise<SitemapData[]> {
     const contents = await prisma.content.findMany({
       where: {
         status: 'PUBLISHED',

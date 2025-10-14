@@ -41,7 +41,7 @@ import {
 import { createScopedLogger } from '@/shared/utils/logger';
 import { type SEOAuditResult } from '@/shared/utils/seo-audit';
 
-const logger = createScopedLogger('SEODashboard');
+const _logger = createScopedLogger('SEODashboard');
 
 interface SEODashboardProps {
   className?: string;

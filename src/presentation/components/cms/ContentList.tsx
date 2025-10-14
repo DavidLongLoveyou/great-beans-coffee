@@ -456,7 +456,7 @@ export function ContentList({
                           <div className="h-10 w-16 overflow-hidden rounded bg-muted">
                             <img
                               src={item.coverImage}
-                              alt=""
+                              alt={`Cover image for ${item.title}`}
                               className="h-full w-full object-cover"
                             />
                           </div>
@@ -552,7 +552,7 @@ export function ContentList({
                   <div className="aspect-video w-full overflow-hidden bg-muted">
                     <img
                       src={item.coverImage}
-                      alt=""
+                      alt={`Cover image for ${item.title}`}
                       className="h-full w-full object-cover"
                     />
                   </div>

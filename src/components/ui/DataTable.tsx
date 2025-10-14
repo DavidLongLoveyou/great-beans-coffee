@@ -99,7 +99,7 @@ export const DataTable = <
   const handleSort = (key: string) => {
     if (!sortable) return;
 
-    const column = columns.find(col => col.key === key);
+    const column = columns.find(col => String(col.key) === key);
     if (!column?.sortable) return;
 
     setSortConfig(current => {
@@ -110,7 +110,7 @@ export const DataTable = <
     });
   };
 
-  const formatValue = (value: unknown, column: Column) => {
+  const formatValue = (value: unknown, column: Column<T>) => {
     if (value === null || value === undefined) return '-';
 
     if (column.format) {
@@ -257,7 +257,7 @@ export const DataTable = <
                     <span>{column.label}</span>
                     {sortable &&
                       column.sortable !== false &&
-                      getSortIcon(column.key)}
+                      getSortIcon(String(column.key))}
                   </div>
                 </th>
               ))}
@@ -378,7 +378,7 @@ export const PriceTable: React.FC<
     },
   ];
 
-  return <DataTable data={props.data} {...props} columns={columns} />;
+  return <DataTable {...props} columns={columns} />;
 };
 
 export const VolumeTable: React.FC<
@@ -406,7 +406,7 @@ export const VolumeTable: React.FC<
     },
   ];
 
-  return <DataTable data={props.data} {...props} columns={columns} />;
+  return <DataTable {...props} columns={columns} />;
 };
 
 export default DataTable;

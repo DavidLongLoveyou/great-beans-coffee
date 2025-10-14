@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { createScopedLogger } from '@/shared/utils/logger';
 import { measureCoreWebVitals } from '@/shared/utils/seo-monitoring';
 
-const logger = createScopedLogger('PerformanceMonitor');
+const _logger = createScopedLogger('PerformanceMonitor');
 
 export interface PerformanceMetrics {
   // Core Web Vitals

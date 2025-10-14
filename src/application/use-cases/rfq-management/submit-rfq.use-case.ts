@@ -146,10 +146,9 @@ export class SubmitRfqUseCase {
       // Create RFQ entity and prepare data for repository
       const rfqEntity = new RFQEntity(rfqData);
 
-      // Extract data without id, createdAt, updatedAt for repository
+      // Extract data without id, updatedAt for repository
       const {
         id: _id,
-        createdAt: _createdAt,
         updatedAt: _updatedAt,
         ...entityDataForRepo
       } = rfqEntity.toJSON();

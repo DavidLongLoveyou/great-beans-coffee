@@ -8,6 +8,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -20,11 +21,11 @@ import { CoreWebVitalsMonitor } from '../performance/CoreWebVitalsMonitor';
 declare global {
   interface Window {
     gtag: (
-      command: 'config' | 'event' | 'js' | 'set',
+      command: 'config' | 'event' | 'js',
       targetId: string | Date,
       config?: Record<string, string | number | boolean>
     ) => void;
-    dataLayer: any[];
+    dataLayer: Array<Record<string, unknown>>;
   }
 }
 
@@ -67,7 +68,7 @@ interface CustomEventData {
   event_category?: string;
   event_label?: string;
   value?: number;
-  custom_parameters?: Record<string, any>;
+  custom_parameters?: Record<string, string | number | boolean>;
 }
 
 // User properties
@@ -139,11 +140,13 @@ export function AnalyticsProvider({
   const initializedRef = useRef(false);
 
   // Initialize Google Analytics
-  const initializeGA = () => {
+  const initializeGA = useCallback(() => {
     if (!config.googleAnalyticsId || !consentGiven) return;
 
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag(...args: any[]) {
+    window.gtag = function gtag(
+      ...args: [string, string | Date, Record<string, unknown>?]
+    ) {
       window.dataLayer.push(args);
     };
 
@@ -163,57 +166,68 @@ export function AnalyticsProvider({
           custom_parameter_2: 'industry',
           custom_parameter_3: 'company_size',
         },
-      } as any);
+      });
     }
 
     setIsLoaded(true);
     initializedRef.current = true;
 
     // Analytics logging removed for production
-  };
+  }, [
+    config.googleAnalyticsId,
+    config.debugMode,
+    config.enableEcommerce,
+    consentGiven,
+  ]);
 
   // Track page view
-  const trackPageView = (url: string, title?: string) => {
-    if (!isLoaded || !consentGiven) return;
+  const trackPageView = useCallback(
+    (url: string, title?: string) => {
+      if (!isLoaded || !consentGiven) return;
 
-    window.gtag('config', config.googleAnalyticsId!, {
-      page_title: title || document.title,
-      page_location: url,
-    });
+      window.gtag('config', config.googleAnalyticsId!, {
+        page_title: title || document.title,
+        page_location: url,
+      });
 
-    // Analytics logging removed for production
-  };
+      // Analytics logging removed for production
+    },
+    [isLoaded, consentGiven, config.googleAnalyticsId]
+  );
 
   // Track custom event
-  const trackEvent = (eventName: string, eventData: CustomEventData = {}) => {
-    if (!isLoaded || !consentGiven) return;
+  const trackEvent = useCallback(
+    (eventName: string, eventData: CustomEventData = {}) => {
+      if (!isLoaded || !consentGiven) return;
 
-    const {
-      event_category,
-      event_label,
-      value,
-      custom_parameters = {},
-    } = eventData;
+      const {
+        event_category,
+        event_label,
+        value,
+        custom_parameters = {},
+      } = eventData;
 
-    const eventParams: any = {
-      ...custom_parameters,
-    };
+      const eventParams: Record<string, unknown> = {
+        ...custom_parameters,
+      };
 
-    if (event_category !== undefined)
-      eventParams.event_category = event_category;
-    if (event_label !== undefined) eventParams.event_label = event_label;
-    if (value !== undefined) eventParams.value = value;
+      if (event_category !== undefined)
+        eventParams.event_category = event_category;
+      if (event_label !== undefined) eventParams.event_label = event_label;
+      if (value !== undefined) eventParams.value = value;
 
-    window.gtag('event', eventName, eventParams);
+      window.gtag('event', eventName, eventParams);
 
-    // Analytics logging removed for production
-  };
+      // Analytics logging removed for production
+    },
+    [isLoaded, consentGiven]
+  );
 
   // Track e-commerce event
   const trackEcommerce = (eventName: string, eventData: EcommerceEventData) => {
     if (!isLoaded || !consentGiven || !config.enableEcommerce) return;
 
-    window.gtag('event', eventName, eventData as any);
+    window.gtag('event', eventName, eventData);
 
     // Analytics logging removed for production
   };
@@ -224,7 +238,7 @@ export function AnalyticsProvider({
 
     window.gtag('config', config.googleAnalyticsId!, {
       user_properties: properties,
-    } as any);
+    });
 
     // Analytics logging removed for production
   };
@@ -238,7 +252,7 @@ export function AnalyticsProvider({
     }
 
     if (window.gtag) {
-      (window.gtag as any)('consent', 'update', {
+      window.gtag('consent', 'update', {
         analytics_storage: consent ? 'granted' : 'denied',
         ad_storage: consent ? 'granted' : 'denied',
       });
@@ -264,14 +278,14 @@ export function AnalyticsProvider({
     const url =
       pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
     trackPageView(url);
-  }, [pathname, searchParams, isLoaded, consentGiven]);
+  }, [pathname, searchParams, isLoaded, consentGiven, trackPageView]);
 
   // Initialize on mount
   useEffect(() => {
     if (consentGiven && !initializedRef.current) {
       initializeGA();
     }
-  }, [consentGiven]);
+  }, [consentGiven, initializeGA]);
 
   // Track user engagement
   useEffect(() => {
@@ -341,7 +355,7 @@ export function AnalyticsProvider({
       clearInterval(engagementTimer);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [isLoaded, consentGiven]);
+  }, [isLoaded, consentGiven, trackEvent]);
 
   const contextValue: AnalyticsContextType = {
     config,
@@ -426,7 +440,7 @@ export function withAnalytics<P extends object>(
           event_label: Component.displayName || Component.name,
         });
       }
-    }, []);
+    }, [trackEvent]);
 
     return <Component {...props} />;
   };

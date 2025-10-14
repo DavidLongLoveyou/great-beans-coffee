@@ -7,7 +7,7 @@ import {
 } from '../../../infrastructure/di/container';
 import { createScopedLogger } from '../../../shared/utils/logger';
 
-const logger = createScopedLogger('RFQ-API');
+const _logger = createScopedLogger('RFQ-API');
 
 // Validation schema for RFQ submission
 const submitRfqSchema = z.object({

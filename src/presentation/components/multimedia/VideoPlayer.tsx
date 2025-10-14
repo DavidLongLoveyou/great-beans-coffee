@@ -297,6 +297,7 @@ export function VideoPlayer({
                 variant="secondary"
                 size="icon"
                 className="h-16 w-16 bg-white/20 text-white hover:bg-white/30"
+                aria-label={isPlaying ? 'Pause video' : 'Play video'}
               >
                 {isPlaying ? (
                   <Pause className="h-8 w-8" />
@@ -343,6 +344,7 @@ export function VideoPlayer({
                       size="icon"
                       className="text-white hover:bg-white/20"
                       onClick={togglePlay}
+                      aria-label={isPlaying ? 'Pause video' : 'Play video'}
                     >
                       {isPlaying ? (
                         <Pause className="h-4 w-4" />
@@ -356,6 +358,7 @@ export function VideoPlayer({
                       size="icon"
                       className="text-white hover:bg-white/20"
                       onClick={() => skipTime(-10)}
+                      aria-label="Skip back 10 seconds"
                     >
                       <SkipBack className="h-4 w-4" />
                     </Button>
@@ -365,6 +368,7 @@ export function VideoPlayer({
                       size="icon"
                       className="text-white hover:bg-white/20"
                       onClick={() => skipTime(10)}
+                      aria-label="Skip forward 10 seconds"
                     >
                       <SkipForward className="h-4 w-4" />
                     </Button>
@@ -375,6 +379,7 @@ export function VideoPlayer({
                         size="icon"
                         className="text-white hover:bg-white/20"
                         onClick={toggleMute}
+                        aria-label={isMuted ? 'Unmute video' : 'Mute video'}
                       >
                         {isMuted ? (
                           <VolumeX className="h-4 w-4" />
@@ -409,6 +414,7 @@ export function VideoPlayer({
                         size="icon"
                         className="text-white hover:bg-white/20"
                         onClick={() => setShowSettings(!showSettings)}
+                        aria-label="Video settings"
                       >
                         <Settings className="h-4 w-4" />
                       </Button>
@@ -444,6 +450,7 @@ export function VideoPlayer({
                         size="icon"
                         className="text-white hover:bg-white/20"
                         onClick={handleDownload}
+                        aria-label="Download video"
                       >
                         <Download className="h-4 w-4" />
                       </Button>
@@ -455,6 +462,7 @@ export function VideoPlayer({
                         size="icon"
                         className="text-white hover:bg-white/20"
                         onClick={handleShare}
+                        aria-label="Share video"
                       >
                         <Share2 className="h-4 w-4" />
                       </Button>
@@ -465,6 +473,9 @@ export function VideoPlayer({
                       size="icon"
                       className="text-white hover:bg-white/20"
                       onClick={toggleFullscreen}
+                      aria-label={
+                        isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'
+                      }
                     >
                       {isFullscreen ? (
                         <Minimize className="h-4 w-4" />

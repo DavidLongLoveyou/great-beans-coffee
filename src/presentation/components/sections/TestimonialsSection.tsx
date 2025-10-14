@@ -416,6 +416,7 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
                 <MagneticHover key={testimonial.id} strength={0.2}>
                   <button
                     onClick={() => setCurrentIndex(index)}
+                    aria-label={`Go to testimonial ${index + 1}: ${testimonial.name} from ${testimonial.company}`}
                     className={`h-3 w-3 rounded-full transition-all duration-300 ${
                       index === currentIndex
                         ? 'scale-125 bg-forest-500'

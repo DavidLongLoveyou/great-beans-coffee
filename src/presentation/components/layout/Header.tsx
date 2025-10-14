@@ -27,10 +27,17 @@ export default function Header({ locale }: Props) {
     useHydrationSafeBooleanState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-forest-200/20 bg-white/95 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-white/90">
+    <header
+      className="sticky top-0 z-50 w-full border-b border-forest-200/20 bg-white/95 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-white/90"
+      role="banner"
+    >
       <div className="container flex h-18 items-center justify-between">
         {/* Logo */}
-        <Link href={`/${locale}`} className="group flex items-center space-x-3">
+        <Link
+          href={`/${locale}`}
+          className="group flex items-center space-x-3"
+          aria-label="The Great Beans - Home"
+        >
           <div className="relative">
             <Coffee className="h-9 w-9 text-forest-600 transition-colors duration-200 group-hover:text-forest-700" />
             <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-emerald-500 opacity-80"></div>
@@ -46,7 +53,12 @@ export default function Header({ locale }: Props) {
         </Link>
 
         {/* Navigation */}
-        <NavigationMenu className="hidden lg:flex">
+        <NavigationMenu
+          id="navigation"
+          className="hidden lg:flex"
+          role="navigation"
+          aria-label="Main navigation"
+        >
           <NavigationMenuList className="space-x-2">
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
@@ -284,12 +296,17 @@ export default function Header({ locale }: Props) {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="flex h-10 w-10 items-center justify-center rounded-lg text-forest-700 transition-colors hover:bg-forest-50 lg:hidden"
-              aria-label="Toggle mobile menu"
+              aria-label={
+                isMobileMenuOpen ? 'Close mobile menu' : 'Open mobile menu'
+              }
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              type="button"
             >
               {isMobileMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-6 w-6" aria-hidden="true" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-6 w-6" aria-hidden="true" />
               )}
             </button>
           )}
@@ -310,9 +327,19 @@ export default function Header({ locale }: Props) {
 
       {/* Mobile Menu Overlay */}
       {isMounted && isMobileMenuOpen && (
-        <div className="fixed inset-0 top-[72px] z-40 bg-white lg:hidden">
+        <div
+          id="mobile-menu"
+          className="fixed inset-0 top-[72px] z-40 bg-white lg:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation menu"
+        >
           <div className="flex h-full flex-col">
-            <nav className="flex-1 space-y-1 px-4 py-6">
+            <nav
+              className="flex-1 space-y-1 px-4 py-6"
+              role="navigation"
+              aria-label="Mobile navigation"
+            >
               <Link
                 href={`/${locale}`}
                 className="block rounded-lg px-4 py-3 text-base font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"

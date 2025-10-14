@@ -1,0 +1,737 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#navigation"
+  - generic [ref=e4]:
+    - banner [ref=e5]:
+      - generic [ref=e6]:
+        - link "The Great Beans - Home" [ref=e7] [cursor=pointer]:
+          - /url: /en
+          - img [ref=e9]
+          - generic [ref=e12]:
+            - generic [ref=e13]: The Great Beans
+            - generic [ref=e14]: Premium Coffee Export
+        - navigation "Main navigation" [ref=e15]:
+          - list [ref=e17]:
+            - listitem [ref=e18]:
+              - link "Home" [ref=e19] [cursor=pointer]:
+                - /url: /en
+            - listitem [ref=e20]:
+              - button "Products" [ref=e21] [cursor=pointer]:
+                - text: Products
+                - img [ref=e22]
+            - listitem [ref=e24]:
+              - button "Solutions" [ref=e25] [cursor=pointer]:
+                - text: Solutions
+                - img [ref=e26]
+            - listitem [ref=e28]:
+              - link "Services" [ref=e29] [cursor=pointer]:
+                - /url: /en/services
+            - listitem [ref=e30]:
+              - link "About Us" [ref=e31] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e32]:
+              - link "Contact" [ref=e33] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e34]:
+          - button "🇺🇸 English" [ref=e36] [cursor=pointer]:
+            - generic [ref=e37]: 🇺🇸
+            - generic [ref=e38]: English
+            - img
+          - link "Request Quote" [ref=e39] [cursor=pointer]:
+            - /url: /en/quote
+        - link "Get Quote" [ref=e41] [cursor=pointer]:
+          - /url: /en/quote
+    - main [ref=e42]:
+      - main [ref=e43]:
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - generic [ref=e55]:
+              - img [ref=e56]
+              - generic [ref=e59]: Premium Vietnamese Coffee Export
+            - heading "Premium Vietnamese Coffee Export Solutions" [level=1] [ref=e60]
+            - paragraph [ref=e61]: Connect with Vietnam's leading coffee exporter. We provide premium Robusta and Arabica beans, OEM services, and private label solutions to B2B partners worldwide.
+            - generic [ref=e62]:
+              - generic [ref=e63]:
+                - img [ref=e64]
+                - generic [ref=e66]: Premium Robusta & Arabica
+              - generic [ref=e67]:
+                - img [ref=e68]
+                - generic [ref=e71]: 25+ Countries Served
+              - generic [ref=e72]:
+                - img [ref=e73]
+                - generic [ref=e76]: ISO Certified
+            - generic [ref=e77]:
+              - link "Request a Quote" [ref=e78] [cursor=pointer]:
+                - /url: /en/quote
+                - button "Request a Quote" [ref=e80]:
+                  - text: Request a Quote
+                  - img [ref=e81]
+              - link "Explore Products" [ref=e83] [cursor=pointer]:
+                - /url: /en/products
+                - button "Explore Products" [ref=e85]
+            - generic [ref=e86]:
+              - paragraph [ref=e87]: Trusted by 500+ B2B partners across 25+ countries since 2018
+              - generic [ref=e88]:
+                - img [ref=e90]
+                - img [ref=e93]
+                - img [ref=e97]
+          - generic [ref=e101]:
+            - img [ref=e106]
+            - img [ref=e109]
+            - img [ref=e113]
+            - generic [ref=e116]:
+              - generic [ref=e117]: Premium Grade
+              - generic [ref=e118]: ISO Certified
+            - generic [ref=e119]:
+              - generic [ref=e120]: Global Export
+              - generic [ref=e121]: 25+ Countries
+        - generic [ref=e128]:
+          - generic [ref=e130]:
+            - generic [ref=e132]:
+              - img [ref=e134]
+              - generic [ref=e136]: Why Choose The Great Beans
+            - generic [ref=e137]:
+              - heading "Your Trusted Partner for Premium Vietnamese Coffee" [level=2] [ref=e139]:
+                - text: Your Trusted Partner for
+                - generic [ref=e140]: Premium Vietnamese Coffee
+              - paragraph [ref=e142]: We combine traditional Vietnamese coffee expertise with modern B2B solutions, delivering exceptional quality and service to international partners worldwide.
+          - generic [ref=e145]:
+            - generic [ref=e148]:
+              - generic [ref=e150]:
+                - img [ref=e153]
+                - heading "Quality Certifications" [level=3] [ref=e155]
+              - generic [ref=e156]:
+                - paragraph [ref=e157]: Multiple international certifications ensuring the highest quality standards for B2B partners
+                - generic [ref=e158]:
+                  - generic [ref=e159]:
+                    - img [ref=e160]
+                    - generic [ref=e163]: ISO 22000 Certified
+                  - generic [ref=e164]:
+                    - img [ref=e165]
+                    - generic [ref=e168]: HACCP Compliant
+                  - generic [ref=e169]:
+                    - img [ref=e170]
+                    - generic [ref=e173]: Rainforest Alliance
+                  - generic [ref=e174]:
+                    - img [ref=e175]
+                    - generic [ref=e178]: UTZ Certified
+                  - generic [ref=e179]:
+                    - img [ref=e180]
+                    - generic [ref=e183]: Fair Trade Verified
+                  - generic [ref=e184]:
+                    - img [ref=e185]
+                    - generic [ref=e188]: USDA Organic
+            - generic [ref=e191]:
+              - generic [ref=e193]:
+                - img [ref=e196]
+                - heading "Global Trade Excellence" [level=3] [ref=e199]
+              - generic [ref=e200]:
+                - paragraph [ref=e201]: Comprehensive international trade services with full regulatory compliance and documentation
+                - generic [ref=e202]:
+                  - generic [ref=e203]:
+                    - img [ref=e204]
+                    - generic [ref=e207]: 25+ Export Markets
+                  - generic [ref=e208]:
+                    - img [ref=e209]
+                    - generic [ref=e212]: FOB/CIF/DDP Terms
+                  - generic [ref=e213]:
+                    - img [ref=e214]
+                    - generic [ref=e217]: Full Documentation
+                  - generic [ref=e218]:
+                    - img [ref=e219]
+                    - generic [ref=e222]: Customs Clearance
+                  - generic [ref=e223]:
+                    - img [ref=e224]
+                    - generic [ref=e227]: Trade Finance Support
+                  - generic [ref=e228]:
+                    - img [ref=e229]
+                    - generic [ref=e232]: Multi-Currency Billing
+            - generic [ref=e235]:
+              - generic [ref=e237]:
+                - img [ref=e240]
+                - heading "Premium Sourcing" [level=3] [ref=e243]
+              - generic [ref=e244]:
+                - paragraph [ref=e245]: Direct partnerships with Vietnam's finest coffee farms ensuring traceability and sustainability
+                - generic [ref=e246]:
+                  - generic [ref=e247]:
+                    - img [ref=e248]
+                    - generic [ref=e251]: Direct Farm Partnerships
+                  - generic [ref=e252]:
+                    - img [ref=e253]
+                    - generic [ref=e256]: Full Traceability
+                  - generic [ref=e257]:
+                    - img [ref=e258]
+                    - generic [ref=e261]: Sustainable Sourcing
+                  - generic [ref=e262]:
+                    - img [ref=e263]
+                    - generic [ref=e266]: Single Origin Options
+                  - generic [ref=e267]:
+                    - img [ref=e268]
+                    - generic [ref=e271]: Micro-lot Selections
+                  - generic [ref=e272]:
+                    - img [ref=e273]
+                    - generic [ref=e276]: Harvest Timing Control
+            - generic [ref=e279]:
+              - generic [ref=e281]:
+                - img [ref=e284]
+                - heading "Industry Leadership" [level=3] [ref=e287]
+              - generic [ref=e288]:
+                - paragraph [ref=e289]: Proven track record in international coffee export with extensive market expertise
+                - generic [ref=e290]:
+                  - generic [ref=e291]:
+                    - img [ref=e292]
+                    - generic [ref=e295]: 500+ Active Partners
+                  - generic [ref=e296]:
+                    - img [ref=e297]
+                    - generic [ref=e300]: 15+ Years Experience
+                  - generic [ref=e301]:
+                    - img [ref=e302]
+                    - generic [ref=e305]: Market Intelligence
+                  - generic [ref=e306]:
+                    - img [ref=e307]
+                    - generic [ref=e310]: Price Risk Management
+                  - generic [ref=e311]:
+                    - img [ref=e312]
+                    - generic [ref=e315]: Supply Chain Optimization
+                  - generic [ref=e316]:
+                    - img [ref=e317]
+                    - generic [ref=e320]: Technical Support
+          - generic [ref=e321]:
+            - generic [ref=e322]:
+              - generic [ref=e323]:
+                - img [ref=e325]
+                - generic [ref=e327]: Industry Certifications & Memberships
+              - heading "Certified Excellence in Coffee Export" [level=3] [ref=e328]
+            - generic [ref=e329]:
+              - generic [ref=e330]:
+                - img [ref=e332]
+                - heading "ISO 22000" [level=4] [ref=e335]
+                - paragraph [ref=e336]: Food Safety Management
+              - generic [ref=e337]:
+                - img [ref=e339]
+                - heading "HACCP" [level=4] [ref=e342]
+                - paragraph [ref=e343]: Hazard Analysis
+              - generic [ref=e344]:
+                - img [ref=e346]
+                - heading "Rainforest Alliance" [level=4] [ref=e349]
+                - paragraph [ref=e350]: Sustainability
+              - generic [ref=e351]:
+                - img [ref=e353]
+                - heading "Fair Trade" [level=4] [ref=e356]
+                - paragraph [ref=e357]: Ethical Sourcing
+              - generic [ref=e358]:
+                - img [ref=e360]
+                - heading "USDA Organic" [level=4] [ref=e363]
+                - paragraph [ref=e364]: Organic Certification
+              - generic [ref=e365]:
+                - img [ref=e367]
+                - heading "UTZ Certified" [level=4] [ref=e370]
+                - paragraph [ref=e371]: Sustainable Farming
+              - generic [ref=e372]:
+                - img [ref=e374]
+                - heading "SCA Member" [level=4] [ref=e377]
+                - paragraph [ref=e378]: Specialty Coffee Assoc.
+              - generic [ref=e379]:
+                - img [ref=e381]
+                - heading "ICO Member" [level=4] [ref=e384]
+                - paragraph [ref=e385]: International Coffee Org.
+              - generic [ref=e386]:
+                - img [ref=e388]
+                - heading "VICOFA" [level=4] [ref=e391]
+                - paragraph [ref=e392]: Vietnam Coffee Assoc.
+              - generic [ref=e393]:
+                - img [ref=e395]
+                - heading "EU Organic" [level=4] [ref=e398]
+                - paragraph [ref=e399]: European Organic
+              - generic [ref=e400]:
+                - img [ref=e402]
+                - heading "JAS Organic" [level=4] [ref=e405]
+                - paragraph [ref=e406]: Japan Agricultural Standards
+              - generic [ref=e407]:
+                - img [ref=e409]
+                - heading "KOSHER" [level=4] [ref=e412]
+                - paragraph [ref=e413]: Kosher Certification
+          - generic [ref=e414]:
+            - generic [ref=e415]:
+              - img [ref=e417]
+              - generic [ref=e422]: Trusted by Global Partners
+            - generic [ref=e423]:
+              - generic [ref=e424]:
+                - img [ref=e426]
+                - generic [ref=e429]: 25+
+                - generic [ref=e430]: Countries Served
+              - generic [ref=e431]:
+                - img [ref=e433]
+                - generic [ref=e438]: 500+
+                - generic [ref=e439]: B2B Partners
+              - generic [ref=e440]:
+                - img [ref=e442]
+                - generic [ref=e445]: 15+
+                - generic [ref=e446]: Years Experience
+              - generic [ref=e447]:
+                - img [ref=e449]
+                - generic [ref=e454]: 99.8%
+                - generic [ref=e455]: On-Time Delivery
+            - generic [ref=e456]:
+              - generic [ref=e457]:
+                - img [ref=e459]
+                - generic [ref=e461]:
+                  - generic [ref=e462]: Roasters
+                  - generic [ref=e463]: Specialty Coffee Roasters
+              - generic [ref=e464]:
+                - img [ref=e466]
+                - generic [ref=e468]:
+                  - generic [ref=e469]: Distributors
+                  - generic [ref=e470]: Global Coffee Distributors
+              - generic [ref=e471]:
+                - img [ref=e473]
+                - generic [ref=e475]:
+                  - generic [ref=e476]: Importers
+                  - generic [ref=e477]: International Importers
+              - generic [ref=e478]:
+                - img [ref=e480]
+                - generic [ref=e482]:
+                  - generic [ref=e483]: Retailers
+                  - generic [ref=e484]: Premium Coffee Retailers
+              - generic [ref=e485]:
+                - img [ref=e487]
+                - generic [ref=e489]:
+                  - generic [ref=e490]: Brands
+                  - generic [ref=e491]: Private Label Brands
+            - paragraph [ref=e492]: Serving 500+ B2B partners across 25+ countries since 2018
+        - generic [ref=e498]:
+          - generic [ref=e500]:
+            - generic [ref=e502]:
+              - img [ref=e504]
+              - generic [ref=e506]: Premium Vietnamese Origins
+            - generic [ref=e507]:
+              - heading "Featured Coffee Products" [level=2] [ref=e509]:
+                - text: Featured Coffee
+                - generic [ref=e510]: Products
+              - paragraph [ref=e512]: Discover our range of premium Vietnamese coffee beans, sourced directly from the finest growing regions
+          - generic [ref=e513]:
+            - button "Previous product" [ref=e514] [cursor=pointer]:
+              - img [ref=e515]
+            - button "Next product" [ref=e517] [cursor=pointer]:
+              - img [ref=e518]
+            - generic [ref=e522]:
+              - generic [ref=e525]:
+                - generic [ref=e527]:
+                  - img [ref=e528]
+                  - text: Popular
+                - generic [ref=e530]:
+                  - generic [ref=e532]: Premium Robusta
+                  - heading "homepage.products.grade-1-robusta.name" [level=3] [ref=e533]
+                  - paragraph [ref=e534]: homepage.products.grade-1-robusta.description
+                - generic [ref=e535]:
+                  - generic [ref=e536]:
+                    - heading "Key Features" [level=4] [ref=e537]
+                    - generic [ref=e538]:
+                      - generic [ref=e540]: Screen size 16+ (90% minimum)
+                      - generic [ref=e542]: Moisture content ≤ 12.5%
+                      - generic [ref=e544]: Defect rate ≤ 5%
+                  - generic [ref=e545]:
+                    - heading "Specifications" [level=4] [ref=e546]
+                    - generic [ref=e547]:
+                      - generic [ref=e548]: Grade:Grade 1
+                      - generic [ref=e549]: Origin:Dak Lak Province
+                      - generic [ref=e550]: Processing:Wet Processing
+                      - generic [ref=e551]: Moisture:≤ 12.5%
+                  - generic [ref=e552]:
+                    - link "View Details" [ref=e554] [cursor=pointer]:
+                      - /url: /en/products/grade-1-robusta
+                      - img [ref=e555]
+                      - text: View Details
+                    - button [ref=e557] [cursor=pointer]:
+                      - img [ref=e561]
+              - generic [ref=e566]:
+                - generic [ref=e567]:
+                  - generic [ref=e569]: Specialty Arabica
+                  - heading "homepage.products.highland-arabica.name" [level=3] [ref=e570]
+                  - paragraph [ref=e571]: homepage.products.highland-arabica.description
+                - generic [ref=e572]:
+                  - generic [ref=e573]:
+                    - heading "Key Features" [level=4] [ref=e574]
+                    - generic [ref=e575]:
+                      - generic [ref=e577]: Cupping score 80+
+                      - generic [ref=e579]: Grown at 1,200m+ altitude
+                      - generic [ref=e581]: Washed processing method
+                  - generic [ref=e582]:
+                    - heading "Specifications" [level=4] [ref=e583]
+                    - generic [ref=e584]:
+                      - generic [ref=e585]: Grade:Specialty
+                      - generic [ref=e586]: Origin:Da Lat Highlands
+                      - generic [ref=e587]: Processing:Washed
+                      - generic [ref=e588]: Moisture:≤ 11%
+                  - generic [ref=e590]:
+                    - img [ref=e591]
+                    - generic [ref=e593]: "Cupping Score:"
+                    - generic [ref=e594]: 82+
+                  - generic [ref=e595]:
+                    - link "View Details" [ref=e597] [cursor=pointer]:
+                      - /url: /en/products/highland-arabica
+                      - img [ref=e598]
+                      - text: View Details
+                    - button [ref=e600] [cursor=pointer]:
+                      - img [ref=e604]
+              - generic [ref=e609]:
+                - generic [ref=e610]:
+                  - generic [ref=e612]: Custom Blends
+                  - heading "homepage.products.custom-blends.name" [level=3] [ref=e613]
+                  - paragraph [ref=e614]: homepage.products.custom-blends.description
+                - generic [ref=e615]:
+                  - generic [ref=e616]:
+                    - heading "Key Features" [level=4] [ref=e617]
+                    - generic [ref=e618]:
+                      - generic [ref=e620]: Custom blend development
+                      - generic [ref=e622]: Private label packaging
+                      - generic [ref=e624]: Brand consultation services
+                  - generic [ref=e625]:
+                    - heading "Specifications" [level=4] [ref=e626]
+                    - generic [ref=e627]:
+                      - generic [ref=e628]: Grade:Custom
+                      - generic [ref=e629]: Origin:Multi-Origin
+                      - generic [ref=e630]: Processing:Various
+                      - generic [ref=e631]: Moisture:As specified
+                  - generic [ref=e632]:
+                    - link "View Details" [ref=e634] [cursor=pointer]:
+                      - /url: /en/products/custom-blends
+                      - img [ref=e635]
+                      - text: View Details
+                    - button [ref=e637] [cursor=pointer]:
+                      - img [ref=e641]
+            - generic [ref=e645]:
+              - 'button "Go to product 1: Grade 1 Robusta Beans" [ref=e647] [cursor=pointer]'
+              - 'button "Go to product 2: Highland Arabica" [ref=e649] [cursor=pointer]'
+              - 'button "Go to product 3: Private Label Solutions" [ref=e651] [cursor=pointer]'
+          - link "View All Products" [ref=e654] [cursor=pointer]:
+            - /url: /en/products
+            - text: View All Products
+            - img [ref=e655]
+        - generic [ref=e661]:
+          - generic [ref=e662]:
+            - generic [ref=e664]:
+              - img [ref=e665]
+              - text: homepage.badge
+            - heading "The Great Beans - Premium Vietnamese Coffee" [level=2] [ref=e667]
+            - paragraph [ref=e669]: Leading B2B platform for Vietnamese coffee exports
+          - generic [ref=e670]:
+            - button "Farm Sourcing & Partnership Step 1" [ref=e673] [cursor=pointer]:
+              - img [ref=e675]
+              - generic [ref=e679]:
+                - generic [ref=e680]: Farm Sourcing & Partnership
+                - generic [ref=e681]: Step 1
+              - img [ref=e683]
+            - button "Processing & Quality Control Step 2" [ref=e687] [cursor=pointer]:
+              - img [ref=e689]
+              - generic [ref=e691]:
+                - generic [ref=e692]: Processing & Quality Control
+                - generic [ref=e693]: Step 2
+              - img [ref=e695]
+            - button "Certification & Compliance Step 3" [ref=e699] [cursor=pointer]:
+              - img [ref=e701]
+              - generic [ref=e704]:
+                - generic [ref=e705]: Certification & Compliance
+                - generic [ref=e706]: Step 3
+              - img [ref=e708]
+            - button "Global Logistics & Export Step 4" [ref=e712] [cursor=pointer]:
+              - img [ref=e714]
+              - generic [ref=e718]:
+                - generic [ref=e719]: Global Logistics & Export
+                - generic [ref=e720]: Step 4
+          - generic [ref=e721]:
+            - generic [ref=e724]:
+              - generic [ref=e726]:
+                - img [ref=e728]
+                - generic [ref=e732]:
+                  - heading "Farm Sourcing & Partnership" [level=3] [ref=e733]
+                  - paragraph [ref=e734]: Direct partnerships with premium coffee farms across Vietnam's finest growing regions
+              - generic [ref=e735]:
+                - generic [ref=e736]:
+                  - generic [ref=e738]:
+                    - img [ref=e739]
+                    - generic [ref=e742]: Direct trade relationships with 500+ farmers
+                  - generic [ref=e744]:
+                    - img [ref=e745]
+                    - generic [ref=e748]: Sustainable farming practice support
+                  - generic [ref=e750]:
+                    - img [ref=e751]
+                    - generic [ref=e754]: Quality training and certification programs
+                  - generic [ref=e756]:
+                    - img [ref=e757]
+                    - generic [ref=e760]: Fair pricing and long-term contracts
+                - generic [ref=e761]:
+                  - generic [ref=e763]:
+                    - generic [ref=e764]: 500+
+                    - generic [ref=e765]: Partner Farms
+                  - generic [ref=e767]:
+                    - generic [ref=e768]: "12"
+                    - generic [ref=e769]: Growing Regions
+                  - generic [ref=e771]:
+                    - generic [ref=e772]: 85%
+                    - generic [ref=e773]: Certified Organic
+            - generic [ref=e777]:
+              - generic [ref=e780]:
+                - generic [ref=e782]:
+                  - img [ref=e784]
+                  - generic [ref=e788]:
+                    - generic [ref=e789]: Farm Sourcing & Partnership
+                    - generic [ref=e790]: Direct partnerships with premium coffee farms across Vietnam's finest growing regions
+                  - generic [ref=e791]: Active
+                - generic [ref=e794]:
+                  - img [ref=e796]
+                  - generic [ref=e798]:
+                    - generic [ref=e799]: Processing & Quality Control
+                    - generic [ref=e800]: State-of-the-art processing facilities with rigorous quality control at every stage
+                - generic [ref=e803]:
+                  - img [ref=e805]
+                  - generic [ref=e808]:
+                    - generic [ref=e809]: Certification & Compliance
+                    - generic [ref=e810]: Comprehensive certification programs ensuring international quality standards
+                - generic [ref=e813]:
+                  - img [ref=e815]
+                  - generic [ref=e819]:
+                    - generic [ref=e820]: Global Logistics & Export
+                    - generic [ref=e821]: Efficient logistics network ensuring timely delivery to global markets
+              - generic [ref=e824]:
+                - img [ref=e826]
+                - generic [ref=e828]:
+                  - generic [ref=e829]: Quality Guaranteed
+                  - generic [ref=e830]: ISO 22000 certified process with 99.8% quality compliance
+          - generic [ref=e836]:
+            - generic [ref=e838]:
+              - img [ref=e839]
+              - text: Global Reach
+            - heading "Connecting Vietnam to the World" [level=3] [ref=e842]
+            - paragraph [ref=e843]: Our extensive network ensures Vietnamese coffee reaches every corner of the globe
+            - generic [ref=e847]:
+              - img [ref=e850]
+              - heading "Global Coffee Excellence" [level=4] [ref=e854]
+              - paragraph [ref=e856]: Delivering premium Vietnamese coffee to international markets with unmatched quality and reliability
+              - generic [ref=e859]:
+                - generic [ref=e860]:
+                  - generic [ref=e861]: 500+
+                  - generic [ref=e862]: Partner Farms
+                - generic [ref=e863]:
+                  - generic [ref=e864]: 45+
+                  - generic [ref=e865]: Export Markets
+                - generic [ref=e866]:
+                  - generic [ref=e867]: 50,000MT
+                  - generic [ref=e868]: Annual Capacity
+                - generic [ref=e869]:
+                  - generic [ref=e870]: 99.2%
+                  - generic [ref=e871]: On-time Delivery
+        - generic [ref=e876]:
+          - generic [ref=e878]:
+            - generic [ref=e879]:
+              - img [ref=e880]
+              - generic [ref=e883]: Trusted by Global Partners
+            - heading "What Our Partners Say About Us" [level=2] [ref=e884]
+            - paragraph [ref=e885]: Join 500+ international partners who trust The Great Beans for premium Vietnamese coffee solutions and exceptional service across 25+ countries
+          - generic [ref=e888]:
+            - button "All Partners 6" [ref=e891] [cursor=pointer]:
+              - generic [ref=e892]:
+                - text: All Partners
+                - generic [ref=e893]: "6"
+            - button "Coffee Roasters 2" [ref=e897] [cursor=pointer]:
+              - generic [ref=e898]:
+                - text: Coffee Roasters
+                - generic [ref=e899]: "2"
+            - button "Distributors 2" [ref=e903] [cursor=pointer]:
+              - generic [ref=e904]:
+                - text: Distributors
+                - generic [ref=e905]: "2"
+            - button "Manufacturers 1" [ref=e909] [cursor=pointer]:
+              - generic [ref=e910]:
+                - text: Manufacturers
+                - generic [ref=e911]: "1"
+            - button "Retailers 1" [ref=e915] [cursor=pointer]:
+              - generic [ref=e916]:
+                - text: Retailers
+                - generic [ref=e917]: "1"
+          - generic [ref=e921]:
+            - generic [ref=e924]:
+              - generic [ref=e925]:
+                - generic [ref=e927]:
+                  - img "Marcus Weber" [ref=e929]
+                  - img [ref=e931]
+                - generic [ref=e934]:
+                  - heading "Marcus Weber" [level=3] [ref=e935]
+                  - paragraph [ref=e936]: Head of Sourcing
+                  - generic [ref=e937]:
+                    - img [ref=e938]
+                    - generic [ref=e941]: Alpine Coffee Roasters
+                  - generic [ref=e942]:
+                    - img [ref=e943]
+                    - generic [ref=e946]: Munich, Germany
+              - generic [ref=e947]:
+                - generic [ref=e949]:
+                  - generic [ref=e950]: 50+ tons/year
+                  - generic [ref=e951]: Annual Volume
+                - generic [ref=e953]:
+                  - generic [ref=e954]: 3+ years
+                  - generic [ref=e955]: Partnership
+            - generic [ref=e956]:
+              - generic [ref=e958]:
+                - img [ref=e959]
+                - img [ref=e961]
+                - img [ref=e963]
+                - img [ref=e965]
+                - img [ref=e967]
+              - generic [ref=e969]:
+                - img [ref=e970]
+                - blockquote [ref=e973]: “The Great Beans has been our trusted partner for premium Vietnamese Robusta for over 3 years. Their consistency in quality and reliability in delivery has helped us expand our European market significantly.”
+                - img [ref=e974]
+              - generic [ref=e978]: Coffee Roasters
+          - generic [ref=e980]:
+            - button "Previous" [ref=e982] [cursor=pointer]:
+              - generic [ref=e984]:
+                - img [ref=e986]
+                - generic [ref=e988]: Previous
+            - generic [ref=e989]:
+              - button [ref=e991] [cursor=pointer]
+              - button [ref=e993] [cursor=pointer]
+              - button [ref=e995] [cursor=pointer]
+              - button [ref=e997] [cursor=pointer]
+              - button [ref=e999] [cursor=pointer]
+              - button [ref=e1001] [cursor=pointer]
+            - button "Next" [ref=e1003] [cursor=pointer]:
+              - generic [ref=e1005]:
+                - generic [ref=e1006]: Next
+                - img [ref=e1008]
+          - generic [ref=e1011]:
+            - generic [ref=e1012]:
+              - heading "Trusted by Industry Leaders" [level=3] [ref=e1013]
+              - paragraph [ref=e1014]: Join our growing network of satisfied partners worldwide
+            - generic [ref=e1017]:
+              - generic [ref=e1019]:
+                - img "Alpine Coffee Roasters" [ref=e1021]
+                - generic [ref=e1022]:
+                  - generic [ref=e1023]: Alpine Coffee Roasters
+                  - generic [ref=e1024]: Munich, Germany
+              - generic [ref=e1026]:
+                - img "Tokyo Coffee Trading Co." [ref=e1028]
+                - generic [ref=e1029]:
+                  - generic [ref=e1030]: Tokyo Coffee Trading Co.
+                  - generic [ref=e1031]: Tokyo, Japan
+              - generic [ref=e1033]:
+                - img "Global Beverage Solutions" [ref=e1035]
+                - generic [ref=e1036]:
+                  - generic [ref=e1037]: Global Beverage Solutions
+                  - generic [ref=e1038]: New York, USA
+              - generic [ref=e1040]:
+                - img "Café Premium France" [ref=e1042]
+                - generic [ref=e1043]:
+                  - generic [ref=e1044]: Café Premium France
+                  - generic [ref=e1045]: Lyon, France
+              - generic [ref=e1047]:
+                - img "British Coffee House" [ref=e1049]
+                - generic [ref=e1050]:
+                  - generic [ref=e1051]: British Coffee House
+                  - generic [ref=e1052]: London, UK
+              - generic [ref=e1054]:
+                - img "Caffè Italia Imports" [ref=e1056]
+                - generic [ref=e1057]:
+                  - generic [ref=e1058]: Caffè Italia Imports
+                  - generic [ref=e1059]: Milan, Italy
+          - generic [ref=e1062]:
+            - heading "Ready to Join Our Success Stories?" [level=3] [ref=e1063]
+            - paragraph [ref=e1064]: Start your partnership with Vietnam's leading coffee exporter today
+            - generic [ref=e1065]:
+              - button "Become a Partner" [ref=e1067] [cursor=pointer]:
+                - generic [ref=e1069]:
+                  - generic [ref=e1070]: Become a Partner
+                  - img [ref=e1072]
+              - button "Request Quote" [ref=e1078] [cursor=pointer]:
+                - generic [ref=e1081]: Request Quote
+        - generic [ref=e1088]:
+          - generic [ref=e1090]:
+            - img [ref=e1092]
+            - generic [ref=e1097]: Join Our Global Network
+          - heading "Ready to Partner with Vietnam's Leading Coffee Exporter?" [level=2] [ref=e1099]:
+            - text: Ready to Partner with Vietnam's
+            - generic [ref=e1100]: Leading Coffee Exporter?
+          - paragraph [ref=e1102]: Join 500+ international partners who trust The Great Beans for premium Vietnamese coffee solutions and exceptional service
+          - generic [ref=e1104]:
+            - link "Request Quote" [ref=e1105] [cursor=pointer]:
+              - /url: /en/quote
+              - text: Request Quote
+              - img [ref=e1107]
+            - link "Contact Sales Team" [ref=e1109] [cursor=pointer]:
+              - /url: /en/contact
+    - contentinfo [ref=e1110]:
+      - generic [ref=e1111]:
+        - generic [ref=e1112]:
+          - generic [ref=e1113]:
+            - generic [ref=e1114]:
+              - img [ref=e1115]
+              - generic [ref=e1117]: The Great Beans
+            - paragraph [ref=e1118]: Premium Vietnamese coffee export company connecting global markets with exceptional coffee beans.
+            - generic [ref=e1119]:
+              - generic [ref=e1120]:
+                - img [ref=e1121]
+                - generic [ref=e1124]: Ho Chi Minh City, Vietnam
+              - generic [ref=e1125]:
+                - img [ref=e1126]
+                - generic [ref=e1128]: +84 123 456 789
+              - generic [ref=e1129]:
+                - img [ref=e1130]
+                - generic [ref=e1133]: info@thegreatbeans.com
+          - generic [ref=e1134]:
+            - heading "Products" [level=3] [ref=e1135]
+            - list [ref=e1136]:
+              - listitem [ref=e1137]:
+                - link "Robusta Coffee" [ref=e1138] [cursor=pointer]:
+                  - /url: /en/products/robusta
+              - listitem [ref=e1139]:
+                - link "Arabica Coffee" [ref=e1140] [cursor=pointer]:
+                  - /url: /en/products/arabica
+              - listitem [ref=e1141]:
+                - link "Specialty Blends" [ref=e1142] [cursor=pointer]:
+                  - /url: /en/products/blends
+              - listitem [ref=e1143]:
+                - link "Instant Coffee" [ref=e1144] [cursor=pointer]:
+                  - /url: /en/products/instant
+          - generic [ref=e1145]:
+            - heading "Services" [level=3] [ref=e1146]
+            - list [ref=e1147]:
+              - listitem [ref=e1148]:
+                - link "OEM Manufacturing" [ref=e1149] [cursor=pointer]:
+                  - /url: /en/services/oem
+              - listitem [ref=e1150]:
+                - link "Private Label" [ref=e1151] [cursor=pointer]:
+                  - /url: /en/services/private-label
+              - listitem [ref=e1152]:
+                - link "Coffee Sourcing" [ref=e1153] [cursor=pointer]:
+                  - /url: /en/services/sourcing
+              - listitem [ref=e1154]:
+                - link "Logistics & Shipping" [ref=e1155] [cursor=pointer]:
+                  - /url: /en/services/logistics
+          - generic [ref=e1156]:
+            - heading "Company" [level=3] [ref=e1157]
+            - list [ref=e1158]:
+              - listitem [ref=e1159]:
+                - link "About Us" [ref=e1160] [cursor=pointer]:
+                  - /url: /en/about
+              - listitem [ref=e1161]:
+                - link "Certifications" [ref=e1162] [cursor=pointer]:
+                  - /url: /en/certifications
+              - listitem [ref=e1163]:
+                - link "Market Insights" [ref=e1164] [cursor=pointer]:
+                  - /url: /en/blog
+              - listitem [ref=e1165]:
+                - link "Contact" [ref=e1166] [cursor=pointer]:
+                  - /url: /en/contact
+        - generic [ref=e1168]:
+          - paragraph [ref=e1169]: © 2024 The Great Beans. All rights reserved.
+          - generic [ref=e1170]:
+            - link "Privacy Policy" [ref=e1171] [cursor=pointer]:
+              - /url: /en/privacy
+            - link "Terms of Service" [ref=e1172] [cursor=pointer]:
+              - /url: /en/terms
+```

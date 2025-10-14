@@ -6,7 +6,7 @@ import {
   SitemapGenerator,
 } from '@/shared/utils/sitemap-generator';
 
-const logger = createScopedLogger('SitemapBlog');
+const _logger = createScopedLogger('SitemapBlog');
 
 /**
  * Generate and serve the blog-specific sitemap.xml

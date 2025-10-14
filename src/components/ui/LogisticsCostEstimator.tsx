@@ -67,7 +67,11 @@ interface ShippingEstimate {
   }[];
 }
 
-const getIncoterms = (t: any) => [
+interface TranslationFunction {
+  (key: string): string;
+}
+
+const getIncoterms = (t: TranslationFunction) => [
   {
     value: 'EXW',
     label: t('incoterms.exw'),
@@ -112,7 +116,7 @@ const getIncoterms = (t: any) => [
   },
 ];
 
-const getShippingMethods = (t: any) => [
+const getShippingMethods = (t: TranslationFunction) => [
   {
     value: 'SEA_FREIGHT',
     label: t('methods.seaFreight'),
@@ -139,7 +143,7 @@ const getShippingMethods = (t: any) => [
   },
 ];
 
-const getContainerTypes = (t: any) => [
+const getContainerTypes = (t: TranslationFunction) => [
   {
     value: 'FCL_20',
     label: t('containers.fcl20'),
@@ -179,8 +183,8 @@ export function LogisticsCostEstimator({
   onEstimateCalculated,
 }: LogisticsCostEstimatorProps) {
   const t = useTranslations('logistics.estimator');
-  const { config, locale, formatCurrency } = useMarket();
-  const { majorPorts, preferredIncoterms } = useMarketShipping();
+  const { config: _config, locale: _locale, formatCurrency: _formatCurrency } = useMarket();
+  const { majorPorts, preferredIncoterms: _preferredIncoterms } = useMarketShipping();
 
   // Get translated arrays
   const SHIPPING_METHODS = getShippingMethods(t);
@@ -256,10 +260,10 @@ export function LogisticsCostEstimator({
         parseFloat(formData.insuranceValue) || quantity * 3000; // Default $3000/MT
 
       // Get origin and destination port data
-      const originPortData = availablePorts.find(
+      const _originPortData = availablePorts.find(
         p => p.code === formData.originPort
       );
-      const destinationPortData = {
+      const _destinationPortData = {
         name: formData.destinationPort || '',
         code: formData.destinationPort
           ? formData.destinationPort.toUpperCase()
@@ -377,10 +381,10 @@ export function LogisticsCostEstimator({
     }
   };
 
-  const selectedIncoterm = INCOTERMS_OPTIONS.find(
+  const _selectedIncoterm = INCOTERMS_OPTIONS.find(
     opt => opt.value === formData.incoterms
   );
-  const selectedShippingMethod = SHIPPING_METHODS.find(
+  const _selectedShippingMethod = SHIPPING_METHODS.find(
     m => m.value === formData.shippingMethod
   );
 

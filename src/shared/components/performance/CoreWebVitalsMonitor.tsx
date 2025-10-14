@@ -5,7 +5,7 @@ import { onCLS, onFCP, onINP, onLCP, onTTFB, type Metric } from 'web-vitals';
 
 import { createScopedLogger } from '@/shared/utils/logger';
 
-const logger = createScopedLogger('CoreWebVitalsMonitor');
+const _logger = createScopedLogger('CoreWebVitalsMonitor');
 
 // Core Web Vitals thresholds (Google's recommended values)
 const THRESHOLDS = {
@@ -120,7 +120,7 @@ export function CoreWebVitalsMonitor({
         // Error logging removed for production
       }
     },
-    [enableAnalytics, analyticsEndpoint, enableConsoleLogging]
+    [enableAnalytics, analyticsEndpoint]
   );
 
   // Handle metric capture
@@ -156,7 +156,7 @@ export function CoreWebVitalsMonitor({
         onMetricCapture(webVitalMetric);
       }
     },
-    [enableConsoleLogging, onMetricCapture, sendToAnalytics]
+    [onMetricCapture, sendToAnalytics]
   );
 
   // Initialize Web Vitals monitoring

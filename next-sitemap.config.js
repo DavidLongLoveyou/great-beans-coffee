@@ -29,17 +29,6 @@ module.exports = {
         changefreq: 'daily',
         priority: 1.0,
         lastmod: new Date().toISOString(),
-        alternateRefs: locales
-          .map(altLocale => ({
-            href: `${config.siteUrl}/${altLocale}`,
-            hreflang: altLocale,
-          }))
-          .concat([
-            {
-              href: `${config.siteUrl}/en`,
-              hreflang: 'x-default',
-            },
-          ]),
       });
     });
 
@@ -61,17 +50,6 @@ module.exports = {
           changefreq: 'weekly',
           priority: 0.8,
           lastmod: new Date().toISOString(),
-          alternateRefs: locales
-            .map(altLocale => ({
-              href: `${config.siteUrl}/${altLocale}/${page}`,
-              hreflang: altLocale,
-            }))
-            .concat([
-              {
-                href: `${config.siteUrl}/en/${page}`,
-                hreflang: 'x-default',
-              },
-            ]),
         });
       });
     });
@@ -148,8 +126,8 @@ module.exports = {
       },
     ],
     additionalSitemaps: [
-      'https://thegreatbeans.com/sitemap.xml',
-      'https://thegreatbeans.com/rss.xml',
+      'https://thegreatbeans.com/sitemap-blog.xml',
+      'https://thegreatbeans.com/sitemap-index.xml',
     ],
   },
 
@@ -161,9 +139,5 @@ module.exports = {
   sitemapSize: 5000,
 
   // Custom transformation for specific routes
-  additionalSitemaps: [
-    'https://thegreatbeans.com/blog/rss.xml',
-    'https://thegreatbeans.com/market-reports/rss.xml',
-    'https://thegreatbeans.com/origin-stories/rss.xml',
-  ],
+  // RSS feeds are handled separately and should not be in sitemaps
 };

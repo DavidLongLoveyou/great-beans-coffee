@@ -1,7 +1,22 @@
 {
   "homepage": {
     "title": "The Great Beans - Premium Vietnamese Coffee",
-    "description": "Leading B2B platform for Vietnamese coffee exports"
+    "description": "Leading B2B platform for Vietnamese coffee exports",
+    "badge": "Our Process",
+    "products": {
+      "grade-1-robusta": {
+        "name": "Grade 1 Robusta Beans",
+        "description": "Premium Vietnamese Robusta with rich flavor profile and exceptionally low defect rate"
+      },
+      "highland-arabica": {
+        "name": "Highland Arabica",
+        "description": "High-altitude Vietnamese Arabica with exceptional cup quality and unique flavor notes"
+      },
+      "custom-blends": {
+        "name": "Private Label Solutions",
+        "description": "Custom coffee blends and comprehensive private labeling services for your brand"
+      }
+    }
   },
   "common": {
     "loading": "Loading...",
@@ -1608,6 +1623,44 @@
       "subtitle": "Start your partnership with Vietnam's leading coffee exporter today",
       "becomePartner": "Become a Partner",
       "requestQuote": "Request Quote"
+    }
+  },
+  "marketReports": {
+    "title": "Market Reports & Insights",
+    "subtitle": "Stay informed with the latest Vietnamese coffee market trends, analysis, and forecasts",
+    "description": "Comprehensive market intelligence for informed business decisions",
+    "featured": "Featured Reports",
+    "allReports": "All Reports",
+    "readReport": "Read Report",
+    "downloadReport": "Download Report",
+    "publishedOn": "Published on",
+    "author": "Author",
+    "category": "Category",
+    "tags": "Tags",
+    "readingTime": "Reading Time",
+    "relatedReports": "Related Reports",
+    "noReports": "No reports available",
+    "noReportsDescription": "Please check back later for market updates.",
+    "backToReports": "Back to Reports",
+    "categories": {
+      "market-analysis": "Market Analysis",
+      "price-trends": "Price Trends",
+      "export-data": "Export Data",
+      "industry-news": "Industry News",
+      "forecasts": "Forecasts"
+    },
+    "filters": {
+      "search": "Search reports...",
+      "category": "Category",
+      "dateRange": "Date Range",
+      "reset": "Reset Filters",
+      "apply": "Apply Filters"
+    },
+    "cta": {
+      "title": "Need Custom Market Intelligence?",
+      "subtitle": "Get personalized market reports and analysis tailored to your business needs",
+      "contactUs": "Contact Our Analysts",
+      "requestCustomReport": "Request Custom Report"
     }
   }
 }

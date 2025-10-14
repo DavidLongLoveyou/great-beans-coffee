@@ -55,14 +55,13 @@ export default async function HomePage({
   const { locale } = await params;
 
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <ServerHeroSection
         title="Premium Vietnamese Coffee Export Solutions"
         subtitle="Connect with Vietnam's leading coffee exporter. We provide premium Robusta and Arabica beans, OEM services, and private label solutions to B2B partners worldwide."
         ctaHref={`/${locale}/quote`}
         ctaSecondaryHref={`/${locale}/products`}
-        videoSrc="/videos/coffee-farm-processing.mp4"
         videoPoster="/videos/coffee-farm-processing-poster.svg"
         showVideoControls={false}
       />
@@ -148,6 +147,6 @@ export default async function HomePage({
           </div>
         </section>
       </FadeInScroll>
-    </main>
+    </div>
   );
 }

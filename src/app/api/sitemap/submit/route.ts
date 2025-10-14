@@ -6,7 +6,7 @@ import {
   sitemapSubmissionService,
 } from '@/shared/utils/sitemap-submission';
 
-const logger = createScopedLogger('SitemapSubmitAPI');
+const _logger = createScopedLogger('SitemapSubmit');
 
 /**
  * API route for manual sitemap submission to search engines

@@ -78,6 +78,28 @@ export interface ServiceCapacityInfo {
   nextAvailableSlot?: Date;
 }
 
+export interface ServiceRequirements {
+  minimumQuantity?: number;
+  maximumQuantity?: number;
+  qualityStandards?: string[];
+  certifications?: string[];
+  deliveryTimeframe?: {
+    min: number;
+    max: number;
+    unit: 'days' | 'weeks' | 'months';
+  };
+  customSpecifications?: {
+    [key: string]: string | number | boolean;
+  };
+  complianceRequirements?: string[];
+  packagingRequirements?: string[];
+  shippingRequirements?: {
+    incoterms?: string;
+    destination?: string;
+    specialHandling?: string[];
+  };
+}
+
 // Repository interface
 export interface IBusinessServiceRepository {
   // Basic CRUD operations
@@ -119,7 +141,7 @@ export interface IBusinessServiceRepository {
 
   // Service requirements and capabilities
   findByRequirements(
-    requirements: Record<string, any>
+    requirements: ServiceRequirements
   ): Promise<BusinessServiceEntity[]>;
   updateRequirements(
     id: string,
@@ -143,7 +165,7 @@ export interface IBusinessServiceRepository {
   calculateServiceCost(
     id: string,
     quantity: number,
-    customRequirements?: Record<string, any>
+    customRequirements?: ServiceRequirements
   ): Promise<number>;
 
   // Timeline and scheduling

@@ -287,8 +287,12 @@ export const CRITICAL_RESOURCES = {
     // Add actual images here when they are used in the design
   ],
 
-  // Critical CSS and JS
-  CRITICAL_STYLES: ['/_next/static/css/app.css'],
+  // Critical CSS and JS - Next.js handles CSS automatically
+  CRITICAL_STYLES: [],
+  CRITICAL_SCRIPTS: [],
+
+  // Font optimization - handled by Next.js font optimization
+  FONT_PRELOADS: [],
 } as const;
 
 /**

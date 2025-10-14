@@ -135,6 +135,62 @@ export interface OrderPerformanceMetrics {
   isOnBudget: boolean;
 }
 
+export interface SalesPerformanceReport {
+  salesRepId?: string;
+  salesRepName?: string;
+  totalOrders: number;
+  totalValue: number;
+  averageOrderValue: number;
+  conversionRate: number;
+  topProducts: Array<{
+    productType: string;
+    quantity: number;
+    value: number;
+  }>;
+  monthlyTrends: Array<{
+    month: string;
+    orders: number;
+    value: number;
+  }>;
+  clientMetrics: {
+    newClients: number;
+    returningClients: number;
+    clientRetentionRate: number;
+  };
+  performanceScore: number;
+}
+
+export interface OrderAuditReport {
+  orderId: string;
+  orderNumber: string;
+  auditDate: Date;
+  auditedBy: string;
+  complianceStatus: 'compliant' | 'non-compliant' | 'pending';
+  findings: Array<{
+    category: string;
+    severity: 'low' | 'medium' | 'high' | 'critical';
+    description: string;
+    recommendation?: string;
+  }>;
+  documentsReviewed: Array<{
+    documentType: string;
+    status: 'verified' | 'missing' | 'invalid';
+    notes?: string;
+  }>;
+  processCompliance: {
+    orderProcessing: boolean;
+    qualityControl: boolean;
+    shipping: boolean;
+    payment: boolean;
+  };
+  riskAssessment: {
+    level: 'low' | 'medium' | 'high';
+    factors: string[];
+  };
+  recommendations: string[];
+  nextAuditDate?: Date;
+}
+
 // Repository interface
 export interface IOrderRepository {
   // Basic CRUD operations
@@ -375,7 +431,7 @@ export interface IOrderRepository {
       avgDeliveryTime: number;
     }>
   >;
-  getSalesPerformance(salesRepId?: string): Promise<any>;
+  getSalesPerformance(salesRepId?: string): Promise<SalesPerformanceReport>;
 
   // Forecasting and planning
   getForecast(
@@ -394,7 +450,7 @@ export interface IOrderRepository {
 
   // Compliance and audit
   findComplianceIssues(): Promise<Array<{ orderId: string; issues: string[] }>>;
-  auditOrder(id: string): Promise<any>;
+  auditOrder(id: string): Promise<OrderAuditReport>;
   validateOrderData(
     id: string
   ): Promise<{ isValid: boolean; errors: string[] }>;

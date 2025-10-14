@@ -152,8 +152,15 @@ export function ServerHeroSection({
             loop
             playsInline
             preload="metadata"
+            aria-label="Coffee farm processing and bean preparation background video"
+            title="Coffee farm processing and bean preparation"
           >
             <source src={videoSrc} type="video/mp4" />
+            <track
+              kind="descriptions"
+              src="/videos/coffee-farm-processing-descriptions.vtt"
+              label="Video descriptions"
+            />
             Your browser does not support the video tag.
           </video>
 

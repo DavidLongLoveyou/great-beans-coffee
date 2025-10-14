@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { siteConfig } from '@/shared/config/site';
 import { createScopedLogger } from '@/shared/utils/logger';
 
-const logger = createScopedLogger('RSSFeedAPI');
+const _logger = createScopedLogger('RSSFeedAPI');
 
 const baseUrl = siteConfig.url;
 

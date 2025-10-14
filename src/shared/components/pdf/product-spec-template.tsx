@@ -60,7 +60,7 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
       )}
 
       {/* Main Content */}
-      <main className="relative z-10">
+      <div className="relative z-10">
         {/* Product Title */}
         <div className="mb-8">
           <h2 className="mb-2 text-2xl font-bold text-gray-800">
@@ -323,7 +323,7 @@ export const ProductSpecTemplate: React.FC<ProductSpecTemplateProps> = ({
             </div>
           </div>
         </section>
-      </main>
+      </div>
 
       {/* Footer */}
       {includeFooter && (

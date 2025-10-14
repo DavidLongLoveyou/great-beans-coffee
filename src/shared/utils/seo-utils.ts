@@ -272,9 +272,11 @@ export interface OrganizationSchema {
   '@context': 'https://schema.org';
   '@type': 'Organization';
   name: string;
+  legalName?: string;
   url: string;
   logo: string;
   description: string;
+  foundingDate?: string;
   address: {
     '@type': 'PostalAddress';
     streetAddress: string;
@@ -472,28 +474,31 @@ export function generateOrganizationSchema(): OrganizationSchema {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: seoConfig.siteName,
-    url: seoConfig.siteUrl,
-    logo: `${seoConfig.siteUrl}/images/logo.png`,
+    name: seoConfig.organization.name,
+    legalName: seoConfig.organization.legalName,
+    url: seoConfig.organization.url,
+    logo: seoConfig.organization.logo,
     description: seoConfig.defaultDescription,
+    foundingDate: seoConfig.organization.foundingDate,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '123 Coffee Street',
-      addressLocality: 'Ho Chi Minh City',
-      addressRegion: 'Ho Chi Minh',
-      postalCode: '700000',
-      addressCountry: 'VN',
+      streetAddress: seoConfig.organization.address.streetAddress,
+      addressLocality: seoConfig.organization.address.addressLocality,
+      addressRegion: seoConfig.organization.address.addressRegion,
+      postalCode: seoConfig.organization.address.postalCode,
+      addressCountry: seoConfig.organization.address.addressCountry,
     },
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+84-123-456-789',
+      telephone: seoConfig.organization.telephone,
       contactType: 'customer service',
-      email: 'info@thegreatbeans.com',
+      email: seoConfig.organization.email,
     },
     sameAs: [
-      'https://www.facebook.com/thegreatbeans',
-      'https://www.linkedin.com/company/thegreatbeans',
-      'https://twitter.com/thegreatbeans',
+      seoConfig.organization.socialMedia.facebook,
+      seoConfig.organization.socialMedia.linkedin,
+      seoConfig.organization.socialMedia.twitter,
+      seoConfig.organization.socialMedia.instagram,
     ],
   };
 }

@@ -209,6 +209,7 @@ export function ImageGallery({
                     size="icon"
                     className="absolute left-2 top-1/2 h-8 w-8 -translate-y-1/2 transform touch-manipulation bg-white/80 hover:bg-white sm:left-4 sm:h-10 sm:w-10"
                     onClick={goToPrevious}
+                    aria-label="Previous image"
                   >
                     <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
@@ -217,6 +218,7 @@ export function ImageGallery({
                     size="icon"
                     className="absolute right-2 top-1/2 h-8 w-8 -translate-y-1/2 transform touch-manipulation bg-white/80 hover:bg-white sm:right-4 sm:h-10 sm:w-10"
                     onClick={goToNext}
+                    aria-label="Next image"
                   >
                     <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
@@ -235,6 +237,7 @@ export function ImageGallery({
                   size="icon"
                   className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-10 sm:w-10"
                   onClick={() => openLightbox(currentIndex)}
+                  aria-label="View image in fullscreen"
                 >
                   <Maximize2 className="h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
@@ -244,6 +247,7 @@ export function ImageGallery({
                     size="icon"
                     className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-10 sm:w-10"
                     onClick={() => handleDownload(currentImage)}
+                    aria-label="Download image"
                   >
                     <Download className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
@@ -254,6 +258,7 @@ export function ImageGallery({
                     size="icon"
                     className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-10 sm:w-10"
                     onClick={() => handleShare(currentImage)}
+                    aria-label="Share image"
                   >
                     <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
@@ -311,6 +316,7 @@ export function ImageGallery({
                   : 'border-gray-200 hover:border-gray-300'
               }`}
               onClick={() => setCurrentIndex(index)}
+              aria-label={`View image ${index + 1}: ${image.alt}`}
             >
               <Image
                 src={image.src}
@@ -373,6 +379,7 @@ export function ImageGallery({
                   size="icon"
                   className="absolute left-4 top-1/2 -translate-y-1/2 transform bg-white/20 text-white hover:bg-white/30"
                   onClick={goToPrevious}
+                  aria-label="Previous image"
                 >
                   <ChevronLeft className="h-6 w-6" />
                 </Button>
@@ -381,6 +388,7 @@ export function ImageGallery({
                   size="icon"
                   className="absolute right-4 top-1/2 -translate-y-1/2 transform bg-white/20 text-white hover:bg-white/30"
                   onClick={goToNext}
+                  aria-label="Next image"
                 >
                   <ChevronRight className="h-6 w-6" />
                 </Button>

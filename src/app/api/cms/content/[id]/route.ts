@@ -105,7 +105,7 @@ export async function GET(
                 metadata,
                 ...(includeContent && { content }),
               };
-              foundFilePath = filePath;
+              _foundFilePath = filePath;
               break;
             }
           }

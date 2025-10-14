@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createScopedLogger } from '@/shared/utils/logger';
 import { seoAuditManager, generateSEOReport } from '@/shared/utils/seo-audit';
 
-const logger = createScopedLogger('SEOAuditAPI');
+const _logger = createScopedLogger('SEO-Audit-API');
 
 // Rate limiting (simple in-memory store)
 const auditRequests = new Map<string, number[]>();
@@ -30,7 +30,7 @@ function isRateLimited(ip: string): boolean {
 }
 
 // Type for structured data objects
-type StructuredDataObject = Record<string, unknown>;
+type _StructuredDataObject = Record<string, unknown>;
 
 /**
  * POST /api/seo/audit

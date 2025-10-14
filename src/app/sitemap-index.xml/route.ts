@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { siteConfig } from '@/shared/config/site';
 import { createScopedLogger } from '@/shared/utils/logger';
 
-const logger = createScopedLogger('SitemapIndex');
+const _logger = createScopedLogger('SitemapIndex');
 
 /**
  * Generate and serve the sitemap index file

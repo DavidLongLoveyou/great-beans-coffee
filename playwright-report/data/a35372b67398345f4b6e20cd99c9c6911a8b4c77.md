@@ -1,0 +1,215 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - link "Skip to navigation" [ref=e3] [cursor=pointer]:
+    - /url: "#navigation"
+  - generic [ref=e4]:
+    - banner [ref=e5]:
+      - generic [ref=e6]:
+        - link "The Great Beans - Home" [ref=e7] [cursor=pointer]:
+          - /url: /en
+          - img [ref=e9]
+          - generic [ref=e15]:
+            - generic [ref=e16]: The Great Beans
+            - generic [ref=e17]: Premium Coffee Export
+        - navigation "Main navigation" [ref=e18]:
+          - list [ref=e20]:
+            - listitem [ref=e21]:
+              - link "Home" [ref=e22] [cursor=pointer]:
+                - /url: /en
+            - listitem [ref=e23]:
+              - button "Products" [ref=e24] [cursor=pointer]:
+                - text: Products
+                - img [ref=e25]
+            - listitem [ref=e27]:
+              - button "Solutions" [ref=e28] [cursor=pointer]:
+                - text: Solutions
+                - img [ref=e29]
+            - listitem [ref=e31]:
+              - link "Services" [ref=e32] [cursor=pointer]:
+                - /url: /en/services
+            - listitem [ref=e33]:
+              - link "About Us" [ref=e34] [cursor=pointer]:
+                - /url: /en/about
+            - listitem [ref=e35]:
+              - link "Contact" [ref=e36] [cursor=pointer]:
+                - /url: /en/contact
+        - generic [ref=e37]:
+          - button "🇺🇸 English" [ref=e39] [cursor=pointer]:
+            - generic [ref=e40]: 🇺🇸
+            - generic [ref=e41]: English
+            - img
+          - link "Request Quote" [ref=e42] [cursor=pointer]:
+            - /url: /en/quote
+        - link "Get Quote" [ref=e44] [cursor=pointer]:
+          - /url: /en/quote
+    - main [ref=e45]:
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - heading "Request a Quote" [level=1] [ref=e49]
+          - paragraph [ref=e50]: Get competitive pricing for your coffee requirements. Our team will provide a detailed quotation based on your specifications.
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - img [ref=e55]
+              - generic [ref=e60]: Product Requirements
+            - generic [ref=e61]:
+              - img [ref=e63]
+              - generic [ref=e68]: Quantity & Delivery
+            - generic [ref=e69]:
+              - img [ref=e71]
+              - generic [ref=e74]: Payment Terms
+            - generic [ref=e75]:
+              - img [ref=e77]
+              - generic [ref=e85]: Company Information
+            - generic [ref=e86]:
+              - img [ref=e88]
+              - generic [ref=e94]: Additional Details
+          - progressbar [ref=e95]
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - heading "Product Requirements" [level=3] [ref=e99]:
+              - img [ref=e100]
+              - text: Product Requirements
+            - paragraph [ref=e105]: Step 0 of 5
+          - generic [ref=e106]:
+            - generic [ref=e107]:
+              - generic [ref=e108]:
+                - generic [ref=e109]:
+                  - text: Coffee Type *
+                  - combobox [ref=e110] [cursor=pointer]:
+                    - generic: Select coffee type
+                    - img [ref=e111]
+                - generic [ref=e113]:
+                  - text: Grade
+                  - combobox [ref=e114] [cursor=pointer]:
+                    - generic: Select grade
+                    - img [ref=e115]
+              - generic [ref=e117]:
+                - generic [ref=e118]:
+                  - text: Processing Method
+                  - combobox [ref=e119] [cursor=pointer]:
+                    - generic: Select processing method
+                    - img [ref=e120]
+                - generic [ref=e122]:
+                  - text: Origin Region
+                  - combobox [ref=e123] [cursor=pointer]:
+                    - generic: Select origin
+                    - img [ref=e124]
+              - generic [ref=e126]:
+                - generic [ref=e127]:
+                  - text: Maximum Moisture Content (%)
+                  - spinbutton [ref=e128]
+                - generic [ref=e129]:
+                  - text: Maximum Defect Rate (%)
+                  - spinbutton [ref=e130]
+              - generic [ref=e131]:
+                - text: Required Certifications
+                - generic [ref=e132]:
+                  - generic [ref=e133]:
+                    - checkbox "ORGANIC" [ref=e134] [cursor=pointer]
+                    - generic [ref=e135]: ORGANIC
+                  - generic [ref=e136]:
+                    - checkbox "FAIR TRADE" [ref=e137] [cursor=pointer]
+                    - generic [ref=e138]: FAIR TRADE
+                  - generic [ref=e139]:
+                    - checkbox "RAINFOREST ALLIANCE" [ref=e140] [cursor=pointer]
+                    - generic [ref=e141]: RAINFOREST ALLIANCE
+                  - generic [ref=e142]:
+                    - checkbox "UTZ" [ref=e143] [cursor=pointer]
+                    - generic [ref=e144]: UTZ
+                  - generic [ref=e145]:
+                    - checkbox "4C" [ref=e146] [cursor=pointer]
+                    - generic [ref=e147]: 4C
+                  - generic [ref=e148]:
+                    - checkbox "KOSHER" [ref=e149] [cursor=pointer]
+                    - generic [ref=e150]: KOSHER
+            - generic [ref=e151]:
+              - button "Previous" [disabled]:
+                - img
+                - text: Previous
+              - button "Next" [ref=e152] [cursor=pointer]:
+                - text: Next
+                - img
+    - contentinfo [ref=e153]:
+      - generic [ref=e154]:
+        - generic [ref=e155]:
+          - generic [ref=e156]:
+            - generic [ref=e157]:
+              - img [ref=e158]
+              - generic [ref=e163]: The Great Beans
+            - paragraph [ref=e164]: Premium Vietnamese coffee export company connecting global markets with exceptional coffee beans.
+            - generic [ref=e165]:
+              - generic [ref=e166]:
+                - img [ref=e167]
+                - generic [ref=e170]: Ho Chi Minh City, Vietnam
+              - generic [ref=e171]:
+                - img [ref=e172]
+                - generic [ref=e174]: +84 123 456 789
+              - generic [ref=e175]:
+                - img [ref=e176]
+                - generic [ref=e179]: info@thegreatbeans.com
+          - generic [ref=e180]:
+            - heading "Products" [level=3] [ref=e181]
+            - list [ref=e182]:
+              - listitem [ref=e183]:
+                - link "Robusta Coffee" [ref=e184] [cursor=pointer]:
+                  - /url: /en/products/robusta
+              - listitem [ref=e185]:
+                - link "Arabica Coffee" [ref=e186] [cursor=pointer]:
+                  - /url: /en/products/arabica
+              - listitem [ref=e187]:
+                - link "Specialty Blends" [ref=e188] [cursor=pointer]:
+                  - /url: /en/products/blends
+              - listitem [ref=e189]:
+                - link "Instant Coffee" [ref=e190] [cursor=pointer]:
+                  - /url: /en/products/instant
+          - generic [ref=e191]:
+            - heading "Services" [level=3] [ref=e192]
+            - list [ref=e193]:
+              - listitem [ref=e194]:
+                - link "OEM Manufacturing" [ref=e195] [cursor=pointer]:
+                  - /url: /en/services/oem
+              - listitem [ref=e196]:
+                - link "Private Label" [ref=e197] [cursor=pointer]:
+                  - /url: /en/services/private-label
+              - listitem [ref=e198]:
+                - link "Coffee Sourcing" [ref=e199] [cursor=pointer]:
+                  - /url: /en/services/sourcing
+              - listitem [ref=e200]:
+                - link "Logistics & Shipping" [ref=e201] [cursor=pointer]:
+                  - /url: /en/services/logistics
+          - generic [ref=e202]:
+            - heading "Company" [level=3] [ref=e203]
+            - list [ref=e204]:
+              - listitem [ref=e205]:
+                - link "About Us" [ref=e206] [cursor=pointer]:
+                  - /url: /en/about
+              - listitem [ref=e207]:
+                - link "Certifications" [ref=e208] [cursor=pointer]:
+                  - /url: /en/certifications
+              - listitem [ref=e209]:
+                - link "Market Insights" [ref=e210] [cursor=pointer]:
+                  - /url: /en/blog
+              - listitem [ref=e211]:
+                - link "Contact" [ref=e212] [cursor=pointer]:
+                  - /url: /en/contact
+        - generic [ref=e214]:
+          - paragraph [ref=e215]: © 2024 The Great Beans. All rights reserved.
+          - generic [ref=e216]:
+            - link "Privacy Policy" [ref=e217] [cursor=pointer]:
+              - /url: /en/privacy
+            - link "Terms of Service" [ref=e218] [cursor=pointer]:
+              - /url: /en/terms
+  - status [ref=e219]:
+    - generic [ref=e220]:
+      - img [ref=e222]
+      - generic [ref=e224]:
+        - text: Static route
+        - button "Hide static indicator" [ref=e225] [cursor=pointer]:
+          - img [ref=e226]
+  - alert [ref=e229]
+```

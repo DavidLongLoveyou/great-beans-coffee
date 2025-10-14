@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { rfqRepository } from '../../../../infrastructure/di/container';
 import { createScopedLogger } from '../../../../shared/utils/logger';
 
-const logger = createScopedLogger('RFQ-Analytics-API');
+const _logger = createScopedLogger('RFQ-Analytics-API');
 
 // Validation schema for analytics query parameters
 const analyticsQuerySchema = z.object({

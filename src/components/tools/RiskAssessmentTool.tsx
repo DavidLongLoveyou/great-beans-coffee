@@ -467,7 +467,10 @@ export const RiskAssessmentTool: React.FC<RiskAssessmentToolProps> = ({
 
       {/* Tabs */}
       <div className="border-b border-gray-200">
-        <nav className="-mb-px flex space-x-8">
+        <nav
+          className="-mb-px flex space-x-8"
+          aria-label="Risk assessment tabs"
+        >
           {[
             { key: 'assessment', label: 'Risk Assessment', icon: Calculator },
             { key: 'scenarios', label: 'Scenario Analysis', icon: TrendingUp },

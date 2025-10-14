@@ -171,11 +171,17 @@ export function MediaCarousel({
                 size="sm"
                 onClick={() => setViewMode('carousel')}
                 className="flex-shrink-0"
+                aria-label="Switch to carousel view"
               >
                 <ChevronLeft className="h-4 w-4 sm:mr-1" />
                 <span className="hidden sm:inline">Carousel</span>
               </Button>
-              <Button variant="default" size="sm" className="flex-shrink-0">
+              <Button
+                variant="default"
+                size="sm"
+                className="flex-shrink-0"
+                aria-label="Grid view (current)"
+              >
                 <Grid3X3 className="h-4 w-4 sm:mr-1" />
                 <span className="hidden sm:inline">Grid</span>
               </Button>
@@ -299,6 +305,7 @@ export function MediaCarousel({
                       setCurrentIndex(index);
                       setViewMode('carousel');
                     }}
+                    aria-label="View in carousel mode"
                   >
                     <Maximize2 className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
@@ -308,6 +315,7 @@ export function MediaCarousel({
                       size="icon"
                       className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-9 sm:w-9"
                       onClick={() => handleDownload(item)}
+                      aria-label="Download media"
                     >
                       <Download className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
@@ -318,6 +326,7 @@ export function MediaCarousel({
                       size="icon"
                       className="h-8 w-8 touch-manipulation bg-white/80 hover:bg-white sm:h-9 sm:w-9"
                       onClick={() => handleShare(item)}
+                      aria-label="Share media"
                     >
                       <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
@@ -354,13 +363,14 @@ export function MediaCarousel({
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold text-gray-900">{title}</h2>
           <div className="flex gap-2">
-            <Button variant="default" size="icon">
+            <Button variant="default" size="icon" aria-label="Previous media">
               <ChevronLeft className="h-4 w-4" />
             </Button>
             <Button
               variant="outline"
               size="icon"
               onClick={() => setViewMode('grid')}
+              aria-label="Switch to grid view"
             >
               <Grid3X3 className="h-4 w-4" />
             </Button>
@@ -475,6 +485,7 @@ export function MediaCarousel({
                     size="icon"
                     className="absolute left-4 top-1/2 z-10 -translate-y-1/2 transform bg-white/80 hover:bg-white"
                     onClick={goToPrevious}
+                    aria-label="Previous media item"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
@@ -483,6 +494,7 @@ export function MediaCarousel({
                     size="icon"
                     className="absolute right-4 top-1/2 z-10 -translate-y-1/2 transform bg-white/80 hover:bg-white"
                     onClick={goToNext}
+                    aria-label="Next media item"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </Button>
@@ -522,6 +534,7 @@ export function MediaCarousel({
                   : 'border-gray-200 hover:border-gray-300'
               }`}
               onClick={() => setCurrentIndex(index)}
+              aria-label={`View ${item.type} ${index + 1}: ${item.title || item.alt || 'media item'}`}
             >
               <Image
                 src={

@@ -27,6 +27,7 @@ import {
 } from '@/presentation/components/ui/tabs';
 
 import { usePDFGeneration } from '@/shared/hooks/use-pdf-generation';
+import { RFQEntity } from '@/domain/entities/rfq.entity';
 
 // Mock data - in real app, this would come from API
 const mockRFQ = {

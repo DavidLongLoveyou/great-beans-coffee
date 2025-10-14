@@ -193,7 +193,7 @@ export default function RFQTrackingPage() {
     return formatDateTime(new Date(dateString), locale);
   };
 
-  const _formatCurrencyLocal = (amount: number, _currency: string) => {
+  const formatCurrencyLocal = (amount: number, _currency: string) => {
     return marketFormatCurrency(amount);
   };
 

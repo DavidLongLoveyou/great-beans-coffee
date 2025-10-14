@@ -38,7 +38,7 @@ import {
 } from '@/shared/utils/core-web-vitals';
 import { createScopedLogger } from '@/shared/utils/logger';
 
-const logger = createScopedLogger('WebVitalsDashboard');
+const _logger = createScopedLogger('WebVitalsDashboard');
 
 interface WebVitalsDashboardProps {
   /** Whether to show the dashboard in development mode only */
@@ -381,7 +381,7 @@ export function WebVitalsDashboard({
               </Button>
               <Button
                 onClick={() => {
-                  const data = {
+                  const _data = {
                     score: performanceScore.score,
                     rating: performanceScore.rating,
                     metrics: Object.fromEntries(metrics),

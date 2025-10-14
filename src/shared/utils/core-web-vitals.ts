@@ -3,7 +3,7 @@
 import { cloudinaryService } from '@/infrastructure/external-services/cloudinary.service';
 import { createScopedLogger } from '@/shared/utils/logger';
 
-const logger = createScopedLogger('CoreWebVitals');
+const _logger = createScopedLogger('CoreWebVitals');
 
 // Extended Window interface for Google Analytics
 interface ExtendedWindow {

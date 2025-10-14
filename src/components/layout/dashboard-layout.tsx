@@ -123,7 +123,10 @@ function DashboardSidebar({ className }: { className?: string }) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-1 px-3 py-4">
+      <nav
+        className="flex-1 space-y-1 px-3 py-4"
+        aria-label="Dashboard navigation"
+      >
         {navigationItems.map(item => {
           const isActive =
             pathname === item.href ||
@@ -304,9 +307,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Main Content */}
         <div className="flex flex-1 flex-col overflow-hidden">
           <DashboardHeader />
-          <main className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto">
             <div className="p-3 sm:p-4 lg:p-6">{children}</div>
-          </main>
+          </div>
         </div>
       </div>
     </div>

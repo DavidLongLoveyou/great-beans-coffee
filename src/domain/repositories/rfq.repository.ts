@@ -122,6 +122,40 @@ export interface RFQPerformanceMetrics {
   };
 }
 
+export interface RFQReport {
+  type: 'summary' | 'detailed' | 'performance';
+  generatedAt: Date;
+  dateRange: {
+    start: Date;
+    end: Date;
+  };
+  summary: {
+    totalRFQs: number;
+    totalValue: number;
+    averageValue: number;
+    conversionRate: number;
+  };
+  analytics: RFQAnalytics;
+  performanceMetrics?: RFQPerformanceMetrics;
+  detailedData?: {
+    rfqs: RFQEntity[];
+    trends: Array<{
+      period: string;
+      metrics: {
+        count: number;
+        value: number;
+        conversionRate: number;
+      };
+    }>;
+  };
+  charts: Array<{
+    type: 'bar' | 'line' | 'pie';
+    title: string;
+    data: Record<string, unknown>;
+  }>;
+  recommendations: string[];
+}
+
 // Repository interface
 export interface IRFQRepository {
   // Basic CRUD operations
@@ -326,7 +360,7 @@ export interface IRFQRepository {
   generateReport(
     type: 'summary' | 'detailed' | 'performance',
     criteria?: RFQSearchCriteria
-  ): Promise<any>;
+  ): Promise<RFQReport>;
 
   // Audit and history
   getHistory(

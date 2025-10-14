@@ -1,7 +1,59 @@
 import { Prisma } from '@prisma/client';
 
-import { CoffeeProductEntity } from '../../../domain/entities/coffee-product.entity';
+import { 
+  CoffeeProductEntity,
+  type CoffeeSpecifications,
+  type Pricing,
+  type Availability,
+  type OriginInfo,
+  type MultilingualContent
+} from '../../../domain/entities/coffee-product.entity';
 import { prisma } from '../prisma';
+
+type PrismaProductWithIncludes = {
+  id: string;
+  sku: string;
+  name?: MultilingualContent | null;
+  description?: MultilingualContent | null;
+  shortDescription?: MultilingualContent | null;
+  coffeeType: string;
+  grade: string;
+  processing: string;
+  specifications?: CoffeeSpecifications | null;
+  pricing?: Pricing | null;
+  availability?: Availability | null;
+  certifications?: string[] | null;
+  origin?: string | null;
+  region?: string | null;
+  originInfo?: OriginInfo | null;
+  images?: Array<{
+    url: string;
+    alt: MultilingualContent;
+    isPrimary: boolean;
+  }> | null;
+  documents?: Array<{
+    type: string;
+    url: string;
+    name: MultilingualContent;
+    language?: string;
+  }> | null;
+  traceabilityCode?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  keywords?: string[] | null;
+  isActive: boolean;
+  isFeatured: boolean;
+  sortOrder?: number | null;
+  createdAt: Date;
+  updatedAt: Date;
+  createdBy?: string | null;
+  updatedBy?: string | null;
+  translations?: Array<{
+    locale: string;
+    name?: string | null;
+    description?: string | null;
+  }> | null;
+};
 
 export interface ICoffeeProductRepository {
   findById(id: string, locale?: string): Promise<CoffeeProductEntity | null>;
@@ -57,7 +109,7 @@ export interface CoffeeProductFilters {
 }
 
 export class CoffeeProductRepository implements ICoffeeProductRepository {
-  private mapToEntity(product: any): CoffeeProductEntity {
+  private mapToEntity(product: PrismaProductWithIncludes): CoffeeProductEntity {
     return new CoffeeProductEntity({
       id: product.id,
       sku: product.sku,
@@ -198,13 +250,13 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
 
     if (filters) {
       if (filters.type?.length) {
-        where.coffeeType = { in: filters.type as any[] };
+        where.coffeeType = { in: filters.type };
       }
       if (filters.grade?.length) {
-        where.grade = { in: filters.grade as any[] };
+        where.grade = { in: filters.grade };
       }
       if (filters.processingMethod?.length) {
-        where.processing = { in: filters.processingMethod as any[] };
+        where.processing = { in: filters.processingMethod };
       }
       if (filters.region?.length) {
         where.region = { in: filters.region };
@@ -243,7 +295,7 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
           'region',
         ].includes(sortField)
       ) {
-        (orderBy as any)[sortField] = filters.sortOrder || 'asc';
+        (orderBy as Record<string, 'asc' | 'desc'>)[sortField] = filters.sortOrder || 'asc';
       } else {
         orderBy.createdAt = 'desc'; // Default fallback
       }
@@ -251,7 +303,7 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       orderBy.createdAt = 'desc';
     }
 
-    const queryOptions: any = {
+    const queryOptions: Prisma.CoffeeProductFindManyArgs = {
       where,
       include: this.getIncludeClause(locale),
       orderBy,
@@ -268,7 +320,7 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
     const products = await prisma.coffeeProduct.findMany(queryOptions);
 
     return products.map(product => {
-      const productWithTranslations = product as any;
+      const productWithTranslations = product as Record<string, unknown>;
       if (
         locale &&
         productWithTranslations.translations &&
@@ -348,22 +400,22 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
     const product = await prisma.coffeeProduct.create({
       data: {
         sku: data.sku,
-        coffeeType: data.type === 'INSTANT' ? 'SPECIALTY' : (data.type as any),
+        coffeeType: data.type === 'INSTANT' ? 'SPECIALTY' : data.type,
         grade:
           data.grade === 'COMMERCIAL'
             ? 'GRADE_3'
             : data.grade?.startsWith('SCREEN_')
               ? 'PREMIUM'
-              : (data.grade as any),
+              : data.grade,
         processing: data.processingMethod,
         origin: originData?.region || 'Unknown',
         region: originData?.province || 'Unknown',
-        specifications: data.specifications as any,
-        pricing: data.pricing as any,
-        availability: data.availability as any,
-        originInfo: originData as any,
-        images: data.images as any,
-        documents: data.documents as any,
+        specifications: data.specifications,
+        pricing: data.pricing,
+        availability: data.availability,
+        originInfo: originData,
+        images: data.images,
+        documents: data.documents,
         isFeatured: data.isFeatured,
         isActive: data.isActive,
         createdBy: data.createdBy,
@@ -379,7 +431,7 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
     id: string,
     data: Partial<CoffeeProductEntity>
   ): Promise<CoffeeProductEntity> {
-    const updateData: any = { ...data };
+    const updateData: Record<string, unknown> = { ...data };
     delete updateData.id;
     delete updateData.createdAt;
     updateData.updatedAt = new Date();
@@ -412,14 +464,17 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       throw new Error('Product not found');
     }
 
-    const availability = product.availability as any;
-    availability.quantity = quantity;
-    availability.inStock = quantity > 0;
+    const currentAvailability = product.availability as Record<string, unknown> || {};
+    const updatedAvailability = {
+      ...currentAvailability,
+      quantity,
+      inStock: quantity > 0,
+    };
 
     const updatedProduct = await prisma.coffeeProduct.update({
       where: { id },
       data: {
-        availability,
+        availability: updatedAvailability as Prisma.InputJsonValue,
         updatedAt: new Date(),
       },
       include: { translations: true },

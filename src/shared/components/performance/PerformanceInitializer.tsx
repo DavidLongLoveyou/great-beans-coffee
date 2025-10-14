@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { createScopedLogger } from '@/shared/utils/logger';
 import { initializePerformanceOptimizations } from '@/shared/utils/performance-optimization';
 
-const logger = createScopedLogger('PerformanceInitializer');
+const _logger = createScopedLogger('PerformanceInitializer');
 
 /**
  * Performance Initializer Component
@@ -58,15 +58,7 @@ export function PerformanceInitializer() {
       addResourceHint(domain, 'dns-prefetch');
     });
 
-    // Preload critical fonts (using Google Fonts)
-    const criticalFonts = [
-      'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2',
-      'https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtXK-F2qO0isEw.woff2',
-    ];
-
-    criticalFonts.forEach(font => {
-      addResourceHint(font, 'preload', 'font', 'font/woff2');
-    });
+    // Font preloading is now handled by Next.js font optimization
 
     // Add viewport meta tag for mobile optimization if not present
     if (!document.querySelector('meta[name="viewport"]')) {
@@ -142,7 +134,7 @@ export function PerformanceInitializer() {
 
     // Service Worker registration for caching (if available)
     if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-      navigator.serviceWorker.register('/sw.js').catch(error => {
+      navigator.serviceWorker.register('/sw.js').catch(_error => {
         // Service Worker registration error logging removed for production
       });
     }

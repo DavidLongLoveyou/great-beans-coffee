@@ -87,13 +87,163 @@ export interface UserActivitySummary {
   recentActions: Array<{
     action: string;
     timestamp: Date;
-    details?: any;
+    details?: ActionDetails;
   }>;
   performanceMetrics: {
     tasksCompleted: number;
     averageTaskTime: number;
     qualityScore: number;
   };
+}
+
+export interface ActionDetails {
+  type: string;
+  resource?: string;
+  resourceId?: string;
+  metadata?: Record<string, unknown>;
+  ipAddress?: string;
+  userAgent?: string;
+}
+
+export interface OrganizationChart {
+  nodes: Array<{
+    id: string;
+    name: string;
+    role: UserRole;
+    department: UserDepartment;
+    managerId?: string;
+    level: number;
+  }>;
+  edges: Array<{
+    from: string;
+    to: string;
+    relationship: 'manager' | 'peer' | 'subordinate';
+  }>;
+}
+
+export interface SessionData {
+  userId: string;
+  ipAddress?: string;
+  userAgent?: string;
+  deviceInfo?: {
+    type: 'desktop' | 'mobile' | 'tablet';
+    os: string;
+    browser: string;
+  };
+  location?: {
+    country: string;
+    city: string;
+    timezone: string;
+  };
+  expiresAt: Date;
+}
+
+export interface UserSession {
+  id: string;
+  userId: string;
+  sessionData: SessionData;
+  createdAt: Date;
+  lastAccessedAt: Date;
+  isActive: boolean;
+}
+
+export interface NotificationPreferences {
+  email: {
+    enabled: boolean;
+    frequency: 'immediate' | 'daily' | 'weekly';
+    types: string[];
+  };
+  push: {
+    enabled: boolean;
+    types: string[];
+  };
+  sms: {
+    enabled: boolean;
+    types: string[];
+  };
+  inApp: {
+    enabled: boolean;
+    types: string[];
+  };
+}
+
+export interface NotificationCriteria {
+  roles?: UserRole[];
+  departments?: UserDepartment[];
+  locations?: string[];
+  preferences?: Partial<NotificationPreferences>;
+}
+
+export interface AuditTrailOptions {
+  startDate?: Date;
+  endDate?: Date;
+  actions?: string[];
+  limit?: number;
+  offset?: number;
+}
+
+export interface AuditLogEntry {
+  id: string;
+  userId: string;
+  action: string;
+  details: ActionDetails;
+  timestamp: Date;
+  ipAddress?: string;
+  userAgent?: string;
+}
+
+export interface UserExportData {
+  user: UserEntity;
+  activities: UserActivity[];
+  sessions: UserSession[];
+  auditTrail: AuditLogEntry[];
+  preferences: NotificationPreferences;
+  exportedAt: Date;
+}
+
+export interface UserImportData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  username?: string;
+  role: UserRole;
+  department: UserDepartment;
+  profile?: Partial<User['profile']>;
+  employment?: Partial<User['employment']>;
+  preferences?: Partial<User['preferences']>;
+}
+
+export interface UserAccessAudit {
+  userId: string;
+  permissions: Permission[];
+  roles: UserRole[];
+  lastAccess: Date;
+  accessPatterns: Array<{
+    resource: string;
+    frequency: number;
+    lastAccessed: Date;
+  }>;
+  securityFlags: Array<{
+    type: string;
+    severity: 'low' | 'medium' | 'high';
+    description: string;
+    detectedAt: Date;
+  }>;
+}
+
+export interface SecurityEventDetails {
+  eventType:
+    | 'login'
+    | 'logout'
+    | 'password_change'
+    | 'permission_change'
+    | 'suspicious_activity';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  source: string;
+  metadata: Record<string, unknown>;
+  resolved: boolean;
+  resolvedAt?: Date;
+  resolvedBy?: string;
 }
 
 // Repository interface
@@ -225,26 +375,29 @@ export interface IUserRepository {
   findTopPerformers(limit?: number): Promise<UserEntity[]>;
   findUnderperformers(threshold?: number): Promise<UserEntity[]>;
 
-  // Team and hierarchy
+  // Team and hierarchy management
   findByManager(managerId: string): Promise<UserEntity[]>;
   findTeamMembers(userId: string): Promise<UserEntity[]>;
-  getOrganizationChart(): Promise<any>;
+  getOrganizationChart(): Promise<OrganizationChart>;
   findPeers(userId: string): Promise<UserEntity[]>;
 
   // Session management
-  createSession(userId: string, sessionData: any): Promise<string>;
-  findSession(sessionId: string): Promise<any>;
-  updateSession(sessionId: string, data: any): Promise<void>;
+  createSession(userId: string, sessionData: SessionData): Promise<string>;
+  findSession(sessionId: string): Promise<UserSession | null>;
+  updateSession(sessionId: string, data: Partial<SessionData>): Promise<void>;
   deleteSession(sessionId: string): Promise<void>;
   deleteAllUserSessions(userId: string): Promise<void>;
-  findActiveSessions(userId: string): Promise<any[]>;
+  findActiveSessions(userId: string): Promise<UserSession[]>;
 
   // Notification preferences
   updateNotificationPreferences(
     id: string,
-    preferences: any
+    preferences: NotificationPreferences
   ): Promise<UserEntity>;
-  findUsersForNotification(type: string, criteria?: any): Promise<UserEntity[]>;
+  findUsersForNotification(
+    type: string,
+    criteria?: NotificationCriteria
+  ): Promise<UserEntity[]>;
 
   // Onboarding and training
   updateOnboardingProgress(
@@ -294,16 +447,18 @@ export interface IUserRepository {
   findInactiveUsers(daysSinceLastLogin: number): Promise<UserEntity[]>;
   findUsersWithExpiredPasswords(daysSinceChange: number): Promise<UserEntity[]>;
   findUsersWithoutTwoFactor(): Promise<UserEntity[]>;
-  auditUserAccess(userId: string): Promise<any>;
+  auditUserAccess(userId: string): Promise<UserAccessAudit>;
 
   // Data export and import
   exportToCSV(criteria?: UserSearchCriteria): Promise<string>;
-  exportUserData(userId: string): Promise<any>;
-  importUsers(userData: any[]): Promise<{ success: number; errors: string[] }>;
+  exportUserData(userId: string): Promise<UserExportData>;
+  importUsers(
+    userData: UserImportData[]
+  ): Promise<{ success: number; errors: string[] }>;
 
   // GDPR and privacy
   anonymizeUser(id: string): Promise<void>;
-  exportUserData(id: string): Promise<any>;
+  exportUserData(id: string): Promise<UserExportData>;
   deleteUserData(id: string, keepAuditTrail?: boolean): Promise<void>;
 
   // Integration hooks
@@ -329,7 +484,9 @@ export interface IUserRepository {
   >;
   getSecurityEvents(
     id: string
-  ): Promise<Array<{ timestamp: Date; event: string; details: any }>>;
+  ): Promise<
+    Array<{ timestamp: Date; event: string; details: SecurityEventDetails }>
+  >;
 
   // Cache management
   clearCache(): Promise<void>;

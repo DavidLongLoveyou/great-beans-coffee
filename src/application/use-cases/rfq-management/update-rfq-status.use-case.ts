@@ -79,7 +79,7 @@ export class UpdateRfqStatusUseCase {
       };
 
       if (request.notes) {
-        updateData.internalNotes = request.notes;
+        updateData.notes = request.notes;
       }
 
       if (request.updatedBy) {

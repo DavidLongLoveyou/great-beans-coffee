@@ -368,8 +368,8 @@ export function validateHreflangUrls(urls: Record<string, string>): boolean {
 
 export function validateStructuredData(jsonLd: string): boolean {
   try {
-    const data = JSON.parse(jsonLd);
-    return data['@context'] && data['@type'];
+    const _data = JSON.parse(jsonLd);
+    return _data['@context'] && _data['@type'];
   } catch {
     return false;
   }

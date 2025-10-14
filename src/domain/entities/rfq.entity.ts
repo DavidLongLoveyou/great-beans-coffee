@@ -247,6 +247,7 @@ export const RFQSchema = z.object({
   estimatedValue: z.number().positive().optional(),
   probability: z.number().min(0).max(100).optional(), // Closing probability
   competitorInfo: z.string().optional(),
+  notes: z.string().optional(), // Internal notes
 
   // Documents & Communications
   documents: z.array(RFQDocumentSchema).optional(),
@@ -346,6 +347,9 @@ export class RFQEntity {
   }
   get competitorInfo(): string | undefined {
     return this.data.competitorInfo;
+  }
+  get notes(): string | undefined {
+    return this.data.notes;
   }
   get quoteSentAt(): Date | undefined {
     return this.data.quoteSentAt;

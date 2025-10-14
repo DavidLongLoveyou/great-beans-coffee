@@ -181,12 +181,12 @@ module.exports = {
       },
 
       fontFamily: {
-        // Professional typography system
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Playfair Display', 'Georgia', 'serif'],
-        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
-        display: ['Playfair Display', 'Georgia', 'serif'], // For headings
-        body: ['Inter', 'system-ui', 'sans-serif'], // For body text
+        // Typography using CSS variables from Next.js font optimization
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-playfair)', 'Georgia', 'serif'],
+        mono: ['var(--font-jetbrains)', 'Consolas', 'monospace'],
+        display: ['var(--font-playfair)', 'Georgia', 'serif'], // For headings
+        body: ['var(--font-inter)', 'system-ui', 'sans-serif'], // For body text
       },
 
       fontSize: {

@@ -5,7 +5,7 @@ import { rfqRepository } from '../../../../../infrastructure/di/container';
 import { CommunicationType } from '../../../../../shared/types/business.types';
 import { createScopedLogger } from '../../../../../shared/utils/logger';
 
-const logger = createScopedLogger('RFQ-Communications-API');
+const _logger = createScopedLogger('RFQ-Communications-API');
 
 // Validation schema for adding communication
 const addCommunicationSchema = z.object({

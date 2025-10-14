@@ -285,6 +285,130 @@ export interface CompetitiveMetrics {
   marketSize: number;
 }
 
+export interface ProductMetrics {
+  sales: number;
+  revenue: number;
+  orders: number;
+  conversionRate: number;
+  profitMargin: number;
+  inventoryTurnover: number;
+  customerRating: number;
+  returnRate: number;
+  viewsToSales: number;
+}
+
+export interface CategoryPerformance {
+  totalRevenue: number;
+  totalOrders: number;
+  averageOrderValue: number;
+  conversionRate: number;
+  marketShare: number;
+  growthRate: number;
+  profitMargin: number;
+  customerSatisfaction: number;
+}
+
+export interface CountryMetrics {
+  country: string;
+  revenue: number;
+  orders: number;
+  customers: number;
+  marketShare: number;
+  growthRate: number;
+}
+
+export interface RegionMetrics {
+  region: string;
+  revenue: number;
+  orders: number;
+  customers: number;
+  marketPenetration: number;
+}
+
+export interface RegionalPerformance {
+  revenue: number;
+  orders: number;
+  customers: number;
+  marketShare: number;
+  growthRate: number;
+  competitivePosition: number;
+}
+
+export interface SeasonalPattern {
+  trend: 'increasing' | 'decreasing' | 'stable';
+  seasonality: number;
+  peaks: string[];
+  valleys: string[];
+  variance: number;
+}
+
+export interface CohortMetrics {
+  retention: number[];
+  revenue: number[];
+  orders: number[];
+  averageOrderValue: number[];
+  churnRate: number[];
+}
+
+export interface RecentActivity {
+  id: string;
+  type: 'order' | 'visit' | 'signup' | 'inquiry';
+  timestamp: Date;
+  userId?: string;
+  details: string;
+}
+
+export interface TrafficSource {
+  source: string;
+  visitors: number;
+  percentage: number;
+  conversionRate: number;
+}
+
+export interface ReportDefinition {
+  name: string;
+  description: string;
+  metrics: string[];
+  filters: AnalyticsFilter;
+  visualization: 'table' | 'chart' | 'dashboard';
+  schedule?: 'daily' | 'weekly' | 'monthly';
+}
+
+export interface CustomReportData {
+  id: string;
+  name: string;
+  data: Record<string, unknown>;
+  generatedAt: Date;
+  filters: AnalyticsFilter;
+}
+
+export interface ReportConfig {
+  reportId: string;
+  frequency: 'daily' | 'weekly' | 'monthly';
+  recipients: string[];
+  format: 'pdf' | 'excel' | 'csv';
+  filters: AnalyticsFilter;
+}
+
+export interface AlertCondition {
+  operator: '>' | '<' | '=' | '>=' | '<=';
+  threshold: number;
+  timeframe: 'hour' | 'day' | 'week' | 'month';
+}
+
+export interface AlertNotification {
+  type: 'email' | 'sms' | 'webhook';
+  recipients: string[];
+  message: string;
+}
+
+export interface DataDiscrepancy {
+  type: 'missing' | 'duplicate' | 'inconsistent' | 'outdated';
+  description: string;
+  severity: 'low' | 'medium' | 'high';
+  affectedRecords: number;
+}
+
 export interface DateRange {
   start: Date;
   end: Date;
@@ -375,22 +499,22 @@ export interface IAnalyticsRepository {
     filter?: AnalyticsFilter
   ): Promise<CompetitiveMetrics['pricingAnalysis']>;
 
-  // Product analytics
+  // Product Analytics
   getProductPerformance(
     filter?: AnalyticsFilter
-  ): Promise<Array<{ productId: string; metrics: any }>>;
+  ): Promise<Array<{ productId: string; metrics: ProductMetrics }>>;
   getProductTrends(
     productId: string,
     filter?: AnalyticsFilter
   ): Promise<Array<{ period: string; sales: number; trend: string }>>;
   getCategoryAnalytics(
     filter?: AnalyticsFilter
-  ): Promise<Array<{ category: string; performance: any }>>;
+  ): Promise<Array<{ category: string; performance: CategoryPerformance }>>;
 
-  // Geographic analytics
+  // Geographic Analytics
   getGeographicMetrics(
     filter?: AnalyticsFilter
-  ): Promise<{ countries: any[]; regions: any[] }>;
+  ): Promise<{ countries: CountryMetrics[]; regions: RegionMetrics[] }>;
   getMarketPenetration(
     filter?: AnalyticsFilter
   ): Promise<
@@ -398,7 +522,7 @@ export interface IAnalyticsRepository {
   >;
   getRegionalPerformance(
     filter?: AnalyticsFilter
-  ): Promise<Array<{ region: string; performance: any }>>;
+  ): Promise<Array<{ region: string; performance: RegionalPerformance }>>;
 
   // Time-series analytics
   getTrendAnalysis(
@@ -409,7 +533,7 @@ export interface IAnalyticsRepository {
   getSeasonalAnalysis(
     metric: string,
     filter?: AnalyticsFilter
-  ): Promise<Array<{ season: string; pattern: any }>>;
+  ): Promise<Array<{ season: string; pattern: SeasonalPattern }>>;
   getYearOverYearComparison(
     metric: string,
     filter?: AnalyticsFilter
@@ -422,11 +546,13 @@ export interface IAnalyticsRepository {
     }>
   >;
 
-  // Cohort analysis
+  // Cohort Analytics
   getCohortAnalysis(
     type: 'revenue' | 'retention' | 'orders',
     filter?: AnalyticsFilter
-  ): Promise<Array<{ cohort: string; periods: number[]; metrics: any }>>;
+  ): Promise<
+    Array<{ cohort: string; periods: number[]; metrics: CohortMetrics }>
+  >;
   getCustomerCohorts(filter?: AnalyticsFilter): Promise<
     Array<{
       cohort: string;
@@ -474,12 +600,12 @@ export interface IAnalyticsRepository {
   getRealTimeMetrics(): Promise<{
     activeUsers: number;
     currentOrders: number;
-    recentActivity: any[];
+    recentActivity: RecentActivity[];
   }>;
   getLiveTraffic(): Promise<{
     visitors: number;
     pageViews: number;
-    sources: any[];
+    sources: TrafficSource[];
   }>;
   getCurrentPerformance(): Promise<{
     sales: number;
@@ -488,9 +614,15 @@ export interface IAnalyticsRepository {
   }>;
 
   // Custom analytics
-  createCustomReport(definition: any): Promise<string>; // Returns report ID
-  getCustomReport(reportId: string, filter?: AnalyticsFilter): Promise<any>;
-  updateCustomReport(reportId: string, definition: any): Promise<void>;
+  createCustomReport(definition: ReportDefinition): Promise<string>; // Returns report ID
+  getCustomReport(
+    reportId: string,
+    filter?: AnalyticsFilter
+  ): Promise<CustomReportData>;
+  updateCustomReport(
+    reportId: string,
+    definition: ReportDefinition
+  ): Promise<void>;
   deleteCustomReport(reportId: string): Promise<void>;
   listCustomReports(): Promise<
     Array<{ id: string; name: string; description: string; createdAt: Date }>
@@ -502,9 +634,9 @@ export interface IAnalyticsRepository {
     format: 'csv' | 'excel' | 'json',
     filter?: AnalyticsFilter
   ): Promise<Buffer | string>;
-  scheduleReport(reportConfig: any): Promise<string>; // Returns schedule ID
+  scheduleReport(reportConfig: ReportConfig): Promise<string>; // Returns schedule ID
   getScheduledReports(): Promise<
-    Array<{ id: string; config: any; nextRun: Date }>
+    Array<{ id: string; config: ReportConfig; nextRun: Date }>
   >;
 
   // Data quality and validation
@@ -528,9 +660,18 @@ export interface IAnalyticsRepository {
   clearAnalyticsCache(metrics?: string[]): Promise<void>;
 
   // Alerts and notifications
-  setAlert(metric: string, condition: any, notification: any): Promise<string>; // Returns alert ID
+  setAlert(
+    metric: string,
+    condition: AlertCondition,
+    notification: AlertNotification
+  ): Promise<string>; // Returns alert ID
   getAlerts(): Promise<
-    Array<{ id: string; metric: string; condition: any; isActive: boolean }>
+    Array<{
+      id: string;
+      metric: string;
+      condition: AlertCondition;
+      isActive: boolean;
+    }>
   >;
   checkAlerts(): Promise<
     Array<{
@@ -559,5 +700,8 @@ export interface IAnalyticsRepository {
   getDataSources(): Promise<
     Array<{ source: string; lastSync: Date; status: string }>
   >;
-  validateDataIntegrity(): Promise<{ isValid: boolean; discrepancies: any[] }>;
+  validateDataIntegrity(): Promise<{
+    isValid: boolean;
+    discrepancies: DataDiscrepancy[];
+  }>;
 }

@@ -151,7 +151,7 @@ export function ContentSearch({
           <div className="flex items-center gap-2">
             {/* Sort Controls */}
             <Select value={sorting.sortBy} onValueChange={handleSortChange}>
-              <SelectTrigger className="w-32">
+              <SelectTrigger className="w-32" aria-label="Sort content by">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

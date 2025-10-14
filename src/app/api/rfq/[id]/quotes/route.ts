@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { rfqRepository } from '../../../../../infrastructure/di/container';
 import { createScopedLogger } from '../../../../../shared/utils/logger';
 
-const logger = createScopedLogger('RFQ-Quotes-API');
+const _logger = createScopedLogger('RFQ-Quotes-API');
 
 // Validation schema for creating a quote
 const createQuoteSchema = z.object({

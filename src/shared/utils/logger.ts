@@ -15,16 +15,16 @@ export interface Logger {
  * In production, logs are suppressed to avoid console output
  */
 export const logger: Logger = {
-  info: (message: string, ...args: unknown[]) => {
+  info: (_message: string, ..._args: unknown[]) => {
     // Logging disabled for production readiness
   },
-  error: (message: string, ...args: unknown[]) => {
+  error: (_message: string, ..._args: unknown[]) => {
     // Error logging disabled for production readiness
   },
-  warn: (message: string, ...args: unknown[]) => {
+  warn: (_message: string, ..._args: unknown[]) => {
     // Warning logging disabled for production readiness
   },
-  debug: (message: string, ...args: unknown[]) => {
+  debug: (_message: string, ..._args: unknown[]) => {
     // Debug logging disabled for production readiness
   },
 };

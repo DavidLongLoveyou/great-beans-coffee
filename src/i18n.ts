@@ -3,6 +3,9 @@ import { getRequestConfig } from 'next-intl/server';
 
 import { createScopedLogger } from '@/shared/utils/logger';
 
+// Type for message structure
+type Messages = Record<string, any>;
+
 const logger = createScopedLogger('I18n');
 
 // Define supported locales
@@ -130,9 +133,10 @@ export default getRequestConfig(async ({ locale }) => {
   }
 
   try {
+    const messages: Messages = (await import(`../messages/${locale}.json`)).default;
     return {
       locale: locale as string,
-      messages: (await import(`../messages/${locale}.json`)).default,
+      messages,
       timeZone: 'UTC', // Default timezone to prevent environment mismatches
     };
   } catch (error) {
@@ -142,9 +146,10 @@ export default getRequestConfig(async ({ locale }) => {
 
     // Try to load default locale messages as fallback
     try {
+      const fallbackMessages: Messages = (await import(`../messages/${defaultLocale}.json`)).default;
       return {
         locale: defaultLocale,
-        messages: (await import(`../messages/${defaultLocale}.json`)).default,
+        messages: fallbackMessages,
         timeZone: 'UTC',
       };
     } catch (fallbackError) {
@@ -154,7 +159,7 @@ export default getRequestConfig(async ({ locale }) => {
       // Return empty messages instead of notFound to prevent hydration issues
       return {
         locale: defaultLocale,
-        messages: {},
+        messages: {} as Messages,
         timeZone: 'UTC',
       };
     }

@@ -4,7 +4,7 @@ import type { Locale } from '@/i18n';
 import { createScopedLogger } from '@/shared/utils/logger';
 import { generateAllContentRSS } from '@/shared/utils/rss-utils';
 
-const logger = createScopedLogger('RSSUtilsAPI');
+const _logger = createScopedLogger('RSSUtilsAPI');
 
 export async function GET(request: NextRequest) {
   try {

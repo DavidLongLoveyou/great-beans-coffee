@@ -294,7 +294,10 @@ export function ProductFilters({
                   onValueChange={value => updateFilter('coffeeType', value)}
                   disabled={loading}
                 >
-                  <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 disabled:opacity-50">
+                  <SelectTrigger
+                    className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 disabled:opacity-50"
+                    aria-label="Select coffee type"
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -316,7 +319,10 @@ export function ProductFilters({
                   value={filters.grade}
                   onValueChange={value => updateFilter('grade', value)}
                 >
-                  <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
+                  <SelectTrigger
+                    className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
+                    aria-label="Select coffee grade"
+                  >
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

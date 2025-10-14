@@ -181,10 +181,42 @@ test.describe('Performance and Accessibility', () => {
 
     test('should have proper ARIA labels and roles', async ({ page }) => {
       await page.goto('/');
+      
+      // Wait for hydration to complete
+      await page.waitForLoadState('networkidle');
 
-      // Check navigation has proper ARIA
-      const nav = page.getByRole('navigation');
-      await expect(nav).toBeVisible();
+      // Check navigation has proper ARIA - either desktop nav or mobile menu button should be visible
+      const desktopNav = page.locator('#navigation');
+      const mobileMenuButton = page.locator('button[aria-controls="mobile-menu"]');
+      
+      // Wait for either navigation element to be present
+      await page.waitForFunction(() => {
+        const desktop = document.querySelector('#navigation');
+        const mobile = document.querySelector('button[aria-controls="mobile-menu"]');
+        return (desktop && window.getComputedStyle(desktop).display !== 'none') || 
+               (mobile && window.getComputedStyle(mobile).display !== 'none');
+      }, { timeout: 10000 });
+      
+      // At least one navigation method should be visible
+      const isDesktopNavVisible = await desktopNav.isVisible();
+      const isMobileMenuButtonVisible = await mobileMenuButton.isVisible();
+      
+      expect(isDesktopNavVisible || isMobileMenuButtonVisible).toBeTruthy();
+
+      // If mobile menu button is visible, test mobile navigation
+      if (isMobileMenuButtonVisible && !isDesktopNavVisible) {
+        // Check mobile menu button has proper ARIA
+        await expect(mobileMenuButton).toHaveAttribute('aria-label');
+        await expect(mobileMenuButton).toHaveAttribute('aria-expanded');
+        
+        // Click to open mobile menu and check navigation
+        await mobileMenuButton.click();
+        const mobileNav = page.locator('#mobile-menu nav[role="navigation"]');
+        await expect(mobileNav).toBeVisible();
+      } else if (isDesktopNavVisible) {
+        // Check desktop navigation
+        await expect(desktopNav).toBeVisible();
+      }
 
       // Check buttons have accessible names
       const buttons = page.getByRole('button');
@@ -192,10 +224,21 @@ test.describe('Performance and Accessibility', () => {
 
       for (let i = 0; i < Math.min(5, buttonCount); i++) {
         const button = buttons.nth(i);
-        const accessibleName =
-          (await button.getAttribute('aria-label')) ||
-          (await button.textContent());
-        expect(accessibleName).toBeTruthy();
+        const ariaLabel = await button.getAttribute('aria-label');
+        const textContent = (await button.textContent())?.trim();
+        const ariaLabelledBy = await button.getAttribute('aria-labelledby');
+        const title = await button.getAttribute('title');
+        
+        // Button should have at least one form of accessible name
+        const hasAccessibleName = !!(ariaLabel || textContent || ariaLabelledBy || title);
+        
+        if (!hasAccessibleName) {
+          // Log button details for debugging
+          const buttonHTML = await button.innerHTML();
+          console.log(`Button ${i} has no accessible name:`, buttonHTML);
+        }
+        
+        expect(hasAccessibleName).toBeTruthy();
       }
     });
 

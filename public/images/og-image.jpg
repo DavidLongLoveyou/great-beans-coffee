@@ -1,0 +1,86 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2D1810;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4A2C1A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6B3E2A;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="beanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#A0522D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#CD853F;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Coffee bean pattern background -->
+  <g opacity="0.1">
+    <ellipse cx="150" cy="100" rx="20" ry="30" fill="#8B4513" transform="rotate(45 150 100)"/>
+    <ellipse cx="300" cy="200" rx="15" ry="25" fill="#8B4513" transform="rotate(-30 300 200)"/>
+    <ellipse cx="450" cy="150" rx="18" ry="28" fill="#8B4513" transform="rotate(60 450 150)"/>
+    <ellipse cx="750" cy="120" rx="22" ry="32" fill="#8B4513" transform="rotate(-45 750 120)"/>
+    <ellipse cx="900" cy="250" rx="16" ry="26" fill="#8B4513" transform="rotate(30 900 250)"/>
+    <ellipse cx="1050" cy="180" rx="20" ry="30" fill="#8B4513" transform="rotate(-60 1050 180)"/>
+    <ellipse cx="200" cy="400" rx="18" ry="28" fill="#8B4513" transform="rotate(15 200 400)"/>
+    <ellipse cx="400" cy="480" rx="20" ry="30" fill="#8B4513" transform="rotate(-75 400 480)"/>
+    <ellipse cx="600" cy="520" rx="16" ry="26" fill="#8B4513" transform="rotate(45 600 520)"/>
+    <ellipse cx="800" cy="450" rx="22" ry="32" fill="#8B4513" transform="rotate(-15 800 450)"/>
+    <ellipse cx="1000" cy="500" rx="18" ry="28" fill="#8B4513" transform="rotate(75 1000 500)"/>
+  </g>
+  
+  <!-- Main coffee bean logo -->
+  <g transform="translate(100, 200)">
+    <ellipse cx="0" cy="0" rx="40" ry="60" fill="url(#beanGradient)" filter="url(#shadow)" transform="rotate(-15)"/>
+    <path d="M -8 -40 Q 0 -20 8 0 Q 0 20 -8 40" stroke="#4A2C1A" stroke-width="3" fill="none" transform="rotate(-15)"/>
+  </g>
+  
+  <!-- Company name -->
+  <text x="220" y="240" font-family="serif" font-size="64" font-weight="bold" fill="#FFFFFF" filter="url(#shadow)">
+    The Great Beans
+  </text>
+  
+  <!-- Tagline -->
+  <text x="220" y="290" font-family="sans-serif" font-size="28" fill="#F5DEB3" opacity="0.9">
+    Premium Vietnamese Coffee Exports
+  </text>
+  
+  <!-- Description -->
+  <text x="220" y="340" font-family="sans-serif" font-size="20" fill="#E6D3A3" opacity="0.8">
+    Leading B2B platform for Vietnamese coffee exports
+  </text>
+  <text x="220" y="370" font-family="sans-serif" font-size="20" fill="#E6D3A3" opacity="0.8">
+    Premium Robusta, Arabica, and specialty blends
+  </text>
+  
+  <!-- Website URL -->
+  <text x="220" y="420" font-family="sans-serif" font-size="24" font-weight="600" fill="#DEB887">
+    thegreatbeans.com
+  </text>
+  
+  <!-- Decorative coffee beans on the right -->
+  <g transform="translate(950, 150)">
+    <ellipse cx="0" cy="0" rx="25" ry="35" fill="url(#beanGradient)" opacity="0.8" transform="rotate(30)"/>
+    <path d="M -5 -25 Q 0 -12 5 0 Q 0 12 -5 25" stroke="#4A2C1A" stroke-width="2" fill="none" transform="rotate(30)"/>
+  </g>
+  
+  <g transform="translate(1050, 250)">
+    <ellipse cx="0" cy="0" rx="20" ry="30" fill="url(#beanGradient)" opacity="0.7" transform="rotate(-45)"/>
+    <path d="M -4 -20 Q 0 -10 4 0 Q 0 10 -4 20" stroke="#4A2C1A" stroke-width="2" fill="none" transform="rotate(-45)"/>
+  </g>
+  
+  <g transform="translate(1100, 350)">
+    <ellipse cx="0" cy="0" rx="18" ry="28" fill="url(#beanGradient)" opacity="0.6" transform="rotate(60)"/>
+    <path d="M -3 -18 Q 0 -9 3 0 Q 0 9 -3 18" stroke="#4A2C1A" stroke-width="2" fill="none" transform="rotate(60)"/>
+  </g>
+  
+  <!-- Bottom accent line -->
+  <rect x="220" y="450" width="300" height="3" fill="#DEB887" opacity="0.8"/>
+</svg>

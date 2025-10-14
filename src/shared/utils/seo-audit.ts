@@ -598,7 +598,7 @@ export class SEOAuditManager {
   private auditAccessibility(
     content: string | undefined,
     issues: SEOIssue[],
-    _recommendations: SEORecommendation[]
+    recommendations: SEORecommendation[]
   ): AccessibilityAudit {
     const audit: AccessibilityAudit = {
       altText: { present: 0, missing: 0, issues: [] },
@@ -615,6 +615,8 @@ export class SEOAuditManager {
     const imgMatches = content.match(/<img[^>]*>/gi) || [];
     const imagesWithAlt =
       content.match(/<img[^>]*alt\s*=\s*["'][^"']*["'][^>]*>/gi) || [];
+    const _decorativeImages =
+      content.match(/<img[^>]*alt\s*=\s*["']["'][^>]*>/gi) || [];
 
     audit.altText.present = imagesWithAlt.length;
     audit.altText.missing = imgMatches.length - imagesWithAlt.length;
@@ -630,23 +632,209 @@ export class SEOAuditManager {
         description: `${audit.altText.missing} images are missing alt text`,
         impact: 'high',
         recommendation:
-          'Add descriptive alt text to all images for accessibility and SEO',
+          'Add descriptive alt text to all images for accessibility and SEO. Use alt="" for decorative images.',
       });
     }
 
-    // Check heading structure
-    const headings = content.match(/<h[1-6][^>]*>/gi) || [];
-    if (headings.length === 0) {
-      audit.headingStructure.valid = false;
-      audit.headingStructure.issues.push('No headings found');
+    // Check for empty alt text on non-decorative images
+    const emptyAltImages =
+      content.match(/<img[^>]*alt\s*=\s*["']["'][^>]*src/gi) || [];
+    if (emptyAltImages.length > 0) {
+      audit.altText.issues.push(
+        `${emptyAltImages.length} images with empty alt text may need descriptions`
+      );
       issues.push({
         type: 'warning',
         category: 'accessibility',
-        title: 'Missing Headings',
-        description: 'No heading tags found on this page',
+        title: 'Empty Alt Text',
+        description: `${emptyAltImages.length} images have empty alt text - ensure these are decorative`,
         impact: 'medium',
         recommendation:
-          'Add proper heading structure (H1, H2, H3) for better accessibility and SEO',
+          'Review images with empty alt text to ensure they are truly decorative',
+      });
+    }
+
+    // Check heading structure and hierarchy
+    const h1Matches = content.match(/<h1[^>]*>/gi) || [];
+    const h2Matches = content.match(/<h2[^>]*>/gi) || [];
+    const h3Matches = content.match(/<h3[^>]*>/gi) || [];
+    const _h4Matches = content.match(/<h4[^>]*>/gi) || [];
+    const _h5Matches = content.match(/<h5[^>]*>/gi) || [];
+    const _h6Matches = content.match(/<h6[^>]*>/gi) || [];
+
+    if (h1Matches.length === 0) {
+      audit.headingStructure.valid = false;
+      audit.headingStructure.issues.push('No H1 heading found');
+      issues.push({
+        type: 'error',
+        category: 'accessibility',
+        title: 'Missing H1',
+        description: 'Page is missing an H1 heading',
+        impact: 'high',
+        recommendation:
+          'Add exactly one H1 heading that describes the main content of the page',
+      });
+    } else if (h1Matches.length > 1) {
+      audit.headingStructure.valid = false;
+      audit.headingStructure.issues.push(
+        `Multiple H1 headings found (${h1Matches.length})`
+      );
+      issues.push({
+        type: 'error',
+        category: 'accessibility',
+        title: 'Multiple H1 Headings',
+        description: `Page has ${h1Matches.length} H1 headings, should have exactly one`,
+        impact: 'high',
+        recommendation:
+          'Use only one H1 heading per page and use H2-H6 for subheadings',
+      });
+    }
+
+    // Check for proper heading hierarchy
+    if (h3Matches.length > 0 && h2Matches.length === 0) {
+      audit.headingStructure.valid = false;
+      audit.headingStructure.issues.push('H3 found without H2');
+      issues.push({
+        type: 'warning',
+        category: 'accessibility',
+        title: 'Heading Hierarchy Issue',
+        description: 'H3 headings found without H2 headings',
+        impact: 'medium',
+        recommendation:
+          'Maintain proper heading hierarchy: H1 → H2 → H3 → H4 → H5 → H6',
+      });
+    }
+
+    // Check for ARIA attributes and landmarks
+    const _ariaLabels =
+      content.match(/aria-label\s*=\s*["'][^"']*["']/gi) || [];
+    const _ariaDescribedBy =
+      content.match(/aria-describedby\s*=\s*["'][^"']*["']/gi) || [];
+    const landmarks =
+      content.match(
+        /<(main|nav|aside|header|footer|section|article)[^>]*>/gi
+      ) || [];
+
+    if (landmarks.length === 0) {
+      audit.keyboardNavigation.issues.push('No semantic landmarks found');
+      issues.push({
+        type: 'warning',
+        category: 'accessibility',
+        title: 'Missing Semantic Landmarks',
+        description:
+          'Page lacks semantic HTML5 landmarks (main, nav, aside, etc.)',
+        impact: 'medium',
+        recommendation:
+          'Use semantic HTML5 elements like <main>, <nav>, <aside>, <header>, <footer> for better screen reader navigation',
+      });
+    }
+
+    // Check for form accessibility
+    const formInputs = content.match(/<input[^>]*>/gi) || [];
+    const formLabels = content.match(/<label[^>]*>/gi) || [];
+    const _inputsWithLabels =
+      content.match(/<input[^>]*id\s*=\s*["'][^"']*["'][^>]*>/gi) || [];
+
+    if (formInputs.length > 0) {
+      if (formLabels.length < formInputs.length) {
+        audit.keyboardNavigation.valid = false;
+        audit.keyboardNavigation.issues.push(
+          `${formInputs.length - formLabels.length} form inputs may be missing labels`
+        );
+        issues.push({
+          type: 'error',
+          category: 'accessibility',
+          title: 'Form Accessibility',
+          description: 'Form inputs may be missing proper labels',
+          impact: 'high',
+          recommendation:
+            'Ensure all form inputs have associated labels using <label> elements or aria-label attributes',
+        });
+      }
+    }
+
+    // Check for keyboard navigation support
+    const focusableElements =
+      content.match(/<(button|a|input|select|textarea)[^>]*>/gi) || [];
+    const _tabIndexElements =
+      content.match(/tabindex\s*=\s*["'][^"']*["']/gi) || [];
+    const negativeTabIndex =
+      content.match(/tabindex\s*=\s*["']-[0-9]+["']/gi) || [];
+
+    if (negativeTabIndex && negativeTabIndex.length > 0) {
+      audit.keyboardNavigation.issues.push(
+        `${negativeTabIndex.length} elements with negative tabindex may affect keyboard navigation`
+      );
+      issues.push({
+        type: 'warning',
+        category: 'accessibility',
+        title: 'Negative TabIndex',
+        description:
+          'Elements with negative tabindex can disrupt keyboard navigation',
+        impact: 'medium',
+        recommendation:
+          'Avoid negative tabindex values unless specifically needed for focus management',
+      });
+    }
+
+    // Check for skip links
+    const skipLinks =
+      content.match(
+        /<a[^>]*href\s*=\s*["']#[^"']*["'][^>]*>.*?skip.*?<\/a>/gi
+      ) || [];
+    if (skipLinks.length === 0 && focusableElements.length > 5) {
+      audit.keyboardNavigation.issues.push('No skip links found');
+      recommendations.push({
+        category: 'accessibility',
+        title: 'Add Skip Links',
+        description: 'Add skip navigation links for keyboard users',
+        priority: 'medium',
+        effort: 'low',
+        impact: 'medium',
+        implementation:
+          'Add "Skip to main content" link at the beginning of the page',
+      });
+    }
+
+    // Check for color contrast indicators (basic check for inline styles)
+    const inlineStyles =
+      content.match(/style\s*=\s*["'][^"']*color[^"']*["']/gi) || [];
+    if (inlineStyles.length > 0) {
+      audit.colorContrast.issues.push(
+        `${inlineStyles.length} elements with inline color styles - manual contrast check needed`
+      );
+      recommendations.push({
+        category: 'accessibility',
+        title: 'Color Contrast Review',
+        description: 'Review color contrast ratios for WCAG AA compliance',
+        priority: 'high',
+        effort: 'medium',
+        impact: 'high',
+        implementation:
+          'Use tools like WebAIM Color Contrast Checker to ensure 4.5:1 ratio for normal text',
+      });
+    }
+
+    // Check for video/audio accessibility
+    const videos = content.match(/<video[^>]*>/gi) || [];
+    const _audios = content.match(/<audio[^>]*>/gi) || [];
+    const videosWithCaptions =
+      content.match(
+        /<video[^>]*>.*?<track[^>]*kind\s*=\s*["']captions["'][^>]*>.*?<\/video>/gis
+      ) || [];
+
+    if (videos.length > 0 && videosWithCaptions.length < videos.length) {
+      audit.keyboardNavigation.issues.push(
+        `${videos.length - videosWithCaptions.length} videos may be missing captions`
+      );
+      issues.push({
+        type: 'error',
+        category: 'accessibility',
+        title: 'Video Accessibility',
+        description: 'Videos may be missing captions or transcripts',
+        impact: 'high',
+        recommendation:
+          'Provide captions for all videos and transcripts for audio content',
       });
     }
 

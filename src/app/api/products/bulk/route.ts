@@ -286,7 +286,11 @@ async function handleBulkPricingUpdate(body: any) {
 }
 
 async function handleBulkInventorySync(body: any) {
-  const { productIds, inventoryData, updatedBy } = z
+  const {
+    productIds,
+    inventoryData,
+    updatedBy: _updatedBy,
+  } = z
     .object({
       productIds: z.array(z.string()),
       inventoryData: z.record(
@@ -349,7 +353,12 @@ async function handleBulkInventorySync(body: any) {
 }
 
 async function handleBulkCertificationUpdate(body: any) {
-  const { productIds, certificationIds, action, updatedBy } = z
+  const {
+    productIds,
+    certificationIds,
+    action,
+    updatedBy: _updatedBy,
+  } = z
     .object({
       productIds: z.array(z.string()),
       certificationIds: z.array(z.string()),

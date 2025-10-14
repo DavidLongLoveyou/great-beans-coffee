@@ -78,7 +78,7 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
       )}
 
       {/* Main Content */}
-      <main className="relative z-10">
+      <div className="relative z-10">
         {/* RFQ Title */}
         <div className="mb-8">
           <h2 className="mb-2 text-2xl font-bold text-gray-800">
@@ -429,7 +429,7 @@ export const RFQDocumentTemplate: React.FC<RFQDocumentTemplateProps> = ({
             </div>
           </div>
         </section>
-      </main>
+      </div>
 
       {/* Footer */}
       {includeFooter && (

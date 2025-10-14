@@ -5,7 +5,7 @@ import { RFQEntity } from '../../../../domain/entities/rfq.entity';
 import { getRfqByIdUseCase } from '../../../../infrastructure/di/container';
 import { createScopedLogger } from '../../../../shared/utils/logger';
 
-const logger = createScopedLogger('RFQ-ID-API');
+const _logger = createScopedLogger('RFQ-Detail-API');
 
 // Validation schema for RFQ updates
 const updateRfqSchema = z.object({

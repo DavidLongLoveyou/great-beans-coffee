@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <radialGradient id="coffeeGradient" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5D2F0A;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5F5DC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DEB887;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="192" height="192" rx="20" ry="20" fill="url(#bgGradient)" />
+  
+  <!-- Coffee bean shape -->
+  <ellipse cx="96" cy="96" rx="64" ry="75" fill="url(#coffeeGradient)" />
+  
+  <!-- Coffee bean crack -->
+  <path d="M96 21 Q118 96 96 171 Q74 96 96 21" fill="#3D1A00" opacity="0.6" />
+  
+  <!-- Highlight -->
+  <ellipse cx="74" cy="64" rx="16" ry="22" fill="#A0522D" opacity="0.7" />
+  
+  <!-- Company name -->
+  <text x="96" y="180" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#5D2F0A">GREAT BEANS</text>
+</svg>

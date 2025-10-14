@@ -187,7 +187,11 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
                         <span className="font-semibold">
                           {t('startingFrom')}:{' '}
                         </span>
-                        {service.pricing}
+                        {typeof service.pricing === 'string'
+                          ? service.pricing
+                          : service.pricing.startingPrice ||
+                            service.pricing.basePrice ||
+                            'Contact for pricing'}
                       </div>
                     )}
                     <Link href={service.url}>

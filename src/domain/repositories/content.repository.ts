@@ -5,9 +5,6 @@ import {
   type ContentStatus,
   type ContentCategory,
   type ContentTranslation,
-  type ContentAuthor,
-  type ContentWorkflow,
-  type ContentAnalytics,
   type SEOMetadata,
   type ContentMedia,
   type ContentVersion,
@@ -132,6 +129,58 @@ export interface ContentPerformanceMetrics {
   seoRanking?: Record<string, number>; // keyword -> ranking
 }
 
+export interface ContentVersionComparison {
+  contentId: string;
+  version1: {
+    id: string;
+    createdAt: Date;
+    createdBy: string;
+    summary: string;
+  };
+  version2: {
+    id: string;
+    createdAt: Date;
+    createdBy: string;
+    summary: string;
+  };
+  differences: {
+    title?: {
+      old: string;
+      new: string;
+    };
+    content?: {
+      old: string;
+      new: string;
+      changes: Array<{
+        type: 'addition' | 'deletion' | 'modification';
+        position: number;
+        oldText?: string;
+        newText?: string;
+      }>;
+    };
+    seoMetadata?: {
+      field: string;
+      old: unknown;
+      new: unknown;
+    }[];
+    media?: {
+      added: ContentMedia[];
+      removed: ContentMedia[];
+      modified: ContentMedia[];
+    };
+    tags?: {
+      added: string[];
+      removed: string[];
+    };
+  };
+  statistics: {
+    totalChanges: number;
+    additionsCount: number;
+    deletionsCount: number;
+    modificationsCount: number;
+  };
+}
+
 // Repository interface
 export interface IContentRepository {
   // Basic CRUD operations
@@ -237,7 +286,7 @@ export interface IContentRepository {
     id: string,
     version1Id: string,
     version2Id: string
-  ): Promise<any>;
+  ): Promise<ContentVersionComparison>;
 
   // Workflow management
   updateWorkflow(

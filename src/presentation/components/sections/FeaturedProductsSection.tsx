@@ -251,6 +251,7 @@ export function FeaturedProductsSection({
             <MagneticHover strength={0.2}>
               <button
                 onClick={prevProduct}
+                aria-label="Previous product"
                 className="shadow-emerald-medium hover:shadow-gold-strong absolute left-0 top-1/2 z-20 -translate-x-4 -translate-y-1/2 rounded-full bg-emerald-800/80 p-3 text-gold-400 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90"
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -262,6 +263,7 @@ export function FeaturedProductsSection({
             <MagneticHover strength={0.2}>
               <button
                 onClick={nextProduct}
+                aria-label="Next product"
                 className="shadow-emerald-medium hover:shadow-gold-strong absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-4 rounded-full bg-emerald-800/80 p-3 text-gold-400 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90"
               >
                 <ChevronRight className="h-6 w-6" />
@@ -484,6 +486,7 @@ export function FeaturedProductsSection({
                               variant="outline"
                               size="sm"
                               className="border-coffee-500 text-coffee-200 hover:border-gold-400 hover:bg-gold-500/20 hover:text-gold-200"
+                              aria-label="Download product specification"
                             >
                               <Download className="h-4 w-4" />
                             </EnhancedButton>
@@ -504,6 +507,7 @@ export function FeaturedProductsSection({
                 <MagneticHover key={`indicator-${product.id}`} strength={0.1}>
                   <button
                     onClick={() => setCurrentIndex(index)}
+                    aria-label={`Go to product ${index + 1}: ${product.name}`}
                     className={`h-2 rounded-full transition-all duration-300 hover:scale-125 ${
                       index === currentIndex
                         ? 'w-8 bg-forest-600 shadow-forest-medium'
