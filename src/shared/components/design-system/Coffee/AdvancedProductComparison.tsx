@@ -19,6 +19,8 @@ import {
 import { useTranslations } from 'next-intl';
 import React, { useState, useMemo, Fragment, ReactNode } from 'react';
 
+import { downloadFile } from '@/shared/utils/download';
+
 import type { Product } from '@/presentation/components/catalog/ProductGrid';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
@@ -611,28 +613,16 @@ export function AdvancedProductComparison({
 
     if (format === 'csv') {
       const csvContent = generateAdvancedCSV(exportData);
-      downloadFile(
-        csvContent,
-        `advanced-coffee-comparison-${Date.now()}.csv`,
-        'text/csv'
-      );
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      downloadFile(blob, {
+        filename: `coffee-comparison-${new Date().toISOString().split('T')[0]}.csv`,
+        mimeType: 'text/csv'
+      });
     }
     // PDF and Excel exports would be implemented here
   };
 
-  const downloadFile = (
-    content: string,
-    filename: string,
-    mimeType: string
-  ) => {
-    const blob = new Blob([content], { type: mimeType });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    window.URL.revokeObjectURL(url);
-  };
+
 
   const generateAdvancedCSV = (_data: ExportData): string => {
     // Implementation would generate comprehensive CSV with business analysis

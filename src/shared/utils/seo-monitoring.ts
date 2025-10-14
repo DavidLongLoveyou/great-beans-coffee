@@ -431,9 +431,9 @@ export function measureCoreWebVitals() {
 declare global {
   interface Window {
     gtag: (
-      command: 'config' | 'event' | 'js' | 'set',
+      command: 'config' | 'event' | 'js' | 'consent',
       targetId: string | Date,
-      config?: Record<string, string | number | boolean>
+      config?: Record<string, any>
     ) => void;
   }
 }

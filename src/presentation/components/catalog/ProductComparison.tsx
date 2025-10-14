@@ -4,6 +4,8 @@ import { X, Download, ShoppingCart, FileText } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 
+import { downloadCSV } from '@/shared/utils/download';
+
 import type { CatalogProduct } from '@/data/product-catalog';
 import {
   CoffeeGrade as CatalogCoffeeGrade,
@@ -387,15 +389,9 @@ export function ProductComparison({
   };
 
   const handleExportComparison = () => {
-    // Generate CSV or PDF export
+    // Generate CSV export
     const csvContent = generateComparisonCSV(products, comparisonRows, locale);
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `coffee-comparison-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
+    downloadCSV(csvContent, `coffee-comparison-${new Date().toISOString().split('T')[0]}`);
   };
 
   if (products.length === 0) return null;

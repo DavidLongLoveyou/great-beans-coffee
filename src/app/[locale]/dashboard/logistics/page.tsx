@@ -459,7 +459,7 @@ export default function LogisticsPage() {
                       </AlertDescription>
                     </Alert>
 
-                    <Button className="w-full">
+                    <Button className="w-full sm:w-auto">
                       <FileText className="mr-2 h-4 w-4" />
                       {t('results.requestQuote')}
                     </Button>

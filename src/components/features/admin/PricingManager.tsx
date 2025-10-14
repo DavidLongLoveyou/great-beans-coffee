@@ -1018,7 +1018,7 @@ export function PricingManager({ className }: PricingManagerProps) {
                       </div>
                     ))}
                   </div>
-                  <Button variant="outline" size="sm" className="mt-4 w-full">
+                  <Button variant="outline" size="sm" className="mt-4 w-full sm:w-auto">
                     <Edit className="mr-2 h-4 w-4" />
                     Edit Tiers
                   </Button>

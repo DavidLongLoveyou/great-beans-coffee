@@ -132,7 +132,7 @@ export function ClusterArticleCard({
 
       <CardContent className="pt-0">
         <Link href={article.url} className="block">
-          <Button variant="ghost" size="sm" className="group w-full">
+          <Button variant="ghost" size="sm" className="group w-full sm:w-auto">
             Read Article
             <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
           </Button>

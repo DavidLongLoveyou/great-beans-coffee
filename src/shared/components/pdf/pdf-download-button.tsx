@@ -4,6 +4,8 @@ import { Download, FileText, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
+import { downloadPDF } from '@/shared/utils/download';
+
 import type {
   CoffeeProduct,
   CoffeeProductEntity,
@@ -285,14 +287,7 @@ export const BatchPDFDownloadButton: React.FC<BatchPDFDownloadButtonProps> = ({
           item.filename || `${item.type}-${item.entityId}-${Date.now()}.pdf`;
 
         // Download the file
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
+        downloadPDF(blob, filename);
 
         filenames.push(filename);
         setProgress(((i + 1) / items.length) * 100);

@@ -467,7 +467,7 @@ export function EnhancedRelatedProducts({
                   <span>{option.packaging}</span>
                 </div>
               </div>
-              <Button className="w-full" size="sm">
+              <Button className="w-full sm:w-auto" size="sm">
                 Select This Option
               </Button>
             </CardContent>
@@ -618,7 +618,7 @@ export function EnhancedRelatedProducts({
                         </span>
                       </div>
                     </div>
-                    <Button size="sm" className="w-full" asChild>
+                    <Button size="sm" className="w-full sm:w-auto" asChild>
                       <Link
                         href={`/${locale}/quote?products=${Array.from(selectedProducts).join(',')}`}
                       >

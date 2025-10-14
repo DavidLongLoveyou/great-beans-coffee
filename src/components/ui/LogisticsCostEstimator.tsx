@@ -592,9 +592,9 @@ export function LogisticsCostEstimator({
                 ))}
               </SelectContent>
             </Select>
-            {selectedIncoterm && (
+            {_selectedIncoterm && (
               <p className="text-sm text-muted-foreground">
-                {selectedIncoterm.description}
+                {_selectedIncoterm.description}
               </p>
             )}
           </div>

@@ -13,7 +13,18 @@ import {
   CheckCircle,
   XCircle,
   Clock,
+  FileText,
+  BarChart3,
+  DollarSign,
+  Globe,
+  Truck,
+  Users,
+  Zap,
+  Target,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
+import { downloadJSON } from '@/shared/utils/download';
 import {
   RadarChart,
   PolarGrid,
@@ -368,16 +379,7 @@ export const RiskAssessmentTool: React.FC<RiskAssessmentToolProps> = ({
     if (onExport) {
       onExport(exportData);
     } else {
-      // Default export as JSON
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
-        type: 'application/json',
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `risk-assessment-${new Date().toISOString().split('T')[0]}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
+      downloadJSON(exportData, `risk-assessment-${Date.now()}`);
     }
   };
 

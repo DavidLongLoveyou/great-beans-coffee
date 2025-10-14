@@ -373,39 +373,7 @@ export function EnhancedSEOHead({
         </Script>
       )}
 
-      {/* Schema.org validation script (development only) */}
-      {process.env.NODE_ENV === 'development' && (
-        <Script id="schema-validation" strategy="afterInteractive">
-          {`
-            console.group('🔍 Schema.org Validation');
-            const schemas = document.querySelectorAll('script[type="application/ld+json"]');
-            schemas.forEach((schema, index) => {
-              try {
-                const data = JSON.parse(schema.textContent);
-                // Schema validation logging removed for production
-                
-                // Basic validation
-                if (!data['@context'] || !data['@type']) {
-                  // Validation warning removed for production
-                }
-                
-                // Validate required fields based on type
-                if (data['@type'] === 'Organization' && (!data.name || !data.url)) {
-                  // Validation warning removed for production
-                }
-                
-                if (data['@type'] === 'Product' && (!data.name || !data.description)) {
-                  // Validation warning removed for production
-                }
-                
-              } catch (error) {
-                // Error logging removed for production
-              }
-            });
-            console.groupEnd();
-          `}
-        </Script>
-      )}
+      {/* Schema.org validation script removed for production */}
     </>
   );
 }

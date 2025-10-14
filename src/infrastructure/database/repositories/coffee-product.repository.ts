@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, CoffeeGrade as PrismaCoffeeGrade } from '@prisma/client';
 
 import { 
   CoffeeProductEntity,
@@ -6,54 +6,25 @@ import {
   type Pricing,
   type Availability,
   type OriginInfo,
-  type MultilingualContent
+  type MultilingualContent,
+  type CoffeeType,
+  type CoffeeGrade,
+  type ProcessingMethod,
+  type Certification
 } from '../../../domain/entities/coffee-product.entity';
 import { prisma } from '../prisma';
 
-type PrismaProductWithIncludes = {
-  id: string;
-  sku: string;
-  name?: MultilingualContent | null;
-  description?: MultilingualContent | null;
-  shortDescription?: MultilingualContent | null;
-  coffeeType: string;
-  grade: string;
-  processing: string;
-  specifications?: CoffeeSpecifications | null;
-  pricing?: Pricing | null;
-  availability?: Availability | null;
-  certifications?: string[] | null;
-  origin?: string | null;
-  region?: string | null;
-  originInfo?: OriginInfo | null;
-  images?: Array<{
-    url: string;
-    alt: MultilingualContent;
-    isPrimary: boolean;
-  }> | null;
-  documents?: Array<{
-    type: string;
-    url: string;
-    name: MultilingualContent;
-    language?: string;
-  }> | null;
-  traceabilityCode?: string | null;
-  seoTitle?: string | null;
-  seoDescription?: string | null;
-  keywords?: string[] | null;
-  isActive: boolean;
-  isFeatured: boolean;
-  sortOrder?: number | null;
-  createdAt: Date;
-  updatedAt: Date;
-  createdBy?: string | null;
-  updatedBy?: string | null;
-  translations?: Array<{
-    locale: string;
-    name?: string | null;
-    description?: string | null;
-  }> | null;
-};
+// Use actual Prisma types
+type PrismaProductWithIncludes = Prisma.CoffeeProductGetPayload<{
+  include: {
+    translations: true;
+    certifications: {
+      include: {
+        certification: true;
+      };
+    };
+  };
+}>;
 
 export interface ICoffeeProductRepository {
   findById(id: string, locale?: string): Promise<CoffeeProductEntity | null>;
@@ -110,54 +81,129 @@ export interface CoffeeProductFilters {
 
 export class CoffeeProductRepository implements ICoffeeProductRepository {
   private mapToEntity(product: PrismaProductWithIncludes): CoffeeProductEntity {
+    // Map Prisma enums to domain enums
+    const mapCoffeeType = (type: string): CoffeeType => {
+      switch (type) {
+        case 'ROBUSTA': return 'ROBUSTA';
+        case 'ARABICA': return 'ARABICA';
+        case 'BLEND': return 'BLEND';
+        case 'SPECIALTY': return 'INSTANT'; // Map SPECIALTY to INSTANT as fallback
+        default: return 'ROBUSTA';
+      }
+    };
+
+    const mapCoffeeGrade = (grade: string): CoffeeGrade => {
+      switch (grade) {
+        case 'GRADE_1': return 'GRADE_1';
+        case 'GRADE_2': return 'GRADE_2';
+        case 'GRADE_3': return 'GRADE_3';
+        case 'PREMIUM': return 'SCREEN_18'; // Map PREMIUM to SCREEN_18
+        case 'SPECIALTY': return 'SPECIALTY';
+        case 'CUSTOM': return 'COMMERCIAL'; // Map CUSTOM to COMMERCIAL
+        default: return 'GRADE_1';
+      }
+    };
+
+    const mapProcessingMethod = (method: string): ProcessingMethod => {
+      switch (method) {
+        case 'NATURAL': return 'NATURAL';
+        case 'WASHED': return 'WASHED';
+        case 'HONEY': return 'HONEY';
+        case 'WET_HULLED': return 'WET_HULLED';
+        case 'SEMI_WASHED': return 'SEMI_WASHED';
+        case 'MIXED': return 'SEMI_WASHED'; // Map MIXED to SEMI_WASHED as fallback
+        default: return 'NATURAL';
+      }
+    };
+
+    // Helper to safely parse JSON values
+    const parseJsonValue = <T>(value: any, fallback: T): T => {
+      if (value === null || value === undefined) return fallback;
+      if (typeof value === 'object') return value as T;
+      try {
+        return JSON.parse(value as string) as T;
+      } catch {
+        return fallback;
+      }
+    };
+
+    // Build multilingual content from translations
+    const buildMultilingualContent = (fallback: string): MultilingualContent => {
+      const content: MultilingualContent = { en: fallback };
+      
+      if (product.translations) {
+        product.translations.forEach(translation => {
+          if (translation.name) {
+            content[translation.locale as keyof MultilingualContent] = translation.name;
+          }
+        });
+      }
+      
+      return content;
+    };
+
+    const buildMultilingualDescription = (fallback: string): MultilingualContent => {
+      const content: MultilingualContent = { en: fallback };
+      
+      if (product.translations) {
+        product.translations.forEach(translation => {
+          if (translation.description) {
+            content[translation.locale as keyof MultilingualContent] = translation.description;
+          }
+        });
+      }
+      
+      return content;
+    };
+
     return new CoffeeProductEntity({
       id: product.id,
       sku: product.sku,
-      name: product.name || { en: product.sku }, // Fallback name
-      description: product.description || { en: product.sku }, // Fallback description
-      shortDescription: product.shortDescription,
-      type: product.coffeeType,
-      grade: product.grade,
-      processingMethod: product.processing,
-      specifications: product.specifications || {
+      name: buildMultilingualContent(product.sku),
+      description: buildMultilingualDescription(''),
+      shortDescription: undefined, // Not available in current schema
+      type: mapCoffeeType(product.coffeeType),
+      grade: mapCoffeeGrade(product.grade),
+      processingMethod: mapProcessingMethod(product.processing),
+      specifications: parseJsonValue(product.specifications, {
         moisture: 12,
         screenSize: '16+',
         defectRate: 5,
-      },
-      pricing: product.pricing || {
+      }),
+      pricing: parseJsonValue(product.pricing, {
         basePrice: 0,
-        currency: 'USD',
-        unit: 'KG',
-        incoterms: 'FOB',
+        currency: 'USD' as const,
+        unit: 'MT' as const,
+        incoterms: 'FOB' as const,
         minimumOrder: 1,
-        priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
-      },
-      availability: product.availability || {
-        inStock: true,
+        priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      }),
+      availability: parseJsonValue(product.availability, {
+        inStock: product.inStock,
         stockQuantity: 0,
-        harvestSeason: '2024/2025',
+        harvestSeason: product.harvestSeason || '2024/2025',
         availableFrom: new Date(),
         leadTime: 30,
         productionCapacity: 100,
-      },
-      certifications: product.certifications || [],
-      origin: product.originInfo || {
-        region: product.origin || 'Unknown',
-        province: product.region || 'Unknown',
-      },
-      traceabilityCode: product.traceabilityCode,
-      images: product.images || [],
-      documents: product.documents,
-      seoTitle: product.seoTitle,
-      seoDescription: product.seoDescription,
-      keywords: product.keywords,
+      }),
+      certifications: product.certifications?.map(pc => pc.certification.name as Certification) || [],
+      origin: parseJsonValue(product.originInfo, {
+        region: product.region || 'Unknown',
+        province: product.origin,
+      }),
+      traceabilityCode: undefined, // Not available in current schema
+      images: parseJsonValue(product.images, []),
+      documents: parseJsonValue(product.documents, undefined),
+      seoTitle: undefined, // Not available in current schema
+      seoDescription: undefined, // Not available in current schema
+      keywords: undefined, // Not available in current schema
       isActive: product.isActive,
       isFeatured: product.isFeatured,
-      sortOrder: product.sortOrder || 0,
+      sortOrder: product.sortOrder,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
-      createdBy: product.createdBy || '',
-      updatedBy: product.updatedBy || '',
+      createdBy: product.createdBy,
+      updatedBy: product.updatedBy,
     });
   }
 
@@ -168,6 +214,11 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
             where: { locale },
           }
         : true,
+      certifications: {
+        include: {
+          certification: true
+        }
+      }
     };
   }
 
@@ -182,18 +233,7 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
 
     if (!product) return null;
 
-    // Merge translation data if available
-    if (locale && product.translations && product.translations.length > 0) {
-      const translation = product.translations[0];
-      if (translation) {
-        return this.mapToEntity({
-          ...product,
-          name: translation.name || product.sku,
-          description: translation.description || product.sku,
-        });
-      }
-    }
-
+    // The mapToEntity method already handles translations properly
     return this.mapToEntity(product);
   }
 
@@ -217,24 +257,21 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
 
     if (!product) return null;
 
-    if (locale && product.translations && product.translations.length > 0) {
-      const translation = product.translations[0];
-      if (translation) {
-        return this.mapToEntity({
-          ...product,
-          name: translation.name || product.sku,
-          description: translation.description || product.sku,
-        });
-      }
-    }
-
+    // The mapToEntity method already handles translations properly
     return this.mapToEntity(product);
   }
 
   async findBySKU(sku: string): Promise<CoffeeProductEntity | null> {
     const product = await prisma.coffeeProduct.findUnique({
       where: { sku },
-      include: { translations: true },
+      include: { 
+        translations: true,
+        certifications: {
+          include: {
+            certification: true
+          }
+        }
+      },
     });
 
     return product ? this.mapToEntity(product) : null;
@@ -250,13 +287,13 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
 
     if (filters) {
       if (filters.type?.length) {
-        where.coffeeType = { in: filters.type };
+        where.coffeeType = { in: filters.type as any[] };
       }
       if (filters.grade?.length) {
-        where.grade = { in: filters.grade };
+        where.grade = { in: filters.grade as any[] };
       }
       if (filters.processingMethod?.length) {
-        where.processing = { in: filters.processingMethod };
+        where.processing = { in: filters.processingMethod as any[] };
       }
       if (filters.region?.length) {
         where.region = { in: filters.region };
@@ -264,9 +301,6 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
         // Note: Pricing is JSON field, complex filtering may need custom logic
         // For now, we'll skip this filter or implement basic JSON path filtering
-      }
-      if (filters.inStock !== undefined) {
-        where.inStock = filters.inStock;
       }
       if (filters.featured !== undefined) {
         where.isFeatured = filters.featured;
@@ -317,26 +351,9 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       queryOptions.skip = filters.offset;
     }
 
-    const products = await prisma.coffeeProduct.findMany(queryOptions);
+    const products = await prisma.coffeeProduct.findMany(queryOptions) as PrismaProductWithIncludes[];
 
-    return products.map(product => {
-      const productWithTranslations = product as Record<string, unknown>;
-      if (
-        locale &&
-        productWithTranslations.translations &&
-        productWithTranslations.translations.length > 0
-      ) {
-        const translation = productWithTranslations.translations[0];
-        if (translation) {
-          return this.mapToEntity({
-            ...product,
-            name: translation.name || product.sku,
-            description: translation.description || product.sku,
-          });
-        }
-      }
-      return this.mapToEntity(product);
-    });
+    return products.map(product => this.mapToEntity(product));
   }
 
   async findFeatured(
@@ -378,19 +395,7 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       take: 20,
     });
 
-    return products.map(product => {
-      if (locale && product.translations && product.translations.length > 0) {
-        const translation = product.translations[0];
-        if (translation) {
-          return this.mapToEntity({
-            ...product,
-            name: translation.name || product.sku,
-            description: translation.description || product.sku,
-          });
-        }
-      }
-      return this.mapToEntity(product);
-    });
+    return products.map(product => this.mapToEntity(product));
   }
 
   async create(
@@ -401,27 +406,28 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       data: {
         sku: data.sku,
         coffeeType: data.type === 'INSTANT' ? 'SPECIALTY' : data.type,
-        grade:
-          data.grade === 'COMMERCIAL'
-            ? 'GRADE_3'
-            : data.grade?.startsWith('SCREEN_')
-              ? 'PREMIUM'
-              : data.grade,
+        grade: this.mapZodGradeToPrismaGrade(data.grade),
         processing: data.processingMethod,
         origin: originData?.region || 'Unknown',
         region: originData?.province || 'Unknown',
-        specifications: data.specifications,
-        pricing: data.pricing,
-        availability: data.availability,
-        originInfo: originData,
-        images: data.images,
-        documents: data.documents,
-        isFeatured: data.isFeatured,
-        isActive: data.isActive,
+        specifications: data.specifications as Prisma.InputJsonValue,
+        pricing: data.pricing as Prisma.InputJsonValue,
+        availability: data.availability as Prisma.InputJsonValue,
+        images: data.images as Prisma.InputJsonValue,
+        documents: data.documents as Prisma.InputJsonValue,
+        isFeatured: data.isFeatured || false,
+        isActive: data.isActive !== false,
         createdBy: data.createdBy,
         updatedBy: data.updatedBy,
       },
-      include: { translations: true },
+      include: { 
+        translations: true,
+        certifications: {
+          include: {
+            certification: true
+          }
+        }
+      },
     });
 
     return this.mapToEntity(product);
@@ -431,15 +437,35 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
     id: string,
     data: Partial<CoffeeProductEntity>
   ): Promise<CoffeeProductEntity> {
-    const updateData: Record<string, unknown> = { ...data };
-    delete updateData.id;
-    delete updateData.createdAt;
-    updateData.updatedAt = new Date();
+    const updateData: Prisma.CoffeeProductUpdateInput = {};
+    
+    if (data.sku) updateData.sku = data.sku;
+    if (data.type) updateData.coffeeType = data.type === 'INSTANT' ? 'SPECIALTY' : data.type;
+    if (data.grade) {
+      updateData.grade = this.mapZodGradeToPrismaGrade(data.grade);
+    }
+    if (data.processingMethod) updateData.processing = data.processingMethod;
+    if (data.origin?.region) updateData.origin = data.origin.region;
+    if (data.origin?.province) updateData.region = data.origin.province;
+    if (data.specifications) updateData.specifications = data.specifications as Prisma.InputJsonValue;
+    if (data.pricing) updateData.pricing = data.pricing as Prisma.InputJsonValue;
+    if (data.availability) updateData.availability = data.availability as Prisma.InputJsonValue;
+    if (data.images) updateData.images = data.images as Prisma.InputJsonValue;
+    if (data.documents) updateData.documents = data.documents as Prisma.InputJsonValue;
+    if (data.isFeatured !== undefined) updateData.isFeatured = data.isFeatured;
+    if (data.isActive !== undefined) updateData.isActive = data.isActive;
 
     const product = await prisma.coffeeProduct.update({
       where: { id },
       data: updateData,
-      include: { translations: true },
+      include: { 
+        translations: true,
+        certifications: {
+          include: {
+            certification: true
+          }
+        }
+      },
     });
 
     return this.mapToEntity(product);
@@ -475,9 +501,15 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       where: { id },
       data: {
         availability: updatedAvailability as Prisma.InputJsonValue,
-        updatedAt: new Date(),
       },
-      include: { translations: true },
+      include: { 
+        translations: true,
+        certifications: {
+          include: {
+            certification: true
+          }
+        }
+      },
     });
 
     return this.mapToEntity(updatedProduct);
@@ -534,6 +566,21 @@ export class CoffeeProductRepository implements ICoffeeProductRepository {
       },
       locale
     );
+  }
+
+  // Map Zod CoffeeGrade values to Prisma CoffeeGrade values
+  private mapZodGradeToPrismaGrade(grade: CoffeeGrade): PrismaCoffeeGrade {
+    switch (grade) {
+      case 'GRADE_1': return PrismaCoffeeGrade.GRADE_1;
+      case 'GRADE_2': return PrismaCoffeeGrade.GRADE_2;
+      case 'GRADE_3': return PrismaCoffeeGrade.GRADE_3;
+      case 'SCREEN_18': return PrismaCoffeeGrade.PREMIUM;
+      case 'SCREEN_16': return PrismaCoffeeGrade.PREMIUM;
+      case 'SCREEN_13': return PrismaCoffeeGrade.PREMIUM;
+      case 'SPECIALTY': return PrismaCoffeeGrade.SPECIALTY;
+      case 'COMMERCIAL': return PrismaCoffeeGrade.CUSTOM;
+      default: return PrismaCoffeeGrade.GRADE_1;
+    }
   }
 }
 

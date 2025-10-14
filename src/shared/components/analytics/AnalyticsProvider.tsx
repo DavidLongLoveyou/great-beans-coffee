@@ -21,9 +21,9 @@ import { CoreWebVitalsMonitor } from '../performance/CoreWebVitalsMonitor';
 declare global {
   interface Window {
     gtag: (
-      command: 'config' | 'event' | 'js',
-      targetId: string | Date,
-      config?: Record<string, string | number | boolean>
+      command: 'config' | 'event' | 'js' | 'consent',
+      targetId: string | Date | 'update',
+      config?: Record<string, any>
     ) => void;
     dataLayer: Array<Record<string, unknown>>;
   }
@@ -147,7 +147,7 @@ export function AnalyticsProvider({
     window.gtag = function gtag(
       ...args: [string, string | Date, Record<string, unknown>?]
     ) {
-      window.dataLayer.push(args);
+      window.dataLayer.push(args as any);
     };
 
     window.gtag('js', new Date());
@@ -166,7 +166,7 @@ export function AnalyticsProvider({
           custom_parameter_2: 'industry',
           custom_parameter_3: 'company_size',
         },
-      });
+      } as any);
     }
 
     setIsLoaded(true);
@@ -216,7 +216,7 @@ export function AnalyticsProvider({
       if (event_label !== undefined) eventParams.event_label = event_label;
       if (value !== undefined) eventParams.value = value;
 
-      window.gtag('event', eventName, eventParams);
+      window.gtag('event', eventName, eventParams as any);
 
       // Analytics logging removed for production
     },
@@ -227,7 +227,7 @@ export function AnalyticsProvider({
   const trackEcommerce = (eventName: string, eventData: EcommerceEventData) => {
     if (!isLoaded || !consentGiven || !config.enableEcommerce) return;
 
-    window.gtag('event', eventName, eventData);
+    window.gtag('event', eventName, eventData as any);
 
     // Analytics logging removed for production
   };
@@ -238,7 +238,7 @@ export function AnalyticsProvider({
 
     window.gtag('config', config.googleAnalyticsId!, {
       user_properties: properties,
-    });
+    } as any);
 
     // Analytics logging removed for production
   };
@@ -255,7 +255,7 @@ export function AnalyticsProvider({
       window.gtag('consent', 'update', {
         analytics_storage: consent ? 'granted' : 'denied',
         ad_storage: consent ? 'granted' : 'denied',
-      });
+      } as any);
     }
 
     // Analytics logging removed for production

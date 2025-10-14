@@ -2,6 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 
+import { downloadCSV } from '@/shared/utils/download';
+
 interface Column<T = Record<string, unknown>> {
   key: keyof T | string;
   label: string;
@@ -156,14 +158,8 @@ export const DataTable = <
       )
       .join('\n');
 
-    const csv = `${headers}\n${rows}`;
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${title || 'data'}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+    const csvContent = `${headers}\n${rows}`;
+    downloadCSV(csvContent, `${title || 'data'}-${new Date().toISOString().split('T')[0]}`);
   };
 
   const getSortIcon = (columnKey: string) => {

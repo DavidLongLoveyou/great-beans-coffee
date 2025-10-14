@@ -20,45 +20,46 @@ interface SitemapData {
 }
 
 interface ContentUpdateData {
-  type?: string;
-  status?: string;
-  category?: string;
-  publishedAt?: Date | null;
-  title?: string;
-  slug?: string;
-  excerpt?: string | null;
-  content?: string;
-  locale?: string;
-  metaTitle?: string | null;
-  metaDescription?: string | null;
-  metaKeywords?: string | null;
-  media?: Prisma.JsonValue;
-  tags?: string[] | null;
+  type?: string | undefined;
+  status?: string | undefined;
+  locale?: string | undefined;
+  title?: string | undefined;
+  slug?: string | undefined;
+  excerpt?: string | null | undefined;
+  content?: string | undefined;
+  featuredImage?: string | null | undefined;
+  media?: any | undefined;
+  metaTitle?: string | null | undefined;
+  metaDescription?: string | null | undefined;
+  metaKeywords?: any | undefined;
+  tags?: any | undefined;
+  category?: string | null | undefined;
+  publishedAt?: Date | null | undefined;
+  scheduledAt?: Date | null | undefined;
 }
 
-// Prisma content type - simplified based on actual schema
+// Prisma content type - matches actual schema
 type PrismaContent = {
   id: string;
   type: string;
   status: string;
-  category?: string | null;
   locale: string;
   title: string;
-  content: string;
-  excerpt?: string | null;
   slug: string;
-  authorId?: string | null;
-  featured: boolean;
-  publishedAt?: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
-  views: number;
-  tags?: string[] | null;
+  excerpt?: string | null;
+  content: string;
+  featuredImage?: string | null;
+  media?: any; // Json type
   metaTitle?: string | null;
   metaDescription?: string | null;
-  metaKeywords?: string | null;
-  imageUrl?: string | null;
-  isArchived: boolean;
+  metaKeywords?: any; // Json type
+  tags?: any; // Json type
+  category?: string | null;
+  publishedAt?: Date | null;
+  scheduledAt?: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  authorId: string;
 }
 
 export interface IContentRepository {
@@ -111,9 +112,9 @@ export class ContentRepository implements IContentRepository {
     return new ContentEntity({
       id: content.id,
       contentId: content.id,
-      type: content.type,
-      status: content.status,
-      category: content.category || 'COMPANY_NEWS',
+      type: content.type as any,
+      status: content.status as any,
+      category: (content.category as any) || 'COMPANY_NEWS',
       translations: [
         {
           locale: content.locale,
@@ -143,7 +144,7 @@ export class ContentRepository implements IContentRepository {
       ],
       media: Array.isArray(content.media) ? content.media : [],
       author: {
-        id: content.authorId || '',
+        id: content.authorId,
         name: '',
         email: '',
         bio: '',
@@ -165,9 +166,9 @@ export class ContentRepository implements IContentRepository {
       businessServices: [],
       createdAt: content.createdAt,
       updatedAt: content.updatedAt,
-      publishedAt: content.publishedAt,
-      lastModifiedBy: content.authorId || '',
-      createdBy: content.authorId || '',
+      publishedAt: content.publishedAt || undefined,
+      lastModifiedBy: content.authorId,
+      createdBy: content.authorId,
     });
   }
 
@@ -204,13 +205,13 @@ export class ContentRepository implements IContentRepository {
 
     if (filters) {
       if (filters.type?.length) {
-        where.type = { in: filters.type };
+        where.type = { in: filters.type as any };
       }
       if (filters.category?.length) {
-        where.category = { in: filters.category };
+        where.category = { in: filters.category as any };
       }
       if (filters.status?.length) {
-        where.status = { in: filters.status };
+        where.status = { in: filters.status as any };
       }
       if (filters.authorId) {
         where.authorId = filters.authorId;
@@ -363,12 +364,11 @@ export class ContentRepository implements IContentRepository {
         publishedAt: entityData.publishedAt || null,
         authorId: entityData.createdBy,
         // Store complex data as JSON
-        media: entityData.media || Prisma.JsonNull,
-        tags: entityData.tags || Prisma.JsonNull,
+        media: entityData.media ? JSON.parse(JSON.stringify(entityData.media)) : null,
+        tags: entityData.tags ? JSON.parse(JSON.stringify(entityData.tags)) : null,
         metaTitle: defaultTranslation.seoMetadata?.title || null,
         metaDescription: defaultTranslation.seoMetadata?.description || null,
-        metaKeywords:
-          defaultTranslation.seoMetadata?.keywords || Prisma.JsonNull,
+        metaKeywords: defaultTranslation.seoMetadata?.keywords ? JSON.parse(JSON.stringify(defaultTranslation.seoMetadata.keywords)) : null,
       },
     });
 
@@ -386,10 +386,10 @@ export class ContentRepository implements IContentRepository {
     const updateData: ContentUpdateData = {};
 
     // Only update fields that exist in Prisma schema
-    if (entityData.type) updateData.type = entityData.type;
-    if (entityData.status) updateData.status = entityData.status;
-    if (entityData.category) updateData.category = entityData.category;
-    if (entityData.publishedAt !== undefined)
+    if ('type' in entityData && entityData.type) updateData.type = entityData.type;
+    if ('status' in entityData && entityData.status) updateData.status = entityData.status;
+    if ('category' in entityData && entityData.category) updateData.category = entityData.category;
+    if ('publishedAt' in entityData && entityData.publishedAt !== undefined)
       updateData.publishedAt = entityData.publishedAt;
 
     // Handle translations
@@ -407,19 +407,19 @@ export class ContentRepository implements IContentRepository {
         updateData.metaDescription =
           defaultTranslation.seoMetadata?.description || null;
         updateData.metaKeywords =
-          defaultTranslation.seoMetadata?.keywords || Prisma.JsonNull;
+          defaultTranslation.seoMetadata?.keywords ? JSON.parse(JSON.stringify(defaultTranslation.seoMetadata.keywords)) : undefined;
       }
     }
 
     // Handle JSON fields
-    if (entityData.media !== undefined)
-      updateData.media = entityData.media || Prisma.JsonNull;
-    if (entityData.tags !== undefined)
-      updateData.tags = entityData.tags || Prisma.JsonNull;
+    if ('media' in entityData && entityData.media !== undefined)
+      updateData.media = JSON.parse(JSON.stringify(entityData.media));
+    if ('tags' in entityData && entityData.tags !== undefined)
+      updateData.tags = JSON.parse(JSON.stringify(entityData.tags));
 
     const content = await prisma.content.update({
       where: { id },
-      data: updateData,
+      data: updateData as any,
     });
 
     return this.mapToEntity(content);

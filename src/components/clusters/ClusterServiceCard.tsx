@@ -158,7 +158,7 @@ export function ClusterServiceCard({
       <CardContent className="pt-0">
         <div className="flex gap-2">
           <Link href={`/${locale}/services/${service.id}`} className="flex-1">
-            <Button variant="outline" size="sm" className="w-full">
+            <Button variant="outline" size="sm" className="w-full sm:w-auto">
               {t('learnMore')}
             </Button>
           </Link>
@@ -166,7 +166,7 @@ export function ClusterServiceCard({
             href={`/${locale}/quote?service=${service.id}`}
             className="flex-1"
           >
-            <CoffeeButton size="sm" className="w-full">
+            <CoffeeButton size="sm" className="w-full sm:w-auto">
               Get Quote
               <ArrowRight className="ml-1 h-3 w-3" />
             </CoffeeButton>

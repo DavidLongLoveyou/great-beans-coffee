@@ -31,7 +31,7 @@ export default function Header({ locale }: Props) {
       className="sticky top-0 z-50 w-full border-b border-forest-200/20 bg-white/95 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-white/90"
       role="banner"
     >
-      <div className="container flex h-18 items-center justify-between">
+      <div className="container flex h-18 items-center justify-between gap-8">
         {/* Logo */}
         <Link
           href={`/${locale}`}
@@ -55,16 +55,16 @@ export default function Header({ locale }: Props) {
         {/* Navigation */}
         <NavigationMenu
           id="navigation"
-          className="hidden lg:flex"
+          className="hidden lg:flex bg-white/90 backdrop-blur-md rounded-2xl border border-forest-200/40 shadow-lg shadow-forest-900/5 px-3 py-2 ring-1 ring-forest-100/20"
           role="navigation"
           aria-label="Main navigation"
         >
-          <NavigationMenuList className="space-x-2">
+          <NavigationMenuList className="space-x-1">
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <Link
                   href={`/${locale}`}
-                  className="group inline-flex h-11 w-max items-center justify-center rounded-lg bg-transparent px-4 py-2 text-sm font-medium text-forest-700 transition-all duration-200 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 focus:text-forest-900 focus:outline-none"
+                  className="group inline-flex h-9 w-max items-center justify-center rounded-lg bg-transparent px-3 py-2 text-sm font-medium text-forest-700 transition-all duration-200 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 focus:text-forest-900 focus:outline-none"
                 >
                   {t('home')}
                 </Link>
@@ -72,7 +72,7 @@ export default function Header({ locale }: Props) {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="h-11 rounded-lg text-forest-700 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 data-[state=open]:bg-forest-100 data-[state=open]:text-forest-900">
+              <NavigationMenuTrigger className="h-9 px-3 rounded-lg text-sm font-medium text-forest-700 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 data-[state=open]:bg-forest-100 data-[state=open]:text-forest-900">
                 {t('products')}
               </NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -143,7 +143,7 @@ export default function Header({ locale }: Props) {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="h-11 rounded-lg text-forest-700 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 data-[state=open]:bg-forest-100 data-[state=open]:text-forest-900">
+              <NavigationMenuTrigger className="h-9 px-3 rounded-lg text-sm font-medium text-forest-700 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 data-[state=open]:bg-forest-100 data-[state=open]:text-forest-900">
                 {t('solutions')}
               </NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -251,7 +251,7 @@ export default function Header({ locale }: Props) {
               <NavigationMenuLink asChild>
                 <Link
                   href={`/${locale}/services`}
-                  className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                  className="group inline-flex h-9 w-max items-center justify-center rounded-lg bg-transparent px-3 py-2 text-sm font-medium text-forest-700 transition-all duration-200 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 focus:text-forest-900 focus:outline-none"
                 >
                   {t('services')}
                 </Link>
@@ -262,7 +262,7 @@ export default function Header({ locale }: Props) {
               <NavigationMenuLink asChild>
                 <Link
                   href={`/${locale}/about`}
-                  className="group inline-flex h-11 w-max items-center justify-center rounded-lg bg-transparent px-4 py-2 text-sm font-medium text-forest-700 transition-all duration-200 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 focus:text-forest-900 focus:outline-none"
+                  className="group inline-flex h-9 w-max items-center justify-center rounded-lg bg-transparent px-3 py-2 text-sm font-medium text-forest-700 transition-all duration-200 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 focus:text-forest-900 focus:outline-none"
                 >
                   {t('about')}
                 </Link>
@@ -273,7 +273,7 @@ export default function Header({ locale }: Props) {
               <NavigationMenuLink asChild>
                 <Link
                   href={`/${locale}/contact`}
-                  className="group inline-flex h-11 w-max items-center justify-center rounded-lg bg-transparent px-4 py-2 text-sm font-medium text-forest-700 transition-all duration-200 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 focus:text-forest-900 focus:outline-none"
+                  className="group inline-flex h-9 w-max items-center justify-center rounded-lg bg-transparent px-3 py-2 text-sm font-medium text-forest-700 transition-all duration-200 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 focus:text-forest-900 focus:outline-none"
                 >
                   {t('contact')}
                 </Link>
@@ -283,11 +283,11 @@ export default function Header({ locale }: Props) {
         </NavigationMenu>
 
         {/* Right side actions */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3 bg-white/90 backdrop-blur-md rounded-2xl border border-forest-200/40 px-4 py-2 shadow-lg shadow-forest-900/5 ring-1 ring-forest-100/20">
           <div className="hidden md:flex">
             <LanguageSwitcher />
           </div>
-          <Button asChild className="hidden md:flex">
+          <Button asChild className="hidden md:flex h-9 px-4 text-sm bg-emerald-600 hover:bg-emerald-700 text-white shadow-md">
             <Link href={`/${locale}/quote`}>{t('requestQuote')}</Link>
           </Button>
 
@@ -295,7 +295,7 @@ export default function Header({ locale }: Props) {
           {isMounted && (
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex h-10 w-10 items-center justify-center rounded-lg text-forest-700 transition-colors hover:bg-forest-50 lg:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-xl text-forest-700 transition-all duration-200 hover:bg-forest-50 hover:shadow-md lg:hidden border border-forest-200/40 bg-white/50 backdrop-blur-sm"
               aria-label={
                 isMobileMenuOpen ? 'Close mobile menu' : 'Open mobile menu'
               }
@@ -304,138 +304,153 @@ export default function Header({ locale }: Props) {
               type="button"
             >
               {isMobileMenuOpen ? (
-                <X className="h-6 w-6" aria-hidden="true" />
+                <X className="h-5 w-5" aria-hidden="true" />
               ) : (
-                <Menu className="h-6 w-6" aria-hidden="true" />
+                <Menu className="h-5 w-5" aria-hidden="true" />
               )}
             </button>
           )}
         </div>
 
-        {/* CTA Button */}
-        <div className="hidden items-center space-x-4 md:flex">
-          <Button
-            variant="default"
-            size="sm"
-            className="h-11 bg-emerald-600 px-6 font-semibold text-white shadow-lg transition-all duration-300 hover:bg-emerald-700 hover:shadow-xl"
-            asChild
-          >
-            <Link href={`/${locale}/quote`}>Get Quote</Link>
-          </Button>
-        </div>
+
       </div>
 
       {/* Mobile Menu Overlay */}
       {isMounted && isMobileMenuOpen && (
-        <div
-          id="mobile-menu"
-          className="fixed inset-0 top-[72px] z-40 bg-white lg:hidden"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile navigation menu"
-        >
-          <div className="flex h-full flex-col">
-            <nav
-              className="flex-1 space-y-1 px-4 py-6"
-              role="navigation"
-              aria-label="Mobile navigation"
-            >
-              <Link
-                href={`/${locale}`}
-                className="block rounded-lg px-4 py-3 text-base font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t('home')}
-              </Link>
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-[9998] bg-black/30 backdrop-blur-md lg:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          
+          {/* Mobile Menu Popup */}
+          <div
+            id="mobile-menu"
+            className="fixed top-20 right-4 z-[9999] w-80 max-w-[calc(100vw-2rem)] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-forest-200/60 ring-1 ring-forest-100/30 lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation menu"
+          >
+            <div className="flex max-h-[calc(100vh-6rem)] flex-col overflow-hidden">
+              {/* Mobile menu header */}
+              <div className="flex items-center justify-between border-b border-forest-200 px-4 py-3">
+                <span className="text-lg font-semibold text-forest-800">
+                  Menu
+                </span>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg text-forest-700 transition-colors hover:bg-forest-100"
+                  aria-label="Close mobile menu"
+                  type="button"
+                >
+                  <X className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>
 
-              <div className="space-y-2">
-                <div className="px-4 py-2 text-sm font-semibold uppercase tracking-wide text-forest-600">
-                  {t('products')}
+              <nav
+                className="flex-1 overflow-y-auto px-4 py-4 space-y-2"
+                role="navigation"
+                aria-label="Mobile navigation"
+              >
+                <Link
+                  href={`/${locale}`}
+                  className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t('home')}
+                </Link>
+
+                <div className="space-y-1">
+                  <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-forest-600 bg-forest-50 rounded-md">
+                    {t('products')}
+                  </div>
+                  <Link
+                    href={`/${locale}/products`}
+                    className="block rounded-md px-4 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    All Products
+                  </Link>
+                  <Link
+                    href={`/${locale}/products/robusta`}
+                    className="block rounded-md px-4 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Vietnamese Robusta
+                  </Link>
+                  <Link
+                    href={`/${locale}/products/arabica`}
+                    className="block rounded-md px-4 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Highland Arabica
+                  </Link>
                 </div>
-                <Link
-                  href={`/${locale}/products`}
-                  className="block rounded-lg px-6 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  All Products
-                </Link>
-                <Link
-                  href={`/${locale}/products/robusta`}
-                  className="block rounded-lg px-6 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Vietnamese Robusta
-                </Link>
-                <Link
-                  href={`/${locale}/products/arabica`}
-                  className="block rounded-lg px-6 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Highland Arabica
-                </Link>
-              </div>
 
-              <div className="space-y-2">
-                <div className="px-4 py-2 text-sm font-semibold uppercase tracking-wide text-forest-600">
-                  {t('solutions')}
+                <div className="space-y-1">
+                  <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-forest-600 bg-forest-50 rounded-md">
+                    {t('solutions')}
+                  </div>
+                  <Link
+                    href={`/${locale}/solutions/vietnam-robusta-export`}
+                    className="block rounded-md px-4 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Vietnam Robusta Export
+                  </Link>
+                  <Link
+                    href={`/${locale}/solutions/specialty-arabica-sourcing`}
+                    className="block rounded-md px-4 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Specialty Arabica Sourcing
+                  </Link>
                 </div>
+
                 <Link
-                  href={`/${locale}/clusters/vietnam-robusta-suppliers`}
-                  className="block rounded-lg px-6 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  href={`/${locale}/services`}
+                  className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Vietnam Robusta Export
+                  {t('services')}
                 </Link>
+
                 <Link
-                  href={`/${locale}/clusters/specialty-arabica-sourcing`}
-                  className="block rounded-lg px-6 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  href={`/${locale}/about`}
+                  className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Specialty Arabica Sourcing
+                  {t('about')}
                 </Link>
+
+                <Link
+                  href={`/${locale}/contact`}
+                  className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t('contact')}
+                </Link>
+              </nav>
+
+              {/* Mobile menu footer */}
+              <div className="border-t border-forest-100 px-4 py-4 bg-forest-25">
+                <div className="flex flex-col space-y-3">
+                  <LanguageSwitcher />
+                  <Button
+                    asChild
+                    className="w-full h-10 text-sm font-medium bg-forest-600 hover:bg-forest-700 text-white shadow-md"
+                  >
+                    <Link href={`/${locale}/contact`}>
+                      {t('requestQuote')}
+                    </Link>
+                  </Button>
+                </div>
               </div>
-
-              <Link
-                href={`/${locale}/services`}
-                className="block rounded-lg px-4 py-3 text-base font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t('services')}
-              </Link>
-
-              <Link
-                href={`/${locale}/about`}
-                className="block rounded-lg px-4 py-3 text-base font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t('about')}
-              </Link>
-
-              <Link
-                href={`/${locale}/contact`}
-                className="block rounded-lg px-4 py-3 text-base font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t('contact')}
-              </Link>
-            </nav>
-
-            {/* Mobile menu footer */}
-            <div className="space-y-4 border-t border-forest-200 p-4">
-              <div className="flex justify-center">
-                <LanguageSwitcher />
-              </div>
-              <Button asChild className="w-full">
-                <Link
-                  href={`/${locale}/quote`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('requestQuote')}
-                </Link>
-              </Button>
             </div>
           </div>
-        </div>
+        </>
       )}
     </header>
   );

@@ -35,9 +35,9 @@ type PrismaRFQWithIncludes = {
   phone?: string | null;
   country: string;
   businessType?: string | null;
-  productRequirements?: ProductRequirements | null;
-  deliveryRequirements?: DeliveryRequirements | null;
-  paymentRequirements?: PaymentTerms | null;
+  productRequirements?: Prisma.JsonValue | null;
+  deliveryRequirements?: Prisma.JsonValue | null;
+  paymentRequirements?: Prisma.JsonValue | null;
   additionalRequirements?: string | null;
   sampleRequired: boolean;
   urgency: string;
@@ -53,32 +53,7 @@ type PrismaRFQWithIncludes = {
   createdBy?: string | null;
   updatedBy?: string | null;
   notes?: string | null;
-  products?: Array<{
-    id: string;
-    productId: string | null;
-    productType: string;
-    grade: string | null;
-    origin: string | null;
-    processingMethod: string | null;
-    certifications: string[] | null;
-    quantity: number;
-    quantityUnit: string;
-    targetPrice: number | null;
-    unitPrice: number | null;
-    totalPrice: number | null;
-    currency: string | null;
-    notes: string | null;
-  }>;
-  services?: Array<{
-    id: string;
-    serviceId: string | null;
-    serviceType: string;
-    description: string | null;
-    quantity: number;
-    unitPrice: number | null;
-    totalPrice: number | null;
-    notes: string | null;
-  }>;
+
   client?: {
     id: string;
     name: string;
@@ -117,11 +92,11 @@ export class RFQRepository {
           postalCode: '',
           country: rfq.country,
         },
-        businessType: (rfq.businessType as 'IMPORTER' | 'DISTRIBUTOR' | 'ROASTER' | 'RETAILER' | 'OTHER') || 'IMPORTER',
+        businessType: (rfq.businessType as 'IMPORTER' | 'DISTRIBUTOR' | 'ROASTER' | 'RETAILER' | 'MANUFACTURER' | 'TRADER') || 'IMPORTER',
       },
 
       // Map product requirements
-      productRequirements: rfq.productRequirements || {
+      productRequirements: (rfq.productRequirements as unknown as ProductRequirements) || {
         coffeeType: 'ARABICA',
       },
 
@@ -133,8 +108,8 @@ export class RFQRepository {
       },
 
       // Map delivery requirements
-      deliveryRequirements: rfq.deliveryRequirements || {
-        incoterms: (rfq.incoterms as 'FOB' | 'CIF' | 'CFR' | 'EXW' | 'DDP' | 'DDU') || 'FOB',
+      deliveryRequirements: (rfq.deliveryRequirements as unknown as DeliveryRequirements) || {
+        incoterms: (rfq.incoterms as 'FOB' | 'CIF' | 'CFR' | 'EXW' | 'FCA' | 'CPT' | 'CIP' | 'DAP' | 'DPU' | 'DDP' | 'FAS') || 'FOB',
         destinationPort: rfq.destination || '',
         destinationCountry: rfq.country,
         preferredDeliveryDate: rfq.deadline || new Date(),
@@ -143,9 +118,9 @@ export class RFQRepository {
       },
 
       // Map payment terms
-      paymentTerms: rfq.paymentRequirements || {
-        preferredCurrency: rfq.currency || 'USD',
-        paymentMethod: 'LC',
+      paymentTerms: (rfq.paymentRequirements as unknown as PaymentTerms) || {
+        preferredCurrency: (rfq.currency as 'USD' | 'EUR' | 'JPY' | 'GBP') || 'USD',
+        paymentMethod: 'LC' as const,
         paymentTerms: '',
       },
 
@@ -181,8 +156,6 @@ export class RFQRepository {
           email: true,
         },
       },
-      products: true,
-      services: true,
     };
   }
 

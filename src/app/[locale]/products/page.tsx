@@ -13,6 +13,8 @@ import {
 import { useTranslations } from 'next-intl';
 import { useState, useEffect, useCallback } from 'react';
 
+import { downloadCSV } from '@/shared/utils/download';
+
 import type { CoffeeCertification } from '@/shared/components/design-system/types';
 
 import {
@@ -348,13 +350,7 @@ export default function ProductsPage() {
       ),
     ].join('\n');
 
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `vietnamese-coffee-products-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
+    downloadCSV(csvContent, `vietnamese-coffee-products-${new Date().toISOString().split('T')[0]}`);
   };
 
   // Generate bulk quote request
