@@ -69,7 +69,7 @@ export function validateSeedData(): { isValid: boolean; errors: string[] } {
   const allIds = new Set<string>();
 
   Object.entries(seedData).forEach(([type, data]) => {
-    data.forEach((item: any) => {
+    data.forEach((item: { id: string }) => {
       if (allIds.has(item.id)) {
         errors.push(`Duplicate ID found: ${item.id} in ${type}`);
       }

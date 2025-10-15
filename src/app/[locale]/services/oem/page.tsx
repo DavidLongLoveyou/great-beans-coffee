@@ -9,7 +9,7 @@ import {
   Clock,
   Award,
 } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -20,13 +20,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title:
       'OEM Coffee Manufacturing Services - Vietnamese Coffee Export - The Great Beans',
@@ -43,6 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function OEMManufacturingPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -68,10 +70,10 @@ export default async function OEMManufacturingPage({ params }: Props) {
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700"
               >
-                <Link href={`/${params.locale}/quote`}>Request Quote</Link>
+                <Link href={`/${locale}/quote`}>Request Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Discuss Requirements
                 </Link>
               </Button>
@@ -594,7 +596,7 @@ export default async function OEMManufacturingPage({ params }: Props) {
             <p className="mb-8 text-lg text-forest-600">
               Let us help you bring your coffee brand to life with our
               comprehensive OEM manufacturing services. From concept to
-              delivery, we're your trusted partner.
+              delivery, we&rsquo;re your trusted partner.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button
@@ -602,10 +604,10 @@ export default async function OEMManufacturingPage({ params }: Props) {
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700"
               >
-                <Link href={`/${params.locale}/quote`}>Get OEM Quote</Link>
+                <Link href={`/${locale}/quote`}>Get OEM Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Schedule Consultation
                 </Link>
               </Button>

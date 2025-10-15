@@ -36,9 +36,27 @@ interface ValidationResult {
   passed: boolean;
 }
 
+interface ContentMetadata {
+  title?: string;
+  description?: string;
+  excerpt?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  keywords?: string[];
+  locale?: string;
+  category?: string;
+  featured?: boolean;
+  publishedAt?: string;
+  author?: string;
+  coverImage?: string;
+  slug?: string;
+  status?: 'draft' | 'published' | 'archived';
+  [key: string]: unknown;
+}
+
 interface ContentValidatorProps {
   content: string;
-  metadata: Record<string, any>;
+  metadata: ContentMetadata;
   contentType: 'blog' | 'market-report' | 'origin-story' | 'service';
   onValidationChange?: (isValid: boolean, results: ValidationResult[]) => void;
   showDetails?: boolean;

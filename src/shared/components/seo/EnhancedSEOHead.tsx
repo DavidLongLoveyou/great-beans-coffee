@@ -305,7 +305,7 @@ export function EnhancedSEOHead({
           <Script id="google-analytics" strategy="afterInteractive">
             {`
               window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
+              function gtag(){dataLayer.push({ arguments: arguments });}
               gtag('js', new Date());
               gtag('config', 'GA_MEASUREMENT_ID', {
                 page_title: '${metadata.title}',

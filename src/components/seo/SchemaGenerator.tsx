@@ -1,5 +1,3 @@
-import { type Locale } from '@/i18n';
-
 // Base schema interfaces
 interface BaseSchema {
   '@context': string;

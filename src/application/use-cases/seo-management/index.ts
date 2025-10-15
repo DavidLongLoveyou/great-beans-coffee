@@ -17,19 +17,19 @@ export interface SEOAnalysis {
 
 // Placeholder use cases - to be implemented
 export class GetSEOMetadataUseCase {
-  async execute(url: string): Promise<SEOMetadata> {
+  async execute(_url: string): Promise<SEOMetadata> {
     throw new Error('Not implemented');
   }
 }
 
 export class UpdateSEOMetadataUseCase {
-  async execute(url: string, metadata: SEOMetadata): Promise<void> {
+  async execute(_url: string, _metadata: SEOMetadata): Promise<void> {
     throw new Error('Not implemented');
   }
 }
 
 export class AnalyzeSEOPerformanceUseCase {
-  async execute(url: string): Promise<SEOAnalysis> {
+  async execute(_url: string): Promise<SEOAnalysis> {
     throw new Error('Not implemented');
   }
 }

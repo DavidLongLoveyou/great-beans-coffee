@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display, JetBrains_Mono } from 'next/font/google';
+// Removed Google Fonts imports to avoid ERR_ABORTED errors
+// import { Inter, Playfair_Display, JetBrains_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
@@ -10,23 +11,24 @@ import Header from '@/presentation/components/layout/Header';
 import { PerformanceInitializer } from '@/shared/components/performance/PerformanceInitializer';
 import { PerformanceMonitor } from '@/shared/components/performance/PerformanceMonitor';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
+// Font variables will be defined in CSS instead
+// const inter = Inter({
+//   subsets: ['latin'],
+//   variable: '--font-inter',
+//   display: 'swap',
+// });
 
-const playfairDisplay = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
-});
+// const playfairDisplay = Playfair_Display({
+//   subsets: ['latin'],
+//   variable: '--font-playfair',
+//   display: 'swap',
+// });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains',
-  display: 'swap',
-});
+// const jetbrainsMono = JetBrains_Mono({
+//   subsets: ['latin'],
+//   variable: '--font-jetbrains',
+//   display: 'swap',
+// });
 
 export const metadata: Metadata = {
   title: {
@@ -191,6 +193,10 @@ export default async function RootLayout({
         <meta name="referrer" content="strict-origin-when-cross-origin" />
 
         {/* Performance optimization */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
@@ -211,7 +217,7 @@ export default async function RootLayout({
         <link rel="prefetch" href="/en/market-reports" />
       </head>
       <body
-        className={`${inter.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable} font-sans`}
+        className="font-sans"
       >
         <PerformanceInitializer />
         <NextIntlClientProvider messages={messages} locale={locale}>

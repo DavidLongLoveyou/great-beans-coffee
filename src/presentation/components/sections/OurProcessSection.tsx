@@ -350,7 +350,7 @@ export function OurProcessSection({}: OurProcessSectionProps) {
                 <CardContent className="space-y-6">
                   {/* Process Details */}
                   <StaggeredChildren className="space-y-4">
-                    {currentStep.details.map((detail, index) => (
+                    {currentStep.details.map((detail, _index) => (
                       <div
                         key={`${currentStep.id}-detail-${detail}`}
                         className="flex items-start gap-3"
@@ -365,7 +365,7 @@ export function OurProcessSection({}: OurProcessSectionProps) {
 
                   {/* Statistics */}
                   <StaggeredChildren className="grid grid-cols-3 gap-4 pt-6">
-                    {currentStep.stats.map((stat, index) => (
+                    {currentStep.stats.map((stat, _index) => (
                       <div
                         key={`${currentStep.id}-stat-${stat.label}`}
                         className="text-center"

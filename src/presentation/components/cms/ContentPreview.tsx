@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import {
   Eye,
   ExternalLink,
@@ -24,23 +25,10 @@ import { Button } from '@/presentation/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/presentation/components/ui/select';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/presentation/components/ui/tabs';
+
 import {
   Tooltip,
   TooltipContent,
@@ -225,10 +213,12 @@ export function ContentPreview({
                 <div className="flex gap-3">
                   {metadata.coverImage && (
                     <div className="flex h-20 w-32 items-center justify-center rounded bg-gray-200">
-                      <img
+                      <Image
                         src={metadata.coverImage}
                         alt="Cover"
                         className="h-full w-full rounded object-cover"
+                        width={128}
+                        height={80}
                         onError={e => {
                           e.currentTarget.style.display = 'none';
                           (e.currentTarget
@@ -290,10 +280,12 @@ export function ContentPreview({
                 <div className="mb-6">
                   {metadata.coverImage && (
                     <div className="mb-4 aspect-video w-full overflow-hidden rounded-lg bg-gray-200">
-                      <img
+                      <Image
                         src={metadata.coverImage}
                         alt={metadata.title}
                         className="h-full w-full object-cover"
+                        width={800}
+                        height={450}
                         onError={e => {
                           e.currentTarget.style.display = 'none';
                           (e.currentTarget

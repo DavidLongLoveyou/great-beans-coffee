@@ -150,7 +150,13 @@ const mdxComponents = {
   ),
 
   // Image component
-  img: ({ src, alt, width, height, ...props }: ComponentProps<'img'>) => {
+  img: ({
+    src,
+    alt,
+    width: _width,
+    height: _height,
+    ...props
+  }: ComponentProps<'img'>) => {
     if (!src) return null;
     return (
       <Image

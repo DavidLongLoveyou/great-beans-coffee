@@ -357,16 +357,19 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
                 {/* Rating */}
                 <div className="mb-6 flex justify-center">
                   <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={`star-${currentTestimonial?.id || 'default'}-${i}`}
-                        className={`h-6 w-6 ${
-                          i < (currentTestimonial?.rating || 0)
-                            ? 'fill-amber-400 text-amber-400'
-                            : 'text-gray-300'
-                        }`}
-                      />
-                    ))}
+                    {[...Array(5)].map((_, i) => {
+                      const starKey = `star-${currentTestimonial?.id || 'default'}-${i < (currentTestimonial?.rating || 0) ? 'filled' : 'empty'}-${i}`;
+                      return (
+                        <Star
+                          key={starKey}
+                          className={`h-6 w-6 ${
+                            i < (currentTestimonial?.rating || 0)
+                              ? 'fill-amber-400 text-amber-400'
+                              : 'text-gray-300'
+                          }`}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -454,7 +457,7 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
 
             <StaggeredChildren staggerDelay={0.1} childDelay={0.2}>
               <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
-                {testimonials.slice(0, 6).map((testimonial, _index) => (
+                {testimonials.slice(0, 6).map(testimonial => (
                   <MagneticHover key={testimonial.id} strength={0.2}>
                     <div className="group flex flex-col items-center gap-3 rounded-lg bg-white/50 p-6 transition-all duration-300 hover:bg-white hover:shadow-lg">
                       <div className="relative h-12 w-12 overflow-hidden rounded-lg bg-gray-100">

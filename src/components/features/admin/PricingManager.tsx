@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   DollarSign,
   TrendingUp,
@@ -12,28 +12,17 @@ import {
   PieChart,
   Settings,
   Globe,
-  Users,
-  Package,
-  Calendar,
-  AlertCircle,
-  CheckCircle,
   Clock,
-  Zap,
-  Filter,
   Search,
   Download,
-  Upload,
   Plus,
   Edit,
   Copy,
   Trash2,
   Eye,
   RefreshCw,
-  Bell,
   Star,
-  Award,
   Percent,
-  ArrowUpDown,
   Activity,
   Layers,
 } from 'lucide-react';
@@ -78,9 +67,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/presentation/components/ui/dialog';
-import { Textarea } from '@/presentation/components/ui/textarea';
 import { Switch } from '@/presentation/components/ui/switch';
 import { Slider } from '@/presentation/components/ui/slider';
 
@@ -463,11 +450,11 @@ const mockMarketAnalysis: MarketAnalysis[] = [
 ];
 
 export function PricingManager({ className }: PricingManagerProps) {
-  const [pricingData, setPricingData] =
+  const [pricingData, _setPricingData] =
     useState<ProductPricing[]>(mockPricingData);
-  const [pricingRules, setPricingRules] =
+  const [pricingRules, _setPricingRules] =
     useState<PricingRule[]>(mockPricingRules);
-  const [marketAnalysis, setMarketAnalysis] =
+  const [marketAnalysis, _setMarketAnalysis] =
     useState<MarketAnalysis[]>(mockMarketAnalysis);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');

@@ -5,24 +5,13 @@ import {
   AlertTriangle,
   Shield,
   TrendingUp,
-  TrendingDown,
   Calculator,
   Download,
   RefreshCw,
-  Info,
   CheckCircle,
   XCircle,
   Clock,
-  FileText,
-  BarChart3,
-  DollarSign,
-  Globe,
-  Truck,
-  Users,
-  Zap,
-  Target,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 
 import { downloadJSON } from '@/shared/utils/download';
 import {
@@ -38,7 +27,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
 } from 'recharts';
 
 interface RiskFactor {

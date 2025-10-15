@@ -2,7 +2,7 @@ import { createScopedLogger } from '../../shared/utils/logger';
 
 import { IEmailService } from './email.service';
 
-const logger = createScopedLogger('NotificationService');
+const _logger = createScopedLogger('NotificationService');
 
 export interface NotificationService {
   sendRfqNotification(
@@ -46,7 +46,7 @@ class DefaultNotificationService implements NotificationService {
     }
   }
 
-  async sendAdminNotification(message: string): Promise<boolean> {
+  async sendAdminNotification(_message: string): Promise<boolean> {
     try {
       // Application layer logging removed for production
 

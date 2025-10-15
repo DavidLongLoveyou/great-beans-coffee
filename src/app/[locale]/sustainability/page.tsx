@@ -9,7 +9,7 @@ import {
   Droplets,
   Sun,
 } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -23,10 +23,13 @@ import {
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  const { locale } = await params;
   return {
     title:
       'Sustainability - Environmental & Social Responsibility - The Great Beans',
@@ -42,6 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function SustainabilityPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -652,10 +656,10 @@ export default async function SustainabilityPage({ params }: Props) {
 
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button asChild size="lg">
-                <Link href={`/${params.locale}/contact`}>Partner With Us</Link>
+                <Link href={`/${locale}/contact`}>Partner With Us</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/certifications`}>
+                <Link href={`/${locale}/certifications`}>
                   View Certifications
                 </Link>
               </Button>

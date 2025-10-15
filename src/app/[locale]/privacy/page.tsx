@@ -1,6 +1,6 @@
 import { type Metadata } from 'next';
-import { Shield, Eye, Lock, Users, FileText, Mail } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { Shield, Eye, Lock, Users, Mail } from 'lucide-react';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -13,10 +13,12 @@ import {
 } from '@/presentation/components/ui/card';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title:
       'Privacy Policy - Data Protection & Privacy Rights - The Great Beans',
@@ -32,6 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PrivacyPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -484,7 +487,7 @@ export default async function PrivacyPage({ params }: Props) {
               {/* Children's Privacy */}
               <div>
                 <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  9. Children's Privacy
+                  9. Children&rsquo;s Privacy
                 </h2>
                 <div className="space-y-4">
                   <p className="text-forest-600">
@@ -508,7 +511,7 @@ export default async function PrivacyPage({ params }: Props) {
                     reflect changes in our practices, technology, legal
                     requirements, or other factors. We will notify you of any
                     material changes by posting the updated policy on our
-                    website and updating the "Last updated" date.
+                    website and updating the &ldquo;Last updated&rdquo; date.
                   </p>
 
                   <p className="text-forest-600">
@@ -568,12 +571,12 @@ export default async function PrivacyPage({ params }: Props) {
 
                 <div className="flex gap-4 pt-4">
                   <Button asChild>
-                    <Link href={`/${params.locale}/contact`}>
+                    <Link href={`/${locale}/contact`}>
                       Contact Privacy Team
                     </Link>
                   </Button>
                   <Button asChild variant="outline">
-                    <Link href={`/${params.locale}/terms`}>
+                    <Link href={`/${locale}/terms`}>
                       View Terms of Service
                     </Link>
                   </Button>

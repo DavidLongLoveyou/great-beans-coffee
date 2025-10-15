@@ -139,11 +139,14 @@ export function ProductFilters({
   filteredProducts,
   loading = false,
 }: ProductFiltersProps) {
-  const t = useTranslations('products.filters');
+  const _t = useTranslations('products.filters');
   const [isExpanded, setIsExpanded] = useState(false);
 
   const updateFilter = useCallback(
-    (key: keyof ProductFilters, value: any) => {
+    (
+      key: keyof ProductFilters,
+      value: ProductFilters[keyof ProductFilters]
+    ) => {
       onFiltersChange({
         ...filters,
         [key]: value,

@@ -16,10 +16,10 @@ contactContent = contactContent.replace(
 
 // Fix unescaped apostrophes
 const apostropheReplacements = [
-  { from: "we'll get back", to: "we&apos;ll get back" },
-  { from: "We're working", to: "We&apos;re working" },
-  { from: "We'll provide", to: "We&apos;ll provide" },
-  { from: "we'll deduct", to: "we&apos;ll deduct" }
+  { from: "we'll get back", to: 'we&apos;ll get back' },
+  { from: "We're working", to: 'We&apos;re working' },
+  { from: "We'll provide", to: 'We&apos;ll provide' },
+  { from: "we'll deduct", to: 'we&apos;ll deduct' },
 ];
 
 apostropheReplacements.forEach(({ from, to }) => {

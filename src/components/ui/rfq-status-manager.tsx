@@ -20,7 +20,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/presentation/components/ui/dialog';
 import {
   Select,
@@ -146,7 +145,7 @@ export function RFQStatusBadge({ status }: { status: RFQStatus }) {
 
 export function RFQStatusManager({
   currentStatus,
-  rfqId,
+  rfqId: _rfqId,
   onStatusChange,
   disabled = false,
 }: RFQStatusManagerProps) {
@@ -313,7 +312,7 @@ export function RFQStatusHistory({ history }: RFQStatusHistoryProps) {
       <h3 className="text-lg font-semibold sm:text-xl">{tHistory('title')}</h3>
 
       <div className="space-y-3">
-        {history.map((entry, index) => {
+        {history.map((entry, _index) => {
           const config = statusConfig[entry.status];
           const Icon = config.icon;
 

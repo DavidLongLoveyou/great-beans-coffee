@@ -389,9 +389,9 @@ export function SearchFilters({
       {activeFilterBadges.length > 0 && (
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm text-gray-500">Active filters:</span>
-          {activeFilterBadges.map((badge, index) => (
+          {activeFilterBadges.map(badge => (
             <Badge
-              key={`${badge.filterId}-${badge.value || 'single'}-${index}`}
+              key={`${badge.filterId}-${badge.value || 'single'}`}
               variant="secondary"
               className="gap-1"
             >

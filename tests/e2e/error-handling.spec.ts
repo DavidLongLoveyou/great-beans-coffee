@@ -270,8 +270,8 @@ test.describe('Error Handling and Edge Cases', () => {
       await page.addInitScript(() => {
         // Remove modern APIs for testing fallbacks
         const windowAny = window as any;
-        windowAny.fetch = undefined;
-        windowAny.IntersectionObserver = undefined;
+        delete windowAny.fetch;
+        delete windowAny.IntersectionObserver;
       });
 
       await page.goto('/');

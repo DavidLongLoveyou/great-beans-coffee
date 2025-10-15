@@ -1,31 +1,25 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Package,
   TrendingUp,
-  TrendingDown,
   AlertTriangle,
   CheckCircle,
   Clock,
   BarChart3,
   Download,
   Upload,
-  Filter,
   Search,
-  Calendar,
   DollarSign,
   Truck,
   Eye,
   Edit,
   Plus,
-  RefreshCw,
   FileText,
-  Settings,
   Bell,
   Target,
   Activity,
-  Zap,
   Archive,
   ShoppingCart,
 } from 'lucide-react';
@@ -70,7 +64,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/presentation/components/ui/dialog';
 import { Textarea } from '@/presentation/components/ui/textarea';
 import { Switch } from '@/presentation/components/ui/switch';
@@ -266,7 +259,7 @@ const mockAlerts: InventoryAlert[] = [
 ];
 
 export function InventoryManager({ className }: InventoryManagerProps) {
-  const [inventoryItems, setInventoryItems] =
+  const [inventoryItems, _setInventoryItems] =
     useState<InventoryItem[]>(mockInventoryItems);
   const [alerts, setAlerts] = useState<InventoryAlert[]>(mockAlerts);
   const [searchTerm, setSearchTerm] = useState('');

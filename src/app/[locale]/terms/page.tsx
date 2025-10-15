@@ -7,7 +7,7 @@ import {
   Globe,
   Truck,
 } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -20,10 +20,12 @@ import {
 } from '@/presentation/components/ui/card';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title: 'Terms of Service - Legal Terms & Conditions - The Great Beans',
     description:
@@ -38,6 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function TermsPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -143,10 +146,11 @@ export default async function TermsPage({ params }: Props) {
                   </p>
 
                   <p className="text-forest-600">
-                    These Terms of Service ("Terms") govern your use of our
-                    website, services, and any related applications or platforms
-                    operated by The Great Beans Coffee Export ("Company", "we",
-                    "us", or "our").
+                    These Terms of Service (&ldquo;Terms&rdquo;) govern your use
+                    of our website, services, and any related applications or
+                    platforms operated by The Great Beans Coffee Export
+                    (&ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;,
+                    or &ldquo;our&rdquo;).
                   </p>
 
                   <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
@@ -485,9 +489,9 @@ export default async function TermsPage({ params }: Props) {
                         Trademarks
                       </h4>
                       <p className="text-forest-600">
-                        "The Great Beans" and related marks are trademarks of
-                        our company. You may not use our trademarks without our
-                        prior written consent.
+                        &ldquo;The Great Beans&rdquo; and related marks are
+                        trademarks of our company. You may not use our
+                        trademarks without our prior written consent.
                       </p>
                     </div>
                   </div>
@@ -664,7 +668,9 @@ export default async function TermsPage({ params }: Props) {
                   <ul className="ml-6 space-y-2 text-forest-600">
                     <li>• Email notification to registered users</li>
                     <li>• Prominent notice on our website</li>
-                    <li>• Updated "Last modified" date on this page</li>
+                    <li>
+                      • Updated &ldquo;Last modified&rdquo; date on this page
+                    </li>
                   </ul>
 
                   <p className="text-forest-600">
@@ -776,12 +782,12 @@ export default async function TermsPage({ params }: Props) {
 
                 <div className="flex gap-4 pt-4">
                   <Button asChild>
-                    <Link href={`/${params.locale}/contact`}>
+                    <Link href={`/${locale}/contact`}>
                       Contact Legal Team
                     </Link>
                   </Button>
                   <Button asChild variant="outline">
-                    <Link href={`/${params.locale}/privacy`}>
+                    <Link href={`/${locale}/privacy`}>
                       View Privacy Policy
                     </Link>
                   </Button>

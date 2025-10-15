@@ -3,13 +3,15 @@ import { notFound } from 'next/navigation';
 import { locales, defaultLocale } from '@/i18n';
 import { createScopedLogger } from '@/shared/utils/logger';
 
-const logger = createScopedLogger('Messages');
+const _logger = createScopedLogger('Messages');
 
 export async function getMessages(locale?: string) {
   try {
     // Validate and sanitize locale
     const currentLocale =
-      locale && locales.includes(locale as any) ? locale : defaultLocale;
+      locale && locales.includes(locale as (typeof locales)[number])
+        ? locale
+        : defaultLocale;
 
     // Prevent invalid imports by validating locale format
     if (!/^[a-z]{2}(-[A-Z]{2})?$/.test(currentLocale)) {

@@ -138,7 +138,7 @@ export function ProductGrid({
   onProductSelect,
   showSelection = false,
 }: ProductGridProps) {
-  const t = useTranslations('products');
+  const _t = useTranslations('products');
   const [sortBy, setSortBy] = useState<SortOption>('featured');
   const [currentPage, setCurrentPage] = useState(1);
   const [showComparison, setShowComparison] = useState(false);
@@ -720,7 +720,7 @@ export function ProductGrid({
               onProductSelect(productId, false);
             }
           }}
-          onRequestQuote={(productIds, analysisData) => {
+          onRequestQuote={(_productIds, _analysisData) => {
             // Handle quote request with business analysis data
             // This would typically navigate to a quote form or open a modal
           }}

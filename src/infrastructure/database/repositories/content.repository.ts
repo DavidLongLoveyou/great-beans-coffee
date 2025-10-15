@@ -111,7 +111,7 @@ export interface ContentFilters {
 }
 
 export class ContentRepository implements IContentRepository {
-  private mapToEntity(content: PrismaContent, locale?: string): ContentEntity {
+  private mapToEntity(content: PrismaContent, _locale?: string): ContentEntity {
     return new ContentEntity({
       id: content.id,
       contentId: content.id,

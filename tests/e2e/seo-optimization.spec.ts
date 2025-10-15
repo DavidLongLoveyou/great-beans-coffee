@@ -136,7 +136,7 @@ test.describe('SEO Optimization', () => {
           expect(content).toBeTruthy();
 
           // Should be valid JSON
-          let jsonData: any;
+          let jsonData: Record<string, unknown> | undefined;
           expect(() => {
             jsonData = JSON.parse(content!);
           }).not.toThrow();
@@ -347,13 +347,15 @@ test.describe('SEO Optimization', () => {
     });
 
     test('should minimize render-blocking resources', async ({ page }) => {
-      const responses: any[] = [];
+      const responses: Array<{
+        url: string;
+        headers: Record<string, string>;
+      }> = [];
 
       page.on('response', response => {
         responses.push({
           url: response.url(),
           headers: response.headers(),
-          resourceType: response.request().resourceType(),
         });
       });
 
@@ -361,7 +363,7 @@ test.describe('SEO Optimization', () => {
 
       // Check for render-blocking CSS
       const cssResponses = responses.filter(
-        r => r.resourceType === 'stylesheet'
+        r => r.headers['content-type']?.includes('text/css')
       );
 
       // Should minimize blocking CSS

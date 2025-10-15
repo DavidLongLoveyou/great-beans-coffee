@@ -3,30 +3,21 @@
 import {
   X,
   Plus,
-  Minus,
   Coffee,
   MapPin,
-  Mountain,
   Thermometer,
-  Scale,
   Award,
-  Leaf,
   DollarSign,
-  Package,
   Star,
-  BarChart3,
   Eye,
   ShoppingCart,
   Heart,
-  Share2,
   Download,
-  Filter,
   ArrowUpDown,
   CheckCircle,
   AlertCircle,
-  Info,
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { EnhancedOptimizedImage } from '@/shared/components/performance/EnhancedOptimizedImage';
 import { Badge } from '@/presentation/components/ui/badge';
@@ -38,32 +29,18 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/presentation/components/ui/dialog';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/presentation/components/ui/dropdown-menu';
-import { Input } from '@/presentation/components/ui/input';
+
 import { Label } from '@/presentation/components/ui/label';
 import { Progress } from '@/presentation/components/ui/progress';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/presentation/components/ui/select';
+
 import {
   Table,
   TableBody,
@@ -342,7 +319,6 @@ export function ProductComparison({
           },
         };
         const config = statusConfig[statusValue as keyof typeof statusConfig];
-        const StatusIcon = config?.icon || AlertCircle;
 
         return (
           <div className={`flex items-center gap-2 ${className}`}>

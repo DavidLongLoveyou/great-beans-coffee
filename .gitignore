@@ -114,3 +114,26 @@ jspm_logs/
 
 # TernJS port file
 .tern-port
+
+# playwright reports and test artifacts
+playwright-report/
+test-results/
+
+# build and analysis outputs
+build-output*.txt
+eslint-*.json
+eslint-*.txt
+ts-*.txt
+ts-check*.txt
+ts-errors*.txt
+typescript-errors.txt
+output*.txt
+lighthouse-report.json
+lighthouse-seo.json
+
+# temp directories
+dist/
+tmp/
+temp/
+.tmp/
+.pnpm-store/

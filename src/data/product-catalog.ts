@@ -3,8 +3,6 @@
  * Comprehensive B2B product data with Vietnamese coffee varieties
  */
 
-import { CertificationVO } from '@/domain/value-objects/certification.value-object';
-
 // Core product types and enums
 export enum CoffeeType {
   ROBUSTA = 'ROBUSTA',

@@ -15,12 +15,13 @@ import {
 } from '@/presentation/components/ui/card';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({
-    locale: params.locale,
+    locale: locale,
     namespace: 'contact',
   });
 
@@ -35,12 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ContactPage({ params }: Props) {
-  const t = await getTranslations({
-    locale: params.locale,
-    namespace: 'contact',
-  });
-
+export default async function ContactPage({ params: _params }: Props) {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -192,8 +188,8 @@ export default async function ContactPage({ params }: Props) {
                       Send us a Message
                     </CardTitle>
                     <p className="text-forest-600">
-                      Fill out the form below and we'll get back to you within
-                      24 hours.
+                      Fill out the form below and we&rsquo;ll get back to you
+                      within 24 hours.
                     </p>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -296,7 +292,7 @@ export default async function ContactPage({ params }: Props) {
                 Find Us
               </h2>
               <p className="text-lg text-forest-600">
-                Located in the heart of Vietnam's coffee region
+                Located in the heart of Vietnam&rsquo;s coffee region
               </p>
             </div>
 
@@ -309,8 +305,8 @@ export default async function ContactPage({ params }: Props) {
                       Interactive Map Coming Soon
                     </h3>
                     <p className="text-forest-600">
-                      We're working on integrating an interactive map to help
-                      you find us easily.
+                      We&rsquo;re working on integrating an interactive map to
+                      help you find us easily.
                     </p>
                   </div>
                 </div>
@@ -356,8 +352,8 @@ export default async function ContactPage({ params }: Props) {
                   <p className="text-forest-600">
                     Shipping times depend on your location and chosen method.
                     Sea freight typically takes 15-30 days, while air freight
-                    takes 3-7 days. We'll provide detailed timelines with your
-                    quote.
+                    takes 3-7 days. We&rsquo;ll provide detailed timelines with
+                    your quote.
                   </p>
                 </CardContent>
               </Card>
@@ -369,8 +365,8 @@ export default async function ContactPage({ params }: Props) {
                   </h3>
                   <p className="text-forest-600">
                     Yes! We provide free samples for serious buyers. Sample
-                    shipping costs apply, but we'll deduct this from your first
-                    order. Contact us to request samples.
+                    shipping costs apply, but we&rsquo;ll deduct this from your
+                    first order. Contact us to request samples.
                   </p>
                 </CardContent>
               </Card>

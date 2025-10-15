@@ -7,7 +7,7 @@ import {
   CheckCircle,
   Star,
 } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -21,10 +21,12 @@ import {
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title: 'Premium Vietnamese Robusta Coffee - The Great Beans',
     description:
@@ -39,6 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function RobustaPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -64,10 +67,10 @@ export default async function RobustaPage({ params }: Props) {
                 size="lg"
                 className="bg-amber-600 hover:bg-amber-700"
               >
-                <Link href={`/${params.locale}/quote`}>Request Quote</Link>
+                <Link href={`/${locale}/quote`}>Request Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>Contact Sales</Link>
+                <Link href={`/${locale}/contact`}>Contact Sales</Link>
               </Button>
             </div>
           </div>
@@ -83,7 +86,7 @@ export default async function RobustaPage({ params }: Props) {
                 Why Choose Our Robusta?
               </h2>
               <p className="text-lg text-forest-600">
-                Vietnam produces the world's finest Robusta coffee, and we
+                Vietnam produces the world&rsquo;s finest Robusta coffee, and we
                 source only the best
               </p>
             </div>
@@ -404,10 +407,10 @@ export default async function RobustaPage({ params }: Props) {
                 size="lg"
                 className="bg-amber-600 hover:bg-amber-700"
               >
-                <Link href={`/${params.locale}/quote`}>Get Quote</Link>
+                <Link href={`/${locale}/quote`}>Get Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>Request Samples</Link>
+                <Link href={`/${locale}/contact`}>Request Samples</Link>
               </Button>
             </div>
           </div>

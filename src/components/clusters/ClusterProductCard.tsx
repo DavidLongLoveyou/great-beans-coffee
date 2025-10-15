@@ -9,13 +9,11 @@ import React from 'react';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import {
-  CoffeeButton,
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardFooter,
-  RequestQuoteButton,
   CertificationBadge,
   CoffeeGradeIndicator,
   OriginFlag,

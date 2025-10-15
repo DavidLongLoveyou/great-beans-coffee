@@ -8,18 +8,22 @@ console.log('🔧 Fixing all remaining ESLint issues...');
 function getAllTsFiles(dir) {
   const files = [];
   const items = fs.readdirSync(dir);
-  
+
   for (const item of items) {
     const fullPath = path.join(dir, item);
     const stat = fs.statSync(fullPath);
-    
-    if (stat.isDirectory() && !item.startsWith('.') && item !== 'node_modules') {
+
+    if (
+      stat.isDirectory() &&
+      !item.startsWith('.') &&
+      item !== 'node_modules'
+    ) {
       files.push(...getAllTsFiles(fullPath));
     } else if (item.endsWith('.ts') || item.endsWith('.tsx')) {
       files.push(fullPath);
     }
   }
-  
+
   return files;
 }
 
@@ -31,26 +35,41 @@ function fixFile(filePath) {
   // Fix unused variables by prefixing with underscore
   const unusedVarPatterns = [
     // Function parameters
-    { pattern: /\(([^)]*?)(\w+)(\s*:\s*[^,)]+)?\s*\)/g, replacement: (match, before, varName, type) => {
-      if (varName === 'params' || varName === 'locale' || varName === 'index' || varName === 'error' || varName === 'logger') {
-        return `(${before}_${varName}${type || ''})`;
-      }
-      return match;
-    }},
+    {
+      pattern: /\(([^)]*?)(\w+)(\s*:\s*[^,)]+)?\s*\)/g,
+      replacement: (match, before, varName, type) => {
+        if (
+          varName === 'params' ||
+          varName === 'locale' ||
+          varName === 'index' ||
+          varName === 'error' ||
+          varName === 'logger'
+        ) {
+          return `(${before}_${varName}${type || ''})`;
+        }
+        return match;
+      },
+    },
     // Variable declarations
-    { pattern: /const\s+(\w+)\s*=/g, replacement: (match, varName) => {
-      if (varName === 'logger' || varName === 'error') {
-        return `const _${varName} =`;
-      }
-      return match;
-    }},
+    {
+      pattern: /const\s+(\w+)\s*=/g,
+      replacement: (match, varName) => {
+        if (varName === 'logger' || varName === 'error') {
+          return `const _${varName} =`;
+        }
+        return match;
+      },
+    },
     // Destructuring
-    { pattern: /const\s*\{\s*(\w+)\s*\}\s*=/g, replacement: (match, varName) => {
-      if (varName === 'locale' || varName === 'params') {
-        return `const { ${varName}: _${varName} } =`;
-      }
-      return match;
-    }}
+    {
+      pattern: /const\s*\{\s*(\w+)\s*\}\s*=/g,
+      replacement: (match, varName) => {
+        if (varName === 'locale' || varName === 'params') {
+          return `const { ${varName}: _${varName} } =`;
+        }
+        return match;
+      },
+    },
   ];
 
   unusedVarPatterns.forEach(({ pattern, replacement }) => {
@@ -73,20 +92,20 @@ function fixFile(filePath) {
 
   // Fix unescaped entities
   const entityFixes = [
-    { from: /don't/gi, to: "don&apos;t" },
-    { from: /won't/gi, to: "won&apos;t" },
-    { from: /can't/gi, to: "can&apos;t" },
-    { from: /we're/gi, to: "we&apos;re" },
-    { from: /you're/gi, to: "you&apos;re" },
-    { from: /they're/gi, to: "they&apos;re" },
-    { from: /we'll/gi, to: "we&apos;ll" },
-    { from: /you'll/gi, to: "you&apos;ll" },
-    { from: /they'll/gi, to: "they&apos;ll" },
-    { from: /it's/gi, to: "it&apos;s" },
-    { from: /that's/gi, to: "that&apos;s" },
-    { from: /what's/gi, to: "what&apos;s" },
-    { from: /here's/gi, to: "here&apos;s" },
-    { from: /there's/gi, to: "there&apos;s" }
+    { from: /don't/gi, to: 'don&apos;t' },
+    { from: /won't/gi, to: 'won&apos;t' },
+    { from: /can't/gi, to: 'can&apos;t' },
+    { from: /we're/gi, to: 'we&apos;re' },
+    { from: /you're/gi, to: 'you&apos;re' },
+    { from: /they're/gi, to: 'they&apos;re' },
+    { from: /we'll/gi, to: 'we&apos;ll' },
+    { from: /you'll/gi, to: 'you&apos;ll' },
+    { from: /they'll/gi, to: 'they&apos;ll' },
+    { from: /it's/gi, to: 'it&apos;s' },
+    { from: /that's/gi, to: 'that&apos;s' },
+    { from: /what's/gi, to: 'what&apos;s' },
+    { from: /here's/gi, to: 'here&apos;s' },
+    { from: /there's/gi, to: 'there&apos;s' },
   ];
 
   entityFixes.forEach(({ from, to }) => {
@@ -118,7 +137,9 @@ allFiles.forEach(filePath => {
       console.log(`✅ Fixed ${path.relative(__dirname, filePath)}`);
     }
   } catch (error) {
-    console.log(`❌ Error fixing ${path.relative(__dirname, filePath)}: ${error.message}`);
+    console.log(
+      `❌ Error fixing ${path.relative(__dirname, filePath)}: ${error.message}`
+    );
   }
 });
 

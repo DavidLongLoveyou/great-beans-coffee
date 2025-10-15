@@ -31,7 +31,6 @@ import { cn } from '@/shared/utils';
 
 import {
   useContentSearch,
-  SearchFilters,
   SearchSorting,
 } from '@/shared/hooks/useContentSearch';
 import { ContentFilters } from './ContentFilters';
@@ -232,7 +231,8 @@ export function ContentSearch({
                 {searchResponse.stats.searchTime}ms
                 {query && (
                   <span className="ml-1">
-                    for "<span className="font-medium">{query}</span>"
+                    for &ldquo;<span className="font-medium">{query}</span>
+                    &rdquo;
                   </span>
                 )}
               </div>

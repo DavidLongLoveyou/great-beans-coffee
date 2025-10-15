@@ -1,9 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 
-import { createScopedLogger } from '../../shared/utils/logger';
-
-const logger = createScopedLogger('Database');
-
 // Global variable to store the Prisma client instance
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -108,7 +104,7 @@ export async function bulkUpsert<T>(
 // Search helper with full-text search
 export async function searchContent(
   query: string,
-  locale: string = 'en',
+  _locale: string = 'en',
   limit: number = 10
 ) {
   return await prisma.content.findMany({
@@ -130,8 +126,8 @@ export async function searchContent(
 // Analytics helper
 export async function getContentAnalytics(
   contentId: string,
-  startDate?: Date,
-  endDate?: Date
+  _startDate?: Date,
+  _endDate?: Date
 ) {
   const content = await prisma.content.findUnique({
     where: { id: contentId },
@@ -151,8 +147,8 @@ export async function getContentAnalytics(
 // Multi-language content helper
 export async function getLocalizedContent(
   contentId: string,
-  locale: string,
-  fallbackLocale: string = 'en'
+  _locale: string,
+  _fallbackLocale: string = 'en'
 ) {
   const content = await prisma.content.findUnique({
     where: { id: contentId },

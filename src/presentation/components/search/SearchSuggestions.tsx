@@ -315,43 +315,37 @@ export function SearchSuggestions({
   variant = 'default',
 }: SearchSuggestionsProps) {
   // Convert arrays to suggestion objects
-  const recentSuggestions: SearchSuggestion[] = recentSearches.map(
-    (search, index) => ({
-      id: `recent-${index}`,
-      text: search,
-      type: 'recent',
-    })
-  );
+  const recentSuggestions: SearchSuggestion[] = recentSearches.map(search => ({
+    id: `recent-${search.replace(/\s+/g, '-').toLowerCase()}`,
+    text: search,
+    type: 'recent',
+  }));
 
   const popularSuggestions: SearchSuggestion[] = popularSearches.map(
-    (search, index) => ({
-      id: `popular-${index}`,
+    search => ({
+      id: `popular-${search.replace(/\s+/g, '-').toLowerCase()}`,
       text: search,
       type: 'popular',
     })
   );
 
-  const trendingSuggestions: SearchSuggestion[] = trendingTopics.map(
-    (topic, index) => ({
-      id: `trending-${index}`,
-      text: topic,
-      type: 'trending',
-    })
-  );
+  const trendingSuggestions: SearchSuggestion[] = trendingTopics.map(topic => ({
+    id: `trending-${topic.replace(/\s+/g, '-').toLowerCase()}`,
+    text: topic,
+    type: 'trending',
+  }));
 
-  const categorySuggestions: SearchSuggestion[] = categories.map(
-    (category, index) => ({
-      id: `category-${index}`,
-      text: category.name,
-      type: 'category',
-      count: category.count,
-      url: category.url,
-      description: `${category.count} items`,
-    })
-  );
+  const categorySuggestions: SearchSuggestion[] = categories.map(category => ({
+    id: `category-${category.name.replace(/\s+/g, '-').toLowerCase()}`,
+    text: category.name,
+    type: 'category',
+    count: category.count,
+    url: category.url,
+    description: `${category.count} items`,
+  }));
 
-  const tagSuggestions: SearchSuggestion[] = tags.map((tag, index) => ({
-    id: `tag-${index}`,
+  const tagSuggestions: SearchSuggestion[] = tags.map(tag => ({
+    id: `tag-${tag.name.replace(/\s+/g, '-').toLowerCase()}`,
     text: tag.name,
     type: 'tag',
     count: tag.count,
@@ -377,8 +371,8 @@ export function SearchSuggestions({
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {Array.from({ length: 3 }).map((_, index) => (
-                <SuggestionSkeleton key={index} variant={variant} />
+              {Array.from({ length: 3 }).map((_, _index) => (
+                <SuggestionSkeleton key={`skeleton-1-${Math.random()}`} />
               ))}
             </div>
           </CardContent>
@@ -389,8 +383,8 @@ export function SearchSuggestions({
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {Array.from({ length: 2 }).map((_, index) => (
-                <SuggestionSkeleton key={index} variant={variant} />
+              {Array.from({ length: 2 }).map((_, _index) => (
+                <SuggestionSkeleton key={`skeleton-2-${Math.random()}`} />
               ))}
             </div>
           </CardContent>

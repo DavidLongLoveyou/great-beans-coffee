@@ -1,15 +1,6 @@
 import { type Metadata } from 'next';
-import {
-  Truck,
-  Ship,
-  Plane,
-  Package,
-  CheckCircle,
-  Clock,
-  Shield,
-  Globe,
-} from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { Truck, Ship, Plane, Package, CheckCircle, Globe } from 'lucide-react';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -23,10 +14,12 @@ import {
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title:
       'Coffee Logistics & Shipping Services - Global Coffee Export - The Great Beans',
@@ -43,6 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function LogisticsPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -68,10 +62,10 @@ export default async function LogisticsPage({ params }: Props) {
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700"
               >
-                <Link href={`/${params.locale}/quote`}>Get Shipping Quote</Link>
+                <Link href={`/${locale}/quote`}>Get Shipping Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Logistics Consultation
                 </Link>
               </Button>
@@ -734,10 +728,10 @@ export default async function LogisticsPage({ params }: Props) {
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700"
               >
-                <Link href={`/${params.locale}/quote`}>Get Shipping Quote</Link>
+                <Link href={`/${locale}/quote`}>Get Shipping Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Discuss Logistics Needs
                 </Link>
               </Button>

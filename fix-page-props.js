@@ -15,52 +15,58 @@ const filesToFix = [
   'src/app/[locale]/services/oem/page.tsx',
   'src/app/[locale]/services/private-label/page.tsx',
   'src/app/[locale]/products/arabica/page.tsx',
-  'src/app/[locale]/privacy/page.tsx'
+  'src/app/[locale]/privacy/page.tsx',
 ];
 
 let fixedCount = 0;
 
 filesToFix.forEach(filePath => {
   const fullPath = path.join(__dirname, filePath);
-  
+
   if (!fs.existsSync(fullPath)) {
     console.log(`File not found: ${filePath}`);
     return;
   }
-  
+
   let content = fs.readFileSync(fullPath, 'utf8');
   let modified = false;
-  
+
   // Check if the file has the main page component function
-  const pageComponentMatch = content.match(/export default async function (\w+Page)\(\{ params \}: Props\) \{/);
+  const pageComponentMatch = content.match(
+    /export default async function (\w+Page)\(\{ params \}: Props\) \{/
+  );
   if (pageComponentMatch) {
     const functionName = pageComponentMatch[1];
-    
+
     // Check if it already has locale destructuring
     if (!content.includes('const { locale } = await params;')) {
       // Add locale destructuring after the function declaration
       content = content.replace(
-        new RegExp(`export default async function ${functionName}\\(\\{ params \\}: Props\\) \\{`),
+        new RegExp(
+          `export default async function ${functionName}\\(\\{ params \\}: Props\\) \\{`
+        ),
         `export default async function ${functionName}({ params }: Props) {\n  const { locale } = await params;`
       );
       modified = true;
     }
-    
+
     // Replace any remaining locale references in the component
-    const componentStartIndex = content.indexOf(`export default async function ${functionName}`);
+    const componentStartIndex = content.indexOf(
+      `export default async function ${functionName}`
+    );
     if (componentStartIndex !== -1) {
       const beforeComponent = content.substring(0, componentStartIndex);
       let afterComponent = content.substring(componentStartIndex);
-      
+
       // Only replace locale references in the component part
       afterComponent = afterComponent.replace(/\$\{locale\}/g, '${locale}'); // Keep existing correct ones
       afterComponent = afterComponent.replace(/params\.locale/g, 'locale');
-      
+
       content = beforeComponent + afterComponent;
       modified = true;
     }
   }
-  
+
   if (modified) {
     fs.writeFileSync(fullPath, content, 'utf8');
     console.log(`Fixed: ${filePath}`);

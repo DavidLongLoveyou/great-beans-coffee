@@ -4,15 +4,12 @@ import { type Locale } from '@/i18n';
 import {
   AdvancedSEOMetadata,
   advancedSEOManager,
-  AdvancedSEOConfig,
 } from '@/shared/utils/advanced-seo-manager';
 import {
   schemaGenerators,
   type CoffeeProductData,
   type B2BServiceData,
   type ArticleData,
-  type MarketReportData,
-  type OriginStoryData,
 } from '@/shared/utils/schema-generators';
 
 /**
@@ -671,8 +668,8 @@ export class EnhancedSEOService {
   }
 
   private async addPageSpecificSchemas(
-    pageData: SEOPageData,
-    schemas: Record<string, any>[]
+    _pageData: SEOPageData,
+    _schemas: Record<string, any>[]
   ): Promise<void> {
     // This method can be extended to add more specific schemas based on page content
     // For now, it's a placeholder for future enhancements

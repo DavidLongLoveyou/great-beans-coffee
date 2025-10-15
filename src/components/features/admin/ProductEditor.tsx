@@ -3,31 +3,12 @@
 import {
   Save,
   X,
-  Upload,
-  Image,
   DollarSign,
   Package,
-  Globe,
-  Star,
   AlertTriangle,
   CheckCircle,
   Coffee,
-  MapPin,
-  Thermometer,
-  Scale,
   Clock,
-  Award,
-  Leaf,
-  Mountain,
-  Droplets,
-  Factory,
-  Users,
-  FileText,
-  BarChart3,
-  Eye,
-  EyeOff,
-  Copy,
-  Trash2,
   Plus,
   Minus,
 } from 'lucide-react';
@@ -39,7 +20,6 @@ import { Button } from '@/presentation/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
@@ -68,12 +48,6 @@ import {
   TabsTrigger,
 } from '@/presentation/components/ui/tabs';
 import { Textarea } from '@/presentation/components/ui/textarea';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/presentation/components/ui/tooltip';
 
 export interface ProductData {
   id?: string;

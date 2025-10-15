@@ -5,11 +5,10 @@ import {
   Truck,
   Users,
   CheckCircle,
-  Star,
   Globe,
   Coffee,
 } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -23,10 +22,12 @@ import {
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title:
       'Coffee Sourcing Services - Direct Trade & Premium Origins - The Great Beans',
@@ -43,6 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function SourcingPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -67,12 +69,12 @@ export default async function SourcingPage({ params }: Props) {
                 size="lg"
                 className="bg-emerald-600 hover:bg-emerald-700"
               >
-                <Link href={`/${params.locale}/quote`}>
+                <Link href={`/${locale}/quote`}>
                   Source Premium Coffee
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Sourcing Consultation
                 </Link>
               </Button>
@@ -91,7 +93,7 @@ export default async function SourcingPage({ params }: Props) {
               </h2>
               <p className="text-lg text-forest-600">
                 14+ years of expertise in sourcing premium coffee from the
-                world's best origins
+                world&rsquo;s best origins
               </p>
             </div>
 
@@ -169,7 +171,7 @@ export default async function SourcingPage({ params }: Props) {
                 Premium Coffee Origins
               </h2>
               <p className="text-lg text-forest-600">
-                Sourcing from the world's finest coffee-growing regions
+                Sourcing from the world&rsquo;s finest coffee-growing regions
               </p>
             </div>
 
@@ -181,7 +183,7 @@ export default async function SourcingPage({ params }: Props) {
                     Vietnam
                   </CardTitle>
                   <p className="text-forest-600">
-                    World's largest Robusta producer
+                    World&rsquo;s largest Robusta producer
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -219,7 +221,7 @@ export default async function SourcingPage({ params }: Props) {
                     Brazil
                   </CardTitle>
                   <p className="text-forest-600">
-                    World's largest coffee producer
+                    World&rsquo;s largest coffee producer
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -719,12 +721,12 @@ export default async function SourcingPage({ params }: Props) {
                 size="lg"
                 className="bg-emerald-600 hover:bg-emerald-700"
               >
-                <Link href={`/${params.locale}/quote`}>
+                <Link href={`/${locale}/quote`}>
                   Request Sourcing Quote
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Discuss Your Needs
                 </Link>
               </Button>

@@ -1,6 +1,6 @@
 import { createScopedLogger } from '../../shared/utils/logger';
 
-const logger = createScopedLogger('CacheService');
+const _logger = createScopedLogger('CacheService');
 
 export interface ICacheService {
   get<T>(key: string): Promise<T | null>;

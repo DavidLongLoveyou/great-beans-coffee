@@ -1,8 +1,4 @@
-import { createScopedLogger } from '@/shared/utils/logger';
-
 import { getMessages } from './messages';
-
-const logger = createScopedLogger('Translations');
 
 export async function getTranslations(locale: string) {
   const messages = await getMessages(locale);

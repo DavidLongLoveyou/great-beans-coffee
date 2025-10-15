@@ -17,7 +17,7 @@ import { CoffeeProductEntity } from '@/domain/entities/coffee-product.entity';
 import { RFQEntity } from '@/domain/entities/rfq.entity';
 import { createScopedLogger } from '@/shared/utils/logger';
 
-const logger = createScopedLogger('PDFGenerationService');
+const _logger = createScopedLogger('PDFGenerationService');
 
 // PDF Generation Options
 export interface PDFGenerationOptions {

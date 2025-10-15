@@ -1,6 +1,6 @@
-import { Users, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Users, ArrowRight } from 'lucide-react';
 
 import { type Locale } from '@/i18n';
 import { FeaturedProductsSection } from '@/presentation/components/sections/FeaturedProductsSection';

@@ -19,22 +19,11 @@ import {
   Undo,
   Redo,
   Settings,
-  Globe,
-  Calendar,
-  Tag,
-  User,
   AlertCircle,
 } from 'lucide-react';
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 import { Button } from '@/presentation/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/presentation/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -128,7 +117,7 @@ const toolbarButtons = [
 export function ContentEditor({
   initialContent = '',
   initialMetadata = {},
-  contentType,
+  contentType: _contentType,
   onSave,
   onPreview,
   isLoading = false,
@@ -158,7 +147,7 @@ export function ContentEditor({
         .trim();
       setMetadata(prev => ({ ...prev, slug }));
     }
-  }, [metadata.title]);
+  }, [metadata.title, metadata.slug]);
 
   // Track unsaved changes
   useEffect(() => {

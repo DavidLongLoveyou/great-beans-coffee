@@ -20,7 +20,7 @@ function fixYamlQuotes(filePath) {
     // Pattern: ['value', 'value2'] -> [value, value2]
     const squareBracketPattern = /\[\s*'([^']+)'(?:\s*,\s*'([^']+)')*\s*\]/g;
     if (squareBracketPattern.test(content)) {
-      content = content.replace(squareBracketPattern, (match) => {
+      content = content.replace(squareBracketPattern, match => {
         return match.replace(/'([^']+)'/g, '$1');
       });
       modified = true;

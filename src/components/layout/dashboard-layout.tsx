@@ -10,7 +10,6 @@ import {
   Calculator,
   MessageSquare,
   Menu,
-  X,
   LogOut,
   Settings,
   Bell,
@@ -20,7 +19,6 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
 import {

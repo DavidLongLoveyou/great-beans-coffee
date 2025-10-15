@@ -25,7 +25,7 @@ export class FileUploadService implements IFileUploadService {
     }
   }
 
-  async deleteFile(url: string): Promise<boolean> {
+  async deleteFile(_url: string): Promise<boolean> {
     try {
       // Simulate file deletion
       await new Promise(resolve => setTimeout(resolve, 100));

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Coffee,
   ShoppingCart,
   Filter,
   Search,
@@ -9,10 +8,15 @@ import {
   FileText,
   Package,
   Loader2,
+  Coffee,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect, useCallback } from 'react';
-
+import { CoffeeProduct } from '@/domain/entities/coffee-product.entity';
+import type {
+  CoffeeGrade,
+  ProcessingMethod,
+} from '@/shared/components/design-system/types';
 import { downloadCSV } from '@/shared/utils/download';
 
 import type { CoffeeCertification } from '@/shared/components/design-system/types';
@@ -26,8 +30,8 @@ import type { Product } from '@/presentation/components/catalog/ProductGrid';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
 import { ContentSection } from '@/presentation/components/layout/ContentSection';
 
-import { Button } from '@/presentation/components/ui/button';
 import { ServerButton } from '@/presentation/components/ui/server-button';
+import { Button } from '@/presentation/components/ui/button';
 import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
 import { SectionHeading } from '@/shared/components/typography/SectionHeading';
 
@@ -67,6 +71,54 @@ interface ApiProduct {
     description: string;
   }>;
 }
+
+// Helper functions to map API values (entity types) to design-system types
+const mapApiGradeToDesignSystemGrade = (apiGrade: string): CoffeeGrade => {
+  switch (apiGrade.toUpperCase()) {
+    case 'GRADE_1':
+      return 'grade-1';
+    case 'GRADE_2':
+      return 'grade-2';
+    case 'GRADE_3':
+      return 'grade-3';
+    case 'GRADE_4':
+      return 'grade-4';
+    case 'SCREEN_18':
+      return 'screen-18';
+    case 'SCREEN_16':
+      return 'screen-16';
+    case 'SCREEN_13':
+    case 'SCREEN_14':
+      return 'screen-14'; // Map both SCREEN_13 and SCREEN_14 to screen-14
+    case 'SPECIALTY':
+      return 'specialty';
+    case 'PREMIUM':
+      return 'premium';
+    case 'COMMERCIAL':
+      return 'standard'; // Map COMMERCIAL to standard
+    case 'EXCHANGE':
+      return 'exchange';
+    default:
+      return 'grade-1'; // fallback
+  }
+};
+
+const mapApiProcessingToDesignSystemProcessing = (apiProcessing: string): ProcessingMethod => {
+  switch (apiProcessing.toUpperCase()) {
+    case 'NATURAL':
+      return 'natural';
+    case 'WASHED':
+      return 'washed';
+    case 'HONEY':
+      return 'honey';
+    case 'WET_HULLED':
+      return 'wet-hulled';
+    case 'SEMI_WASHED':
+      return 'semi-washed';
+    default:
+      return 'natural'; // fallback
+  }
+};
 
 interface ApiResponse {
   products: ApiProduct[];
@@ -136,8 +188,8 @@ const convertApiToGridProduct = (
     name: localizedName,
     shortDescription: localizedDescription,
     type: apiProduct.coffeeType,
-    grade: apiProduct.grade as any,
-    processingMethod: apiProduct.processing as any,
+    grade: mapApiGradeToDesignSystemGrade(apiProduct.grade || 'COMMERCIAL'),
+    processingMethod: mapApiProcessingToDesignSystemProcessing(apiProduct.processing || 'NATURAL'),
     origin: {
       region: apiProduct.origin,
       province: apiProduct.origin,

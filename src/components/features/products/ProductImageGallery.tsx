@@ -72,30 +72,10 @@ export function ProductImageGallery({
   // Find primary image or use first image
   const primaryImageIndex = images.findIndex(img => img.isPrimary) || 0;
 
+  // All hooks must be called before any early returns
   useEffect(() => {
     setCurrentImageIndex(primaryImageIndex);
   }, [primaryImageIndex]);
-
-  const currentImage = images[currentImageIndex];
-  const hasMultipleImages = images.length > 1;
-
-  // Early return if no images or current image
-  if (!images.length || !currentImage) {
-    return (
-      <Card className={cn('overflow-hidden', className)}>
-        <CardContent className="p-6">
-          <div className="flex h-80 w-full items-center justify-center rounded-lg bg-gradient-to-br from-coffee-100 to-coffee-200">
-            <div className="text-center">
-              <Coffee className="mx-auto h-24 w-24 text-coffee-400" />
-              <p className="mt-4 text-sm text-coffee-600">
-                No images available
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
 
   const goToPrevious = useCallback(() => {
     setCurrentImageIndex(prev => (prev === 0 ? images.length - 1 : prev - 1));
@@ -112,6 +92,8 @@ export function ProductImageGallery({
   const handleZoomToggle = useCallback(() => {
     setIsZoomed(prev => !prev);
   }, []);
+
+  const currentImage = images[currentImageIndex];
 
   const handleDownload = useCallback(async () => {
     if (!currentImage || !enableDownload) return;
@@ -172,7 +154,10 @@ export function ProductImageGallery({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [goToPrevious, goToNext]);
 
-  if (!images.length) {
+  const hasMultipleImages = images.length > 1;
+
+  // Early return if no images or current image
+  if (!images.length || !currentImage) {
     return (
       <Card className={cn('overflow-hidden', className)}>
         <CardContent className="p-6">

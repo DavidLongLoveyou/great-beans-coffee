@@ -8,9 +8,8 @@ import {
   Award,
   MapPin,
   Clock,
-  DollarSign,
 } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -24,10 +23,12 @@ import {
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title: 'Careers - Join Our Team - The Great Beans',
     description:
@@ -42,6 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CareersPage({ params }: Props) {
+  const { locale } = await params;
   const jobOpenings = [
     {
       title: 'Senior Coffee Quality Specialist',
@@ -200,8 +202,8 @@ export default async function CareersPage({ params }: Props) {
                     Industry Leadership
                   </h3>
                   <p className="text-forest-600">
-                    Work with one of Vietnam's leading coffee exporters and
-                    shape the future of the industry.
+                    Work with one of Vietnam&rsquo;s leading coffee exporters
+                    and shape the future of the industry.
                   </p>
                 </CardContent>
               </Card>
@@ -594,17 +596,17 @@ export default async function CareersPage({ params }: Props) {
               Ready to Start Your Journey?
             </h2>
             <p className="mb-8 text-lg text-forest-600">
-              Don't see a position that matches your skills? We're always
-              looking for talented individuals to join our team. Send us your
-              resume and let's explore opportunities together.
+              Don&rsquo;t see a position that matches your skills? We&rsquo;re
+              always looking for talented individuals to join our team. Send us
+              your resume and let&rsquo;s explore opportunities together.
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button asChild size="lg">
-                <Link href={`/${params.locale}/contact`}>Send Your Resume</Link>
+                <Link href={`/${locale}/contact`}>Send Your Resume</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/about`}>Learn About Us</Link>
+                <Link href={`/${locale}/about`}>Learn About Us</Link>
               </Button>
             </div>
 
@@ -612,7 +614,7 @@ export default async function CareersPage({ params }: Props) {
               <p className="text-forest-600">
                 Questions about our hiring process?
                 <Link
-                  href={`/${params.locale}/contact`}
+                  href={`/${locale}/contact`}
                   className="ml-1 text-coffee-600 hover:underline"
                 >
                   Contact our HR team

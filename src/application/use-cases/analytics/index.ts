@@ -27,13 +27,16 @@ export interface DashboardData {
 
 // Placeholder use cases - to be implemented
 export class TrackEventUseCase {
-  async execute(event: AnalyticsEvent): Promise<void> {
+  async execute(_event: AnalyticsEvent): Promise<void> {
     throw new Error('Not implemented');
   }
 }
 
 export class GetAnalyticsDataUseCase {
-  async execute(dateRange: { start: Date; end: Date }): Promise<AnalyticsData> {
+  async execute(_dateRange: {
+    start: Date;
+    end: Date;
+  }): Promise<AnalyticsData> {
     throw new Error('Not implemented');
   }
 }

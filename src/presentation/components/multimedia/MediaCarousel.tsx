@@ -18,7 +18,7 @@ import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
 import { Card, CardContent } from '@/presentation/components/ui/card';
 
-import { ImageGallery } from './ImageGallery';
+import { ImageGallery, type GalleryImage } from './ImageGallery';
 import { VideoPlayer, type VideoSource } from './VideoPlayer';
 
 export interface MediaItem {
@@ -440,7 +440,7 @@ export function MediaCarousel({
                   images={filteredItems
                     .filter(item => item.type === 'image')
                     .map(item => {
-                      const galleryImage: any = {
+                      const galleryImage: GalleryImage = {
                         id: item.id,
                         src: item.src!,
                         alt: item.alt || item.title || '',

@@ -2,7 +2,7 @@
 
 import { createScopedLogger } from '@/shared/utils/logger';
 
-const logger = createScopedLogger('AnalyticsProvider');
+const _logger = createScopedLogger('AnalyticsProvider');
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
@@ -23,7 +23,7 @@ declare global {
     gtag: (
       command: 'config' | 'event' | 'js' | 'consent',
       targetId: string | Date | 'update',
-      config?: Record<string, any>
+      config?: Record<string, unknown>
     ) => void;
     dataLayer: Array<Record<string, unknown>>;
   }
@@ -147,7 +147,15 @@ export function AnalyticsProvider({
     window.gtag = function gtag(
       ...args: [string, string | Date, Record<string, unknown>?]
     ) {
-      window.dataLayer.push(args as any);
+      const [command, targetId, config] = args;
+      const dataLayerEvent: Record<string, unknown> = {
+        event: command,
+        [typeof targetId === 'string' ? 'target_id' : 'timestamp']: targetId,
+      };
+      if (config) {
+        Object.assign(dataLayerEvent, config);
+      }
+      window.dataLayer.push(dataLayerEvent);
     };
 
     window.gtag('js', new Date());
@@ -166,7 +174,7 @@ export function AnalyticsProvider({
           custom_parameter_2: 'industry',
           custom_parameter_3: 'company_size',
         },
-      } as any);
+      } as Record<string, unknown>);
     }
 
     setIsLoaded(true);
@@ -216,7 +224,7 @@ export function AnalyticsProvider({
       if (event_label !== undefined) eventParams.event_label = event_label;
       if (value !== undefined) eventParams.value = value;
 
-      window.gtag('event', eventName, eventParams as any);
+      window.gtag('event', eventName, eventParams);
 
       // Analytics logging removed for production
     },
@@ -227,7 +235,7 @@ export function AnalyticsProvider({
   const trackEcommerce = (eventName: string, eventData: EcommerceEventData) => {
     if (!isLoaded || !consentGiven || !config.enableEcommerce) return;
 
-    window.gtag('event', eventName, eventData as any);
+    window.gtag('event', eventName, eventData as Record<string, unknown>);
 
     // Analytics logging removed for production
   };
@@ -238,7 +246,7 @@ export function AnalyticsProvider({
 
     window.gtag('config', config.googleAnalyticsId!, {
       user_properties: properties,
-    } as any);
+    } as Record<string, unknown>);
 
     // Analytics logging removed for production
   };
@@ -255,7 +263,7 @@ export function AnalyticsProvider({
       window.gtag('consent', 'update', {
         analytics_storage: consent ? 'granted' : 'denied',
         ad_storage: consent ? 'granted' : 'denied',
-      } as any);
+      } as Record<string, unknown>);
     }
 
     // Analytics logging removed for production

@@ -4,18 +4,18 @@ const path = require('path');
 function getAllTsxFiles(dir) {
   let results = [];
   const list = fs.readdirSync(dir);
-  
+
   list.forEach(file => {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
-    
+
     if (stat && stat.isDirectory()) {
       results = results.concat(getAllTsxFiles(filePath));
     } else if (file.endsWith('.tsx') || file.endsWith('.ts')) {
       results.push(filePath);
     }
   });
-  
+
   return results;
 }
 
@@ -27,7 +27,7 @@ function fixParamsNaming(filePath) {
     // Fix route handlers: { _params: Promise<...> } back to { params: Promise<...> }
     const routeParamsPattern = /\{\s*_params:\s*Promise<[^>]+>\s*\}/g;
     if (routeParamsPattern.test(content)) {
-      content = content.replace(routeParamsPattern, (match) => {
+      content = content.replace(routeParamsPattern, match => {
         return match.replace('_params:', 'params:');
       });
       modified = true;
@@ -57,7 +57,9 @@ function fixParamsNaming(filePath) {
 
     if (modified) {
       fs.writeFileSync(filePath, content, 'utf8');
-      console.log(`✅ Fixed params naming in ${path.relative(process.cwd(), filePath)}`);
+      console.log(
+        `✅ Fixed params naming in ${path.relative(process.cwd(), filePath)}`
+      );
     }
   } catch (error) {
     console.error(`❌ Error fixing ${filePath}:`, error.message);
@@ -72,7 +74,11 @@ const allFiles = getAllTsxFiles(srcDir);
 let fixedCount = 0;
 allFiles.forEach(file => {
   const content = fs.readFileSync(file, 'utf8');
-  if (content.includes('_params:') || content.includes('{ _params }') || content.includes('await _params')) {
+  if (
+    content.includes('_params:') ||
+    content.includes('{ _params }') ||
+    content.includes('await _params')
+  ) {
     fixParamsNaming(file);
     fixedCount++;
   }

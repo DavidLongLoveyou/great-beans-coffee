@@ -1,13 +1,6 @@
 import { type Metadata } from 'next';
-import {
-  Coffee,
-  Award,
-  Mountain,
-  Sparkles,
-  CheckCircle,
-  Star,
-} from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { Award, Mountain, Sparkles, CheckCircle, Star } from 'lucide-react';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -21,10 +14,12 @@ import {
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title: 'Premium Vietnamese Highland Arabica Coffee - The Great Beans',
     description:
@@ -39,6 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ArabicaPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -54,7 +50,7 @@ export default async function ArabicaPage({ params }: Props) {
               Vietnamese Highland Arabica
             </h1>
             <p className="mb-8 text-xl text-forest-700 md:text-2xl">
-              Exceptional quality from Vietnam's highland regions. Complex
+              Exceptional quality from Vietnam&rsquo;s highland regions. Complex
               flavors, bright acidity, and aromatic profiles for the specialty
               coffee market.
             </p>
@@ -64,10 +60,10 @@ export default async function ArabicaPage({ params }: Props) {
                 size="lg"
                 className="bg-emerald-600 hover:bg-emerald-700"
               >
-                <Link href={`/${params.locale}/quote`}>Request Quote</Link>
+                <Link href={`/${locale}/quote`}>Request Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>Contact Sales</Link>
+                <Link href={`/${locale}/contact`}>Contact Sales</Link>
               </Button>
             </div>
           </div>
@@ -83,7 +79,7 @@ export default async function ArabicaPage({ params }: Props) {
                 Highland Excellence
               </h2>
               <p className="text-lg text-forest-600">
-                Grown at 1,200-1,600 meters above sea level in Vietnam's
+                Grown at 1,200-1,600 meters above sea level in Vietnam&rsquo;s
                 pristine highland regions
               </p>
             </div>
@@ -313,7 +309,8 @@ export default async function ArabicaPage({ params }: Props) {
                 Growing Regions
               </h2>
               <p className="text-lg text-forest-600">
-                Our Arabica comes from Vietnam's premier highland coffee regions
+                Our Arabica comes from Vietnam&rsquo;s premier highland coffee
+                regions
               </p>
             </div>
 
@@ -499,10 +496,10 @@ export default async function ArabicaPage({ params }: Props) {
                 size="lg"
                 className="bg-emerald-600 hover:bg-emerald-700"
               >
-                <Link href={`/${params.locale}/quote`}>Get Quote</Link>
+                <Link href={`/${locale}/quote`}>Get Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>Request Samples</Link>
+                <Link href={`/${locale}/contact`}>Request Samples</Link>
               </Button>
             </div>
           </div>

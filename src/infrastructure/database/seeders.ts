@@ -554,9 +554,9 @@ export class DatabaseSeeders {
   async seedClusterData(): Promise<void> {
     // Infrastructure layer logging removed for production
 
-    let totalProducts = 0;
-    let totalServices = 0;
-    let totalArticles = 0;
+    let _totalProducts = 0;
+    let _totalServices = 0;
+    let _totalArticles = 0;
 
     // Get admin user for created/updated by fields
     const adminUser = await this.prisma.user.findFirst({
@@ -568,7 +568,7 @@ export class DatabaseSeeders {
     }
 
     // Seed cluster products
-    for (const [clusterId, products] of Object.entries(CLUSTER_PRODUCTS)) {
+    for (const [_clusterId, products] of Object.entries(CLUSTER_PRODUCTS)) {
       // Infrastructure layer logging removed for production
 
       for (const productData of products) {
@@ -656,12 +656,12 @@ export class DatabaseSeeders {
           create: translation,
         });
 
-        totalProducts++;
+        _totalProducts++;
       }
     }
 
     // Seed cluster services
-    for (const [clusterId, services] of Object.entries(CLUSTER_SERVICES)) {
+    for (const [_clusterId, services] of Object.entries(CLUSTER_SERVICES)) {
       // Infrastructure layer logging removed for production
 
       for (const serviceData of services) {
@@ -732,12 +732,12 @@ export class DatabaseSeeders {
           create: translation,
         });
 
-        totalServices++;
+        _totalServices++;
       }
     }
 
     // Seed cluster articles
-    for (const [clusterId, articles] of Object.entries(CLUSTER_ARTICLES)) {
+    for (const [_clusterId, articles] of Object.entries(CLUSTER_ARTICLES)) {
       // Infrastructure layer logging removed for production
 
       for (const articleData of articles) {
@@ -779,7 +779,7 @@ export class DatabaseSeeders {
           create: article,
         });
 
-        totalArticles++;
+        _totalArticles++;
       }
     }
 

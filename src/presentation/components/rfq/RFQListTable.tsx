@@ -283,10 +283,14 @@ export function RFQListTable({
             <TableBody>
               {loading ? (
                 // Loading skeleton
-                Array.from({ length: pagination.pageSize }).map((_, index) => (
-                  <TableRow key={`skeleton-row-${index}`}>
-                    {Array.from({ length: 10 }).map((_, cellIndex) => (
-                      <TableCell key={`skeleton-cell-${index}-${cellIndex}`}>
+                Array.from({ length: pagination.pageSize }).map((_, _index) => (
+                  <TableRow
+                    key={`skeleton-row-${pagination.page}-${Date.now()}-${Math.random()}`}
+                  >
+                    {Array.from({ length: 10 }).map((_, _cellIndex) => (
+                      <TableCell
+                        key={`skeleton-cell-${pagination.page}-${Date.now()}-${Math.random()}`}
+                      >
                         <div className="h-4 w-full animate-pulse rounded bg-gray-200" />
                       </TableCell>
                     ))}
@@ -447,8 +451,11 @@ export function RFQListTable({
         <div className="space-y-4 lg:hidden">
           {loading ? (
             // Loading skeleton for mobile
-            Array.from({ length: pagination.pageSize }).map((_, index) => (
-              <Card key={`mobile-skeleton-${index}`} className="p-4">
+            Array.from({ length: pagination.pageSize }).map((_, _index) => (
+              <Card
+                key={`mobile-skeleton-${pagination.page}-${Date.now()}-${Math.random()}`}
+                className="p-4"
+              >
                 <div className="space-y-3">
                   <div className="h-4 w-3/4 animate-pulse rounded bg-gray-200" />
                   <div className="h-3 w-1/2 animate-pulse rounded bg-gray-200" />

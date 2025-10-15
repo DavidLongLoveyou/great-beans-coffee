@@ -2,10 +2,6 @@ import { Prisma, CoffeeGrade as PrismaCoffeeGrade } from '@prisma/client';
 
 import {
   CoffeeProductEntity,
-  type CoffeeSpecifications,
-  type Pricing,
-  type Availability,
-  type OriginInfo,
   type MultilingualContent,
   type CoffeeType,
   type CoffeeGrade,

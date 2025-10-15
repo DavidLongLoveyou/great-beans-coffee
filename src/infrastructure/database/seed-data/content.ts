@@ -29,7 +29,7 @@ export interface SeedContent {
     canonicalUrl?: string;
     noIndex: boolean;
     noFollow: boolean;
-    structuredData?: any;
+    structuredData?: Record<string, unknown>;
   };
   translations: {
     [locale: string]: {

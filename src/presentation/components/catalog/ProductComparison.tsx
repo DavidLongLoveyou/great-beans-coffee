@@ -1,6 +1,6 @@
 'use client';
 
-import { X, Download, ShoppingCart, FileText } from 'lucide-react';
+import { X, Download, ShoppingCart } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 
@@ -10,16 +10,10 @@ import type { CatalogProduct } from '@/data/product-catalog';
 import {
   CoffeeGrade as CatalogCoffeeGrade,
   ProcessingMethod as CatalogProcessingMethod,
+  CertificationType,
 } from '@/data/product-catalog';
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/presentation/components/ui/card';
-import { Checkbox } from '@/presentation/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -43,8 +37,32 @@ import type {
   CoffeeOrigin,
   CoffeeGrade,
   ProcessingMethod,
+  CoffeeCertification,
 } from '@/shared/components/design-system/types';
 import { CardImage } from '@/shared/components/performance/OptimizedImage';
+
+// Helper function to map CertificationType to CoffeeCertification
+const mapCertificationToDesignSystem = (
+  cert: CertificationType
+): CoffeeCertification => {
+  const certMap: Record<CertificationType, CoffeeCertification> = {
+    [CertificationType.ORGANIC]: 'organic',
+    [CertificationType.FAIR_TRADE]: 'fair-trade',
+    [CertificationType.RAINFOREST_ALLIANCE]: 'rainforest-alliance',
+    [CertificationType.UTZ]: 'utz',
+    [CertificationType.UTZ_CERTIFIED]: 'utz',
+    [CertificationType.C_CAFE_PRACTICES]: 'c-cafe',
+    [CertificationType.BIRD_FRIENDLY]: 'bird-friendly',
+    [CertificationType.SHADE_GROWN]: 'shade-grown',
+    [CertificationType.DIRECT_TRADE]: 'direct-trade',
+    [CertificationType.ISO_22000]: 'iso-22000',
+    [CertificationType.HACCP]: 'haccp',
+    [CertificationType.BRC]: 'brc',
+    [CertificationType.KOSHER]: 'organic', // Fallback to organic for unsupported types
+    [CertificationType.HALAL]: 'organic', // Fallback to organic for unsupported types
+  };
+  return certMap[cert] || 'organic';
+};
 
 // Helper function to map region string to CoffeeOrigin type
 const mapRegionToOrigin = (region: string): CoffeeOrigin => {
@@ -151,7 +169,7 @@ export function ProductComparison({
           <div className="relative mx-auto h-20 w-20">
             <CardImage
               src={
-                product.images.find((img: any) => img.isPrimary)?.url ||
+                product.images.find(img => img.isPrimary)?.url ||
                 product.images[0]?.url ||
                 ''
               }
@@ -341,10 +359,10 @@ export function ProductComparison({
       render: product => (
         <div className="flex flex-wrap gap-1">
           {product.certifications && product.certifications.length > 0 ? (
-            product.certifications.map((cert: any, index: number) => (
+            product.certifications.map((cert: CertificationType) => (
               <CertificationBadge
-                key={`cert-${cert.name || cert}-${index}`}
-                certification={cert}
+                key={`cert-${cert}`}
+                certification={mapCertificationToDesignSystem(cert)}
               />
             ))
           ) : (

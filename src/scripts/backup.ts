@@ -17,7 +17,7 @@ import { format } from 'date-fns';
 import { createScopedLogger } from '../shared/utils/logger';
 
 const execAsync = promisify(exec);
-const logger = createScopedLogger('DatabaseBackup');
+const _logger = createScopedLogger('DatabaseBackup');
 
 interface BackupOptions {
   outputDir?: string;
@@ -168,10 +168,10 @@ class DatabaseBackup {
         return;
       }
 
-      files.forEach((file, index) => {
+      files.forEach((_file, _index) => {
         // Script layer logging removed for production
       });
-    } catch (error) {
+    } catch (_error) {
       // Script layer logging removed for production
     }
   }

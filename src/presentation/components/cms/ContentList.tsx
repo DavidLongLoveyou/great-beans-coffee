@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import {
   MoreHorizontal,
   Edit,
@@ -13,7 +14,6 @@ import {
   User,
   Globe,
   Search,
-  Filter,
   Plus,
   BookOpen,
   TrendingUp,
@@ -58,12 +58,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/presentation/components/ui/table';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/presentation/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/presentation/components/ui/tabs';
 import {
   Tooltip,
   TooltipContent,
@@ -141,9 +136,6 @@ export function ContentList({
   // Get unique values for filters
   const uniqueTypes = Array.from(new Set(items.map(item => item.type)));
   const uniqueLocales = Array.from(new Set(items.map(item => item.locale)));
-  const uniqueCategories = Array.from(
-    new Set(items.map(item => item.category))
-  );
 
   // Filter and sort items
   const filteredAndSortedItems = useMemo(() => {
@@ -454,10 +446,12 @@ export function ContentList({
                       <div className="flex items-center gap-3">
                         {item.coverImage && (
                           <div className="h-10 w-16 overflow-hidden rounded bg-muted">
-                            <img
+                            <Image
                               src={item.coverImage}
                               alt={`Cover image for ${item.title}`}
                               className="h-full w-full object-cover"
+                              width={64}
+                              height={40}
                             />
                           </div>
                         )}
@@ -550,10 +544,12 @@ export function ContentList({
               <Card key={item.id} className="overflow-hidden">
                 {item.coverImage && (
                   <div className="aspect-video w-full overflow-hidden bg-muted">
-                    <img
+                    <Image
                       src={item.coverImage}
                       alt={`Cover image for ${item.title}`}
                       className="h-full w-full object-cover"
+                      width={400}
+                      height={225}
                     />
                   </div>
                 )}

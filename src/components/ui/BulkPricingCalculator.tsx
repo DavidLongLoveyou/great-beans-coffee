@@ -144,7 +144,7 @@ export function BulkPricingCalculator({
   const exportQuote = () => {
     if (!calculation) return;
 
-    const quoteData = {
+    const _quoteData = {
       product: product.name,
       quantity: `${quantity} ${selectedUnit}`,
       unitPrice: `$${calculation.unitPrice.toFixed(2)}`,

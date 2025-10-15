@@ -8,9 +8,8 @@ import {
   Download,
   ExternalLink,
 } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+
 import Link from 'next/link';
-import Image from 'next/image';
 
 import { type Locale } from '@/i18n';
 import { Button } from '@/presentation/components/ui';
@@ -23,10 +22,12 @@ import {
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title:
       'Coffee Certifications & Quality Standards - Organic, Fair Trade, Rainforest Alliance - The Great Beans',
@@ -42,6 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CertificationsPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -67,12 +69,12 @@ export default async function CertificationsPage({ params }: Props) {
                 size="lg"
                 className="bg-green-600 hover:bg-green-700"
               >
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Request Certificates
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/products`}>
+                <Link href={`/${locale}/products`}>
                   View Certified Products
                 </Link>
               </Button>
@@ -790,12 +792,12 @@ export default async function CertificationsPage({ params }: Props) {
                 size="lg"
                 className="bg-green-600 hover:bg-green-700"
               >
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Request Certificates
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/products`}>
+                <Link href={`/${locale}/products`}>
                   View Certified Products
                 </Link>
               </Button>

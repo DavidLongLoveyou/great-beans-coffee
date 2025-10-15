@@ -18,7 +18,6 @@ import {
   type RFQSearchCriteria,
   type RFQSearchResult,
   type RFQAnalytics,
-  type IRFQRepository,
 } from '../../../domain/repositories/rfq.repository';
 import { prisma } from '../prisma';
 
@@ -440,8 +439,8 @@ export class RFQRepository {
   }
 
   async addCommunication(
-    rfqId: string,
-    communication: Omit<RFQCommunication, 'id' | 'createdAt'>
+    _rfqId: string,
+    _communication: Omit<RFQCommunication, 'id' | 'createdAt'>
   ): Promise<RFQEntity> {
     // TODO: Implement when RFQCommunication model is added to schema
     throw new Error(
@@ -450,22 +449,22 @@ export class RFQRepository {
   }
 
   async addDocument(
-    rfqId: string,
-    document: Omit<RFQDocument, 'id' | 'uploadedAt'>
+    _rfqId: string,
+    _document: Omit<RFQDocument, 'id' | 'uploadedAt'>
   ): Promise<RFQEntity> {
     // TODO: Implement when RFQDocument model is added to schema
     throw new Error('addDocument not implemented - missing RFQDocument model');
   }
 
-  async getCommunicationHistory(id: string): Promise<RFQCommunication[]> {
+  async getCommunicationHistory(_id: string): Promise<RFQCommunication[]> {
     // Placeholder implementation - would need RFQCommunication model
     return [];
   }
 
   async markAsRead(
     id: string,
-    communicationId: string,
-    readBy: string
+    _communicationId: string,
+    _readBy: string
   ): Promise<RFQEntity> {
     // Placeholder implementation - would need RFQCommunication model
     const rfq = await this.findById(id);
@@ -475,7 +474,7 @@ export class RFQRepository {
     return rfq;
   }
 
-  async getQuotes(id: string): Promise<RFQQuote[]> {
+  async getQuotes(_id: string): Promise<RFQQuote[]> {
     // Placeholder implementation - would need RFQQuote model
     return [];
   }
@@ -551,8 +550,8 @@ export class RFQRepository {
   }
 
   async getPerformanceMetrics(
-    assigneeId?: string,
-    dateRange?: { start: Date; end: Date }
+    _assigneeId?: string,
+    _dateRange?: { start: Date; end: Date }
   ): Promise<{
     totalRFQs: number;
     quotedRFQs: number;

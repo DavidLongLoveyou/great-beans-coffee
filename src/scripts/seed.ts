@@ -11,7 +11,7 @@ import { prisma } from '../infrastructure/database/prisma';
 import { databaseSeeders } from '../infrastructure/database/seeders';
 import { createScopedLogger } from '../shared/utils/logger';
 
-const logger = createScopedLogger('Seed');
+const _logger = createScopedLogger('Seed');
 
 async function main() {
   // Script layer logging removed for production
@@ -22,9 +22,9 @@ async function main() {
     // Script layer logging removed for production
 
     // Run all seeders
-    const result = await databaseSeeders.runAllSeeders();
+    const _result = await databaseSeeders.runAllSeeders();
 
-    if (result.success) {
+    if (_result.success) {
       // Script layer logging removed for production
 
       process.exit(0);
@@ -41,14 +41,14 @@ async function main() {
 }
 
 // Handle script arguments
-const args = process.argv.slice(2);
+const _args = process.argv.slice(2);
 
-if (args.includes('--help') || args.includes('-h')) {
+if (_args.includes('--help') || _args.includes('-h')) {
   // Script layer logging removed for production
   process.exit(0);
 }
 
-if (args.includes('--clear')) {
+if (_args.includes('--clear')) {
   // Script layer logging removed for production
 
   databaseSeeders
@@ -62,7 +62,7 @@ if (args.includes('--clear')) {
         process.exit(1);
       }
     })
-    .catch(error => {
+    .catch(_error => {
       // Script layer logging removed for production
       process.exit(1);
     });

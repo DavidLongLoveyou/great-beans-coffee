@@ -6,7 +6,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
-import { Button, CoffeeButton } from '@/shared/components/design-system/Button';
+import { Button } from '@/shared/components/design-system/Button';
 import {
   Card,
   CardContent,

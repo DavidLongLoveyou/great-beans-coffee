@@ -1,6 +1,6 @@
 import { type Metadata } from 'next';
 import { Coffee, Palette, Target, Zap, CheckCircle, Star } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -14,10 +14,12 @@ import {
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title:
       'Premium Coffee Blends - Vietnamese Robusta & Arabica - The Great Beans',
@@ -34,6 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlendsPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -59,10 +62,10 @@ export default async function BlendsPage({ params }: Props) {
                 size="lg"
                 className="bg-purple-600 hover:bg-purple-700"
               >
-                <Link href={`/${params.locale}/quote`}>Request Quote</Link>
+                <Link href={`/${locale}/quote`}>Request Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>Custom Blending</Link>
+                <Link href={`/${locale}/contact`}>Custom Blending</Link>
               </Button>
             </div>
           </div>
@@ -109,9 +112,9 @@ export default async function BlendsPage({ params }: Props) {
                     Best of Both Worlds
                   </h3>
                   <p className="text-forest-600">
-                    Combine Robusta's strength and crema with Arabica's
-                    complexity and aroma for blends that excel in both flavor
-                    and performance.
+                    Combine Robusta&rsquo;s strength and crema with
+                    Arabica&rsquo;s complexity and aroma for blends that excel
+                    in both flavor and performance.
                   </p>
                 </CardContent>
               </Card>
@@ -505,10 +508,10 @@ export default async function BlendsPage({ params }: Props) {
                 size="lg"
                 className="bg-purple-600 hover:bg-purple-700"
               >
-                <Link href={`/${params.locale}/quote`}>Start Custom Blend</Link>
+                <Link href={`/${locale}/quote`}>Start Custom Blend</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Speak with Expert
                 </Link>
               </Button>

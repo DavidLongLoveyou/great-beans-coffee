@@ -7,12 +7,13 @@ import { Button } from '@/presentation/components/ui';
 import Link from 'next/link';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({
-    locale: params.locale,
+    locale: locale,
     namespace: 'about',
   });
 
@@ -28,12 +29,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function AboutPage({ params }: Props) {
-  const t = await getTranslations({
-    locale: params.locale,
+  const { locale } = await params;
+  const _t = await getTranslations({
+    locale: locale,
     namespace: 'about',
   });
-  const nav = await getTranslations({
-    locale: params.locale,
+  const _nav = await getTranslations({
+    locale: locale,
     namespace: 'navigation',
   });
 
@@ -62,10 +64,10 @@ export default async function AboutPage({ params }: Props) {
                 size="lg"
                 className="bg-emerald-600 hover:bg-emerald-700"
               >
-                <Link href={`/${params.locale}/contact`}>Get in Touch</Link>
+                <Link href={`/${locale}/contact`}>Get in Touch</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/products`}>
+                <Link href={`/${locale}/products`}>
                   View Our Products
                 </Link>
               </Button>
@@ -90,8 +92,8 @@ export default async function AboutPage({ params }: Props) {
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div className="space-y-6">
                 <p className="text-lg text-forest-700">
-                  Founded in 2010 in the heart of Vietnam's coffee region, The
-                  Great Beans began as a small family business with a big
+                  Founded in 2010 in the heart of Vietnam&rsquo;s coffee region,
+                  The Great Beans began as a small family business with a big
                   vision: to share the exceptional quality of Vietnamese coffee
                   with the world.
                 </p>
@@ -105,9 +107,9 @@ export default async function AboutPage({ params }: Props) {
                 </p>
                 <p className="text-lg text-forest-700">
                   Every bean tells a story of dedication, from the careful
-                  cultivation in Vietnam's highland regions to the meticulous
-                  processing that preserves the unique characteristics that make
-                  Vietnamese coffee exceptional.
+                  cultivation in Vietnam&rsquo;s highland regions to the
+                  meticulous processing that preserves the unique
+                  characteristics that make Vietnamese coffee exceptional.
                 </p>
               </div>
 
@@ -254,12 +256,12 @@ export default async function AboutPage({ params }: Props) {
                 size="lg"
                 className="bg-emerald-600 hover:bg-emerald-700"
               >
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Start Partnership
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/quote`}>Request Quote</Link>
+                <Link href={`/${locale}/quote`}>Request Quote</Link>
               </Button>
             </div>
           </div>

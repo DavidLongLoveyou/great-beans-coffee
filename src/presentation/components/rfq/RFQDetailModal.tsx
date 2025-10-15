@@ -292,17 +292,15 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                         {t('detail.certifications')}
                       </label>
                       <div className="mt-1 flex flex-wrap gap-1 sm:gap-2">
-                        {rfq.productRequirements.certifications.map(
-                          (cert, index) => (
-                            <Badge
-                              key={`cert-${cert}-${index}`}
-                              variant="outline"
-                              className="text-xs"
-                            >
-                              {cert}
-                            </Badge>
-                          )
-                        )}
+                        {rfq.productRequirements.certifications.map(cert => (
+                          <Badge
+                            key={`cert-${cert}`}
+                            variant="outline"
+                            className="text-xs"
+                          >
+                            {cert}
+                          </Badge>
+                        ))}
                       </div>
                     </div>
                   )}
@@ -612,9 +610,9 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {rfq.attachments.map((attachment, index) => (
+                    {rfq.attachments.map(attachment => (
                       <div
-                        key={`attachment-${attachment.name}-${index}`}
+                        key={`attachment-${attachment.name}-${attachment.size}`}
                         className="flex items-center justify-between rounded-lg border p-3"
                       >
                         <div className="flex items-center gap-3">
@@ -653,7 +651,7 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                   <div className="space-y-4">
                     {rfq.timeline.map((event, index) => (
                       <div
-                        key={`timeline-${event.status}-${event.date}-${index}`}
+                        key={`timeline-${event.status}-${event.date}-${event.user}`}
                         className="flex gap-4"
                       >
                         <div className="flex flex-col items-center">
@@ -747,18 +745,16 @@ export function RFQDetailModal({ isOpen, onClose, rfq }: RFQDetailModalProps) {
                               {t('detail.attachments')}
                             </label>
                             <div className="mt-2 flex gap-2">
-                              {quote.attachments.map(
-                                (attachment, attachIndex) => (
-                                  <Button
-                                    key={attachIndex}
-                                    variant="outline"
-                                    size="sm"
-                                  >
-                                    <Download className="mr-2 h-4 w-4" />
-                                    {attachment.name}
-                                  </Button>
-                                )
-                              )}
+                              {quote.attachments.map(attachment => (
+                                <Button
+                                  key={`quote-attachment-${attachment.name}`}
+                                  variant="outline"
+                                  size="sm"
+                                >
+                                  <Download className="mr-2 h-4 w-4" />
+                                  {attachment.name}
+                                </Button>
+                              ))}
                             </div>
                           </div>
                         )}

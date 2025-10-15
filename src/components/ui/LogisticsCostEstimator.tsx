@@ -1,17 +1,8 @@
 'use client';
 
-import {
-  Calculator,
-  Ship,
-  Truck,
-  Plane,
-  Package,
-  Info,
-  Loader2,
-  CheckCircle,
-} from 'lucide-react';
+import { Calculator, Ship, Truck, Plane, Info, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 import {
   Tooltip,
@@ -37,12 +28,8 @@ import {
   SelectValue,
 } from '@/presentation/components/ui/select';
 import { Separator } from '@/presentation/components/ui/separator';
-import { getMarketConfig } from '@/shared/config/markets';
+
 import { useMarket, useMarketShipping } from '@/shared/hooks/useMarket';
-import {
-  calculateShippingEstimate,
-  getNearestPort,
-} from '@/shared/utils/market';
 
 interface LogisticsCostEstimatorProps {
   className?: string;

@@ -484,8 +484,8 @@ function Pagination({
         Previous
       </Button>
 
-      {visiblePages.map((page, index) => (
-        <div key={`page-${page}-${index}`}>
+      {visiblePages.map(page => (
+        <div key={`page-${page}`}>
           {page === '...' ? (
             <span className="px-3 py-2 text-gray-500">...</span>
           ) : (
@@ -555,9 +555,9 @@ export function SearchResults({
           className
         )}
       >
-        {Array.from({ length: layout === 'grid' ? 6 : 5 }).map((_, index) => (
+        {Array.from({ length: layout === 'grid' ? 6 : 5 }).map((_, _index) => (
           <SearchResultSkeleton
-            key={`skeleton-${layout}-${index}`}
+            key={`skeleton-${layout}-${Date.now()}-${Math.random()}`}
             layout={layout}
           />
         ))}

@@ -1,6 +1,6 @@
 import { createScopedLogger } from '../../shared/utils/logger';
 
-const logger = createScopedLogger('EmailService');
+const _logger = createScopedLogger('EmailService');
 
 export interface IEmailService {
   sendEmail(to: string, subject: string, content: string): Promise<boolean>;
@@ -18,9 +18,9 @@ export interface IEmailService {
 
 class EmailServiceImpl implements IEmailService {
   async sendEmail(
-    to: string,
-    subject: string,
-    content: string
+    _to: string,
+    _subject: string,
+    _content: string
   ): Promise<boolean> {
     // Mock implementation for development
     // Application layer logging removed for production

@@ -9,7 +9,7 @@ import {
   Lightbulb,
   Target,
 } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -23,10 +23,12 @@ import {
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: _params,
+}: Props): Promise<Metadata> {
   return {
     title:
       'Private Label Coffee Services - Custom Coffee Branding - The Great Beans',
@@ -43,6 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PrivateLabelPage({ params }: Props) {
+  const { locale } = await params;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -67,10 +70,10 @@ export default async function PrivateLabelPage({ params }: Props) {
                 size="lg"
                 className="bg-purple-600 hover:bg-purple-700"
               >
-                <Link href={`/${params.locale}/quote`}>Start Your Brand</Link>
+                <Link href={`/${locale}/quote`}>Start Your Brand</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Brand Consultation
                 </Link>
               </Button>
@@ -311,7 +314,7 @@ export default async function PrivateLabelPage({ params }: Props) {
                 Private Label Success Stories
               </h2>
               <p className="text-lg text-forest-600">
-                Brands we've helped launch and grow in global markets
+                Brands we&rsquo;ve helped launch and grow in global markets
               </p>
             </div>
 
@@ -694,7 +697,7 @@ export default async function PrivateLabelPage({ params }: Props) {
             <p className="mb-8 text-lg text-forest-600">
               Turn your coffee business vision into reality with our
               comprehensive private label services. From concept to market
-              success, we're your partner.
+              success, we&rsquo;re your partner.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button
@@ -702,10 +705,10 @@ export default async function PrivateLabelPage({ params }: Props) {
                 size="lg"
                 className="bg-purple-600 hover:bg-purple-700"
               >
-                <Link href={`/${params.locale}/quote`}>Start Your Brand</Link>
+                <Link href={`/${locale}/quote`}>Start Your Brand</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>
+                <Link href={`/${locale}/contact`}>
                   Schedule Consultation
                 </Link>
               </Button>
