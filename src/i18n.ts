@@ -133,7 +133,8 @@ export default getRequestConfig(async ({ locale }) => {
   }
 
   try {
-    const messages: Messages = (await import(`../messages/${locale}.json`)).default;
+    const messages: Messages = (await import(`../messages/${locale}.json`))
+      .default;
     return {
       locale: locale as string,
       messages,
@@ -146,7 +147,9 @@ export default getRequestConfig(async ({ locale }) => {
 
     // Try to load default locale messages as fallback
     try {
-      const fallbackMessages: Messages = (await import(`../messages/${defaultLocale}.json`)).default;
+      const fallbackMessages: Messages = (
+        await import(`../messages/${defaultLocale}.json`)
+      ).default;
       return {
         locale: defaultLocale,
         messages: fallbackMessages,

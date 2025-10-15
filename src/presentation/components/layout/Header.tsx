@@ -55,7 +55,7 @@ export default function Header({ locale }: Props) {
         {/* Navigation */}
         <NavigationMenu
           id="navigation"
-          className="hidden lg:flex bg-white/90 backdrop-blur-md rounded-2xl border border-forest-200/40 shadow-lg shadow-forest-900/5 px-3 py-2 ring-1 ring-forest-100/20"
+          className="hidden rounded-2xl border border-forest-200/40 bg-white/90 px-3 py-2 shadow-lg shadow-forest-900/5 ring-1 ring-forest-100/20 backdrop-blur-md lg:flex"
           role="navigation"
           aria-label="Main navigation"
         >
@@ -72,7 +72,7 @@ export default function Header({ locale }: Props) {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="h-9 px-3 rounded-lg text-sm font-medium text-forest-700 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 data-[state=open]:bg-forest-100 data-[state=open]:text-forest-900">
+              <NavigationMenuTrigger className="h-9 rounded-lg px-3 text-sm font-medium text-forest-700 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 data-[state=open]:bg-forest-100 data-[state=open]:text-forest-900">
                 {t('products')}
               </NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -143,7 +143,7 @@ export default function Header({ locale }: Props) {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="h-9 px-3 rounded-lg text-sm font-medium text-forest-700 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 data-[state=open]:bg-forest-100 data-[state=open]:text-forest-900">
+              <NavigationMenuTrigger className="h-9 rounded-lg px-3 text-sm font-medium text-forest-700 hover:bg-forest-50 hover:text-forest-800 focus:bg-forest-100 data-[state=open]:bg-forest-100 data-[state=open]:text-forest-900">
                 {t('solutions')}
               </NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -283,11 +283,14 @@ export default function Header({ locale }: Props) {
         </NavigationMenu>
 
         {/* Right side actions */}
-        <div className="flex items-center space-x-3 bg-white/90 backdrop-blur-md rounded-2xl border border-forest-200/40 px-4 py-2 shadow-lg shadow-forest-900/5 ring-1 ring-forest-100/20">
+        <div className="flex items-center space-x-3 rounded-2xl border border-forest-200/40 bg-white/90 px-4 py-2 shadow-lg shadow-forest-900/5 ring-1 ring-forest-100/20 backdrop-blur-md">
           <div className="hidden md:flex">
             <LanguageSwitcher />
           </div>
-          <Button asChild className="hidden md:flex h-9 px-4 text-sm bg-emerald-600 hover:bg-emerald-700 text-white shadow-md">
+          <Button
+            asChild
+            className="hidden h-9 bg-emerald-600 px-4 text-sm text-white shadow-md hover:bg-emerald-700 md:flex"
+          >
             <Link href={`/${locale}/quote`}>{t('requestQuote')}</Link>
           </Button>
 
@@ -295,7 +298,7 @@ export default function Header({ locale }: Props) {
           {isMounted && (
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-xl text-forest-700 transition-all duration-200 hover:bg-forest-50 hover:shadow-md lg:hidden border border-forest-200/40 bg-white/50 backdrop-blur-sm"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-forest-200/40 bg-white/50 text-forest-700 backdrop-blur-sm transition-all duration-200 hover:bg-forest-50 hover:shadow-md lg:hidden"
               aria-label={
                 isMobileMenuOpen ? 'Close mobile menu' : 'Open mobile menu'
               }
@@ -311,8 +314,6 @@ export default function Header({ locale }: Props) {
             </button>
           )}
         </div>
-
-
       </div>
 
       {/* Mobile Menu Overlay */}
@@ -324,11 +325,11 @@ export default function Header({ locale }: Props) {
             onClick={() => setIsMobileMenuOpen(false)}
             aria-hidden="true"
           />
-          
+
           {/* Mobile Menu Popup */}
           <div
             id="mobile-menu"
-            className="fixed top-20 right-4 z-[9999] w-80 max-w-[calc(100vw-2rem)] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-forest-200/60 ring-1 ring-forest-100/30 lg:hidden"
+            className="fixed right-4 top-20 z-[9999] w-80 max-w-[calc(100vw-2rem)] rounded-2xl border border-forest-200/60 bg-white/95 shadow-2xl ring-1 ring-forest-100/30 backdrop-blur-lg lg:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation menu"
@@ -350,7 +351,7 @@ export default function Header({ locale }: Props) {
               </div>
 
               <nav
-                className="flex-1 overflow-y-auto px-4 py-4 space-y-2"
+                className="flex-1 space-y-2 overflow-y-auto px-4 py-4"
                 role="navigation"
                 aria-label="Mobile navigation"
               >
@@ -363,7 +364,7 @@ export default function Header({ locale }: Props) {
                 </Link>
 
                 <div className="space-y-1">
-                  <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-forest-600 bg-forest-50 rounded-md">
+                  <div className="rounded-md bg-forest-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-forest-600">
                     {t('products')}
                   </div>
                   <Link
@@ -390,7 +391,7 @@ export default function Header({ locale }: Props) {
                 </div>
 
                 <div className="space-y-1">
-                  <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-forest-600 bg-forest-50 rounded-md">
+                  <div className="rounded-md bg-forest-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-forest-600">
                     {t('solutions')}
                   </div>
                   <Link
@@ -435,16 +436,14 @@ export default function Header({ locale }: Props) {
               </nav>
 
               {/* Mobile menu footer */}
-              <div className="border-t border-forest-100 px-4 py-4 bg-forest-25">
+              <div className="bg-forest-25 border-t border-forest-100 px-4 py-4">
                 <div className="flex flex-col space-y-3">
                   <LanguageSwitcher />
                   <Button
                     asChild
-                    className="w-full h-10 text-sm font-medium bg-forest-600 hover:bg-forest-700 text-white shadow-md"
+                    className="h-10 w-full bg-forest-600 text-sm font-medium text-white shadow-md hover:bg-forest-700"
                   >
-                    <Link href={`/${locale}/contact`}>
-                      {t('requestQuote')}
-                    </Link>
+                    <Link href={`/${locale}/contact`}>{t('requestQuote')}</Link>
                   </Button>
                 </div>
               </div>

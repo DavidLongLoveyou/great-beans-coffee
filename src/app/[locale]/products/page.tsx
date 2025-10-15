@@ -350,7 +350,10 @@ export default function ProductsPage() {
       ),
     ].join('\n');
 
-    downloadCSV(csvContent, `vietnamese-coffee-products-${new Date().toISOString().split('T')[0]}`);
+    downloadCSV(
+      csvContent,
+      `vietnamese-coffee-products-${new Date().toISOString().split('T')[0]}`
+    );
   };
 
   // Generate bulk quote request

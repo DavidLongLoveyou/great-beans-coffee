@@ -74,7 +74,9 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     return this.repository.findAll();
   }
 
-  async create(rfq: Omit<RFQ, 'id' | 'rfqNumber' | 'submittedAt' | 'updatedAt'>): Promise<RFQEntity> {
+  async create(
+    rfq: Omit<RFQ, 'id' | 'rfqNumber' | 'submittedAt' | 'updatedAt'>
+  ): Promise<RFQEntity> {
     return this.repository.create(rfq as any);
   }
 
@@ -210,7 +212,10 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     return this.repository.getQuotes(id);
   }
 
-  async createQuote(id: string, quote: Omit<RFQQuote, 'id' | 'createdAt'>): Promise<RFQQuote> {
+  async createQuote(
+    id: string,
+    quote: Omit<RFQQuote, 'id' | 'createdAt'>
+  ): Promise<RFQQuote> {
     return this.repository.createQuote(id, quote);
   }
 
@@ -230,7 +235,10 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     );
   }
 
-  async addQuote(id: string, quote: Omit<RFQQuote, 'id' | 'createdAt'>): Promise<RFQEntity> {
+  async addQuote(
+    id: string,
+    quote: Omit<RFQQuote, 'id' | 'createdAt'>
+  ): Promise<RFQEntity> {
     throw new Error('Method not implemented');
   }
 
@@ -336,7 +344,9 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     throw new Error('Method not implemented');
   }
 
-  async findByProductRequirements(requirements: Partial<RFQ['productRequirements']>): Promise<RFQEntity[]> {
+  async findByProductRequirements(
+    requirements: Partial<RFQ['productRequirements']>
+  ): Promise<RFQEntity[]> {
     throw new Error('Method not implemented');
   }
 
@@ -406,11 +416,16 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     return '';
   }
 
-  async importFromCSV(csvData: string, importedBy: string): Promise<{ success: boolean; errors: string[] }> {
+  async importFromCSV(
+    csvData: string,
+    importedBy: string
+  ): Promise<{ success: boolean; errors: string[] }> {
     return { success: true, errors: [] };
   }
 
-  async validateRFQData(data: Partial<RFQ>): Promise<{ isValid: boolean; errors: string[] }> {
+  async validateRFQData(
+    data: Partial<RFQ>
+  ): Promise<{ isValid: boolean; errors: string[] }> {
     return { isValid: true, errors: [] };
   }
 
@@ -423,15 +438,29 @@ export class RFQRepositoryAdapter implements IRFQRepository {
   }
 
   async findArchived(criteria?: RFQSearchCriteria): Promise<RFQSearchResult> {
-    return { rfqs: [], total: 0, page: 1, limit: 10, totalPages: 0, hasNext: false, hasPrevious: false };
+    return {
+      rfqs: [],
+      total: 0,
+      page: 1,
+      limit: 10,
+      totalPages: 0,
+      hasNext: false,
+      hasPrevious: false,
+    };
   }
 
   // Additional missing methods
-  async getConversionFunnel(): Promise<Array<{ status: RFQStatus; count: number; percentage: number }>> {
+  async getConversionFunnel(): Promise<
+    Array<{ status: RFQStatus; count: number; percentage: number }>
+  > {
     return [];
   }
 
-  async getTopClients(limit?: number): Promise<Array<{ clientId: string; rfqCount: number; totalValue: number }>> {
+  async getTopClients(
+    limit?: number
+  ): Promise<
+    Array<{ clientId: string; rfqCount: number; totalValue: number }>
+  > {
     return [];
   }
 
@@ -447,7 +476,9 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     throw new Error('Method not implemented');
   }
 
-  async getFollowUpReminders(dueDate?: Date): Promise<{ rfqId: string; reminderDate: Date; notes?: string }[]> {
+  async getFollowUpReminders(
+    dueDate?: Date
+  ): Promise<{ rfqId: string; reminderDate: Date; notes?: string }[]> {
     return [];
   }
 
@@ -459,15 +490,28 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     throw new Error('Method not implemented');
   }
 
-  async getDashboardMetrics(userId?: string): Promise<{ totalRFQs: number; pendingRFQs: number; completedRFQs: number }> {
+  async getDashboardMetrics(userId?: string): Promise<{
+    totalRFQs: number;
+    pendingRFQs: number;
+    completedRFQs: number;
+  }> {
     return { totalRFQs: 0, pendingRFQs: 0, completedRFQs: 0 };
   }
 
-  async getRecentActivity(limit?: number): Promise<{ id: string; action: string; timestamp: Date; userId: string }[]> {
+  async getRecentActivity(
+    limit?: number
+  ): Promise<
+    { id: string; action: string; timestamp: Date; userId: string }[]
+  > {
     return [];
   }
 
-  async getNotifications(userId: string, unreadOnly?: boolean): Promise<{ id: string; message: string; read: boolean; createdAt: Date }[]> {
+  async getNotifications(
+    userId: string,
+    unreadOnly?: boolean
+  ): Promise<
+    { id: string; message: string; read: boolean; createdAt: Date }[]
+  > {
     return [];
   }
 
@@ -482,7 +526,10 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     return [];
   }
 
-  async findDuplicates(clientId: string, productRequirements: RFQ['productRequirements']): Promise<RFQEntity[]> {
+  async findDuplicates(
+    clientId: string,
+    productRequirements: RFQ['productRequirements']
+  ): Promise<RFQEntity[]> {
     return [];
   }
 
@@ -490,12 +537,20 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     return Buffer.from('');
   }
 
-  async generateReport(type: 'summary' | 'detailed' | 'performance', criteria?: RFQSearchCriteria): Promise<RFQReport> {
+  async generateReport(
+    type: 'summary' | 'detailed' | 'performance',
+    criteria?: RFQSearchCriteria
+  ): Promise<RFQReport> {
     return {
       type,
       generatedAt: new Date(),
       dateRange: { start: new Date(), end: new Date() },
-      summary: { totalRFQs: 0, totalValue: 0, averageValue: 0, conversionRate: 0 },
+      summary: {
+        totalRFQs: 0,
+        totalValue: 0,
+        averageValue: 0,
+        conversionRate: 0,
+      },
       analytics: {
         totalRFQs: 0,
         rfqsByStatus: {
@@ -540,15 +595,22 @@ export class RFQRepositoryAdapter implements IRFQRepository {
         countryBreakdown: {},
       },
       charts: [],
-      recommendations: []
+      recommendations: [],
     };
   }
 
-  async scheduleReport(config: { type: string; criteria?: RFQSearchCriteria; schedule: string; userId: string }): Promise<string> {
+  async scheduleReport(config: {
+    type: string;
+    criteria?: RFQSearchCriteria;
+    schedule: string;
+    userId: string;
+  }): Promise<string> {
     return '';
   }
 
-  async getScheduledReports(userId?: string): Promise<{ id: string; type: string; schedule: string; userId: string }[]> {
+  async getScheduledReports(
+    userId?: string
+  ): Promise<{ id: string; type: string; schedule: string; userId: string }[]> {
     return [];
   }
 
@@ -556,16 +618,35 @@ export class RFQRepositoryAdapter implements IRFQRepository {
     // No-op
   }
 
-  async getAuditTrail(rfqId: string): Promise<{ id: string; action: string; userId: string; timestamp: Date; changes: Record<string, unknown> }[]> {
+  async getAuditTrail(rfqId: string): Promise<
+    {
+      id: string;
+      action: string;
+      userId: string;
+      timestamp: Date;
+      changes: Record<string, unknown>;
+    }[]
+  > {
     return [];
   }
 
   // Final missing methods
-  async getHistory(id: string): Promise<Array<{ timestamp: Date; changes: Partial<RFQ>; changedBy: string }>> {
+  async getHistory(
+    id: string
+  ): Promise<
+    Array<{ timestamp: Date; changes: Partial<RFQ>; changedBy: string }>
+  > {
     return [];
   }
 
-  async getStatusHistory(id: string): Promise<Array<{ status: RFQStatus; timestamp: Date; changedBy: string; notes?: string }>> {
+  async getStatusHistory(id: string): Promise<
+    Array<{
+      status: RFQStatus;
+      timestamp: Date;
+      changedBy: string;
+      notes?: string;
+    }>
+  > {
     return [];
   }
 

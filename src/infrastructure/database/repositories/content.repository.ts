@@ -1,6 +1,9 @@
 import { Prisma } from '@prisma/client';
 
-import { ContentEntity, type ContentTranslation as EntityContentTranslation } from '../../../domain/entities/content.entity';
+import {
+  ContentEntity,
+  type ContentTranslation as EntityContentTranslation,
+} from '../../../domain/entities/content.entity';
 import { prisma } from '../prisma';
 
 // Types for translation and sitemap data
@@ -60,7 +63,7 @@ type PrismaContent = {
   createdAt: Date;
   updatedAt: Date;
   authorId: string;
-}
+};
 
 export interface IContentRepository {
   findById(id: string, locale?: string): Promise<ContentEntity | null>;
@@ -364,11 +367,17 @@ export class ContentRepository implements IContentRepository {
         publishedAt: entityData.publishedAt || null,
         authorId: entityData.createdBy,
         // Store complex data as JSON
-        media: entityData.media ? JSON.parse(JSON.stringify(entityData.media)) : null,
-        tags: entityData.tags ? JSON.parse(JSON.stringify(entityData.tags)) : null,
+        media: entityData.media
+          ? JSON.parse(JSON.stringify(entityData.media))
+          : null,
+        tags: entityData.tags
+          ? JSON.parse(JSON.stringify(entityData.tags))
+          : null,
         metaTitle: defaultTranslation.seoMetadata?.title || null,
         metaDescription: defaultTranslation.seoMetadata?.description || null,
-        metaKeywords: defaultTranslation.seoMetadata?.keywords ? JSON.parse(JSON.stringify(defaultTranslation.seoMetadata.keywords)) : null,
+        metaKeywords: defaultTranslation.seoMetadata?.keywords
+          ? JSON.parse(JSON.stringify(defaultTranslation.seoMetadata.keywords))
+          : null,
       },
     });
 
@@ -380,23 +389,26 @@ export class ContentRepository implements IContentRepository {
     data: Partial<ContentEntity>
   ): Promise<ContentEntity> {
     // Extract data from ContentEntity if needed
-    const entityData =
-      data instanceof ContentEntity ? data.toJSON() : data;
+    const entityData = data instanceof ContentEntity ? data.toJSON() : data;
 
     const updateData: ContentUpdateData = {};
 
     // Only update fields that exist in Prisma schema
-    if ('type' in entityData && entityData.type) updateData.type = entityData.type;
-    if ('status' in entityData && entityData.status) updateData.status = entityData.status;
-    if ('category' in entityData && entityData.category) updateData.category = entityData.category;
+    if ('type' in entityData && entityData.type)
+      updateData.type = entityData.type;
+    if ('status' in entityData && entityData.status)
+      updateData.status = entityData.status;
+    if ('category' in entityData && entityData.category)
+      updateData.category = entityData.category;
     if ('publishedAt' in entityData && entityData.publishedAt !== undefined)
       updateData.publishedAt = entityData.publishedAt;
 
     // Handle translations
     if (entityData.translations) {
       const defaultTranslation =
-        entityData.translations.find((t: EntityContentTranslation) => t.isDefault) ||
-        entityData.translations[0];
+        entityData.translations.find(
+          (t: EntityContentTranslation) => t.isDefault
+        ) || entityData.translations[0];
       if (defaultTranslation) {
         updateData.title = defaultTranslation.title;
         updateData.slug = defaultTranslation.slug;
@@ -406,8 +418,9 @@ export class ContentRepository implements IContentRepository {
         updateData.metaTitle = defaultTranslation.seoMetadata?.title || null;
         updateData.metaDescription =
           defaultTranslation.seoMetadata?.description || null;
-        updateData.metaKeywords =
-          defaultTranslation.seoMetadata?.keywords ? JSON.parse(JSON.stringify(defaultTranslation.seoMetadata.keywords)) : undefined;
+        updateData.metaKeywords = defaultTranslation.seoMetadata?.keywords
+          ? JSON.parse(JSON.stringify(defaultTranslation.seoMetadata.keywords))
+          : undefined;
       }
     }
 

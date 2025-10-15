@@ -1,11 +1,23 @@
 import { type Metadata } from 'next';
-import { Coffee, Award, Mountain, Sparkles, CheckCircle, Star } from 'lucide-react';
+import {
+  Coffee,
+  Award,
+  Mountain,
+  Sparkles,
+  CheckCircle,
+  Star,
+} from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
 import { Button } from '@/presentation/components/ui';
-import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/presentation/components/ui/card';
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
@@ -15,10 +27,12 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: 'Premium Vietnamese Highland Arabica Coffee - The Great Beans',
-    description: 'Discover our exceptional Vietnamese Highland Arabica coffee beans. Grown at high altitudes with complex flavors, bright acidity, and aromatic profiles for specialty coffee markets.',
+    description:
+      'Discover our exceptional Vietnamese Highland Arabica coffee beans. Grown at high altitudes with complex flavors, bright acidity, and aromatic profiles for specialty coffee markets.',
     openGraph: {
       title: 'Premium Vietnamese Highland Arabica Coffee - The Great Beans',
-      description: 'Discover our exceptional Vietnamese Highland Arabica coffee beans. Grown at high altitudes with complex flavors and bright acidity.',
+      description:
+        'Discover our exceptional Vietnamese Highland Arabica coffee beans. Grown at high altitudes with complex flavors and bright acidity.',
       type: 'website',
     },
   };
@@ -40,11 +54,16 @@ export default async function ArabicaPage({ params }: Props) {
               Vietnamese Highland Arabica
             </h1>
             <p className="mb-8 text-xl text-forest-700 md:text-2xl">
-              Exceptional quality from Vietnam's highland regions. Complex flavors, 
-              bright acidity, and aromatic profiles for the specialty coffee market.
+              Exceptional quality from Vietnam's highland regions. Complex
+              flavors, bright acidity, and aromatic profiles for the specialty
+              coffee market.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-700">
+              <Button
+                asChild
+                size="lg"
+                className="bg-emerald-600 hover:bg-emerald-700"
+              >
                 <Link href={`/${params.locale}/quote`}>Request Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
@@ -64,46 +83,56 @@ export default async function ArabicaPage({ params }: Props) {
                 Highland Excellence
               </h2>
               <p className="text-lg text-forest-600">
-                Grown at 1,200-1,600 meters above sea level in Vietnam's pristine highland regions
+                Grown at 1,200-1,600 meters above sea level in Vietnam's
+                pristine highland regions
               </p>
             </div>
-            
+
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               <Card>
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100">
                     <Mountain className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">High Altitude Growing</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    High Altitude Growing
+                  </h3>
                   <p className="text-forest-600">
-                    Cultivated at optimal altitudes of 1,200-1,600m in Da Lat and surrounding 
-                    highland regions, ensuring slow maturation and complex flavor development.
+                    Cultivated at optimal altitudes of 1,200-1,600m in Da Lat
+                    and surrounding highland regions, ensuring slow maturation
+                    and complex flavor development.
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100">
                     <Sparkles className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Complex Flavor Profile</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Complex Flavor Profile
+                  </h3>
                   <p className="text-forest-600">
-                    Bright acidity, floral notes, and fruity undertones create a sophisticated 
-                    cup profile perfect for specialty coffee applications.
+                    Bright acidity, floral notes, and fruity undertones create a
+                    sophisticated cup profile perfect for specialty coffee
+                    applications.
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100">
                     <Award className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Specialty Grade</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Specialty Grade
+                  </h3>
                   <p className="text-forest-600">
-                    Carefully hand-picked and processed to meet Specialty Coffee Association 
-                    standards, with minimal defects and exceptional cup quality.
+                    Carefully hand-picked and processed to meet Specialty Coffee
+                    Association standards, with minimal defects and exceptional
+                    cup quality.
                   </p>
                 </CardContent>
               </Card>
@@ -118,7 +147,9 @@ export default async function ArabicaPage({ params }: Props) {
           <div className="mx-auto max-w-6xl">
             <div className="grid gap-12 lg:grid-cols-2">
               <div>
-                <h2 className="mb-6 text-3xl font-bold text-forest-900">Product Specifications</h2>
+                <h2 className="mb-6 text-3xl font-bold text-forest-900">
+                  Product Specifications
+                </h2>
                 <div className="space-y-6">
                   <Card>
                     <CardHeader>
@@ -177,12 +208,16 @@ export default async function ArabicaPage({ params }: Props) {
               </div>
 
               <div>
-                <h2 className="mb-6 text-3xl font-bold text-forest-900">Flavor Profile</h2>
+                <h2 className="mb-6 text-3xl font-bold text-forest-900">
+                  Flavor Profile
+                </h2>
                 <Card>
                   <CardContent className="p-6">
                     <div className="space-y-6">
                       <div>
-                        <h4 className="mb-2 font-semibold text-forest-900">Tasting Notes</h4>
+                        <h4 className="mb-2 font-semibold text-forest-900">
+                          Tasting Notes
+                        </h4>
                         <div className="flex flex-wrap gap-2">
                           <Badge variant="secondary">Floral</Badge>
                           <Badge variant="secondary">Citrus</Badge>
@@ -192,25 +227,35 @@ export default async function ArabicaPage({ params }: Props) {
                           <Badge variant="secondary">Honey</Badge>
                         </div>
                       </div>
-                      
+
                       <div>
-                        <h4 className="mb-3 font-semibold text-forest-900">Characteristics</h4>
+                        <h4 className="mb-3 font-semibold text-forest-900">
+                          Characteristics
+                        </h4>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
                             <CheckCircle className="h-4 w-4 text-emerald-500" />
-                            <span className="text-forest-600">Bright, clean acidity</span>
+                            <span className="text-forest-600">
+                              Bright, clean acidity
+                            </span>
                           </div>
                           <div className="flex items-center gap-2">
                             <CheckCircle className="h-4 w-4 text-emerald-500" />
-                            <span className="text-forest-600">Medium to full body</span>
+                            <span className="text-forest-600">
+                              Medium to full body
+                            </span>
                           </div>
                           <div className="flex items-center gap-2">
                             <CheckCircle className="h-4 w-4 text-emerald-500" />
-                            <span className="text-forest-600">Complex aromatic profile</span>
+                            <span className="text-forest-600">
+                              Complex aromatic profile
+                            </span>
                           </div>
                           <div className="flex items-center gap-2">
                             <CheckCircle className="h-4 w-4 text-emerald-500" />
-                            <span className="text-forest-600">Long, pleasant finish</span>
+                            <span className="text-forest-600">
+                              Long, pleasant finish
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -219,23 +264,37 @@ export default async function ArabicaPage({ params }: Props) {
                 </Card>
 
                 <div className="mt-6">
-                  <h3 className="mb-4 text-xl font-semibold text-forest-900">Best Uses</h3>
+                  <h3 className="mb-4 text-xl font-semibold text-forest-900">
+                    Best Uses
+                  </h3>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="rounded-lg bg-white p-4 shadow-sm">
-                      <h4 className="font-medium text-forest-900">Single Origin</h4>
-                      <p className="text-sm text-forest-600">Showcase unique terroir</p>
+                      <h4 className="font-medium text-forest-900">
+                        Single Origin
+                      </h4>
+                      <p className="text-sm text-forest-600">
+                        Showcase unique terroir
+                      </p>
                     </div>
                     <div className="rounded-lg bg-white p-4 shadow-sm">
-                      <h4 className="font-medium text-forest-900">Specialty Blends</h4>
-                      <p className="text-sm text-forest-600">Premium coffee blends</p>
+                      <h4 className="font-medium text-forest-900">
+                        Specialty Blends
+                      </h4>
+                      <p className="text-sm text-forest-600">
+                        Premium coffee blends
+                      </p>
                     </div>
                     <div className="rounded-lg bg-white p-4 shadow-sm">
                       <h4 className="font-medium text-forest-900">Pour Over</h4>
-                      <p className="text-sm text-forest-600">Highlight complexity</p>
+                      <p className="text-sm text-forest-600">
+                        Highlight complexity
+                      </p>
                     </div>
                     <div className="rounded-lg bg-white p-4 shadow-sm">
                       <h4 className="font-medium text-forest-900">Cold Brew</h4>
-                      <p className="text-sm text-forest-600">Smooth, sweet profile</p>
+                      <p className="text-sm text-forest-600">
+                        Smooth, sweet profile
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -250,12 +309,14 @@ export default async function ArabicaPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-6xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Growing Regions</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Growing Regions
+              </h2>
               <p className="text-lg text-forest-600">
                 Our Arabica comes from Vietnam's premier highland coffee regions
               </p>
             </div>
-            
+
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               <Card>
                 <CardHeader>
@@ -263,8 +324,8 @@ export default async function ArabicaPage({ params }: Props) {
                 </CardHeader>
                 <CardContent>
                   <p className="mb-4 text-forest-600">
-                    The heart of Vietnamese Arabica production, known for its cool climate 
-                    and volcanic soil.
+                    The heart of Vietnamese Arabica production, known for its
+                    cool climate and volcanic soil.
                   </p>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -289,8 +350,8 @@ export default async function ArabicaPage({ params }: Props) {
                 </CardHeader>
                 <CardContent>
                   <p className="mb-4 text-forest-600">
-                    High-altitude region producing beans with exceptional clarity 
-                    and bright acidity.
+                    High-altitude region producing beans with exceptional
+                    clarity and bright acidity.
                   </p>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -315,7 +376,7 @@ export default async function ArabicaPage({ params }: Props) {
                 </CardHeader>
                 <CardContent>
                   <p className="mb-4 text-forest-600">
-                    Emerging region producing unique flavor profiles with 
+                    Emerging region producing unique flavor profiles with
                     distinctive terroir characteristics.
                   </p>
                   <div className="space-y-2 text-sm">
@@ -344,12 +405,15 @@ export default async function ArabicaPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-4xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Processing Methods</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Processing Methods
+              </h2>
               <p className="text-lg text-forest-600">
-                Multiple processing options to achieve your desired flavor profile
+                Multiple processing options to achieve your desired flavor
+                profile
               </p>
             </div>
-            
+
             <div className="grid gap-8 md:grid-cols-2">
               <Card>
                 <CardHeader>
@@ -357,13 +421,15 @@ export default async function ArabicaPage({ params }: Props) {
                 </CardHeader>
                 <CardContent>
                   <p className="mb-4 text-forest-600">
-                    Clean, bright flavors with pronounced acidity and clarity. 
+                    Clean, bright flavors with pronounced acidity and clarity.
                     Perfect for showcasing origin characteristics.
                   </p>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
-                      <span className="text-sm text-forest-600">Bright acidity</span>
+                      <span className="text-sm text-forest-600">
+                        Bright acidity
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
@@ -371,7 +437,9 @@ export default async function ArabicaPage({ params }: Props) {
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
-                      <span className="text-sm text-forest-600">Floral notes</span>
+                      <span className="text-sm text-forest-600">
+                        Floral notes
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -383,21 +451,27 @@ export default async function ArabicaPage({ params }: Props) {
                 </CardHeader>
                 <CardContent>
                   <p className="mb-4 text-forest-600">
-                    Balanced sweetness with enhanced body. Combines the best 
-                    of washed and natural processing.
+                    Balanced sweetness with enhanced body. Combines the best of
+                    washed and natural processing.
                   </p>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
-                      <span className="text-sm text-forest-600">Enhanced sweetness</span>
+                      <span className="text-sm text-forest-600">
+                        Enhanced sweetness
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
-                      <span className="text-sm text-forest-600">Medium body</span>
+                      <span className="text-sm text-forest-600">
+                        Medium body
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
-                      <span className="text-sm text-forest-600">Fruity undertones</span>
+                      <span className="text-sm text-forest-600">
+                        Fruity undertones
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -415,11 +489,16 @@ export default async function ArabicaPage({ params }: Props) {
               Experience Highland Excellence
             </h2>
             <p className="mb-8 text-lg text-forest-600">
-              Discover the exceptional quality of Vietnamese Highland Arabica. 
-              Perfect for specialty coffee roasters and discerning coffee lovers.
+              Discover the exceptional quality of Vietnamese Highland Arabica.
+              Perfect for specialty coffee roasters and discerning coffee
+              lovers.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-700">
+              <Button
+                asChild
+                size="lg"
+                className="bg-emerald-600 hover:bg-emerald-700"
+              >
                 <Link href={`/${params.locale}/quote`}>Get Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">

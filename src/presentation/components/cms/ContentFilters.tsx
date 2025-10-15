@@ -274,7 +274,11 @@ export function ContentFilters({
 
       {/* Clear Filters */}
       {hasActiveFilters && (
-        <Button variant="outline" onClick={onClearFilters} className="w-full sm:w-auto">
+        <Button
+          variant="outline"
+          onClick={onClearFilters}
+          className="w-full sm:w-auto"
+        >
           <XIcon className="mr-2 h-4 w-4" />
           Clear All Filters
         </Button>

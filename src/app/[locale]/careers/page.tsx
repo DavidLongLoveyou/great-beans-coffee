@@ -1,11 +1,26 @@
 import { type Metadata } from 'next';
-import { Users, Heart, TrendingUp, Globe, Coffee, Award, MapPin, Clock, DollarSign } from 'lucide-react';
+import {
+  Users,
+  Heart,
+  TrendingUp,
+  Globe,
+  Coffee,
+  Award,
+  MapPin,
+  Clock,
+  DollarSign,
+} from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
 import { Button } from '@/presentation/components/ui';
-import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/presentation/components/ui/card';
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
@@ -15,10 +30,12 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: 'Careers - Join Our Team - The Great Beans',
-    description: 'Join The Great Beans team and build your career in the global coffee industry. Explore opportunities in sourcing, quality control, logistics, and more.',
+    description:
+      'Join The Great Beans team and build your career in the global coffee industry. Explore opportunities in sourcing, quality control, logistics, and more.',
     openGraph: {
       title: 'Careers - The Great Beans',
-      description: 'Build your career with a leading coffee export company. Join our passionate team.',
+      description:
+        'Build your career with a leading coffee export company. Join our passionate team.',
       type: 'website',
     },
   };
@@ -32,13 +49,14 @@ export default async function CareersPage({ params }: Props) {
       location: 'Ho Chi Minh City, Vietnam',
       type: 'Full-time',
       experience: '5+ years',
-      description: 'Lead quality control processes and develop quality standards for our premium coffee exports.',
+      description:
+        'Lead quality control processes and develop quality standards for our premium coffee exports.',
       requirements: [
         'Q Grader certification preferred',
         'Experience in coffee cupping and quality assessment',
         'Knowledge of international coffee standards',
-        'Strong analytical and communication skills'
-      ]
+        'Strong analytical and communication skills',
+      ],
     },
     {
       title: 'International Sales Manager',
@@ -46,13 +64,14 @@ export default async function CareersPage({ params }: Props) {
       location: 'Remote / Ho Chi Minh City',
       type: 'Full-time',
       experience: '3+ years',
-      description: 'Develop and manage relationships with international coffee buyers and expand our global market presence.',
+      description:
+        'Develop and manage relationships with international coffee buyers and expand our global market presence.',
       requirements: [
         'Experience in B2B sales, preferably in coffee/agriculture',
         'Strong network in international coffee markets',
         'Excellent English communication skills',
-        'Willingness to travel internationally'
-      ]
+        'Willingness to travel internationally',
+      ],
     },
     {
       title: 'Supply Chain Coordinator',
@@ -60,13 +79,14 @@ export default async function CareersPage({ params }: Props) {
       location: 'Ho Chi Minh City, Vietnam',
       type: 'Full-time',
       experience: '2+ years',
-      description: 'Coordinate coffee sourcing, processing, and export logistics to ensure timely delivery to global customers.',
+      description:
+        'Coordinate coffee sourcing, processing, and export logistics to ensure timely delivery to global customers.',
       requirements: [
         'Experience in supply chain or logistics',
         'Knowledge of export/import procedures',
         'Strong organizational and problem-solving skills',
-        'Proficiency in logistics software'
-      ]
+        'Proficiency in logistics software',
+      ],
     },
     {
       title: 'Sustainability Program Manager',
@@ -74,13 +94,14 @@ export default async function CareersPage({ params }: Props) {
       location: 'Ho Chi Minh City, Vietnam',
       type: 'Full-time',
       experience: '4+ years',
-      description: 'Lead our sustainability initiatives and certification programs to promote responsible coffee sourcing.',
+      description:
+        'Lead our sustainability initiatives and certification programs to promote responsible coffee sourcing.',
       requirements: [
         'Experience in sustainability or environmental programs',
         'Knowledge of coffee certifications (Fair Trade, Organic, etc.)',
         'Project management experience',
-        'Passion for environmental and social responsibility'
-      ]
+        'Passion for environmental and social responsibility',
+      ],
     },
     {
       title: 'Coffee Sourcing Specialist',
@@ -88,13 +109,14 @@ export default async function CareersPage({ params }: Props) {
       location: 'Multiple locations in Vietnam',
       type: 'Full-time',
       experience: '3+ years',
-      description: 'Work directly with coffee farmers to source high-quality beans and build sustainable partnerships.',
+      description:
+        'Work directly with coffee farmers to source high-quality beans and build sustainable partnerships.',
       requirements: [
         'Experience in agricultural sourcing or farming',
         'Knowledge of coffee cultivation and processing',
         'Strong relationship-building skills',
-        'Willingness to travel to rural areas'
-      ]
+        'Willingness to travel to rural areas',
+      ],
     },
     {
       title: 'Digital Marketing Specialist',
@@ -102,14 +124,15 @@ export default async function CareersPage({ params }: Props) {
       location: 'Ho Chi Minh City, Vietnam',
       type: 'Full-time',
       experience: '2+ years',
-      description: 'Develop and execute digital marketing strategies to promote our brand and services globally.',
+      description:
+        'Develop and execute digital marketing strategies to promote our brand and services globally.',
       requirements: [
         'Experience in digital marketing and social media',
         'Knowledge of SEO, SEM, and content marketing',
         'Creative thinking and analytical skills',
-        'Experience with B2B marketing preferred'
-      ]
-    }
+        'Experience with B2B marketing preferred',
+      ],
+    },
   ];
 
   return (
@@ -127,14 +150,20 @@ export default async function CareersPage({ params }: Props) {
               Join Our Team
             </h1>
             <p className="mb-8 text-xl text-forest-700 md:text-2xl">
-              Build your career with a leading coffee export company. 
-              Join our passionate team and help connect the world through great coffee.
+              Build your career with a leading coffee export company. Join our
+              passionate team and help connect the world through great coffee.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              <Badge variant="secondary" className="bg-coffee-100 text-coffee-800">
+              <Badge
+                variant="secondary"
+                className="bg-coffee-100 text-coffee-800"
+              >
                 Global Opportunities
               </Badge>
-              <Badge variant="secondary" className="bg-green-100 text-green-800">
+              <Badge
+                variant="secondary"
+                className="bg-green-100 text-green-800"
+              >
                 Sustainable Impact
               </Badge>
               <Badge variant="secondary" className="bg-blue-100 text-blue-800">
@@ -150,12 +179,15 @@ export default async function CareersPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-6xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Why Work With Us</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Why Work With Us
+              </h2>
               <p className="text-lg text-forest-600">
-                Join a company that values growth, sustainability, and making a positive impact
+                Join a company that values growth, sustainability, and making a
+                positive impact
               </p>
             </div>
-            
+
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <CardContent className="p-6 text-center">
@@ -164,14 +196,16 @@ export default async function CareersPage({ params }: Props) {
                       <Coffee className="h-8 w-8 text-coffee-600" />
                     </div>
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Industry Leadership</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Industry Leadership
+                  </h3>
                   <p className="text-forest-600">
-                    Work with one of Vietnam's leading coffee exporters and 
+                    Work with one of Vietnam's leading coffee exporters and
                     shape the future of the industry.
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6 text-center">
                   <div className="mb-4 flex justify-center">
@@ -179,14 +213,16 @@ export default async function CareersPage({ params }: Props) {
                       <Heart className="h-8 w-8 text-green-600" />
                     </div>
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Meaningful Work</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Meaningful Work
+                  </h3>
                   <p className="text-forest-600">
-                    Make a positive impact on farming communities and 
-                    contribute to sustainable coffee production.
+                    Make a positive impact on farming communities and contribute
+                    to sustainable coffee production.
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6 text-center">
                   <div className="mb-4 flex justify-center">
@@ -194,14 +230,16 @@ export default async function CareersPage({ params }: Props) {
                       <TrendingUp className="h-8 w-8 text-blue-600" />
                     </div>
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Career Growth</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Career Growth
+                  </h3>
                   <p className="text-forest-600">
-                    Advance your career with comprehensive training, 
-                    mentorship, and leadership development programs.
+                    Advance your career with comprehensive training, mentorship,
+                    and leadership development programs.
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6 text-center">
                   <div className="mb-4 flex justify-center">
@@ -209,10 +247,12 @@ export default async function CareersPage({ params }: Props) {
                       <Globe className="h-8 w-8 text-purple-600" />
                     </div>
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Global Reach</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Global Reach
+                  </h3>
                   <p className="text-forest-600">
-                    Work with international clients and partners, 
-                    expanding your global perspective and network.
+                    Work with international clients and partners, expanding your
+                    global perspective and network.
                   </p>
                 </CardContent>
               </Card>
@@ -226,12 +266,15 @@ export default async function CareersPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-6xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Benefits & Culture</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Benefits & Culture
+              </h2>
               <p className="text-lg text-forest-600">
-                We invest in our people and create an environment where everyone can thrive
+                We invest in our people and create an environment where everyone
+                can thrive
               </p>
             </div>
-            
+
             <div className="grid gap-8 lg:grid-cols-2">
               <Card>
                 <CardHeader>
@@ -245,44 +288,60 @@ export default async function CareersPage({ params }: Props) {
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">Competitive salary packages</span>
+                        <span className="text-forest-600">
+                          Competitive salary packages
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">Health and dental insurance</span>
+                        <span className="text-forest-600">
+                          Health and dental insurance
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">Annual performance bonuses</span>
+                        <span className="text-forest-600">
+                          Annual performance bonuses
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">Professional development budget</span>
+                        <span className="text-forest-600">
+                          Professional development budget
+                        </span>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">Flexible working arrangements</span>
+                        <span className="text-forest-600">
+                          Flexible working arrangements
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">Paid vacation and sick leave</span>
+                        <span className="text-forest-600">
+                          Paid vacation and sick leave
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">Retirement savings plan</span>
+                        <span className="text-forest-600">
+                          Retirement savings plan
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">Employee wellness programs</span>
+                        <span className="text-forest-600">
+                          Employee wellness programs
+                        </span>
                       </div>
                     </div>
                   </div>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
@@ -295,38 +354,54 @@ export default async function CareersPage({ params }: Props) {
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">Collaborative team environment</span>
+                        <span className="text-forest-600">
+                          Collaborative team environment
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">Innovation and creativity encouraged</span>
+                        <span className="text-forest-600">
+                          Innovation and creativity encouraged
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">Diversity and inclusion focus</span>
+                        <span className="text-forest-600">
+                          Diversity and inclusion focus
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">Work-life balance priority</span>
+                        <span className="text-forest-600">
+                          Work-life balance priority
+                        </span>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">Regular team building events</span>
+                        <span className="text-forest-600">
+                          Regular team building events
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">Open communication culture</span>
+                        <span className="text-forest-600">
+                          Open communication culture
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">Sustainability commitment</span>
+                        <span className="text-forest-600">
+                          Sustainability commitment
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">Continuous learning mindset</span>
+                        <span className="text-forest-600">
+                          Continuous learning mindset
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -342,12 +417,14 @@ export default async function CareersPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-6xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Current Job Openings</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Current Job Openings
+              </h2>
               <p className="text-lg text-forest-600">
                 Explore exciting opportunities to join our growing team
               </p>
             </div>
-            
+
             <div className="space-y-6">
               {jobOpenings.map((job, index) => (
                 <Card key={index} className="transition-shadow hover:shadow-lg">
@@ -356,47 +433,67 @@ export default async function CareersPage({ params }: Props) {
                       <div className="lg:col-span-2">
                         <div className="mb-4 flex flex-wrap items-start justify-between gap-4">
                           <div>
-                            <h3 className="mb-2 text-xl font-semibold text-forest-900">{job.title}</h3>
+                            <h3 className="mb-2 text-xl font-semibold text-forest-900">
+                              {job.title}
+                            </h3>
                             <div className="flex flex-wrap gap-2">
-                              <Badge variant="secondary" className="bg-coffee-100 text-coffee-800">
+                              <Badge
+                                variant="secondary"
+                                className="bg-coffee-100 text-coffee-800"
+                              >
                                 {job.department}
                               </Badge>
-                              <Badge variant="outline" className="flex items-center gap-1">
+                              <Badge
+                                variant="outline"
+                                className="flex items-center gap-1"
+                              >
                                 <MapPin className="h-3 w-3" />
                                 {job.location}
                               </Badge>
-                              <Badge variant="outline" className="flex items-center gap-1">
+                              <Badge
+                                variant="outline"
+                                className="flex items-center gap-1"
+                              >
                                 <Clock className="h-3 w-3" />
                                 {job.type}
                               </Badge>
                             </div>
                           </div>
-                          
+
                           <div className="text-right">
-                            <div className="text-sm text-forest-600">Experience Required</div>
-                            <div className="font-semibold text-forest-900">{job.experience}</div>
+                            <div className="text-sm text-forest-600">
+                              Experience Required
+                            </div>
+                            <div className="font-semibold text-forest-900">
+                              {job.experience}
+                            </div>
                           </div>
                         </div>
-                        
-                        <p className="mb-4 text-forest-600">{job.description}</p>
-                        
+
+                        <p className="mb-4 text-forest-600">
+                          {job.description}
+                        </p>
+
                         <div>
-                          <h4 className="mb-2 font-semibold text-forest-900">Key Requirements:</h4>
+                          <h4 className="mb-2 font-semibold text-forest-900">
+                            Key Requirements:
+                          </h4>
                           <ul className="space-y-1">
                             {job.requirements.map((req, reqIndex) => (
-                              <li key={reqIndex} className="flex items-start gap-2 text-sm text-forest-600">
-                                <div className="mt-2 h-1 w-1 rounded-full bg-coffee-500 flex-shrink-0"></div>
+                              <li
+                                key={reqIndex}
+                                className="flex items-start gap-2 text-sm text-forest-600"
+                              >
+                                <div className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-coffee-500"></div>
                                 {req}
                               </li>
                             ))}
                           </ul>
                         </div>
                       </div>
-                      
+
                       <div className="flex flex-col justify-center gap-4">
-                        <Button className="w-full sm:w-auto">
-                          Apply Now
-                        </Button>
+                        <Button className="w-full sm:w-auto">Apply Now</Button>
                         <Button variant="outline" className="w-full sm:w-auto">
                           Learn More
                         </Button>
@@ -415,12 +512,15 @@ export default async function CareersPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-6xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Application Process</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Application Process
+              </h2>
               <p className="text-lg text-forest-600">
-                Our straightforward hiring process designed to find the best fit for both you and our team
+                Our straightforward hiring process designed to find the best fit
+                for both you and our team
               </p>
             </div>
-            
+
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
               <div className="text-center">
                 <div className="mb-4 flex justify-center">
@@ -428,45 +528,57 @@ export default async function CareersPage({ params }: Props) {
                     1
                   </div>
                 </div>
-                <h3 className="mb-3 text-lg font-semibold text-forest-900">Submit Application</h3>
+                <h3 className="mb-3 text-lg font-semibold text-forest-900">
+                  Submit Application
+                </h3>
                 <p className="text-forest-600">
-                  Send us your resume and cover letter through our online application system.
+                  Send us your resume and cover letter through our online
+                  application system.
                 </p>
               </div>
-              
+
               <div className="text-center">
                 <div className="mb-4 flex justify-center">
                   <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-2xl font-bold text-green-600">
                     2
                   </div>
                 </div>
-                <h3 className="mb-3 text-lg font-semibold text-forest-900">Initial Review</h3>
+                <h3 className="mb-3 text-lg font-semibold text-forest-900">
+                  Initial Review
+                </h3>
                 <p className="text-forest-600">
-                  Our HR team reviews your application and contacts qualified candidates within 1 week.
+                  Our HR team reviews your application and contacts qualified
+                  candidates within 1 week.
                 </p>
               </div>
-              
+
               <div className="text-center">
                 <div className="mb-4 flex justify-center">
                   <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-2xl font-bold text-blue-600">
                     3
                   </div>
                 </div>
-                <h3 className="mb-3 text-lg font-semibold text-forest-900">Interview Process</h3>
+                <h3 className="mb-3 text-lg font-semibold text-forest-900">
+                  Interview Process
+                </h3>
                 <p className="text-forest-600">
-                  Participate in 2-3 rounds of interviews with team members and management.
+                  Participate in 2-3 rounds of interviews with team members and
+                  management.
                 </p>
               </div>
-              
+
               <div className="text-center">
                 <div className="mb-4 flex justify-center">
                   <div className="flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 text-2xl font-bold text-purple-600">
                     4
                   </div>
                 </div>
-                <h3 className="mb-3 text-lg font-semibold text-forest-900">Welcome Aboard</h3>
+                <h3 className="mb-3 text-lg font-semibold text-forest-900">
+                  Welcome Aboard
+                </h3>
                 <p className="text-forest-600">
-                  Receive your offer and join our comprehensive onboarding program.
+                  Receive your offer and join our comprehensive onboarding
+                  program.
                 </p>
               </div>
             </div>
@@ -482,10 +594,11 @@ export default async function CareersPage({ params }: Props) {
               Ready to Start Your Journey?
             </h2>
             <p className="mb-8 text-lg text-forest-600">
-              Don't see a position that matches your skills? We're always looking for talented individuals 
-              to join our team. Send us your resume and let's explore opportunities together.
+              Don't see a position that matches your skills? We're always
+              looking for talented individuals to join our team. Send us your
+              resume and let's explore opportunities together.
             </p>
-            
+
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button asChild size="lg">
                 <Link href={`/${params.locale}/contact`}>Send Your Resume</Link>
@@ -494,11 +607,14 @@ export default async function CareersPage({ params }: Props) {
                 <Link href={`/${params.locale}/about`}>Learn About Us</Link>
               </Button>
             </div>
-            
+
             <div className="mt-8 text-center">
               <p className="text-forest-600">
-                Questions about our hiring process? 
-                <Link href={`/${params.locale}/contact`} className="ml-1 text-coffee-600 hover:underline">
+                Questions about our hiring process?
+                <Link
+                  href={`/${params.locale}/contact`}
+                  className="ml-1 text-coffee-600 hover:underline"
+                >
                   Contact our HR team
                 </Link>
               </p>

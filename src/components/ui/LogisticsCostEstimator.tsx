@@ -183,8 +183,13 @@ export function LogisticsCostEstimator({
   onEstimateCalculated,
 }: LogisticsCostEstimatorProps) {
   const t = useTranslations('logistics.estimator');
-  const { config: _config, locale: _locale, formatCurrency: _formatCurrency } = useMarket();
-  const { majorPorts, preferredIncoterms: _preferredIncoterms } = useMarketShipping();
+  const {
+    config: _config,
+    locale: _locale,
+    formatCurrency: _formatCurrency,
+  } = useMarket();
+  const { majorPorts, preferredIncoterms: _preferredIncoterms } =
+    useMarketShipping();
 
   // Get translated arrays
   const SHIPPING_METHODS = getShippingMethods(t);

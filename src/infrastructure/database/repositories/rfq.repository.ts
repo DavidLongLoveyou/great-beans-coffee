@@ -92,13 +92,21 @@ export class RFQRepository {
           postalCode: '',
           country: rfq.country,
         },
-        businessType: (rfq.businessType as 'IMPORTER' | 'DISTRIBUTOR' | 'ROASTER' | 'RETAILER' | 'MANUFACTURER' | 'TRADER') || 'IMPORTER',
+        businessType:
+          (rfq.businessType as
+            | 'IMPORTER'
+            | 'DISTRIBUTOR'
+            | 'ROASTER'
+            | 'RETAILER'
+            | 'MANUFACTURER'
+            | 'TRADER') || 'IMPORTER',
       },
 
       // Map product requirements
-      productRequirements: (rfq.productRequirements as unknown as ProductRequirements) || {
-        coffeeType: 'ARABICA',
-      },
+      productRequirements:
+        (rfq.productRequirements as unknown as ProductRequirements) || {
+          coffeeType: 'ARABICA',
+        },
 
       // Map quantity requirements
       quantityRequirements: {
@@ -108,18 +116,32 @@ export class RFQRepository {
       },
 
       // Map delivery requirements
-      deliveryRequirements: (rfq.deliveryRequirements as unknown as DeliveryRequirements) || {
-        incoterms: (rfq.incoterms as 'FOB' | 'CIF' | 'CFR' | 'EXW' | 'FCA' | 'CPT' | 'CIP' | 'DAP' | 'DPU' | 'DDP' | 'FAS') || 'FOB',
-        destinationPort: rfq.destination || '',
-        destinationCountry: rfq.country,
-        preferredDeliveryDate: rfq.deadline || new Date(),
-        latestDeliveryDate: rfq.deadline || new Date(),
-        packaging: 'JUTE_BAGS_60KG',
-      },
+      deliveryRequirements:
+        (rfq.deliveryRequirements as unknown as DeliveryRequirements) || {
+          incoterms:
+            (rfq.incoterms as
+              | 'FOB'
+              | 'CIF'
+              | 'CFR'
+              | 'EXW'
+              | 'FCA'
+              | 'CPT'
+              | 'CIP'
+              | 'DAP'
+              | 'DPU'
+              | 'DDP'
+              | 'FAS') || 'FOB',
+          destinationPort: rfq.destination || '',
+          destinationCountry: rfq.country,
+          preferredDeliveryDate: rfq.deadline || new Date(),
+          latestDeliveryDate: rfq.deadline || new Date(),
+          packaging: 'JUTE_BAGS_60KG',
+        },
 
       // Map payment terms
       paymentTerms: (rfq.paymentRequirements as unknown as PaymentTerms) || {
-        preferredCurrency: (rfq.currency as 'USD' | 'EUR' | 'JPY' | 'GBP') || 'USD',
+        preferredCurrency:
+          (rfq.currency as 'USD' | 'EUR' | 'JPY' | 'GBP') || 'USD',
         paymentMethod: 'LC' as const,
         paymentTerms: '',
       },
@@ -352,7 +374,10 @@ export class RFQRepository {
   }
 
   async update(id: string, data: Partial<RFQ>): Promise<RFQEntity> {
-    const updateData: Record<string, unknown> = { ...data, updatedAt: new Date() };
+    const updateData: Record<string, unknown> = {
+      ...data,
+      updatedAt: new Date(),
+    };
     delete updateData.id;
     delete updateData.createdAt;
 
@@ -493,7 +518,13 @@ export class RFQRepository {
       id: quoteId,
       rfqId: id,
       version: '1.0',
-      status: status as 'DRAFT' | 'SENT' | 'VIEWED' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED',
+      status: status as
+        | 'DRAFT'
+        | 'SENT'
+        | 'VIEWED'
+        | 'ACCEPTED'
+        | 'REJECTED'
+        | 'EXPIRED',
       currency: 'USD',
       totalAmount: 0,
       validUntil: new Date(),

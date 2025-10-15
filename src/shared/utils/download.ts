@@ -21,7 +21,9 @@ export function downloadFile(
   if (content instanceof Blob) {
     blob = content;
   } else if (content instanceof ArrayBuffer) {
-    blob = new Blob([content], { type: options.mimeType || 'application/octet-stream' });
+    blob = new Blob([content], {
+      type: options.mimeType || 'application/octet-stream',
+    });
   } else {
     blob = new Blob([content], { type: options.mimeType || 'text/plain' });
   }
@@ -30,12 +32,12 @@ export function downloadFile(
   const a = document.createElement('a');
   a.href = url;
   a.download = options.filename;
-  
+
   // Temporarily add to DOM for Firefox compatibility
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  
+
   // Clean up the URL object
   window.URL.revokeObjectURL(url);
 }

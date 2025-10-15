@@ -616,13 +616,11 @@ export function AdvancedProductComparison({
       const blob = new Blob([csvContent], { type: 'text/csv' });
       downloadFile(blob, {
         filename: `coffee-comparison-${new Date().toISOString().split('T')[0]}.csv`,
-        mimeType: 'text/csv'
+        mimeType: 'text/csv',
       });
     }
     // PDF and Excel exports would be implemented here
   };
-
-
 
   const generateAdvancedCSV = (_data: ExportData): string => {
     // Implementation would generate comprehensive CSV with business analysis

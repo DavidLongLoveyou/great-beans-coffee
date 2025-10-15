@@ -1,11 +1,25 @@
 import { type Metadata } from 'next';
-import { MapPin, Shield, Truck, Users, CheckCircle, Star, Globe, Coffee } from 'lucide-react';
+import {
+  MapPin,
+  Shield,
+  Truck,
+  Users,
+  CheckCircle,
+  Star,
+  Globe,
+  Coffee,
+} from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
 import { Button } from '@/presentation/components/ui';
-import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/presentation/components/ui/card';
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
@@ -14,11 +28,15 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
-    title: 'Coffee Sourcing Services - Direct Trade & Premium Origins - The Great Beans',
-    description: 'Professional coffee sourcing services. Direct trade relationships, premium origins, quality assurance, and sustainable sourcing for your coffee business.',
+    title:
+      'Coffee Sourcing Services - Direct Trade & Premium Origins - The Great Beans',
+    description:
+      'Professional coffee sourcing services. Direct trade relationships, premium origins, quality assurance, and sustainable sourcing for your coffee business.',
     openGraph: {
-      title: 'Coffee Sourcing Services - Direct Trade & Premium Origins - The Great Beans',
-      description: 'Source premium coffee directly from origin with our expert sourcing services. Quality, sustainability, and transparency guaranteed.',
+      title:
+        'Coffee Sourcing Services - Direct Trade & Premium Origins - The Great Beans',
+      description:
+        'Source premium coffee directly from origin with our expert sourcing services. Quality, sustainability, and transparency guaranteed.',
       type: 'website',
     },
   };
@@ -40,15 +58,23 @@ export default async function SourcingPage({ params }: Props) {
               Coffee Sourcing Services
             </h1>
             <p className="mb-8 text-xl text-forest-700 md:text-2xl">
-              Direct trade relationships with premium coffee origins. Quality, 
+              Direct trade relationships with premium coffee origins. Quality,
               sustainability, and transparency in every bean we source.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-700">
-                <Link href={`/${params.locale}/quote`}>Source Premium Coffee</Link>
+              <Button
+                asChild
+                size="lg"
+                className="bg-emerald-600 hover:bg-emerald-700"
+              >
+                <Link href={`/${params.locale}/quote`}>
+                  Source Premium Coffee
+                </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>Sourcing Consultation</Link>
+                <Link href={`/${params.locale}/contact`}>
+                  Sourcing Consultation
+                </Link>
               </Button>
             </div>
           </div>
@@ -64,59 +90,68 @@ export default async function SourcingPage({ params }: Props) {
                 Professional Coffee Sourcing
               </h2>
               <p className="text-lg text-forest-600">
-                14+ years of expertise in sourcing premium coffee from the world's best origins
+                14+ years of expertise in sourcing premium coffee from the
+                world's best origins
               </p>
             </div>
-            
+
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100">
                     <MapPin className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Direct Trade</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Direct Trade
+                  </h3>
                   <p className="text-forest-600">
-                    Direct relationships with farmers and cooperatives, ensuring 
+                    Direct relationships with farmers and cooperatives, ensuring
                     fair prices and premium quality coffee beans.
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100">
                     <Shield className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Quality Assurance</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Quality Assurance
+                  </h3>
                   <p className="text-forest-600">
-                    Rigorous quality control at origin, including cupping, 
+                    Rigorous quality control at origin, including cupping,
                     grading, and certification verification.
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100">
                     <Users className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Sustainable Sourcing</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Sustainable Sourcing
+                  </h3>
                   <p className="text-forest-600">
-                    Commitment to sustainable farming practices and 
-                    supporting farming communities for long-term partnerships.
+                    Commitment to sustainable farming practices and supporting
+                    farming communities for long-term partnerships.
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100">
                     <Truck className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Global Logistics</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Global Logistics
+                  </h3>
                   <p className="text-forest-600">
-                    Comprehensive logistics management from farm to your facility, 
-                    ensuring freshness and quality preservation.
+                    Comprehensive logistics management from farm to your
+                    facility, ensuring freshness and quality preservation.
                   </p>
                 </CardContent>
               </Card>
@@ -130,12 +165,14 @@ export default async function SourcingPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-6xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Premium Coffee Origins</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Premium Coffee Origins
+              </h2>
               <p className="text-lg text-forest-600">
                 Sourcing from the world's finest coffee-growing regions
               </p>
             </div>
-            
+
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               <Card>
                 <CardHeader>
@@ -143,11 +180,15 @@ export default async function SourcingPage({ params }: Props) {
                     <Coffee className="h-5 w-5 text-emerald-600" />
                     Vietnam
                   </CardTitle>
-                  <p className="text-forest-600">World's largest Robusta producer</p>
+                  <p className="text-forest-600">
+                    World's largest Robusta producer
+                  </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Specialties</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Specialties
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">Premium Robusta</Badge>
                       <Badge variant="secondary">Arabica</Badge>
@@ -155,13 +196,17 @@ export default async function SourcingPage({ params }: Props) {
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Regions</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Regions
+                    </h4>
                     <p className="text-forest-600">
                       Dak Lak, Gia Lai, Lam Dong, Son La
                     </p>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Harvest Season</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Harvest Season
+                    </h4>
                     <p className="text-forest-600">October - February</p>
                   </div>
                 </CardContent>
@@ -173,11 +218,15 @@ export default async function SourcingPage({ params }: Props) {
                     <Coffee className="h-5 w-5 text-emerald-600" />
                     Brazil
                   </CardTitle>
-                  <p className="text-forest-600">World's largest coffee producer</p>
+                  <p className="text-forest-600">
+                    World's largest coffee producer
+                  </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Specialties</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Specialties
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">Santos</Badge>
                       <Badge variant="secondary">Cerrado</Badge>
@@ -185,13 +234,17 @@ export default async function SourcingPage({ params }: Props) {
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Regions</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Regions
+                    </h4>
                     <p className="text-forest-600">
                       Minas Gerais, São Paulo, Espírito Santo
                     </p>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Harvest Season</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Harvest Season
+                    </h4>
                     <p className="text-forest-600">May - September</p>
                   </div>
                 </CardContent>
@@ -207,7 +260,9 @@ export default async function SourcingPage({ params }: Props) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Specialties</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Specialties
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">Supremo</Badge>
                       <Badge variant="secondary">Excelso</Badge>
@@ -215,14 +270,20 @@ export default async function SourcingPage({ params }: Props) {
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Regions</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Regions
+                    </h4>
                     <p className="text-forest-600">
                       Huila, Nariño, Cauca, Tolima
                     </p>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Harvest Season</h4>
-                    <p className="text-forest-600">March - June, October - December</p>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Harvest Season
+                    </h4>
+                    <p className="text-forest-600">
+                      March - June, October - December
+                    </p>
                   </div>
                 </CardContent>
               </Card>
@@ -237,7 +298,9 @@ export default async function SourcingPage({ params }: Props) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Specialties</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Specialties
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">Sidamo</Badge>
                       <Badge variant="secondary">Yirgacheffe</Badge>
@@ -245,13 +308,17 @@ export default async function SourcingPage({ params }: Props) {
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Regions</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Regions
+                    </h4>
                     <p className="text-forest-600">
                       Sidama, Gedeo, Oromia, SNNPR
                     </p>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Harvest Season</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Harvest Season
+                    </h4>
                     <p className="text-forest-600">October - February</p>
                   </div>
                 </CardContent>
@@ -263,11 +330,15 @@ export default async function SourcingPage({ params }: Props) {
                     <Coffee className="h-5 w-5 text-emerald-600" />
                     Guatemala
                   </CardTitle>
-                  <p className="text-forest-600">High-altitude specialty coffee</p>
+                  <p className="text-forest-600">
+                    High-altitude specialty coffee
+                  </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Specialties</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Specialties
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">Antigua</Badge>
                       <Badge variant="secondary">Huehuetenango</Badge>
@@ -275,13 +346,17 @@ export default async function SourcingPage({ params }: Props) {
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Regions</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Regions
+                    </h4>
                     <p className="text-forest-600">
                       Antigua, Huehuetenango, Atitlán
                     </p>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Harvest Season</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Harvest Season
+                    </h4>
                     <p className="text-forest-600">December - March</p>
                   </div>
                 </CardContent>
@@ -297,7 +372,9 @@ export default async function SourcingPage({ params }: Props) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Specialties</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Specialties
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">Sumatra</Badge>
                       <Badge variant="secondary">Java</Badge>
@@ -305,13 +382,17 @@ export default async function SourcingPage({ params }: Props) {
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Regions</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Regions
+                    </h4>
                     <p className="text-forest-600">
                       Sumatra, Java, Sulawesi, Bali
                     </p>
                   </div>
                   <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">Harvest Season</h4>
+                    <h4 className="mb-2 font-semibold text-forest-900">
+                      Harvest Season
+                    </h4>
                     <p className="text-forest-600">May - September</p>
                   </div>
                 </CardContent>
@@ -326,22 +407,28 @@ export default async function SourcingPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-4xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Our Sourcing Process</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Our Sourcing Process
+              </h2>
               <p className="text-lg text-forest-600">
-                Systematic approach to ensure quality, sustainability, and transparency
+                Systematic approach to ensure quality, sustainability, and
+                transparency
               </p>
             </div>
-            
+
             <div className="space-y-8">
               <div className="flex gap-6">
                 <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 text-lg font-bold text-emerald-600">
                   1
                 </div>
                 <div>
-                  <h3 className="mb-2 text-xl font-semibold text-forest-900">Origin Assessment</h3>
+                  <h3 className="mb-2 text-xl font-semibold text-forest-900">
+                    Origin Assessment
+                  </h3>
                   <p className="text-forest-600">
-                    Comprehensive evaluation of coffee origins, including climate, soil, 
-                    farming practices, and processing capabilities to identify premium sources.
+                    Comprehensive evaluation of coffee origins, including
+                    climate, soil, farming practices, and processing
+                    capabilities to identify premium sources.
                   </p>
                 </div>
               </div>
@@ -351,10 +438,13 @@ export default async function SourcingPage({ params }: Props) {
                   2
                 </div>
                 <div>
-                  <h3 className="mb-2 text-xl font-semibold text-forest-900">Farmer Partnerships</h3>
+                  <h3 className="mb-2 text-xl font-semibold text-forest-900">
+                    Farmer Partnerships
+                  </h3>
                   <p className="text-forest-600">
-                    Building direct relationships with farmers and cooperatives, 
-                    establishing fair trade agreements and long-term partnerships.
+                    Building direct relationships with farmers and cooperatives,
+                    establishing fair trade agreements and long-term
+                    partnerships.
                   </p>
                 </div>
               </div>
@@ -364,10 +454,13 @@ export default async function SourcingPage({ params }: Props) {
                   3
                 </div>
                 <div>
-                  <h3 className="mb-2 text-xl font-semibold text-forest-900">Quality Control</h3>
+                  <h3 className="mb-2 text-xl font-semibold text-forest-900">
+                    Quality Control
+                  </h3>
                   <p className="text-forest-600">
-                    Rigorous quality testing including cupping, moisture analysis, 
-                    defect assessment, and certification verification at origin.
+                    Rigorous quality testing including cupping, moisture
+                    analysis, defect assessment, and certification verification
+                    at origin.
                   </p>
                 </div>
               </div>
@@ -377,9 +470,11 @@ export default async function SourcingPage({ params }: Props) {
                   4
                 </div>
                 <div>
-                  <h3 className="mb-2 text-xl font-semibold text-forest-900">Sustainable Practices</h3>
+                  <h3 className="mb-2 text-xl font-semibold text-forest-900">
+                    Sustainable Practices
+                  </h3>
                   <p className="text-forest-600">
-                    Ensuring environmental sustainability, fair labor practices, 
+                    Ensuring environmental sustainability, fair labor practices,
                     and supporting community development initiatives.
                   </p>
                 </div>
@@ -390,10 +485,12 @@ export default async function SourcingPage({ params }: Props) {
                   5
                 </div>
                 <div>
-                  <h3 className="mb-2 text-xl font-semibold text-forest-900">Logistics Management</h3>
+                  <h3 className="mb-2 text-xl font-semibold text-forest-900">
+                    Logistics Management
+                  </h3>
                   <p className="text-forest-600">
-                    Coordinating transportation, storage, and shipping to maintain 
-                    coffee quality from farm to destination.
+                    Coordinating transportation, storage, and shipping to
+                    maintain coffee quality from farm to destination.
                   </p>
                 </div>
               </div>
@@ -403,9 +500,11 @@ export default async function SourcingPage({ params }: Props) {
                   6
                 </div>
                 <div>
-                  <h3 className="mb-2 text-xl font-semibold text-forest-900">Continuous Monitoring</h3>
+                  <h3 className="mb-2 text-xl font-semibold text-forest-900">
+                    Continuous Monitoring
+                  </h3>
                   <p className="text-forest-600">
-                    Ongoing quality monitoring, relationship management, and 
+                    Ongoing quality monitoring, relationship management, and
                     continuous improvement of sourcing processes.
                   </p>
                 </div>
@@ -420,19 +519,23 @@ export default async function SourcingPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-6xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Quality Standards & Certifications</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Quality Standards & Certifications
+              </h2>
               <p className="text-lg text-forest-600">
                 Rigorous standards ensuring premium quality and ethical sourcing
               </p>
             </div>
-            
+
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               <Card>
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100">
                     <Shield className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Quality Grading</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Quality Grading
+                  </h3>
                   <ul className="space-y-2 text-forest-600">
                     <li>• SCA cupping scores 80+</li>
                     <li>• Moisture content 10-12%</li>
@@ -441,13 +544,15 @@ export default async function SourcingPage({ params }: Props) {
                   </ul>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100">
                     <CheckCircle className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Certifications</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Certifications
+                  </h3>
                   <ul className="space-y-2 text-forest-600">
                     <li>• Organic certification</li>
                     <li>• Fair Trade verified</li>
@@ -456,13 +561,15 @@ export default async function SourcingPage({ params }: Props) {
                   </ul>
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardContent className="p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100">
                     <Users className="h-6 w-6 text-emerald-600" />
                   </div>
-                  <h3 className="mb-3 text-xl font-semibold text-forest-900">Social Standards</h3>
+                  <h3 className="mb-3 text-xl font-semibold text-forest-900">
+                    Social Standards
+                  </h3>
                   <ul className="space-y-2 text-forest-600">
                     <li>• Fair labor practices</li>
                     <li>• Community development</li>
@@ -481,23 +588,29 @@ export default async function SourcingPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-4xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Sourcing Service Options</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Sourcing Service Options
+              </h2>
               <p className="text-lg text-forest-600">
                 Flexible sourcing solutions for different business needs
               </p>
             </div>
-            
+
             <div className="grid gap-8 md:grid-cols-3">
               <Card>
                 <CardHeader>
                   <CardTitle>Spot Purchasing</CardTitle>
-                  <p className="text-forest-600">Immediate availability coffee</p>
+                  <p className="text-forest-600">
+                    Immediate availability coffee
+                  </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
-                      <span className="text-forest-600">Current crop availability</span>
+                      <span className="text-forest-600">
+                        Current crop availability
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
@@ -509,7 +622,9 @@ export default async function SourcingPage({ params }: Props) {
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
-                      <span className="text-forest-600">Flexible quantities</span>
+                      <span className="text-forest-600">
+                        Flexible quantities
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -517,8 +632,12 @@ export default async function SourcingPage({ params }: Props) {
 
               <Card className="border-emerald-200 bg-emerald-50">
                 <CardHeader>
-                  <CardTitle className="text-emerald-900">Contract Sourcing</CardTitle>
-                  <p className="text-emerald-700">Long-term supply agreements</p>
+                  <CardTitle className="text-emerald-900">
+                    Contract Sourcing
+                  </CardTitle>
+                  <p className="text-emerald-700">
+                    Long-term supply agreements
+                  </p>
                   <Badge className="w-fit bg-emerald-600">Recommended</Badge>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -529,7 +648,9 @@ export default async function SourcingPage({ params }: Props) {
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
-                      <span className="text-forest-600">Quality consistency</span>
+                      <span className="text-forest-600">
+                        Quality consistency
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
@@ -537,7 +658,9 @@ export default async function SourcingPage({ params }: Props) {
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
-                      <span className="text-forest-600">Custom specifications</span>
+                      <span className="text-forest-600">
+                        Custom specifications
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -546,13 +669,17 @@ export default async function SourcingPage({ params }: Props) {
               <Card>
                 <CardHeader>
                   <CardTitle>Specialty Sourcing</CardTitle>
-                  <p className="text-forest-600">Premium and micro-lot coffee</p>
+                  <p className="text-forest-600">
+                    Premium and micro-lot coffee
+                  </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
-                      <span className="text-forest-600">Micro-lot sourcing</span>
+                      <span className="text-forest-600">
+                        Micro-lot sourcing
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500" />
@@ -582,15 +709,24 @@ export default async function SourcingPage({ params }: Props) {
               Ready to Source Premium Coffee?
             </h2>
             <p className="mb-8 text-lg text-forest-600">
-              Partner with us for reliable, sustainable, and premium coffee sourcing. 
-              From direct trade to specialty lots, we deliver quality you can trust.
+              Partner with us for reliable, sustainable, and premium coffee
+              sourcing. From direct trade to specialty lots, we deliver quality
+              you can trust.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-700">
-                <Link href={`/${params.locale}/quote`}>Request Sourcing Quote</Link>
+              <Button
+                asChild
+                size="lg"
+                className="bg-emerald-600 hover:bg-emerald-700"
+              >
+                <Link href={`/${params.locale}/quote`}>
+                  Request Sourcing Quote
+                </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${params.locale}/contact`}>Discuss Your Needs</Link>
+                <Link href={`/${params.locale}/contact`}>
+                  Discuss Your Needs
+                </Link>
               </Button>
             </div>
           </div>

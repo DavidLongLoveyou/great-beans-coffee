@@ -391,7 +391,10 @@ export function ProductComparison({
   const handleExportComparison = () => {
     // Generate CSV export
     const csvContent = generateComparisonCSV(products, comparisonRows, locale);
-    downloadCSV(csvContent, `coffee-comparison-${new Date().toISOString().split('T')[0]}`);
+    downloadCSV(
+      csvContent,
+      `coffee-comparison-${new Date().toISOString().split('T')[0]}`
+    );
   };
 
   if (products.length === 0) return null;

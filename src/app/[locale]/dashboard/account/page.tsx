@@ -826,12 +826,18 @@ export default function AccountPage({ params: _params }: AccountPageProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Button variant="outline" className="w-full sm:w-auto justify-start">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start sm:w-auto"
+                >
                   <Key className="mr-2 h-4 w-4" />
                   {t('preferences.changePassword')}
                 </Button>
 
-                <Button variant="outline" className="w-full sm:w-auto justify-start">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start sm:w-auto"
+                >
                   <Download className="mr-2 h-4 w-4" />
                   {t('preferences.downloadData')}
                 </Button>

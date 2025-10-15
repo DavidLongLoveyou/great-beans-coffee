@@ -159,7 +159,10 @@ export const DataTable = <
       .join('\n');
 
     const csvContent = `${headers}\n${rows}`;
-    downloadCSV(csvContent, `${title || 'data'}-${new Date().toISOString().split('T')[0]}`);
+    downloadCSV(
+      csvContent,
+      `${title || 'data'}-${new Date().toISOString().split('T')[0]}`
+    );
   };
 
   const getSortIcon = (columnKey: string) => {

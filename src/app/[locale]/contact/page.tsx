@@ -7,15 +7,23 @@ import { Button } from '@/presentation/components/ui';
 import { Input } from '@/presentation/components/ui/input';
 import { Textarea } from '@/presentation/components/ui/textarea';
 import { Label } from '@/presentation/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/presentation/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/presentation/components/ui/card';
 
 type Props = {
   params: { locale: Locale };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const t = await getTranslations({ locale: params.locale, namespace: 'contact' });
-  
+  const t = await getTranslations({
+    locale: params.locale,
+    namespace: 'contact',
+  });
+
   return {
     title: t('meta.title'),
     description: t('meta.description'),
@@ -28,7 +36,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ContactPage({ params }: Props) {
-  const t = await getTranslations({ locale: params.locale, namespace: 'contact' });
+  const t = await getTranslations({
+    locale: params.locale,
+    namespace: 'contact',
+  });
 
   return (
     <div className="min-h-screen">
@@ -45,8 +56,8 @@ export default async function ContactPage({ params }: Props) {
               Contact Us
             </h1>
             <p className="mb-8 text-xl text-forest-700 md:text-2xl">
-              Ready to start your coffee journey? Get in touch with our expert team 
-              for personalized solutions and premium Vietnamese coffee.
+              Ready to start your coffee journey? Get in touch with our expert
+              team for personalized solutions and premium Vietnamese coffee.
             </p>
           </div>
         </div>
@@ -60,10 +71,12 @@ export default async function ContactPage({ params }: Props) {
               {/* Contact Information */}
               <div className="space-y-8">
                 <div>
-                  <h2 className="mb-6 text-3xl font-bold text-forest-900">Get in Touch</h2>
+                  <h2 className="mb-6 text-3xl font-bold text-forest-900">
+                    Get in Touch
+                  </h2>
                   <p className="text-lg text-forest-600">
-                    Our team is ready to help you find the perfect coffee solution. 
-                    Reach out to us through any of the channels below.
+                    Our team is ready to help you find the perfect coffee
+                    solution. Reach out to us through any of the channels below.
                   </p>
                 </div>
 
@@ -75,14 +88,22 @@ export default async function ContactPage({ params }: Props) {
                           <Mail className="h-6 w-6 text-emerald-600" />
                         </div>
                         <div>
-                          <h3 className="mb-2 text-lg font-semibold text-forest-900">Email Us</h3>
+                          <h3 className="mb-2 text-lg font-semibold text-forest-900">
+                            Email Us
+                          </h3>
                           <p className="text-forest-600">
-                            <a href="mailto:info@greatbeans.coffee" className="hover:text-emerald-600">
+                            <a
+                              href="mailto:info@greatbeans.coffee"
+                              className="hover:text-emerald-600"
+                            >
                               info@greatbeans.coffee
                             </a>
                           </p>
                           <p className="text-forest-600">
-                            <a href="mailto:sales@greatbeans.coffee" className="hover:text-emerald-600">
+                            <a
+                              href="mailto:sales@greatbeans.coffee"
+                              className="hover:text-emerald-600"
+                            >
                               sales@greatbeans.coffee
                             </a>
                           </p>
@@ -98,13 +119,20 @@ export default async function ContactPage({ params }: Props) {
                           <Phone className="h-6 w-6 text-emerald-600" />
                         </div>
                         <div>
-                          <h3 className="mb-2 text-lg font-semibold text-forest-900">Call Us</h3>
+                          <h3 className="mb-2 text-lg font-semibold text-forest-900">
+                            Call Us
+                          </h3>
                           <p className="text-forest-600">
-                            <a href="tel:+84123456789" className="hover:text-emerald-600">
+                            <a
+                              href="tel:+84123456789"
+                              className="hover:text-emerald-600"
+                            >
                               +84 123 456 789
                             </a>
                           </p>
-                          <p className="text-sm text-forest-500">International Sales</p>
+                          <p className="text-sm text-forest-500">
+                            International Sales
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -117,10 +145,14 @@ export default async function ContactPage({ params }: Props) {
                           <MapPin className="h-6 w-6 text-emerald-600" />
                         </div>
                         <div>
-                          <h3 className="mb-2 text-lg font-semibold text-forest-900">Visit Us</h3>
+                          <h3 className="mb-2 text-lg font-semibold text-forest-900">
+                            Visit Us
+                          </h3>
                           <p className="text-forest-600">
-                            123 Coffee Export Street<br />
-                            Dak Lak Province, Vietnam<br />
+                            123 Coffee Export Street
+                            <br />
+                            Dak Lak Province, Vietnam
+                            <br />
                             630000
                           </p>
                         </div>
@@ -135,10 +167,14 @@ export default async function ContactPage({ params }: Props) {
                           <Clock className="h-6 w-6 text-emerald-600" />
                         </div>
                         <div>
-                          <h3 className="mb-2 text-lg font-semibold text-forest-900">Business Hours</h3>
+                          <h3 className="mb-2 text-lg font-semibold text-forest-900">
+                            Business Hours
+                          </h3>
                           <p className="text-forest-600">
-                            Monday - Friday: 8:00 AM - 6:00 PM (GMT+7)<br />
-                            Saturday: 9:00 AM - 4:00 PM (GMT+7)<br />
+                            Monday - Friday: 8:00 AM - 6:00 PM (GMT+7)
+                            <br />
+                            Saturday: 9:00 AM - 4:00 PM (GMT+7)
+                            <br />
                             Sunday: Closed
                           </p>
                         </div>
@@ -152,9 +188,12 @@ export default async function ContactPage({ params }: Props) {
               <div>
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-2xl text-forest-900">Send us a Message</CardTitle>
+                    <CardTitle className="text-2xl text-forest-900">
+                      Send us a Message
+                    </CardTitle>
                     <p className="text-forest-600">
-                      Fill out the form below and we'll get back to you within 24 hours.
+                      Fill out the form below and we'll get back to you within
+                      24 hours.
                     </p>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -162,19 +201,19 @@ export default async function ContactPage({ params }: Props) {
                       <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
                           <Label htmlFor="firstName">First Name *</Label>
-                          <Input 
-                            id="firstName" 
-                            name="firstName" 
-                            required 
+                          <Input
+                            id="firstName"
+                            name="firstName"
+                            required
                             placeholder="Your first name"
                           />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="lastName">Last Name *</Label>
-                          <Input 
-                            id="lastName" 
-                            name="lastName" 
-                            required 
+                          <Input
+                            id="lastName"
+                            name="lastName"
+                            required
                             placeholder="Your last name"
                           />
                         </div>
@@ -182,58 +221,58 @@ export default async function ContactPage({ params }: Props) {
 
                       <div className="space-y-2">
                         <Label htmlFor="email">Email Address *</Label>
-                        <Input 
-                          id="email" 
-                          name="email" 
-                          type="email" 
-                          required 
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          required
                           placeholder="your.email@company.com"
                         />
                       </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="company">Company Name</Label>
-                        <Input 
-                          id="company" 
-                          name="company" 
+                        <Input
+                          id="company"
+                          name="company"
                           placeholder="Your company name"
                         />
                       </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="phone">Phone Number</Label>
-                        <Input 
-                          id="phone" 
-                          name="phone" 
-                          type="tel" 
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
                           placeholder="+1 (555) 123-4567"
                         />
                       </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="subject">Subject *</Label>
-                        <Input 
-                          id="subject" 
-                          name="subject" 
-                          required 
+                        <Input
+                          id="subject"
+                          name="subject"
+                          required
                           placeholder="What can we help you with?"
                         />
                       </div>
 
                       <div className="space-y-2">
                         <Label htmlFor="message">Message *</Label>
-                        <Textarea 
-                          id="message" 
-                          name="message" 
-                          required 
+                        <Textarea
+                          id="message"
+                          name="message"
+                          required
                           rows={6}
                           placeholder="Tell us about your coffee needs, quantity requirements, or any questions you have..."
                         />
                       </div>
 
-                      <Button 
-                        type="submit" 
-                        size="lg" 
+                      <Button
+                        type="submit"
+                        size="lg"
                         className="w-full bg-emerald-600 hover:bg-emerald-700"
                       >
                         <Send className="mr-2 h-4 w-4" />
@@ -253,12 +292,14 @@ export default async function ContactPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-4xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Find Us</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Find Us
+              </h2>
               <p className="text-lg text-forest-600">
                 Located in the heart of Vietnam's coffee region
               </p>
             </div>
-            
+
             <div className="overflow-hidden rounded-2xl bg-white shadow-lg">
               <div className="aspect-video bg-gradient-to-br from-emerald-100 to-forest-100 p-8">
                 <div className="flex h-full items-center justify-center">
@@ -268,7 +309,8 @@ export default async function ContactPage({ params }: Props) {
                       Interactive Map Coming Soon
                     </h3>
                     <p className="text-forest-600">
-                      We're working on integrating an interactive map to help you find us easily.
+                      We're working on integrating an interactive map to help
+                      you find us easily.
                     </p>
                   </div>
                 </div>
@@ -283,12 +325,14 @@ export default async function ContactPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-4xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900">Frequently Asked Questions</h2>
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
+                Frequently Asked Questions
+              </h2>
               <p className="text-lg text-forest-600">
                 Quick answers to common questions
               </p>
             </div>
-            
+
             <div className="space-y-6">
               <Card>
                 <CardContent className="p-6">
@@ -296,9 +340,10 @@ export default async function ContactPage({ params }: Props) {
                     What is your minimum order quantity?
                   </h3>
                   <p className="text-forest-600">
-                    Our minimum order quantity varies by product type. For green coffee beans, 
-                    we typically require a minimum of 1 container (approximately 18-20 tons). 
-                    Contact us to discuss your specific needs.
+                    Our minimum order quantity varies by product type. For green
+                    coffee beans, we typically require a minimum of 1 container
+                    (approximately 18-20 tons). Contact us to discuss your
+                    specific needs.
                   </p>
                 </CardContent>
               </Card>
@@ -309,9 +354,10 @@ export default async function ContactPage({ params }: Props) {
                     How long does shipping take?
                   </h3>
                   <p className="text-forest-600">
-                    Shipping times depend on your location and chosen method. Sea freight 
-                    typically takes 15-30 days, while air freight takes 3-7 days. We'll 
-                    provide detailed timelines with your quote.
+                    Shipping times depend on your location and chosen method.
+                    Sea freight typically takes 15-30 days, while air freight
+                    takes 3-7 days. We'll provide detailed timelines with your
+                    quote.
                   </p>
                 </CardContent>
               </Card>
@@ -322,9 +368,9 @@ export default async function ContactPage({ params }: Props) {
                     Do you provide samples?
                   </h3>
                   <p className="text-forest-600">
-                    Yes! We provide free samples for serious buyers. Sample shipping costs 
-                    apply, but we'll deduct this from your first order. Contact us to 
-                    request samples.
+                    Yes! We provide free samples for serious buyers. Sample
+                    shipping costs apply, but we'll deduct this from your first
+                    order. Contact us to request samples.
                   </p>
                 </CardContent>
               </Card>
@@ -335,9 +381,9 @@ export default async function ContactPage({ params }: Props) {
                     What certifications do you have?
                   </h3>
                   <p className="text-forest-600">
-                    We hold various certifications including Organic, Fair Trade, Rainforest 
-                    Alliance, and UTZ. We can also arrange for specific certifications 
-                    based on your market requirements.
+                    We hold various certifications including Organic, Fair
+                    Trade, Rainforest Alliance, and UTZ. We can also arrange for
+                    specific certifications based on your market requirements.
                   </p>
                 </CardContent>
               </Card>
