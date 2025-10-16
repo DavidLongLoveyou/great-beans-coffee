@@ -1,5 +1,5 @@
 import { type Metadata } from 'next';
-import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from 'lucide-react';
+import {  Mail, Phone, MapPin, Clock, Send, MessageSquare  } from '@/components/ui/dynamic-icons';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';

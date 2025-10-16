@@ -1,17 +1,6 @@
 'use client';
 
-import {
-  Save,
-  X,
-  DollarSign,
-  Package,
-  AlertTriangle,
-  CheckCircle,
-  Coffee,
-  Clock,
-  Plus,
-  Minus,
-} from 'lucide-react';
+import {  Save, X, DollarSign, Package, AlertTriangle, CheckCircle, Coffee, Clock, Plus, Minus  } from '@/components/ui/dynamic-icons';
 import { useState, useEffect } from 'react';
 
 import { ProductImageUpload } from '@/components/features/admin/ProductImageUpload';

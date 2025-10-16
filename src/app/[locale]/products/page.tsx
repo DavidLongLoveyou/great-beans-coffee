@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  ShoppingCart,
-  Filter,
-  Search,
-  Download,
-  FileText,
-  Package,
-  Loader2,
-  Coffee,
-} from 'lucide-react';
+import {  ShoppingCart, Filter, Search, Download, FileText, Package, Loader2, Coffee  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect, useCallback } from 'react';
 import { CoffeeProduct } from '@/domain/entities/coffee-product.entity';

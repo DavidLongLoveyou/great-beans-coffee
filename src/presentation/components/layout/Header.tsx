@@ -1,6 +1,6 @@
 'use client';
 
-import { Coffee, Globe, Award, Truck, Menu, X } from 'lucide-react';
+import {  Coffee, Globe, Award, Truck, Menu, X  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';

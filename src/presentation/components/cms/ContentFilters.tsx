@@ -1,6 +1,6 @@
 'use client';
 
-import { CalendarIcon, FilterIcon, XIcon } from 'lucide-react';
+import {  CalendarIcon, FilterIcon, XIcon  } from '@/components/ui/dynamic-icons';
 import React, { useState } from 'react';
 
 import { Button } from '@/presentation/components/ui/button';

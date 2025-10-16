@@ -1,11 +1,10 @@
-import { LucideIcon } from 'lucide-react';
-
+import React from 'react';
 import { Typography } from '@/presentation/components/ui/typography';
 
 interface PageHeaderProps {
   title: string;
   description?: string;
-  icon?: LucideIcon;
+  icon?: React.ComponentType<any>;
   children?: React.ReactNode;
 }
 

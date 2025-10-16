@@ -1,34 +1,22 @@
 'use client';
 
-import {
-  TrendingUp,
-  TrendingDown,
-  DollarSign,
-  Package,
-  Globe,
-  Download,
-  RefreshCw,
-  ArrowUpRight,
-  ArrowDownRight,
-  Coffee,
-  Target,
-} from 'lucide-react';
+import {  TrendingUp, TrendingDown, DollarSign, Package, Globe, Download, RefreshCw, ArrowUpRight, ArrowDownRight, Coffee, Target  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';
 import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  Legend,
-} from 'recharts';
+  DynamicArea as Area,
+  DynamicAreaChart as AreaChart,
+  DynamicBar as Bar,
+  DynamicBarChart as BarChart,
+  DynamicCell as Cell,
+  DynamicPie as Pie,
+  DynamicPieChart as PieChart,
+  DynamicResponsiveContainer as ResponsiveContainer,
+  DynamicTooltip as Tooltip,
+  DynamicXAxis as XAxis,
+  DynamicYAxis as YAxis,
+  DynamicLegend as Legend,
+} from '@/components/charts/DynamicCharts';
 
 import { type Locale } from '@/i18n';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
@@ -288,8 +276,8 @@ export default function AnalyticsPage({ params: _params }: AnalyticsPageProps) {
                       <XAxis dataKey="month" />
                       <YAxis />
                       <Tooltip
-                        formatter={value => [
-                          `$${value.toLocaleString()}`,
+                        formatter={(value: any) => [
+                          `$${Number(value).toLocaleString()}`,
                           'Revenue',
                         ]}
                       />
@@ -400,7 +388,7 @@ export default function AnalyticsPage({ params: _params }: AnalyticsPageProps) {
                         outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
-                        label={({ name, value }) => `${name}: ${value}%`}
+                        label={({ name, value }: any) => `${name}: ${value}%`}
                       >
                         {marketDistribution.map(entry => (
                           <Cell key={`cell-${entry.name}`} fill={entry.color} />

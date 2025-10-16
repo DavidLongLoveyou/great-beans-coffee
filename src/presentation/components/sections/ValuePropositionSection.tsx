@@ -1,16 +1,7 @@
 'use client';
 
 import { motion, useInView, Variants } from 'framer-motion';
-import {
-  Shield,
-  Award,
-  Globe,
-  Truck,
-  Coffee,
-  CheckCircle,
-  TrendingUp,
-  Users,
-} from 'lucide-react';
+import {  Shield, Award, Globe, Truck, Coffee, CheckCircle, TrendingUp, Users  } from '@/components/ui/dynamic-icons';
 import { useRef } from 'react';
 
 import {

@@ -1,16 +1,6 @@
 'use client';
 
-import {
-  ChevronLeft,
-  ChevronRight,
-  Play,
-  Image as ImageIcon,
-  Video,
-  Download,
-  Share2,
-  Maximize2,
-  Grid3X3,
-} from 'lucide-react';
+import {  ChevronLeft, ChevronRight, Play, Image as ImageIcon, Video, Download, Share2, Maximize2, Grid3X3  } from '@/components/ui/dynamic-icons';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
@@ -208,10 +198,10 @@ export function MediaCarousel({
               className="capitalize"
             >
               {type === 'image' ? (
-                <ImageIcon className="mr-1 h-4 w-4" />
-              ) : (
-                <Video className="mr-1 h-4 w-4" />
-              )}
+                  <ImageIcon className="mr-1 h-4 w-4" />
+                ) : (
+                  <Video className="mr-1 h-4 w-4" />
+                )}
               {type} ({items.filter(item => item.type === type).length})
             </Button>
           ))}
@@ -288,10 +278,10 @@ export function MediaCarousel({
                   className="absolute left-2 top-2 bg-black/50 text-xs text-white"
                 >
                   {item.type === 'image' ? (
-                    <ImageIcon className="mr-1 h-3 w-3" />
-                  ) : (
-                    <Video className="mr-1 h-3 w-3" />
-                  )}
+                      <ImageIcon className="mr-1 h-3 w-3" />
+                    ) : (
+                      <Video className="mr-1 h-3 w-3" />
+                    )}
                   {item.type}
                 </Badge>
 

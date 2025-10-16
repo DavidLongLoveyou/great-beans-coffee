@@ -1,22 +1,6 @@
 'use client';
 
-import {
-  X,
-  Plus,
-  Coffee,
-  MapPin,
-  Thermometer,
-  Award,
-  DollarSign,
-  Star,
-  Eye,
-  ShoppingCart,
-  Heart,
-  Download,
-  ArrowUpDown,
-  CheckCircle,
-  AlertCircle,
-} from 'lucide-react';
+import {  X, Plus, Coffee, MapPin, Thermometer, Award, DollarSign, Star, Eye, ShoppingCart, Heart, Download, ArrowUpDown, CheckCircle, AlertCircle  } from '@/components/ui/dynamic-icons';
 import { useState } from 'react';
 
 import { EnhancedOptimizedImage } from '@/shared/components/performance/EnhancedOptimizedImage';
@@ -122,7 +106,7 @@ interface ProductComparisonProps {
 interface ComparisonCategory {
   id: string;
   label: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: React.ComponentType<any>;
   fields: Array<{
     key: keyof ComparisonProduct;
     label: string;

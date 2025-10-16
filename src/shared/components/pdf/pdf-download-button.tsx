@@ -1,6 +1,6 @@
 'use client';
 
-import { Download, FileText, Loader2 } from 'lucide-react';
+import {  Download, FileText, Loader2  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 

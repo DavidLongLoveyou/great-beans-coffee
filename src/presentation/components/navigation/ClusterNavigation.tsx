@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, Coffee, Factory, Leaf } from 'lucide-react';
+import {  ArrowRight, Coffee, Factory, Leaf  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';

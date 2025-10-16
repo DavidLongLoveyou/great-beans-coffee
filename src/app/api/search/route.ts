@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { type Locale } from '@/i18n';
-import { ContentManager } from '@/lib/contentlayer';
+import FileContentLoader from '@/lib/content-file-loader';
 import { trackSearchQuery } from '@/shared/utils/seo-monitoring';
 
 export interface SearchParams {
@@ -90,8 +90,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(emptyResult);
     }
 
-    // Search content using ContentManager
-    let searchResults = ContentManager.searchContent(locale, query);
+    // Search content using FileContentLoader
+    let searchResults = await FileContentLoader.searchContent(locale, query);
 
     // Filter by type if specified
     if (type !== 'all') {

@@ -1,14 +1,5 @@
 import { type Metadata } from 'next';
-import {
-  Leaf,
-  Heart,
-  Users,
-  Recycle,
-  Award,
-  TreePine,
-  Droplets,
-  Sun,
-} from 'lucide-react';
+import {  Leaf, Heart, Users, Recycle, Award, TreePine, Droplets, Sun  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

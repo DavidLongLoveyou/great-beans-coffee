@@ -322,7 +322,25 @@
       "next": "Tiếp Theo",
       "submit": "Gửi Yêu Cầu Báo Giá",
       "submitting": "Đang Gửi...",
-      "success": "Yêu cầu báo giá đã được gửi thành công!",
+      "success": {
+        "title": "Yêu cầu đã được gửi thành công!",
+        "message": "Cảm ơn bạn đã gửi yêu cầu. Chúng tôi sẽ xem xét yêu cầu của bạn và gửi báo giá cạnh tranh trong vòng 24 giờ.",
+        "referenceNumber": "Số tham chiếu: {id}",
+        "nextSteps": {
+          "title": "Bước tiếp theo là gì?",
+          "steps": [
+            "Đội ngũ của chúng tôi sẽ xem xét yêu cầu của bạn",
+            "Chúng tôi sẽ tạo báo giá chi tiết với giá cả",
+            "Bạn sẽ nhận được báo giá qua email trong vòng 24 giờ",
+            "Đội ngũ bán hàng sẽ liên hệ để thảo luận chi tiết"
+          ]
+        },
+        "actions": {
+          "viewDetails": "Xem Chi Tiết Yêu Cầu",
+          "newRequest": "Gửi Yêu Cầu Mới",
+          "backToHome": "Quay Về Trang Chủ"
+        }
+      },
       "error": "Lỗi khi gửi yêu cầu báo giá. Vui lòng thử lại.",
       "description": "Gửi yêu cầu cà phê của bạn và nhận báo giá cạnh tranh từ các nhà cung cấp.",
       "fields": {
@@ -417,25 +435,6 @@
         "phone": "Vui lòng nhập số điện thoại hợp lệ",
         "quantity": "Vui lòng nhập số lượng hợp lệ",
         "date": "Vui lòng chọn ngày hợp lệ"
-      },
-      "success": {
-        "title": "Yêu cầu đã được gửi thành công!",
-        "message": "Cảm ơn bạn đã gửi yêu cầu. Chúng tôi sẽ xem xét yêu cầu của bạn và gửi báo giá cạnh tranh trong vòng 24 giờ.",
-        "referenceNumber": "Số tham chiếu: {id}",
-        "nextSteps": {
-          "title": "Bước tiếp theo là gì?",
-          "steps": [
-            "Đội ngũ của chúng tôi sẽ xem xét yêu cầu của bạn",
-            "Chúng tôi sẽ tạo báo giá chi tiết với giá cả",
-            "Bạn sẽ nhận được báo giá qua email trong vòng 24 giờ",
-            "Đội ngũ bán hàng sẽ liên hệ để thảo luận chi tiết"
-          ]
-        },
-        "actions": {
-          "viewDetails": "Xem Chi Tiết Yêu Cầu",
-          "newRequest": "Gửi Yêu Cầu Mới",
-          "backToHome": "Quay Về Trang Chủ"
-        }
       }
     },
     "rfq": {
@@ -530,7 +529,7 @@
       "urgent": "Khẩn Cấp"
     },
     "detail": {
-      "title": "Chi Tiết Yêu Cầu Báo Giá",
+      "title": "Chức Danh",
       "submittedOn": "Gửi Vào",
       "lastUpdated": "Cập Nhật Lần Cuối",
       "productDetails": "Chi Tiết Sản Phẩm",
@@ -618,7 +617,6 @@
       "statusManagement": "Quản Lý Trạng Thái",
       "statusManagementDescription": "Theo dõi và quản lý trạng thái của RFQ này",
       "name": "Tên",
-      "title": "Chức Danh",
       "email": "Email",
       "phone": "Điện Thoại",
       "rfqTimeline": "Dòng Thời Gian RFQ",
@@ -633,6 +631,839 @@
       "quotesWorkingMessage": "Đội ngũ của chúng tôi đang làm việc trên yêu cầu của bạn và sẽ cung cấp báo giá sớm.",
       "close": "Đóng",
       "contactSales": "Liên Hệ Bán Hàng"
+    }
+  },
+  "blog": {
+    "title": "[VI] Coffee Industry Insights & News",
+    "description": "[VI] Stay updated with the latest trends, market analysis, and insights from the Vietnamese coffee industry.",
+    "allCategories": "[VI] All Categories",
+    "featured": "[VI] Featured Articles",
+    "featuredPosts": "[VI] Featured Articles",
+    "posts": "[VI] Articles",
+    "allPosts": "[VI] All Articles",
+    "latestPosts": "[VI] Latest Articles",
+    "readMore": "[VI] Read More",
+    "readingTime": "[VI] min read",
+    "publishedOn": "[VI] Published on",
+    "author": "[VI] Author",
+    "category": "[VI] Category",
+    "tags": "[VI] Tags",
+    "relatedPosts": "[VI] Related Articles",
+    "noPostsFound": "[VI] No articles found for this category.",
+    "noPostsInCategory": "[VI] No articles found in this category",
+    "noPosts": "[VI] No articles available",
+    "noPostsInCategoryDescription": "[VI] Try browsing other categories or check back later for new content.",
+    "noPostsDescription": "[VI] Check back later for new articles and insights.",
+    "viewAllPosts": "[VI] View All Articles",
+    "backToBlog": "[VI] Back to Blog",
+    "shareArticle": "[VI] Share Article",
+    "categories": {
+      "Sustainability": "[VI] Sustainability",
+      "MARKET_ANALYSIS": "[VI] Market Analysis",
+      "INDUSTRY_INSIGHTS": "[VI] Industry Insights",
+      "Nachhaltigkeit": "[VI] Sustainability",
+      "持続可能性": "[VI] Sustainability",
+      "Bền Vững": "[VI] Sustainability",
+      "Phân Tích Thị Trường": "[VI] Market Analysis"
+    }
+  },
+  "actions": {
+    "back": "[VI] Back",
+    "share": "[VI] Share",
+    "download": "[VI] Download",
+    "contact": "[VI] Contact",
+    "edit": "[VI] Edit",
+    "downloadPDF": "[VI] Download PDF"
+  },
+  "detail": {
+    "tabs": {
+      "overview": "[VI] Overview",
+      "requirements": "[VI] Requirements",
+      "timeline": "[VI] Timeline",
+      "documents": "[VI] Documents",
+      "status": "[VI] Status"
+    },
+    "productInformation": "[VI] Product Information",
+    "productType": "[VI] Product Type",
+    "quantity": "[VI] Quantity",
+    "variety": "[VI] Variety",
+    "grade": "[VI] Grade",
+    "processing": "[VI] Processing",
+    "origin": "[VI] Origin",
+    "deliveryInfo": "[VI] Delivery Information",
+    "incoterms": "[VI] Incoterms",
+    "destination": "[VI] Destination",
+    "preferredDeliveryDate": "[VI] Preferred Delivery Date",
+    "packagingRequirements": "[VI] Packaging Requirements",
+    "requirements": "[VI] Requirements",
+    "timelineInfo": "[VI] Timeline Information",
+    "submittedAt": "[VI] Submitted At",
+    "estimatedValue": "[VI] Estimated Value"
+  },
+  "statusManager": {
+    "changeStatus": "[VI] Change Status",
+    "confirmTransition": "[VI] Confirm Status Change",
+    "confirmTransitionDescription": "[VI] Are you sure you want to change the status from {from} to {to}?",
+    "note": "[VI] Note",
+    "notePlaceholder": "[VI] Add a note about this status change...",
+    "cancel": "[VI] Cancel",
+    "confirm": "[VI] Confirm",
+    "updating": "[VI] Updating..."
+  },
+  "statusHistory": {
+    "title": "[VI] Status History",
+    "updatedBy": "[VI] Updated by {name}"
+  },
+  "pdf": {
+    "generating": {
+      "title": "[VI] Generating PDF",
+      "productSpec": "[VI] Creating product specification sheet...",
+      "rfqDocument": "[VI] Creating RFQ document...",
+      "htmlToPdf": "[VI] Converting to PDF...",
+      "marketReport": "[VI] Generating market report...",
+      "certificate": "[VI] Creating certificate..."
+    },
+    "success": {
+      "title": "[VI] PDF Generated Successfully",
+      "productSpec": "[VI] Product specification sheet has been downloaded",
+      "rfqDocument": "[VI] RFQ document has been downloaded",
+      "htmlToPdf": "[VI] PDF has been downloaded",
+      "marketReport": "[VI] Market report has been downloaded",
+      "certificate": "[VI] Certificate has been downloaded"
+    },
+    "error": {
+      "title": "[VI] PDF Generation Failed",
+      "unknown": "[VI] An unknown error occurred during PDF generation",
+      "networkError": "[VI] Network error occurred. Please check your connection.",
+      "invalidData": "[VI] Invalid data provided for PDF generation",
+      "templateError": "[VI] PDF template error occurred",
+      "renderError": "[VI] Failed to render PDF content"
+    },
+    "batch": {
+      "generating": {
+        "title": "[VI] Generating Multiple PDFs",
+        "description": "[VI] Creating {count} PDF documents..."
+      },
+      "success": {
+        "title": "[VI] Batch Generation Complete",
+        "description": "[VI] All PDF documents have been generated successfully"
+      },
+      "error": {
+        "title": "[VI] Batch Generation Failed",
+        "description": "[VI] Some PDF documents could not be generated"
+      }
+    },
+    "buttons": {
+      "downloadSpec": "[VI] Download Spec Sheet",
+      "downloadRfq": "[VI] Download RFQ",
+      "downloadReport": "[VI] Download Report",
+      "downloadCertificate": "[VI] Download Certificate",
+      "generatePdf": "[VI] Generate PDF",
+      "downloading": "[VI] Downloading...",
+      "retry": "[VI] Retry Download"
+    },
+    "templates": {
+      "productSpec": {
+        "title": "[VI] Product Specification Sheet",
+        "subtitle": "[VI] Detailed technical specifications and quality information"
+      },
+      "rfqDocument": {
+        "title": "[VI] Request for Quote",
+        "subtitle": "[VI] Comprehensive quote request with all requirements"
+      },
+      "marketReport": {
+        "title": "[VI] Market Analysis Report",
+        "subtitle": "[VI] In-depth market insights and trends analysis"
+      },
+      "certificate": {
+        "title": "[VI] Quality Certificate",
+        "subtitle": "[VI] Official quality assurance documentation"
+      }
+    },
+    "options": {
+      "format": "[VI] Format",
+      "orientation": "[VI] Orientation",
+      "quality": "[VI] Quality",
+      "includeWatermark": "[VI] Include Watermark",
+      "includeHeader": "[VI] Include Header",
+      "includeFooter": "[VI] Include Footer",
+      "language": "[VI] Language"
+    },
+    "formats": {
+      "a4": "[VI] A4",
+      "letter": "[VI] Letter",
+      "legal": "[VI] Legal"
+    },
+    "orientations": {
+      "portrait": "[VI] Portrait",
+      "landscape": "[VI] Landscape"
+    },
+    "qualities": {
+      "low": "[VI] Low (Fast)",
+      "medium": "[VI] Medium",
+      "high": "[VI] High (Best Quality)"
+    }
+  },
+  "catalog": {
+    "comparison": {
+      "title": "[VI] Product Comparison",
+      "description": "[VI] Compare selected coffee products side-by-side to make informed purchasing decisions",
+      "products": "[VI] products",
+      "specification": "[VI] Specification",
+      "export": "[VI] Export Comparison",
+      "requestQuote": "[VI] Request Quote",
+      "inStock": "[VI] In Stock",
+      "outOfStock": "[VI] Out of Stock",
+      "days": "[VI] days",
+      "fields": {
+        "name": "[VI] Product",
+        "type": "[VI] Type",
+        "grade": "[VI] Grade",
+        "processing": "[VI] Processing Method",
+        "origin": "[VI] Origin",
+        "moisture": "[VI] Moisture Content",
+        "screenSize": "[VI] Screen Size",
+        "defectRate": "[VI] Defect Rate",
+        "cuppingScore": "[VI] Cupping Score",
+        "basePrice": "[VI] Base Price",
+        "stockStatus": "[VI] Stock Status",
+        "leadTime": "[VI] Lead Time",
+        "harvestSeason": "[VI] Harvest Season",
+        "certifications": "[VI] Certifications"
+      },
+      "categories": {
+        "basic": "[VI] Basic Information",
+        "specifications": "[VI] Technical Specifications",
+        "pricing": "[VI] Pricing",
+        "availability": "[VI] Availability",
+        "certifications": "[VI] Certifications"
+      },
+      "advanced": {
+        "title": "[VI] Advanced Product Comparison",
+        "tabs": {
+          "comparison": "[VI] Detailed Comparison",
+          "analysis": "[VI] Business Analysis",
+          "recommendations": "[VI] AI Recommendations"
+        },
+        "filters": {
+          "all": "[VI] All Categories",
+          "highPriority": "[VI] High Priority Only",
+          "business": "[VI] Business Metrics",
+          "technical": "[VI] Technical Specs",
+          "availability": "[VI] Availability"
+        },
+        "sorting": {
+          "price": "[VI] Sort by Price",
+          "quality": "[VI] Sort by Quality",
+          "availability": "[VI] Sort by Stock"
+        },
+        "businessMetrics": {
+          "basePrice": "[VI] Base Price",
+          "bulkPrice": "[VI] Bulk Price (1000kg)",
+          "roiScore": "[VI] ROI Score",
+          "totalQuantity": "[VI] Total Quantity",
+          "totalValue": "[VI] Total Value",
+          "potentialSavings": "[VI] Potential Savings",
+          "qualityScore": "[VI] Quality Score",
+          "riskAssessment": "[VI] Risk Assessment"
+        },
+        "analysis": {
+          "recommendedMix": "[VI] Recommended Product Mix",
+          "targetQuantity": "[VI] Target Quantity",
+          "averagePrice": "[VI] Average Price",
+          "vsStandardPricing": "[VI] vs standard pricing"
+        },
+        "recommendations": {
+          "aiPowered": "[VI] AI-Powered Recommendations",
+          "optimalStrategy": "[VI] Optimal Purchase Strategy",
+          "seasonalTiming": "[VI] Seasonal Timing",
+          "riskMitigation": "[VI] Risk Mitigation",
+          "strategyDescription": "[VI] Based on your selection, we recommend a 60/40 split between premium and commercial grades to optimize both quality and cost-effectiveness for your target market.",
+          "timingDescription": "[VI] Consider placing orders for Vietnamese Robusta between October-December for best pricing and freshness, aligning with harvest seasons.",
+          "riskDescription": "[VI] Some selected products have higher lead times or limited stock. Consider diversifying your supplier base or adjusting quantities to reduce supply chain risks."
+        },
+        "tooltips": {
+          "basePrice": "[VI] Price per kg for standard quantities",
+          "bulkPrice": "[VI] Discounted price for 1000kg orders",
+          "roiScore": "[VI] Return on Investment score based on quality vs price"
+        },
+        "actions": {
+          "select": "[VI] Select",
+          "export": "[VI] Export",
+          "quote": "[VI] Quote",
+          "exportFormats": {
+            "csv": "[VI] Export as CSV",
+            "pdf": "[VI] Export as PDF",
+            "excel": "[VI] Export as Excel"
+          }
+        },
+        "risk": {
+          "low": "[VI] Low Risk",
+          "medium": "[VI] Medium Risk",
+          "high": "[VI] High Risk"
+        },
+        "quality": {
+          "specialty": "[VI] Specialty",
+          "commercial": "[VI] Commercial"
+        },
+        "savings": "[VI] savings"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "[VI] B2B Dashboard",
+    "subtitle": "[VI] Manage your coffee sourcing operations and track business performance",
+    "navigation": {
+      "overview": "[VI] Overview",
+      "quotes": "[VI] Quotes",
+      "orders": "[VI] Orders",
+      "products": "[VI] Products",
+      "analytics": "[VI] Analytics",
+      "documents": "[VI] Documents",
+      "logistics": "[VI] Logistics",
+      "messages": "[VI] Messages",
+      "account": "[VI] Account"
+    },
+    "search": {
+      "placeholder": "[VI] Search dashboard..."
+    },
+    "notifications": "[VI] Notifications",
+    "newQuote": "[VI] New Quote",
+    "viewAll": "[VI] View All",
+    "expires": "[VI] Expires",
+    "createNewQuote": "[VI] Create New Quote",
+    "viewOrderHistory": "[VI] View Order History",
+    "downloadReport": "[VI] Download Report",
+    "stats": {
+      "totalQuotes": "[VI] Total Quotes",
+      "activeOrders": "[VI] Active Orders",
+      "totalSpent": "[VI] Total Spent",
+      "avgOrderValue": "[VI] Avg Order Value",
+      "thisMonth": "[VI] this month",
+      "thisWeek": "[VI] this week",
+      "fromLastMonth": "[VI] from last month"
+    },
+    "status": {
+      "pending": "[VI] Pending",
+      "quoted": "[VI] Quoted",
+      "approved": "[VI] Approved",
+      "shipped": "[VI] Shipped",
+      "processing": "[VI] Processing",
+      "delivered": "[VI] Delivered"
+    },
+    "tabs": {
+      "overview": "[VI] Overview",
+      "quotes": "[VI] Quotes",
+      "orders": "[VI] Orders",
+      "analytics": "[VI] Analytics"
+    },
+    "recentQuotes": {
+      "title": "[VI] Recent Quotes"
+    },
+    "recentOrders": {
+      "title": "[VI] Recent Orders"
+    },
+    "quotes": {
+      "title": "[VI] Quote Management",
+      "description": "[VI] Manage all your quote requests and track their status",
+      "comingSoon": "[VI] Advanced quote management features coming soon"
+    },
+    "products": {
+      "title": "[VI] Product Management",
+      "description": "[VI] Manage your coffee product catalog, inventory, and pricing",
+      "tabs": {
+        "products": "[VI] Products",
+        "inventory": "[VI] Inventory",
+        "pricing": "[VI] Pricing"
+      },
+      "addProduct": "[VI] Add Product",
+      "editProduct": "[VI] Edit Product",
+      "deleteProduct": "[VI] Delete Product",
+      "searchPlaceholder": "[VI] Search products...",
+      "filterByCategory": "[VI] Filter by Category",
+      "filterByStatus": "[VI] Filter by Status",
+      "allCategories": "[VI] All Categories",
+      "allStatuses": "[VI] All Statuses",
+      "productsList": "[VI] Products List",
+      "productsListDescription": "[VI] Showing {count} products",
+      "productName": "[VI] Product Name",
+      "category": "[VI] Category",
+      "grade": "[VI] Grade",
+      "price": "[VI] Price",
+      "stock": "[VI] Stock",
+      "status": "[VI] Status",
+      "actions": "[VI] Actions",
+      "viewDetails": "[VI] View Details",
+      "inventory": {
+        "title": "[VI] Inventory Management",
+        "description": "[VI] Track stock levels, forecasting, and automated reorder alerts",
+        "stockLevels": "[VI] Stock Levels",
+        "lowStockAlerts": "[VI] Low Stock Alerts",
+        "forecasting": "[VI] Demand Forecasting",
+        "reports": "[VI] Inventory Reports",
+        "stockMovement": "[VI] Stock Movement",
+        "reorderPoint": "[VI] Reorder Point",
+        "currentStock": "[VI] Current Stock",
+        "reservedStock": "[VI] Reserved Stock",
+        "availableStock": "[VI] Available Stock",
+        "lastUpdated": "[VI] Last Updated",
+        "addStock": "[VI] Add Stock",
+        "removeStock": "[VI] Remove Stock",
+        "reorder": "[VI] Reorder"
+      },
+      "pricing": {
+        "title": "[VI] Pricing Management",
+        "description": "[VI] Manage dynamic pricing, bulk discounts, and market analysis",
+        "dynamicPricing": "[VI] Dynamic Pricing",
+        "bulkDiscounts": "[VI] Bulk Discounts",
+        "marketAnalysis": "[VI] Market Analysis",
+        "pricingRules": "[VI] Pricing Rules",
+        "pricingTiers": "[VI] Pricing Tiers",
+        "analytics": "[VI] Pricing Analytics",
+        "basePrice": "[VI] Base Price",
+        "currentPrice": "[VI] Current Price",
+        "marketPrice": "[VI] Market Price",
+        "profitMargin": "[VI] Profit Margin",
+        "lastUpdated": "[VI] Last Updated",
+        "updatePrice": "[VI] Update Price",
+        "addRule": "[VI] Add Rule",
+        "editRule": "[VI] Edit Rule"
+      }
+    }
+  },
+  "quotes": {
+    "title": "[VI] Quote Management",
+    "subtitle": "[VI] Manage all your quote requests and track their status",
+    "newQuote": "[VI] New Quote",
+    "exportQuotes": "[VI] Export Quotes",
+    "searchPlaceholder": "[VI] Search quotes by ID or product...",
+    "filterByStatus": "[VI] Filter by Status",
+    "filterByPriority": "[VI] Filter by Priority",
+    "allStatuses": "[VI] All Statuses",
+    "allPriorities": "[VI] All Priorities",
+    "quotesList": "[VI] Quotes List",
+    "quotesListDescription": "[VI] Showing {count} quotes",
+    "quoteId": "[VI] Quote ID",
+    "product": "[VI] Product",
+    "quantity": "[VI] Quantity",
+    "requested": "[VI] Requested",
+    "expires": "[VI] Expires",
+    "quotedPrice": "[VI] Quoted Price",
+    "actions": "[VI] Actions",
+    "viewDetails": "[VI] View Details",
+    "approve": "[VI] Approve",
+    "reject": "[VI] Reject",
+    "edit": "[VI] Edit",
+    "delete": "[VI] Delete",
+    "noQuotesFound": "[VI] No quotes found",
+    "noQuotesFoundDescription": "[VI] Try adjusting your search or filter criteria",
+    "status": {
+      "pending": "[VI] Pending",
+      "quoted": "[VI] Quoted",
+      "approved": "[VI] Approved",
+      "rejected": "[VI] Rejected",
+      "expired": "[VI] Expired"
+    },
+    "priority": {
+      "low": "[VI] Low",
+      "medium": "[VI] Medium",
+      "high": "[VI] High"
+    }
+  },
+  "orders": {
+    "title": "[VI] Order Management",
+    "subtitle": "[VI] Track and manage your coffee orders, shipments, and deliveries",
+    "exportOrders": "[VI] Export Orders",
+    "newOrder": "[VI] New Order",
+    "searchPlaceholder": "[VI] Search orders by ID, product, or destination...",
+    "filterByStatus": "[VI] Filter by Status",
+    "filterByPayment": "[VI] Filter by Payment",
+    "allStatuses": "[VI] All Statuses",
+    "allPayments": "[VI] All Payments",
+    "ordersList": "[VI] Orders List",
+    "ordersListDescription": "[VI] Showing {count} orders",
+    "orderId": "[VI] Order ID",
+    "product": "[VI] Product",
+    "quantity": "[VI] Quantity",
+    "status": {
+      "pending": "[VI] Pending",
+      "confirmed": "[VI] Confirmed",
+      "processing": "[VI] Processing",
+      "shipped": "[VI] Shipped",
+      "delivered": "[VI] Delivered",
+      "cancelled": "[VI] Cancelled"
+    },
+    "payment": {
+      "pending": "[VI] Pending",
+      "paid": "[VI] Paid",
+      "overdue": "[VI] Overdue",
+      "refunded": "[VI] Refunded"
+    },
+    "shipping": "[VI] Shipping",
+    "orderDate": "[VI] Order Date",
+    "value": "[VI] Value",
+    "progress": "[VI] Progress",
+    "actions": "[VI] Actions",
+    "viewDetails": "[VI] View Details",
+    "trackShipment": "[VI] Track Shipment",
+    "viewInvoice": "[VI] View Invoice",
+    "downloadDocuments": "[VI] Download Documents",
+    "noOrdersFound": "[VI] No orders found",
+    "noOrdersFoundDescription": "[VI] Try adjusting your search criteria or create a new order",
+    "stats": {
+      "totalOrders": "[VI] Total Orders",
+      "activeShipments": "[VI] Active Shipments",
+      "totalValue": "[VI] Total Value",
+      "delivered": "[VI] Delivered"
+    }
+  },
+  "analytics": {
+    "title": "[VI] Business Analytics",
+    "subtitle": "[VI] Comprehensive insights into your coffee business performance and market trends",
+    "refresh": "[VI] Refresh",
+    "exportReport": "[VI] Export Report",
+    "timeRange": {
+      "1month": "[VI] Last Month",
+      "3months": "[VI] Last 3 Months",
+      "6months": "[VI] Last 6 Months",
+      "1year": "[VI] Last Year"
+    },
+    "metrics": {
+      "totalRevenue": "[VI] Total Revenue",
+      "totalOrders": "[VI] Total Orders",
+      "avgOrderValue": "[VI] Avg Order Value",
+      "totalVolume": "[VI] Total Volume"
+    },
+    "tabs": {
+      "sales": "[VI] Sales",
+      "products": "[VI] Products",
+      "markets": "[VI] Markets",
+      "customers": "[VI] Customers"
+    },
+    "charts": {
+      "revenueOverTime": "[VI] Revenue Over Time",
+      "revenueOverTimeDesc": "[VI] Monthly revenue trends and growth patterns",
+      "ordersAndVolume": "[VI] Orders & Volume",
+      "ordersAndVolumeDesc": "[VI] Order count and volume shipped by month",
+      "productPerformance": "[VI] Product Performance",
+      "productPerformanceDesc": "[VI] Sales performance and growth by product category",
+      "marketDistribution": "[VI] Market Distribution",
+      "marketDistributionDesc": "[VI] Revenue distribution across global markets",
+      "topCountries": "[VI] Top Countries",
+      "topCountriesDesc": "[VI] Best performing countries by revenue",
+      "customerSegments": "[VI] Customer Segments",
+      "customerSegmentsDesc": "[VI] Revenue and performance by customer type"
+    },
+    "revenue": "[VI] Revenue",
+    "avgOrderValue": "[VI] Avg Order Value"
+  },
+  "account": {
+    "title": "[VI] Account Management",
+    "subtitle": "[VI] Manage your company profile, team members, and account preferences",
+    "edit": "[VI] Edit",
+    "save": "[VI] Save",
+    "cancel": "[VI] Cancel",
+    "tabs": {
+      "profile": "[VI] Company Profile",
+      "team": "[VI] Team Management",
+      "preferences": "[VI] Preferences"
+    },
+    "companyProfile": {
+      "title": "[VI] Company Profile",
+      "description": "[VI] Company Description",
+      "companyName": "[VI] Company Name",
+      "industry": "[VI] Industry",
+      "website": "[VI] Website",
+      "phone": "[VI] Phone Number",
+      "email": "[VI] Email Address",
+      "address": "[VI] Street Address",
+      "city": "[VI] City",
+      "country": "[VI] Country",
+      "taxId": "[VI] Tax ID"
+    },
+    "team": {
+      "title": "[VI] Team Management",
+      "description": "[VI] Manage team members and their access permissions",
+      "addMember": "[VI] Add Member",
+      "addMemberTitle": "[VI] Invite Team Member",
+      "addMemberDescription": "[VI] Send an invitation to a new team member",
+      "memberName": "[VI] Full Name",
+      "memberEmail": "[VI] Email Address",
+      "memberRole": "[VI] Role",
+      "sendInvitation": "[VI] Send Invitation",
+      "member": "[VI] Member",
+      "role": "[VI] Role",
+      "lastLogin": "[VI] Last Login",
+      "actions": "[VI] Actions"
+    },
+    "roles": {
+      "admin": "[VI] Admin",
+      "manager": "[VI] Manager",
+      "buyer": "[VI] Buyer",
+      "viewer": "[VI] Viewer"
+    },
+    "status": {
+      "active": "[VI] Active",
+      "pending": "[VI] Pending",
+      "inactive": "[VI] Inactive"
+    },
+    "preferences": {
+      "notifications": "[VI] Notification Preferences",
+      "notificationsDescription": "[VI] Configure how you want to receive updates and alerts",
+      "emailNotifications": "[VI] Email Notifications",
+      "pushNotifications": "[VI] Push Notifications",
+      "quoteUpdates": "[VI] Quote Updates",
+      "quoteUpdatesDesc": "[VI] Receive notifications when quotes are updated or responded to",
+      "orderUpdates": "[VI] Order Updates",
+      "orderUpdatesDesc": "[VI] Get notified about order status changes and shipment updates",
+      "shipmentUpdates": "[VI] Shipment Updates",
+      "shipmentUpdatesDesc": "[VI] Track your shipments and delivery notifications",
+      "marketingEmails": "[VI] Marketing Emails",
+      "marketingEmailsDesc": "[VI] Receive market insights, product updates, and promotional content",
+      "security": "[VI] Security Settings",
+      "securityDescription": "[VI] Manage your account security and data preferences",
+      "changePassword": "[VI] Change Password",
+      "downloadData": "[VI] Download My Data"
+    }
+  },
+  "documents": {
+    "title": "[VI] Document Management",
+    "subtitle": "[VI] Manage contracts, certificates, shipping documents, and other important files",
+    "uploadDocument": "[VI] Upload Document",
+    "uploadDocumentTitle": "[VI] Upload New Document",
+    "uploadDocumentDescription": "[VI] Add a new document to your document library",
+    "selectFile": "[VI] Select File",
+    "documentType": "[VI] Document Type",
+    "selectType": "[VI] Select document type",
+    "description": "[VI] Description",
+    "descriptionPlaceholder": "[VI] Enter document description (optional)",
+    "expiryDate": "[VI] Expiry Date",
+    "cancel": "[VI] Cancel",
+    "upload": "[VI] Upload",
+    "stats": {
+      "totalDocuments": "[VI] Total Documents",
+      "activeDocuments": "[VI] Active",
+      "expiredDocuments": "[VI] Expired",
+      "pendingDocuments": "[VI] Pending",
+      "expiringThisMonth": "[VI] Expiring This Month"
+    },
+    "types": {
+      "contract": "[VI] Contract",
+      "certificate": "[VI] Certificate",
+      "shipping": "[VI] Shipping Document",
+      "invoice": "[VI] Invoice",
+      "quality": "[VI] Quality Report",
+      "insurance": "[VI] Insurance"
+    },
+    "status": {
+      "active": "[VI] Active",
+      "expired": "[VI] Expired",
+      "pending": "[VI] Pending",
+      "archived": "[VI] Archived"
+    },
+    "searchPlaceholder": "[VI] Search documents by name, description, or tags...",
+    "filterByType": "[VI] Filter by Type",
+    "filterByStatus": "[VI] Filter by Status",
+    "allTypes": "[VI] All Types",
+    "allStatuses": "[VI] All Statuses",
+    "sortBy": "[VI] Sort By",
+    "sortOptions": {
+      "uploadDate": "[VI] Upload Date",
+      "name": "[VI] Name",
+      "type": "[VI] Type",
+      "size": "[VI] Size"
+    },
+    "documentsTable": {
+      "title": "[VI] Documents Library",
+      "description": "[VI] Showing {count} documents"
+    },
+    "tableHeaders": {
+      "document": "[VI] Document",
+      "type": "[VI] Type",
+      "status": "[VI] Status",
+      "uploadDate": "[VI] Upload Date",
+      "expiryDate": "[VI] Expiry Date",
+      "size": "[VI] Size",
+      "actions": "[VI] Actions"
+    },
+    "noDocuments": "[VI] No documents found",
+    "noDocumentsDescription": "[VI] Upload your first document or adjust your search filters"
+  },
+  "logistics": {
+    "title": "[VI] Logistics Calculator",
+    "subtitle": "[VI] Calculate shipping costs, delivery times, and manage your logistics operations",
+    "tabs": {
+      "calculator": "[VI] Shipping Calculator",
+      "incoterms": "[VI] Incoterms Guide",
+      "tracking": "[VI] Shipment Tracking"
+    },
+    "calculator": {
+      "title": "[VI] Shipping Cost Calculator",
+      "description": "[VI] Get instant estimates for shipping costs and delivery times",
+      "shippingMethod": "[VI] Shipping Method",
+      "selectMethod": "[VI] Select shipping method",
+      "methods": {
+        "sea": "[VI] Sea Freight",
+        "air": "[VI] Air Freight",
+        "land": "[VI] Land Transport"
+      },
+      "origin": "[VI] Origin Port",
+      "selectOrigin": "[VI] Select origin port",
+      "destination": "[VI] Destination Port",
+      "selectDestination": "[VI] Select destination port",
+      "containers": "[VI] Number of Containers",
+      "containersPlaceholder": "[VI] Enter number of 20ft containers",
+      "weight": "[VI] Total Weight (kg)",
+      "weightPlaceholder": "[VI] Enter total weight in kilograms",
+      "incoterm": "[VI] Incoterm",
+      "selectIncoterm": "[VI] Select Incoterm",
+      "calculate": "[VI] Calculate Shipping Cost",
+      "calculating": "[VI] Calculating..."
+    },
+    "results": {
+      "title": "[VI] Shipping Estimate",
+      "estimatedCost": "[VI] Estimated Cost",
+      "transitTime": "[VI] Transit Time",
+      "days": "[VI] days",
+      "estimatedDelivery": "[VI] Estimated Delivery",
+      "shippingMethod": "[VI] Shipping Method",
+      "disclaimer": "[VI] This is an estimated cost. Final pricing may vary based on actual cargo specifications, market conditions, and additional services required.",
+      "requestQuote": "[VI] Request Official Quote"
+    },
+    "incoterms": {
+      "title": "[VI] International Commercial Terms (Incoterms)",
+      "description": "[VI] Understanding the responsibilities and risks in international trade"
+    },
+    "tracking": {
+      "title": "[VI] Shipment Tracking",
+      "description": "[VI] Track your current shipments and delivery status"
+    }
+  },
+  "messages": {
+    "title": "[VI] Communication Center",
+    "subtitle": "[VI] Manage conversations, notifications, and support tickets",
+    "tabs": {
+      "chat": "[VI] Chat",
+      "notifications": "[VI] Notifications",
+      "tickets": "[VI] Support Tickets"
+    },
+    "chat": {
+      "title": "[VI] Messages",
+      "newChat": "[VI] New Chat",
+      "searchPlaceholder": "[VI] Search conversations...",
+      "selectConversation": "[VI] Select a conversation",
+      "selectConversationDescription": "[VI] Choose a conversation from the sidebar to start messaging",
+      "messagePlaceholder": "[VI] Type your message...",
+      "actions": {
+        "star": "[VI] Star conversation",
+        "archive": "[VI] Archive conversation",
+        "delete": "[VI] Delete conversation"
+      }
+    },
+    "notifications": {
+      "title": "[VI] Notifications",
+      "markAllRead": "[VI] Mark all as read",
+      "filters": {
+        "all": "[VI] All",
+        "unread": "[VI] Unread",
+        "quotes": "[VI] Quotes",
+        "shipping": "[VI] Shipping",
+        "quality": "[VI] Quality"
+      }
+    },
+    "tickets": {
+      "title": "[VI] Support Tickets",
+      "createNew": "[VI] Create New Ticket",
+      "responses": "[VI] responses",
+      "filters": {
+        "all": "[VI] All Tickets",
+        "open": "[VI] Open",
+        "inProgress": "[VI] In Progress",
+        "resolved": "[VI] Resolved"
+      },
+      "status": {
+        "open": "[VI] Open",
+        "in_progress": "[VI] In Progress",
+        "resolved": "[VI] Resolved"
+      },
+      "priority": {
+        "high": "[VI] High",
+        "medium": "[VI] Medium",
+        "low": "[VI] Low"
+      },
+      "actions": {
+        "view": "[VI] View Ticket",
+        "edit": "[VI] Edit Ticket",
+        "close": "[VI] Close Ticket"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "[VI] What Our Partners Say About Us",
+    "subtitle": "[VI] Join 500+ international partners who trust The Great Beans for premium Vietnamese coffee solutions and exceptional service across 25+ countries",
+    "trustBadge": "[VI] Trusted by Global Partners",
+    "categories": {
+      "all": "[VI] All Partners",
+      "roaster": "[VI] Coffee Roasters",
+      "distributor": "[VI] Distributors",
+      "manufacturer": "[VI] Manufacturers",
+      "retailer": "[VI] Retailers"
+    },
+    "stats": {
+      "annualVolume": "[VI] Annual Volume",
+      "partnership": "[VI] Partnership"
+    },
+    "navigation": {
+      "previous": "[VI] Previous",
+      "next": "[VI] Next"
+    },
+    "trustIndicators": {
+      "title": "[VI] Trusted by Industry Leaders",
+      "subtitle": "[VI] Join our growing network of satisfied partners worldwide"
+    },
+    "cta": {
+      "title": "[VI] Ready to Join Our Success Stories?",
+      "subtitle": "[VI] Start your partnership with Vietnam's leading coffee exporter today",
+      "becomePartner": "[VI] Become a Partner",
+      "requestQuote": "[VI] Request Quote"
+    }
+  },
+  "marketReports": {
+    "title": "[VI] Market Reports & Insights",
+    "subtitle": "[VI] Stay informed with the latest Vietnamese coffee market trends, analysis, and forecasts",
+    "description": "[VI] Comprehensive market intelligence for informed business decisions",
+    "featured": "[VI] Featured Reports",
+    "allReports": "[VI] All Reports",
+    "readReport": "[VI] Read Report",
+    "downloadReport": "[VI] Download Report",
+    "publishedOn": "[VI] Published on",
+    "author": "[VI] Author",
+    "category": "[VI] Category",
+    "tags": "[VI] Tags",
+    "readingTime": "[VI] Reading Time",
+    "relatedReports": "[VI] Related Reports",
+    "noReports": "[VI] No reports available",
+    "noReportsDescription": "[VI] Please check back later for market updates.",
+    "backToReports": "[VI] Back to Reports",
+    "categories": {
+      "market-analysis": "[VI] Market Analysis",
+      "price-trends": "[VI] Price Trends",
+      "export-data": "[VI] Export Data",
+      "industry-news": "[VI] Industry News",
+      "forecasts": "[VI] Forecasts"
+    },
+    "filters": {
+      "search": "[VI] Search reports...",
+      "category": "[VI] Category",
+      "dateRange": "[VI] Date Range",
+      "reset": "[VI] Reset Filters",
+      "apply": "[VI] Apply Filters"
+    },
+    "cta": {
+      "title": "[VI] Need Custom Market Intelligence?",
+      "subtitle": "[VI] Get personalized market reports and analysis tailored to your business needs",
+      "contactUs": "[VI] Contact Our Analysts",
+      "requestCustomReport": "[VI] Request Custom Report"
     }
   }
 }

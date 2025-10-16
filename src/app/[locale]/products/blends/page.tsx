@@ -1,5 +1,5 @@
 import { type Metadata } from 'next';
-import { Coffee, Palette, Target, Zap, CheckCircle, Star } from 'lucide-react';
+import {  Coffee, Palette, Target, Zap, CheckCircle, Star  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

@@ -1,29 +1,4 @@
-import {
-  Coffee,
-  MapPin,
-  Package,
-  Download,
-  ShoppingCart,
-  Star,
-  Award,
-  Thermometer,
-  Scale,
-  Clock,
-  CheckCircle,
-  ArrowLeft,
-  Share2,
-  Heart,
-  FileText,
-  Globe,
-  Truck,
-  Shield,
-  TrendingUp,
-  Calendar,
-  AlertCircle,
-  BarChart3,
-  BookOpen,
-  HardDrive,
-} from 'lucide-react';
+import {  Coffee, MapPin, Package, Download, ShoppingCart, Star, Award, Thermometer, Scale, Clock, CheckCircle, ArrowLeft, Share2, Heart, FileText, Globe, Truck, Shield, TrendingUp, Calendar, AlertCircle, BarChart3, BookOpen, HardDrive  } from '@/components/ui/dynamic-icons';
 import { type Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';

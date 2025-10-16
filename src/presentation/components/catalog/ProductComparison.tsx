@@ -1,6 +1,6 @@
 'use client';
 
-import { X, Download, ShoppingCart } from 'lucide-react';
+import {  X, Download, ShoppingCart  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 

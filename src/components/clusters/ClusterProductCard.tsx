@@ -1,6 +1,6 @@
 'use client';
 
-import { Download, Coffee } from 'lucide-react';
+import {  Download, Coffee  } from '@/components/ui/dynamic-icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';

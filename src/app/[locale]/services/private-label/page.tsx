@@ -1,14 +1,5 @@
 import { type Metadata } from 'next';
-import {
-  Tag,
-  Palette,
-  Rocket,
-  Users,
-  CheckCircle,
-  Star,
-  Lightbulb,
-  Target,
-} from 'lucide-react';
+import {  Tag, Palette, Rocket, Users, CheckCircle, Star, Lightbulb, Target  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

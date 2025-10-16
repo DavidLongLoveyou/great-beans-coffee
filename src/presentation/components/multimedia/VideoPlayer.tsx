@@ -1,19 +1,6 @@
 'use client';
 
-import {
-  Play,
-  Pause,
-  Volume2,
-  VolumeX,
-  Maximize,
-  Minimize,
-  SkipBack,
-  SkipForward,
-  Settings,
-  Download,
-  Share2,
-  Loader2,
-} from 'lucide-react';
+import {  Play, Pause, Volume2, VolumeX, Maximize, Minimize, SkipBack, SkipForward, Settings, Download, Share2, Loader2  } from '@/components/ui/dynamic-icons';
 import React, { useState, useRef, useEffect } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

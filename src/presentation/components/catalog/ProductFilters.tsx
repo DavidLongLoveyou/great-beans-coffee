@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, Filter, X, SlidersHorizontal } from 'lucide-react';
+import {  Search, Filter, X, SlidersHorizontal  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import { useState, useCallback } from 'react';
 

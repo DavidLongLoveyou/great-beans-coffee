@@ -1,14 +1,5 @@
 import { type Metadata } from 'next';
-import {
-  Users,
-  Heart,
-  TrendingUp,
-  Globe,
-  Coffee,
-  Award,
-  MapPin,
-  Clock,
-} from 'lucide-react';
+import {  Users, Heart, TrendingUp, Globe, Coffee, Award, MapPin, Clock  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

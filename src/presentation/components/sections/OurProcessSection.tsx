@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  ArrowRight,
-  Award,
-  CheckCircle,
-  Coffee,
-  Globe,
-  Shield,
-  Ship,
-  Sprout,
-} from 'lucide-react';
+import {  ArrowRight, Award, CheckCircle, Coffee, Globe, Shield, Ship, Sprout  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 

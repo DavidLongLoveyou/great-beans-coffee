@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  Star,
-  Quote,
-  Building,
-  MapPin,
-  Users,
-  Award,
-  ArrowLeft,
-  ArrowRight,
-} from 'lucide-react';
+import {  Star, Quote, Building, MapPin, Users, Award, ArrowLeft, ArrowRight  } from '@/components/ui/dynamic-icons';
 import { useInView } from 'framer-motion';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';

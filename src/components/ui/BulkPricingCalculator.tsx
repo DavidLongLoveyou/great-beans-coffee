@@ -1,17 +1,6 @@
 'use client';
 
-import {
-  Calculator,
-  TrendingDown,
-  Package,
-  DollarSign,
-  Truck,
-  Calendar,
-  AlertCircle,
-  CheckCircle,
-  Download,
-  Share2,
-} from 'lucide-react';
+import {  Calculator, TrendingDown, Package, DollarSign, Truck, Calendar, AlertCircle, CheckCircle, Download, Share2  } from '@/components/ui/dynamic-icons';
 import React, { useState, useEffect } from 'react';
 
 import { type CatalogProduct } from '@/data/product-catalog';

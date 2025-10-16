@@ -1,21 +1,6 @@
 'use client';
 
-import {
-  X,
-  Download,
-  ShoppingCart,
-  TrendingUp,
-  BarChart3,
-  Scale,
-  DollarSign,
-  Package,
-  Clock,
-  AlertTriangle,
-  CheckCircle,
-  Info,
-  Star,
-  Target,
-} from 'lucide-react';
+import {  X, Download, ShoppingCart, TrendingUp, BarChart3, Scale, DollarSign, Package, Clock, AlertTriangle, CheckCircle, Info, Star, Target  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import React, { useState, useMemo, Fragment, ReactNode } from 'react';
 

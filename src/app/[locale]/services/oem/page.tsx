@@ -1,14 +1,5 @@
 import { type Metadata } from 'next';
-import {
-  Factory,
-  Settings,
-  Shield,
-  Truck,
-  CheckCircle,
-  Star,
-  Clock,
-  Award,
-} from 'lucide-react';
+import {  Factory, Settings, Shield, Truck, CheckCircle, Star, Clock, Award  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

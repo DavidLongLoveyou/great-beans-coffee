@@ -1,11 +1,11 @@
-import { CalendarDays, TrendingUp, Globe } from 'lucide-react';
+import {  CalendarDays, TrendingUp, Globe  } from '@/components/ui/dynamic-icons';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
-import { getMarketReports, getFeaturedMarketReports } from '@/lib/contentlayer';
+import FileContentLoader from '@/lib/content-file-loader';
 import {
   Card,
   CardContent,
@@ -62,8 +62,8 @@ export default async function MarketReportsPage({
   const t = await getTranslations('marketReports');
   const tCommon = await getTranslations('common');
 
-  const featuredReports = getFeaturedMarketReports(locale, 3);
-  const allReports = getMarketReports(locale);
+  const featuredReports = await FileContentLoader.getFeaturedMarketReports(locale, 3);
+  const allReports = await FileContentLoader.getMarketReports(locale);
   const regularReports = allReports.filter(report => !report.featured);
 
   // Generate structured data for SEO
@@ -73,7 +73,7 @@ export default async function MarketReportsPage({
       title: report.title,
       description: report.description,
       publishedAt: report.publishedAt,
-      author: report.author,
+      author: report.author || 'Great Beans Coffee',
       ...(report.coverImage && { coverImage: report.coverImage }),
     })),
     locale
@@ -141,7 +141,7 @@ export default async function MarketReportsPage({
                         <Globe className="mr-1 h-4 w-4" />
                         {report.category}
                       </div>
-                      <Link href={report.url}>
+                      <Link href={`/${locale}/market-reports/${report.slug}`}>
                         <ServerButton variant="outline" size="sm">
                           {tCommon('readMore')}
                         </ServerButton>
@@ -185,7 +185,7 @@ export default async function MarketReportsPage({
                     <div className="text-sm text-gray-500">
                       {report.readingTime && `${report.readingTime} min read`}
                     </div>
-                    <Link href={report.url}>
+                    <Link href={`/${locale}/market-reports/${report.slug}`}>
                       <ServerButton variant="outline" size="sm">
                         {tCommon('readMore')}
                       </ServerButton>

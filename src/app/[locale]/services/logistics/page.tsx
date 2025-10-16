@@ -1,5 +1,5 @@
 import { type Metadata } from 'next';
-import { Truck, Ship, Plane, Package, CheckCircle, Globe } from 'lucide-react';
+import {  Truck, Ship, Plane, Package, CheckCircle, Globe  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

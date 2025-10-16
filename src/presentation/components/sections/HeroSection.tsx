@@ -1,6 +1,6 @@
 'use client';
 
-import { Coffee, Globe, Award, ArrowRight } from 'lucide-react';
+import {  Coffee, Globe, Award, ArrowRight  } from '@/components/ui/dynamic-icons';
 
 import { EnhancedButton } from '@/presentation/components/ui/EnhancedButton';
 import {

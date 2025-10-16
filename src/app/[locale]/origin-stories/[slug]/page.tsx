@@ -1,12 +1,4 @@
-import {
-  CalendarDays,
-  MapPin,
-  Coffee,
-  Mountain,
-  ArrowLeft,
-  User,
-  Clock,
-} from 'lucide-react';
+import {  CalendarDays, MapPin, Coffee, Mountain, ArrowLeft, User, Clock  } from '@/components/ui/dynamic-icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';

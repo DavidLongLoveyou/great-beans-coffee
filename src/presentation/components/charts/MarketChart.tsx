@@ -1,6 +1,6 @@
 'use client';
 
-import { TrendingUp, TrendingDown, BarChart3, LineChart } from 'lucide-react';
+import {  TrendingUp, TrendingDown, BarChart3, LineChart  } from '@/components/ui/dynamic-icons';
 import React, { useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

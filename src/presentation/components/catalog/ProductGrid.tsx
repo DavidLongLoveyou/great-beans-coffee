@@ -1,16 +1,6 @@
 'use client';
 
-import {
-  Eye,
-  ShoppingCart,
-  ArrowUpDown,
-  Grid3X3,
-  List,
-  ChevronLeft,
-  ChevronRight,
-  Scale,
-  X,
-} from 'lucide-react';
+import {  Eye, ShoppingCart, ArrowUpDown, Grid3X3, List, ChevronLeft, ChevronRight, Scale, X  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';

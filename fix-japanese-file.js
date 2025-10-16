@@ -1,0 +1,69 @@
+const fs = require('fs');
+
+const filePath = 'content/services/ja/private-label-coffee-solutions.mdx';
+
+// Read the current content
+const content = fs.readFileSync(filePath, 'utf8');
+
+// Extract the markdown content (everything after the frontmatter)
+const markdownMatch = content.match(/---[\s\S]*?---\n([\s\S]*)/);
+const markdownContent = markdownMatch ? markdownMatch[1] : '';
+
+// Create clean frontmatter
+const cleanFrontmatter = `---
+title: 'プライベートラベルコーヒーソリューション'
+description: "調達から包装まで完全なプライベートラベルコーヒーサービス。ベトナムスペシャルティコーヒーの専門知識でコーヒーブランドを構築しましょう。"
+publishedAt: "2024-01-05"
+updatedAt: "2024-01-15"
+author: "The Great Beans Team"
+category: "BUSINESS_SERVICE"
+serviceType: "PRIVATE_LABEL"
+locale: "ja"
+featured: true
+coverImage: "/images/services/private-label-hero.jpg"
+gallery:
+  - "/images/services/private-label-packaging.jpg"
+  - "/images/services/private-label-roasting.jpg"
+  - "/images/services/private-label-quality-control.jpg"
+  - "/images/services/private-label-branding.jpg"
+excerpt: "豆の選択から最終包装まで、包括的なプライベートラベルソリューションでビジョンをプレミアムコーヒーブランドに変換します。"
+readingTime: 8
+seoTitle: "プライベートラベルコーヒーソリューション - カスタムコーヒーブランド開発"
+seoDescription: "プロフェッショナルなプライベートラベルコーヒーサービス。コーヒービジネス向けカスタム焙煎、包装、ブランディング。ベトナムスペシャルティコーヒーの専門知識。"
+keywords:
+  - "プライベートラベルコーヒー"
+  - "ベトナムコーヒープライベートラベル"
+pricing:
+  startingPrice: 2500
+  currency: "USD"
+  unit: "プロジェクトあたり"
+  priceRange: "2500-15000"
+  deliveryTime: "4-8週間"
+  minimumOrder: "500 kg"
+certifications:
+  - "ISO 22000"
+  - "HACCP"
+  - "オーガニック"
+  - "フェアトレード"
+  - "レインフォレスト・アライアンス"
+targetMarkets:
+  - "北米"
+  - "ヨーロッパ"
+  - "アジア太平洋"
+  - "中東"
+serviceIncludes:
+  - "コーヒー調達と選択"
+  - "カスタム焙煎プロファイル"
+  - "包装デザインと製造"
+  - "ブランド開発コンサルテーション"
+  - "品質管理とテスト"
+  - "物流と配送"
+  - "規制コンプライアンス"
+  - "マーケティングサポート資料"
+---`;
+
+// Write the clean file
+const newContent = cleanFrontmatter + '\n' + markdownContent;
+fs.writeFileSync(filePath, newContent, 'utf8');
+
+console.log('✅ Japanese file frontmatter completely rebuilt');

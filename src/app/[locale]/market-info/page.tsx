@@ -1,4 +1,4 @@
-import { ArrowLeft, Globe } from 'lucide-react';
+import {  ArrowLeft, Globe  } from '@/components/ui/dynamic-icons';
 import { type Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';

@@ -1,18 +1,6 @@
 'use client';
 
-import {
-  Calendar,
-  Clock,
-  Tag,
-  ExternalLink,
-  FileText,
-  Package,
-  MapPin,
-  Users,
-  Star,
-  TrendingUp,
-  Eye,
-} from 'lucide-react';
+import {  Calendar, Clock, Tag, ExternalLink, FileText, Package, MapPin, Users, Star, TrendingUp, Eye  } from '@/components/ui/dynamic-icons';
 import Image from 'next/image';
 import Link from 'next/link';
 

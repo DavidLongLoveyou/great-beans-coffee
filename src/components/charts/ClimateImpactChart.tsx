@@ -2,27 +2,20 @@
 
 import React, { useState } from 'react';
 import {
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  ComposedChart,
-} from 'recharts';
-import {
-  Thermometer,
-  CloudRain,
-  Wind,
-  AlertTriangle,
-  TrendingUp,
-  TrendingDown,
-} from 'lucide-react';
+  DynamicLine as Line,
+  DynamicXAxis as XAxis,
+  DynamicYAxis as YAxis,
+  DynamicCartesianGrid as CartesianGrid,
+  DynamicTooltip as Tooltip,
+  DynamicLegend as Legend,
+  DynamicResponsiveContainer as ResponsiveContainer,
+  DynamicAreaChart as AreaChart,
+  DynamicArea as Area,
+  DynamicBarChart as BarChart,
+  DynamicBar as Bar,
+  DynamicComposedChart as ComposedChart,
+} from '@/components/charts/DynamicCharts';
+import {  Thermometer, CloudRain, Wind, AlertTriangle, TrendingUp, TrendingDown  } from '@/components/ui/dynamic-icons';
 
 interface ClimateDataPoint {
   period: string;

@@ -1,21 +1,6 @@
 'use client';
 
-import {
-  LayoutDashboard,
-  FileText,
-  Package,
-  BarChart3,
-  User,
-  FileStack,
-  Calculator,
-  MessageSquare,
-  Menu,
-  LogOut,
-  Settings,
-  Bell,
-  Search,
-  Coffee,
-} from 'lucide-react';
+import {  LayoutDashboard, FileText, Package, BarChart3, User, FileStack, Calculator, MessageSquare, Menu, LogOut, Settings, Bell, Search, Coffee  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';

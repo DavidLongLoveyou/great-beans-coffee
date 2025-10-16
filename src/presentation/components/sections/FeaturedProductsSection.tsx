@@ -1,14 +1,7 @@
 'use client';
 
 import { motion, useInView, Variants } from 'framer-motion';
-import {
-  Coffee,
-  ArrowRight,
-  Star,
-  ChevronLeft,
-  ChevronRight,
-  Download,
-} from 'lucide-react';
+import {  Coffee, ArrowRight, Star, ChevronLeft, ChevronRight, Download  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState, useRef } from 'react';

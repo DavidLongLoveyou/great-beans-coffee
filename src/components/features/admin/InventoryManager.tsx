@@ -1,28 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Package,
-  TrendingUp,
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  BarChart3,
-  Download,
-  Upload,
-  Search,
-  DollarSign,
-  Truck,
-  Eye,
-  Edit,
-  Plus,
-  FileText,
-  Bell,
-  Target,
-  Activity,
-  Archive,
-  ShoppingCart,
-} from 'lucide-react';
+import {  Package, TrendingUp, AlertTriangle, CheckCircle, Clock, BarChart3, Download, Upload, Search, DollarSign, Truck, Eye, Edit, Plus, FileText, Bell, Target, Activity, Archive, ShoppingCart  } from '@/components/ui/dynamic-icons';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';

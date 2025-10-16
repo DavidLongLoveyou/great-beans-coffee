@@ -1,5 +1,5 @@
 import { type Metadata } from 'next';
-import { Shield, Eye, Lock, Users, Mail } from 'lucide-react';
+import {  Shield, Eye, Lock, Users, Mail  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

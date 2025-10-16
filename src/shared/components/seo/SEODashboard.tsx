@@ -1,19 +1,6 @@
 'use client';
 
-import {
-  Search,
-  TrendingUp,
-  AlertTriangle,
-  CheckCircle,
-  XCircle,
-  Info,
-  Download,
-  RefreshCw,
-  Globe,
-  Zap,
-  Eye,
-  Target,
-} from 'lucide-react';
+import {  Search, TrendingUp, AlertTriangle, CheckCircle, XCircle, Info, Download, RefreshCw, Globe, Zap, Eye, Target  } from '@/components/ui/dynamic-icons';
 import React, { useState } from 'react';
 
 import {

@@ -1,21 +1,10 @@
-import {
-  CalendarDays,
-  User,
-  Clock,
-  Tag,
-  Coffee,
-  TrendingUp,
-} from 'lucide-react';
+import {  CalendarDays, User, Clock, Tag, Coffee, TrendingUp  } from '@/components/ui/dynamic-icons';
 import { type Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
-import {
-  getBlogPosts,
-  getFeaturedBlogPosts,
-  getBlogCategories,
-} from '@/lib/contentlayer';
+import FileContentLoader from '@/lib/content-file-loader';
 import {
   Card,
   CardContent,
@@ -93,9 +82,9 @@ export default async function BlogPage({
   try {
     const t = await getTranslations('blog');
     const tCommon = await getTranslations('common');
-    const featuredPosts = getFeaturedBlogPosts(locale, 3);
-    const allPosts = getBlogPosts(locale);
-    const categories = getBlogCategories(locale);
+    const featuredPosts = await FileContentLoader.getFeaturedBlogPosts(locale, 3);
+    const allPosts = await FileContentLoader.getBlogPosts(locale);
+    const categories = await FileContentLoader.getBlogCategories(locale);
 
     // Filter posts by category if specified
     const filteredPosts = categoryFilter
@@ -206,7 +195,7 @@ export default async function BlogPage({
                         <CalendarDays className="mr-1 h-4 w-4" />
                         {new Date(post.publishedAt).toLocaleDateString(locale)}
                       </div>
-                      <Link href={post.url}>
+                      <Link href={`/${locale}/blog/${post.slug}`}>
                         <ServerButton variant="outline" size="sm">
                           {tCommon('readMore')}
                         </ServerButton>
@@ -266,7 +255,7 @@ export default async function BlogPage({
                         </div>
                       )}
                     </div>
-                    <Link href={post.url}>
+                    <Link href={`/${locale}/blog/${post.slug}`}>
                       <ServerButton variant="outline" size="sm">
                         {tCommon('readMore')}
                       </ServerButton>

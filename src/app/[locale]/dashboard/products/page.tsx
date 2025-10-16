@@ -1,28 +1,6 @@
 'use client';
 
-import {
-  Coffee,
-  Plus,
-  Search,
-  MoreHorizontal,
-  Edit,
-  Eye,
-  Trash2,
-  Copy,
-  Archive,
-  Star,
-  StarOff,
-  Package,
-  DollarSign,
-  TrendingUp,
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  Download,
-  Upload,
-  BarChart3,
-  Image,
-} from 'lucide-react';
+import {  Coffee, Plus, Search, MoreHorizontal, Edit, Eye, Trash2, Copy, Archive, Star, StarOff, Package, DollarSign, TrendingUp, AlertTriangle, CheckCircle, Clock, Download, Upload, BarChart3, Image  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState, useMemo, use } from 'react';

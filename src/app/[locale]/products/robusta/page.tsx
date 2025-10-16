@@ -1,12 +1,5 @@
 import { type Metadata } from 'next';
-import {
-  Coffee,
-  Award,
-  Leaf,
-  TrendingUp,
-  CheckCircle,
-  Star,
-} from 'lucide-react';
+import {  Coffee, Award, Leaf, TrendingUp, CheckCircle, Star  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

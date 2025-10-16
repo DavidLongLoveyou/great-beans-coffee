@@ -1,13 +1,5 @@
 import { type Metadata } from 'next';
-import {
-  Zap,
-  Clock,
-  Globe,
-  Droplets,
-  CheckCircle,
-  Star,
-  Package,
-} from 'lucide-react';
+import {  Zap, Clock, Globe, Droplets, CheckCircle, Star, Package  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, X, Clock, TrendingUp, Sparkles } from 'lucide-react';
+import {  Search, X, Clock, TrendingUp, Sparkles  } from '@/components/ui/dynamic-icons';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

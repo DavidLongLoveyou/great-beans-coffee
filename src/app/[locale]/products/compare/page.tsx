@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Plus, Search, ArrowLeft, BarChart3, Scale } from 'lucide-react';
+import {  Plus, Search, ArrowLeft, BarChart3, Scale  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 
 import {

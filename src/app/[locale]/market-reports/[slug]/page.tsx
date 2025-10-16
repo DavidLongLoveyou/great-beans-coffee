@@ -1,19 +1,11 @@
-import {
-  CalendarDays,
-  Clock,
-  User,
-  Tag,
-  ArrowLeft,
-  TrendingUp,
-} from 'lucide-react';
+import {  CalendarDays, Clock, User, Tag, ArrowLeft, TrendingUp  } from '@/components/ui/dynamic-icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
-import { getRelatedContent } from '@/lib/contentlayer';
-import { MDXContent } from '@/presentation/components/MDXContent';
+import FileContentLoader from '@/lib/content-file-loader';
 import {
   Card,
   CardContent,
@@ -22,7 +14,6 @@ import {
   CardTitle,
 } from '@/presentation/components/ui/card';
 import { ServerButton } from '@/presentation/components/ui/server-button';
-import { allMarketReports } from 'contentlayer/generated';
 
 interface MarketReportPageProps {
   params: Promise<{
@@ -32,7 +23,8 @@ interface MarketReportPageProps {
 }
 
 export async function generateStaticParams() {
-  return allMarketReports.map(report => ({
+  const reports = await FileContentLoader.getMarketReports('en');
+  return reports.map(report => ({
     slug: report.slug,
   }));
 }
@@ -44,21 +36,16 @@ export default async function MarketReportPage({
   const t = await getTranslations('marketReports');
   const tCommon = await getTranslations('common');
 
-  const report = allMarketReports.find(
-    report => report.slug === slug && report.locale === locale
-  );
+  const report = await FileContentLoader.getMarketReportBySlug(slug, locale);
 
   if (!report) {
     notFound();
   }
 
-  const relatedReports = getRelatedContent(
-    locale,
-    report.slug,
-    report.tags || [],
-    report.category,
-    3
-  );
+  const allReports = await FileContentLoader.getMarketReports(locale);
+  const relatedReports = allReports
+    .filter(r => r.slug !== report.slug)
+    .slice(0, 3);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -136,33 +123,23 @@ export default async function MarketReportPage({
 
             {/* Report Metadata */}
             <div className="grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-4 md:grid-cols-2">
-              {report.reportType && (
+              {report.category && (
                 <div>
                   <span className="font-semibold text-gray-700">
-                    Report Type:
+                    Category:
                   </span>
                   <span className="ml-2 text-gray-600">
-                    {report.reportType}
+                    {report.category}
                   </span>
                 </div>
               )}
-              {report.dataSource && (
-                <div>
-                  <span className="font-semibold text-gray-700">
-                    Data Source:
-                  </span>
-                  <span className="ml-2 text-gray-600">
-                    {report.dataSource}
-                  </span>
-                </div>
-              )}
-              {report.targetMarkets && report.targetMarkets.length > 0 && (
+              {report.tags && report.tags.length > 0 && (
                 <div className="md:col-span-2">
                   <span className="font-semibold text-gray-700">
-                    Target Markets:
+                    Tags:
                   </span>
                   <span className="ml-2 text-gray-600">
-                    {report.targetMarkets.join(', ')}
+                    {report.tags.join(', ')}
                   </span>
                 </div>
               )}
@@ -172,26 +149,15 @@ export default async function MarketReportPage({
 
         {/* Article Content */}
         <div className="prose prose-lg mb-12 max-w-none">
-          <MDXContent code={report.body.code} />
+          <div dangerouslySetInnerHTML={{ __html: report.content }} />
         </div>
 
-        {/* Author Bio */}
-        {report.authorBio && (
+        {/* Author */}
+        {report.author && (
           <div className="mb-12 border-t border-gray-200 pt-8">
             <div className="flex items-start space-x-4">
-              {report.authorImage && (
-                <div className="relative h-16 w-16">
-                  <Image
-                    src={report.authorImage}
-                    alt={report.author}
-                    fill
-                    className="rounded-full object-cover"
-                  />
-                </div>
-              )}
               <div>
                 <h3 className="font-semibold text-gray-900">{report.author}</h3>
-                <p className="mt-1 text-gray-600">{report.authorBio}</p>
               </div>
             </div>
           </div>
@@ -220,7 +186,7 @@ export default async function MarketReportPage({
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Link href={relatedReport.url}>
+                  <Link href={`/${locale}/market-reports/${relatedReport.slug}`}>
                     <ServerButton
                       variant="outline"
                       size="sm"

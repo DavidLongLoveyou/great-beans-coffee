@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { AlertTriangle, TrendingUp, TrendingDown } from 'lucide-react';
+import {  AlertTriangle, TrendingUp, TrendingDown  } from '@/components/ui/dynamic-icons';
 
 interface RiskDataPoint {
   region: string;

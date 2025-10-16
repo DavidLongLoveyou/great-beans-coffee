@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  ExternalLink,
-  Info,
-  Award,
-  CheckCircle,
-  AlertTriangle,
-} from 'lucide-react';
+import {  ExternalLink, Info, Award, CheckCircle, AlertTriangle  } from '@/components/ui/dynamic-icons';
 import React, { forwardRef, useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

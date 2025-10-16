@@ -1,17 +1,6 @@
 'use client';
 
-import {
-  AlertCircle,
-  ArrowUpRight,
-  BarChart3,
-  Bell,
-  DollarSign,
-  Download,
-  FileText,
-  Package,
-  Plus,
-  TrendingUp,
-} from 'lucide-react';
+import {  AlertCircle, ArrowUpRight, BarChart3, Bell, DollarSign, Download, FileText, Package, Plus, TrendingUp  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';

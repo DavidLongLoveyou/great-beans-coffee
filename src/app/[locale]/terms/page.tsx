@@ -1,12 +1,5 @@
 import { type Metadata } from 'next';
-import {
-  FileText,
-  Scale,
-  Shield,
-  AlertTriangle,
-  Globe,
-  Truck,
-} from 'lucide-react';
+import {  FileText, Scale, Shield, AlertTriangle, Globe, Truck  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

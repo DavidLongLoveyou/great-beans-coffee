@@ -1,22 +1,4 @@
-import {
-  ArrowLeft,
-  Package,
-  Truck,
-  Coffee,
-  Factory,
-  CheckCircle,
-  Clock,
-  DollarSign,
-  Users,
-  Shield,
-  FileText,
-  Download,
-  Star,
-  Globe,
-  Calendar,
-  AlertCircle,
-  Settings,
-} from 'lucide-react';
+import {  ArrowLeft, Package, Truck, Coffee, Factory, CheckCircle, Clock, DollarSign, Users, Shield, FileText, Download, Star, Globe, Calendar, AlertCircle, Settings  } from '@/components/ui/dynamic-icons';
 import { type Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';

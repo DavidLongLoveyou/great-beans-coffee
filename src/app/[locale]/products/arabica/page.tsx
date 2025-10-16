@@ -1,5 +1,5 @@
 import { type Metadata } from 'next';
-import { Award, Mountain, Sparkles, CheckCircle, Star } from 'lucide-react';
+import {  Award, Mountain, Sparkles, CheckCircle, Star  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

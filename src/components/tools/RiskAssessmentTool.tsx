@@ -1,33 +1,23 @@
 'use client';
 
 import React, { useState, useCallback, useMemo } from 'react';
-import {
-  AlertTriangle,
-  Shield,
-  TrendingUp,
-  Calculator,
-  Download,
-  RefreshCw,
-  CheckCircle,
-  XCircle,
-  Clock,
-} from 'lucide-react';
+import {  AlertTriangle, Shield, TrendingUp, Calculator, Download, RefreshCw, CheckCircle, XCircle, Clock  } from '@/components/ui/dynamic-icons';
 
 import { downloadJSON } from '@/shared/utils/download';
 import {
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-} from 'recharts';
+  DynamicRadarChart as RadarChart,
+  DynamicPolarGrid as PolarGrid,
+  DynamicPolarAngleAxis as PolarAngleAxis,
+  DynamicPolarRadiusAxis as PolarRadiusAxis,
+  DynamicRadar as Radar,
+  DynamicResponsiveContainer as ResponsiveContainer,
+  DynamicBarChart as BarChart,
+  DynamicBar as Bar,
+  DynamicXAxis as XAxis,
+  DynamicYAxis as YAxis,
+  DynamicCartesianGrid as CartesianGrid,
+  DynamicTooltip as Tooltip,
+} from '@/components/charts/DynamicCharts';
 
 interface RiskFactor {
   id: string;
@@ -493,19 +483,23 @@ export const RiskAssessmentTool: React.FC<RiskAssessmentToolProps> = ({
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart data={radarData}>
                 <PolarGrid />
-                <PolarAngleAxis dataKey="factor" tick={{ fontSize: 10 }} />
+                <PolarAngleAxis {...({ dataKey: "factor", tick: { fontSize: 10 } } as any)} />
                 <PolarRadiusAxis
-                  angle={90}
-                  domain={[0, 100]}
-                  tick={{ fontSize: 10 }}
+                  {...({
+                    angle: 90,
+                    domain: [0, 100],
+                    tick: { fontSize: 10 }
+                  } as any)}
                 />
                 <Radar
-                  name="Risk Score"
-                  dataKey="score"
-                  stroke="#ef4444"
-                  fill="#ef4444"
-                  fillOpacity={0.3}
-                  strokeWidth={2}
+                  {...({
+                    name: "Risk Score",
+                    dataKey: "score",
+                    stroke: "#ef4444",
+                    fill: "#ef4444",
+                    fillOpacity: 0.3,
+                    strokeWidth: 2
+                  } as any)}
                 />
               </RadarChart>
             </ResponsiveContainer>

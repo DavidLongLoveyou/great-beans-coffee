@@ -1,23 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  Eye,
-  ExternalLink,
-  Smartphone,
-  Tablet,
-  Monitor,
-  Globe,
-  Calendar,
-  User,
-  Tag,
-  Clock,
-  Share2,
-  BookOpen,
-  TrendingUp,
-  Coffee,
-  Briefcase,
-} from 'lucide-react';
+import {  Eye, ExternalLink, Smartphone, Tablet, Monitor, Globe, Calendar, User, Tag, Clock, Share2, BookOpen, TrendingUp, Coffee, Briefcase  } from '@/components/ui/dynamic-icons';
 import { useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

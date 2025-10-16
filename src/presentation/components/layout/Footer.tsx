@@ -1,6 +1,6 @@
 'use client';
 
-import { Coffee, Mail, Phone, MapPin } from 'lucide-react';
+import {  Coffee, Mail, Phone, MapPin  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 

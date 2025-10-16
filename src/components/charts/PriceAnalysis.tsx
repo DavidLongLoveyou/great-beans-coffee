@@ -2,18 +2,18 @@
 
 import React from 'react';
 import {
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  ComposedChart,
-  Bar,
-  Area,
-  AreaChart,
-} from 'recharts';
+  DynamicLine as Line,
+  DynamicXAxis as XAxis,
+  DynamicYAxis as YAxis,
+  DynamicCartesianGrid as CartesianGrid,
+  DynamicTooltip as Tooltip,
+  DynamicLegend as Legend,
+  DynamicResponsiveContainer as ResponsiveContainer,
+  DynamicComposedChart as ComposedChart,
+  DynamicBar as Bar,
+  DynamicArea as Area,
+  DynamicAreaChart as AreaChart,
+} from '@/components/charts/DynamicCharts';
 
 interface PriceDataPoint {
   date: string;

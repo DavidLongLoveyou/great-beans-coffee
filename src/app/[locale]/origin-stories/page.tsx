@@ -1,4 +1,4 @@
-import { MapPin, Mountain, Coffee, CalendarDays } from 'lucide-react';
+import {  MapPin, Mountain, Coffee, CalendarDays  } from '@/components/ui/dynamic-icons';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';

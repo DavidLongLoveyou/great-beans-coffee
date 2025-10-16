@@ -818,8 +818,12 @@ export default makeSource({
     LandingPage,
   ],
   disableImportAliasWarning: true,
-  // Performance optimizations
   onUnknownDocuments: 'skip-warn',
+  // Enable caching for faster content processing
+  date: {
+    timezone: 'UTC',
+  },
+  // Optimize MDX processing
   mdx: {
     remarkPlugins: [],
     rehypePlugins: [],

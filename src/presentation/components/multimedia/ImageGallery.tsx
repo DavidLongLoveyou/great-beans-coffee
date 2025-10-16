@@ -1,16 +1,6 @@
 'use client';
 
-import {
-  ChevronLeft,
-  ChevronRight,
-  ZoomIn,
-  ZoomOut,
-  Download,
-  Share2,
-  X,
-  Maximize2,
-  RotateCw,
-} from 'lucide-react';
+import {  ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Download, Share2, X, Maximize2, RotateCw  } from '@/components/ui/dynamic-icons';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 

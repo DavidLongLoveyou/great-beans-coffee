@@ -1,4 +1,23 @@
 {
+  "homepage": {
+    "title": "[JA] The Great Beans - Premium Vietnamese Coffee",
+    "description": "[JA] Leading B2B platform for Vietnamese coffee exports",
+    "badge": "[JA] Our Process",
+    "products": {
+      "grade-1-robusta": {
+        "name": "[JA] Grade 1 Robusta Beans",
+        "description": "[JA] Premium Vietnamese Robusta with rich flavor profile and exceptionally low defect rate"
+      },
+      "highland-arabica": {
+        "name": "[JA] Highland Arabica",
+        "description": "[JA] High-altitude Vietnamese Arabica with exceptional cup quality and unique flavor notes"
+      },
+      "custom-blends": {
+        "name": "[JA] Private Label Solutions",
+        "description": "[JA] Custom coffee blends and comprehensive private labeling services for your brand"
+      }
+    }
+  },
   "common": {
     "loading": "読み込み中...",
     "error": "エラーが発生しました",
@@ -306,7 +325,25 @@
       "next": "次へ",
       "submit": "見積もり依頼を送信",
       "submitting": "送信中...",
-      "success": "見積もり依頼が正常に送信されました！",
+      "success": {
+        "title": "依頼が正常に送信されました！",
+        "message": "ご依頼ありがとうございます。ご要件を確認し、24時間以内に競争力のある見積もりをお送りいたします。",
+        "referenceNumber": "参照番号：{id}",
+        "nextSteps": {
+          "title": "次のステップ",
+          "steps": [
+            "チームがご要件を確認いたします",
+            "価格を含む詳細な見積もりを作成いたします",
+            "24時間以内にメールで見積もりをお送りいたします",
+            "営業チームが詳細について連絡いたします"
+          ]
+        },
+        "actions": {
+          "viewDetails": "依頼詳細を表示",
+          "newRequest": "新しい依頼を送信",
+          "backToHome": "ホームに戻る"
+        }
+      },
       "error": "見積もり依頼の送信に失敗しました。再度お試しください。",
       "description": "コーヒーのご要望を送信し、サプライヤーから競争力のある見積もりを受け取ります。",
       "fields": {
@@ -401,25 +438,6 @@
         "phone": "有効な電話番号を入力してください",
         "quantity": "有効な数量を入力してください",
         "date": "有効な日付を選択してください"
-      },
-      "success": {
-        "title": "依頼が正常に送信されました！",
-        "message": "ご依頼ありがとうございます。ご要件を確認し、24時間以内に競争力のある見積もりをお送りいたします。",
-        "referenceNumber": "参照番号：{id}",
-        "nextSteps": {
-          "title": "次のステップ",
-          "steps": [
-            "チームがご要件を確認いたします",
-            "価格を含む詳細な見積もりを作成いたします",
-            "24時間以内にメールで見積もりをお送りいたします",
-            "営業チームが詳細について連絡いたします"
-          ]
-        },
-        "actions": {
-          "viewDetails": "依頼詳細を表示",
-          "newRequest": "新しい依頼を送信",
-          "backToHome": "ホームに戻る"
-        }
       }
     },
     "rfq": {
@@ -601,6 +619,839 @@
       },
       "statusManagement": "ステータス管理",
       "statusManagementDescription": "このRFQのステータスを追跡・管理"
+    }
+  },
+  "blog": {
+    "title": "[JA] Coffee Industry Insights & News",
+    "description": "[JA] Stay updated with the latest trends, market analysis, and insights from the Vietnamese coffee industry.",
+    "allCategories": "[JA] All Categories",
+    "featured": "[JA] Featured Articles",
+    "featuredPosts": "[JA] Featured Articles",
+    "posts": "[JA] Articles",
+    "allPosts": "[JA] All Articles",
+    "latestPosts": "[JA] Latest Articles",
+    "readMore": "[JA] Read More",
+    "readingTime": "[JA] min read",
+    "publishedOn": "[JA] Published on",
+    "author": "[JA] Author",
+    "category": "[JA] Category",
+    "tags": "[JA] Tags",
+    "relatedPosts": "[JA] Related Articles",
+    "noPostsFound": "[JA] No articles found for this category.",
+    "noPostsInCategory": "[JA] No articles found in this category",
+    "noPosts": "[JA] No articles available",
+    "noPostsInCategoryDescription": "[JA] Try browsing other categories or check back later for new content.",
+    "noPostsDescription": "[JA] Check back later for new articles and insights.",
+    "viewAllPosts": "[JA] View All Articles",
+    "backToBlog": "[JA] Back to Blog",
+    "shareArticle": "[JA] Share Article",
+    "categories": {
+      "Sustainability": "[JA] Sustainability",
+      "MARKET_ANALYSIS": "[JA] Market Analysis",
+      "INDUSTRY_INSIGHTS": "[JA] Industry Insights",
+      "Nachhaltigkeit": "[JA] Sustainability",
+      "持続可能性": "[JA] Sustainability",
+      "Bền Vững": "[JA] Sustainability",
+      "Phân Tích Thị Trường": "[JA] Market Analysis"
+    }
+  },
+  "actions": {
+    "back": "[JA] Back",
+    "share": "[JA] Share",
+    "download": "[JA] Download",
+    "contact": "[JA] Contact",
+    "edit": "[JA] Edit",
+    "downloadPDF": "[JA] Download PDF"
+  },
+  "detail": {
+    "tabs": {
+      "overview": "[JA] Overview",
+      "requirements": "[JA] Requirements",
+      "timeline": "[JA] Timeline",
+      "documents": "[JA] Documents",
+      "status": "[JA] Status"
+    },
+    "productInformation": "[JA] Product Information",
+    "productType": "[JA] Product Type",
+    "quantity": "[JA] Quantity",
+    "variety": "[JA] Variety",
+    "grade": "[JA] Grade",
+    "processing": "[JA] Processing",
+    "origin": "[JA] Origin",
+    "deliveryInfo": "[JA] Delivery Information",
+    "incoterms": "[JA] Incoterms",
+    "destination": "[JA] Destination",
+    "preferredDeliveryDate": "[JA] Preferred Delivery Date",
+    "packagingRequirements": "[JA] Packaging Requirements",
+    "requirements": "[JA] Requirements",
+    "timelineInfo": "[JA] Timeline Information",
+    "submittedAt": "[JA] Submitted At",
+    "estimatedValue": "[JA] Estimated Value"
+  },
+  "statusManager": {
+    "changeStatus": "[JA] Change Status",
+    "confirmTransition": "[JA] Confirm Status Change",
+    "confirmTransitionDescription": "[JA] Are you sure you want to change the status from {from} to {to}?",
+    "note": "[JA] Note",
+    "notePlaceholder": "[JA] Add a note about this status change...",
+    "cancel": "[JA] Cancel",
+    "confirm": "[JA] Confirm",
+    "updating": "[JA] Updating..."
+  },
+  "statusHistory": {
+    "title": "[JA] Status History",
+    "updatedBy": "[JA] Updated by {name}"
+  },
+  "pdf": {
+    "generating": {
+      "title": "[JA] Generating PDF",
+      "productSpec": "[JA] Creating product specification sheet...",
+      "rfqDocument": "[JA] Creating RFQ document...",
+      "htmlToPdf": "[JA] Converting to PDF...",
+      "marketReport": "[JA] Generating market report...",
+      "certificate": "[JA] Creating certificate..."
+    },
+    "success": {
+      "title": "[JA] PDF Generated Successfully",
+      "productSpec": "[JA] Product specification sheet has been downloaded",
+      "rfqDocument": "[JA] RFQ document has been downloaded",
+      "htmlToPdf": "[JA] PDF has been downloaded",
+      "marketReport": "[JA] Market report has been downloaded",
+      "certificate": "[JA] Certificate has been downloaded"
+    },
+    "error": {
+      "title": "[JA] PDF Generation Failed",
+      "unknown": "[JA] An unknown error occurred during PDF generation",
+      "networkError": "[JA] Network error occurred. Please check your connection.",
+      "invalidData": "[JA] Invalid data provided for PDF generation",
+      "templateError": "[JA] PDF template error occurred",
+      "renderError": "[JA] Failed to render PDF content"
+    },
+    "batch": {
+      "generating": {
+        "title": "[JA] Generating Multiple PDFs",
+        "description": "[JA] Creating {count} PDF documents..."
+      },
+      "success": {
+        "title": "[JA] Batch Generation Complete",
+        "description": "[JA] All PDF documents have been generated successfully"
+      },
+      "error": {
+        "title": "[JA] Batch Generation Failed",
+        "description": "[JA] Some PDF documents could not be generated"
+      }
+    },
+    "buttons": {
+      "downloadSpec": "[JA] Download Spec Sheet",
+      "downloadRfq": "[JA] Download RFQ",
+      "downloadReport": "[JA] Download Report",
+      "downloadCertificate": "[JA] Download Certificate",
+      "generatePdf": "[JA] Generate PDF",
+      "downloading": "[JA] Downloading...",
+      "retry": "[JA] Retry Download"
+    },
+    "templates": {
+      "productSpec": {
+        "title": "[JA] Product Specification Sheet",
+        "subtitle": "[JA] Detailed technical specifications and quality information"
+      },
+      "rfqDocument": {
+        "title": "[JA] Request for Quote",
+        "subtitle": "[JA] Comprehensive quote request with all requirements"
+      },
+      "marketReport": {
+        "title": "[JA] Market Analysis Report",
+        "subtitle": "[JA] In-depth market insights and trends analysis"
+      },
+      "certificate": {
+        "title": "[JA] Quality Certificate",
+        "subtitle": "[JA] Official quality assurance documentation"
+      }
+    },
+    "options": {
+      "format": "[JA] Format",
+      "orientation": "[JA] Orientation",
+      "quality": "[JA] Quality",
+      "includeWatermark": "[JA] Include Watermark",
+      "includeHeader": "[JA] Include Header",
+      "includeFooter": "[JA] Include Footer",
+      "language": "[JA] Language"
+    },
+    "formats": {
+      "a4": "[JA] A4",
+      "letter": "[JA] Letter",
+      "legal": "[JA] Legal"
+    },
+    "orientations": {
+      "portrait": "[JA] Portrait",
+      "landscape": "[JA] Landscape"
+    },
+    "qualities": {
+      "low": "[JA] Low (Fast)",
+      "medium": "[JA] Medium",
+      "high": "[JA] High (Best Quality)"
+    }
+  },
+  "catalog": {
+    "comparison": {
+      "title": "[JA] Product Comparison",
+      "description": "[JA] Compare selected coffee products side-by-side to make informed purchasing decisions",
+      "products": "[JA] products",
+      "specification": "[JA] Specification",
+      "export": "[JA] Export Comparison",
+      "requestQuote": "[JA] Request Quote",
+      "inStock": "[JA] In Stock",
+      "outOfStock": "[JA] Out of Stock",
+      "days": "[JA] days",
+      "fields": {
+        "name": "[JA] Product",
+        "type": "[JA] Type",
+        "grade": "[JA] Grade",
+        "processing": "[JA] Processing Method",
+        "origin": "[JA] Origin",
+        "moisture": "[JA] Moisture Content",
+        "screenSize": "[JA] Screen Size",
+        "defectRate": "[JA] Defect Rate",
+        "cuppingScore": "[JA] Cupping Score",
+        "basePrice": "[JA] Base Price",
+        "stockStatus": "[JA] Stock Status",
+        "leadTime": "[JA] Lead Time",
+        "harvestSeason": "[JA] Harvest Season",
+        "certifications": "[JA] Certifications"
+      },
+      "categories": {
+        "basic": "[JA] Basic Information",
+        "specifications": "[JA] Technical Specifications",
+        "pricing": "[JA] Pricing",
+        "availability": "[JA] Availability",
+        "certifications": "[JA] Certifications"
+      },
+      "advanced": {
+        "title": "[JA] Advanced Product Comparison",
+        "tabs": {
+          "comparison": "[JA] Detailed Comparison",
+          "analysis": "[JA] Business Analysis",
+          "recommendations": "[JA] AI Recommendations"
+        },
+        "filters": {
+          "all": "[JA] All Categories",
+          "highPriority": "[JA] High Priority Only",
+          "business": "[JA] Business Metrics",
+          "technical": "[JA] Technical Specs",
+          "availability": "[JA] Availability"
+        },
+        "sorting": {
+          "price": "[JA] Sort by Price",
+          "quality": "[JA] Sort by Quality",
+          "availability": "[JA] Sort by Stock"
+        },
+        "businessMetrics": {
+          "basePrice": "[JA] Base Price",
+          "bulkPrice": "[JA] Bulk Price (1000kg)",
+          "roiScore": "[JA] ROI Score",
+          "totalQuantity": "[JA] Total Quantity",
+          "totalValue": "[JA] Total Value",
+          "potentialSavings": "[JA] Potential Savings",
+          "qualityScore": "[JA] Quality Score",
+          "riskAssessment": "[JA] Risk Assessment"
+        },
+        "analysis": {
+          "recommendedMix": "[JA] Recommended Product Mix",
+          "targetQuantity": "[JA] Target Quantity",
+          "averagePrice": "[JA] Average Price",
+          "vsStandardPricing": "[JA] vs standard pricing"
+        },
+        "recommendations": {
+          "aiPowered": "[JA] AI-Powered Recommendations",
+          "optimalStrategy": "[JA] Optimal Purchase Strategy",
+          "seasonalTiming": "[JA] Seasonal Timing",
+          "riskMitigation": "[JA] Risk Mitigation",
+          "strategyDescription": "[JA] Based on your selection, we recommend a 60/40 split between premium and commercial grades to optimize both quality and cost-effectiveness for your target market.",
+          "timingDescription": "[JA] Consider placing orders for Vietnamese Robusta between October-December for best pricing and freshness, aligning with harvest seasons.",
+          "riskDescription": "[JA] Some selected products have higher lead times or limited stock. Consider diversifying your supplier base or adjusting quantities to reduce supply chain risks."
+        },
+        "tooltips": {
+          "basePrice": "[JA] Price per kg for standard quantities",
+          "bulkPrice": "[JA] Discounted price for 1000kg orders",
+          "roiScore": "[JA] Return on Investment score based on quality vs price"
+        },
+        "actions": {
+          "select": "[JA] Select",
+          "export": "[JA] Export",
+          "quote": "[JA] Quote",
+          "exportFormats": {
+            "csv": "[JA] Export as CSV",
+            "pdf": "[JA] Export as PDF",
+            "excel": "[JA] Export as Excel"
+          }
+        },
+        "risk": {
+          "low": "[JA] Low Risk",
+          "medium": "[JA] Medium Risk",
+          "high": "[JA] High Risk"
+        },
+        "quality": {
+          "specialty": "[JA] Specialty",
+          "commercial": "[JA] Commercial"
+        },
+        "savings": "[JA] savings"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "[JA] B2B Dashboard",
+    "subtitle": "[JA] Manage your coffee sourcing operations and track business performance",
+    "navigation": {
+      "overview": "[JA] Overview",
+      "quotes": "[JA] Quotes",
+      "orders": "[JA] Orders",
+      "products": "[JA] Products",
+      "analytics": "[JA] Analytics",
+      "documents": "[JA] Documents",
+      "logistics": "[JA] Logistics",
+      "messages": "[JA] Messages",
+      "account": "[JA] Account"
+    },
+    "search": {
+      "placeholder": "[JA] Search dashboard..."
+    },
+    "notifications": "[JA] Notifications",
+    "newQuote": "[JA] New Quote",
+    "viewAll": "[JA] View All",
+    "expires": "[JA] Expires",
+    "createNewQuote": "[JA] Create New Quote",
+    "viewOrderHistory": "[JA] View Order History",
+    "downloadReport": "[JA] Download Report",
+    "stats": {
+      "totalQuotes": "[JA] Total Quotes",
+      "activeOrders": "[JA] Active Orders",
+      "totalSpent": "[JA] Total Spent",
+      "avgOrderValue": "[JA] Avg Order Value",
+      "thisMonth": "[JA] this month",
+      "thisWeek": "[JA] this week",
+      "fromLastMonth": "[JA] from last month"
+    },
+    "status": {
+      "pending": "[JA] Pending",
+      "quoted": "[JA] Quoted",
+      "approved": "[JA] Approved",
+      "shipped": "[JA] Shipped",
+      "processing": "[JA] Processing",
+      "delivered": "[JA] Delivered"
+    },
+    "tabs": {
+      "overview": "[JA] Overview",
+      "quotes": "[JA] Quotes",
+      "orders": "[JA] Orders",
+      "analytics": "[JA] Analytics"
+    },
+    "recentQuotes": {
+      "title": "[JA] Recent Quotes"
+    },
+    "recentOrders": {
+      "title": "[JA] Recent Orders"
+    },
+    "quotes": {
+      "title": "[JA] Quote Management",
+      "description": "[JA] Manage all your quote requests and track their status",
+      "comingSoon": "[JA] Advanced quote management features coming soon"
+    },
+    "products": {
+      "title": "[JA] Product Management",
+      "description": "[JA] Manage your coffee product catalog, inventory, and pricing",
+      "tabs": {
+        "products": "[JA] Products",
+        "inventory": "[JA] Inventory",
+        "pricing": "[JA] Pricing"
+      },
+      "addProduct": "[JA] Add Product",
+      "editProduct": "[JA] Edit Product",
+      "deleteProduct": "[JA] Delete Product",
+      "searchPlaceholder": "[JA] Search products...",
+      "filterByCategory": "[JA] Filter by Category",
+      "filterByStatus": "[JA] Filter by Status",
+      "allCategories": "[JA] All Categories",
+      "allStatuses": "[JA] All Statuses",
+      "productsList": "[JA] Products List",
+      "productsListDescription": "[JA] Showing {count} products",
+      "productName": "[JA] Product Name",
+      "category": "[JA] Category",
+      "grade": "[JA] Grade",
+      "price": "[JA] Price",
+      "stock": "[JA] Stock",
+      "status": "[JA] Status",
+      "actions": "[JA] Actions",
+      "viewDetails": "[JA] View Details",
+      "inventory": {
+        "title": "[JA] Inventory Management",
+        "description": "[JA] Track stock levels, forecasting, and automated reorder alerts",
+        "stockLevels": "[JA] Stock Levels",
+        "lowStockAlerts": "[JA] Low Stock Alerts",
+        "forecasting": "[JA] Demand Forecasting",
+        "reports": "[JA] Inventory Reports",
+        "stockMovement": "[JA] Stock Movement",
+        "reorderPoint": "[JA] Reorder Point",
+        "currentStock": "[JA] Current Stock",
+        "reservedStock": "[JA] Reserved Stock",
+        "availableStock": "[JA] Available Stock",
+        "lastUpdated": "[JA] Last Updated",
+        "addStock": "[JA] Add Stock",
+        "removeStock": "[JA] Remove Stock",
+        "reorder": "[JA] Reorder"
+      },
+      "pricing": {
+        "title": "[JA] Pricing Management",
+        "description": "[JA] Manage dynamic pricing, bulk discounts, and market analysis",
+        "dynamicPricing": "[JA] Dynamic Pricing",
+        "bulkDiscounts": "[JA] Bulk Discounts",
+        "marketAnalysis": "[JA] Market Analysis",
+        "pricingRules": "[JA] Pricing Rules",
+        "pricingTiers": "[JA] Pricing Tiers",
+        "analytics": "[JA] Pricing Analytics",
+        "basePrice": "[JA] Base Price",
+        "currentPrice": "[JA] Current Price",
+        "marketPrice": "[JA] Market Price",
+        "profitMargin": "[JA] Profit Margin",
+        "lastUpdated": "[JA] Last Updated",
+        "updatePrice": "[JA] Update Price",
+        "addRule": "[JA] Add Rule",
+        "editRule": "[JA] Edit Rule"
+      }
+    }
+  },
+  "quotes": {
+    "title": "[JA] Quote Management",
+    "subtitle": "[JA] Manage all your quote requests and track their status",
+    "newQuote": "[JA] New Quote",
+    "exportQuotes": "[JA] Export Quotes",
+    "searchPlaceholder": "[JA] Search quotes by ID or product...",
+    "filterByStatus": "[JA] Filter by Status",
+    "filterByPriority": "[JA] Filter by Priority",
+    "allStatuses": "[JA] All Statuses",
+    "allPriorities": "[JA] All Priorities",
+    "quotesList": "[JA] Quotes List",
+    "quotesListDescription": "[JA] Showing {count} quotes",
+    "quoteId": "[JA] Quote ID",
+    "product": "[JA] Product",
+    "quantity": "[JA] Quantity",
+    "requested": "[JA] Requested",
+    "expires": "[JA] Expires",
+    "quotedPrice": "[JA] Quoted Price",
+    "actions": "[JA] Actions",
+    "viewDetails": "[JA] View Details",
+    "approve": "[JA] Approve",
+    "reject": "[JA] Reject",
+    "edit": "[JA] Edit",
+    "delete": "[JA] Delete",
+    "noQuotesFound": "[JA] No quotes found",
+    "noQuotesFoundDescription": "[JA] Try adjusting your search or filter criteria",
+    "status": {
+      "pending": "[JA] Pending",
+      "quoted": "[JA] Quoted",
+      "approved": "[JA] Approved",
+      "rejected": "[JA] Rejected",
+      "expired": "[JA] Expired"
+    },
+    "priority": {
+      "low": "[JA] Low",
+      "medium": "[JA] Medium",
+      "high": "[JA] High"
+    }
+  },
+  "orders": {
+    "title": "[JA] Order Management",
+    "subtitle": "[JA] Track and manage your coffee orders, shipments, and deliveries",
+    "exportOrders": "[JA] Export Orders",
+    "newOrder": "[JA] New Order",
+    "searchPlaceholder": "[JA] Search orders by ID, product, or destination...",
+    "filterByStatus": "[JA] Filter by Status",
+    "filterByPayment": "[JA] Filter by Payment",
+    "allStatuses": "[JA] All Statuses",
+    "allPayments": "[JA] All Payments",
+    "ordersList": "[JA] Orders List",
+    "ordersListDescription": "[JA] Showing {count} orders",
+    "orderId": "[JA] Order ID",
+    "product": "[JA] Product",
+    "quantity": "[JA] Quantity",
+    "status": {
+      "pending": "[JA] Pending",
+      "confirmed": "[JA] Confirmed",
+      "processing": "[JA] Processing",
+      "shipped": "[JA] Shipped",
+      "delivered": "[JA] Delivered",
+      "cancelled": "[JA] Cancelled"
+    },
+    "payment": {
+      "pending": "[JA] Pending",
+      "paid": "[JA] Paid",
+      "overdue": "[JA] Overdue",
+      "refunded": "[JA] Refunded"
+    },
+    "shipping": "[JA] Shipping",
+    "orderDate": "[JA] Order Date",
+    "value": "[JA] Value",
+    "progress": "[JA] Progress",
+    "actions": "[JA] Actions",
+    "viewDetails": "[JA] View Details",
+    "trackShipment": "[JA] Track Shipment",
+    "viewInvoice": "[JA] View Invoice",
+    "downloadDocuments": "[JA] Download Documents",
+    "noOrdersFound": "[JA] No orders found",
+    "noOrdersFoundDescription": "[JA] Try adjusting your search criteria or create a new order",
+    "stats": {
+      "totalOrders": "[JA] Total Orders",
+      "activeShipments": "[JA] Active Shipments",
+      "totalValue": "[JA] Total Value",
+      "delivered": "[JA] Delivered"
+    }
+  },
+  "analytics": {
+    "title": "[JA] Business Analytics",
+    "subtitle": "[JA] Comprehensive insights into your coffee business performance and market trends",
+    "refresh": "[JA] Refresh",
+    "exportReport": "[JA] Export Report",
+    "timeRange": {
+      "1month": "[JA] Last Month",
+      "3months": "[JA] Last 3 Months",
+      "6months": "[JA] Last 6 Months",
+      "1year": "[JA] Last Year"
+    },
+    "metrics": {
+      "totalRevenue": "[JA] Total Revenue",
+      "totalOrders": "[JA] Total Orders",
+      "avgOrderValue": "[JA] Avg Order Value",
+      "totalVolume": "[JA] Total Volume"
+    },
+    "tabs": {
+      "sales": "[JA] Sales",
+      "products": "[JA] Products",
+      "markets": "[JA] Markets",
+      "customers": "[JA] Customers"
+    },
+    "charts": {
+      "revenueOverTime": "[JA] Revenue Over Time",
+      "revenueOverTimeDesc": "[JA] Monthly revenue trends and growth patterns",
+      "ordersAndVolume": "[JA] Orders & Volume",
+      "ordersAndVolumeDesc": "[JA] Order count and volume shipped by month",
+      "productPerformance": "[JA] Product Performance",
+      "productPerformanceDesc": "[JA] Sales performance and growth by product category",
+      "marketDistribution": "[JA] Market Distribution",
+      "marketDistributionDesc": "[JA] Revenue distribution across global markets",
+      "topCountries": "[JA] Top Countries",
+      "topCountriesDesc": "[JA] Best performing countries by revenue",
+      "customerSegments": "[JA] Customer Segments",
+      "customerSegmentsDesc": "[JA] Revenue and performance by customer type"
+    },
+    "revenue": "[JA] Revenue",
+    "avgOrderValue": "[JA] Avg Order Value"
+  },
+  "account": {
+    "title": "[JA] Account Management",
+    "subtitle": "[JA] Manage your company profile, team members, and account preferences",
+    "edit": "[JA] Edit",
+    "save": "[JA] Save",
+    "cancel": "[JA] Cancel",
+    "tabs": {
+      "profile": "[JA] Company Profile",
+      "team": "[JA] Team Management",
+      "preferences": "[JA] Preferences"
+    },
+    "companyProfile": {
+      "title": "[JA] Company Profile",
+      "description": "[JA] Company Description",
+      "companyName": "[JA] Company Name",
+      "industry": "[JA] Industry",
+      "website": "[JA] Website",
+      "phone": "[JA] Phone Number",
+      "email": "[JA] Email Address",
+      "address": "[JA] Street Address",
+      "city": "[JA] City",
+      "country": "[JA] Country",
+      "taxId": "[JA] Tax ID"
+    },
+    "team": {
+      "title": "[JA] Team Management",
+      "description": "[JA] Manage team members and their access permissions",
+      "addMember": "[JA] Add Member",
+      "addMemberTitle": "[JA] Invite Team Member",
+      "addMemberDescription": "[JA] Send an invitation to a new team member",
+      "memberName": "[JA] Full Name",
+      "memberEmail": "[JA] Email Address",
+      "memberRole": "[JA] Role",
+      "sendInvitation": "[JA] Send Invitation",
+      "member": "[JA] Member",
+      "role": "[JA] Role",
+      "lastLogin": "[JA] Last Login",
+      "actions": "[JA] Actions"
+    },
+    "roles": {
+      "admin": "[JA] Admin",
+      "manager": "[JA] Manager",
+      "buyer": "[JA] Buyer",
+      "viewer": "[JA] Viewer"
+    },
+    "status": {
+      "active": "[JA] Active",
+      "pending": "[JA] Pending",
+      "inactive": "[JA] Inactive"
+    },
+    "preferences": {
+      "notifications": "[JA] Notification Preferences",
+      "notificationsDescription": "[JA] Configure how you want to receive updates and alerts",
+      "emailNotifications": "[JA] Email Notifications",
+      "pushNotifications": "[JA] Push Notifications",
+      "quoteUpdates": "[JA] Quote Updates",
+      "quoteUpdatesDesc": "[JA] Receive notifications when quotes are updated or responded to",
+      "orderUpdates": "[JA] Order Updates",
+      "orderUpdatesDesc": "[JA] Get notified about order status changes and shipment updates",
+      "shipmentUpdates": "[JA] Shipment Updates",
+      "shipmentUpdatesDesc": "[JA] Track your shipments and delivery notifications",
+      "marketingEmails": "[JA] Marketing Emails",
+      "marketingEmailsDesc": "[JA] Receive market insights, product updates, and promotional content",
+      "security": "[JA] Security Settings",
+      "securityDescription": "[JA] Manage your account security and data preferences",
+      "changePassword": "[JA] Change Password",
+      "downloadData": "[JA] Download My Data"
+    }
+  },
+  "documents": {
+    "title": "[JA] Document Management",
+    "subtitle": "[JA] Manage contracts, certificates, shipping documents, and other important files",
+    "uploadDocument": "[JA] Upload Document",
+    "uploadDocumentTitle": "[JA] Upload New Document",
+    "uploadDocumentDescription": "[JA] Add a new document to your document library",
+    "selectFile": "[JA] Select File",
+    "documentType": "[JA] Document Type",
+    "selectType": "[JA] Select document type",
+    "description": "[JA] Description",
+    "descriptionPlaceholder": "[JA] Enter document description (optional)",
+    "expiryDate": "[JA] Expiry Date",
+    "cancel": "[JA] Cancel",
+    "upload": "[JA] Upload",
+    "stats": {
+      "totalDocuments": "[JA] Total Documents",
+      "activeDocuments": "[JA] Active",
+      "expiredDocuments": "[JA] Expired",
+      "pendingDocuments": "[JA] Pending",
+      "expiringThisMonth": "[JA] Expiring This Month"
+    },
+    "types": {
+      "contract": "[JA] Contract",
+      "certificate": "[JA] Certificate",
+      "shipping": "[JA] Shipping Document",
+      "invoice": "[JA] Invoice",
+      "quality": "[JA] Quality Report",
+      "insurance": "[JA] Insurance"
+    },
+    "status": {
+      "active": "[JA] Active",
+      "expired": "[JA] Expired",
+      "pending": "[JA] Pending",
+      "archived": "[JA] Archived"
+    },
+    "searchPlaceholder": "[JA] Search documents by name, description, or tags...",
+    "filterByType": "[JA] Filter by Type",
+    "filterByStatus": "[JA] Filter by Status",
+    "allTypes": "[JA] All Types",
+    "allStatuses": "[JA] All Statuses",
+    "sortBy": "[JA] Sort By",
+    "sortOptions": {
+      "uploadDate": "[JA] Upload Date",
+      "name": "[JA] Name",
+      "type": "[JA] Type",
+      "size": "[JA] Size"
+    },
+    "documentsTable": {
+      "title": "[JA] Documents Library",
+      "description": "[JA] Showing {count} documents"
+    },
+    "tableHeaders": {
+      "document": "[JA] Document",
+      "type": "[JA] Type",
+      "status": "[JA] Status",
+      "uploadDate": "[JA] Upload Date",
+      "expiryDate": "[JA] Expiry Date",
+      "size": "[JA] Size",
+      "actions": "[JA] Actions"
+    },
+    "noDocuments": "[JA] No documents found",
+    "noDocumentsDescription": "[JA] Upload your first document or adjust your search filters"
+  },
+  "logistics": {
+    "title": "[JA] Logistics Calculator",
+    "subtitle": "[JA] Calculate shipping costs, delivery times, and manage your logistics operations",
+    "tabs": {
+      "calculator": "[JA] Shipping Calculator",
+      "incoterms": "[JA] Incoterms Guide",
+      "tracking": "[JA] Shipment Tracking"
+    },
+    "calculator": {
+      "title": "[JA] Shipping Cost Calculator",
+      "description": "[JA] Get instant estimates for shipping costs and delivery times",
+      "shippingMethod": "[JA] Shipping Method",
+      "selectMethod": "[JA] Select shipping method",
+      "methods": {
+        "sea": "[JA] Sea Freight",
+        "air": "[JA] Air Freight",
+        "land": "[JA] Land Transport"
+      },
+      "origin": "[JA] Origin Port",
+      "selectOrigin": "[JA] Select origin port",
+      "destination": "[JA] Destination Port",
+      "selectDestination": "[JA] Select destination port",
+      "containers": "[JA] Number of Containers",
+      "containersPlaceholder": "[JA] Enter number of 20ft containers",
+      "weight": "[JA] Total Weight (kg)",
+      "weightPlaceholder": "[JA] Enter total weight in kilograms",
+      "incoterm": "[JA] Incoterm",
+      "selectIncoterm": "[JA] Select Incoterm",
+      "calculate": "[JA] Calculate Shipping Cost",
+      "calculating": "[JA] Calculating..."
+    },
+    "results": {
+      "title": "[JA] Shipping Estimate",
+      "estimatedCost": "[JA] Estimated Cost",
+      "transitTime": "[JA] Transit Time",
+      "days": "[JA] days",
+      "estimatedDelivery": "[JA] Estimated Delivery",
+      "shippingMethod": "[JA] Shipping Method",
+      "disclaimer": "[JA] This is an estimated cost. Final pricing may vary based on actual cargo specifications, market conditions, and additional services required.",
+      "requestQuote": "[JA] Request Official Quote"
+    },
+    "incoterms": {
+      "title": "[JA] International Commercial Terms (Incoterms)",
+      "description": "[JA] Understanding the responsibilities and risks in international trade"
+    },
+    "tracking": {
+      "title": "[JA] Shipment Tracking",
+      "description": "[JA] Track your current shipments and delivery status"
+    }
+  },
+  "messages": {
+    "title": "[JA] Communication Center",
+    "subtitle": "[JA] Manage conversations, notifications, and support tickets",
+    "tabs": {
+      "chat": "[JA] Chat",
+      "notifications": "[JA] Notifications",
+      "tickets": "[JA] Support Tickets"
+    },
+    "chat": {
+      "title": "[JA] Messages",
+      "newChat": "[JA] New Chat",
+      "searchPlaceholder": "[JA] Search conversations...",
+      "selectConversation": "[JA] Select a conversation",
+      "selectConversationDescription": "[JA] Choose a conversation from the sidebar to start messaging",
+      "messagePlaceholder": "[JA] Type your message...",
+      "actions": {
+        "star": "[JA] Star conversation",
+        "archive": "[JA] Archive conversation",
+        "delete": "[JA] Delete conversation"
+      }
+    },
+    "notifications": {
+      "title": "[JA] Notifications",
+      "markAllRead": "[JA] Mark all as read",
+      "filters": {
+        "all": "[JA] All",
+        "unread": "[JA] Unread",
+        "quotes": "[JA] Quotes",
+        "shipping": "[JA] Shipping",
+        "quality": "[JA] Quality"
+      }
+    },
+    "tickets": {
+      "title": "[JA] Support Tickets",
+      "createNew": "[JA] Create New Ticket",
+      "responses": "[JA] responses",
+      "filters": {
+        "all": "[JA] All Tickets",
+        "open": "[JA] Open",
+        "inProgress": "[JA] In Progress",
+        "resolved": "[JA] Resolved"
+      },
+      "status": {
+        "open": "[JA] Open",
+        "in_progress": "[JA] In Progress",
+        "resolved": "[JA] Resolved"
+      },
+      "priority": {
+        "high": "[JA] High",
+        "medium": "[JA] Medium",
+        "low": "[JA] Low"
+      },
+      "actions": {
+        "view": "[JA] View Ticket",
+        "edit": "[JA] Edit Ticket",
+        "close": "[JA] Close Ticket"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "[JA] What Our Partners Say About Us",
+    "subtitle": "[JA] Join 500+ international partners who trust The Great Beans for premium Vietnamese coffee solutions and exceptional service across 25+ countries",
+    "trustBadge": "[JA] Trusted by Global Partners",
+    "categories": {
+      "all": "[JA] All Partners",
+      "roaster": "[JA] Coffee Roasters",
+      "distributor": "[JA] Distributors",
+      "manufacturer": "[JA] Manufacturers",
+      "retailer": "[JA] Retailers"
+    },
+    "stats": {
+      "annualVolume": "[JA] Annual Volume",
+      "partnership": "[JA] Partnership"
+    },
+    "navigation": {
+      "previous": "[JA] Previous",
+      "next": "[JA] Next"
+    },
+    "trustIndicators": {
+      "title": "[JA] Trusted by Industry Leaders",
+      "subtitle": "[JA] Join our growing network of satisfied partners worldwide"
+    },
+    "cta": {
+      "title": "[JA] Ready to Join Our Success Stories?",
+      "subtitle": "[JA] Start your partnership with Vietnam's leading coffee exporter today",
+      "becomePartner": "[JA] Become a Partner",
+      "requestQuote": "[JA] Request Quote"
+    }
+  },
+  "marketReports": {
+    "title": "[JA] Market Reports & Insights",
+    "subtitle": "[JA] Stay informed with the latest Vietnamese coffee market trends, analysis, and forecasts",
+    "description": "[JA] Comprehensive market intelligence for informed business decisions",
+    "featured": "[JA] Featured Reports",
+    "allReports": "[JA] All Reports",
+    "readReport": "[JA] Read Report",
+    "downloadReport": "[JA] Download Report",
+    "publishedOn": "[JA] Published on",
+    "author": "[JA] Author",
+    "category": "[JA] Category",
+    "tags": "[JA] Tags",
+    "readingTime": "[JA] Reading Time",
+    "relatedReports": "[JA] Related Reports",
+    "noReports": "[JA] No reports available",
+    "noReportsDescription": "[JA] Please check back later for market updates.",
+    "backToReports": "[JA] Back to Reports",
+    "categories": {
+      "market-analysis": "[JA] Market Analysis",
+      "price-trends": "[JA] Price Trends",
+      "export-data": "[JA] Export Data",
+      "industry-news": "[JA] Industry News",
+      "forecasts": "[JA] Forecasts"
+    },
+    "filters": {
+      "search": "[JA] Search reports...",
+      "category": "[JA] Category",
+      "dateRange": "[JA] Date Range",
+      "reset": "[JA] Reset Filters",
+      "apply": "[JA] Apply Filters"
+    },
+    "cta": {
+      "title": "[JA] Need Custom Market Intelligence?",
+      "subtitle": "[JA] Get personalized market reports and analysis tailored to your business needs",
+      "contactUs": "[JA] Contact Our Analysts",
+      "requestCustomReport": "[JA] Request Custom Report"
     }
   }
 }

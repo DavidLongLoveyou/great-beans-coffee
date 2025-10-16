@@ -1,29 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  MoreHorizontal,
-  Edit,
-  Eye,
-  Trash2,
-  Copy,
-  Archive,
-  Star,
-  StarOff,
-  Calendar,
-  User,
-  Globe,
-  Search,
-  Plus,
-  BookOpen,
-  TrendingUp,
-  Coffee,
-  Briefcase,
-  SortAsc,
-  SortDesc,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
+import {  MoreHorizontal, Edit, Eye, Trash2, Copy, Archive, Star, StarOff, Calendar, User, Globe, Search, Plus, BookOpen, TrendingUp, Coffee, Briefcase, SortAsc, SortDesc, ChevronLeft, ChevronRight  } from '@/components/ui/dynamic-icons';
 import { useState, useMemo } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

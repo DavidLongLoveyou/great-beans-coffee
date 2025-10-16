@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
-import { Coffee, Globe, Award, ArrowRight, Play, Pause } from 'lucide-react';
+import {  Coffee, Globe, Award, ArrowRight, Play, Pause  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 

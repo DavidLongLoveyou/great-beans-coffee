@@ -1,24 +1,15 @@
-/** @type {import('next').NextConfig} */
+const { withContentlayer } = require('next-contentlayer2');
+const createNextIntlPlugin = require('next-intl/plugin');
+
+const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
+
 const nextConfig = {
-  // Basic configuration for debugging
-  images: {
-    formats: ['image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256],
-  },
-
-  // Disable some features for debugging
-  compress: false,
-  poweredByHeader: false,
-
-  // Basic webpack config
-  webpack: config => {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    });
-    return config;
+  typescript: { ignoreBuildErrors: false },
+  eslint: { ignoreDuringBuilds: true },
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+    esmExternals: true,
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(withContentlayer(nextConfig));

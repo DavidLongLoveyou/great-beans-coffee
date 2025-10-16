@@ -1,19 +1,6 @@
 'use client';
 
-import {
-  ShoppingCart,
-  Scale,
-  TrendingUp,
-  Package,
-  Clock,
-  Star,
-  Plus,
-  Minus,
-  Eye,
-  Download,
-  CheckCircle,
-  Users,
-} from 'lucide-react';
+import {  ShoppingCart, Scale, TrendingUp, Package, Clock, Star, Plus, Minus, Eye, Download, CheckCircle, Users  } from '@/components/ui/dynamic-icons';
 import Link from 'next/link';
 import { useState } from 'react';
 

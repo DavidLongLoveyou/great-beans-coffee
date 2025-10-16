@@ -1,13 +1,5 @@
 import { type Metadata } from 'next';
-import {
-  MapPin,
-  Shield,
-  Truck,
-  Users,
-  CheckCircle,
-  Globe,
-  Coffee,
-} from 'lucide-react';
+import {  MapPin, Shield, Truck, Users, CheckCircle, Globe, Coffee  } from '@/components/ui/dynamic-icons';
 
 import Link from 'next/link';
 

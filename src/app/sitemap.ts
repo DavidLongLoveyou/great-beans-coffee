@@ -1,14 +1,7 @@
 import { type MetadataRoute } from 'next';
 
 import { locales, type Locale } from '@/i18n';
-import { ContentManager } from '@/lib/contentlayer';
-import type {
-  MarketReport,
-  OriginStory,
-  ServicePage,
-  BlogPost,
-  LegalPage,
-} from 'contentlayer/generated';
+import FileContentLoader, { type ContentItem } from '@/lib/content-file-loader';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thegreatbeans.com';
 
@@ -30,7 +23,7 @@ function generateAlternateRefs(
   return alternates;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemap: MetadataRoute.Sitemap = [];
 
   // Add homepage for each locale with alternates
@@ -170,11 +163,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   // Helper function to add content with multilingual alternates
-  function addContentToSitemap(
+  async function addContentToSitemap(
     contentType: string,
-    getContentFn: (
-      locale: Locale
-    ) => (MarketReport | OriginStory | ServicePage | BlogPost | LegalPage)[],
+    getContentFn: (locale: Locale) => Promise<ContentItem[]>,
     priority: number,
     changeFreq: 'daily' | 'weekly' | 'monthly' | 'yearly'
   ) {
@@ -183,24 +174,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       string,
       Array<{
         locale: Locale;
-        content:
-          | MarketReport
-          | OriginStory
-          | ServicePage
-          | BlogPost
-          | LegalPage;
+        content: ContentItem;
       }>
     >();
 
-    locales.forEach(locale => {
-      const content = getContentFn(locale);
+    for (const locale of locales) {
+      const content = await getContentFn(locale);
       content.forEach(item => {
         if (!contentBySlug.has(item.slug)) {
           contentBySlug.set(item.slug, []);
         }
         contentBySlug.get(item.slug)!.push({ locale, content: item });
       });
-    });
+    }
 
     // Add entries with proper alternates
     contentBySlug.forEach((localeVersions, slug) => {
@@ -236,41 +222,41 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   // Add blog posts with multilingual alternates
-  addContentToSitemap(
+  await addContentToSitemap(
     'blog',
-    locale => ContentManager.getBlogPosts(locale),
+    locale => FileContentLoader.getBlogPosts(locale),
     0.7,
     'weekly'
   );
 
   // Add service pages with multilingual alternates
-  addContentToSitemap(
+  await addContentToSitemap(
     'services',
-    locale => ContentManager.getServicePages(locale),
+    locale => FileContentLoader.getServicePages(locale),
     0.8,
     'monthly'
   );
 
   // Add market reports with multilingual alternates
-  addContentToSitemap(
+  await addContentToSitemap(
     'market-reports',
-    locale => ContentManager.getMarketReports(locale),
+    locale => FileContentLoader.getMarketReports(locale),
     0.6,
     'monthly'
   );
 
   // Add origin stories with multilingual alternates
-  addContentToSitemap(
+  await addContentToSitemap(
     'origin-stories',
-    locale => ContentManager.getOriginStories(locale),
+    locale => FileContentLoader.getOriginStories(locale),
     0.6,
     'monthly'
   );
 
   // Add legal pages with multilingual alternates
-  addContentToSitemap(
+  await addContentToSitemap(
     'legal',
-    locale => ContentManager.getLegalPages(locale),
+    locale => FileContentLoader.getLegalPages(locale),
     0.3,
     'yearly'
   );

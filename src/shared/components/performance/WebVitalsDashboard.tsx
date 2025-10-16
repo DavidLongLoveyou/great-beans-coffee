@@ -1,17 +1,6 @@
 'use client';
 
-import {
-  Activity,
-  Clock,
-  Zap,
-  Eye,
-  Gauge,
-  TrendingUp,
-  AlertTriangle,
-  CheckCircle,
-  XCircle,
-  RefreshCw,
-} from 'lucide-react';
+import {  Activity, Clock, Zap, Eye, Gauge, TrendingUp, AlertTriangle, CheckCircle, XCircle, RefreshCw  } from '@/components/ui/dynamic-icons';
 import { useState, useEffect } from 'react';
 
 import { cn } from '@/lib/utils';

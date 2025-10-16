@@ -1,17 +1,7 @@
 'use client';
 
 import { format } from 'date-fns';
-import {
-  Search,
-  Filter,
-  Calendar,
-  SortAsc,
-  SortDesc,
-  RefreshCw as _RefreshCw,
-  X,
-  ChevronUp,
-  ChevronDown,
-} from 'lucide-react';
+import {  Search, Filter, Calendar, SortAsc, SortDesc, RefreshCw, X, ChevronUp, ChevronDown  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
 

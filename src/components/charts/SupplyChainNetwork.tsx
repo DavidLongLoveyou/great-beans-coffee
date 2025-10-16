@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { MapPin, Truck, Ship, Plane, Package, AlertCircle } from 'lucide-react';
+import {  MapPin, Truck, Ship, Plane, Package, AlertCircle  } from '@/components/ui/dynamic-icons';
 
 interface NetworkNode {
   id: string;

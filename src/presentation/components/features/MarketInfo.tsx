@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  Clock,
-  MapPin,
-  DollarSign,
-  Ship,
-  Award,
-  CreditCard,
-} from 'lucide-react';
+import {  Clock, MapPin, DollarSign, Ship, Award, CreditCard  } from '@/components/ui/dynamic-icons';
 import React, { useEffect, useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

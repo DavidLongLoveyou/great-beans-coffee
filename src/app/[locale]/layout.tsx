@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-// Removed Google Fonts imports to avoid ERR_ABORTED errors
-// import { Inter, Playfair_Display, JetBrains_Mono } from 'next/font/google';
+import { Inter, Playfair_Display, JetBrains_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
@@ -11,24 +10,27 @@ import Header from '@/presentation/components/layout/Header';
 import { PerformanceInitializer } from '@/shared/components/performance/PerformanceInitializer';
 import { PerformanceMonitor } from '@/shared/components/performance/PerformanceMonitor';
 
-// Font variables will be defined in CSS instead
-// const inter = Inter({
-//   subsets: ['latin'],
-//   variable: '--font-inter',
-//   display: 'swap',
-// });
+// Configure fonts with Next.js optimization
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+  preload: true,
+});
 
-// const playfairDisplay = Playfair_Display({
-//   subsets: ['latin'],
-//   variable: '--font-playfair',
-//   display: 'swap',
-// });
+const playfairDisplay = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+  preload: true,
+});
 
-// const jetbrainsMono = JetBrains_Mono({
-//   subsets: ['latin'],
-//   variable: '--font-jetbrains',
-//   display: 'swap',
-// });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains',
+  display: 'swap',
+  preload: false, // Only preload if used above the fold
+});
 
 export const metadata: Metadata = {
   title: {
@@ -217,7 +219,7 @@ export default async function RootLayout({
         <link rel="prefetch" href="/en/market-reports" />
       </head>
       <body
-        className="font-sans"
+        className={`font-sans ${inter.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable}`}
       >
         <PerformanceInitializer />
         <NextIntlClientProvider messages={messages} locale={locale}>

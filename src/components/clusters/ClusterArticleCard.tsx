@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
+import {  Calendar, Clock, ArrowRight, Tag  } from '@/components/ui/dynamic-icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';

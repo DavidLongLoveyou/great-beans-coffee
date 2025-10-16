@@ -1,5 +1,5 @@
 import { type Metadata } from 'next';
-import { Coffee, Users, Award, Globe, Leaf, Heart } from 'lucide-react';
+import {  Coffee, Users, Award, Globe, Leaf, Heart  } from '@/components/ui/dynamic-icons';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';

@@ -110,7 +110,22 @@
         "destinationPort": "Zielhafen",
         "destinationCountry": "Zielland",
         "shippingMethod": "Versandart",
-        "incoterms": "Incoterms",
+        "incoterms": {
+          "exw": "EXW - Ab Werk",
+          "exwDescription": "Käufer organisiert gesamten Transport",
+          "fca": "FCA - Frei Frachtführer",
+          "fcaDescription": "Verkäufer liefert an vom Käufer benannten Frachtführer",
+          "fob": "FOB - Frei an Bord",
+          "fobDescription": "Verkäufer liefert Waren an Bord des Schiffes",
+          "cfr": "CFR - Kosten und Fracht",
+          "cfrDescription": "Verkäufer zahlt Fracht zum Bestimmungshafen",
+          "cif": "CIF - Kosten, Versicherung und Fracht",
+          "cifDescription": "Verkäufer zahlt Fracht und Versicherung zum Bestimmungsort",
+          "dap": "DAP - Geliefert benannter Ort",
+          "dapDescription": "Verkäufer liefert an benannten Ort im Bestimmungsland",
+          "ddp": "DDP - Geliefert verzollt",
+          "ddpDescription": "Verkäufer liefert Waren importverzollt"
+        },
         "containerType": "Containertyp",
         "calculateButton": "Versandkosten berechnen",
         "calculating": "Berechnung läuft...",
@@ -143,22 +158,6 @@
           "lcl": "Sammelcontainer (LCL)",
           "lclDescription": "Geteilter Containerplatz",
           "flexible": "Flexibel"
-        },
-        "incoterms": {
-          "exw": "EXW - Ab Werk",
-          "exwDescription": "Käufer organisiert gesamten Transport",
-          "fca": "FCA - Frei Frachtführer",
-          "fcaDescription": "Verkäufer liefert an vom Käufer benannten Frachtführer",
-          "fob": "FOB - Frei an Bord",
-          "fobDescription": "Verkäufer liefert Waren an Bord des Schiffes",
-          "cfr": "CFR - Kosten und Fracht",
-          "cfrDescription": "Verkäufer zahlt Fracht zum Bestimmungshafen",
-          "cif": "CIF - Kosten, Versicherung und Fracht",
-          "cifDescription": "Verkäufer zahlt Fracht und Versicherung zum Bestimmungsort",
-          "dap": "DAP - Geliefert benannter Ort",
-          "dapDescription": "Verkäufer liefert an benannten Ort im Bestimmungsland",
-          "ddp": "DDP - Geliefert verzollt",
-          "ddpDescription": "Verkäufer liefert Waren importverzollt"
         },
         "errors": {
           "quantityRequired": "Bitte geben Sie eine gültige Menge ein",
@@ -390,7 +389,25 @@
       "next": "Weiter",
       "submit": "Angebotsanfrage senden",
       "submitting": "Wird gesendet...",
-      "success": "Angebotsanfrage erfolgreich gesendet!",
+      "success": {
+        "title": "Anfrage erfolgreich gesendet!",
+        "message": "Vielen Dank für Ihre Anfrage. Wir werden Ihre Anforderungen prüfen und Ihnen innerhalb von 24 Stunden ein wettbewerbsfähiges Angebot senden.",
+        "referenceNumber": "Referenznummer: {id}",
+        "nextSteps": {
+          "title": "Was passiert als nächstes?",
+          "steps": [
+            "Unser Team wird Ihre Anforderungen prüfen",
+            "Wir erstellen ein detailliertes Angebot mit Preisen",
+            "Sie erhalten das Angebot per E-Mail innerhalb von 24 Stunden",
+            "Unser Vertriebsteam wird sich mit Ihnen in Verbindung setzen, um Details zu besprechen"
+          ]
+        },
+        "actions": {
+          "viewDetails": "Anfragedetails anzeigen",
+          "newRequest": "Neue Anfrage senden",
+          "backToHome": "Zurück zur Startseite"
+        }
+      },
       "error": "Fehler beim Senden der Angebotsanfrage. Bitte versuchen Sie es erneut.",
       "description": "Senden Sie Ihre Kaffeeanforderungen und erhalten Sie wettbewerbsfähige Angebote von unseren Lieferanten.",
       "fields": {
@@ -485,25 +502,6 @@
         "phone": "Bitte geben Sie eine gültige Telefonnummer ein",
         "quantity": "Bitte geben Sie eine gültige Menge ein",
         "date": "Bitte wählen Sie ein gültiges Datum"
-      },
-      "success": {
-        "title": "Anfrage erfolgreich gesendet!",
-        "message": "Vielen Dank für Ihre Anfrage. Wir werden Ihre Anforderungen prüfen und Ihnen innerhalb von 24 Stunden ein wettbewerbsfähiges Angebot senden.",
-        "referenceNumber": "Referenznummer: {id}",
-        "nextSteps": {
-          "title": "Was passiert als nächstes?",
-          "steps": [
-            "Unser Team wird Ihre Anforderungen prüfen",
-            "Wir erstellen ein detailliertes Angebot mit Preisen",
-            "Sie erhalten das Angebot per E-Mail innerhalb von 24 Stunden",
-            "Unser Vertriebsteam wird sich mit Ihnen in Verbindung setzen, um Details zu besprechen"
-          ]
-        },
-        "actions": {
-          "viewDetails": "Anfragedetails anzeigen",
-          "newRequest": "Neue Anfrage senden",
-          "backToHome": "Zurück zur Startseite"
-        }
       }
     },
     "rfq": {
@@ -598,7 +596,7 @@
       "urgent": "Dringend"
     },
     "detail": {
-      "title": "Angebotsanfrage Details",
+      "title": "Titel",
       "submittedOn": "Eingereicht am",
       "lastUpdated": "Zuletzt aktualisiert",
       "productDetails": "Produktdetails",
@@ -686,7 +684,6 @@
       "statusManagement": "Status-Verwaltung",
       "statusManagementDescription": "Verfolgen und verwalten Sie den Status dieser RFQ",
       "name": "Name",
-      "title": "Titel",
       "email": "E-Mail",
       "phone": "Telefon",
       "rfqTimeline": "RFQ-Zeitplan",
@@ -701,6 +698,839 @@
       "quotesWorkingMessage": "Unser Team arbeitet an Ihrer Anfrage und wird bald ein Angebot bereitstellen.",
       "close": "Schließen",
       "contactSales": "Vertrieb kontaktieren"
+    }
+  },
+  "blog": {
+    "title": "[DE] Coffee Industry Insights & News",
+    "description": "[DE] Stay updated with the latest trends, market analysis, and insights from the Vietnamese coffee industry.",
+    "allCategories": "[DE] All Categories",
+    "featured": "[DE] Featured Articles",
+    "featuredPosts": "[DE] Featured Articles",
+    "posts": "[DE] Articles",
+    "allPosts": "[DE] All Articles",
+    "latestPosts": "[DE] Latest Articles",
+    "readMore": "[DE] Read More",
+    "readingTime": "[DE] min read",
+    "publishedOn": "[DE] Published on",
+    "author": "[DE] Author",
+    "category": "[DE] Category",
+    "tags": "[DE] Tags",
+    "relatedPosts": "[DE] Related Articles",
+    "noPostsFound": "[DE] No articles found for this category.",
+    "noPostsInCategory": "[DE] No articles found in this category",
+    "noPosts": "[DE] No articles available",
+    "noPostsInCategoryDescription": "[DE] Try browsing other categories or check back later for new content.",
+    "noPostsDescription": "[DE] Check back later for new articles and insights.",
+    "viewAllPosts": "[DE] View All Articles",
+    "backToBlog": "[DE] Back to Blog",
+    "shareArticle": "[DE] Share Article",
+    "categories": {
+      "Sustainability": "[DE] Sustainability",
+      "MARKET_ANALYSIS": "[DE] Market Analysis",
+      "INDUSTRY_INSIGHTS": "[DE] Industry Insights",
+      "Nachhaltigkeit": "[DE] Sustainability",
+      "持続可能性": "[DE] Sustainability",
+      "Bền Vững": "[DE] Sustainability",
+      "Phân Tích Thị Trường": "[DE] Market Analysis"
+    }
+  },
+  "actions": {
+    "back": "[DE] Back",
+    "share": "[DE] Share",
+    "download": "[DE] Download",
+    "contact": "[DE] Contact",
+    "edit": "[DE] Edit",
+    "downloadPDF": "[DE] Download PDF"
+  },
+  "detail": {
+    "tabs": {
+      "overview": "[DE] Overview",
+      "requirements": "[DE] Requirements",
+      "timeline": "[DE] Timeline",
+      "documents": "[DE] Documents",
+      "status": "[DE] Status"
+    },
+    "productInformation": "[DE] Product Information",
+    "productType": "[DE] Product Type",
+    "quantity": "[DE] Quantity",
+    "variety": "[DE] Variety",
+    "grade": "[DE] Grade",
+    "processing": "[DE] Processing",
+    "origin": "[DE] Origin",
+    "deliveryInfo": "[DE] Delivery Information",
+    "incoterms": "[DE] Incoterms",
+    "destination": "[DE] Destination",
+    "preferredDeliveryDate": "[DE] Preferred Delivery Date",
+    "packagingRequirements": "[DE] Packaging Requirements",
+    "requirements": "[DE] Requirements",
+    "timelineInfo": "[DE] Timeline Information",
+    "submittedAt": "[DE] Submitted At",
+    "estimatedValue": "[DE] Estimated Value"
+  },
+  "statusManager": {
+    "changeStatus": "[DE] Change Status",
+    "confirmTransition": "[DE] Confirm Status Change",
+    "confirmTransitionDescription": "[DE] Are you sure you want to change the status from {from} to {to}?",
+    "note": "[DE] Note",
+    "notePlaceholder": "[DE] Add a note about this status change...",
+    "cancel": "[DE] Cancel",
+    "confirm": "[DE] Confirm",
+    "updating": "[DE] Updating..."
+  },
+  "statusHistory": {
+    "title": "[DE] Status History",
+    "updatedBy": "[DE] Updated by {name}"
+  },
+  "pdf": {
+    "generating": {
+      "title": "[DE] Generating PDF",
+      "productSpec": "[DE] Creating product specification sheet...",
+      "rfqDocument": "[DE] Creating RFQ document...",
+      "htmlToPdf": "[DE] Converting to PDF...",
+      "marketReport": "[DE] Generating market report...",
+      "certificate": "[DE] Creating certificate..."
+    },
+    "success": {
+      "title": "[DE] PDF Generated Successfully",
+      "productSpec": "[DE] Product specification sheet has been downloaded",
+      "rfqDocument": "[DE] RFQ document has been downloaded",
+      "htmlToPdf": "[DE] PDF has been downloaded",
+      "marketReport": "[DE] Market report has been downloaded",
+      "certificate": "[DE] Certificate has been downloaded"
+    },
+    "error": {
+      "title": "[DE] PDF Generation Failed",
+      "unknown": "[DE] An unknown error occurred during PDF generation",
+      "networkError": "[DE] Network error occurred. Please check your connection.",
+      "invalidData": "[DE] Invalid data provided for PDF generation",
+      "templateError": "[DE] PDF template error occurred",
+      "renderError": "[DE] Failed to render PDF content"
+    },
+    "batch": {
+      "generating": {
+        "title": "[DE] Generating Multiple PDFs",
+        "description": "[DE] Creating {count} PDF documents..."
+      },
+      "success": {
+        "title": "[DE] Batch Generation Complete",
+        "description": "[DE] All PDF documents have been generated successfully"
+      },
+      "error": {
+        "title": "[DE] Batch Generation Failed",
+        "description": "[DE] Some PDF documents could not be generated"
+      }
+    },
+    "buttons": {
+      "downloadSpec": "[DE] Download Spec Sheet",
+      "downloadRfq": "[DE] Download RFQ",
+      "downloadReport": "[DE] Download Report",
+      "downloadCertificate": "[DE] Download Certificate",
+      "generatePdf": "[DE] Generate PDF",
+      "downloading": "[DE] Downloading...",
+      "retry": "[DE] Retry Download"
+    },
+    "templates": {
+      "productSpec": {
+        "title": "[DE] Product Specification Sheet",
+        "subtitle": "[DE] Detailed technical specifications and quality information"
+      },
+      "rfqDocument": {
+        "title": "[DE] Request for Quote",
+        "subtitle": "[DE] Comprehensive quote request with all requirements"
+      },
+      "marketReport": {
+        "title": "[DE] Market Analysis Report",
+        "subtitle": "[DE] In-depth market insights and trends analysis"
+      },
+      "certificate": {
+        "title": "[DE] Quality Certificate",
+        "subtitle": "[DE] Official quality assurance documentation"
+      }
+    },
+    "options": {
+      "format": "[DE] Format",
+      "orientation": "[DE] Orientation",
+      "quality": "[DE] Quality",
+      "includeWatermark": "[DE] Include Watermark",
+      "includeHeader": "[DE] Include Header",
+      "includeFooter": "[DE] Include Footer",
+      "language": "[DE] Language"
+    },
+    "formats": {
+      "a4": "[DE] A4",
+      "letter": "[DE] Letter",
+      "legal": "[DE] Legal"
+    },
+    "orientations": {
+      "portrait": "[DE] Portrait",
+      "landscape": "[DE] Landscape"
+    },
+    "qualities": {
+      "low": "[DE] Low (Fast)",
+      "medium": "[DE] Medium",
+      "high": "[DE] High (Best Quality)"
+    }
+  },
+  "catalog": {
+    "comparison": {
+      "title": "[DE] Product Comparison",
+      "description": "[DE] Compare selected coffee products side-by-side to make informed purchasing decisions",
+      "products": "[DE] products",
+      "specification": "[DE] Specification",
+      "export": "[DE] Export Comparison",
+      "requestQuote": "[DE] Request Quote",
+      "inStock": "[DE] In Stock",
+      "outOfStock": "[DE] Out of Stock",
+      "days": "[DE] days",
+      "fields": {
+        "name": "[DE] Product",
+        "type": "[DE] Type",
+        "grade": "[DE] Grade",
+        "processing": "[DE] Processing Method",
+        "origin": "[DE] Origin",
+        "moisture": "[DE] Moisture Content",
+        "screenSize": "[DE] Screen Size",
+        "defectRate": "[DE] Defect Rate",
+        "cuppingScore": "[DE] Cupping Score",
+        "basePrice": "[DE] Base Price",
+        "stockStatus": "[DE] Stock Status",
+        "leadTime": "[DE] Lead Time",
+        "harvestSeason": "[DE] Harvest Season",
+        "certifications": "[DE] Certifications"
+      },
+      "categories": {
+        "basic": "[DE] Basic Information",
+        "specifications": "[DE] Technical Specifications",
+        "pricing": "[DE] Pricing",
+        "availability": "[DE] Availability",
+        "certifications": "[DE] Certifications"
+      },
+      "advanced": {
+        "title": "[DE] Advanced Product Comparison",
+        "tabs": {
+          "comparison": "[DE] Detailed Comparison",
+          "analysis": "[DE] Business Analysis",
+          "recommendations": "[DE] AI Recommendations"
+        },
+        "filters": {
+          "all": "[DE] All Categories",
+          "highPriority": "[DE] High Priority Only",
+          "business": "[DE] Business Metrics",
+          "technical": "[DE] Technical Specs",
+          "availability": "[DE] Availability"
+        },
+        "sorting": {
+          "price": "[DE] Sort by Price",
+          "quality": "[DE] Sort by Quality",
+          "availability": "[DE] Sort by Stock"
+        },
+        "businessMetrics": {
+          "basePrice": "[DE] Base Price",
+          "bulkPrice": "[DE] Bulk Price (1000kg)",
+          "roiScore": "[DE] ROI Score",
+          "totalQuantity": "[DE] Total Quantity",
+          "totalValue": "[DE] Total Value",
+          "potentialSavings": "[DE] Potential Savings",
+          "qualityScore": "[DE] Quality Score",
+          "riskAssessment": "[DE] Risk Assessment"
+        },
+        "analysis": {
+          "recommendedMix": "[DE] Recommended Product Mix",
+          "targetQuantity": "[DE] Target Quantity",
+          "averagePrice": "[DE] Average Price",
+          "vsStandardPricing": "[DE] vs standard pricing"
+        },
+        "recommendations": {
+          "aiPowered": "[DE] AI-Powered Recommendations",
+          "optimalStrategy": "[DE] Optimal Purchase Strategy",
+          "seasonalTiming": "[DE] Seasonal Timing",
+          "riskMitigation": "[DE] Risk Mitigation",
+          "strategyDescription": "[DE] Based on your selection, we recommend a 60/40 split between premium and commercial grades to optimize both quality and cost-effectiveness for your target market.",
+          "timingDescription": "[DE] Consider placing orders for Vietnamese Robusta between October-December for best pricing and freshness, aligning with harvest seasons.",
+          "riskDescription": "[DE] Some selected products have higher lead times or limited stock. Consider diversifying your supplier base or adjusting quantities to reduce supply chain risks."
+        },
+        "tooltips": {
+          "basePrice": "[DE] Price per kg for standard quantities",
+          "bulkPrice": "[DE] Discounted price for 1000kg orders",
+          "roiScore": "[DE] Return on Investment score based on quality vs price"
+        },
+        "actions": {
+          "select": "[DE] Select",
+          "export": "[DE] Export",
+          "quote": "[DE] Quote",
+          "exportFormats": {
+            "csv": "[DE] Export as CSV",
+            "pdf": "[DE] Export as PDF",
+            "excel": "[DE] Export as Excel"
+          }
+        },
+        "risk": {
+          "low": "[DE] Low Risk",
+          "medium": "[DE] Medium Risk",
+          "high": "[DE] High Risk"
+        },
+        "quality": {
+          "specialty": "[DE] Specialty",
+          "commercial": "[DE] Commercial"
+        },
+        "savings": "[DE] savings"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "[DE] B2B Dashboard",
+    "subtitle": "[DE] Manage your coffee sourcing operations and track business performance",
+    "navigation": {
+      "overview": "[DE] Overview",
+      "quotes": "[DE] Quotes",
+      "orders": "[DE] Orders",
+      "products": "[DE] Products",
+      "analytics": "[DE] Analytics",
+      "documents": "[DE] Documents",
+      "logistics": "[DE] Logistics",
+      "messages": "[DE] Messages",
+      "account": "[DE] Account"
+    },
+    "search": {
+      "placeholder": "[DE] Search dashboard..."
+    },
+    "notifications": "[DE] Notifications",
+    "newQuote": "[DE] New Quote",
+    "viewAll": "[DE] View All",
+    "expires": "[DE] Expires",
+    "createNewQuote": "[DE] Create New Quote",
+    "viewOrderHistory": "[DE] View Order History",
+    "downloadReport": "[DE] Download Report",
+    "stats": {
+      "totalQuotes": "[DE] Total Quotes",
+      "activeOrders": "[DE] Active Orders",
+      "totalSpent": "[DE] Total Spent",
+      "avgOrderValue": "[DE] Avg Order Value",
+      "thisMonth": "[DE] this month",
+      "thisWeek": "[DE] this week",
+      "fromLastMonth": "[DE] from last month"
+    },
+    "status": {
+      "pending": "[DE] Pending",
+      "quoted": "[DE] Quoted",
+      "approved": "[DE] Approved",
+      "shipped": "[DE] Shipped",
+      "processing": "[DE] Processing",
+      "delivered": "[DE] Delivered"
+    },
+    "tabs": {
+      "overview": "[DE] Overview",
+      "quotes": "[DE] Quotes",
+      "orders": "[DE] Orders",
+      "analytics": "[DE] Analytics"
+    },
+    "recentQuotes": {
+      "title": "[DE] Recent Quotes"
+    },
+    "recentOrders": {
+      "title": "[DE] Recent Orders"
+    },
+    "quotes": {
+      "title": "[DE] Quote Management",
+      "description": "[DE] Manage all your quote requests and track their status",
+      "comingSoon": "[DE] Advanced quote management features coming soon"
+    },
+    "products": {
+      "title": "[DE] Product Management",
+      "description": "[DE] Manage your coffee product catalog, inventory, and pricing",
+      "tabs": {
+        "products": "[DE] Products",
+        "inventory": "[DE] Inventory",
+        "pricing": "[DE] Pricing"
+      },
+      "addProduct": "[DE] Add Product",
+      "editProduct": "[DE] Edit Product",
+      "deleteProduct": "[DE] Delete Product",
+      "searchPlaceholder": "[DE] Search products...",
+      "filterByCategory": "[DE] Filter by Category",
+      "filterByStatus": "[DE] Filter by Status",
+      "allCategories": "[DE] All Categories",
+      "allStatuses": "[DE] All Statuses",
+      "productsList": "[DE] Products List",
+      "productsListDescription": "[DE] Showing {count} products",
+      "productName": "[DE] Product Name",
+      "category": "[DE] Category",
+      "grade": "[DE] Grade",
+      "price": "[DE] Price",
+      "stock": "[DE] Stock",
+      "status": "[DE] Status",
+      "actions": "[DE] Actions",
+      "viewDetails": "[DE] View Details",
+      "inventory": {
+        "title": "[DE] Inventory Management",
+        "description": "[DE] Track stock levels, forecasting, and automated reorder alerts",
+        "stockLevels": "[DE] Stock Levels",
+        "lowStockAlerts": "[DE] Low Stock Alerts",
+        "forecasting": "[DE] Demand Forecasting",
+        "reports": "[DE] Inventory Reports",
+        "stockMovement": "[DE] Stock Movement",
+        "reorderPoint": "[DE] Reorder Point",
+        "currentStock": "[DE] Current Stock",
+        "reservedStock": "[DE] Reserved Stock",
+        "availableStock": "[DE] Available Stock",
+        "lastUpdated": "[DE] Last Updated",
+        "addStock": "[DE] Add Stock",
+        "removeStock": "[DE] Remove Stock",
+        "reorder": "[DE] Reorder"
+      },
+      "pricing": {
+        "title": "[DE] Pricing Management",
+        "description": "[DE] Manage dynamic pricing, bulk discounts, and market analysis",
+        "dynamicPricing": "[DE] Dynamic Pricing",
+        "bulkDiscounts": "[DE] Bulk Discounts",
+        "marketAnalysis": "[DE] Market Analysis",
+        "pricingRules": "[DE] Pricing Rules",
+        "pricingTiers": "[DE] Pricing Tiers",
+        "analytics": "[DE] Pricing Analytics",
+        "basePrice": "[DE] Base Price",
+        "currentPrice": "[DE] Current Price",
+        "marketPrice": "[DE] Market Price",
+        "profitMargin": "[DE] Profit Margin",
+        "lastUpdated": "[DE] Last Updated",
+        "updatePrice": "[DE] Update Price",
+        "addRule": "[DE] Add Rule",
+        "editRule": "[DE] Edit Rule"
+      }
+    }
+  },
+  "quotes": {
+    "title": "[DE] Quote Management",
+    "subtitle": "[DE] Manage all your quote requests and track their status",
+    "newQuote": "[DE] New Quote",
+    "exportQuotes": "[DE] Export Quotes",
+    "searchPlaceholder": "[DE] Search quotes by ID or product...",
+    "filterByStatus": "[DE] Filter by Status",
+    "filterByPriority": "[DE] Filter by Priority",
+    "allStatuses": "[DE] All Statuses",
+    "allPriorities": "[DE] All Priorities",
+    "quotesList": "[DE] Quotes List",
+    "quotesListDescription": "[DE] Showing {count} quotes",
+    "quoteId": "[DE] Quote ID",
+    "product": "[DE] Product",
+    "quantity": "[DE] Quantity",
+    "requested": "[DE] Requested",
+    "expires": "[DE] Expires",
+    "quotedPrice": "[DE] Quoted Price",
+    "actions": "[DE] Actions",
+    "viewDetails": "[DE] View Details",
+    "approve": "[DE] Approve",
+    "reject": "[DE] Reject",
+    "edit": "[DE] Edit",
+    "delete": "[DE] Delete",
+    "noQuotesFound": "[DE] No quotes found",
+    "noQuotesFoundDescription": "[DE] Try adjusting your search or filter criteria",
+    "status": {
+      "pending": "[DE] Pending",
+      "quoted": "[DE] Quoted",
+      "approved": "[DE] Approved",
+      "rejected": "[DE] Rejected",
+      "expired": "[DE] Expired"
+    },
+    "priority": {
+      "low": "[DE] Low",
+      "medium": "[DE] Medium",
+      "high": "[DE] High"
+    }
+  },
+  "orders": {
+    "title": "[DE] Order Management",
+    "subtitle": "[DE] Track and manage your coffee orders, shipments, and deliveries",
+    "exportOrders": "[DE] Export Orders",
+    "newOrder": "[DE] New Order",
+    "searchPlaceholder": "[DE] Search orders by ID, product, or destination...",
+    "filterByStatus": "[DE] Filter by Status",
+    "filterByPayment": "[DE] Filter by Payment",
+    "allStatuses": "[DE] All Statuses",
+    "allPayments": "[DE] All Payments",
+    "ordersList": "[DE] Orders List",
+    "ordersListDescription": "[DE] Showing {count} orders",
+    "orderId": "[DE] Order ID",
+    "product": "[DE] Product",
+    "quantity": "[DE] Quantity",
+    "status": {
+      "pending": "[DE] Pending",
+      "confirmed": "[DE] Confirmed",
+      "processing": "[DE] Processing",
+      "shipped": "[DE] Shipped",
+      "delivered": "[DE] Delivered",
+      "cancelled": "[DE] Cancelled"
+    },
+    "payment": {
+      "pending": "[DE] Pending",
+      "paid": "[DE] Paid",
+      "overdue": "[DE] Overdue",
+      "refunded": "[DE] Refunded"
+    },
+    "shipping": "[DE] Shipping",
+    "orderDate": "[DE] Order Date",
+    "value": "[DE] Value",
+    "progress": "[DE] Progress",
+    "actions": "[DE] Actions",
+    "viewDetails": "[DE] View Details",
+    "trackShipment": "[DE] Track Shipment",
+    "viewInvoice": "[DE] View Invoice",
+    "downloadDocuments": "[DE] Download Documents",
+    "noOrdersFound": "[DE] No orders found",
+    "noOrdersFoundDescription": "[DE] Try adjusting your search criteria or create a new order",
+    "stats": {
+      "totalOrders": "[DE] Total Orders",
+      "activeShipments": "[DE] Active Shipments",
+      "totalValue": "[DE] Total Value",
+      "delivered": "[DE] Delivered"
+    }
+  },
+  "analytics": {
+    "title": "[DE] Business Analytics",
+    "subtitle": "[DE] Comprehensive insights into your coffee business performance and market trends",
+    "refresh": "[DE] Refresh",
+    "exportReport": "[DE] Export Report",
+    "timeRange": {
+      "1month": "[DE] Last Month",
+      "3months": "[DE] Last 3 Months",
+      "6months": "[DE] Last 6 Months",
+      "1year": "[DE] Last Year"
+    },
+    "metrics": {
+      "totalRevenue": "[DE] Total Revenue",
+      "totalOrders": "[DE] Total Orders",
+      "avgOrderValue": "[DE] Avg Order Value",
+      "totalVolume": "[DE] Total Volume"
+    },
+    "tabs": {
+      "sales": "[DE] Sales",
+      "products": "[DE] Products",
+      "markets": "[DE] Markets",
+      "customers": "[DE] Customers"
+    },
+    "charts": {
+      "revenueOverTime": "[DE] Revenue Over Time",
+      "revenueOverTimeDesc": "[DE] Monthly revenue trends and growth patterns",
+      "ordersAndVolume": "[DE] Orders & Volume",
+      "ordersAndVolumeDesc": "[DE] Order count and volume shipped by month",
+      "productPerformance": "[DE] Product Performance",
+      "productPerformanceDesc": "[DE] Sales performance and growth by product category",
+      "marketDistribution": "[DE] Market Distribution",
+      "marketDistributionDesc": "[DE] Revenue distribution across global markets",
+      "topCountries": "[DE] Top Countries",
+      "topCountriesDesc": "[DE] Best performing countries by revenue",
+      "customerSegments": "[DE] Customer Segments",
+      "customerSegmentsDesc": "[DE] Revenue and performance by customer type"
+    },
+    "revenue": "[DE] Revenue",
+    "avgOrderValue": "[DE] Avg Order Value"
+  },
+  "account": {
+    "title": "[DE] Account Management",
+    "subtitle": "[DE] Manage your company profile, team members, and account preferences",
+    "edit": "[DE] Edit",
+    "save": "[DE] Save",
+    "cancel": "[DE] Cancel",
+    "tabs": {
+      "profile": "[DE] Company Profile",
+      "team": "[DE] Team Management",
+      "preferences": "[DE] Preferences"
+    },
+    "companyProfile": {
+      "title": "[DE] Company Profile",
+      "description": "[DE] Company Description",
+      "companyName": "[DE] Company Name",
+      "industry": "[DE] Industry",
+      "website": "[DE] Website",
+      "phone": "[DE] Phone Number",
+      "email": "[DE] Email Address",
+      "address": "[DE] Street Address",
+      "city": "[DE] City",
+      "country": "[DE] Country",
+      "taxId": "[DE] Tax ID"
+    },
+    "team": {
+      "title": "[DE] Team Management",
+      "description": "[DE] Manage team members and their access permissions",
+      "addMember": "[DE] Add Member",
+      "addMemberTitle": "[DE] Invite Team Member",
+      "addMemberDescription": "[DE] Send an invitation to a new team member",
+      "memberName": "[DE] Full Name",
+      "memberEmail": "[DE] Email Address",
+      "memberRole": "[DE] Role",
+      "sendInvitation": "[DE] Send Invitation",
+      "member": "[DE] Member",
+      "role": "[DE] Role",
+      "lastLogin": "[DE] Last Login",
+      "actions": "[DE] Actions"
+    },
+    "roles": {
+      "admin": "[DE] Admin",
+      "manager": "[DE] Manager",
+      "buyer": "[DE] Buyer",
+      "viewer": "[DE] Viewer"
+    },
+    "status": {
+      "active": "[DE] Active",
+      "pending": "[DE] Pending",
+      "inactive": "[DE] Inactive"
+    },
+    "preferences": {
+      "notifications": "[DE] Notification Preferences",
+      "notificationsDescription": "[DE] Configure how you want to receive updates and alerts",
+      "emailNotifications": "[DE] Email Notifications",
+      "pushNotifications": "[DE] Push Notifications",
+      "quoteUpdates": "[DE] Quote Updates",
+      "quoteUpdatesDesc": "[DE] Receive notifications when quotes are updated or responded to",
+      "orderUpdates": "[DE] Order Updates",
+      "orderUpdatesDesc": "[DE] Get notified about order status changes and shipment updates",
+      "shipmentUpdates": "[DE] Shipment Updates",
+      "shipmentUpdatesDesc": "[DE] Track your shipments and delivery notifications",
+      "marketingEmails": "[DE] Marketing Emails",
+      "marketingEmailsDesc": "[DE] Receive market insights, product updates, and promotional content",
+      "security": "[DE] Security Settings",
+      "securityDescription": "[DE] Manage your account security and data preferences",
+      "changePassword": "[DE] Change Password",
+      "downloadData": "[DE] Download My Data"
+    }
+  },
+  "documents": {
+    "title": "[DE] Document Management",
+    "subtitle": "[DE] Manage contracts, certificates, shipping documents, and other important files",
+    "uploadDocument": "[DE] Upload Document",
+    "uploadDocumentTitle": "[DE] Upload New Document",
+    "uploadDocumentDescription": "[DE] Add a new document to your document library",
+    "selectFile": "[DE] Select File",
+    "documentType": "[DE] Document Type",
+    "selectType": "[DE] Select document type",
+    "description": "[DE] Description",
+    "descriptionPlaceholder": "[DE] Enter document description (optional)",
+    "expiryDate": "[DE] Expiry Date",
+    "cancel": "[DE] Cancel",
+    "upload": "[DE] Upload",
+    "stats": {
+      "totalDocuments": "[DE] Total Documents",
+      "activeDocuments": "[DE] Active",
+      "expiredDocuments": "[DE] Expired",
+      "pendingDocuments": "[DE] Pending",
+      "expiringThisMonth": "[DE] Expiring This Month"
+    },
+    "types": {
+      "contract": "[DE] Contract",
+      "certificate": "[DE] Certificate",
+      "shipping": "[DE] Shipping Document",
+      "invoice": "[DE] Invoice",
+      "quality": "[DE] Quality Report",
+      "insurance": "[DE] Insurance"
+    },
+    "status": {
+      "active": "[DE] Active",
+      "expired": "[DE] Expired",
+      "pending": "[DE] Pending",
+      "archived": "[DE] Archived"
+    },
+    "searchPlaceholder": "[DE] Search documents by name, description, or tags...",
+    "filterByType": "[DE] Filter by Type",
+    "filterByStatus": "[DE] Filter by Status",
+    "allTypes": "[DE] All Types",
+    "allStatuses": "[DE] All Statuses",
+    "sortBy": "[DE] Sort By",
+    "sortOptions": {
+      "uploadDate": "[DE] Upload Date",
+      "name": "[DE] Name",
+      "type": "[DE] Type",
+      "size": "[DE] Size"
+    },
+    "documentsTable": {
+      "title": "[DE] Documents Library",
+      "description": "[DE] Showing {count} documents"
+    },
+    "tableHeaders": {
+      "document": "[DE] Document",
+      "type": "[DE] Type",
+      "status": "[DE] Status",
+      "uploadDate": "[DE] Upload Date",
+      "expiryDate": "[DE] Expiry Date",
+      "size": "[DE] Size",
+      "actions": "[DE] Actions"
+    },
+    "noDocuments": "[DE] No documents found",
+    "noDocumentsDescription": "[DE] Upload your first document or adjust your search filters"
+  },
+  "logistics": {
+    "title": "[DE] Logistics Calculator",
+    "subtitle": "[DE] Calculate shipping costs, delivery times, and manage your logistics operations",
+    "tabs": {
+      "calculator": "[DE] Shipping Calculator",
+      "incoterms": "[DE] Incoterms Guide",
+      "tracking": "[DE] Shipment Tracking"
+    },
+    "calculator": {
+      "title": "[DE] Shipping Cost Calculator",
+      "description": "[DE] Get instant estimates for shipping costs and delivery times",
+      "shippingMethod": "[DE] Shipping Method",
+      "selectMethod": "[DE] Select shipping method",
+      "methods": {
+        "sea": "[DE] Sea Freight",
+        "air": "[DE] Air Freight",
+        "land": "[DE] Land Transport"
+      },
+      "origin": "[DE] Origin Port",
+      "selectOrigin": "[DE] Select origin port",
+      "destination": "[DE] Destination Port",
+      "selectDestination": "[DE] Select destination port",
+      "containers": "[DE] Number of Containers",
+      "containersPlaceholder": "[DE] Enter number of 20ft containers",
+      "weight": "[DE] Total Weight (kg)",
+      "weightPlaceholder": "[DE] Enter total weight in kilograms",
+      "incoterm": "[DE] Incoterm",
+      "selectIncoterm": "[DE] Select Incoterm",
+      "calculate": "[DE] Calculate Shipping Cost",
+      "calculating": "[DE] Calculating..."
+    },
+    "results": {
+      "title": "[DE] Shipping Estimate",
+      "estimatedCost": "[DE] Estimated Cost",
+      "transitTime": "[DE] Transit Time",
+      "days": "[DE] days",
+      "estimatedDelivery": "[DE] Estimated Delivery",
+      "shippingMethod": "[DE] Shipping Method",
+      "disclaimer": "[DE] This is an estimated cost. Final pricing may vary based on actual cargo specifications, market conditions, and additional services required.",
+      "requestQuote": "[DE] Request Official Quote"
+    },
+    "incoterms": {
+      "title": "[DE] International Commercial Terms (Incoterms)",
+      "description": "[DE] Understanding the responsibilities and risks in international trade"
+    },
+    "tracking": {
+      "title": "[DE] Shipment Tracking",
+      "description": "[DE] Track your current shipments and delivery status"
+    }
+  },
+  "messages": {
+    "title": "[DE] Communication Center",
+    "subtitle": "[DE] Manage conversations, notifications, and support tickets",
+    "tabs": {
+      "chat": "[DE] Chat",
+      "notifications": "[DE] Notifications",
+      "tickets": "[DE] Support Tickets"
+    },
+    "chat": {
+      "title": "[DE] Messages",
+      "newChat": "[DE] New Chat",
+      "searchPlaceholder": "[DE] Search conversations...",
+      "selectConversation": "[DE] Select a conversation",
+      "selectConversationDescription": "[DE] Choose a conversation from the sidebar to start messaging",
+      "messagePlaceholder": "[DE] Type your message...",
+      "actions": {
+        "star": "[DE] Star conversation",
+        "archive": "[DE] Archive conversation",
+        "delete": "[DE] Delete conversation"
+      }
+    },
+    "notifications": {
+      "title": "[DE] Notifications",
+      "markAllRead": "[DE] Mark all as read",
+      "filters": {
+        "all": "[DE] All",
+        "unread": "[DE] Unread",
+        "quotes": "[DE] Quotes",
+        "shipping": "[DE] Shipping",
+        "quality": "[DE] Quality"
+      }
+    },
+    "tickets": {
+      "title": "[DE] Support Tickets",
+      "createNew": "[DE] Create New Ticket",
+      "responses": "[DE] responses",
+      "filters": {
+        "all": "[DE] All Tickets",
+        "open": "[DE] Open",
+        "inProgress": "[DE] In Progress",
+        "resolved": "[DE] Resolved"
+      },
+      "status": {
+        "open": "[DE] Open",
+        "in_progress": "[DE] In Progress",
+        "resolved": "[DE] Resolved"
+      },
+      "priority": {
+        "high": "[DE] High",
+        "medium": "[DE] Medium",
+        "low": "[DE] Low"
+      },
+      "actions": {
+        "view": "[DE] View Ticket",
+        "edit": "[DE] Edit Ticket",
+        "close": "[DE] Close Ticket"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "[DE] What Our Partners Say About Us",
+    "subtitle": "[DE] Join 500+ international partners who trust The Great Beans for premium Vietnamese coffee solutions and exceptional service across 25+ countries",
+    "trustBadge": "[DE] Trusted by Global Partners",
+    "categories": {
+      "all": "[DE] All Partners",
+      "roaster": "[DE] Coffee Roasters",
+      "distributor": "[DE] Distributors",
+      "manufacturer": "[DE] Manufacturers",
+      "retailer": "[DE] Retailers"
+    },
+    "stats": {
+      "annualVolume": "[DE] Annual Volume",
+      "partnership": "[DE] Partnership"
+    },
+    "navigation": {
+      "previous": "[DE] Previous",
+      "next": "[DE] Next"
+    },
+    "trustIndicators": {
+      "title": "[DE] Trusted by Industry Leaders",
+      "subtitle": "[DE] Join our growing network of satisfied partners worldwide"
+    },
+    "cta": {
+      "title": "[DE] Ready to Join Our Success Stories?",
+      "subtitle": "[DE] Start your partnership with Vietnam's leading coffee exporter today",
+      "becomePartner": "[DE] Become a Partner",
+      "requestQuote": "[DE] Request Quote"
+    }
+  },
+  "marketReports": {
+    "title": "[DE] Market Reports & Insights",
+    "subtitle": "[DE] Stay informed with the latest Vietnamese coffee market trends, analysis, and forecasts",
+    "description": "[DE] Comprehensive market intelligence for informed business decisions",
+    "featured": "[DE] Featured Reports",
+    "allReports": "[DE] All Reports",
+    "readReport": "[DE] Read Report",
+    "downloadReport": "[DE] Download Report",
+    "publishedOn": "[DE] Published on",
+    "author": "[DE] Author",
+    "category": "[DE] Category",
+    "tags": "[DE] Tags",
+    "readingTime": "[DE] Reading Time",
+    "relatedReports": "[DE] Related Reports",
+    "noReports": "[DE] No reports available",
+    "noReportsDescription": "[DE] Please check back later for market updates.",
+    "backToReports": "[DE] Back to Reports",
+    "categories": {
+      "market-analysis": "[DE] Market Analysis",
+      "price-trends": "[DE] Price Trends",
+      "export-data": "[DE] Export Data",
+      "industry-news": "[DE] Industry News",
+      "forecasts": "[DE] Forecasts"
+    },
+    "filters": {
+      "search": "[DE] Search reports...",
+      "category": "[DE] Category",
+      "dateRange": "[DE] Date Range",
+      "reset": "[DE] Reset Filters",
+      "apply": "[DE] Apply Filters"
+    },
+    "cta": {
+      "title": "[DE] Need Custom Market Intelligence?",
+      "subtitle": "[DE] Get personalized market reports and analysis tailored to your business needs",
+      "contactUs": "[DE] Contact Our Analysts",
+      "requestCustomReport": "[DE] Request Custom Report"
     }
   }
 }

@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  Coffee,
-  Building2,
-  Package,
-  CreditCard,
-  FileText,
-  ChevronLeft,
-  ChevronRight,
-  CheckCircle,
-} from 'lucide-react';
+import {  Coffee, Building2, Package, CreditCard, FileText, ChevronLeft, ChevronRight, CheckCircle  } from '@/components/ui/dynamic-icons';
 import React, { use } from 'react';
 
 import { LogisticsCostEstimator } from '@/components/ui/LogisticsCostEstimator';

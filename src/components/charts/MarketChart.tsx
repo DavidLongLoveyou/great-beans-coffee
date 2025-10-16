@@ -2,20 +2,20 @@
 
 import React from 'react';
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-} from 'recharts';
+  DynamicLineChart as LineChart,
+  DynamicLine as Line,
+  DynamicXAxis as XAxis,
+  DynamicYAxis as YAxis,
+  DynamicCartesianGrid as CartesianGrid,
+  DynamicTooltip as Tooltip,
+  DynamicLegend as Legend,
+  DynamicResponsiveContainer as ResponsiveContainer,
+  DynamicBarChart as BarChart,
+  DynamicBar as Bar,
+  DynamicPieChart as PieChart,
+  DynamicPie as Pie,
+  DynamicCell as Cell,
+} from '@/components/charts/DynamicCharts';
 
 // Type for Recharts data - compatible with their internal types
 type ChartDataPoint = Record<string, string | number>;

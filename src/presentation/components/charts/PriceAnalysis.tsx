@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  DollarSign,
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  Calendar,
-  AlertTriangle,
-  Target,
-  Activity,
-} from 'lucide-react';
+import {  DollarSign, TrendingUp, TrendingDown, BarChart3, Calendar, AlertTriangle, Target, Activity  } from '@/components/ui/dynamic-icons';
 import React, { useState, useMemo } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

@@ -181,12 +181,59 @@ module.exports = {
       },
 
       fontFamily: {
-        // Typography using CSS variables from Next.js font optimization
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-playfair)', 'Georgia', 'serif'],
-        mono: ['var(--font-jetbrains)', 'Consolas', 'monospace'],
-        display: ['var(--font-playfair)', 'Georgia', 'serif'], // For headings
-        body: ['var(--font-inter)', 'system-ui', 'sans-serif'], // For body text
+        // Use CSS variables for font families with comprehensive fallbacks
+        sans: [
+          'var(--font-inter)',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'Noto Sans',
+          'Liberation Sans',
+          'sans-serif',
+          'Apple Color Emoji',
+          'Segoe UI Emoji',
+          'Segoe UI Symbol',
+          'Noto Color Emoji'
+        ],
+        serif: [
+          'var(--font-playfair)',
+          'Georgia',
+          'Cambria',
+          'Times New Roman',
+          'Times',
+          'serif'
+        ],
+        mono: [
+          'var(--font-jetbrains)',
+          'SFMono-Regular',
+          'Menlo',
+          'Monaco',
+          'Consolas',
+          'Liberation Mono',
+          'Courier New',
+          'monospace'
+        ],
+        display: [
+          'var(--font-playfair)',
+          'Georgia',
+          'Cambria',
+          'Times New Roman',
+          'Times',
+          'serif'
+        ], // For headings
+        body: [
+          'var(--font-inter)',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'sans-serif'
+        ], // For body text
       },
 
       fontSize: {

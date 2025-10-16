@@ -1,19 +1,6 @@
 'use client';
 
-import {
-  Calculator,
-  Calendar,
-  DollarSign,
-  FileText,
-  Globe,
-  Info,
-  MapPin,
-  Package,
-  Plane,
-  RefreshCw,
-  Ship,
-  Truck,
-} from 'lucide-react';
+import {  Calculator, Calendar, DollarSign, FileText, Globe, Info, MapPin, Package, Plane, RefreshCw, Ship, Truck  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 

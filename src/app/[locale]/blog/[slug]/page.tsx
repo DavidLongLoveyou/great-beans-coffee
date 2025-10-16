@@ -1,11 +1,4 @@
-import {
-  CalendarDays,
-  User,
-  Clock,
-  Tag,
-  ArrowLeft,
-  Share2,
-} from 'lucide-react';
+import {  CalendarDays, User, Clock, Tag, ArrowLeft, Share2  } from '@/components/ui/dynamic-icons';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,8 +6,8 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
-import { getBlogPostBySlug, getBlogPosts } from '@/lib/contentlayer';
-import { MDXContent } from '@/presentation/components/MDXContent';
+import FileContentLoader from '@/lib/content-file-loader';
+
 import { SEOHead } from '@/presentation/components/seo';
 import {
   Card,
@@ -35,7 +28,7 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  const posts = getBlogPosts('en');
+  const posts = await FileContentLoader.getBlogPosts('en');
   return posts.map(post => ({
     slug: post.slug,
   }));
@@ -45,7 +38,7 @@ export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
   const { locale, slug } = await params;
-  const post = getBlogPostBySlug(slug, locale);
+  const post = await FileContentLoader.getBlogPostBySlug(slug, locale);
 
   if (!post) {
     return generateSEOMetadata({
@@ -65,7 +58,7 @@ export async function generateMetadata({
     type: 'article',
     publishedTime: post.publishedAt,
     modifiedTime: post.updatedAt || post.publishedAt,
-    author: post.author,
+    author: post.author || 'Great Beans Coffee',
     section: 'Coffee Industry',
     tags: post.tags || [],
     image: post.coverImage || '/images/blog-default.jpg',
@@ -77,13 +70,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const t = await getTranslations('blog');
   const tCommon = await getTranslations('common');
 
-  const post = getBlogPostBySlug(slug, locale);
+  const post = await FileContentLoader.getBlogPostBySlug(slug, locale);
 
   if (!post) {
     notFound();
   }
 
-  const relatedPosts = getBlogPosts(locale)
+  const relatedPosts = (await FileContentLoader.getBlogPosts(locale))
     .filter(p => p.slug !== slug && p.category === post.category)
     .slice(0, 3);
 
@@ -91,8 +84,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const articleSchema = generateArticleSchema({
     title: post.title,
     description: post.description,
-    images: post.image ? [post.image] : ['/images/blog-default.jpg'],
-    author: post.author,
+    images: post.coverImage ? [post.coverImage] : ['/images/blog-default.jpg'],
+    author: post.author || 'Great Beans Coffee',
     publishedAt: post.publishedAt,
     modifiedAt: post.updatedAt || post.publishedAt,
     url: `/${locale}/blog/${slug}`,
@@ -187,9 +180,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Content */}
         <div className="mx-auto max-w-4xl">
-          <div className="prose prose-lg max-w-none">
-            <MDXContent code={post.body.code} />
-          </div>
+          <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
         </div>
 
         {/* Tags */}
@@ -263,7 +254,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                           </div>
                         )}
                       </div>
-                      <Link href={relatedPost.url}>
+                      <Link href={`/${locale}/blog/${relatedPost.slug}`}>
                         <ServerButton variant="outline" size="sm">
                           {tCommon('readMore')}
                         </ServerButton>

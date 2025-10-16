@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, Filter, X, TrendingUp, Clock, Hash } from 'lucide-react';
+import {  Search, Filter, X, TrendingUp, Clock, Hash  } from '@/components/ui/dynamic-icons';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect, useCallback } from 'react';

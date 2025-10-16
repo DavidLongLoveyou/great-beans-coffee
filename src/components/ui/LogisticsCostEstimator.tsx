@@ -1,6 +1,6 @@
 'use client';
 
-import { Calculator, Ship, Truck, Plane, Info, Loader2 } from 'lucide-react';
+import {  Calculator, Ship, Truck, Plane, Info, Loader2  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';
 

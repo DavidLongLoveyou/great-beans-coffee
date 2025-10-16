@@ -1,4 +1,23 @@
 {
+  "homepage": {
+    "title": "[KO] The Great Beans - Premium Vietnamese Coffee",
+    "description": "[KO] Leading B2B platform for Vietnamese coffee exports",
+    "badge": "[KO] Our Process",
+    "products": {
+      "grade-1-robusta": {
+        "name": "[KO] Grade 1 Robusta Beans",
+        "description": "[KO] Premium Vietnamese Robusta with rich flavor profile and exceptionally low defect rate"
+      },
+      "highland-arabica": {
+        "name": "[KO] Highland Arabica",
+        "description": "[KO] High-altitude Vietnamese Arabica with exceptional cup quality and unique flavor notes"
+      },
+      "custom-blends": {
+        "name": "[KO] Private Label Solutions",
+        "description": "[KO] Custom coffee blends and comprehensive private labeling services for your brand"
+      }
+    }
+  },
   "common": {
     "loading": "로딩 중...",
     "error": "오류가 발생했습니다",
@@ -306,7 +325,25 @@
       "next": "다음",
       "submit": "견적 요청 보내기",
       "submitting": "전송 중...",
-      "success": "견적 요청이 성공적으로 전송되었습니다!",
+      "success": {
+        "title": "요청이 성공적으로 전송되었습니다!",
+        "message": "요청을 보내주셔서 감사합니다. 요청을 검토한 후 24시간 내에 경쟁력 있는 견적을 보내드리겠습니다.",
+        "referenceNumber": "참조 번호: {id}",
+        "nextSteps": {
+          "title": "다음 단계는 무엇인가요?",
+          "steps": [
+            "저희 팀이 요청을 검토합니다",
+            "가격이 포함된 상세 견적을 준비합니다",
+            "24시간 내에 이메일로 견적을 받으실 수 있습니다",
+            "영업팀이 세부사항을 논의하기 위해 연락드립니다"
+          ]
+        },
+        "actions": {
+          "viewDetails": "요청 세부사항 보기",
+          "newRequest": "새 요청 보내기",
+          "backToHome": "홈으로 돌아가기"
+        }
+      },
       "error": "견적 요청 전송 중 오류가 발생했습니다. 다시 시도해주세요.",
       "description": "커피 요청을 보내시면 공급업체로부터 경쟁력 있는 견적을 받으실 수 있습니다.",
       "fields": {
@@ -401,25 +438,6 @@
         "phone": "유효한 전화번호를 입력하세요",
         "quantity": "유효한 수량을 입력하세요",
         "date": "유효한 날짜를 선택하세요"
-      },
-      "success": {
-        "title": "요청이 성공적으로 전송되었습니다!",
-        "message": "요청을 보내주셔서 감사합니다. 요청을 검토한 후 24시간 내에 경쟁력 있는 견적을 보내드리겠습니다.",
-        "referenceNumber": "참조 번호: {id}",
-        "nextSteps": {
-          "title": "다음 단계는 무엇인가요?",
-          "steps": [
-            "저희 팀이 요청을 검토합니다",
-            "가격이 포함된 상세 견적을 준비합니다",
-            "24시간 내에 이메일로 견적을 받으실 수 있습니다",
-            "영업팀이 세부사항을 논의하기 위해 연락드립니다"
-          ]
-        },
-        "actions": {
-          "viewDetails": "요청 세부사항 보기",
-          "newRequest": "새 요청 보내기",
-          "backToHome": "홈으로 돌아가기"
-        }
       }
     },
     "rfq": {
@@ -601,6 +619,839 @@
       },
       "statusManagement": "상태 관리",
       "statusManagementDescription": "이 요청의 상태를 추적하고 관리하세요"
+    }
+  },
+  "blog": {
+    "title": "[KO] Coffee Industry Insights & News",
+    "description": "[KO] Stay updated with the latest trends, market analysis, and insights from the Vietnamese coffee industry.",
+    "allCategories": "[KO] All Categories",
+    "featured": "[KO] Featured Articles",
+    "featuredPosts": "[KO] Featured Articles",
+    "posts": "[KO] Articles",
+    "allPosts": "[KO] All Articles",
+    "latestPosts": "[KO] Latest Articles",
+    "readMore": "[KO] Read More",
+    "readingTime": "[KO] min read",
+    "publishedOn": "[KO] Published on",
+    "author": "[KO] Author",
+    "category": "[KO] Category",
+    "tags": "[KO] Tags",
+    "relatedPosts": "[KO] Related Articles",
+    "noPostsFound": "[KO] No articles found for this category.",
+    "noPostsInCategory": "[KO] No articles found in this category",
+    "noPosts": "[KO] No articles available",
+    "noPostsInCategoryDescription": "[KO] Try browsing other categories or check back later for new content.",
+    "noPostsDescription": "[KO] Check back later for new articles and insights.",
+    "viewAllPosts": "[KO] View All Articles",
+    "backToBlog": "[KO] Back to Blog",
+    "shareArticle": "[KO] Share Article",
+    "categories": {
+      "Sustainability": "[KO] Sustainability",
+      "MARKET_ANALYSIS": "[KO] Market Analysis",
+      "INDUSTRY_INSIGHTS": "[KO] Industry Insights",
+      "Nachhaltigkeit": "[KO] Sustainability",
+      "持続可能性": "[KO] Sustainability",
+      "Bền Vững": "[KO] Sustainability",
+      "Phân Tích Thị Trường": "[KO] Market Analysis"
+    }
+  },
+  "actions": {
+    "back": "[KO] Back",
+    "share": "[KO] Share",
+    "download": "[KO] Download",
+    "contact": "[KO] Contact",
+    "edit": "[KO] Edit",
+    "downloadPDF": "[KO] Download PDF"
+  },
+  "detail": {
+    "tabs": {
+      "overview": "[KO] Overview",
+      "requirements": "[KO] Requirements",
+      "timeline": "[KO] Timeline",
+      "documents": "[KO] Documents",
+      "status": "[KO] Status"
+    },
+    "productInformation": "[KO] Product Information",
+    "productType": "[KO] Product Type",
+    "quantity": "[KO] Quantity",
+    "variety": "[KO] Variety",
+    "grade": "[KO] Grade",
+    "processing": "[KO] Processing",
+    "origin": "[KO] Origin",
+    "deliveryInfo": "[KO] Delivery Information",
+    "incoterms": "[KO] Incoterms",
+    "destination": "[KO] Destination",
+    "preferredDeliveryDate": "[KO] Preferred Delivery Date",
+    "packagingRequirements": "[KO] Packaging Requirements",
+    "requirements": "[KO] Requirements",
+    "timelineInfo": "[KO] Timeline Information",
+    "submittedAt": "[KO] Submitted At",
+    "estimatedValue": "[KO] Estimated Value"
+  },
+  "statusManager": {
+    "changeStatus": "[KO] Change Status",
+    "confirmTransition": "[KO] Confirm Status Change",
+    "confirmTransitionDescription": "[KO] Are you sure you want to change the status from {from} to {to}?",
+    "note": "[KO] Note",
+    "notePlaceholder": "[KO] Add a note about this status change...",
+    "cancel": "[KO] Cancel",
+    "confirm": "[KO] Confirm",
+    "updating": "[KO] Updating..."
+  },
+  "statusHistory": {
+    "title": "[KO] Status History",
+    "updatedBy": "[KO] Updated by {name}"
+  },
+  "pdf": {
+    "generating": {
+      "title": "[KO] Generating PDF",
+      "productSpec": "[KO] Creating product specification sheet...",
+      "rfqDocument": "[KO] Creating RFQ document...",
+      "htmlToPdf": "[KO] Converting to PDF...",
+      "marketReport": "[KO] Generating market report...",
+      "certificate": "[KO] Creating certificate..."
+    },
+    "success": {
+      "title": "[KO] PDF Generated Successfully",
+      "productSpec": "[KO] Product specification sheet has been downloaded",
+      "rfqDocument": "[KO] RFQ document has been downloaded",
+      "htmlToPdf": "[KO] PDF has been downloaded",
+      "marketReport": "[KO] Market report has been downloaded",
+      "certificate": "[KO] Certificate has been downloaded"
+    },
+    "error": {
+      "title": "[KO] PDF Generation Failed",
+      "unknown": "[KO] An unknown error occurred during PDF generation",
+      "networkError": "[KO] Network error occurred. Please check your connection.",
+      "invalidData": "[KO] Invalid data provided for PDF generation",
+      "templateError": "[KO] PDF template error occurred",
+      "renderError": "[KO] Failed to render PDF content"
+    },
+    "batch": {
+      "generating": {
+        "title": "[KO] Generating Multiple PDFs",
+        "description": "[KO] Creating {count} PDF documents..."
+      },
+      "success": {
+        "title": "[KO] Batch Generation Complete",
+        "description": "[KO] All PDF documents have been generated successfully"
+      },
+      "error": {
+        "title": "[KO] Batch Generation Failed",
+        "description": "[KO] Some PDF documents could not be generated"
+      }
+    },
+    "buttons": {
+      "downloadSpec": "[KO] Download Spec Sheet",
+      "downloadRfq": "[KO] Download RFQ",
+      "downloadReport": "[KO] Download Report",
+      "downloadCertificate": "[KO] Download Certificate",
+      "generatePdf": "[KO] Generate PDF",
+      "downloading": "[KO] Downloading...",
+      "retry": "[KO] Retry Download"
+    },
+    "templates": {
+      "productSpec": {
+        "title": "[KO] Product Specification Sheet",
+        "subtitle": "[KO] Detailed technical specifications and quality information"
+      },
+      "rfqDocument": {
+        "title": "[KO] Request for Quote",
+        "subtitle": "[KO] Comprehensive quote request with all requirements"
+      },
+      "marketReport": {
+        "title": "[KO] Market Analysis Report",
+        "subtitle": "[KO] In-depth market insights and trends analysis"
+      },
+      "certificate": {
+        "title": "[KO] Quality Certificate",
+        "subtitle": "[KO] Official quality assurance documentation"
+      }
+    },
+    "options": {
+      "format": "[KO] Format",
+      "orientation": "[KO] Orientation",
+      "quality": "[KO] Quality",
+      "includeWatermark": "[KO] Include Watermark",
+      "includeHeader": "[KO] Include Header",
+      "includeFooter": "[KO] Include Footer",
+      "language": "[KO] Language"
+    },
+    "formats": {
+      "a4": "[KO] A4",
+      "letter": "[KO] Letter",
+      "legal": "[KO] Legal"
+    },
+    "orientations": {
+      "portrait": "[KO] Portrait",
+      "landscape": "[KO] Landscape"
+    },
+    "qualities": {
+      "low": "[KO] Low (Fast)",
+      "medium": "[KO] Medium",
+      "high": "[KO] High (Best Quality)"
+    }
+  },
+  "catalog": {
+    "comparison": {
+      "title": "[KO] Product Comparison",
+      "description": "[KO] Compare selected coffee products side-by-side to make informed purchasing decisions",
+      "products": "[KO] products",
+      "specification": "[KO] Specification",
+      "export": "[KO] Export Comparison",
+      "requestQuote": "[KO] Request Quote",
+      "inStock": "[KO] In Stock",
+      "outOfStock": "[KO] Out of Stock",
+      "days": "[KO] days",
+      "fields": {
+        "name": "[KO] Product",
+        "type": "[KO] Type",
+        "grade": "[KO] Grade",
+        "processing": "[KO] Processing Method",
+        "origin": "[KO] Origin",
+        "moisture": "[KO] Moisture Content",
+        "screenSize": "[KO] Screen Size",
+        "defectRate": "[KO] Defect Rate",
+        "cuppingScore": "[KO] Cupping Score",
+        "basePrice": "[KO] Base Price",
+        "stockStatus": "[KO] Stock Status",
+        "leadTime": "[KO] Lead Time",
+        "harvestSeason": "[KO] Harvest Season",
+        "certifications": "[KO] Certifications"
+      },
+      "categories": {
+        "basic": "[KO] Basic Information",
+        "specifications": "[KO] Technical Specifications",
+        "pricing": "[KO] Pricing",
+        "availability": "[KO] Availability",
+        "certifications": "[KO] Certifications"
+      },
+      "advanced": {
+        "title": "[KO] Advanced Product Comparison",
+        "tabs": {
+          "comparison": "[KO] Detailed Comparison",
+          "analysis": "[KO] Business Analysis",
+          "recommendations": "[KO] AI Recommendations"
+        },
+        "filters": {
+          "all": "[KO] All Categories",
+          "highPriority": "[KO] High Priority Only",
+          "business": "[KO] Business Metrics",
+          "technical": "[KO] Technical Specs",
+          "availability": "[KO] Availability"
+        },
+        "sorting": {
+          "price": "[KO] Sort by Price",
+          "quality": "[KO] Sort by Quality",
+          "availability": "[KO] Sort by Stock"
+        },
+        "businessMetrics": {
+          "basePrice": "[KO] Base Price",
+          "bulkPrice": "[KO] Bulk Price (1000kg)",
+          "roiScore": "[KO] ROI Score",
+          "totalQuantity": "[KO] Total Quantity",
+          "totalValue": "[KO] Total Value",
+          "potentialSavings": "[KO] Potential Savings",
+          "qualityScore": "[KO] Quality Score",
+          "riskAssessment": "[KO] Risk Assessment"
+        },
+        "analysis": {
+          "recommendedMix": "[KO] Recommended Product Mix",
+          "targetQuantity": "[KO] Target Quantity",
+          "averagePrice": "[KO] Average Price",
+          "vsStandardPricing": "[KO] vs standard pricing"
+        },
+        "recommendations": {
+          "aiPowered": "[KO] AI-Powered Recommendations",
+          "optimalStrategy": "[KO] Optimal Purchase Strategy",
+          "seasonalTiming": "[KO] Seasonal Timing",
+          "riskMitigation": "[KO] Risk Mitigation",
+          "strategyDescription": "[KO] Based on your selection, we recommend a 60/40 split between premium and commercial grades to optimize both quality and cost-effectiveness for your target market.",
+          "timingDescription": "[KO] Consider placing orders for Vietnamese Robusta between October-December for best pricing and freshness, aligning with harvest seasons.",
+          "riskDescription": "[KO] Some selected products have higher lead times or limited stock. Consider diversifying your supplier base or adjusting quantities to reduce supply chain risks."
+        },
+        "tooltips": {
+          "basePrice": "[KO] Price per kg for standard quantities",
+          "bulkPrice": "[KO] Discounted price for 1000kg orders",
+          "roiScore": "[KO] Return on Investment score based on quality vs price"
+        },
+        "actions": {
+          "select": "[KO] Select",
+          "export": "[KO] Export",
+          "quote": "[KO] Quote",
+          "exportFormats": {
+            "csv": "[KO] Export as CSV",
+            "pdf": "[KO] Export as PDF",
+            "excel": "[KO] Export as Excel"
+          }
+        },
+        "risk": {
+          "low": "[KO] Low Risk",
+          "medium": "[KO] Medium Risk",
+          "high": "[KO] High Risk"
+        },
+        "quality": {
+          "specialty": "[KO] Specialty",
+          "commercial": "[KO] Commercial"
+        },
+        "savings": "[KO] savings"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "[KO] B2B Dashboard",
+    "subtitle": "[KO] Manage your coffee sourcing operations and track business performance",
+    "navigation": {
+      "overview": "[KO] Overview",
+      "quotes": "[KO] Quotes",
+      "orders": "[KO] Orders",
+      "products": "[KO] Products",
+      "analytics": "[KO] Analytics",
+      "documents": "[KO] Documents",
+      "logistics": "[KO] Logistics",
+      "messages": "[KO] Messages",
+      "account": "[KO] Account"
+    },
+    "search": {
+      "placeholder": "[KO] Search dashboard..."
+    },
+    "notifications": "[KO] Notifications",
+    "newQuote": "[KO] New Quote",
+    "viewAll": "[KO] View All",
+    "expires": "[KO] Expires",
+    "createNewQuote": "[KO] Create New Quote",
+    "viewOrderHistory": "[KO] View Order History",
+    "downloadReport": "[KO] Download Report",
+    "stats": {
+      "totalQuotes": "[KO] Total Quotes",
+      "activeOrders": "[KO] Active Orders",
+      "totalSpent": "[KO] Total Spent",
+      "avgOrderValue": "[KO] Avg Order Value",
+      "thisMonth": "[KO] this month",
+      "thisWeek": "[KO] this week",
+      "fromLastMonth": "[KO] from last month"
+    },
+    "status": {
+      "pending": "[KO] Pending",
+      "quoted": "[KO] Quoted",
+      "approved": "[KO] Approved",
+      "shipped": "[KO] Shipped",
+      "processing": "[KO] Processing",
+      "delivered": "[KO] Delivered"
+    },
+    "tabs": {
+      "overview": "[KO] Overview",
+      "quotes": "[KO] Quotes",
+      "orders": "[KO] Orders",
+      "analytics": "[KO] Analytics"
+    },
+    "recentQuotes": {
+      "title": "[KO] Recent Quotes"
+    },
+    "recentOrders": {
+      "title": "[KO] Recent Orders"
+    },
+    "quotes": {
+      "title": "[KO] Quote Management",
+      "description": "[KO] Manage all your quote requests and track their status",
+      "comingSoon": "[KO] Advanced quote management features coming soon"
+    },
+    "products": {
+      "title": "[KO] Product Management",
+      "description": "[KO] Manage your coffee product catalog, inventory, and pricing",
+      "tabs": {
+        "products": "[KO] Products",
+        "inventory": "[KO] Inventory",
+        "pricing": "[KO] Pricing"
+      },
+      "addProduct": "[KO] Add Product",
+      "editProduct": "[KO] Edit Product",
+      "deleteProduct": "[KO] Delete Product",
+      "searchPlaceholder": "[KO] Search products...",
+      "filterByCategory": "[KO] Filter by Category",
+      "filterByStatus": "[KO] Filter by Status",
+      "allCategories": "[KO] All Categories",
+      "allStatuses": "[KO] All Statuses",
+      "productsList": "[KO] Products List",
+      "productsListDescription": "[KO] Showing {count} products",
+      "productName": "[KO] Product Name",
+      "category": "[KO] Category",
+      "grade": "[KO] Grade",
+      "price": "[KO] Price",
+      "stock": "[KO] Stock",
+      "status": "[KO] Status",
+      "actions": "[KO] Actions",
+      "viewDetails": "[KO] View Details",
+      "inventory": {
+        "title": "[KO] Inventory Management",
+        "description": "[KO] Track stock levels, forecasting, and automated reorder alerts",
+        "stockLevels": "[KO] Stock Levels",
+        "lowStockAlerts": "[KO] Low Stock Alerts",
+        "forecasting": "[KO] Demand Forecasting",
+        "reports": "[KO] Inventory Reports",
+        "stockMovement": "[KO] Stock Movement",
+        "reorderPoint": "[KO] Reorder Point",
+        "currentStock": "[KO] Current Stock",
+        "reservedStock": "[KO] Reserved Stock",
+        "availableStock": "[KO] Available Stock",
+        "lastUpdated": "[KO] Last Updated",
+        "addStock": "[KO] Add Stock",
+        "removeStock": "[KO] Remove Stock",
+        "reorder": "[KO] Reorder"
+      },
+      "pricing": {
+        "title": "[KO] Pricing Management",
+        "description": "[KO] Manage dynamic pricing, bulk discounts, and market analysis",
+        "dynamicPricing": "[KO] Dynamic Pricing",
+        "bulkDiscounts": "[KO] Bulk Discounts",
+        "marketAnalysis": "[KO] Market Analysis",
+        "pricingRules": "[KO] Pricing Rules",
+        "pricingTiers": "[KO] Pricing Tiers",
+        "analytics": "[KO] Pricing Analytics",
+        "basePrice": "[KO] Base Price",
+        "currentPrice": "[KO] Current Price",
+        "marketPrice": "[KO] Market Price",
+        "profitMargin": "[KO] Profit Margin",
+        "lastUpdated": "[KO] Last Updated",
+        "updatePrice": "[KO] Update Price",
+        "addRule": "[KO] Add Rule",
+        "editRule": "[KO] Edit Rule"
+      }
+    }
+  },
+  "quotes": {
+    "title": "[KO] Quote Management",
+    "subtitle": "[KO] Manage all your quote requests and track their status",
+    "newQuote": "[KO] New Quote",
+    "exportQuotes": "[KO] Export Quotes",
+    "searchPlaceholder": "[KO] Search quotes by ID or product...",
+    "filterByStatus": "[KO] Filter by Status",
+    "filterByPriority": "[KO] Filter by Priority",
+    "allStatuses": "[KO] All Statuses",
+    "allPriorities": "[KO] All Priorities",
+    "quotesList": "[KO] Quotes List",
+    "quotesListDescription": "[KO] Showing {count} quotes",
+    "quoteId": "[KO] Quote ID",
+    "product": "[KO] Product",
+    "quantity": "[KO] Quantity",
+    "requested": "[KO] Requested",
+    "expires": "[KO] Expires",
+    "quotedPrice": "[KO] Quoted Price",
+    "actions": "[KO] Actions",
+    "viewDetails": "[KO] View Details",
+    "approve": "[KO] Approve",
+    "reject": "[KO] Reject",
+    "edit": "[KO] Edit",
+    "delete": "[KO] Delete",
+    "noQuotesFound": "[KO] No quotes found",
+    "noQuotesFoundDescription": "[KO] Try adjusting your search or filter criteria",
+    "status": {
+      "pending": "[KO] Pending",
+      "quoted": "[KO] Quoted",
+      "approved": "[KO] Approved",
+      "rejected": "[KO] Rejected",
+      "expired": "[KO] Expired"
+    },
+    "priority": {
+      "low": "[KO] Low",
+      "medium": "[KO] Medium",
+      "high": "[KO] High"
+    }
+  },
+  "orders": {
+    "title": "[KO] Order Management",
+    "subtitle": "[KO] Track and manage your coffee orders, shipments, and deliveries",
+    "exportOrders": "[KO] Export Orders",
+    "newOrder": "[KO] New Order",
+    "searchPlaceholder": "[KO] Search orders by ID, product, or destination...",
+    "filterByStatus": "[KO] Filter by Status",
+    "filterByPayment": "[KO] Filter by Payment",
+    "allStatuses": "[KO] All Statuses",
+    "allPayments": "[KO] All Payments",
+    "ordersList": "[KO] Orders List",
+    "ordersListDescription": "[KO] Showing {count} orders",
+    "orderId": "[KO] Order ID",
+    "product": "[KO] Product",
+    "quantity": "[KO] Quantity",
+    "status": {
+      "pending": "[KO] Pending",
+      "confirmed": "[KO] Confirmed",
+      "processing": "[KO] Processing",
+      "shipped": "[KO] Shipped",
+      "delivered": "[KO] Delivered",
+      "cancelled": "[KO] Cancelled"
+    },
+    "payment": {
+      "pending": "[KO] Pending",
+      "paid": "[KO] Paid",
+      "overdue": "[KO] Overdue",
+      "refunded": "[KO] Refunded"
+    },
+    "shipping": "[KO] Shipping",
+    "orderDate": "[KO] Order Date",
+    "value": "[KO] Value",
+    "progress": "[KO] Progress",
+    "actions": "[KO] Actions",
+    "viewDetails": "[KO] View Details",
+    "trackShipment": "[KO] Track Shipment",
+    "viewInvoice": "[KO] View Invoice",
+    "downloadDocuments": "[KO] Download Documents",
+    "noOrdersFound": "[KO] No orders found",
+    "noOrdersFoundDescription": "[KO] Try adjusting your search criteria or create a new order",
+    "stats": {
+      "totalOrders": "[KO] Total Orders",
+      "activeShipments": "[KO] Active Shipments",
+      "totalValue": "[KO] Total Value",
+      "delivered": "[KO] Delivered"
+    }
+  },
+  "analytics": {
+    "title": "[KO] Business Analytics",
+    "subtitle": "[KO] Comprehensive insights into your coffee business performance and market trends",
+    "refresh": "[KO] Refresh",
+    "exportReport": "[KO] Export Report",
+    "timeRange": {
+      "1month": "[KO] Last Month",
+      "3months": "[KO] Last 3 Months",
+      "6months": "[KO] Last 6 Months",
+      "1year": "[KO] Last Year"
+    },
+    "metrics": {
+      "totalRevenue": "[KO] Total Revenue",
+      "totalOrders": "[KO] Total Orders",
+      "avgOrderValue": "[KO] Avg Order Value",
+      "totalVolume": "[KO] Total Volume"
+    },
+    "tabs": {
+      "sales": "[KO] Sales",
+      "products": "[KO] Products",
+      "markets": "[KO] Markets",
+      "customers": "[KO] Customers"
+    },
+    "charts": {
+      "revenueOverTime": "[KO] Revenue Over Time",
+      "revenueOverTimeDesc": "[KO] Monthly revenue trends and growth patterns",
+      "ordersAndVolume": "[KO] Orders & Volume",
+      "ordersAndVolumeDesc": "[KO] Order count and volume shipped by month",
+      "productPerformance": "[KO] Product Performance",
+      "productPerformanceDesc": "[KO] Sales performance and growth by product category",
+      "marketDistribution": "[KO] Market Distribution",
+      "marketDistributionDesc": "[KO] Revenue distribution across global markets",
+      "topCountries": "[KO] Top Countries",
+      "topCountriesDesc": "[KO] Best performing countries by revenue",
+      "customerSegments": "[KO] Customer Segments",
+      "customerSegmentsDesc": "[KO] Revenue and performance by customer type"
+    },
+    "revenue": "[KO] Revenue",
+    "avgOrderValue": "[KO] Avg Order Value"
+  },
+  "account": {
+    "title": "[KO] Account Management",
+    "subtitle": "[KO] Manage your company profile, team members, and account preferences",
+    "edit": "[KO] Edit",
+    "save": "[KO] Save",
+    "cancel": "[KO] Cancel",
+    "tabs": {
+      "profile": "[KO] Company Profile",
+      "team": "[KO] Team Management",
+      "preferences": "[KO] Preferences"
+    },
+    "companyProfile": {
+      "title": "[KO] Company Profile",
+      "description": "[KO] Company Description",
+      "companyName": "[KO] Company Name",
+      "industry": "[KO] Industry",
+      "website": "[KO] Website",
+      "phone": "[KO] Phone Number",
+      "email": "[KO] Email Address",
+      "address": "[KO] Street Address",
+      "city": "[KO] City",
+      "country": "[KO] Country",
+      "taxId": "[KO] Tax ID"
+    },
+    "team": {
+      "title": "[KO] Team Management",
+      "description": "[KO] Manage team members and their access permissions",
+      "addMember": "[KO] Add Member",
+      "addMemberTitle": "[KO] Invite Team Member",
+      "addMemberDescription": "[KO] Send an invitation to a new team member",
+      "memberName": "[KO] Full Name",
+      "memberEmail": "[KO] Email Address",
+      "memberRole": "[KO] Role",
+      "sendInvitation": "[KO] Send Invitation",
+      "member": "[KO] Member",
+      "role": "[KO] Role",
+      "lastLogin": "[KO] Last Login",
+      "actions": "[KO] Actions"
+    },
+    "roles": {
+      "admin": "[KO] Admin",
+      "manager": "[KO] Manager",
+      "buyer": "[KO] Buyer",
+      "viewer": "[KO] Viewer"
+    },
+    "status": {
+      "active": "[KO] Active",
+      "pending": "[KO] Pending",
+      "inactive": "[KO] Inactive"
+    },
+    "preferences": {
+      "notifications": "[KO] Notification Preferences",
+      "notificationsDescription": "[KO] Configure how you want to receive updates and alerts",
+      "emailNotifications": "[KO] Email Notifications",
+      "pushNotifications": "[KO] Push Notifications",
+      "quoteUpdates": "[KO] Quote Updates",
+      "quoteUpdatesDesc": "[KO] Receive notifications when quotes are updated or responded to",
+      "orderUpdates": "[KO] Order Updates",
+      "orderUpdatesDesc": "[KO] Get notified about order status changes and shipment updates",
+      "shipmentUpdates": "[KO] Shipment Updates",
+      "shipmentUpdatesDesc": "[KO] Track your shipments and delivery notifications",
+      "marketingEmails": "[KO] Marketing Emails",
+      "marketingEmailsDesc": "[KO] Receive market insights, product updates, and promotional content",
+      "security": "[KO] Security Settings",
+      "securityDescription": "[KO] Manage your account security and data preferences",
+      "changePassword": "[KO] Change Password",
+      "downloadData": "[KO] Download My Data"
+    }
+  },
+  "documents": {
+    "title": "[KO] Document Management",
+    "subtitle": "[KO] Manage contracts, certificates, shipping documents, and other important files",
+    "uploadDocument": "[KO] Upload Document",
+    "uploadDocumentTitle": "[KO] Upload New Document",
+    "uploadDocumentDescription": "[KO] Add a new document to your document library",
+    "selectFile": "[KO] Select File",
+    "documentType": "[KO] Document Type",
+    "selectType": "[KO] Select document type",
+    "description": "[KO] Description",
+    "descriptionPlaceholder": "[KO] Enter document description (optional)",
+    "expiryDate": "[KO] Expiry Date",
+    "cancel": "[KO] Cancel",
+    "upload": "[KO] Upload",
+    "stats": {
+      "totalDocuments": "[KO] Total Documents",
+      "activeDocuments": "[KO] Active",
+      "expiredDocuments": "[KO] Expired",
+      "pendingDocuments": "[KO] Pending",
+      "expiringThisMonth": "[KO] Expiring This Month"
+    },
+    "types": {
+      "contract": "[KO] Contract",
+      "certificate": "[KO] Certificate",
+      "shipping": "[KO] Shipping Document",
+      "invoice": "[KO] Invoice",
+      "quality": "[KO] Quality Report",
+      "insurance": "[KO] Insurance"
+    },
+    "status": {
+      "active": "[KO] Active",
+      "expired": "[KO] Expired",
+      "pending": "[KO] Pending",
+      "archived": "[KO] Archived"
+    },
+    "searchPlaceholder": "[KO] Search documents by name, description, or tags...",
+    "filterByType": "[KO] Filter by Type",
+    "filterByStatus": "[KO] Filter by Status",
+    "allTypes": "[KO] All Types",
+    "allStatuses": "[KO] All Statuses",
+    "sortBy": "[KO] Sort By",
+    "sortOptions": {
+      "uploadDate": "[KO] Upload Date",
+      "name": "[KO] Name",
+      "type": "[KO] Type",
+      "size": "[KO] Size"
+    },
+    "documentsTable": {
+      "title": "[KO] Documents Library",
+      "description": "[KO] Showing {count} documents"
+    },
+    "tableHeaders": {
+      "document": "[KO] Document",
+      "type": "[KO] Type",
+      "status": "[KO] Status",
+      "uploadDate": "[KO] Upload Date",
+      "expiryDate": "[KO] Expiry Date",
+      "size": "[KO] Size",
+      "actions": "[KO] Actions"
+    },
+    "noDocuments": "[KO] No documents found",
+    "noDocumentsDescription": "[KO] Upload your first document or adjust your search filters"
+  },
+  "logistics": {
+    "title": "[KO] Logistics Calculator",
+    "subtitle": "[KO] Calculate shipping costs, delivery times, and manage your logistics operations",
+    "tabs": {
+      "calculator": "[KO] Shipping Calculator",
+      "incoterms": "[KO] Incoterms Guide",
+      "tracking": "[KO] Shipment Tracking"
+    },
+    "calculator": {
+      "title": "[KO] Shipping Cost Calculator",
+      "description": "[KO] Get instant estimates for shipping costs and delivery times",
+      "shippingMethod": "[KO] Shipping Method",
+      "selectMethod": "[KO] Select shipping method",
+      "methods": {
+        "sea": "[KO] Sea Freight",
+        "air": "[KO] Air Freight",
+        "land": "[KO] Land Transport"
+      },
+      "origin": "[KO] Origin Port",
+      "selectOrigin": "[KO] Select origin port",
+      "destination": "[KO] Destination Port",
+      "selectDestination": "[KO] Select destination port",
+      "containers": "[KO] Number of Containers",
+      "containersPlaceholder": "[KO] Enter number of 20ft containers",
+      "weight": "[KO] Total Weight (kg)",
+      "weightPlaceholder": "[KO] Enter total weight in kilograms",
+      "incoterm": "[KO] Incoterm",
+      "selectIncoterm": "[KO] Select Incoterm",
+      "calculate": "[KO] Calculate Shipping Cost",
+      "calculating": "[KO] Calculating..."
+    },
+    "results": {
+      "title": "[KO] Shipping Estimate",
+      "estimatedCost": "[KO] Estimated Cost",
+      "transitTime": "[KO] Transit Time",
+      "days": "[KO] days",
+      "estimatedDelivery": "[KO] Estimated Delivery",
+      "shippingMethod": "[KO] Shipping Method",
+      "disclaimer": "[KO] This is an estimated cost. Final pricing may vary based on actual cargo specifications, market conditions, and additional services required.",
+      "requestQuote": "[KO] Request Official Quote"
+    },
+    "incoterms": {
+      "title": "[KO] International Commercial Terms (Incoterms)",
+      "description": "[KO] Understanding the responsibilities and risks in international trade"
+    },
+    "tracking": {
+      "title": "[KO] Shipment Tracking",
+      "description": "[KO] Track your current shipments and delivery status"
+    }
+  },
+  "messages": {
+    "title": "[KO] Communication Center",
+    "subtitle": "[KO] Manage conversations, notifications, and support tickets",
+    "tabs": {
+      "chat": "[KO] Chat",
+      "notifications": "[KO] Notifications",
+      "tickets": "[KO] Support Tickets"
+    },
+    "chat": {
+      "title": "[KO] Messages",
+      "newChat": "[KO] New Chat",
+      "searchPlaceholder": "[KO] Search conversations...",
+      "selectConversation": "[KO] Select a conversation",
+      "selectConversationDescription": "[KO] Choose a conversation from the sidebar to start messaging",
+      "messagePlaceholder": "[KO] Type your message...",
+      "actions": {
+        "star": "[KO] Star conversation",
+        "archive": "[KO] Archive conversation",
+        "delete": "[KO] Delete conversation"
+      }
+    },
+    "notifications": {
+      "title": "[KO] Notifications",
+      "markAllRead": "[KO] Mark all as read",
+      "filters": {
+        "all": "[KO] All",
+        "unread": "[KO] Unread",
+        "quotes": "[KO] Quotes",
+        "shipping": "[KO] Shipping",
+        "quality": "[KO] Quality"
+      }
+    },
+    "tickets": {
+      "title": "[KO] Support Tickets",
+      "createNew": "[KO] Create New Ticket",
+      "responses": "[KO] responses",
+      "filters": {
+        "all": "[KO] All Tickets",
+        "open": "[KO] Open",
+        "inProgress": "[KO] In Progress",
+        "resolved": "[KO] Resolved"
+      },
+      "status": {
+        "open": "[KO] Open",
+        "in_progress": "[KO] In Progress",
+        "resolved": "[KO] Resolved"
+      },
+      "priority": {
+        "high": "[KO] High",
+        "medium": "[KO] Medium",
+        "low": "[KO] Low"
+      },
+      "actions": {
+        "view": "[KO] View Ticket",
+        "edit": "[KO] Edit Ticket",
+        "close": "[KO] Close Ticket"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "[KO] What Our Partners Say About Us",
+    "subtitle": "[KO] Join 500+ international partners who trust The Great Beans for premium Vietnamese coffee solutions and exceptional service across 25+ countries",
+    "trustBadge": "[KO] Trusted by Global Partners",
+    "categories": {
+      "all": "[KO] All Partners",
+      "roaster": "[KO] Coffee Roasters",
+      "distributor": "[KO] Distributors",
+      "manufacturer": "[KO] Manufacturers",
+      "retailer": "[KO] Retailers"
+    },
+    "stats": {
+      "annualVolume": "[KO] Annual Volume",
+      "partnership": "[KO] Partnership"
+    },
+    "navigation": {
+      "previous": "[KO] Previous",
+      "next": "[KO] Next"
+    },
+    "trustIndicators": {
+      "title": "[KO] Trusted by Industry Leaders",
+      "subtitle": "[KO] Join our growing network of satisfied partners worldwide"
+    },
+    "cta": {
+      "title": "[KO] Ready to Join Our Success Stories?",
+      "subtitle": "[KO] Start your partnership with Vietnam's leading coffee exporter today",
+      "becomePartner": "[KO] Become a Partner",
+      "requestQuote": "[KO] Request Quote"
+    }
+  },
+  "marketReports": {
+    "title": "[KO] Market Reports & Insights",
+    "subtitle": "[KO] Stay informed with the latest Vietnamese coffee market trends, analysis, and forecasts",
+    "description": "[KO] Comprehensive market intelligence for informed business decisions",
+    "featured": "[KO] Featured Reports",
+    "allReports": "[KO] All Reports",
+    "readReport": "[KO] Read Report",
+    "downloadReport": "[KO] Download Report",
+    "publishedOn": "[KO] Published on",
+    "author": "[KO] Author",
+    "category": "[KO] Category",
+    "tags": "[KO] Tags",
+    "readingTime": "[KO] Reading Time",
+    "relatedReports": "[KO] Related Reports",
+    "noReports": "[KO] No reports available",
+    "noReportsDescription": "[KO] Please check back later for market updates.",
+    "backToReports": "[KO] Back to Reports",
+    "categories": {
+      "market-analysis": "[KO] Market Analysis",
+      "price-trends": "[KO] Price Trends",
+      "export-data": "[KO] Export Data",
+      "industry-news": "[KO] Industry News",
+      "forecasts": "[KO] Forecasts"
+    },
+    "filters": {
+      "search": "[KO] Search reports...",
+      "category": "[KO] Category",
+      "dateRange": "[KO] Date Range",
+      "reset": "[KO] Reset Filters",
+      "apply": "[KO] Apply Filters"
+    },
+    "cta": {
+      "title": "[KO] Need Custom Market Intelligence?",
+      "subtitle": "[KO] Get personalized market reports and analysis tailored to your business needs",
+      "contactUs": "[KO] Contact Our Analysts",
+      "requestCustomReport": "[KO] Request Custom Report"
     }
   }
 }

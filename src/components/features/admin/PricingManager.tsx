@@ -1,31 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  DollarSign,
-  TrendingUp,
-  TrendingDown,
-  Target,
-  Calculator,
-  BarChart3,
-  LineChart,
-  PieChart,
-  Settings,
-  Globe,
-  Clock,
-  Search,
-  Download,
-  Plus,
-  Edit,
-  Copy,
-  Trash2,
-  Eye,
-  RefreshCw,
-  Star,
-  Percent,
-  Activity,
-  Layers,
-} from 'lucide-react';
+import {  DollarSign, TrendingUp, TrendingDown, Target, Calculator, BarChart3, LineChart, PieChart, Settings, Globe, Clock, Search, Download, Plus, Edit, Copy, Trash2, Eye, RefreshCw, Star, Percent, Activity, Layers  } from '@/components/ui/dynamic-icons';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
