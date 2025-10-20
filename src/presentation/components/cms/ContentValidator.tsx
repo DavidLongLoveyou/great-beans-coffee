@@ -1,7 +1,12 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import {  AlertCircle, CheckCircle, AlertTriangle, Info  } from '@/components/ui/dynamic-icons';
+import {
+  AlertCircle,
+  CheckCircle,
+  AlertTriangle,
+  Info,
+} from '@/components/ui/icons';
 
 import {
   Alert,

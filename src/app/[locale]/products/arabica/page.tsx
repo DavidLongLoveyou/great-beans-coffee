@@ -1,5 +1,11 @@
 import { type Metadata } from 'next';
-import {  Award, Mountain, Sparkles, CheckCircle, Star  } from '@/components/ui/dynamic-icons';
+import {
+  Award,
+  Mountain,
+  Sparkles,
+  CheckCircle,
+  Star,
+} from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -156,19 +162,19 @@ export default async function ArabicaPage({ params }: Props) {
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Screen Size:</span>
+                        <span className="text-forest-800">Screen Size:</span>
                         <span className="font-medium">15+ (85% min)</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Moisture:</span>
+                        <span className="text-forest-800">Moisture:</span>
                         <span className="font-medium">11-12%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Defects:</span>
+                        <span className="text-forest-800">Defects:</span>
                         <span className="font-medium">0-5 per 350g</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Cup Score:</span>
+                        <span className="text-forest-800">Cup Score:</span>
                         <span className="font-medium">80+ points</span>
                       </div>
                     </CardContent>
@@ -183,19 +189,46 @@ export default async function ArabicaPage({ params }: Props) {
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Screen Size:</span>
+                        <span className="text-forest-800">Screen Size:</span>
                         <span className="font-medium">14+ (80% min)</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Moisture:</span>
+                        <span className="text-forest-800">Moisture:</span>
                         <span className="font-medium">11-12%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Defects:</span>
+                        <span className="text-forest-800">Defects:</span>
+                        <span className="font-medium">0-5 per 350g</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-forest-800">Cup Score:</span>
+                        <span className="font-medium">80+ points</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Star className="h-5 w-5 text-emerald-500" />
+                        Premium Grade Arabica
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-forest-800">Screen Size:</span>
+                        <span className="font-medium">14+ (80% min)</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-forest-800">Moisture:</span>
+                        <span className="font-medium">11-12%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-forest-800">Defects:</span>
                         <span className="font-medium">6-15 per 350g</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Cup Score:</span>
+                        <span className="text-forest-800">Cup Score:</span>
                         <span className="font-medium">75-79 points</span>
                       </div>
                     </CardContent>

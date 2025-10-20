@@ -1,6 +1,6 @@
 'use client';
 
-import {  Filter, X, ChevronDown  } from '@/components/ui/dynamic-icons';
+import { Filter, X, ChevronDown } from '@/components/ui/icons';
 import { useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

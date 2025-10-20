@@ -1,6 +1,19 @@
 'use client';
 
-import {  ShoppingCart, Scale, TrendingUp, Package, Clock, Star, Plus, Minus, Eye, Download, CheckCircle, Users  } from '@/components/ui/dynamic-icons';
+import {
+  ShoppingCart,
+  Scale,
+  TrendingUp,
+  Package,
+  Clock,
+  Star,
+  Plus,
+  Minus,
+  Eye,
+  Download,
+  CheckCircle,
+  Users,
+} from '@/components/ui/icons';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -209,27 +222,7 @@ export function EnhancedRelatedProducts({
 
     return (
       <Card className="hover:shadow-coffee-glow group relative overflow-hidden border-coffee-200/50 transition-all duration-300 hover:shadow-xl">
-        {/* Recommendation Badge */}
-        <div className="absolute left-3 top-3 z-10">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Badge
-                  variant="secondary"
-                  className="border-amber-200 bg-amber-100 text-amber-800"
-                >
-                  <TrendingUp className="mr-1 h-3 w-3" />
-                  Recommended
-                </Badge>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="text-sm">{recommendationReasons[reason]}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-
-        {/* Selection Checkbox */}
+        {/* Selection Checkbox - moved to top right corner only */}
         <div className="absolute right-3 top-3 z-10">
           <Button
             variant={selectedProducts.has(product.id) ? 'default' : 'outline'}
@@ -257,20 +250,29 @@ export function EnhancedRelatedProducts({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
 
-          {/* Availability Badge */}
-          <Badge
-            variant={product.availability.inStock ? 'default' : 'destructive'}
-            className="absolute bottom-3 left-3"
-          >
-            {product.availability.inStock ? 'In Stock' : 'Out of Stock'}
-          </Badge>
-
-          {/* Featured Badge */}
-          {product.isFeatured && (
+          {/* Only show the most important badge - Featured if applicable, otherwise Recommended */}
+          {product.isFeatured ? (
             <Badge className="absolute bottom-3 right-3 bg-gold-500 text-white">
               <Star className="mr-1 h-3 w-3" />
               Featured
             </Badge>
+          ) : (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Badge
+                    variant="secondary"
+                    className="absolute bottom-3 right-3 border-amber-200 bg-amber-100 text-amber-800"
+                  >
+                    <TrendingUp className="mr-1 h-3 w-3" />
+                    Recommended
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-sm">{recommendationReasons[reason]}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
         </div>
 
@@ -717,7 +719,7 @@ export function EnhancedRelatedProducts({
         <h3 className="mb-4 text-2xl font-bold">
           Need Help Choosing the Right Products?
         </h3>
-        <p className="mx-auto mb-6 max-w-2xl text-coffee-100">
+        <p className="mx-auto mb-6 max-w-2xl text-white">
           Our coffee experts are here to help you select the perfect products
           for your business needs. Get personalized recommendations and custom
           quotes.
@@ -732,7 +734,7 @@ export function EnhancedRelatedProducts({
           <Button
             variant="outline"
             size="lg"
-            className="border-white text-white hover:bg-white hover:text-coffee-800"
+            className="border-2 border-white bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-coffee-800 hover:shadow-lg"
             asChild
           >
             <Link href={`/${locale}/catalog`}>

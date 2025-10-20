@@ -1,16 +1,65 @@
 import { type Metadata } from 'next';
-import {  Truck, Ship, Plane, Package, CheckCircle, Globe  } from '@/components/ui/dynamic-icons';
-
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
+// Dynamic imports for heavy components
+const Card = dynamic(
+  () =>
+    import('@/presentation/components/ui/card').then(mod => ({
+      default: mod.Card,
+    })),
+  {
+    loading: () => (
+      <div className="h-64 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+const CardContent = dynamic(
+  () =>
+    import('@/presentation/components/ui/card').then(mod => ({
+      default: mod.CardContent,
+    })),
+  {
+    loading: () => (
+      <div className="h-32 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+const CardHeader = dynamic(
+  () =>
+    import('@/presentation/components/ui/card').then(mod => ({
+      default: mod.CardHeader,
+    })),
+  {
+    loading: () => (
+      <div className="h-16 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+const CardTitle = dynamic(
+  () =>
+    import('@/presentation/components/ui/card').then(mod => ({
+      default: mod.CardTitle,
+    })),
+  {
+    loading: () => <div className="h-8 animate-pulse rounded-lg bg-gray-100" />,
+  }
+);
+
+// Static imports for lightweight components
+import {
+  Truck,
+  Ship,
+  Plane,
+  Package,
+  CheckCircle,
+  Globe,
+} from '@/components/ui/icons';
 import { type Locale } from '@/i18n';
 import { Button } from '@/presentation/components/ui';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/presentation/components/ui/card';
 import { Badge } from '@/presentation/components/ui/badge';
 
 type Props = {
@@ -65,9 +114,7 @@ export default async function LogisticsPage({ params }: Props) {
                 <Link href={`/${locale}/quote`}>Get Shipping Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/contact`}>
-                  Logistics Consultation
-                </Link>
+                <Link href={`/${locale}/contact`}>Logistics Consultation</Link>
               </Button>
             </div>
           </div>
@@ -731,9 +778,7 @@ export default async function LogisticsPage({ params }: Props) {
                 <Link href={`/${locale}/quote`}>Get Shipping Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/contact`}>
-                  Discuss Logistics Needs
-                </Link>
+                <Link href={`/${locale}/contact`}>Discuss Logistics Needs</Link>
               </Button>
             </div>
           </div>

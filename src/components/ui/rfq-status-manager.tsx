@@ -1,6 +1,13 @@
 'use client';
 
-import {  Clock, CheckCircle, XCircle, AlertCircle, FileText, ArrowRight  } from '@/components/ui/dynamic-icons';
+import {
+  Clock,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  FileText,
+  ArrowRight,
+} from '@/components/ui/icons';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 

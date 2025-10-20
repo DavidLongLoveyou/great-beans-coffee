@@ -7,11 +7,7 @@ console.log('🚀 Optimizing build performance...\n');
 
 // 1. Clean build cache
 console.log('1. Cleaning build cache...');
-const cacheDirectories = [
-  '.next',
-  '.contentlayer',
-  'node_modules/.cache',
-];
+const cacheDirectories = ['.next', '.contentlayer', 'node_modules/.cache'];
 
 cacheDirectories.forEach(dir => {
   const fullPath = path.join(process.cwd(), dir);
@@ -26,10 +22,10 @@ cacheDirectories.forEach(dir => {
 // 2. Set environment variables for faster builds
 console.log('\n2. Setting environment variables for faster builds...');
 const envOptimizations = {
-  'NEXT_TELEMETRY_DISABLED': '1',
-  'DISABLE_ESLINT_PLUGIN': 'true',
-  'GENERATE_SOURCEMAP': 'false',
-  'NODE_OPTIONS': '--max-old-space-size=4096',
+  NEXT_TELEMETRY_DISABLED: '1',
+  DISABLE_ESLINT_PLUGIN: 'true',
+  GENERATE_SOURCEMAP: 'false',
+  NODE_OPTIONS: '--max-old-space-size=4096',
 };
 
 let envContent = '';
@@ -53,7 +49,8 @@ console.log('\n3. Creating optimized build scripts...');
 const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 const optimizedScripts = {
-  'build:fast': 'cross-env NODE_ENV=production DISABLE_ESLINT_PLUGIN=true next build',
+  'build:fast':
+    'cross-env NODE_ENV=production DISABLE_ESLINT_PLUGIN=true next build',
   'build:analyze': 'cross-env ANALYZE=true npm run build',
   'build:clean': 'node scripts/optimize-build.js && npm run build',
   'dev:fast': 'cross-env DISABLE_ESLINT_PLUGIN=true next dev --turbo',
@@ -72,27 +69,32 @@ fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2));
 
 // 4. Check for large files that might slow down builds
 console.log('\n4. Checking for large files...');
-function checkLargeFiles(dir, maxSize = 1024 * 1024) { // 1MB
+function checkLargeFiles(dir, maxSize = 1024 * 1024) {
+  // 1MB
   const largeFiles = [];
-  
+
   function walkDir(currentPath) {
     const items = fs.readdirSync(currentPath);
-    
+
     for (const item of items) {
       const fullPath = path.join(currentPath, item);
       const stat = fs.statSync(fullPath);
-      
-      if (stat.isDirectory() && !item.startsWith('.') && item !== 'node_modules') {
+
+      if (
+        stat.isDirectory() &&
+        !item.startsWith('.') &&
+        item !== 'node_modules'
+      ) {
         walkDir(fullPath);
       } else if (stat.isFile() && stat.size > maxSize) {
         largeFiles.push({
           path: fullPath,
-          size: (stat.size / 1024 / 1024).toFixed(2) + 'MB'
+          size: (stat.size / 1024 / 1024).toFixed(2) + 'MB',
         });
       }
     }
   }
-  
+
   walkDir(dir);
   return largeFiles;
 }

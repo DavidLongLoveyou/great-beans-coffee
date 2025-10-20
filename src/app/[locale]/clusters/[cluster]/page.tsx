@@ -153,20 +153,20 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
     <>
       <SEOHead structuredData={structuredData} />
       {/* Hero Section */}
-      <HeroSection className="bg-gradient-to-r from-coffee-900 to-coffee-700 py-20 text-white">
+      <HeroSection className="bg-gradient-to-r from-forest-900 to-forest-700 py-20 text-white">
         <ContentContainer>
           <div className="mx-auto max-w-4xl text-center">
-            <SectionHeading size="xl" className="mb-6 text-white">
+            <SectionHeading size="xl" className="mb-6 bg-gradient-to-r from-gold-300 via-gold-200 to-gold-400 bg-clip-text text-transparent">
               {cluster.title}
             </SectionHeading>
-            <p className="mb-8 text-xl leading-relaxed text-coffee-100">
+            <p className="mb-8 text-xl leading-relaxed bg-gradient-to-r from-gold-200 via-gold-100 to-gold-300 bg-clip-text text-transparent">
               {cluster.description}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <CoffeeButton size="lg">{t('requestQuote')}</CoffeeButton>
+              <CoffeeButton variant="forest" size="lg">{t('requestQuote')}</CoffeeButton>
               <CoffeeButton
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-coffee-900"
+                className="bg-gradient-to-r from-gold-500 to-gold-600 text-forest-900 font-semibold shadow-lg shadow-gold-500/25 transition-all duration-300 hover:from-gold-400 hover:to-gold-500 hover:shadow-xl hover:shadow-gold-500/40 border-0"
               >
                 {t('downloadCatalog')}
               </CoffeeButton>
@@ -182,7 +182,7 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
             <SectionHeading size="xl" className="mb-8 text-center">
               {t('relatedProducts')}
             </SectionHeading>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {clusterData.products.map(product => (
                 <ClusterProductCard
                   key={product.id}
@@ -202,7 +202,7 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
             <SectionHeading size="xl" className="mb-8 text-center">
               {t('relatedServices')}
             </SectionHeading>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
               {clusterData.services.map(service => (
                 <ClusterServiceCard
                   key={service.id}
@@ -222,7 +222,7 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
             <SectionHeading size="xl" className="mb-8 text-center">
               {t('relatedArticles')}
             </SectionHeading>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {clusterData.articles.map(article => (
                 <ClusterArticleCard
                   key={article.id}
@@ -236,20 +236,20 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
       )}
 
       {/* CTA Section */}
-      <section className="bg-coffee-800 py-16 text-white">
+      <section className="bg-forest-800 py-16 text-white">
         <ContentContainer>
           <div className="mx-auto max-w-3xl text-center">
             <SectionHeading size="xl" className="mb-6 text-white">
               {t('cta.title')}
             </SectionHeading>
-            <p className="mb-8 text-xl text-coffee-100">
-              {t('cta.description')}
+            <p className="mb-8 text-xl text-white">
+              {cluster.description}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <CoffeeButton size="lg">{t('cta.primaryAction')}</CoffeeButton>
+              <CoffeeButton variant="forest" size="lg">{t('cta.primaryAction')}</CoffeeButton>
               <CoffeeButton
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-coffee-900"
+                className="border-2 border-white bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-forest-900 hover:shadow-lg"
               >
                 {t('cta.secondaryAction')}
               </CoffeeButton>

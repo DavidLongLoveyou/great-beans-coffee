@@ -1,7 +1,23 @@
 'use client';
 
 import Image from 'next/image';
-import {  Eye, ExternalLink, Smartphone, Tablet, Monitor, Globe, Calendar, User, Tag, Clock, Share2, BookOpen, TrendingUp, Coffee, Briefcase  } from '@/components/ui/dynamic-icons';
+import {
+  Eye,
+  ExternalLink,
+  Smartphone,
+  Tablet,
+  Monitor,
+  Globe,
+  Calendar,
+  User,
+  Tag,
+  Clock,
+  Share2,
+  BookOpen,
+  TrendingUp,
+  Coffee,
+  Briefcase,
+} from '@/components/ui/icons';
 import { useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
@@ -203,6 +219,7 @@ export function ContentPreview({
                         className="h-full w-full rounded object-cover"
                         width={128}
                         height={80}
+                        unoptimized={metadata.coverImage.endsWith('.svg')}
                         onError={e => {
                           e.currentTarget.style.display = 'none';
                           (e.currentTarget
@@ -270,6 +287,7 @@ export function ContentPreview({
                         className="h-full w-full object-cover"
                         width={800}
                         height={450}
+                        unoptimized={metadata.coverImage.endsWith('.svg')}
                         onError={e => {
                           e.currentTarget.style.display = 'none';
                           (e.currentTarget

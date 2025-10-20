@@ -7,23 +7,32 @@ function fixYamlTags(filePath) {
     let modified = false;
 
     // Fix tags format: tags: - 'value' -> tags:\n  - 'value'
-    content = content.replace(/^(\s*tags:\s*)-\s*'([^']+)'$/gm, (match, prefix, tag) => {
-      modified = true;
-      return `${prefix.trim()}:\n  - '${tag}'`;
-    });
+    content = content.replace(
+      /^(\s*tags:\s*)-\s*'([^']+)'$/gm,
+      (match, prefix, tag) => {
+        modified = true;
+        return `${prefix.trim()}:\n  - '${tag}'`;
+      }
+    );
 
     // Fix keywords format: keywords: - 'value' -> keywords:\n  - 'value'
-    content = content.replace(/^(\s*keywords:\s*)-\s*'([^']+)'$/gm, (match, prefix, keyword) => {
-      modified = true;
-      return `${prefix.trim()}:\n  - '${keyword}'`;
-    });
+    content = content.replace(
+      /^(\s*keywords:\s*)-\s*'([^']+)'$/gm,
+      (match, prefix, keyword) => {
+        modified = true;
+        return `${prefix.trim()}:\n  - '${keyword}'`;
+      }
+    );
 
     // Fix publishedAt format with spaces
-    content = content.replace(/publishedAt:\s*"([^"]*:\s*[^"]*:\s*[^"]*)"/g, (match, dateStr) => {
-      modified = true;
-      const cleanDate = dateStr.replace(/:\s+/g, ':');
-      return `publishedAt: "${cleanDate}"`;
-    });
+    content = content.replace(
+      /publishedAt:\s*"([^"]*:\s*[^"]*:\s*[^"]*)"/g,
+      (match, dateStr) => {
+        modified = true;
+        const cleanDate = dateStr.replace(/:\s+/g, ':');
+        return `publishedAt: "${cleanDate}"`;
+      }
+    );
 
     if (modified) {
       fs.writeFileSync(filePath, content, 'utf8');
@@ -39,14 +48,14 @@ function fixYamlTags(filePath) {
 
 function processDirectory(dirPath) {
   let fixedCount = 0;
-  
+
   function walkDir(currentPath) {
     const items = fs.readdirSync(currentPath);
-    
+
     for (const item of items) {
       const fullPath = path.join(currentPath, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         walkDir(fullPath);
       } else if (item.endsWith('.mdx')) {
@@ -56,7 +65,7 @@ function processDirectory(dirPath) {
       }
     }
   }
-  
+
   walkDir(dirPath);
   return fixedCount;
 }

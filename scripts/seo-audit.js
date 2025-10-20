@@ -21,17 +21,17 @@ function auditSEOMetadata() {
       missingAuthors: 0,
       missingCategories: 0,
       missingReadingTime: 0,
-      invalidYAML: 0
-    }
+      invalidYAML: 0,
+    },
   };
 
   function scanDirectory(dir) {
     const items = fs.readdirSync(dir);
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         scanDirectory(fullPath);
       } else if (item.endsWith('.mdx')) {
@@ -43,16 +43,16 @@ function auditSEOMetadata() {
   function auditFile(filePath) {
     results.totalFiles++;
     const relativePath = path.relative(contentDir, filePath);
-    
+
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
-      
+
       if (!frontmatterMatch) {
         results.issues.push({
           file: relativePath,
           type: 'error',
-          message: 'No frontmatter found'
+          message: 'No frontmatter found',
         });
         return;
       }
@@ -64,7 +64,7 @@ function auditSEOMetadata() {
         results.issues.push({
           file: relativePath,
           type: 'error',
-          message: 'Duplicate frontmatter detected'
+          message: 'Duplicate frontmatter detected',
         });
       }
 
@@ -76,7 +76,7 @@ function auditSEOMetadata() {
         results.issues.push({
           file: relativePath,
           type: 'error',
-          message: `YAML parsing error: ${error.message}`
+          message: `YAML parsing error: ${error.message}`,
         });
         return;
       }
@@ -87,14 +87,14 @@ function auditSEOMetadata() {
         results.issues.push({
           file: relativePath,
           type: 'error',
-          message: 'Missing title'
+          message: 'Missing title',
         });
       } else if (metadata.title.length > 60) {
         results.summary.longTitles++;
         results.issues.push({
           file: relativePath,
           type: 'warning',
-          message: `Title too long (${metadata.title.length} chars, recommended: <60)`
+          message: `Title too long (${metadata.title.length} chars, recommended: <60)`,
         });
       }
 
@@ -103,14 +103,14 @@ function auditSEOMetadata() {
         results.issues.push({
           file: relativePath,
           type: 'error',
-          message: 'Missing description'
+          message: 'Missing description',
         });
       } else if (metadata.description.length > 160) {
         results.summary.longDescriptions++;
         results.issues.push({
           file: relativePath,
           type: 'warning',
-          message: `Description too long (${metadata.description.length} chars, recommended: <160)`
+          message: `Description too long (${metadata.description.length} chars, recommended: <160)`,
         });
       }
 
@@ -119,7 +119,7 @@ function auditSEOMetadata() {
         results.issues.push({
           file: relativePath,
           type: 'warning',
-          message: 'Missing seoTitle for better SEO optimization'
+          message: 'Missing seoTitle for better SEO optimization',
         });
       }
 
@@ -128,16 +128,20 @@ function auditSEOMetadata() {
         results.issues.push({
           file: relativePath,
           type: 'warning',
-          message: 'Missing seoDescription for better SEO optimization'
+          message: 'Missing seoDescription for better SEO optimization',
         });
       }
 
-      if (!metadata.keywords || !Array.isArray(metadata.keywords) || metadata.keywords.length === 0) {
+      if (
+        !metadata.keywords ||
+        !Array.isArray(metadata.keywords) ||
+        metadata.keywords.length === 0
+      ) {
         results.summary.missingKeywords++;
         results.issues.push({
           file: relativePath,
           type: 'warning',
-          message: 'Missing or empty keywords array'
+          message: 'Missing or empty keywords array',
         });
       }
 
@@ -146,7 +150,7 @@ function auditSEOMetadata() {
         results.issues.push({
           file: relativePath,
           type: 'info',
-          message: 'No cover image or images specified'
+          message: 'No cover image or images specified',
         });
       }
 
@@ -155,7 +159,7 @@ function auditSEOMetadata() {
         results.issues.push({
           file: relativePath,
           type: 'warning',
-          message: 'Missing author information'
+          message: 'Missing author information',
         });
       }
 
@@ -164,7 +168,7 @@ function auditSEOMetadata() {
         results.issues.push({
           file: relativePath,
           type: 'warning',
-          message: 'Missing category'
+          message: 'Missing category',
         });
       }
 
@@ -173,15 +177,14 @@ function auditSEOMetadata() {
         results.issues.push({
           file: relativePath,
           type: 'info',
-          message: 'Missing reading time estimate'
+          message: 'Missing reading time estimate',
         });
       }
-
     } catch (error) {
       results.issues.push({
         file: relativePath,
         type: 'error',
-        message: `File reading error: ${error.message}`
+        message: `File reading error: ${error.message}`,
       });
     }
   }
@@ -190,22 +193,34 @@ function auditSEOMetadata() {
 
   // Generate recommendations
   if (results.summary.missingTitles > 0) {
-    results.recommendations.push(`Add titles to ${results.summary.missingTitles} files`);
+    results.recommendations.push(
+      `Add titles to ${results.summary.missingTitles} files`
+    );
   }
   if (results.summary.missingDescriptions > 0) {
-    results.recommendations.push(`Add descriptions to ${results.summary.missingDescriptions} files`);
+    results.recommendations.push(
+      `Add descriptions to ${results.summary.missingDescriptions} files`
+    );
   }
   if (results.summary.missingSEOTitles > 0) {
-    results.recommendations.push(`Add SEO-optimized titles to ${results.summary.missingSEOTitles} files`);
+    results.recommendations.push(
+      `Add SEO-optimized titles to ${results.summary.missingSEOTitles} files`
+    );
   }
   if (results.summary.missingSEODescriptions > 0) {
-    results.recommendations.push(`Add SEO descriptions to ${results.summary.missingSEODescriptions} files`);
+    results.recommendations.push(
+      `Add SEO descriptions to ${results.summary.missingSEODescriptions} files`
+    );
   }
   if (results.summary.missingKeywords > 0) {
-    results.recommendations.push(`Add keywords to ${results.summary.missingKeywords} files`);
+    results.recommendations.push(
+      `Add keywords to ${results.summary.missingKeywords} files`
+    );
   }
   if (results.summary.duplicateFrontmatter > 0) {
-    results.recommendations.push(`Fix duplicate frontmatter in ${results.summary.duplicateFrontmatter} files`);
+    results.recommendations.push(
+      `Fix duplicate frontmatter in ${results.summary.duplicateFrontmatter} files`
+    );
   }
 
   return results;
@@ -231,16 +246,19 @@ Object.entries(auditResults.summary).forEach(([key, value]) => {
 if (auditResults.issues.length > 0) {
   console.log('\n🚨 Issues by type:');
   const errorCount = auditResults.issues.filter(i => i.type === 'error').length;
-  const warningCount = auditResults.issues.filter(i => i.type === 'warning').length;
+  const warningCount = auditResults.issues.filter(
+    i => i.type === 'warning'
+  ).length;
   const infoCount = auditResults.issues.filter(i => i.type === 'info').length;
-  
+
   console.log(`  Errors: ${errorCount}`);
   console.log(`  Warnings: ${warningCount}`);
   console.log(`  Info: ${infoCount}`);
 
   console.log('\n📋 Detailed Issues:');
   auditResults.issues.forEach(issue => {
-    const icon = issue.type === 'error' ? '❌' : issue.type === 'warning' ? '⚠️' : 'ℹ️';
+    const icon =
+      issue.type === 'error' ? '❌' : issue.type === 'warning' ? '⚠️' : 'ℹ️';
     console.log(`  ${icon} ${issue.file}: ${issue.message}`);
   });
 }

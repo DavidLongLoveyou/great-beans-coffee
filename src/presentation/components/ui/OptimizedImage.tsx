@@ -175,22 +175,29 @@ export function OptimizedImage({
 
         {/* Actual Image */}
         {isInView && !hasError && (
-          <motion.img
+          <motion.div
             key="image"
-            ref={imgRef}
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            sizes={sizes}
-            loading={loading}
-            onLoad={handleLoad}
-            onError={handleError}
-            className={imageClasses}
             variants={imageVariants}
             initial="hidden"
             animate={isLoading ? 'hidden' : 'visible'}
-          />
+            className={fill ? 'absolute inset-0' : 'relative'}
+          >
+            <Image
+              ref={imgRef}
+              src={src}
+              alt={alt}
+              {...(fill ? { fill: true } : { width: width!, height: height! })}
+              {...(sizes && { sizes })}
+              loading={loading}
+              priority={priority}
+              quality={_quality}
+              placeholder={placeholder}
+              {...(blurDataURL && { blurDataURL })}
+              onLoad={handleLoad}
+              onError={handleError}
+              className={imageClasses}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

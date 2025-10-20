@@ -1,7 +1,7 @@
 'use client';
 import { cn } from '@/shared/utils/index';
 import React, { useState, createContext, useContext } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { IconMenu2, IconX } from '@tabler/icons-react';
 
 interface Links {

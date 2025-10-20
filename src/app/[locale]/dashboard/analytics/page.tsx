@@ -1,6 +1,18 @@
 'use client';
 
-import {  TrendingUp, TrendingDown, DollarSign, Package, Globe, Download, RefreshCw, ArrowUpRight, ArrowDownRight, Coffee, Target  } from '@/components/ui/dynamic-icons';
+import {
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  Package,
+  Globe,
+  Download,
+  RefreshCw,
+  ArrowUpRight,
+  ArrowDownRight,
+  Coffee,
+  Target,
+} from '@/components/ui/icons';
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';
 import {
@@ -276,7 +288,7 @@ export default function AnalyticsPage({ params: _params }: AnalyticsPageProps) {
                       <XAxis dataKey="month" />
                       <YAxis />
                       <Tooltip
-                        formatter={(value: any) => [
+                        formatter={(value: number) => [
                           `$${Number(value).toLocaleString()}`,
                           'Revenue',
                         ]}
@@ -388,7 +400,13 @@ export default function AnalyticsPage({ params: _params }: AnalyticsPageProps) {
                         outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
-                        label={({ name, value }: any) => `${name}: ${value}%`}
+                        label={({
+                          name,
+                          value,
+                        }: {
+                          name: string;
+                          value: number;
+                        }) => `${name}: ${value}%`}
                       >
                         {marketDistribution.map(entry => (
                           <Cell key={`cell-${entry.name}`} fill={entry.color} />

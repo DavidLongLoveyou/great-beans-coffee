@@ -2,7 +2,11 @@ import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createScopedLogger } from '@/shared/utils/logger';
-import { seoAuditManager, generateSEOReport, SEOAuditResult } from '@/shared/utils/seo-audit';
+import {
+  seoAuditManager,
+  generateSEOReport,
+  SEOAuditResult,
+} from '@/shared/utils/seo-audit';
 
 const _logger = createScopedLogger('SEO-Audit-API');
 
@@ -259,18 +263,24 @@ export async function PUT(request: NextRequest) {
 
     // Perform batch audit
     const results = await Promise.allSettled(
-      urls.map(async (url: string): Promise<{ url: string; audit: SEOAuditResult }> => {
-        const audit = await seoAuditManager.auditPage(url);
-        return { url, audit };
-      })
+      urls.map(
+        async (
+          url: string
+        ): Promise<{ url: string; audit: SEOAuditResult }> => {
+          const audit = await seoAuditManager.auditPage(url);
+          return { url, audit };
+        }
+      )
     );
 
     const successful = results
       .filter(
         (
           result
-        ): result is PromiseFulfilledResult<{ url: string; audit: SEOAuditResult }> =>
-          result.status === 'fulfilled'
+        ): result is PromiseFulfilledResult<{
+          url: string;
+          audit: SEOAuditResult;
+        }> => result.status === 'fulfilled'
       )
       .map(result => result.value);
 

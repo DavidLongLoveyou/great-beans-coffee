@@ -1,11 +1,133 @@
-import {  Coffee, MapPin, Package, Download, ShoppingCart, Star, Award, Thermometer, Scale, Clock, CheckCircle, ArrowLeft, Share2, Heart, FileText, Globe, Truck, Shield, TrendingUp, Calendar, AlertCircle, BarChart3, BookOpen, HardDrive  } from '@/components/ui/dynamic-icons';
 import { type Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
+import dynamic from 'next/dynamic';
 
-import { BulkPricingCalculator } from '@/components/ui/BulkPricingCalculator';
-import { LogisticsCostEstimator } from '@/components/ui/LogisticsCostEstimator';
+// Dynamic imports for heavy components
+const BulkPricingCalculator = dynamic(
+  () =>
+    import('@/components/ui/BulkPricingCalculator').then(mod => ({
+      default: mod.BulkPricingCalculator,
+    })),
+  {
+    loading: () => (
+      <div className="h-64 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+const LogisticsCostEstimator = dynamic(
+  () =>
+    import('@/components/ui/LogisticsCostEstimator').then(mod => ({
+      default: mod.LogisticsCostEstimator,
+    })),
+  {
+    loading: () => (
+      <div className="h-64 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+const ProductImageGallery = dynamic(
+  () =>
+    import('@/components/features/products/ProductImageGallery').then(mod => ({
+      default: mod.ProductImageGallery,
+    })),
+  {
+    loading: () => (
+      <div className="h-96 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+const EnhancedRelatedProducts = dynamic(
+  () =>
+    import('@/shared/components/design-system/Coffee').then(mod => ({
+      default: mod.EnhancedRelatedProducts,
+    })),
+  {
+    loading: () => (
+      <div className="h-64 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+const Tabs = dynamic(
+  () =>
+    import('@/presentation/components/ui/tabs').then(mod => ({
+      default: mod.Tabs,
+    })),
+  {
+    loading: () => (
+      <div className="h-48 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+const TabsContent = dynamic(
+  () =>
+    import('@/presentation/components/ui/tabs').then(mod => ({
+      default: mod.TabsContent,
+    })),
+  {
+    loading: () => (
+      <div className="h-48 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+const TabsList = dynamic(
+  () =>
+    import('@/presentation/components/ui/tabs').then(mod => ({
+      default: mod.TabsList,
+    })),
+  {
+    loading: () => (
+      <div className="h-12 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+const TabsTrigger = dynamic(
+  () =>
+    import('@/presentation/components/ui/tabs').then(mod => ({
+      default: mod.TabsTrigger,
+    })),
+  {
+    loading: () => (
+      <div className="h-10 animate-pulse rounded-lg bg-gray-100" />
+    ),
+  }
+);
+
+// Static imports for lightweight components
+import {
+  Coffee,
+  MapPin,
+  Package,
+  Download,
+  ShoppingCart,
+  Star,
+  Award,
+  Thermometer,
+  Scale,
+  Clock,
+  CheckCircle,
+  ArrowLeft,
+  Share2,
+  Heart,
+  FileText,
+  Globe,
+  Truck,
+  Shield,
+  TrendingUp,
+  Calendar,
+  AlertCircle,
+  BarChart3,
+  BookOpen,
+  HardDrive,
+} from '@/components/ui/icons';
 import { type Locale } from '@/i18n';
 import { SEOHead } from '@/presentation/components/seo/SEOHead';
 import { Badge } from '@/presentation/components/ui/badge';
@@ -18,22 +140,12 @@ import {
 } from '@/presentation/components/ui/card';
 import { ServerButton } from '@/presentation/components/ui/server-button';
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/presentation/components/ui/tabs';
-import {
   CoffeeGradeIndicator,
   OriginFlag,
   ProcessingMethodBadge,
-  EnhancedRelatedProducts,
 } from '@/shared/components/design-system/Coffee';
 import { EnhancedCertificationBadge } from '@/shared/components/design-system/Coffee/EnhancedCertificationBadge';
-import {
-  ProductImageGallery,
-  type ProductImage,
-} from '@/components/features/products/ProductImageGallery';
+import type { ProductImage } from '@/components/features/products/ProductImageGallery';
 import {
   ContentSection,
   ContentContainer,
@@ -893,22 +1005,38 @@ export default async function ProductDetailPage({
                         origin: getProductOrigin(product),
                         images:
                           product.images?.map(img => {
-                            const imageObj: any = {
-                              id: img.id || '',
-                              url: img.url,
-                              cloudinaryId: img.cloudinaryId,
-                              alt: {
-                                en: img.alt || `${product.name} coffee image`,
-                              },
-                              isPrimary: img.isPrimary || false,
-                              category: img.category as
+                            const imageObj: {
+                              id: string;
+                              url: string;
+                              cloudinaryId?: string;
+                              alt: { en: string };
+                              isPrimary: boolean;
+                              category?:
                                 | 'product'
                                 | 'packaging'
                                 | 'origin'
                                 | 'process'
-                                | 'quality'
-                                | undefined,
+                                | 'quality';
+                              caption?: { en: string };
+                            } = {
+                              id: img.id || '',
+                              url: img.url,
+                              alt: {
+                                en: img.alt || `${product.name} coffee image`,
+                              },
+                              isPrimary: img.isPrimary || false,
                             };
+                            if (img.cloudinaryId) {
+                              imageObj.cloudinaryId = img.cloudinaryId;
+                            }
+                            if (img.category) {
+                              imageObj.category = img.category as
+                                | 'product'
+                                | 'packaging'
+                                | 'origin'
+                                | 'process'
+                                | 'quality';
+                            }
                             if (img.caption) {
                               imageObj.caption = { en: img.caption };
                             }
@@ -1380,14 +1508,14 @@ export default async function ProductDetailPage({
                                 </div>
                                 {getProductAvailability(product)
                                   .reservedQuantity && (
-                                  <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+                                  <div className="rounded-lg border border-forest-200 bg-forest-50 p-4">
                                     <div className="flex items-center justify-between">
-                                      <span className="text-sm font-medium text-amber-700">
+                                      <span className="text-sm font-medium text-forest-700">
                                         Reserved
                                       </span>
-                                      <AlertCircle className="h-5 w-5 text-amber-600" />
+                                      <AlertCircle className="h-5 w-5 text-forest-600" />
                                     </div>
-                                    <p className="text-2xl font-bold text-amber-800">
+                                    <p className="text-2xl font-bold text-forest-800">
                                       {
                                         getProductAvailability(product)
                                           .reservedQuantity
@@ -1430,11 +1558,11 @@ export default async function ProductDetailPage({
                                         MT
                                       </span>
                                     </div>
-                                    <div className="flex items-center justify-between rounded bg-yellow-50 p-3">
-                                      <span className="text-sm text-yellow-700">
+                                    <div className="flex items-center justify-between rounded bg-forest-50 p-3">
+                                      <span className="text-sm text-forest-700">
                                         In Processing
                                       </span>
-                                      <span className="font-medium text-yellow-800">
+                                      <span className="font-medium text-forest-800">
                                         {
                                           getProductAvailability(product)
                                             .processingStatus?.processing
@@ -1659,14 +1787,14 @@ export default async function ProductDetailPage({
                                   .availableQuantity! <=
                                   getProductAvailability(product)
                                     .reorderLevel! && (
-                                  <div className="mt-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
+                                  <div className="mt-6 rounded-lg border border-forest-200 bg-forest-50 p-4">
                                     <div className="flex items-center">
-                                      <AlertCircle className="mr-3 h-5 w-5 text-yellow-600" />
+                                      <AlertCircle className="mr-3 h-5 w-5 text-forest-600" />
                                       <div>
-                                        <h4 className="text-sm font-semibold text-yellow-800">
+                                        <h4 className="text-sm font-semibold text-forest-800">
                                           Reorder Alert
                                         </h4>
-                                        <p className="text-xs text-yellow-700">
+                                        <p className="text-xs text-forest-700">
                                           Stock level is below reorder threshold
                                           (
                                           {

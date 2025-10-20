@@ -4,13 +4,13 @@ import { z } from 'zod';
 
 const prisma = new PrismaClient();
 
-// Utility function to convert undefined to null for Prisma compatibility
-function convertUndefinedToNull<T extends Record<string, any>>(obj: T): any {
-  const result: any = {};
+// Utility function to remove undefined fields for Prisma compatibility
+function removeUndefinedFields<T extends Record<string, any>>(
+  obj: T
+): Partial<T> {
+  const result: Partial<T> = {};
   for (const key in obj) {
-    if (obj[key] === undefined) {
-      result[key] = null;
-    } else {
+    if (obj[key] !== undefined) {
       result[key] = obj[key];
     }
   }
@@ -46,10 +46,45 @@ const BulkDeleteSchema = z.object({
   updatedBy: z.string().min(1),
 });
 
+const PricingSchema = z.object({
+  basePrice: z.number().positive().optional(),
+  currency: z.string().optional(),
+  discountPercentage: z.number().min(0).max(100).optional(),
+  bulkPricing: z
+    .array(
+      z.object({
+        minQuantity: z.number().positive(),
+        pricePerUnit: z.number().positive(),
+      })
+    )
+    .optional(),
+});
+
 const BulkPricingUpdateSchema = z.object({
   productIds: z.array(z.string()).min(1),
-  pricingUpdates: z.record(z.string(), z.any()),
+  pricingUpdates: z.record(z.string(), PricingSchema),
   updatedBy: z.string().min(1),
+});
+
+const BulkInventorySyncSchema = z.object({
+  productIds: z.array(z.string()),
+  inventoryData: z.record(
+    z.string(),
+    z.object({
+      quantity: z.number(),
+      unit: z.string(),
+      location: z.string().optional(),
+      reservedQuantity: z.number().optional(),
+    })
+  ),
+  updatedBy: z.string(),
+});
+
+const BulkCertificationUpdateSchema = z.object({
+  productIds: z.array(z.string()),
+  certificationIds: z.array(z.string()),
+  action: z.enum(['add', 'remove']),
+  updatedBy: z.string(),
 });
 
 // PUT /api/products/bulk - Bulk update products
@@ -251,7 +286,9 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function handleBulkPricingUpdate(body: any) {
+async function handleBulkPricingUpdate(
+  body: z.infer<typeof BulkPricingUpdateSchema>
+) {
   const { productIds, pricingUpdates, updatedBy } =
     BulkPricingUpdateSchema.parse(body);
 
@@ -262,11 +299,11 @@ async function handleBulkPricingUpdate(body: any) {
 
       return await prisma.coffeeProduct.update({
         where: { id: productId },
-        data: convertUndefinedToNull({
+        data: removeUndefinedFields({
           pricing,
           updatedBy,
           updatedAt: new Date(),
-        }),
+        }) as any,
       });
     })
   );
@@ -285,26 +322,14 @@ async function handleBulkPricingUpdate(body: any) {
   });
 }
 
-async function handleBulkInventorySync(body: any) {
+async function handleBulkInventorySync(
+  body: z.infer<typeof BulkInventorySyncSchema>
+) {
   const {
     productIds,
     inventoryData,
     updatedBy: _updatedBy,
-  } = z
-    .object({
-      productIds: z.array(z.string()),
-      inventoryData: z.record(
-        z.string(),
-        z.object({
-          quantity: z.number(),
-          unit: z.string(),
-          location: z.string().optional(),
-          reservedQuantity: z.number().optional(),
-        })
-      ),
-      updatedBy: z.string(),
-    })
-    .parse(body);
+  } = BulkInventorySyncSchema.parse(body);
 
   const results = await Promise.allSettled(
     productIds.map(async productId => {
@@ -320,19 +345,19 @@ async function handleBulkInventorySync(body: any) {
         // Update existing record
         return await prisma.productInventory.update({
           where: { id: existingInventory.id },
-          data: convertUndefinedToNull({
+          data: removeUndefinedFields({
             ...inventory,
             lastUpdated: new Date(),
-          }),
+          }) as any,
         });
       } else {
         // Create new record
         return await prisma.productInventory.create({
-          data: convertUndefinedToNull({
+          data: removeUndefinedFields({
             productId,
             ...inventory,
             lastUpdated: new Date(),
-          }),
+          }) as any,
         });
       }
     })
@@ -352,20 +377,15 @@ async function handleBulkInventorySync(body: any) {
   });
 }
 
-async function handleBulkCertificationUpdate(body: any) {
+async function handleBulkCertificationUpdate(
+  body: z.infer<typeof BulkCertificationUpdateSchema>
+) {
   const {
     productIds,
     certificationIds,
     action,
     updatedBy: _updatedBy,
-  } = z
-    .object({
-      productIds: z.array(z.string()),
-      certificationIds: z.array(z.string()),
-      action: z.enum(['add', 'remove']),
-      updatedBy: z.string(),
-    })
-    .parse(body);
+  } = BulkCertificationUpdateSchema.parse(body);
 
   const results = await Promise.allSettled(
     productIds.map(async productId => {
@@ -379,14 +399,14 @@ async function handleBulkCertificationUpdate(body: any) {
                   certificationId: certId,
                 },
               },
-              update: convertUndefinedToNull({
+              update: removeUndefinedFields({
                 isActive: true,
-              }),
-              create: convertUndefinedToNull({
+              }) as any,
+              create: removeUndefinedFields({
                 productId,
                 certificationId: certId,
                 isActive: true,
-              }),
+              }) as any,
             })
           )
         );

@@ -1,4 +1,10 @@
-import {  Package, Truck, Coffee, Factory, ArrowRight  } from '@/components/ui/dynamic-icons';
+import {
+  Package,
+  Truck,
+  Coffee,
+  Factory,
+  ArrowRight,
+} from '@/components/ui/icons';
 import { type Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';

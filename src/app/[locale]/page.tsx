@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import {  Users, ArrowRight  } from '@/components/ui/dynamic-icons';
+import dynamic from 'next/dynamic';
+import { Users, ArrowRight } from '@/components/ui/icons';
 
 import { type Locale } from '@/i18n';
-import { FeaturedProductsSection } from '@/presentation/components/sections/FeaturedProductsSection';
-import { OurProcessSection } from '@/presentation/components/sections/OurProcessSection';
 import { ServerHeroSection } from '@/presentation/components/sections/ServerHeroSection';
-import { TestimonialsSection } from '@/presentation/components/sections/TestimonialsSection';
 import { ValuePropositionSection } from '@/presentation/components/sections/ValuePropositionSection';
+import { ArticlesCarousel } from '@/presentation/components/sections/ArticlesCarousel';
 import {
   FadeInScroll,
   AnimatedIcon,
@@ -15,6 +14,37 @@ import {
 } from '@/presentation/components/ui/MicroInteractions';
 import { ServerButton } from '@/presentation/components/ui/server-button';
 import { generateMetadata as generateSEOMetadata } from '@/shared/utils/seo-utils';
+
+// Dynamic imports for sections below the fold to reduce initial bundle size
+const FeaturedProductsSection = dynamic(
+  () =>
+    import('@/presentation/components/sections/FeaturedProductsSection').then(
+      mod => ({ default: mod.FeaturedProductsSection })
+    ),
+  {
+    loading: () => <div className="h-96 animate-pulse bg-gray-100" />,
+  }
+);
+
+const OurProcessSection = dynamic(
+  () =>
+    import('@/presentation/components/sections/OurProcessSection').then(
+      mod => ({ default: mod.OurProcessSection })
+    ),
+  {
+    loading: () => <div className="h-96 animate-pulse bg-gray-100" />,
+  }
+);
+
+const TestimonialsSection = dynamic(
+  () =>
+    import('@/presentation/components/sections/TestimonialsSection').then(
+      mod => ({ default: mod.TestimonialsSection })
+    ),
+  {
+    loading: () => <div className="h-96 animate-pulse bg-gray-100" />,
+  }
+);
 
 // Generate SEO metadata for the homepage
 export async function generateMetadata({
@@ -78,6 +108,9 @@ export default async function HomePage({
       {/* Testimonials Section */}
       <TestimonialsSection locale={locale} />
 
+      {/* Articles Carousel */}
+      <ArticlesCarousel />
+
       {/* CTA Section */}
       <FadeInScroll threshold={0.2}>
         <section className="relative overflow-hidden bg-gradient-to-br from-forest-900 via-forest-800 to-forest-900 py-24">
@@ -138,7 +171,7 @@ export default async function HomePage({
                   asChild
                   variant="outline"
                   size="lg"
-                  className="border-2 border-forest-200 px-10 py-4 text-lg font-bold text-forest-100 shadow-forest-soft transition-all duration-300 hover:bg-forest-100 hover:text-forest-900 hover:shadow-forest-medium"
+                  className="border-2 border-forest-200 bg-white/90 px-10 py-4 text-lg font-bold text-forest-900 opacity-100 shadow-forest-soft transition-all duration-300 hover:bg-forest-100 hover:text-forest-900 hover:shadow-forest-medium"
                 >
                   <Link href={`/${locale}/contact`}>Contact Sales Team</Link>
                 </ServerButton>

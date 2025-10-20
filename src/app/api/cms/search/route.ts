@@ -6,6 +6,36 @@ import matter from 'gray-matter';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
+// Content interfaces
+interface ContentMetadata {
+  title?: string;
+  description?: string;
+  status?: string;
+  author?: string;
+  featured?: boolean;
+  category?: string;
+  locale?: string;
+  slug?: string;
+  keywords?: string[];
+  publishedAt?: string;
+  createdAt?: string;
+  [key: string]: unknown;
+}
+
+interface ContentItem {
+  id: string;
+  type: string;
+  locale: string;
+  filename: string;
+  metadata: ContentMetadata;
+  content: string;
+  stats: {
+    wordCount: number;
+    lastModified: string;
+    size: number;
+  };
+}
+
 // Search schema
 const SearchSchema = z.object({
   query: z.string().min(1),
@@ -40,7 +70,7 @@ function getContentDirectory(type: string, locale: string): string {
   }
 }
 
-function calculateRelevanceScore(content: any, query: string): number {
+function calculateRelevanceScore(content: ContentItem, query: string): number {
   const queryLower = query.toLowerCase();
   let score = 0;
 
@@ -168,7 +198,7 @@ async function searchContent(searchParams: z.infer<typeof SearchSchema>) {
               locale: metadata.locale || loc,
               slug: metadata.slug || file.replace('.mdx', ''),
               ...metadata,
-            } as any;
+            } as ContentMetadata;
 
             const contentItem = {
               id: `${contentType}-${loc}-${file.replace('.mdx', '')}`,

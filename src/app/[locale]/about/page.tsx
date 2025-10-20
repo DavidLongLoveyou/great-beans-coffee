@@ -1,5 +1,12 @@
 import { type Metadata } from 'next';
-import {  Coffee, Users, Award, Globe, Leaf, Heart  } from '@/components/ui/dynamic-icons';
+import {
+  Coffee,
+  Users,
+  Award,
+  Globe,
+  Leaf,
+  Heart,
+} from '@/components/ui/icons';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
@@ -67,9 +74,7 @@ export default async function AboutPage({ params }: Props) {
                 <Link href={`/${locale}/contact`}>Get in Touch</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/products`}>
-                  View Our Products
-                </Link>
+                <Link href={`/${locale}/products`}>View Our Products</Link>
               </Button>
             </div>
           </div>
@@ -84,7 +89,7 @@ export default async function AboutPage({ params }: Props) {
               <h2 className="mb-4 text-3xl font-bold text-forest-900 md:text-4xl">
                 Our Story
               </h2>
-              <p className="text-lg text-forest-600">
+              <p className="text-lg text-forest-800">
                 From humble beginnings to global partnerships
               </p>
             </div>
@@ -256,9 +261,7 @@ export default async function AboutPage({ params }: Props) {
                 size="lg"
                 className="bg-emerald-600 hover:bg-emerald-700"
               >
-                <Link href={`/${locale}/contact`}>
-                  Start Partnership
-                </Link>
+                <Link href={`/${locale}/contact`}>Start Partnership</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <Link href={`/${locale}/quote`}>Request Quote</Link>

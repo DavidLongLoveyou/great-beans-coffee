@@ -1,6 +1,22 @@
 'use client';
 
-import {  Package, Calendar, MapPin, Truck, CreditCard, Building, User, Phone, Mail, FileText, Download, MessageSquare, Clock, CheckCircle, AlertTriangle, Paperclip  } from '@/components/ui/dynamic-icons';
+import {
+  Package,
+  Calendar,
+  Truck,
+  CreditCard,
+  Building,
+  User,
+  Phone,
+  Mail,
+  FileText,
+  Download,
+  MessageSquare,
+  Clock,
+  CheckCircle,
+  AlertTriangle,
+  Paperclip,
+} from '@/components/ui/icons';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 

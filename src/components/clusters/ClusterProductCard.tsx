@@ -1,6 +1,6 @@
 'use client';
 
-import {  Download, Coffee  } from '@/components/ui/dynamic-icons';
+import { Download, Coffee } from '@/components/ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -65,16 +65,19 @@ export function ClusterProductCard({
           src={product.image}
           alt={product.name}
           fill
+          loading="lazy"
+          unoptimized={product.image.endsWith('.svg')}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-300 hover:scale-105"
         />
         {product.isFeatured && (
-          <Badge className="absolute left-3 top-3 bg-emerald-500 text-white shadow-emerald-soft">
+          <Badge className="absolute left-3 top-1 bg-emerald-500 text-white shadow-emerald-soft">
             Featured
           </Badge>
         )}
         <Badge
           variant={product.inStock ? 'default' : 'destructive'}
-          className="absolute right-3 top-3"
+          className="absolute right-3 top-1"
         >
           {product.inStock ? 'In Stock' : 'Out of Stock'}
         </Badge>
@@ -87,7 +90,7 @@ export function ClusterProductCard({
         <p className="line-clamp-3 text-sm text-muted-foreground">
           {product.description}
         </p>
-        <div className="text-sm font-medium text-forest-600">
+        <div className="text-sm font-medium text-forest-800">
           {product.price}
         </div>
       </CardHeader>
@@ -125,19 +128,19 @@ export function ClusterProductCard({
         <div className="grid grid-cols-2 gap-2 text-xs">
           <div className="rounded border border-forest-100 bg-forest-50 p-2">
             <span className="font-medium text-forest-700">Moisture:</span>{' '}
-            <span className="text-forest-600">
+            <span className="text-forest-800">
               {product.specifications.moisture}
             </span>
           </div>
           <div className="rounded border border-forest-100 bg-forest-50 p-2">
             <span className="font-medium text-forest-700">Screen:</span>{' '}
-            <span className="text-forest-600">
+            <span className="text-forest-800">
               {product.specifications.screenSize}
             </span>
           </div>
           <div className="rounded border border-forest-100 bg-forest-50 p-2">
             <span className="font-medium text-forest-700">Defects:</span>{' '}
-            <span className="text-forest-600">
+            <span className="text-forest-800">
               {product.specifications.defectRate}
             </span>
           </div>
@@ -168,7 +171,7 @@ export function ClusterProductCard({
         </div>
       </CardContent>
 
-      <CardFooter className="space-y-2 pt-4">
+      <CardFooter className="flex-col space-y-2 pt-4">
         <div className="flex w-full gap-2">
           <Button
             asChild

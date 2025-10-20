@@ -1,0 +1,67 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f3e8ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ddd6fe;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="skinGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0.9" />
+    </linearGradient>
+    <linearGradient id="hairGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1f2937;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#111827;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="100" fill="url(#bgGradient2)"/>
+  
+  <!-- Professional suit -->
+  <path d="M55,160 Q65,150 75,155 L80,160 Q85,165 90,160 L95,155 Q100,160 105,165 L110,160 Q115,155 125,160 L135,150 Q145,160 135,170 L125,180 Q115,190 105,185 L100,180 Q95,185 85,180 L75,170 Q55,160 55,160 Z" 
+        fill="#374151"/>
+  
+  <!-- Shirt and tie -->
+  <path d="M70,155 Q80,150 90,155 L95,150 Q100,155 105,150 L110,155 Q120,150 130,155 Q135,160 130,170 L120,175 Q110,180 105,175 L100,170 Q95,175 90,175 L80,170 Q70,160 70,155 Z" 
+        fill="#ffffff"/>
+  
+  <!-- Tie -->
+  <path d="M95,155 Q100,150 105,155 L108,165 Q105,175 100,170 Q95,175 92,165 L95,155 Z" 
+        fill="#dc2626"/>
+  
+  <!-- Face -->
+  <ellipse cx="100" cy="120" rx="32" ry="38" fill="url(#skinGradient2)"/>
+  
+  <!-- Hair (shorter, professional) -->
+  <path d="M68,105 Q75,85 90,80 Q100,75 110,80 Q125,85 132,105 Q135,115 130,120 Q125,125 120,120 L115,115 Q110,110 105,115 L100,120 Q95,115 90,110 L85,115 Q80,120 75,115 Q70,110 68,105 Z" 
+        fill="url(#hairGradient2)"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="90" cy="115" rx="5" ry="3" fill="#1f2937"/>
+  <ellipse cx="110" cy="115" rx="5" ry="3" fill="#1f2937"/>
+  <ellipse cx="91" cy="114" rx="1.5" ry="1.5" fill="#ffffff"/>
+  <ellipse cx="111" cy="114" rx="1.5" ry="1.5" fill="#ffffff"/>
+  
+  <!-- Eyebrows -->
+  <path d="M85,108 Q90,106 95,108" stroke="#1f2937" stroke-width="2" fill="none"/>
+  <path d="M105,108 Q110,106 115,108" stroke="#1f2937" stroke-width="2" fill="none"/>
+  
+  <!-- Nose -->
+  <path d="M98,120 Q100,124 102,120" stroke="#d97706" stroke-width="1" fill="none"/>
+  
+  <!-- Mouth -->
+  <path d="M96,130 Q100,133 104,130" stroke="#92400e" stroke-width="2" fill="none"/>
+  
+  <!-- Glasses (professional) -->
+  <g stroke="#1f2937" stroke-width="2" fill="none">
+    <rect x="82" y="108" width="16" height="14" rx="2"/>
+    <rect x="102" y="108" width="16" height="14" rx="2"/>
+    <line x1="98" y1="115" x2="102" y2="115" stroke-width="2"/>
+    <path d="M82,115 Q78,112 76,115"/>
+    <path d="M118,115 Q122,112 124,115"/>
+  </g>
+  
+  <!-- Professional badge -->
+  <circle cx="80" cy="165" r="4" fill="#059669"/>
+  <text x="80" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#ffffff" font-weight="bold">D</text>
+</svg>

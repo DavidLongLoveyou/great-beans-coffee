@@ -268,6 +268,10 @@
     }
   },
   "contact": {
+    "meta": {
+      "title": "Contact Us | The Great Beans - Vietnamese Coffee Export",
+      "description": "Get in touch with The Great Beans for premium Vietnamese coffee export inquiries. Contact our team for quotes, samples, and partnership opportunities."
+    },
     "title": "Contact Us",
     "subtitle": "Ready to start your coffee journey with us?",
     "office": {
@@ -375,6 +379,12 @@
     "ctaTitle": "Ready to Partner with Vietnam's Leading Coffee Exporter?",
     "ctaDescription": "Get competitive pricing, reliable supply, and expert support for your coffee business needs.",
     "getStarted": "Get Started Today",
+    "cta": {
+      "title": "Ready to Partner with Vietnam's Leading Coffee Exporter?",
+      "description": "Get competitive pricing, reliable supply, and expert support for your coffee business needs.",
+      "primaryAction": "Get Started Today",
+      "secondaryAction": "Request Quote"
+    },
     "vietnamRobustaSuppliers": {
       "title": "Vietnam Robusta Coffee Suppliers",
       "description": "Leading suppliers of premium Vietnamese Robusta coffee beans with direct farm sourcing and global export capabilities.",

@@ -1,7 +1,14 @@
 'use client';
 
 import { motion, useInView, Variants } from 'framer-motion';
-import {  Coffee, ArrowRight, Star, ChevronLeft, ChevronRight, Download  } from '@/components/ui/dynamic-icons';
+import {
+  Coffee,
+  ArrowRight,
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+} from '@/components/ui/icons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState, useRef } from 'react';
@@ -11,8 +18,6 @@ import { EnhancedButton } from '@/presentation/components/ui/EnhancedButton';
 import {
   ScrollReveal,
   StaggeredChildren,
-  MagneticHover,
-  FloatingElement,
 } from '@/presentation/components/ui/ScrollAnimations';
 
 interface FeaturedProductsSectionProps {
@@ -64,7 +69,7 @@ const itemVariants: Variants = {
 export function FeaturedProductsSection({
   locale,
 }: FeaturedProductsSectionProps) {
-  const t = useTranslations('homepage');
+  const _t = useTranslations('homepage');
   const [currentIndex, setCurrentIndex] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -100,37 +105,37 @@ export function FeaturedProductsSection({
       origin: 'Da Lat Highlands',
       processingMethod: 'Washed',
       features: [
-        'Cupping score 80+',
-        'Grown at 1,200m+ altitude',
-        'Washed processing method',
+        'Altitude: 1,200-1,500m',
+        'Cupping score: 85+',
+        'Single origin',
       ],
       specifications: {
-        moisture: '≤ 11%',
+        moisture: '≤ 12%',
         screenSize: '15+ (85% min)',
         defectRate: '≤ 3%',
-        cuppingScore: 82,
+        cuppingScore: 85,
       },
-      badge: { text: 'Specialty Arabica', variant: 'specialty' },
+      badge: { text: 'Specialty Grade', variant: 'specialty' },
     },
     {
-      id: 'custom-blends',
-      name: 'Private Label Solutions',
+      id: 'custom-blend',
+      name: 'Custom Blend Solutions',
       description:
-        'Custom coffee blends and comprehensive private labeling services for your brand',
+        'Tailored coffee blends designed to meet your specific requirements and taste preferences',
       grade: 'Custom',
       origin: 'Multi-Origin',
       processingMethod: 'Various',
       features: [
-        'Custom blend development',
-        'Private label packaging',
-        'Brand consultation services',
+        'Customizable ratios',
+        'Consistent quality',
+        'Scalable production',
       ],
       specifications: {
         moisture: 'As specified',
         screenSize: 'As specified',
         defectRate: 'As specified',
       },
-      badge: { text: 'Custom Blends', variant: 'custom' },
+      badge: { text: 'Custom Solutions', variant: 'custom' },
     },
   ];
 
@@ -144,92 +149,70 @@ export function FeaturedProductsSection({
     );
   };
 
-  const getBadgeStyles = (variant: string) => {
-    switch (variant) {
-      case 'premium':
-        return 'border-gold-500/50 bg-gold-600/80 text-gold-100 shadow-gold-soft';
-      case 'specialty':
-        return 'border-coffee-500/50 bg-coffee-600/80 text-coffee-100 shadow-coffee-soft';
-      case 'custom':
-        return 'border-gold-500/50 bg-gold-600/80 text-gold-100 shadow-gold-soft';
-      default:
-        return 'border-gold-500/50 bg-gold-600/80 text-gold-100 shadow-gold-soft';
-    }
-  };
-
   return (
     <motion.section
       ref={ref}
-      data-testid="featured-products"
-      className="relative overflow-hidden bg-gradient-to-br from-coffee-900 via-coffee-800 to-coffee-900 py-24"
+      className="relative min-h-screen overflow-hidden bg-gradient-to-br from-forest-900 via-forest-800 to-emerald-900 py-24"
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
       variants={containerVariants}
     >
       {/* Background Elements */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-sage-900/95 via-sage-800/90 to-sage-900/95"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
+        className="absolute inset-0 opacity-20"
+        animate={{
+          backgroundPosition: ['0% 0%', '100% 100%'],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          repeatType: 'reverse',
+          ease: 'linear',
+        }}
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 20% 50%, rgba(34, 197, 94, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(251, 191, 36, 0.2) 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(34, 197, 94, 0.2) 0%, transparent 50%)
+          `,
+        }}
       />
+
+      {/* Floating Coffee Bean */}
       <motion.div
-        className="absolute inset-0 opacity-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.1 }}
-        transition={{ duration: 1.2, delay: 0.3 }}
-      >
-        <motion.div
-          className="absolute left-1/4 top-1/4 h-40 w-40 rounded-full bg-gold-400 blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 h-32 w-32 rounded-full bg-coffee-400 blur-2xl"
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-            delay: 1,
-          }}
-        />
-      </motion.div>
+        className="absolute right-10 top-20 text-6xl opacity-10"
+        animate={{
+          y: [-20, 20, -20],
+          rotate: [0, 360],
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          delay: 1,
+        }}
+      />
 
       <div className="container relative z-10 mx-auto max-w-7xl px-4">
         {/* Section Header */}
         <ScrollReveal direction="up" delay={0.2} duration={0.8}>
           <div className="mb-20 text-center">
-            <MagneticHover strength={0.1}>
-              <div className="hover:shadow-emerald-medium mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/20 px-6 py-3 shadow-emerald-soft backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-500/30">
-                <FloatingElement>
-                  <Coffee className="h-5 w-5 text-emerald-400" />
-                </FloatingElement>
-                <span className="font-medium text-emerald-100">
-                  Premium Vietnamese Origins
-                </span>
-              </div>
-            </MagneticHover>
+            <div className="hover:shadow-emerald-medium mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/20 px-6 py-3 shadow-emerald-soft backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/50 hover:bg-emerald-500/30">
+              <Coffee className="h-5 w-5 text-emerald-400" />
+              <span className="font-medium text-emerald-100">
+                Premium Vietnamese Origins
+              </span>
+            </div>
 
             <StaggeredChildren staggerDelay={0.1}>
-              <h2 className="mb-6 bg-gradient-to-r from-forest-900 via-emerald-800 to-forest-900 bg-clip-text text-4xl font-bold text-transparent transition-all duration-300 hover:scale-105 md:text-5xl lg:text-6xl">
-                Featured Coffee
+              <h2 className="mb-6 text-4xl font-bold text-white transition-all duration-300 hover:scale-105 md:text-5xl lg:text-6xl">
+                <span className="text-white">Featured Coffee</span>
                 <span className="block bg-gradient-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent">
                   Products
                 </span>
               </h2>
 
-              <p className="mx-auto max-w-4xl text-xl leading-relaxed text-coffee-100 transition-all duration-300 hover:text-coffee-50">
+              <p className="mx-auto max-w-4xl text-xl leading-relaxed text-white transition-all duration-300 hover:text-forest-50">
                 Discover our range of premium Vietnamese coffee beans, sourced
                 directly from the finest growing regions
               </p>
@@ -241,27 +224,23 @@ export function FeaturedProductsSection({
         <motion.div className="relative" variants={itemVariants}>
           {/* Navigation Buttons */}
           <ScrollReveal direction="left" delay={0.8} duration={0.5}>
-            <MagneticHover strength={0.2}>
-              <button
-                onClick={prevProduct}
-                aria-label="Previous product"
-                className="shadow-emerald-medium hover:shadow-gold-strong absolute left-0 top-1/2 z-20 -translate-x-4 -translate-y-1/2 rounded-full bg-emerald-800/80 p-3 text-gold-400 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-            </MagneticHover>
+            <button
+              onClick={prevProduct}
+              aria-label="Previous product"
+              className="shadow-emerald-medium hover:shadow-gold-strong absolute left-0 top-1/2 z-20 -translate-x-4 -translate-y-1/2 rounded-full bg-emerald-800/80 p-3 text-gold-400 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
           </ScrollReveal>
 
           <ScrollReveal direction="right" delay={0.8} duration={0.5}>
-            <MagneticHover strength={0.2}>
-              <button
-                onClick={nextProduct}
-                aria-label="Next product"
-                className="shadow-emerald-medium hover:shadow-gold-strong absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-4 rounded-full bg-emerald-800/80 p-3 text-gold-400 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-            </MagneticHover>
+            <button
+              onClick={nextProduct}
+              aria-label="Next product"
+              className="shadow-emerald-medium hover:shadow-gold-strong absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-4 rounded-full bg-emerald-800/80 p-3 text-gold-400 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-emerald-700/90"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
           </ScrollReveal>
 
           {/* Products Grid */}
@@ -280,181 +259,134 @@ export function FeaturedProductsSection({
                     delay={index * 0.1}
                     duration={0.6}
                   >
-                    <MagneticHover strength={0.05}>
-                      <div
-                        className={`group relative overflow-hidden rounded-lg border border-forest-600/30 bg-forest-800/50 shadow-forest-medium backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 ${
-                          isActive
-                            ? 'shadow-gold-strong scale-105 border-gold-400/50 bg-forest-700/60'
-                            : 'hover:shadow-gold-strong hover:border-gold-400/50 hover:bg-forest-700/60'
-                        } ${isVisible ? 'opacity-100' : 'opacity-50'}`}
-                        data-testid="product-card"
+                    <div
+                      className={`group relative overflow-hidden rounded-lg border border-forest-600/30 bg-forest-800/50 shadow-forest-medium backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 ${
+                        isActive
+                          ? 'shadow-gold-strong scale-105 border-gold-400/50 bg-forest-700/60'
+                          : 'hover:shadow-gold-strong hover:border-gold-400/50 hover:bg-forest-700/60'
+                      } ${isVisible ? 'opacity-100' : 'opacity-50'}`}
+                      data-testid="product-card"
+                    >
+                      {/* Popular Badge - positioned at top left */}
+                      {product.isPopular && (
+                        <motion.div
+                          className="absolute left-2 top-2 z-10 rounded-full bg-forest-600/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm"
+                          initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                          transition={{ duration: 0.5, delay: 0.3 }}
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                        >
+                          <Star className="mr-1 inline h-3 w-3 fill-current" />
+                          Popular
+                        </motion.div>
+                      )}
+
+                      {/* Product Badge - positioned at top right */}
+                      <Badge
+                        variant={
+                          product.badge.variant === 'premium'
+                            ? 'secondary'
+                            : product.badge.variant === 'specialty'
+                              ? 'outline'
+                              : 'secondary'
+                        }
+                        className="absolute right-2 top-2 z-10"
                       >
-                        {/* Popular Badge */}
-                        {product.isPopular && (
-                          <motion.div
-                            className="absolute left-4 top-4 z-10 rounded-full bg-forest-600/90 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm"
-                            initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                            transition={{ duration: 0.5, delay: 0.3 }}
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                          >
-                            <Badge className="shadow-gold-soft border-gold-400/50 bg-gold-500/80 text-gold-100">
-                              <Star className="mr-1 h-3 w-3 fill-current" />
-                              Popular
-                            </Badge>
-                          </motion.div>
-                        )}
+                        {product.badge.text}
+                      </Badge>
 
-                        <div className="p-6 pb-4">
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 0.1 }}
-                          >
-                            <Badge
-                              className={`w-fit border shadow-sm ${getBadgeStyles(product.badge.variant)}`}
-                            >
-                              {product.badge.text}
-                            </Badge>
-                          </motion.div>
-
-                          <motion.h3
-                            className="mt-4 text-xl font-bold text-white transition-colors group-hover:text-gold-200"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 0.2 }}
-                          >
-                            {t(`products.${product.id}.name`)}
-                          </motion.h3>
-
-                          <motion.p
-                            className="mt-2 leading-relaxed text-coffee-200"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 0.3 }}
-                          >
-                            {t(`products.${product.id}.description`)}
-                          </motion.p>
+                      <div className="p-6">
+                        {/* Product Header */}
+                        <div className="mb-4">
+                          <h3 className="mb-2 text-xl font-bold text-forest-50 transition-colors group-hover:text-gold-300">
+                            {product.name}
+                          </h3>
+                          <p className="text-forest-200 group-hover:text-forest-100">
+                            {product.description}
+                          </p>
                         </div>
 
-                        <div className="space-y-6 px-6">
-                          {/* Key Features */}
-                          <motion.div
-                            className="space-y-3"
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 0.4 }}
-                          >
-                            <h4 className="text-sm font-semibold text-gold-300">
-                              Key Features
-                            </h4>
-                            <div className="flex flex-wrap gap-2">
-                              {product.features.map((feature, index) => (
-                                <motion.div
-                                  key={`${product.id}-feature-${feature}`}
-                                  initial={{ opacity: 0, scale: 0.8 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{
-                                    duration: 0.3,
-                                    delay: 0.5 + index * 0.1,
-                                  }}
-                                  whileHover={{ scale: 1.05 }}
-                                >
-                                  <Badge
-                                    variant="outline"
-                                    className="border-coffee-500 bg-coffee-700/50 text-coffee-100 hover:border-gold-400/50 hover:bg-gold-500/20"
-                                  >
-                                    {feature}
-                                  </Badge>
-                                </motion.div>
-                              ))}
-                            </div>
-                          </motion.div>
+                        {/* Product Details */}
+                        <div className="mb-4 space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-forest-300">Grade:</span>
+                            <span className="font-medium text-forest-100">
+                              {product.grade}
+                            </span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-forest-300">Origin:</span>
+                            <span className="font-medium text-forest-100">
+                              {product.origin}
+                            </span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-forest-300">Processing:</span>
+                            <span className="font-medium text-forest-100">
+                              {product.processingMethod}
+                            </span>
+                          </div>
+                        </div>
 
-                          {/* Specifications */}
-                          <motion.div
-                            className="space-y-3"
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 0.6 }}
-                          >
-                            <h4 className="text-sm font-semibold text-gold-300">
-                              Specifications
-                            </h4>
-                            <div className="grid grid-cols-2 gap-3 text-sm">
-                              <motion.div
-                                className="text-coffee-200"
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.3, delay: 0.7 }}
-                                whileHover={{ x: 5 }}
+                        {/* Features */}
+                        <div className="mb-4">
+                          <h4 className="mb-2 text-sm font-semibold text-forest-200">
+                            Key Features:
+                          </h4>
+                          <ul className="space-y-1">
+                            {product.features.map((feature, featureIndex) => (
+                              <li
+                                key={`${feature}-${featureIndex}`}
+                                className="flex items-center text-xs text-forest-300"
                               >
-                                <span className="text-coffee-300">Grade:</span>
-                                <span className="ml-2 font-medium text-gold-400">
-                                  {product.grade}
-                                </span>
-                              </motion.div>
-                              <motion.div
-                                className="text-coffee-200"
-                                initial={{ opacity: 0, x: 10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.3, delay: 0.8 }}
-                                whileHover={{ x: -5 }}
-                              >
-                                <span className="text-coffee-300">Origin:</span>
-                                <span className="ml-2 font-medium text-gold-400">
-                                  {product.origin}
-                                </span>
-                              </motion.div>
-                              <motion.div
-                                className="text-coffee-200"
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.3, delay: 0.9 }}
-                                whileHover={{ x: 5 }}
-                              >
-                                <span className="text-coffee-300">
-                                  Processing:
-                                </span>
-                                <span className="ml-2 font-medium text-gold-400">
-                                  {product.processingMethod}
-                                </span>
-                              </motion.div>
-                              <motion.div
-                                className="text-coffee-200"
-                                initial={{ opacity: 0, x: 10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.3, delay: 1.0 }}
-                                whileHover={{ x: -5 }}
-                              >
-                                <span className="text-coffee-300">
-                                  Moisture:
-                                </span>
-                                <span className="ml-2 font-medium text-gold-400">
-                                  {product.specifications.moisture}
-                                </span>
-                              </motion.div>
+                                <div className="mr-2 h-1 w-1 rounded-full bg-emerald-400" />
+                                {feature}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Specifications */}
+                        <div className="mb-4 rounded-lg bg-forest-900/50 p-3">
+                          <h4 className="mb-2 text-sm font-semibold text-forest-200">
+                            Specifications:
+                          </h4>
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div>
+                              <span className="text-forest-400">Moisture:</span>
+                              <div className="font-medium text-forest-200">
+                                {product.specifications.moisture}
+                              </div>
                             </div>
-                          </motion.div>
+                            <div>
+                              <span className="text-forest-400">Screen:</span>
+                              <div className="font-medium text-forest-200">
+                                {product.specifications.screenSize}
+                              </div>
+                            </div>
+                            <div>
+                              <span className="text-forest-400">Defects:</span>
+                              <div className="font-medium text-forest-200">
+                                {product.specifications.defectRate}
+                              </div>
+                            </div>
+                          </div>
 
                           {/* Cupping Score */}
                           {product.specifications.cuppingScore && (
                             <motion.div
-                              className="rounded-lg border border-gold-400/30 bg-gold-500/10 p-3"
-                              initial={{ opacity: 0, scale: 0.95 }}
+                              className="mt-2 flex items-center gap-1 text-xs"
+                              initial={{ opacity: 0, scale: 0.9 }}
                               animate={{ opacity: 1, scale: 1 }}
-                              transition={{ duration: 0.4, delay: 0.9 }}
-                              whileHover={{ scale: 1.02 }}
+                              transition={{ delay: 0.5 }}
                             >
-                              <div className="flex items-center gap-2 text-sm">
-                                <Star className="h-4 w-4 fill-current text-gold-400" />
-                                <span className="text-gold-300">
-                                  Cupping Score:
-                                </span>
-                                <span className="font-bold text-gold-400">
-                                  {product.specifications.cuppingScore}+
-                                </span>
-                              </div>
+                              <Star className="h-4 w-4 fill-current text-gold-400" />
+                              <span className="text-gold-300">
+                                Cupping Score:
+                              </span>
+                              <span className="font-bold text-gold-400">
+                                {product.specifications.cuppingScore}+
+                              </span>
                             </motion.div>
                           )}
 
@@ -477,7 +409,7 @@ export function FeaturedProductsSection({
                             </div>
                             <EnhancedButton
                               variant="outline"
-                              size="sm"
+                              size="md"
                               className="border-coffee-500 text-coffee-200 hover:border-gold-400 hover:bg-gold-500/20 hover:text-gold-200"
                               aria-label="Download product specification"
                             >
@@ -486,7 +418,7 @@ export function FeaturedProductsSection({
                           </div>
                         </div>
                       </div>
-                    </MagneticHover>
+                    </div>
                   </ScrollReveal>
                 );
               })}
@@ -497,17 +429,16 @@ export function FeaturedProductsSection({
           <ScrollReveal direction="up" delay={0.3}>
             <div className="mt-8 flex justify-center gap-2">
               {featuredProducts.map((product, index) => (
-                <MagneticHover key={`indicator-${product.id}`} strength={0.1}>
-                  <button
-                    onClick={() => setCurrentIndex(index)}
-                    aria-label={`Go to product ${index + 1}: ${product.name}`}
-                    className={`h-2 rounded-full transition-all duration-300 hover:scale-125 ${
-                      index === currentIndex
-                        ? 'w-8 bg-forest-600 shadow-forest-medium'
-                        : 'w-2 bg-forest-300 hover:bg-forest-400'
-                    }`}
-                  />
-                </MagneticHover>
+                <button
+                  key={`indicator-${product.id}`}
+                  onClick={() => setCurrentIndex(index)}
+                  aria-label={`Go to product ${index + 1}: ${product.name}`}
+                  className={`h-2 rounded-full transition-all duration-300 hover:scale-125 ${
+                    index === currentIndex
+                      ? 'w-8 bg-forest-600 shadow-forest-medium'
+                      : 'w-2 bg-forest-300 hover:bg-forest-400'
+                  }`}
+                />
               ))}
             </div>
           </ScrollReveal>

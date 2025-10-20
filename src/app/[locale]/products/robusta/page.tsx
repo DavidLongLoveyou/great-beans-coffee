@@ -1,5 +1,12 @@
 import { type Metadata } from 'next';
-import {  Coffee, Award, Leaf, TrendingUp, CheckCircle, Star  } from '@/components/ui/dynamic-icons';
+import {
+  Coffee,
+  Award,
+  Leaf,
+  TrendingUp,
+  CheckCircle,
+  Star,
+} from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -42,8 +49,8 @@ export default async function RobustaPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-4xl text-center">
             <div className="mb-6 flex justify-center">
-              <div className="rounded-full bg-amber-100 p-4">
-                <Coffee className="h-12 w-12 text-amber-600" />
+              <div className="rounded-full bg-forest-100 p-4">
+                <Coffee className="h-12 w-12 text-forest-600" />
               </div>
             </div>
             <h1 className="mb-6 text-4xl font-bold text-forest-900 md:text-5xl lg:text-6xl">
@@ -58,7 +65,7 @@ export default async function RobustaPage({ params }: Props) {
               <Button
                 asChild
                 size="lg"
-                className="bg-amber-600 hover:bg-amber-700"
+                className="bg-forest-600 hover:bg-forest-700"
               >
                 <Link href={`/${locale}/quote`}>Request Quote</Link>
               </Button>
@@ -87,8 +94,8 @@ export default async function RobustaPage({ params }: Props) {
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               <Card>
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100">
-                    <TrendingUp className="h-6 w-6 text-amber-600" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-forest-100">
+                    <TrendingUp className="h-6 w-6 text-forest-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     High Caffeine Content
@@ -103,8 +110,8 @@ export default async function RobustaPage({ params }: Props) {
 
               <Card>
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100">
-                    <Award className="h-6 w-6 text-amber-600" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-forest-100">
+                    <Award className="h-6 w-6 text-forest-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Premium Quality
@@ -119,8 +126,8 @@ export default async function RobustaPage({ params }: Props) {
 
               <Card>
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100">
-                    <Leaf className="h-6 w-6 text-amber-600" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-forest-100">
+                    <Leaf className="h-6 w-6 text-forest-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Sustainable Sourcing
@@ -149,25 +156,25 @@ export default async function RobustaPage({ params }: Props) {
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
-                        <Star className="h-5 w-5 text-amber-500" />
+                        <Star className="h-5 w-5 text-forest-500" />
                         Grade 1 Robusta
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Screen Size:</span>
+                        <span className="text-forest-800">Screen Size:</span>
                         <span className="font-medium">16+ (90% min)</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Moisture:</span>
+                        <span className="text-forest-800">Moisture:</span>
                         <span className="font-medium">12.5% max</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Defects:</span>
+                        <span className="text-forest-800">Defects:</span>
                         <span className="font-medium">5% max</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Black/Broken:</span>
+                        <span className="text-forest-800">Black/Broken:</span>
                         <span className="font-medium">2% max</span>
                       </div>
                     </CardContent>
@@ -176,25 +183,25 @@ export default async function RobustaPage({ params }: Props) {
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
-                        <Star className="h-5 w-5 text-amber-500" />
+                        <Star className="h-5 w-5 text-forest-500" />
                         Grade 2 Robusta
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Screen Size:</span>
+                        <span className="text-forest-800">Screen Size:</span>
                         <span className="font-medium">16+ (80% min)</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Moisture:</span>
+                        <span className="text-forest-800">Moisture:</span>
                         <span className="font-medium">12.5% max</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Defects:</span>
+                        <span className="text-forest-800">Defects:</span>
                         <span className="font-medium">8% max</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-forest-600">Black/Broken:</span>
+                        <span className="text-forest-800">Black/Broken:</span>
                         <span className="font-medium">3% max</span>
                       </div>
                     </CardContent>
@@ -398,7 +405,7 @@ export default async function RobustaPage({ params }: Props) {
               <Button
                 asChild
                 size="lg"
-                className="bg-amber-600 hover:bg-amber-700"
+                className="bg-forest-600 hover:bg-forest-700"
               >
                 <Link href={`/${locale}/quote`}>Get Quote</Link>
               </Button>

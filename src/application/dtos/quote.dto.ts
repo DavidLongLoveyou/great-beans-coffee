@@ -210,8 +210,8 @@ export interface QuoteRevisionDto {
   quoteId: string;
   changes: Array<{
     field: string;
-    oldValue: any;
-    newValue: any;
+    oldValue: unknown;
+    newValue: unknown;
     reason?: string;
   }>;
   notes?: string;

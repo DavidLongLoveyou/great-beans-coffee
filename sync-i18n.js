@@ -11,7 +11,9 @@ const enData = JSON.parse(fs.readFileSync(enPath, 'utf8'));
 
 // Get all top-level keys from English
 const allKeys = Object.keys(enData);
-console.log(`📋 Found ${allKeys.length} top-level keys in ${baseLanguage}.json:`);
+console.log(
+  `📋 Found ${allKeys.length} top-level keys in ${baseLanguage}.json:`
+);
 console.log(allKeys.join(', '));
 console.log();
 
@@ -24,7 +26,11 @@ function createPlaceholderTranslation(key, value, targetLang) {
     // For objects, recursively process
     const result = {};
     for (const [subKey, subValue] of Object.entries(value)) {
-      result[subKey] = createPlaceholderTranslation(subKey, subValue, targetLang);
+      result[subKey] = createPlaceholderTranslation(
+        subKey,
+        subValue,
+        targetLang
+      );
     }
     return result;
   } else {
@@ -36,29 +42,33 @@ function createPlaceholderTranslation(key, value, targetLang) {
 // Process each language file
 for (const lang of languages) {
   const langPath = path.join('messages', `${lang}.json`);
-  
+
   try {
     // Load existing language file
     const langData = JSON.parse(fs.readFileSync(langPath, 'utf8'));
     const existingKeys = Object.keys(langData);
-    
-    console.log(`🔍 Processing ${lang}.json (${existingKeys.length} existing keys)...`);
-    
+
+    console.log(
+      `🔍 Processing ${lang}.json (${existingKeys.length} existing keys)...`
+    );
+
     // Find missing keys
     const missingKeys = allKeys.filter(key => !existingKeys.includes(key));
-    
+
     if (missingKeys.length === 0) {
       console.log(`✅ ${lang}.json is already complete!`);
       continue;
     }
-    
-    console.log(`📝 Adding ${missingKeys.length} missing keys: ${missingKeys.join(', ')}`);
-    
+
+    console.log(
+      `📝 Adding ${missingKeys.length} missing keys: ${missingKeys.join(', ')}`
+    );
+
     // Add missing keys with placeholder translations
     for (const key of missingKeys) {
       langData[key] = createPlaceholderTranslation(key, enData[key], lang);
     }
-    
+
     // Sort keys to match English file order
     const sortedData = {};
     for (const key of allKeys) {
@@ -66,16 +76,19 @@ for (const lang of languages) {
         sortedData[key] = langData[key];
       }
     }
-    
+
     // Write back to file with proper formatting
-    fs.writeFileSync(langPath, JSON.stringify(sortedData, null, 2) + '\n', 'utf8');
-    
+    fs.writeFileSync(
+      langPath,
+      JSON.stringify(sortedData, null, 2) + '\n',
+      'utf8'
+    );
+
     console.log(`✅ Updated ${lang}.json successfully!`);
-    
   } catch (error) {
     console.log(`⚠️  Error processing ${lang}.json: ${error.message}`);
   }
-  
+
   console.log();
 }
 
@@ -86,12 +99,18 @@ for (const lang of [baseLanguage, ...languages]) {
   try {
     const langData = JSON.parse(fs.readFileSync(langPath, 'utf8'));
     const keyCount = Object.keys(langData).length;
-    console.log(`   ${lang}.json: ${keyCount} keys ${keyCount === allKeys.length ? '✅' : '❌'}`);
+    console.log(
+      `   ${lang}.json: ${keyCount} keys ${keyCount === allKeys.length ? '✅' : '❌'}`
+    );
   } catch (error) {
     console.log(`   ${lang}.json: Error reading file ❌`);
   }
 }
 
 console.log('\n🎉 i18n synchronization completed!');
-console.log('\n📝 Note: All new keys have been marked with language prefixes (e.g., [DE], [ES])');
-console.log('   Please review and translate these placeholder texts to proper translations.');
+console.log(
+  '\n📝 Note: All new keys have been marked with language prefixes (e.g., [DE], [ES])'
+);
+console.log(
+  '   Please review and translate these placeholder texts to proper translations.'
+);

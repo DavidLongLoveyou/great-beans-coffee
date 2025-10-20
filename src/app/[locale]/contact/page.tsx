@@ -1,5 +1,12 @@
 import { type Metadata } from 'next';
-import {  Mail, Phone, MapPin, Clock, Send, MessageSquare  } from '@/components/ui/dynamic-icons';
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  Send,
+  MessageSquare,
+} from '@/components/ui/icons';
 import { getTranslations } from 'next-intl/server';
 
 import { type Locale } from '@/i18n';
@@ -70,7 +77,7 @@ export default async function ContactPage({ params: _params }: Props) {
                   <h2 className="mb-6 text-3xl font-bold text-forest-900">
                     Get in Touch
                   </h2>
-                  <p className="text-lg text-forest-600">
+                  <p className="text-lg text-forest-800">
                     Our team is ready to help you find the perfect coffee
                     solution. Reach out to us through any of the channels below.
                   </p>
@@ -87,7 +94,7 @@ export default async function ContactPage({ params: _params }: Props) {
                           <h3 className="mb-2 text-lg font-semibold text-forest-900">
                             Email Us
                           </h3>
-                          <p className="text-forest-600">
+                          <p className="text-forest-800">
                             <a
                               href="mailto:info@greatbeans.coffee"
                               className="hover:text-emerald-600"

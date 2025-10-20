@@ -1,6 +1,6 @@
 'use client';
 
-import {  ChevronLeft, ChevronRight  } from '@/components/ui/dynamic-icons';
+import { ChevronLeft, ChevronRight } from '@/components/ui/icons';
 import * as React from 'react';
 import { DayPicker } from 'react-day-picker';
 

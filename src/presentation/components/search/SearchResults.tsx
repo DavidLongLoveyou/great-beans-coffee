@@ -1,6 +1,18 @@
 'use client';
 
-import {  Calendar, Clock, Tag, ExternalLink, FileText, Package, MapPin, Users, Star, TrendingUp, Eye  } from '@/components/ui/dynamic-icons';
+import {
+  Calendar,
+  Clock,
+  Tag,
+  ExternalLink,
+  FileText,
+  Package,
+  MapPin,
+  Users,
+  Star,
+  TrendingUp,
+  Eye,
+} from '@/components/ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -304,6 +316,13 @@ function SearchResultCard({
                 alt={result.title}
                 width={layout === 'grid' ? 300 : 64}
                 height={layout === 'grid' ? 128 : 64}
+                loading="lazy"
+                unoptimized={result.coverImage.endsWith('.svg')}
+                sizes={
+                  layout === 'grid'
+                    ? '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    : '64px'
+                }
                 className="h-full w-full object-cover"
               />
             </div>

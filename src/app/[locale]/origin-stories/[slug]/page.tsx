@@ -1,4 +1,12 @@
-import {  CalendarDays, MapPin, Coffee, Mountain, ArrowLeft, User, Clock  } from '@/components/ui/dynamic-icons';
+import {
+  CalendarDays,
+  MapPin,
+  Coffee,
+  Mountain,
+  ArrowLeft,
+  User,
+  Clock,
+} from '@/components/ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -65,6 +73,7 @@ export default async function OriginStoryPage({
               alt={story.title}
               fill
               className="object-cover"
+              unoptimized={story.coverImage.endsWith('.svg')}
             />
           </div>
         )}
@@ -141,6 +150,7 @@ export default async function OriginStoryPage({
                       alt={relatedStory.title}
                       fill
                       className="object-cover"
+                      unoptimized={relatedStory.coverImage.endsWith('.svg')}
                     />
                   </div>
                 )}

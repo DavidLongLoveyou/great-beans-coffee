@@ -1,6 +1,6 @@
 'use client';
 
-import {  ArrowRight, CheckCircle  } from '@/components/ui/dynamic-icons';
+import { ArrowRight, CheckCircle } from '@/components/ui/icons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import React from 'react';

@@ -39,7 +39,7 @@ const nextConfig: NextConfig = {
   // Performance optimizations
   compress: true,
   poweredByHeader: false,
-  
+
   // Experimental features for performance
   experimental: {
     optimizePackageImports: [
@@ -48,7 +48,38 @@ const nextConfig: NextConfig = {
       '@radix-ui/react-icons',
       'framer-motion',
       'date-fns',
+      '@radix-ui/react-accordion',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-popover',
+      '@radix-ui/react-select',
+      '@radix-ui/react-tabs',
+      '@radix-ui/react-toast',
+      '@radix-ui/react-tooltip',
     ],
+    // Optimize CSS
+    optimizeCss: true,
+  },
+
+  // Turbopack configuration (moved from experimental)
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
+
+  // Webpack optimizations
+  webpack: (config, { _dev, _isServer }) => {
+    // Optimize SVG handling
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
+
+    return config;
   },
 
   // Headers for security and performance
@@ -98,12 +129,30 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  async rewrites() {
+    return [
+      // Handle static files with locale prefix
+      {
+        source: '/:locale(en|de|ja|fr|it|es|nl|ko|vi)/images/:path*',
+        destination: '/images/:path*',
+      },
+      {
+        source: '/:locale(en|de|ja|fr|it|es|nl|ko|vi)/fonts/:path*',
+        destination: '/fonts/:path*',
+      },
+      {
+        source: '/:locale(en|de|ja|fr|it|es|nl|ko|vi)/icons/:path*',
+        destination: '/icons/:path*',
+      },
+    ];
+  },
+
   // Output configuration
   output: 'standalone',
-  
+
   // Disable source maps in production for smaller bundles
   productionBrowserSourceMaps: false,
-  
+
   // Reduce JavaScript bundle size
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

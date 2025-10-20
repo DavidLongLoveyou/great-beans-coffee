@@ -9,6 +9,9 @@ const config = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^contentlayer/generated$': '<rootDir>/src/test/utils/mocks.ts',
     '^next-intl/server$': '<rootDir>/src/test/utils/mocks.ts',
+    '^lucide-react$': '<rootDir>/src/test/__mocks__/lucide-react.tsx',
+    '^@/components/ui/dynamic-icons$':
+      '<rootDir>/src/test/__mocks__/@/components/ui/dynamic-icons.tsx',
   },
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',

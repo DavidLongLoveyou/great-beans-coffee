@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import { rfqRepository } from '../../../../../infrastructure/di/container';
 import { createScopedLogger } from '../../../../../shared/utils/logger';
+import { error } from 'console';
 
 const _logger = createScopedLogger('RFQ-Quotes-API');
 
@@ -87,7 +88,7 @@ export async function GET(
         total: quotes.length,
       },
     });
-  } catch (error) {
+  } catch (_error) {
     // API error logging removed for production
     return NextResponse.json(
       {
@@ -163,7 +164,7 @@ export async function POST(
       },
       { status: 201 }
     );
-  } catch (error) {
+  } catch (_error) {
     // API error logging removed for production
 
     if (error instanceof z.ZodError) {
@@ -251,7 +252,7 @@ export async function PATCH(
         },
       },
     });
-  } catch (error) {
+  } catch (_error) {
     // API error logging removed for production
 
     if (error instanceof z.ZodError) {

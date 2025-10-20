@@ -1,6 +1,19 @@
 'use client';
 
-import {  Play, Pause, Volume2, VolumeX, Maximize, Minimize, SkipBack, SkipForward, Settings, Download, Share2, Loader2  } from '@/components/ui/dynamic-icons';
+import {
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize,
+  Minimize,
+  SkipBack,
+  SkipForward,
+  Settings,
+  Download,
+  Share2,
+  Loader2,
+} from '@/components/ui/icons';
 import React, { useState, useRef, useEffect } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
@@ -283,7 +296,7 @@ export function VideoPlayer({
               <Button
                 variant="secondary"
                 size="icon"
-                className="h-16 w-16 bg-white/20 text-white hover:bg-white/30"
+                className="h-16 w-16 border-2 border-white bg-black/60 text-white transition-all duration-200 hover:bg-black/80"
                 aria-label={isPlaying ? 'Pause video' : 'Play video'}
               >
                 {isPlaying ? (
@@ -407,17 +420,17 @@ export function VideoPlayer({
                       </Button>
 
                       {showSettings && (
-                        <div className="absolute bottom-full right-0 mb-2 min-w-32 rounded-lg bg-black/90 p-2">
+                        <div className="absolute bottom-full right-0 mb-2 min-w-32 rounded-lg border border-white/20 bg-black/95 p-2 shadow-lg">
                           <div className="mb-2 text-sm font-medium text-white">
                             Quality
                           </div>
                           {sources.map(source => (
                             <button
                               key={source.quality}
-                              className={`block w-full rounded px-2 py-1 text-left text-sm ${
+                              className={`block w-full rounded px-2 py-1 text-left text-sm transition-colors ${
                                 selectedQuality === source.quality
-                                  ? 'bg-white/20 text-white'
-                                  : 'text-gray-300 hover:bg-white/10'
+                                  ? 'bg-white/30 font-medium text-white'
+                                  : 'text-gray-200 hover:bg-white/20 hover:text-white'
                               }`}
                               onClick={() => {
                                 changeQuality(source.quality);

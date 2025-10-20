@@ -1,7 +1,31 @@
 'use client';
 
-import React, { useState } from 'react';
-import {  DollarSign, TrendingUp, TrendingDown, Target, Calculator, BarChart3, LineChart, PieChart, Settings, Globe, Clock, Search, Download, Plus, Edit, Copy, Trash2, Eye, RefreshCw, Star, Percent, Activity, Layers  } from '@/components/ui/dynamic-icons';
+import React, { useState, memo } from 'react';
+import {
+  DollarSign,
+  TrendingUp,
+  TrendingDown,
+  Target,
+  Calculator,
+  BarChart3,
+  LineChart,
+  PieChart,
+  Settings,
+  Globe,
+  Clock,
+  Search,
+  Download,
+  Plus,
+  Edit,
+  Copy,
+  Trash2,
+  Eye,
+  RefreshCw,
+  Star,
+  Percent,
+  Activity,
+  Layers,
+} from '@/components/ui/icons';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
@@ -425,7 +449,9 @@ const mockMarketAnalysis: MarketAnalysis[] = [
   },
 ];
 
-export function PricingManager({ className }: PricingManagerProps) {
+const PricingManager = memo(function PricingManager({
+  className,
+}: PricingManagerProps) {
   const [pricingData, _setPricingData] =
     useState<ProductPricing[]>(mockPricingData);
   const [pricingRules, _setPricingRules] =
@@ -930,7 +956,7 @@ export function PricingManager({ className }: PricingManagerProps) {
                         </Label>
                         <ul className="mt-1 text-sm text-coffee-600">
                           {analysis.factors.map((factor, index) => (
-                            <li key={index}>• {factor}</li>
+                            <li key={`${factor}-${index}`}>• {factor}</li>
                           ))}
                         </ul>
                       </div>
@@ -1240,4 +1266,6 @@ export function PricingManager({ className }: PricingManagerProps) {
       </Dialog>
     </div>
   );
-}
+});
+
+export { PricingManager };

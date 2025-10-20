@@ -1,14 +1,16 @@
 'use client';
 
-import {  Coffee, Globe, Award, ArrowRight  } from '@/components/ui/dynamic-icons';
+import { Coffee, Globe, Award, ArrowRight } from '@/components/ui/icons';
 
 import { EnhancedButton } from '@/presentation/components/ui/EnhancedButton';
 import {
   ScrollReveal,
   StaggeredChildren,
+} from '@/presentation/components/ui/ScrollAnimations';
+import {
   FloatingElement,
   MagneticHover,
-} from '@/presentation/components/ui/ScrollAnimations';
+} from '@/presentation/components/ui/MicroInteractions';
 
 interface HeroSectionProps {
   title: string;

@@ -1,5 +1,14 @@
 import { type Metadata } from 'next';
-import {  Users, Heart, TrendingUp, Globe, Coffee, Award, MapPin, Clock  } from '@/components/ui/dynamic-icons';
+import {
+  Users,
+  Heart,
+  TrendingUp,
+  Globe,
+  Coffee,
+  Award,
+  MapPin,
+  Clock,
+} from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -175,7 +184,7 @@ export default async function CareersPage({ params }: Props) {
               <h2 className="mb-4 text-3xl font-bold text-forest-900">
                 Why Work With Us
               </h2>
-              <p className="text-lg text-forest-600">
+              <p className="text-lg text-forest-800">
                 Join a company that values growth, sustainability, and making a
                 positive impact
               </p>
@@ -192,7 +201,7 @@ export default async function CareersPage({ params }: Props) {
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Industry Leadership
                   </h3>
-                  <p className="text-forest-600">
+                  <p className="text-forest-800">
                     Work with one of Vietnam&rsquo;s leading coffee exporters
                     and shape the future of the industry.
                   </p>
@@ -209,7 +218,7 @@ export default async function CareersPage({ params }: Props) {
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Meaningful Work
                   </h3>
-                  <p className="text-forest-600">
+                  <p className="text-forest-800">
                     Make a positive impact on farming communities and contribute
                     to sustainable coffee production.
                   </p>
@@ -226,7 +235,7 @@ export default async function CareersPage({ params }: Props) {
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Career Growth
                   </h3>
-                  <p className="text-forest-600">
+                  <p className="text-forest-800">
                     Advance your career with comprehensive training, mentorship,
                     and leadership development programs.
                   </p>
@@ -243,7 +252,7 @@ export default async function CareersPage({ params }: Props) {
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Global Reach
                   </h3>
-                  <p className="text-forest-600">
+                  <p className="text-forest-800">
                     Work with international clients and partners, expanding your
                     global perspective and network.
                   </p>
@@ -262,7 +271,7 @@ export default async function CareersPage({ params }: Props) {
               <h2 className="mb-4 text-3xl font-bold text-forest-900">
                 Benefits & Culture
               </h2>
-              <p className="text-lg text-forest-600">
+              <p className="text-lg text-forest-800">
                 We invest in our people and create an environment where everyone
                 can thrive
               </p>
@@ -281,25 +290,25 @@ export default async function CareersPage({ params }: Props) {
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Competitive salary packages
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Health and dental insurance
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Annual performance bonuses
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Professional development budget
                         </span>
                       </div>
@@ -308,25 +317,25 @@ export default async function CareersPage({ params }: Props) {
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Flexible working arrangements
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Paid vacation and sick leave
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Retirement savings plan
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-coffee-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Employee wellness programs
                         </span>
                       </div>
@@ -347,25 +356,25 @@ export default async function CareersPage({ params }: Props) {
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Collaborative team environment
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Innovation and creativity encouraged
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Diversity and inclusion focus
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Work-life balance priority
                         </span>
                       </div>
@@ -374,25 +383,25 @@ export default async function CareersPage({ params }: Props) {
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Regular team building events
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Open communication culture
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Sustainability commitment
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        <span className="text-forest-600">
+                        <span className="text-forest-800">
                           Continuous learning mindset
                         </span>
                       </div>
@@ -413,14 +422,17 @@ export default async function CareersPage({ params }: Props) {
               <h2 className="mb-4 text-3xl font-bold text-forest-900">
                 Current Job Openings
               </h2>
-              <p className="text-lg text-forest-600">
+              <p className="text-lg text-forest-800">
                 Explore exciting opportunities to join our growing team
               </p>
             </div>
 
             <div className="space-y-6">
-              {jobOpenings.map((job, index) => (
-                <Card key={index} className="transition-shadow hover:shadow-lg">
+              {jobOpenings.map(job => (
+                <Card
+                  key={`${job.title}-${job.department}`}
+                  className="transition-shadow hover:shadow-lg"
+                >
                   <CardContent className="p-6">
                     <div className="grid gap-6 lg:grid-cols-3">
                       <div className="lg:col-span-2">
@@ -454,7 +466,7 @@ export default async function CareersPage({ params }: Props) {
                           </div>
 
                           <div className="text-right">
-                            <div className="text-sm text-forest-600">
+                            <div className="text-sm text-forest-800">
                               Experience Required
                             </div>
                             <div className="font-semibold text-forest-900">
@@ -463,7 +475,7 @@ export default async function CareersPage({ params }: Props) {
                           </div>
                         </div>
 
-                        <p className="mb-4 text-forest-600">
+                        <p className="mb-4 text-forest-800">
                           {job.description}
                         </p>
 
@@ -472,10 +484,10 @@ export default async function CareersPage({ params }: Props) {
                             Key Requirements:
                           </h4>
                           <ul className="space-y-1">
-                            {job.requirements.map((req, reqIndex) => (
+                            {job.requirements.map(req => (
                               <li
-                                key={reqIndex}
-                                className="flex items-start gap-2 text-sm text-forest-600"
+                                key={req}
+                                className="flex items-start gap-2 text-sm text-forest-800"
                               >
                                 <div className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-coffee-500"></div>
                                 {req}
@@ -508,7 +520,7 @@ export default async function CareersPage({ params }: Props) {
               <h2 className="mb-4 text-3xl font-bold text-forest-900">
                 Application Process
               </h2>
-              <p className="text-lg text-forest-600">
+              <p className="text-lg text-forest-800">
                 Our straightforward hiring process designed to find the best fit
                 for both you and our team
               </p>
@@ -524,7 +536,7 @@ export default async function CareersPage({ params }: Props) {
                 <h3 className="mb-3 text-lg font-semibold text-forest-900">
                   Submit Application
                 </h3>
-                <p className="text-forest-600">
+                <p className="text-forest-800">
                   Send us your resume and cover letter through our online
                   application system.
                 </p>
@@ -539,7 +551,7 @@ export default async function CareersPage({ params }: Props) {
                 <h3 className="mb-3 text-lg font-semibold text-forest-900">
                   Initial Review
                 </h3>
-                <p className="text-forest-600">
+                <p className="text-forest-800">
                   Our HR team reviews your application and contacts qualified
                   candidates within 1 week.
                 </p>
@@ -554,7 +566,7 @@ export default async function CareersPage({ params }: Props) {
                 <h3 className="mb-3 text-lg font-semibold text-forest-900">
                   Interview Process
                 </h3>
-                <p className="text-forest-600">
+                <p className="text-forest-800">
                   Participate in 2-3 rounds of interviews with team members and
                   management.
                 </p>
@@ -569,7 +581,7 @@ export default async function CareersPage({ params }: Props) {
                 <h3 className="mb-3 text-lg font-semibold text-forest-900">
                   Welcome Aboard
                 </h3>
-                <p className="text-forest-600">
+                <p className="text-forest-800">
                   Receive your offer and join our comprehensive onboarding
                   program.
                 </p>
@@ -586,7 +598,7 @@ export default async function CareersPage({ params }: Props) {
             <h2 className="mb-6 text-3xl font-bold text-forest-900">
               Ready to Start Your Journey?
             </h2>
-            <p className="mb-8 text-lg text-forest-600">
+            <p className="mb-8 text-lg text-forest-800">
               Don&rsquo;t see a position that matches your skills? We&rsquo;re
               always looking for talented individuals to join our team. Send us
               your resume and let&rsquo;s explore opportunities together.
@@ -602,7 +614,7 @@ export default async function CareersPage({ params }: Props) {
             </div>
 
             <div className="mt-8 text-center">
-              <p className="text-forest-600">
+              <p className="text-forest-800">
                 Questions about our hiring process?
                 <Link
                   href={`/${locale}/contact`}

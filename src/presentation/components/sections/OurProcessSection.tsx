@@ -1,6 +1,16 @@
 'use client';
 
-import {  ArrowRight, Award, CheckCircle, Coffee, Globe, Shield, Ship, Sprout  } from '@/components/ui/dynamic-icons';
+import {
+  ArrowRight,
+  Award,
+  CheckCircle,
+  Coffee,
+  Globe,
+  Shield,
+  Ship,
+  Sprout,
+  type LucideIcon,
+} from '@/components/ui/icons';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
@@ -12,12 +22,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/presentation/components/ui/card';
-import { AnimatedIcon } from '@/presentation/components/ui/MicroInteractions';
+import {
+  AnimatedIcon,
+  MagneticHover,
+  FloatingElement,
+} from '@/presentation/components/ui/MicroInteractions';
 import {
   ScrollReveal,
   StaggeredChildren,
-  MagneticHover,
-  FloatingElement,
 } from '@/presentation/components/ui/ScrollAnimations';
 
 interface OurProcessSectionProps {
@@ -26,7 +38,7 @@ interface OurProcessSectionProps {
 
 interface ProcessStep {
   id: string;
-  icon: React.ComponentType<any>;
+  icon: LucideIcon;
   title: string;
   description: string;
   details: string[];
@@ -241,19 +253,19 @@ export function OurProcessSection({}: OurProcessSectionProps) {
           <MagneticHover>
             <Badge
               variant="outline"
-              className="mb-4 border-coffee-200 bg-coffee-50 text-coffee-700 transition-all duration-300 hover:border-coffee-300 hover:bg-coffee-100 hover:shadow-md"
+              className="mb-4 border-forest-200 bg-forest-50 text-forest-700 transition-all duration-300 hover:border-forest-300 hover:bg-forest-100 hover:shadow-md"
             >
               <Coffee className="mr-2 h-4 w-4" />
               {t('badge')}
             </Badge>
           </MagneticHover>
 
-          <h2 className="mb-6 text-4xl font-bold text-forest-900 transition-all duration-300 hover:text-coffee-700 md:text-5xl">
+          <h2 className="mb-6 text-4xl font-bold text-forest-900 transition-all duration-300 hover:text-forest-700 md:text-5xl">
             {t('title')}
           </h2>
 
           <ScrollReveal delay={0.2}>
-            <p className="text-lg text-forest-600 transition-all duration-300 hover:text-forest-700 md:text-xl">
+            <p className="text-lg text-forest-800 transition-all duration-300 hover:text-forest-700 md:text-xl">
               {t('description')}
             </p>
           </ScrollReveal>
@@ -261,20 +273,20 @@ export function OurProcessSection({}: OurProcessSectionProps) {
 
         {/* Process Navigation */}
         <StaggeredChildren className="mb-16 flex flex-wrap justify-center gap-4">
-          {processSteps.map((step, index) => {
+          {processSteps.map((step, _index) => {
             const Icon = step.icon;
-            const isActive = index === activeStep;
+            const isActive = _index === activeStep;
 
             const colorClasses = getColorClasses(step.color.primary);
 
             return (
               <MagneticHover key={step.id}>
                 <button
-                  onClick={() => setActiveStep(index)}
+                  onClick={() => setActiveStep(_index)}
                   className={`group relative flex items-center gap-3 rounded-xl border-2 px-6 py-4 transition-all duration-300 hover:scale-105 hover:shadow-lg ${
                     isActive
                       ? `${colorClasses.border} ${colorClasses.bg} text-white shadow-lg`
-                      : 'border-forest-200 bg-white text-forest-600 hover:border-forest-400 hover:bg-forest-50'
+                      : 'border-forest-200 bg-white text-forest-800 hover:border-forest-400 hover:bg-forest-50'
                   }`}
                 >
                   <div
@@ -298,12 +310,12 @@ export function OurProcessSection({}: OurProcessSectionProps) {
                         isActive ? 'text-white/80' : 'text-forest-500'
                       }`}
                     >
-                      Step {index + 1}
+                      Step {_index + 1} - {step.title}
                     </div>
                   </div>
 
                   {/* Connection Line */}
-                  {index < processSteps.length - 1 && (
+                  {_index < processSteps.length - 1 && (
                     <div className="absolute -right-2 top-1/2 hidden -translate-y-1/2 lg:block">
                       <ArrowRight className="h-4 w-4 text-coffee-300 transition-all duration-300" />
                     </div>
@@ -331,7 +343,7 @@ export function OurProcessSection({}: OurProcessSectionProps) {
                       <CardTitle className="text-2xl text-forest-900">
                         {currentStep.title}
                       </CardTitle>
-                      <CardDescription className="text-lg text-forest-600">
+                      <CardDescription className="text-lg text-forest-800">
                         {currentStep.description}
                       </CardDescription>
                     </div>
@@ -366,7 +378,7 @@ export function OurProcessSection({}: OurProcessSectionProps) {
                         >
                           {stat.value}
                         </div>
-                        <div className="text-sm text-forest-600">
+                        <div className="text-sm text-forest-800">
                           {stat.label}
                         </div>
                       </div>
@@ -385,10 +397,10 @@ export function OurProcessSection({}: OurProcessSectionProps) {
                   {/* Process Flow Visualization */}
                   <StaggeredChildren>
                     <div className="space-y-6">
-                      {processSteps.map((step, index) => {
+                      {processSteps.map((step, _index) => {
                         const Icon = step.icon;
-                        const isActive = index === activeStep;
-                        const isPassed = index < activeStep;
+                        const isActive = _index === activeStep;
+                        const isPassed = _index < activeStep;
 
                         const stepColorClasses = getColorClasses(
                           step.color?.primary || 'gold-500'
@@ -450,7 +462,7 @@ export function OurProcessSection({}: OurProcessSectionProps) {
                             </div>
 
                             {/* Connection Line */}
-                            {index < processSteps.length - 1 && (
+                            {_index < processSteps.length - 1 && (
                               <div
                                 className={`absolute left-6 top-12 h-8 w-0.5 transition-colors ${
                                   isPassed

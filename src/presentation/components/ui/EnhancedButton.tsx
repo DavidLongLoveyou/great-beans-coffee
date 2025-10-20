@@ -63,21 +63,21 @@ const EnhancedButton = forwardRef<HTMLButtonElement, EnhancedButtonProps>(
         'disabled:hover:bg-emerald-600'
       ),
       outline: cn(
-        'border-2 border-forest-600 text-forest-600 bg-transparent',
-        'hover:bg-forest-600 hover:text-white hover:shadow-lg',
+        'border-2 border-forest-700 text-forest-800 bg-transparent',
+        'hover:bg-forest-700 hover:text-white hover:shadow-lg',
         'focus:ring-forest-500',
-        'active:bg-forest-700',
-        'disabled:hover:bg-transparent disabled:hover:text-forest-600'
+        'active:bg-forest-800',
+        'disabled:hover:bg-transparent disabled:hover:text-forest-700'
       ),
       ghost: cn(
-        'text-forest-600 bg-transparent',
-        'hover:bg-forest-50 hover:text-forest-700',
+        'text-forest-800 bg-transparent',
+        'hover:bg-forest-50 hover:text-forest-900',
         'focus:ring-forest-500',
         'active:bg-forest-100',
         'disabled:hover:bg-transparent'
       ),
       link: cn(
-        'text-forest-600 bg-transparent underline-offset-4',
+        'text-forest-800 bg-transparent underline-offset-4',
         'hover:underline hover:text-forest-700',
         'focus:ring-forest-500',
         'active:text-forest-800',

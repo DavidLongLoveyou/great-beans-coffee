@@ -178,7 +178,13 @@ export const ProductCard = forwardRef<
     <Card variant="product" hover={hover} ref={ref} {...props}>
       {image && (
         <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-          <Image src={image} alt={title} fill className="object-cover" />
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover"
+            unoptimized={image?.endsWith('.svg')}
+          />
         </div>
       )}
       <CardHeader>
@@ -188,7 +194,7 @@ export const ProductCard = forwardRef<
         </div>
         <CardDescription>{description}</CardDescription>
         {price && (
-          <div className="mt-2 text-lg font-semibold text-forest-600">
+          <div className="mt-2 text-lg font-semibold text-forest-800">
             {price}
           </div>
         )}
@@ -295,6 +301,7 @@ export const TestimonialCard = forwardRef<
             width={40}
             height={40}
             className="mr-3 h-10 w-10 rounded-full object-cover"
+            unoptimized={avatar?.endsWith('.svg')}
           />
         )}
         <div>

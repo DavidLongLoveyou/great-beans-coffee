@@ -1,6 +1,25 @@
 'use client';
 
-import {  ArrowLeft, Archive, Bell, Calendar, CheckCircle, Clock, MessageSquare, MoreVertical, Paperclip, Phone, Plus, Search, Send, Star, Tag, Trash2, User, Video  } from '@/components/ui/dynamic-icons';
+import {
+  ArrowLeft,
+  Archive,
+  Bell,
+  Calendar,
+  CheckCircle,
+  Clock,
+  MessageSquare,
+  MoreVertical,
+  Paperclip,
+  Phone,
+  Plus,
+  Search,
+  Send,
+  Star,
+  Tag,
+  Trash2,
+  User,
+  Video,
+} from '@/components/ui/icons';
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';
 

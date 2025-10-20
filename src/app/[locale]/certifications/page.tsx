@@ -1,5 +1,13 @@
 import { type Metadata } from 'next';
-import {  Award, Shield, Leaf, Users, CheckCircle, Download, ExternalLink  } from '@/components/ui/dynamic-icons';
+import {
+  Award,
+  Shield,
+  Leaf,
+  Users,
+  CheckCircle,
+  Download,
+  ExternalLink,
+} from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -61,9 +69,7 @@ export default async function CertificationsPage({ params }: Props) {
                 size="lg"
                 className="bg-green-600 hover:bg-green-700"
               >
-                <Link href={`/${locale}/contact`}>
-                  Request Certificates
-                </Link>
+                <Link href={`/${locale}/contact`}>Request Certificates</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <Link href={`/${locale}/products`}>
@@ -83,7 +89,7 @@ export default async function CertificationsPage({ params }: Props) {
               <h2 className="mb-4 text-3xl font-bold text-forest-900 md:text-4xl">
                 Our Certifications
               </h2>
-              <p className="text-lg text-forest-600">
+              <p className="text-lg text-forest-800">
                 Internationally recognized certifications that guarantee
                 quality, sustainability, and ethical practices
               </p>
@@ -784,9 +790,7 @@ export default async function CertificationsPage({ params }: Props) {
                 size="lg"
                 className="bg-green-600 hover:bg-green-700"
               >
-                <Link href={`/${locale}/contact`}>
-                  Request Certificates
-                </Link>
+                <Link href={`/${locale}/contact`}>Request Certificates</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <Link href={`/${locale}/products`}>

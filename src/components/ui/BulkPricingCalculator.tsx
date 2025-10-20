@@ -1,7 +1,18 @@
 'use client';
 
-import {  Calculator, TrendingDown, Package, DollarSign, Truck, Calendar, AlertCircle, CheckCircle, Download, Share2  } from '@/components/ui/dynamic-icons';
-import React, { useState, useEffect } from 'react';
+import {
+  Calculator,
+  TrendingDown,
+  Package,
+  DollarSign,
+  Truck,
+  Calendar,
+  AlertCircle,
+  CheckCircle,
+  Download,
+  Share2,
+} from '@/components/ui/icons';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { type CatalogProduct } from '@/data/product-catalog';
 import { Badge } from '@/presentation/components/ui/badge';
@@ -66,59 +77,62 @@ export function BulkPricingCalculator({
   };
 
   // Calculate pricing based on quantity and discounts
-  const calculatePricing = (qty: number, unit: string): PricingCalculation => {
-    const quantityInMT = getQuantityInMT(qty, unit);
+  const calculatePricing = useCallback(
+    (qty: number, unit: string): PricingCalculation => {
+      const quantityInMT = getQuantityInMT(qty, unit);
 
-    // Find applicable discount tier
-    let discountPercent = 0;
-    if (product.pricing.discountTiers) {
-      const applicableTier = product.pricing.discountTiers
-        .filter(tier => quantityInMT >= tier.minQuantity)
-        .sort((a, b) => b.discountPercent - a.discountPercent)[0];
+      // Find applicable discount tier
+      let discountPercent = 0;
+      if (product.pricing.discountTiers) {
+        const applicableTier = product.pricing.discountTiers
+          .filter(tier => quantityInMT >= tier.minQuantity)
+          .sort((a, b) => b.discountPercent - a.discountPercent)[0];
 
-      if (applicableTier) {
-        discountPercent = applicableTier.discountPercent;
+        if (applicableTier) {
+          discountPercent = applicableTier.discountPercent;
+        }
       }
-    }
 
-    const unitPrice = product.pricing.basePrice * (1 - discountPercent / 100);
-    const totalPrice = unitPrice * quantityInMT;
-    const discountAmount =
-      (product.pricing.basePrice - unitPrice) * quantityInMT;
+      const unitPrice = product.pricing.basePrice * (1 - discountPercent / 100);
+      const totalPrice = unitPrice * quantityInMT;
+      const discountAmount =
+        (product.pricing.basePrice - unitPrice) * quantityInMT;
 
-    // Estimate shipping costs based on Incoterms and quantity
-    let estimatedShipping = 0;
-    if (selectedIncoterm === 'CIF' || selectedIncoterm === 'CFR') {
-      estimatedShipping = quantityInMT * 150; // $150 per MT for shipping
-    } else if (selectedIncoterm === 'DDP') {
-      estimatedShipping = quantityInMT * 250; // $250 per MT for full delivery
-    }
+      // Estimate shipping costs based on Incoterms and quantity
+      let estimatedShipping = 0;
+      if (selectedIncoterm === 'CIF' || selectedIncoterm === 'CFR') {
+        estimatedShipping = quantityInMT * 150; // $150 per MT for shipping
+      } else if (selectedIncoterm === 'DDP') {
+        estimatedShipping = quantityInMT * 250; // $250 per MT for full delivery
+      }
 
-    // Adjust lead time based on quantity
-    let leadTime = product.availability.leadTime;
-    if (quantityInMT > 100) {
-      leadTime += 7; // Additional week for large orders
-    }
+      // Adjust lead time based on quantity
+      let leadTime = product.availability.leadTime;
+      if (quantityInMT > 100) {
+        leadTime += 7; // Additional week for large orders
+      }
 
-    return {
-      quantity: quantityInMT,
-      unitPrice,
-      totalPrice,
-      discountPercent,
-      discountAmount,
-      estimatedShipping,
-      totalWithShipping: totalPrice + estimatedShipping,
-      leadTime,
-      paymentTerms: product.pricing.paymentTerms,
-    };
-  };
+      return {
+        quantity: quantityInMT,
+        unitPrice,
+        totalPrice,
+        discountPercent,
+        discountAmount,
+        estimatedShipping,
+        totalWithShipping: totalPrice + estimatedShipping,
+        leadTime,
+        paymentTerms: product.pricing.paymentTerms,
+      };
+    },
+    [product.pricing, selectedIncoterm]
+  );
 
   useEffect(() => {
     if (quantity > 0) {
       const calc = calculatePricing(quantity, selectedUnit);
       setCalculation(calc);
     }
-  }, [quantity, selectedUnit, selectedIncoterm, product]);
+  }, [quantity, selectedUnit, calculatePricing]);
 
   const handleQuantityChange = (value: string) => {
     const numValue = parseFloat(value);

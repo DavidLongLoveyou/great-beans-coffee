@@ -1,6 +1,13 @@
 'use client';
 
-import {  Clock, MapPin, DollarSign, Ship, Award, CreditCard  } from '@/components/ui/dynamic-icons';
+import {
+  Clock,
+  MapPin,
+  DollarSign,
+  Ship,
+  Award,
+  CreditCard,
+} from '@/components/ui/icons';
 import React, { useEffect, useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

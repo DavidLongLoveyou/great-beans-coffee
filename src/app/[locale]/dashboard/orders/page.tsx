@@ -1,6 +1,22 @@
 'use client';
 
-import {  ArrowUpDown, CheckCircle, Clock, DollarSign, Download, Eye, FileText, MoreHorizontal, Package, Plane, Plus, Search, Ship, Truck, XCircle  } from '@/components/ui/dynamic-icons';
+import {
+  ArrowUpDown,
+  CheckCircle,
+  Clock,
+  DollarSign,
+  Download,
+  Eye,
+  FileText,
+  MoreHorizontal,
+  Package,
+  Plane,
+  Plus,
+  Search,
+  Ship,
+  Truck,
+  XCircle,
+} from '@/components/ui/icons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';

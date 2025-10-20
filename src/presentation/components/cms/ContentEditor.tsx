@@ -1,6 +1,26 @@
 'use client';
 
-import {  Save, Eye, EyeOff, FileText, Image, Link, Bold, Italic, List, ListOrdered, Quote, Code, Heading1, Heading2, Heading3, Undo, Redo, Settings, AlertCircle  } from '@/components/ui/dynamic-icons';
+import {
+  Save,
+  Eye,
+  EyeOff,
+  FileText,
+  Image,
+  Link,
+  Bold,
+  Italic,
+  List,
+  ListOrdered,
+  Quote,
+  Code,
+  Heading1,
+  Heading2,
+  Heading3,
+  Undo,
+  Redo,
+  Settings,
+  AlertCircle,
+} from '@/components/ui/icons';
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 import { Button } from '@/presentation/components/ui/button';

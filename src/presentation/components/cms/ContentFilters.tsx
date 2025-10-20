@@ -1,6 +1,6 @@
 'use client';
 
-import {  CalendarIcon, FilterIcon, XIcon  } from '@/components/ui/dynamic-icons';
+import { CalendarIcon, FilterIcon, XIcon } from '@/components/ui/icons';
 import React, { useState } from 'react';
 
 import { Button } from '@/presentation/components/ui/button';

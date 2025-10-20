@@ -1,6 +1,14 @@
 'use client';
 
-import {  Search, TrendingUp, Clock, Hash, ArrowRight, Sparkles, Flame, Star  } from '@/components/ui/dynamic-icons';
+import {
+  Search,
+  TrendingUp,
+  Clock,
+  Hash,
+  ArrowRight,
+  Sparkles,
+  Flame,
+} from '@/components/ui/icons';
 import Link from 'next/link';
 
 import { Badge } from '@/presentation/components/ui/badge';

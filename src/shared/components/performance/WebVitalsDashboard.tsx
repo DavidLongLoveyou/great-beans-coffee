@@ -1,6 +1,17 @@
 'use client';
 
-import {  Activity, Clock, Zap, Eye, Gauge, TrendingUp, AlertTriangle, CheckCircle, XCircle, RefreshCw  } from '@/components/ui/dynamic-icons';
+import {
+  Activity,
+  Clock,
+  Zap,
+  Eye,
+  Gauge,
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
+  RefreshCw,
+} from '@/components/ui/icons';
 import { useState, useEffect } from 'react';
 
 import { cn } from '@/lib/utils';

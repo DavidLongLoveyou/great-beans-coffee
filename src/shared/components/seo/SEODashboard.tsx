@@ -1,6 +1,19 @@
 'use client';
 
-import {  Search, TrendingUp, AlertTriangle, CheckCircle, XCircle, Info, Download, RefreshCw, Globe, Zap, Eye, Target  } from '@/components/ui/dynamic-icons';
+import {
+  Search,
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
+  Info,
+  Download,
+  RefreshCw,
+  Globe,
+  Zap,
+  Eye,
+  Target,
+} from '@/components/ui/icons';
 import React, { useState } from 'react';
 
 import {

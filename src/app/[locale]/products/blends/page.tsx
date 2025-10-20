@@ -1,5 +1,12 @@
 import { type Metadata } from 'next';
-import {  Coffee, Palette, Target, Zap, CheckCircle, Star  } from '@/components/ui/dynamic-icons';
+import {
+  Coffee,
+  Palette,
+  Target,
+  Zap,
+  CheckCircle,
+  Star,
+} from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -77,7 +84,7 @@ export default async function BlendsPage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-6xl">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold text-forest-900 md:text-4xl">
+              <h2 className="mb-4 text-3xl font-bold text-forest-900">
                 Master Blending Expertise
               </h2>
               <p className="text-lg text-forest-600">
@@ -156,7 +163,7 @@ export default async function BlendsPage({ params }: Props) {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Star className="h-5 w-5 text-amber-500" />
+                    <Star className="h-5 w-5 text-forest-500" />
                     Espresso Supreme Blend
                   </CardTitle>
                   <p className="text-forest-600">70% Robusta + 30% Arabica</p>
@@ -400,7 +407,7 @@ export default async function BlendsPage({ params }: Props) {
                   <h3 className="mb-2 text-xl font-semibold text-forest-900">
                     Testing & Refinement
                   </h3>
-                  <p className="text-forest-600">
+                  <p className="text-forest-800">
                     You test the samples and provide feedback. We refine the
                     blend until it perfectly matches your requirements.
                   </p>
@@ -415,7 +422,7 @@ export default async function BlendsPage({ params }: Props) {
                   <h3 className="mb-2 text-xl font-semibold text-forest-900">
                     Production & Quality Control
                   </h3>
-                  <p className="text-forest-600">
+                  <p className="text-forest-800">
                     Once approved, we produce your custom blend with strict
                     quality control to ensure consistency in every batch.
                   </p>
@@ -456,7 +463,7 @@ export default async function BlendsPage({ params }: Props) {
                   <h3 className="mb-1 font-semibold text-forest-900">
                     Cost Optimization
                   </h3>
-                  <p className="text-forest-600">
+                  <p className="text-forest-800">
                     Strategic blending reduces costs while maintaining quality
                   </p>
                 </div>
@@ -468,7 +475,7 @@ export default async function BlendsPage({ params }: Props) {
                   <h3 className="mb-1 font-semibold text-forest-900">
                     Scalable Production
                   </h3>
-                  <p className="text-forest-600">
+                  <p className="text-forest-800">
                     From small batches to container loads, we scale with your
                     needs
                   </p>
@@ -511,9 +518,7 @@ export default async function BlendsPage({ params }: Props) {
                 <Link href={`/${locale}/quote`}>Start Custom Blend</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/contact`}>
-                  Speak with Expert
-                </Link>
+                <Link href={`/${locale}/contact`}>Speak with Expert</Link>
               </Button>
             </div>
           </div>

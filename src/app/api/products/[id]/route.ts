@@ -4,13 +4,13 @@ import { z } from 'zod';
 
 const prisma = new PrismaClient();
 
-// Utility function to convert undefined to null for Prisma compatibility
-function convertUndefinedToNull<T extends Record<string, any>>(obj: T): any {
-  const result: any = {};
+// Utility function to remove undefined fields for Prisma compatibility
+function removeUndefinedFields<T extends Record<string, any>>(
+  obj: T
+): Partial<T> {
+  const result: Partial<T> = {};
   for (const key in obj) {
-    if (obj[key] === undefined) {
-      result[key] = null;
-    } else {
+    if (obj[key] !== undefined) {
       result[key] = obj[key];
     }
   }
@@ -194,10 +194,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     const updatedProduct = await prisma.coffeeProduct.update({
       where: { id: resolvedParams.id },
-      data: convertUndefinedToNull({
+      data: removeUndefinedFields({
         ...validatedData,
         updatedAt: new Date(),
-      }),
+      }) as any,
       include: {
         translations: true,
         certifications: {

@@ -1,5 +1,11 @@
 import { Metadata } from 'next';
-import {  Plus, Search, ArrowLeft, BarChart3, Scale  } from '@/components/ui/dynamic-icons';
+import {
+  Plus,
+  Search,
+  ArrowLeft,
+  BarChart3,
+  Scale,
+} from '@/components/ui/icons';
 import Link from 'next/link';
 
 import {

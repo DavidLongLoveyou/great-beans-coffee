@@ -1,5 +1,14 @@
 import { type Metadata } from 'next';
-import {  Factory, Settings, Shield, Truck, CheckCircle, Star, Clock, Award  } from '@/components/ui/dynamic-icons';
+import {
+  Factory,
+  Settings,
+  Shield,
+  Truck,
+  CheckCircle,
+  Star,
+  Clock,
+  Award,
+} from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -64,9 +73,7 @@ export default async function OEMManufacturingPage({ params }: Props) {
                 <Link href={`/${locale}/quote`}>Request Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/contact`}>
-                  Discuss Requirements
-                </Link>
+                <Link href={`/${locale}/contact`}>Discuss Requirements</Link>
               </Button>
             </div>
           </div>
@@ -598,9 +605,7 @@ export default async function OEMManufacturingPage({ params }: Props) {
                 <Link href={`/${locale}/quote`}>Get OEM Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/contact`}>
-                  Schedule Consultation
-                </Link>
+                <Link href={`/${locale}/contact`}>Schedule Consultation</Link>
               </Button>
             </div>
           </div>

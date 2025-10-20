@@ -1,0 +1,146 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#f59e0b;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:0.4" />
+    </linearGradient>
+    <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#065f46;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#047857;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="plantationGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#16a34a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#15803d;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0.7" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="800" height="400" fill="url(#skyGradient)"/>
+  
+  <!-- Sun -->
+  <circle cx="150" cy="80" r="35" fill="url(#sunGradient)"/>
+  
+  <!-- Mountains in background -->
+  <polygon points="0,200 100,120 200,140 300,100 400,130 500,110 600,140 700,120 800,150 800,400 0,400" 
+           fill="url(#mountainGradient)" opacity="0.7"/>
+  
+  <!-- Rolling hills -->
+  <polygon points="0,250 150,200 300,220 450,190 600,210 800,200 800,400 0,400" 
+           fill="url(#plantationGradient)" opacity="0.8"/>
+  
+  <!-- Coffee plantation rows -->
+  <g stroke="#15803d" stroke-width="2" opacity="0.6">
+    <line x1="100" y1="220" x2="700" y2="240"/>
+    <line x1="120" y1="240" x2="720" y2="260"/>
+    <line x1="140" y1="260" x2="740" y2="280"/>
+    <line x1="160" y1="280" x2="760" y2="300"/>
+  </g>
+  
+  <!-- Coffee plants -->
+  <g transform="translate(200,240)">
+    <!-- Plant 1 -->
+    <rect x="0" y="40" width="3" height="80" fill="#8B4513"/>
+    <ellipse cx="-8" cy="30" rx="12" ry="6" fill="#16a34a" transform="rotate(-20)"/>
+    <ellipse cx="8" cy="35" rx="12" ry="6" fill="#16a34a" transform="rotate(20)"/>
+    <ellipse cx="-6" cy="50" rx="10" ry="5" fill="#16a34a" transform="rotate(-30)"/>
+    <ellipse cx="6" cy="55" rx="10" ry="5" fill="#16a34a" transform="rotate(30)"/>
+    <!-- Robusta beans (rounder) -->
+    <circle cx="-5" cy="40" r="4" fill="#8B0000"/>
+    <circle cx="5" cy="45" r="4" fill="#DC143C"/>
+    <circle cx="-3" cy="60" r="4" fill="#B22222"/>
+    <circle cx="7" cy="65" r="4" fill="#8B0000"/>
+  </g>
+  
+  <g transform="translate(300,250)">
+    <!-- Plant 2 -->
+    <rect x="0" y="35" width="3" height="75" fill="#8B4513"/>
+    <ellipse cx="-7" cy="25" rx="11" ry="5" fill="#16a34a" transform="rotate(-25)"/>
+    <ellipse cx="7" cy="30" rx="11" ry="5" fill="#16a34a" transform="rotate(25)"/>
+    <ellipse cx="-5" cy="45" rx="9" ry="4" fill="#16a34a" transform="rotate(-35)"/>
+    <ellipse cx="5" cy="50" rx="9" ry="4" fill="#16a34a" transform="rotate(35)"/>
+    <!-- Robusta beans -->
+    <circle cx="-4" cy="35" r="4" fill="#DC143C"/>
+    <circle cx="4" cy="40" r="4" fill="#8B0000"/>
+    <circle cx="-2" cy="55" r="4" fill="#B22222"/>
+  </g>
+  
+  <g transform="translate(400,245)">
+    <!-- Plant 3 -->
+    <rect x="0" y="38" width="3" height="77" fill="#8B4513"/>
+    <ellipse cx="-6" cy="28" rx="10" ry="5" fill="#16a34a" transform="rotate(-22)"/>
+    <ellipse cx="6" cy="33" rx="10" ry="5" fill="#16a34a" transform="rotate(22)"/>
+    <ellipse cx="-4" cy="48" rx="8" ry="4" fill="#16a34a" transform="rotate(-32)"/>
+    <ellipse cx="4" cy="53" rx="8" ry="4" fill="#16a34a" transform="rotate(32)"/>
+    <!-- Robusta beans -->
+    <circle cx="-3" cy="38" r="4" fill="#8B0000"/>
+    <circle cx="3" cy="43" r="4" fill="#DC143C"/>
+    <circle cx="-1" cy="58" r="4" fill="#B22222"/>
+    <circle cx="5" cy="63" r="4" fill="#8B0000"/>
+  </g>
+  
+  <!-- Traditional Vietnamese house -->
+  <g transform="translate(500,200)">
+    <!-- House base -->
+    <rect x="0" y="40" width="80" height="50" fill="#8B4513"/>
+    <!-- Roof -->
+    <polygon points="0,40 40,10 80,40" fill="#654321"/>
+    <!-- Door -->
+    <rect x="30" y="60" width="20" height="30" fill="#5D4037"/>
+    <!-- Windows -->
+    <rect x="10" y="55" width="12" height="12" fill="#FFD54F"/>
+    <rect x="58" y="55" width="12" height="12" fill="#FFD54F"/>
+  </g>
+  
+  <!-- Farmer figure -->
+  <g transform="translate(350,280)">
+    <!-- Body -->
+    <ellipse cx="0" cy="20" rx="8" ry="15" fill="#8B4513"/>
+    <!-- Head -->
+    <circle cx="0" cy="0" r="6" fill="#D2691E"/>
+    <!-- Hat -->
+    <ellipse cx="0" cy="-3" rx="10" ry="3" fill="#228B22"/>
+    <!-- Arms -->
+    <ellipse cx="-12" cy="15" rx="3" ry="8" fill="#D2691E" transform="rotate(-30)"/>
+    <ellipse cx="12" cy="15" rx="3" ry="8" fill="#D2691E" transform="rotate(30)"/>
+    <!-- Legs -->
+    <ellipse cx="-4" cy="35" rx="3" ry="10" fill="#8B4513"/>
+    <ellipse cx="4" cy="35" rx="3" ry="10" fill="#8B4513"/>
+    <!-- Coffee basket -->
+    <ellipse cx="15" cy="20" rx="6" ry="8" fill="#8B4513" stroke="#654321" stroke-width="1"/>
+  </g>
+  
+  <!-- Heritage elements -->
+  <g transform="translate(50,300)">
+    <!-- Traditional coffee drying bed -->
+    <rect x="0" y="0" width="100" height="20" fill="#D2691E" rx="2"/>
+    <!-- Coffee beans drying -->
+    <g fill="#8B0000">
+      <circle cx="10" cy="10" r="2"/>
+      <circle cx="20" cy="8" r="2"/>
+      <circle cx="30" cy="12" r="2"/>
+      <circle cx="40" cy="9" r="2"/>
+      <circle cx="50" cy="11" r="2"/>
+      <circle cx="60" cy="7" r="2"/>
+      <circle cx="70" cy="13" r="2"/>
+      <circle cx="80" cy="10" r="2"/>
+      <circle cx="90" cy="8" r="2"/>
+    </g>
+  </g>
+  
+  <!-- Title overlay -->
+  <rect x="50" y="50" width="500" height="90" fill="rgba(255,255,255,0.9)" rx="10"/>
+  <text x="300" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#065f46">
+    Dak Lak Robusta Heritage
+  </text>
+  <text x="300" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#047857">
+    Where Vietnam's Coffee Legacy Began
+  </text>
+  <text x="300" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#6b7280">
+    Central Highlands • Traditional Cultivation
+  </text>
+</svg>

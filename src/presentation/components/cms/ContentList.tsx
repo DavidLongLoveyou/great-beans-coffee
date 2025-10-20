@@ -1,7 +1,29 @@
 'use client';
 
 import Image from 'next/image';
-import {  MoreHorizontal, Edit, Eye, Trash2, Copy, Archive, Star, StarOff, Calendar, User, Globe, Search, Plus, BookOpen, TrendingUp, Coffee, Briefcase, SortAsc, SortDesc, ChevronLeft, ChevronRight  } from '@/components/ui/dynamic-icons';
+import {
+  MoreHorizontal,
+  Edit,
+  Eye,
+  Trash2,
+  Copy,
+  Archive,
+  Star,
+  StarOff,
+  Calendar,
+  User,
+  Globe,
+  Search,
+  Plus,
+  BookOpen,
+  TrendingUp,
+  Coffee,
+  Briefcase,
+  SortAsc,
+  SortDesc,
+  ChevronLeft,
+  ChevronRight,
+} from '@/components/ui/icons';
 import { useState, useMemo } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
@@ -430,6 +452,7 @@ export function ContentList({
                               className="h-full w-full object-cover"
                               width={64}
                               height={40}
+                              unoptimized={item.coverImage?.endsWith('.svg')}
                             />
                           </div>
                         )}
@@ -528,6 +551,7 @@ export function ContentList({
                       className="h-full w-full object-cover"
                       width={400}
                       height={225}
+                      unoptimized={item.coverImage?.endsWith('.svg')}
                     />
                   </div>
                 )}

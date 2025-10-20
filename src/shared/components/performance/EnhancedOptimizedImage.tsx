@@ -284,6 +284,7 @@ export function EnhancedOptimizedImage({
         priority={optimizeForLCP || Boolean(priority)}
         loading={lazy ? 'lazy' : 'eager'}
         placeholder={blurDataURL ? 'blur' : 'empty'}
+        unoptimized={optimizedUrl.endsWith('.svg')}
         {...(blurDataURL && { blurDataURL })}
         sizes={
           sizes || '(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw'

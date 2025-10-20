@@ -1,6 +1,12 @@
 'use client';
 
-import {  ExternalLink, Info, Award, CheckCircle, AlertTriangle  } from '@/components/ui/dynamic-icons';
+import {
+  ExternalLink,
+  Info,
+  Award,
+  CheckCircle,
+  AlertTriangle,
+} from '@/components/ui/icons';
 import React, { forwardRef, useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

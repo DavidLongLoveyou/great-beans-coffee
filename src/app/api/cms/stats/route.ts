@@ -5,6 +5,19 @@ import matter from 'gray-matter';
 
 import { NextRequest, NextResponse } from 'next/server';
 
+// Content metadata interface
+interface ContentMetadata {
+  title?: string;
+  description?: string;
+  status?: string;
+  author?: string;
+  featured?: boolean;
+  category?: string;
+  locale?: string;
+  slug?: string;
+  [key: string]: unknown;
+}
+
 function getContentDirectory(type: string, locale: string): string {
   const baseDir = path.join(process.cwd(), 'content');
 
@@ -131,7 +144,7 @@ async function getContentStats() {
               locale: metadata.locale || locale,
               slug: metadata.slug || file.replace('.mdx', ''),
               ...metadata,
-            } as any;
+            } as ContentMetadata;
             const fileStat = await fs.stat(filePath);
 
             const contentItem = {
@@ -181,11 +194,16 @@ async function getContentStats() {
 
             // Update by author stats
             const author = typedMetadata.author;
-            stats.byAuthor[author] = (stats.byAuthor[author] || 0) + 1;
+            if (author) {
+              stats.byAuthor[author] = (stats.byAuthor[author] || 0) + 1;
+            }
 
             // Update by category stats
             const category = typedMetadata.category;
-            stats.byCategory[category] = (stats.byCategory[category] || 0) + 1;
+            if (category) {
+              stats.byCategory[category] =
+                (stats.byCategory[category] || 0) + 1;
+            }
 
             // Update content health stats
             stats.contentHealth.totalWordCount += contentItem.stats.wordCount;
@@ -245,8 +263,8 @@ async function getContentStats() {
       id: item.id,
       type: item.type,
       locale: item.locale,
-      title: item.metadata.title,
-      status: item.metadata.status,
+      title: item.metadata.title || 'Untitled',
+      status: item.metadata.status || 'unknown',
       author: item.metadata.author || 'Unknown',
       lastModified: item.stats.lastModified,
       action: 'modified', // Could be enhanced to track actual actions

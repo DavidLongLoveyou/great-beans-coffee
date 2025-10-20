@@ -40,20 +40,20 @@ const buttonVariants = {
   forest:
     'bg-forest-500 text-white hover:bg-forest-600 active:bg-forest-700 shadow-forest focus:ring-forest-500 font-medium',
   'forest-outline':
-    'border-2 border-forest-500 text-forest-500 bg-transparent hover:bg-forest-50 active:bg-forest-100 focus:ring-forest-500',
+    'border-2 border-forest-700 text-forest-800 bg-transparent hover:bg-forest-50 active:bg-forest-100 focus:ring-forest-500',
   'forest-soft':
     'bg-forest-100 text-forest-800 hover:bg-forest-200 active:bg-forest-300 shadow-forest-soft',
 
   sage: 'bg-sage-500 text-white hover:bg-sage-600 active:bg-sage-700 shadow-sage focus:ring-sage-500 font-medium',
   'sage-outline':
-    'border-2 border-sage-500 text-sage-500 bg-transparent hover:bg-sage-50 active:bg-sage-100 focus:ring-sage-500',
+    'border-2 border-sage-700 text-sage-800 bg-transparent hover:bg-sage-50 active:bg-sage-100 focus:ring-sage-500',
   'sage-soft':
     'bg-sage-100 text-sage-800 hover:bg-sage-200 active:bg-sage-300 shadow-sage-soft',
 
   emerald:
     'bg-emerald-500 text-white hover:bg-emerald-600 active:bg-emerald-700 shadow-emerald focus:ring-emerald-500 font-medium',
   'emerald-outline':
-    'border-2 border-emerald-500 text-emerald-500 bg-transparent hover:bg-emerald-50 active:bg-emerald-100 focus:ring-emerald-500',
+    'border-2 border-emerald-700 text-emerald-800 bg-transparent hover:bg-emerald-50 active:bg-emerald-100 focus:ring-emerald-500',
   'emerald-glow':
     'bg-emerald-500 text-white hover:bg-emerald-600 active:bg-emerald-700 shadow-emerald-glow focus:ring-emerald-500 font-semibold',
 

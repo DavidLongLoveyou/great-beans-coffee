@@ -1,6 +1,13 @@
 'use client';
 
-import {  Calculator, Ship, Truck, Plane, Info, Loader2  } from '@/components/ui/dynamic-icons';
+import {
+  Calculator,
+  Ship,
+  Truck,
+  Plane,
+  Info,
+  Loader2,
+} from '@/components/ui/icons';
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';
 
@@ -682,7 +689,7 @@ export function LogisticsCostEstimator({
                   <h4 className="font-medium">{t('results.costBreakdown')}</h4>
                   {estimate.breakdown.map((item, index) => (
                     <div
-                      key={index}
+                      key={`${item.label}-${index}`}
                       className="flex items-center justify-between border-b py-2"
                     >
                       <div>

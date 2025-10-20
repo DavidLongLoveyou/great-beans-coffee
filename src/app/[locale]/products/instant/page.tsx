@@ -1,5 +1,13 @@
 import { type Metadata } from 'next';
-import {  Zap, Clock, Globe, Droplets, CheckCircle, Star, Package  } from '@/components/ui/dynamic-icons';
+import {
+  Zap,
+  Clock,
+  Globe,
+  Droplets,
+  CheckCircle,
+  Star,
+  Package,
+} from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -44,8 +52,8 @@ export default async function InstantCoffeePage({ params }: Props) {
         <div className="container">
           <div className="mx-auto max-w-4xl text-center">
             <div className="mb-6 flex justify-center">
-              <div className="rounded-full bg-amber-100 p-4">
-                <Zap className="h-12 w-12 text-amber-600" />
+              <div className="rounded-full bg-forest-100 p-4">
+                <Zap className="h-12 w-12 text-forest-600" />
               </div>
             </div>
             <h1 className="mb-6 text-4xl font-bold text-forest-900 md:text-5xl lg:text-6xl">
@@ -60,7 +68,7 @@ export default async function InstantCoffeePage({ params }: Props) {
               <Button
                 asChild
                 size="lg"
-                className="bg-amber-600 hover:bg-amber-700"
+                className="bg-forest-600 hover:bg-forest-700"
               >
                 <Link href={`/${locale}/quote`}>Request Quote</Link>
               </Button>
@@ -88,8 +96,8 @@ export default async function InstantCoffeePage({ params }: Props) {
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               <Card>
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100">
-                    <Droplets className="h-6 w-6 text-amber-600" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-forest-100">
+                    <Droplets className="h-6 w-6 text-forest-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Superior Solubility
@@ -103,8 +111,8 @@ export default async function InstantCoffeePage({ params }: Props) {
 
               <Card>
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100">
-                    <Clock className="h-6 w-6 text-amber-600" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-forest-100">
+                    <Clock className="h-6 w-6 text-forest-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Extended Shelf Life
@@ -118,8 +126,8 @@ export default async function InstantCoffeePage({ params }: Props) {
 
               <Card>
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100">
-                    <Globe className="h-6 w-6 text-amber-600" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-forest-100">
+                    <Globe className="h-6 w-6 text-forest-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Global Standards
@@ -152,7 +160,7 @@ export default async function InstantCoffeePage({ params }: Props) {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Star className="h-5 w-5 text-amber-500" />
+                    <Star className="h-5 w-5 text-forest-500" />
                     Spray-Dried Instant Coffee
                   </CardTitle>
                   <p className="text-forest-600">
@@ -340,7 +348,7 @@ export default async function InstantCoffeePage({ params }: Props) {
 
             <div className="space-y-8">
               <div className="flex gap-6">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-100 text-lg font-bold text-amber-600">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-forest-100 text-lg font-bold text-forest-600">
                   1
                 </div>
                 <div>
@@ -356,7 +364,7 @@ export default async function InstantCoffeePage({ params }: Props) {
               </div>
 
               <div className="flex gap-6">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-100 text-lg font-bold text-amber-600">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-forest-100 text-lg font-bold text-forest-600">
                   2
                 </div>
                 <div>
@@ -372,7 +380,7 @@ export default async function InstantCoffeePage({ params }: Props) {
               </div>
 
               <div className="flex gap-6">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-100 text-lg font-bold text-amber-600">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-forest-100 text-lg font-bold text-forest-600">
                   3
                 </div>
                 <div>
@@ -388,7 +396,7 @@ export default async function InstantCoffeePage({ params }: Props) {
               </div>
 
               <div className="flex gap-6">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-100 text-lg font-bold text-amber-600">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-forest-100 text-lg font-bold text-forest-600">
                   4
                 </div>
                 <div>
@@ -424,8 +432,8 @@ export default async function InstantCoffeePage({ params }: Props) {
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               <Card>
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100">
-                    <Package className="h-6 w-6 text-amber-600" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-forest-100">
+                    <Package className="h-6 w-6 text-forest-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Bulk Packaging
@@ -449,8 +457,8 @@ export default async function InstantCoffeePage({ params }: Props) {
 
               <Card>
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100">
-                    <Package className="h-6 w-6 text-amber-600" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-forest-100">
+                    <Package className="h-6 w-6 text-forest-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Retail Packaging
@@ -474,8 +482,8 @@ export default async function InstantCoffeePage({ params }: Props) {
 
               <Card>
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100">
-                    <Package className="h-6 w-6 text-amber-600" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-forest-100">
+                    <Package className="h-6 w-6 text-forest-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Custom Packaging
@@ -605,14 +613,12 @@ export default async function InstantCoffeePage({ params }: Props) {
               <Button
                 asChild
                 size="lg"
-                className="bg-amber-600 hover:bg-amber-700"
+                className="bg-forest-600 hover:bg-forest-700"
               >
                 <Link href={`/${locale}/quote`}>Get Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/contact`}>
-                  Technical Support
-                </Link>
+                <Link href={`/${locale}/contact`}>Technical Support</Link>
               </Button>
             </div>
           </div>

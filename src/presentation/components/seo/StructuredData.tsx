@@ -18,9 +18,9 @@ export function StructuredData({ data }: StructuredDataProps): ReactElement {
 
   return (
     <>
-      {jsonLd.map(item => (
+      {jsonLd.map((item, index) => (
         <script
-          key={`structured-data-${item['@type'] || 'unknown'}-${JSON.stringify(item).slice(0, 50)}`}
+          key={`structured-data-${item['@type'] || 'unknown'}-${index}-${item['@id'] || item.name || 'default'}`}
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(item, null, 2),

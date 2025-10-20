@@ -9,11 +9,11 @@ function fixSEOIssues() {
 
   function scanDirectory(dir) {
     const items = fs.readdirSync(dir);
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         scanDirectory(fullPath);
       } else if (item.endsWith('.mdx')) {
@@ -37,31 +37,37 @@ function fixSEOIssues() {
       const frontmatterMatches = content.match(/^---\n([\s\S]*?)\n---/g);
       if (frontmatterMatches && frontmatterMatches.length > 1) {
         console.log(`🔧 Fixing duplicate frontmatter in ${relativePath}`);
-        
+
         // Extract all frontmatter blocks
-        const frontmatterBlocks = frontmatterMatches.map(match => {
-          const yamlContent = match.replace(/^---\n/, '').replace(/\n---$/, '');
-          try {
-            return yaml.load(yamlContent);
-          } catch (error) {
-            console.log(`⚠️ Error parsing YAML in ${relativePath}: ${error.message}`);
-            return null;
-          }
-        }).filter(block => block !== null);
+        const frontmatterBlocks = frontmatterMatches
+          .map(match => {
+            const yamlContent = match
+              .replace(/^---\n/, '')
+              .replace(/\n---$/, '');
+            try {
+              return yaml.load(yamlContent);
+            } catch (error) {
+              console.log(
+                `⚠️ Error parsing YAML in ${relativePath}: ${error.message}`
+              );
+              return null;
+            }
+          })
+          .filter(block => block !== null);
 
         if (frontmatterBlocks.length > 1) {
           // Merge frontmatter blocks, with later blocks taking precedence
           const mergedFrontmatter = Object.assign({}, ...frontmatterBlocks);
-          
+
           // Remove all existing frontmatter
           content = content.replace(/^---\n[\s\S]*?\n---\n*/g, '');
-          
+
           // Add merged frontmatter at the beginning
           const yamlString = yaml.dump(mergedFrontmatter, {
             lineWidth: -1,
             noRefs: true,
             quotingType: '"',
-            forceQuotes: false
+            forceQuotes: false,
           });
           content = `---\n${yamlString}---\n${content}`;
           hasChanges = true;
@@ -80,7 +86,9 @@ function fixSEOIssues() {
       try {
         metadata = yaml.load(frontmatterMatch[1]);
       } catch (error) {
-        console.log(`⚠️ YAML parsing error in ${relativePath}: ${error.message}`);
+        console.log(
+          `⚠️ YAML parsing error in ${relativePath}: ${error.message}`
+        );
         return hasChanges;
       }
 
@@ -88,23 +96,29 @@ function fixSEOIssues() {
 
       // Fix 2: Add missing SEO fields
       if (!metadata.seoTitle && metadata.title) {
-        metadata.seoTitle = metadata.title.length > 60 
-          ? metadata.title.substring(0, 57) + '...'
-          : metadata.title;
+        metadata.seoTitle =
+          metadata.title.length > 60
+            ? metadata.title.substring(0, 57) + '...'
+            : metadata.title;
         metadataChanged = true;
         issues.push('Added seoTitle');
       }
 
       if (!metadata.seoDescription && metadata.description) {
-        metadata.seoDescription = metadata.description.length > 160 
-          ? metadata.description.substring(0, 157) + '...'
-          : metadata.description;
+        metadata.seoDescription =
+          metadata.description.length > 160
+            ? metadata.description.substring(0, 157) + '...'
+            : metadata.description;
         metadataChanged = true;
         issues.push('Added seoDescription');
       }
 
       // Fix 3: Add keywords if missing
-      if (!metadata.keywords || !Array.isArray(metadata.keywords) || metadata.keywords.length === 0) {
+      if (
+        !metadata.keywords ||
+        !Array.isArray(metadata.keywords) ||
+        metadata.keywords.length === 0
+      ) {
         // Generate basic keywords from title and category
         const keywords = [];
         if (metadata.title) {
@@ -121,7 +135,7 @@ function fixSEOIssues() {
         }
         // Add coffee-related keywords
         keywords.push('coffee', 'vietnam coffee');
-        
+
         metadata.keywords = [...new Set(keywords)]; // Remove duplicates
         metadataChanged = true;
         issues.push('Added keywords');
@@ -178,7 +192,9 @@ function fixSEOIssues() {
       // Fix 8: Add locale if missing
       if (!metadata.locale) {
         const pathParts = relativePath.split(path.sep);
-        const localeFromPath = pathParts.find(part => ['en', 'vi', 'de', 'ja'].includes(part));
+        const localeFromPath = pathParts.find(part =>
+          ['en', 'vi', 'de', 'ja'].includes(part)
+        );
         metadata.locale = localeFromPath || 'en';
         metadataChanged = true;
         issues.push('Added locale');
@@ -204,7 +220,7 @@ function fixSEOIssues() {
           lineWidth: -1,
           noRefs: true,
           quotingType: '"',
-          forceQuotes: false
+          forceQuotes: false,
         });
         content = `---\n${yamlString}---\n${bodyContent}`;
         hasChanges = true;
@@ -217,7 +233,6 @@ function fixSEOIssues() {
         totalIssues += issues.length;
         return true;
       }
-
     } catch (error) {
       console.log(`❌ Error processing ${relativePath}: ${error.message}`);
     }
@@ -226,7 +241,7 @@ function fixSEOIssues() {
   }
 
   scanDirectory(contentDir);
-  
+
   console.log(`\n📊 Summary:`);
   console.log(`  Files fixed: ${fixedFiles}`);
   console.log(`  Total issues resolved: ${totalIssues}`);

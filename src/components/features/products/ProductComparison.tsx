@@ -1,6 +1,22 @@
 'use client';
 
-import {  X, Plus, Coffee, MapPin, Thermometer, Award, DollarSign, Star, Eye, ShoppingCart, Heart, Download, ArrowUpDown, CheckCircle, AlertCircle  } from '@/components/ui/dynamic-icons';
+import {
+  X,
+  Plus,
+  Coffee,
+  MapPin,
+  Thermometer,
+  Award,
+  DollarSign,
+  Star,
+  Eye,
+  ShoppingCart,
+  Heart,
+  Download,
+  ArrowUpDown,
+  CheckCircle,
+  AlertCircle,
+} from '@/components/ui/icons';
 import { useState } from 'react';
 
 import { EnhancedOptimizedImage } from '@/shared/components/performance/EnhancedOptimizedImage';
@@ -250,7 +266,11 @@ export function ProductComparison({
             {arrayValue && arrayValue.length > 0 ? (
               <div className="flex flex-wrap gap-1">
                 {arrayValue.slice(0, 3).map((item, index) => (
-                  <Badge key={index} variant="secondary" className="text-xs">
+                  <Badge
+                    key={`${item}-${index}`}
+                    variant="secondary"
+                    className="text-xs"
+                  >
                     {item}
                   </Badge>
                 ))}

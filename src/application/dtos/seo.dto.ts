@@ -37,7 +37,7 @@ export interface SeoMetadataDto {
   // Structured Data
   structuredData?: Array<{
     type: string;
-    data: Record<string, any>;
+    data: Record<string, unknown>;
   }>;
 
   // Technical SEO
@@ -309,5 +309,5 @@ export interface SeoAuditDto {
   startedAt: Date;
   completedAt?: Date;
   createdBy: string;
-  configuration?: Record<string, any>;
+  configuration?: Record<string, unknown>;
 }

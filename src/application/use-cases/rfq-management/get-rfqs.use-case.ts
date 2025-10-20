@@ -76,7 +76,6 @@ export class GetRfqsUseCase {
       if (request.companyName) {
         filters.companyName = {
           contains: request.companyName,
-          mode: 'insensitive',
         };
       }
 

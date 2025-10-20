@@ -1,6 +1,12 @@
 'use client';
 
-import {  ArrowLeft, Download, MessageSquare, Edit, Share2  } from '@/components/ui/dynamic-icons';
+import {
+  ArrowLeft,
+  Download,
+  MessageSquare,
+  Edit,
+  Share2,
+} from '@/components/ui/icons';
 import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';

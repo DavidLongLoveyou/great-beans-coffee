@@ -2,7 +2,7 @@
 
 import * as SheetPrimitive from '@radix-ui/react-dialog';
 import { cva, type VariantProps } from 'class-variance-authority';
-import {  X  } from '@/components/ui/dynamic-icons';
+import { X } from '@/components/ui/icons';
 import * as React from 'react';
 
 import { cn } from '@/shared/utils/cn';

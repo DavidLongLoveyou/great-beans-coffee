@@ -1,7 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import {  MapPin, Truck, Ship, Plane, Package, AlertCircle  } from '@/components/ui/dynamic-icons';
+import {
+  MapPin,
+  Truck,
+  Ship,
+  Plane,
+  Package,
+  AlertCircle,
+} from '@/components/ui/icons';
 
 interface NetworkNode {
   id: string;

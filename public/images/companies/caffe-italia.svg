@@ -1,0 +1,19 @@
+<svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+  <defs>
+    <linearGradient id="italiaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16a34a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Italian boot shape -->
+  <path d="M15 10 Q18 10 20 12 L22 18 Q25 20 25 25 L23 30 Q20 32 18 30 L15 28 Q12 25 15 20 L15 15 Q15 10 15 10" fill="url(#italiaGradient)" />
+  
+  <!-- Company name -->
+  <text x="35" y="18" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#22c55e">
+    Caffè Italia
+  </text>
+  <text x="35" y="30" font-family="Inter, sans-serif" font-size="8" fill="#16a34a">
+    Espresso Tradizionale
+  </text>
+</svg>

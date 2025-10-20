@@ -137,3 +137,52 @@ tmp/
 temp/
 .tmp/
 .pnpm-store/
+
+# development and testing scripts (cleanup)
+fix-*.js
+fix-*.ps1
+analyze-*.js
+migrate-*.js
+optimize-*.js
+test-*.js
+validate-*.js
+create-*.js
+debug-*.js
+check-*.js
+clear-*.js
+sync-*.js
+*.backup
+*.html
+
+# backup directories
+*_backup/
+backup/
+
+# IDE and editor files
+*.swp
+*.swo
+*~
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+
+# OS generated files
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+*.tmp
+
+# Package manager files
+yarn.lock
+pnpm-lock.yaml
+.pnpm-debug.log
+
+# Environment and config backups
+*.env.backup
+*.config.backup
+next.config.simple.js
+
+# Performance and bundle analysis
+bundle-analyzer-report.html
+webpack-bundle-analyzer.json

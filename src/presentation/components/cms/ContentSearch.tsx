@@ -1,6 +1,13 @@
 'use client';
 
-import {  SearchIcon, SortAscIcon, SortDescIcon, GridIcon, ListIcon, LoaderIcon  } from '@/components/ui/dynamic-icons';
+import {
+  SearchIcon,
+  SortAscIcon,
+  SortDescIcon,
+  GridIcon,
+  ListIcon,
+  LoaderIcon,
+} from '@/components/ui/icons';
 import React, { useState } from 'react';
 
 import { Button } from '@/presentation/components/ui/button';

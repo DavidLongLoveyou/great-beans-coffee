@@ -1,6 +1,6 @@
 'use client';
 
-import {  ArrowRight, Coffee, Factory, Leaf  } from '@/components/ui/dynamic-icons';
+import { ArrowRight, Coffee, Factory, Leaf } from '@/components/ui/icons';
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
@@ -119,26 +119,35 @@ export default function ClusterNavigation({
 
   // Default grid variant
   return (
-    <div className={`grid gap-6 md:grid-cols-2 lg:grid-cols-3 ${className}`}>
+    <div
+      className={`grid gap-4 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 ${className}`}
+    >
       {clusterKeys.map((key, index) => {
         const slug = clusterSlugs[index];
         if (!slug) return null;
         const Icon = clusterIcons[slug];
 
         return (
-          <Card key={key} className="group transition-shadow hover:shadow-lg">
-            <CardHeader>
+          <Card
+            key={key}
+            className="group h-full transition-shadow hover:shadow-lg"
+          >
+            <CardHeader className="pb-3">
               {showIcons && (
                 <div className="flex items-center space-x-3">
-                  <div className="rounded-lg bg-green-50 p-2">
-                    <Icon className="h-6 w-6 text-green-600" />
+                  <div className="flex-shrink-0 rounded-lg bg-green-50 p-2">
+                    <Icon className="h-5 w-5 text-green-600 sm:h-6 sm:w-6" />
                   </div>
                 </div>
               )}
-              <CardTitle className="text-lg">{t(`${key}.title`)}</CardTitle>
-              <CardDescription>{t(`${key}.description`)}</CardDescription>
+              <CardTitle className="text-base leading-tight sm:text-lg">
+                {t(`${key}.title`)}
+              </CardTitle>
+              <CardDescription className="line-clamp-2 text-sm">
+                {t(`${key}.description`)}
+              </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <div className="space-y-3">
                 <ul className="space-y-1 text-sm text-muted-foreground">
                   {(() => {
@@ -148,18 +157,20 @@ export default function ClusterNavigation({
                       : [];
                     return benefitsArray.slice(0, 3).map(benefit => (
                       <li key={benefit} className="flex items-start">
-                        <span className="mr-2 text-green-600">•</span>
-                        {benefit}
+                        <span className="mr-2 flex-shrink-0 text-green-600">
+                          •
+                        </span>
+                        <span className="line-clamp-2">{benefit}</span>
                       </li>
                     ));
                   })()}
                 </ul>
                 <Link
                   href={`/${locale}/clusters/${slug}`}
-                  className="group inline-flex items-center font-medium text-green-600 hover:text-green-700"
+                  className="group inline-flex items-center text-sm font-medium text-green-600 hover:text-green-700"
                 >
                   {t('viewDetails')}
-                  <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="ml-1 h-4 w-4 flex-shrink-0 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </CardContent>

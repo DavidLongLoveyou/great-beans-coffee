@@ -1,7 +1,16 @@
 'use client';
 
 import { format } from 'date-fns';
-import {  Search, Filter, Calendar, SortAsc, SortDesc, RefreshCw, X, ChevronUp, ChevronDown  } from '@/components/ui/dynamic-icons';
+import {
+  Search,
+  Filter,
+  Calendar,
+  SortAsc,
+  SortDesc,
+  X,
+  ChevronUp,
+  ChevronDown,
+} from '@/components/ui/icons';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
 
@@ -200,62 +209,68 @@ export function RFQListFilters({
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
           {/* Search */}
           <div className="sm:col-span-2 lg:col-span-2">
-            <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
-              {t('filters.search.label')}
-            </label>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-3 w-3 -translate-y-1/2 text-gray-400 sm:h-4 sm:w-4" />
-              <Input
-                placeholder={t('filters.search.placeholder')}
-                value={tempFilters.search}
-                onChange={e => handleFilterChange('search', e.target.value)}
-                className="h-9 pl-9 text-sm sm:h-10 sm:pl-10"
-              />
+            <div className="flex flex-col">
+              <label className="block text-xs font-medium text-gray-700 sm:text-sm">
+                {t('filters.search.label')}
+              </label>
+              <div className="relative mt-1">
+                <Search className="absolute left-3 top-1/2 h-3 w-3 -translate-y-1/2 text-gray-400 sm:h-4 sm:w-4" />
+                <Input
+                  placeholder={t('filters.search.placeholder')}
+                  value={tempFilters.search}
+                  onChange={e => handleFilterChange('search', e.target.value)}
+                  className="h-9 pl-9 text-sm sm:h-10 sm:pl-10"
+                />
+              </div>
             </div>
           </div>
 
           {/* Status Filter */}
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
-              {t('filters.status.label')}
-            </label>
-            <Select
-              value={tempFilters.status}
-              onValueChange={value => handleFilterChange('status', value)}
-            >
-              <SelectTrigger className="h-9 text-sm sm:h-10">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {statusOptions.map(option => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="flex flex-col">
+              <label className="block text-xs font-medium text-gray-700 sm:text-sm">
+                {t('filters.status.label')}
+              </label>
+              <Select
+                value={tempFilters.status}
+                onValueChange={value => handleFilterChange('status', value)}
+              >
+                <SelectTrigger className="h-9 text-sm sm:h-10 mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {statusOptions.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {/* Priority Filter */}
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
-              {t('filters.priority.label')}
-            </label>
-            <Select
-              value={tempFilters.priority}
-              onValueChange={value => handleFilterChange('priority', value)}
-            >
-              <SelectTrigger className="h-9 text-sm sm:h-10">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {priorityOptions.map(option => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="flex flex-col">
+              <label className="block text-xs font-medium text-gray-700 sm:text-sm">
+                {t('filters.priority.label')}
+              </label>
+              <Select
+                value={tempFilters.priority}
+                onValueChange={value => handleFilterChange('priority', value)}
+              >
+                <SelectTrigger className="h-9 text-sm sm:h-10 mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {priorityOptions.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
 
@@ -336,115 +351,125 @@ export function RFQListFilters({
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
               {/* Date From */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
-                  {t('filters.advanced.submittedDateFrom')}
-                </label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="h-9 w-full justify-start text-left text-xs font-normal sm:h-10 sm:text-sm"
-                    >
-                      <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-                      {filters.dateFrom
-                        ? format(filters.dateFrom, 'PPP')
-                        : t('filters.advanced.pickDate')}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <CalendarComponent
-                      mode="single"
-                      selected={filters.dateFrom}
-                      onSelect={(date: Date | undefined) =>
-                        handleFilterChange('dateFrom', date)
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <div className="flex flex-col">
+                  <label className="block text-xs font-medium text-gray-700 sm:text-sm">
+                    {t('filters.advanced.submittedDateFrom')}
+                  </label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="h-9 w-full justify-start text-left text-xs font-normal sm:h-10 sm:text-sm mt-1"
+                      >
+                        <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                        {filters.dateFrom
+                          ? format(filters.dateFrom, 'PPP')
+                          : t('filters.advanced.pickDate')}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <CalendarComponent
+                        mode="single"
+                        selected={filters.dateFrom}
+                        onSelect={(date: Date | undefined) =>
+                          handleFilterChange('dateFrom', date)
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
 
               {/* Date To */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
-                  {t('filters.advanced.submittedDateTo')}
-                </label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="h-9 w-full justify-start text-left text-xs font-normal sm:h-10 sm:text-sm"
-                    >
-                      <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-                      {filters.dateTo
-                        ? format(filters.dateTo, 'PPP')
-                        : t('filters.advanced.pickDate')}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <CalendarComponent
-                      mode="single"
-                      selected={filters.dateTo}
-                      onSelect={(date: Date | undefined) =>
-                        handleFilterChange('dateTo', date)
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <div className="flex flex-col">
+                  <label className="block text-xs font-medium text-gray-700 sm:text-sm">
+                    {t('filters.advanced.submittedDateTo')}
+                  </label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="h-9 w-full justify-start text-left text-xs font-normal sm:h-10 sm:text-sm mt-1"
+                      >
+                        <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                        {filters.dateTo
+                          ? format(filters.dateTo, 'PPP')
+                          : t('filters.advanced.pickDate')}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <CalendarComponent
+                        mode="single"
+                        selected={filters.dateTo}
+                        onSelect={(date: Date | undefined) =>
+                          handleFilterChange('dateTo', date)
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
 
               {/* Min Value */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
-                  {t('filters.advanced.minValue')}
-                </label>
-                <Input
-                  type="number"
-                  placeholder={t('filters.advanced.minValuePlaceholder')}
-                  value={filters.minValue || ''}
-                  onChange={e =>
-                    handleFilterChange(
-                      'minValue',
-                      e.target.value ? Number(e.target.value) : undefined
-                    )
-                  }
-                  className="h-9 text-sm sm:h-10"
-                />
+                <div className="flex flex-col">
+                  <label className="block text-xs font-medium text-gray-700 sm:text-sm">
+                    {t('filters.advanced.minValue')}
+                  </label>
+                  <Input
+                    type="number"
+                    placeholder={t('filters.advanced.minValuePlaceholder')}
+                    value={filters.minValue || ''}
+                    onChange={e =>
+                      handleFilterChange(
+                        'minValue',
+                        e.target.value ? Number(e.target.value) : undefined
+                      )
+                    }
+                    className="h-9 text-sm sm:h-10 mt-1"
+                  />
+                </div>
               </div>
 
               {/* Max Value */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
-                  {t('filters.advanced.maxValue')}
-                </label>
-                <Input
-                  type="number"
-                  placeholder={t('filters.advanced.maxValuePlaceholder')}
-                  value={filters.maxValue || ''}
-                  onChange={e =>
-                    handleFilterChange(
-                      'maxValue',
-                      e.target.value ? Number(e.target.value) : undefined
-                    )
-                  }
-                  className="h-9 text-sm sm:h-10"
-                />
+                <div className="flex flex-col">
+                  <label className="block text-xs font-medium text-gray-700 sm:text-sm">
+                    {t('filters.advanced.maxValue')}
+                  </label>
+                  <Input
+                    type="number"
+                    placeholder={t('filters.advanced.maxValuePlaceholder')}
+                    value={filters.maxValue || ''}
+                    onChange={e =>
+                      handleFilterChange(
+                        'maxValue',
+                        e.target.value ? Number(e.target.value) : undefined
+                      )
+                    }
+                    className="h-9 text-sm sm:h-10 mt-1"
+                  />
+                </div>
               </div>
 
               {/* Assigned To */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-gray-700 sm:mb-2 sm:text-sm">
-                  {t('filters.advanced.assignedTo')}
-                </label>
-                <Input
-                  placeholder={t('filters.advanced.assignedToPlaceholder')}
-                  value={filters.assignedTo || ''}
-                  onChange={e =>
-                    handleFilterChange('assignedTo', e.target.value)
-                  }
-                  className="h-9 text-sm sm:h-10"
-                />
+                <div className="flex flex-col">
+                  <label className="block text-xs font-medium text-gray-700 sm:text-sm">
+                    {t('filters.advanced.assignedTo')}
+                  </label>
+                  <Input
+                    placeholder={t('filters.advanced.assignedToPlaceholder')}
+                    value={filters.assignedTo || ''}
+                    onChange={e =>
+                      handleFilterChange('assignedTo', e.target.value)
+                    }
+                    className="h-9 text-sm sm:h-10 mt-1"
+                  />
+                </div>
               </div>
             </div>
           )}

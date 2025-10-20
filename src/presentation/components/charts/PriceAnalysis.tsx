@@ -1,6 +1,15 @@
 'use client';
 
-import {  DollarSign, TrendingUp, TrendingDown, BarChart3, Calendar, AlertTriangle, Target, Activity  } from '@/components/ui/dynamic-icons';
+import {
+  DollarSign,
+  TrendingUp,
+  TrendingDown,
+  BarChart3,
+  Calendar,
+  AlertTriangle,
+  Target,
+  Activity,
+} from '@/components/ui/icons';
 import React, { useState, useMemo } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

@@ -1,4 +1,4 @@
-import {  ArrowLeft, Globe  } from '@/components/ui/dynamic-icons';
+import { ArrowLeft, Globe } from '@/components/ui/icons';
 import { type Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';

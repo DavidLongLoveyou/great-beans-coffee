@@ -2,14 +2,14 @@
 module.exports = {
   darkMode: ['class'],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
     './src/app/**/*.{ts,tsx}',
     './src/components/**/*.{ts,tsx}',
     './src/presentation/**/*.{ts,tsx}',
+    './src/shared/**/*.{ts,tsx}',
   ],
+  // Enable JIT mode for faster compilation
+  mode: 'jit',
   safelist: [
     // Ensure basic utility classes are always generated
     'flex',
@@ -196,7 +196,7 @@ module.exports = {
           'Apple Color Emoji',
           'Segoe UI Emoji',
           'Segoe UI Symbol',
-          'Noto Color Emoji'
+          'Noto Color Emoji',
         ],
         serif: [
           'var(--font-playfair)',
@@ -204,7 +204,7 @@ module.exports = {
           'Cambria',
           'Times New Roman',
           'Times',
-          'serif'
+          'serif',
         ],
         mono: [
           'var(--font-jetbrains)',
@@ -214,7 +214,7 @@ module.exports = {
           'Consolas',
           'Liberation Mono',
           'Courier New',
-          'monospace'
+          'monospace',
         ],
         display: [
           'var(--font-playfair)',
@@ -222,7 +222,7 @@ module.exports = {
           'Cambria',
           'Times New Roman',
           'Times',
-          'serif'
+          'serif',
         ], // For headings
         body: [
           'var(--font-inter)',
@@ -232,7 +232,7 @@ module.exports = {
           'Roboto',
           'Helvetica Neue',
           'Arial',
-          'sans-serif'
+          'sans-serif',
         ], // For body text
       },
 

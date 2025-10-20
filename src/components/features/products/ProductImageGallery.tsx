@@ -1,7 +1,14 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import {  ChevronLeft, ChevronRight, ZoomIn, Download, Share2, Coffee  } from '@/components/ui/dynamic-icons';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  Download,
+  Share2,
+  Coffee,
+} from '@/components/ui/icons';
 
 import { EnhancedProductImage } from '@/shared/components/performance/EnhancedOptimizedImage';
 import { Button } from '@/presentation/components/ui/button';

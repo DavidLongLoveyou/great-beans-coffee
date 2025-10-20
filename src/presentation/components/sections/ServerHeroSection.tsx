@@ -1,7 +1,14 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
-import {  Coffee, Globe, Award, ArrowRight, Play, Pause  } from '@/components/ui/dynamic-icons';
+import {
+  Coffee,
+  Globe,
+  Award,
+  ArrowRight,
+  Play,
+  Pause,
+} from '@/components/ui/icons';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 
@@ -240,7 +247,7 @@ export function ServerHeroSection({
           >
             {/* Premium Badge */}
             <motion.div
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gradient-to-r from-gold-500/20 to-coffee-500/20 px-4 py-2 backdrop-blur-sm"
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-gradient-to-r from-gold-500/20 to-forest-500/20 px-4 py-2 backdrop-blur-sm"
               variants={itemVariants}
               whileHover={{
                 scale: 1.05,
@@ -259,14 +266,14 @@ export function ServerHeroSection({
               className="mb-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl xl:text-7xl"
               variants={itemVariants}
             >
-              <span className="text-gradient-premium bg-gradient-to-r from-gold-300 via-white to-coffee-200 bg-clip-text text-transparent">
+              <span className="text-gradient-premium bg-gradient-to-r from-gold-300 via-white to-forest-200 bg-clip-text text-transparent">
                 {title}
               </span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
-              className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-forest-100 md:text-xl lg:mx-0"
+              className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed bg-gradient-to-r from-gold-200 via-gold-100 to-gold-300 bg-clip-text text-transparent md:text-xl lg:text-2xl lg:mx-0"
               variants={itemVariants}
             >
               {subtitle}
@@ -278,29 +285,15 @@ export function ServerHeroSection({
               variants={itemVariants}
             >
               <motion.div
-                className="flex items-center gap-2 rounded-lg border border-gold-400/20 bg-gradient-to-r from-gold-500/10 to-coffee-500/10 px-3 py-2 text-forest-100 backdrop-blur-sm"
+                className="flex items-center gap-2 rounded-lg border border-forest-400/20 bg-gradient-to-r from-forest-500/10 to-gold-500/10 px-3 py-2 text-forest-100 backdrop-blur-sm"
                 whileHover={{
                   scale: 1.05,
                   x: 5,
-                  backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                  backgroundColor: 'rgba(34, 139, 34, 0.1)',
                 }}
                 transition={{ type: 'spring', stiffness: 300 }}
               >
-                <Coffee className="h-5 w-5 text-gold-400" />
-                <span className="text-sm font-medium">
-                  Premium Robusta & Arabica
-                </span>
-              </motion.div>
-              <motion.div
-                className="flex items-center gap-2 rounded-lg border border-coffee-400/20 bg-gradient-to-r from-coffee-500/10 to-gold-500/10 px-3 py-2 text-forest-100 backdrop-blur-sm"
-                whileHover={{
-                  scale: 1.05,
-                  x: 5,
-                  backgroundColor: 'rgba(139, 69, 19, 0.1)',
-                }}
-                transition={{ type: 'spring', stiffness: 300 }}
-              >
-                <Globe className="h-5 w-5 text-coffee-400" />
+                <Globe className="h-5 w-5 text-forest-400" />
                 <span className="text-sm font-medium">
                   25+ Countries Served
                 </span>
@@ -348,7 +341,7 @@ export function ServerHeroSection({
                   <ServerButton
                     variant="outline"
                     size="lg"
-                    className="border-2 border-coffee-300 bg-gradient-to-r from-coffee-900/20 to-coffee-800/20 px-8 py-4 text-lg font-semibold text-coffee-100 backdrop-blur-sm transition-all duration-300 hover:border-coffee-200 hover:bg-gradient-to-r hover:from-coffee-200 hover:to-coffee-100 hover:text-coffee-900 hover:shadow-lg hover:shadow-coffee-500/25"
+                    className="border-2 border-forest-200 bg-white/90 px-8 py-4 text-lg font-semibold text-forest-900 backdrop-blur-sm transition-all duration-300 hover:border-forest-300 hover:bg-white hover:text-forest-800 hover:shadow-lg hover:shadow-forest-500/25"
                   >
                     {ctaSecondaryText}
                   </ServerButton>
@@ -416,7 +409,7 @@ export function ServerHeroSection({
                 animate="animate"
               >
                 <motion.div
-                  className="absolute inset-0 rounded-full bg-gradient-to-br from-gold-400/30 to-coffee-600/30 blur-3xl"
+                  className="absolute inset-0 rounded-full bg-gradient-to-br from-gold-400/30 to-forest-600/30 blur-3xl"
                   animate={{
                     scale: [1, 1.2, 1],
                     opacity: [0.3, 0.5, 0.3],
@@ -428,7 +421,7 @@ export function ServerHeroSection({
                   }}
                 />
                 <motion.div
-                  className="relative flex h-full w-full items-center justify-center rounded-full border border-gold-400/30 bg-gradient-to-br from-gold-500/20 to-coffee-700/20 backdrop-blur-sm"
+                  className="relative flex h-full w-full items-center justify-center rounded-full border border-gold-400/30 bg-gradient-to-br from-gold-500/20 to-forest-700/20 backdrop-blur-sm"
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: 'spring', stiffness: 300 }}
                 >
@@ -465,7 +458,7 @@ export function ServerHeroSection({
                 <Award className="h-8 w-8 text-gold-200 drop-shadow-sm" />
               </motion.div>
               <motion.div
-                className="absolute -bottom-8 -left-8 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-coffee-400/40 to-coffee-600/40 backdrop-blur-sm"
+                className="absolute -bottom-8 -left-8 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-forest-400/40 to-forest-600/40 backdrop-blur-sm"
                 animate={{
                   y: [10, -10, 10],
                   rotate: [0, -10, 10, 0],
@@ -478,15 +471,15 @@ export function ServerHeroSection({
                 }}
                 whileHover={{
                   scale: 1.2,
-                  boxShadow: '0 0 20px rgba(139, 69, 19, 0.4)',
+                  boxShadow: '0 0 20px rgba(34, 139, 34, 0.4)',
                 }}
               >
-                <Globe className="h-10 w-10 text-coffee-200 drop-shadow-sm" />
+                <Globe className="h-10 w-10 text-forest-200 drop-shadow-sm" />
               </motion.div>
 
               {/* Quality Indicators */}
               <motion.div
-                className="absolute -left-12 top-1/4 rounded-lg border border-gold-400/40 bg-gradient-to-br from-gold-900/80 to-coffee-900/80 px-4 py-2 shadow-lg backdrop-blur-sm"
+                className="absolute -left-12 top-1/4 rounded-lg border border-gold-400/40 bg-gradient-to-br from-gold-900/80 to-forest-900/80 px-4 py-2 shadow-lg backdrop-blur-sm"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1, duration: 0.6 }}
@@ -502,20 +495,20 @@ export function ServerHeroSection({
                 <div className="text-xs text-gold-200">ISO Certified</div>
               </motion.div>
               <motion.div
-                className="absolute -right-12 bottom-1/4 rounded-lg border border-coffee-400/40 bg-gradient-to-br from-coffee-900/80 to-gold-900/80 px-4 py-2 shadow-lg backdrop-blur-sm"
+                className="absolute -right-12 bottom-1/4 rounded-lg border border-forest-400/40 bg-gradient-to-br from-forest-900/80 to-gold-900/80 px-4 py-2 shadow-lg backdrop-blur-sm"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2, duration: 0.6 }}
                 whileHover={{
                   scale: 1.05,
                   x: 5,
-                  boxShadow: '0 0 15px rgba(139, 69, 19, 0.3)',
+                  boxShadow: '0 0 15px rgba(34, 139, 34, 0.3)',
                 }}
               >
-                <div className="text-sm font-semibold text-coffee-300">
+                <div className="text-sm font-semibold text-forest-300">
                   Global Export
                 </div>
-                <div className="text-xs text-coffee-200">25+ Countries</div>
+                <div className="text-xs text-forest-200">25+ Countries</div>
               </motion.div>
             </div>
           </motion.div>

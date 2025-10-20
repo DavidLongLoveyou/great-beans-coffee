@@ -1,8 +1,8 @@
-<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
   <defs>
     <linearGradient id="coffeeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#228B22;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#006400;stop-opacity:1" />
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#065f46;stop-opacity:1" />
     </linearGradient>
   </defs>
   
@@ -11,6 +11,6 @@
   <path d="M 20 8 Q 20 20 20 32" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.7"/>
   
   <!-- Company name -->
-  <text x="35" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#228B22">The Great</text>
-  <text x="35" y="30" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#228B22">Beans</text>
+  <text x="35" y="16" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#065f46">The Great</text>
+  <text x="35" y="30" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#065f46">Beans</text>
 </svg>

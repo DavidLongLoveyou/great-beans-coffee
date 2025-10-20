@@ -1,4 +1,11 @@
-import {  CalendarDays, Clock, User, Tag, ArrowLeft, TrendingUp  } from '@/components/ui/dynamic-icons';
+import {
+  CalendarDays,
+  Clock,
+  User,
+  Tag,
+  ArrowLeft,
+  TrendingUp,
+} from '@/components/ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -69,6 +76,7 @@ export default async function MarketReportPage({
                 alt={report.title}
                 fill
                 className="object-cover"
+                unoptimized={report.coverImage.endsWith('.svg')}
               />
             </div>
           )}
@@ -125,19 +133,13 @@ export default async function MarketReportPage({
             <div className="grid grid-cols-1 gap-4 rounded-lg bg-gray-50 p-4 md:grid-cols-2">
               {report.category && (
                 <div>
-                  <span className="font-semibold text-gray-700">
-                    Category:
-                  </span>
-                  <span className="ml-2 text-gray-600">
-                    {report.category}
-                  </span>
+                  <span className="font-semibold text-gray-700">Category:</span>
+                  <span className="ml-2 text-gray-600">{report.category}</span>
                 </div>
               )}
               {report.tags && report.tags.length > 0 && (
                 <div className="md:col-span-2">
-                  <span className="font-semibold text-gray-700">
-                    Tags:
-                  </span>
+                  <span className="font-semibold text-gray-700">Tags:</span>
                   <span className="ml-2 text-gray-600">
                     {report.tags.join(', ')}
                   </span>
@@ -186,7 +188,9 @@ export default async function MarketReportPage({
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Link href={`/${locale}/market-reports/${relatedReport.slug}`}>
+                  <Link
+                    href={`/${locale}/market-reports/${relatedReport.slug}`}
+                  >
                     <ServerButton
                       variant="outline"
                       size="sm"

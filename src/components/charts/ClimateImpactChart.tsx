@@ -15,7 +15,14 @@ import {
   DynamicBar as Bar,
   DynamicComposedChart as ComposedChart,
 } from '@/components/charts/DynamicCharts';
-import {  Thermometer, CloudRain, Wind, AlertTriangle, TrendingUp, TrendingDown  } from '@/components/ui/dynamic-icons';
+import {
+  Thermometer,
+  CloudRain,
+  Wind,
+  AlertTriangle,
+  TrendingUp,
+  TrendingDown,
+} from '@/components/ui/icons';
 
 interface ClimateDataPoint {
   period: string;

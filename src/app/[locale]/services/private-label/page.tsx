@@ -1,5 +1,14 @@
 import { type Metadata } from 'next';
-import {  Tag, Palette, Rocket, Users, CheckCircle, Star, Lightbulb, Target  } from '@/components/ui/dynamic-icons';
+import {
+  Tag,
+  Palette,
+  Rocket,
+  Users,
+  CheckCircle,
+  Star,
+  Lightbulb,
+  Target,
+} from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -64,9 +73,7 @@ export default async function PrivateLabelPage({ params }: Props) {
                 <Link href={`/${locale}/quote`}>Start Your Brand</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/contact`}>
-                  Brand Consultation
-                </Link>
+                <Link href={`/${locale}/contact`}>Brand Consultation</Link>
               </Button>
             </div>
           </div>
@@ -81,7 +88,7 @@ export default async function PrivateLabelPage({ params }: Props) {
               <h2 className="mb-4 text-3xl font-bold text-forest-900 md:text-4xl">
                 Complete Private Label Solutions
               </h2>
-              <p className="text-lg text-forest-600">
+              <p className="text-lg text-forest-800">
                 Everything you need to launch and grow your coffee brand
               </p>
             </div>
@@ -699,9 +706,7 @@ export default async function PrivateLabelPage({ params }: Props) {
                 <Link href={`/${locale}/quote`}>Start Your Brand</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/contact`}>
-                  Schedule Consultation
-                </Link>
+                <Link href={`/${locale}/contact`}>Schedule Consultation</Link>
               </Button>
             </div>
           </div>

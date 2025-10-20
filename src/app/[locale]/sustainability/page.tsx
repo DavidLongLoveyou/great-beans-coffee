@@ -1,5 +1,14 @@
 import { type Metadata } from 'next';
-import {  Leaf, Heart, Users, Recycle, Award, TreePine, Droplets, Sun  } from '@/components/ui/dynamic-icons';
+import {
+  Leaf,
+  Heart,
+  Users,
+  Recycle,
+  Award,
+  TreePine,
+  Droplets,
+  Sun,
+} from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -17,10 +26,8 @@ type Props = {
   params: Promise<{ locale: Locale }>;
 };
 
-export async function generateMetadata({
-  params,
-}: Props): Promise<Metadata> {
-  const { locale } = await params;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale: _locale } = await params;
   return {
     title:
       'Sustainability - Environmental & Social Responsibility - The Great Beans',
@@ -85,7 +92,7 @@ export default async function SustainabilityPage({ params }: Props) {
               <h2 className="mb-4 text-3xl font-bold text-forest-900">
                 Our Sustainability Commitment
               </h2>
-              <p className="text-lg text-forest-600">
+              <p className="text-lg text-forest-800">
                 We believe that great coffee should not come at the expense of
                 our planet or people
               </p>
@@ -321,25 +328,25 @@ export default async function SustainabilityPage({ params }: Props) {
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                      <span className="text-forest-600">
+                      <span className="text-forest-800">
                         Shade-grown coffee cultivation
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                      <span className="text-forest-600">
+                      <span className="text-forest-800">
                         Wildlife corridor preservation
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                      <span className="text-forest-600">
+                      <span className="text-forest-800">
                         Native species protection programs
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                      <span className="text-forest-600">
+                      <span className="text-forest-800">
                         1,000+ hectares of forest protected
                       </span>
                     </div>
@@ -374,7 +381,7 @@ export default async function SustainabilityPage({ params }: Props) {
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Fair Trade Practices
                   </h3>
-                  <p className="mb-4 text-forest-600">
+                  <p className="mb-4 text-forest-800">
                     Ensuring fair wages and working conditions for all farmers
                     and workers in our supply chain.
                   </p>

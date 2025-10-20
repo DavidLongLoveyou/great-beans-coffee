@@ -1,0 +1,63 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0f2fe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#b3e5fc;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="skinGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fdbcb4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f4a261;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="hairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c1810;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0e0a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="100" fill="url(#bgGradient)"/>
+  
+  <!-- Professional attire (blazer) -->
+  <path d="M60,160 Q70,150 80,155 L85,160 Q90,165 95,160 L100,155 Q105,160 110,165 L115,160 Q120,155 130,160 L140,150 Q150,160 140,170 L130,180 Q120,190 110,185 L100,180 Q90,185 80,180 L70,170 Q60,160 60,160 Z" 
+        fill="#1e40af"/>
+  
+  <!-- Shirt/blouse -->
+  <path d="M75,155 Q85,150 95,155 L100,150 Q105,155 115,150 L125,155 Q130,160 125,170 L115,175 Q105,180 100,175 Q95,180 85,175 L75,170 Q70,160 75,155 Z" 
+        fill="#ffffff"/>
+  
+  <!-- Face -->
+  <ellipse cx="100" cy="120" rx="35" ry="40" fill="url(#skinGradient)"/>
+  
+  <!-- Hair -->
+  <path d="M65,100 Q70,80 85,75 Q100,70 115,75 Q130,80 135,100 Q140,110 135,120 Q130,130 125,125 L120,120 Q115,115 110,120 L105,125 Q100,130 95,125 L90,120 Q85,115 80,120 L75,125 Q70,130 65,120 Q60,110 65,100 Z" 
+        fill="url(#hairGradient)"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="88" cy="115" rx="6" ry="4" fill="#2c1810"/>
+  <ellipse cx="112" cy="115" rx="6" ry="4" fill="#2c1810"/>
+  <ellipse cx="89" cy="114" rx="2" ry="2" fill="#ffffff"/>
+  <ellipse cx="113" cy="114" rx="2" ry="2" fill="#ffffff"/>
+  
+  <!-- Eyebrows -->
+  <path d="M82,108 Q88,106 94,108" stroke="#2c1810" stroke-width="2" fill="none"/>
+  <path d="M106,108 Q112,106 118,108" stroke="#2c1810" stroke-width="2" fill="none"/>
+  
+  <!-- Nose -->
+  <path d="M98,120 Q100,125 102,120" stroke="#e76f51" stroke-width="1" fill="none"/>
+  
+  <!-- Mouth -->
+  <path d="M95,130 Q100,135 105,130" stroke="#c44536" stroke-width="2" fill="none"/>
+  
+  <!-- Glasses (professional look) -->
+  <g stroke="#2c1810" stroke-width="2" fill="none">
+    <circle cx="88" cy="115" r="12"/>
+    <circle cx="112" cy="115" r="12"/>
+    <line x1="100" y1="115" x2="100" y2="115" stroke-width="3"/>
+    <path d="M76,115 Q72,110 70,115"/>
+    <path d="M124,115 Q128,110 130,115"/>
+  </g>
+  
+  <!-- Professional badge/pin -->
+  <circle cx="85" cy="165" r="4" fill="#fbbf24"/>
+  <text x="85" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#1e40af" font-weight="bold">S</text>
+</svg>

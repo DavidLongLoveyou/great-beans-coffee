@@ -1,7 +1,8 @@
 'use client';
 
-import {  Coffee, Mail, Phone, MapPin  } from '@/components/ui/dynamic-icons';
+import { Mail, Phone, MapPin } from '@/components/ui/icons';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 import { type Locale } from '@/i18n';
@@ -20,8 +21,14 @@ export default function Footer({ locale }: Props) {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <Coffee className="h-8 w-8 text-green-400" />
-              <span className="text-xl font-bold">The Great Beans</span>
+              <Image
+                src="/images/logo.svg"
+                alt="The Great Beans Coffee"
+                width={120}
+                height={32}
+                className="h-8 w-auto"
+                unoptimized
+              />
             </div>
             <p className="text-green-100">
               Premium Vietnamese coffee export company connecting global markets

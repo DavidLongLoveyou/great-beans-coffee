@@ -79,7 +79,7 @@ export interface UserDto {
       productUpdates: boolean;
       systemUpdates: boolean;
     };
-    dashboardLayout?: Record<string, any>;
+    dashboardLayout?: Record<string, unknown>;
     defaultCurrency: string;
     defaultLanguage: string;
     timeFormat: '12h' | '24h';
@@ -196,7 +196,7 @@ export interface UserActivityDto {
   action: string;
   resource: string;
   resourceId?: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
   ipAddress?: string;
   userAgent?: string;
   createdAt: Date;

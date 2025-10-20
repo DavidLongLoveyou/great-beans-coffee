@@ -1,16 +1,11 @@
 import { type Metadata } from 'next';
-import {  FileText, Scale, Shield, AlertTriangle, Globe, Truck  } from '@/components/ui/dynamic-icons';
+import { FileText, Scale, Shield, AlertTriangle } from '@/components/ui/icons';
 
 import Link from 'next/link';
 
 import { type Locale } from '@/i18n';
 import { Button } from '@/presentation/components/ui';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/presentation/components/ui/card';
+import { Card, CardContent } from '@/presentation/components/ui/card';
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -32,8 +27,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function TermsPage({ params }: Props) {
-  const { locale } = await params;
+export default async function TermsPage({ params: _params }: Props) {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -52,7 +46,7 @@ export default async function TermsPage({ params }: Props) {
               Legal terms and conditions governing the use of our coffee export
               services and platform.
             </p>
-            <p className="text-forest-600">Last updated: December 2024</p>
+            <p className="text-forest-800">Last updated: December 2024</p>
           </div>
         </div>
       </section>
@@ -65,7 +59,7 @@ export default async function TermsPage({ params }: Props) {
               <h2 className="mb-4 text-3xl font-bold text-forest-900">
                 Key Terms Overview
               </h2>
-              <p className="text-lg text-forest-600">
+              <p className="text-lg text-forest-800">
                 Important highlights from our terms of service
               </p>
             </div>
@@ -79,7 +73,7 @@ export default async function TermsPage({ params }: Props) {
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Fair Trading
                   </h3>
-                  <p className="text-forest-600">
+                  <p className="text-forest-800">
                     All transactions are governed by international trade laws
                     and fair business practices with transparent pricing.
                   </p>
@@ -94,7 +88,7 @@ export default async function TermsPage({ params }: Props) {
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
                     Quality Assurance
                   </h3>
-                  <p className="text-forest-600">
+                  <p className="text-forest-800">
                     We guarantee the quality of our coffee products and provide
                     comprehensive quality certifications and testing.
                   </p>
@@ -103,15 +97,15 @@ export default async function TermsPage({ params }: Props) {
 
               <Card>
                 <CardContent className="p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100">
-                    <Truck className="h-6 w-6 text-amber-600" />
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-red-100">
+                    <AlertTriangle className="h-6 w-6 text-red-600" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                    Delivery Terms
+                    Liability Limits
                   </h3>
-                  <p className="text-forest-600">
-                    Clear shipping terms, delivery schedules, and logistics
-                    responsibilities for international coffee exports.
+                  <p className="text-forest-800">
+                    Our liability is limited as outlined in these terms, with
+                    clear guidelines for dispute resolution and claims.
                   </p>
                 </CardContent>
               </Card>
@@ -120,8 +114,8 @@ export default async function TermsPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="bg-forest-50 py-20">
+      {/* Detailed Terms */}
+      <section className="py-20">
         <div className="container">
           <div className="mx-auto max-w-4xl">
             <div className="space-y-12">
@@ -130,663 +124,650 @@ export default async function TermsPage({ params }: Props) {
                 <h2 className="mb-6 text-2xl font-bold text-forest-900">
                   1. Acceptance of Terms
                 </h2>
-                <div className="space-y-4">
-                  <p className="text-forest-600">
-                    By accessing and using The Great Beans website and services,
-                    you accept and agree to be bound by the terms and provision
-                    of this agreement. If you do not agree to abide by the
-                    above, please do not use this service.
-                  </p>
-
-                  <p className="text-forest-600">
-                    These Terms of Service (&ldquo;Terms&rdquo;) govern your use
-                    of our website, services, and any related applications or
-                    platforms operated by The Great Beans Coffee Export
-                    (&ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;,
-                    or &ldquo;our&rdquo;).
-                  </p>
-
-                  <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
-                    <div className="flex items-start gap-3">
-                      <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-600" />
-                      <div>
-                        <h4 className="mb-1 font-semibold text-amber-900">
-                          Important Notice
-                        </h4>
-                        <p className="text-sm text-amber-800">
-                          By using our services, you confirm that you are
-                          authorized to enter into binding agreements on behalf
-                          of your company or organization.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <p className="text-forest-800">
+                  By accessing and using The Great Beans website and services,
+                  you accept and agree to be bound by the terms and provision of
+                  this agreement. If you do not agree to abide by the above,
+                  please do not use this service.
+                </p>
               </div>
 
-              {/* Service Description */}
+              {/* Use License */}
               <div>
                 <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  2. Service Description
+                  2. Use License
                 </h2>
-                <div className="space-y-4">
-                  <p className="text-forest-600">
-                    The Great Beans provides B2B coffee export services
-                    including but not limited to:
-                  </p>
-
-                  <div className="grid gap-6 md:grid-cols-2">
-                    <div>
-                      <h4 className="mb-3 font-semibold text-forest-900">
-                        Core Services
-                      </h4>
-                      <ul className="space-y-2 text-forest-600">
-                        <li>• Coffee sourcing and procurement</li>
-                        <li>• Quality testing and certification</li>
-                        <li>• Custom roasting and blending</li>
-                        <li>• Packaging and labeling services</li>
-                        <li>• International shipping and logistics</li>
-                      </ul>
-                    </div>
-
-                    <div>
-                      <h4 className="mb-3 font-semibold text-forest-900">
-                        Additional Services
-                      </h4>
-                      <ul className="space-y-2 text-forest-600">
-                        <li>• OEM manufacturing solutions</li>
-                        <li>• Private label development</li>
-                        <li>• Market research and consulting</li>
-                        <li>• Supply chain management</li>
-                        <li>• Documentation and compliance support</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <p className="text-forest-600">
-                    We reserve the right to modify, suspend, or discontinue any
-                    aspect of our services at any time with reasonable notice to
-                    our clients.
-                  </p>
-                </div>
-              </div>
-
-              {/* User Responsibilities */}
-              <div>
-                <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  3. User Responsibilities
-                </h2>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Account Registration
-                    </h3>
-                    <p className="mb-4 text-forest-600">
-                      When creating an account with us, you agree to:
-                    </p>
-                    <ul className="ml-6 space-y-2 text-forest-600">
-                      <li>
-                        • Provide accurate, current, and complete information
-                      </li>
-                      <li>• Maintain and update your account information</li>
-                      <li>
-                        • Keep your login credentials secure and confidential
-                      </li>
-                      <li>• Notify us immediately of any unauthorized use</li>
-                      <li>
-                        • Accept responsibility for all activities under your
-                        account
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Business Compliance
-                    </h3>
-                    <p className="mb-4 text-forest-600">
-                      As a business user, you represent and warrant that:
-                    </p>
-                    <ul className="ml-6 space-y-2 text-forest-600">
-                      <li>
-                        • You have the legal authority to enter into this
-                        agreement
-                      </li>
-                      <li>
-                        • Your business is properly licensed and registered
-                      </li>
-                      <li>
-                        • You comply with all applicable import/export
-                        regulations
-                      </li>
-                      <li>
-                        • You have necessary permits for coffee importation
-                      </li>
-                      <li>
-                        • You will provide accurate business documentation when
-                        requested
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Prohibited Uses
-                    </h3>
-                    <p className="mb-4 text-forest-600">
-                      You agree not to use our services for:
-                    </p>
-                    <ul className="ml-6 space-y-2 text-forest-600">
-                      <li>
-                        • Any unlawful purpose or in violation of applicable
-                        laws
-                      </li>
-                      <li>• Fraudulent or deceptive practices</li>
-                      <li>• Circumventing trade restrictions or sanctions</li>
-                      <li>
-                        • Interfering with the security or functionality of our
-                        platform
-                      </li>
-                      <li>
-                        • Competing directly with our business using our
-                        proprietary information
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* Orders and Payments */}
-              <div>
-                <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  4. Orders and Payments
-                </h2>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Order Process
-                    </h3>
-                    <div className="space-y-4">
-                      <p className="text-forest-600">
-                        All orders are subject to acceptance by The Great Beans.
-                        We reserve the right to refuse or cancel orders for any
-                        reason, including but not limited to:
-                      </p>
-                      <ul className="ml-6 space-y-2 text-forest-600">
-                        <li>• Product availability limitations</li>
-                        <li>• Pricing or product information errors</li>
-                        <li>• Credit verification issues</li>
-                        <li>• Compliance or regulatory concerns</li>
-                        <li>• Force majeure events affecting supply</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Pricing and Payment Terms
-                    </h3>
-                    <div className="space-y-4">
-                      <p className="text-forest-600">
-                        All prices are quoted in USD unless otherwise specified
-                        and are subject to change without notice. Payment terms
-                        include:
-                      </p>
-
-                      <div className="grid gap-4 md:grid-cols-2">
-                        <div>
-                          <h4 className="mb-2 font-semibold text-forest-900">
-                            Payment Methods
-                          </h4>
-                          <ul className="space-y-1 text-forest-600">
-                            <li>• Letter of Credit (L/C)</li>
-                            <li>• Telegraphic Transfer (T/T)</li>
-                            <li>• Documentary Collection</li>
-                            <li>• Other agreed payment methods</li>
-                          </ul>
-                        </div>
-
-                        <div>
-                          <h4 className="mb-2 font-semibold text-forest-900">
-                            Payment Schedule
-                          </h4>
-                          <ul className="space-y-1 text-forest-600">
-                            <li>• Deposit: 30% upon order confirmation</li>
-                            <li>• Balance: Before shipment or as agreed</li>
-                            <li>• Late payment fees may apply</li>
-                            <li>• Currency fluctuation adjustments</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Delivery and Risk Transfer
-                    </h3>
-                    <div className="space-y-4">
-                      <p className="text-forest-600">
-                        Delivery terms are governed by Incoterms 2020 as
-                        specified in each contract. Common terms include:
-                      </p>
-                      <ul className="ml-6 space-y-2 text-forest-600">
-                        <li>
-                          • <strong>FOB (Free on Board):</strong> Risk transfers
-                          at port of shipment
-                        </li>
-                        <li>
-                          • <strong>CIF (Cost, Insurance, Freight):</strong> We
-                          arrange shipping and insurance
-                        </li>
-                        <li>
-                          • <strong>EXW (Ex Works):</strong> Buyer arranges all
-                          transportation
-                        </li>
-                        <li>
-                          • <strong>DDP (Delivered Duty Paid):</strong> We
-                          handle all delivery costs
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quality and Warranties */}
-              <div>
-                <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  5. Quality Assurance and Warranties
-                </h2>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Quality Standards
-                    </h3>
-                    <p className="mb-4 text-forest-600">
-                      We warrant that all coffee products will:
-                    </p>
-                    <ul className="ml-6 space-y-2 text-forest-600">
-                      <li>
-                        • Meet the specifications agreed upon in the contract
-                      </li>
-                      <li>• Comply with applicable food safety standards</li>
-                      <li>
-                        • Be free from defects in materials and processing
-                      </li>
-                      <li>
-                        • Match approved samples within acceptable tolerances
-                      </li>
-                      <li>• Include proper certifications and documentation</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Quality Claims
-                    </h3>
-                    <p className="mb-4 text-forest-600">
-                      Quality claims must be:
-                    </p>
-                    <ul className="ml-6 space-y-2 text-forest-600">
-                      <li>• Reported within 30 days of delivery</li>
-                      <li>• Supported by independent laboratory analysis</li>
-                      <li>• Documented with proper evidence and samples</li>
-                      <li>• Submitted through our official claims process</li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Limitation of Warranties
-                    </h3>
-                    <p className="text-forest-600">
-                      Our warranties are limited to replacement or refund of
-                      defective products. We disclaim all other warranties,
-                      express or implied, including warranties of
-                      merchantability and fitness for a particular purpose,
-                      except as required by law.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Intellectual Property */}
-              <div>
-                <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  6. Intellectual Property
-                </h2>
-                <div className="space-y-4">
-                  <p className="text-forest-600">
-                    All content on our website and platform, including but not
-                    limited to text, graphics, logos, images, software, and data
-                    compilations, is the property of The Great Beans or its
-                    licensors and is protected by copyright, trademark, and
-                    other intellectual property laws.
-                  </p>
-
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="mb-2 font-semibold text-forest-900">
-                        Permitted Use
-                      </h4>
-                      <p className="text-forest-600">
-                        You may use our content solely for the purpose of
-                        evaluating and purchasing our coffee products and
-                        services. Any other use requires our written permission.
-                      </p>
-                    </div>
-
-                    <div>
-                      <h4 className="mb-2 font-semibold text-forest-900">
-                        Trademarks
-                      </h4>
-                      <p className="text-forest-600">
-                        &ldquo;The Great Beans&rdquo; and related marks are
-                        trademarks of our company. You may not use our
-                        trademarks without our prior written consent.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Limitation of Liability */}
-              <div>
-                <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  7. Limitation of Liability
-                </h2>
-                <div className="space-y-4">
-                  <p className="text-forest-600">
-                    To the maximum extent permitted by law, The Great Beans
-                    shall not be liable for:
-                  </p>
-
-                  <ul className="ml-6 space-y-2 text-forest-600">
+                <p className="text-forest-800">
+                  Permission is granted to temporarily download one copy of the
+                  materials on The Great Beans website for personal,
+                  non-commercial transitory viewing only. This is the grant of a
+                  license, not a transfer of title, and under this license you
+                  may not:
+                </p>
+                <div className="mt-4">
+                  <ul className="space-y-2 text-forest-800">
+                    <li>• modify or copy the materials</li>
                     <li>
-                      • Indirect, incidental, special, or consequential damages
+                      • use the materials for any commercial purpose or for any
+                      public display (commercial or non-commercial)
                     </li>
                     <li>
-                      • Loss of profits, revenue, or business opportunities
+                      • attempt to decompile or reverse engineer any software
+                      contained on the website
                     </li>
-                    <li>• Delays or failures due to force majeure events</li>
-                    <li>• Third-party actions or government regulations</li>
                     <li>
-                      • Market price fluctuations or currency exchange
-                      variations
+                      • remove any copyright or other proprietary notations from
+                      the materials
                     </li>
                   </ul>
-
-                  <p className="text-forest-600">
-                    Our total liability for any claim shall not exceed the value
-                    of the specific transaction giving rise to the claim.
-                  </p>
                 </div>
-              </div>
-
-              {/* Force Majeure */}
-              <div>
-                <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  8. Force Majeure
-                </h2>
-                <div className="space-y-4">
-                  <p className="text-forest-600">
-                    Neither party shall be liable for any failure or delay in
-                    performance under this agreement due to force majeure
-                    events, including but not limited to:
-                  </p>
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <div>
-                      <h4 className="mb-2 font-semibold text-forest-900">
-                        Natural Events
-                      </h4>
-                      <ul className="space-y-1 text-forest-600">
-                        <li>• Natural disasters and weather conditions</li>
-                        <li>• Crop failures or agricultural issues</li>
-                        <li>• Epidemics or pandemics</li>
-                        <li>• Environmental catastrophes</li>
-                      </ul>
-                    </div>
-
-                    <div>
-                      <h4 className="mb-2 font-semibold text-forest-900">
-                        Human Events
-                      </h4>
-                      <ul className="space-y-1 text-forest-600">
-                        <li>• War, terrorism, or civil unrest</li>
-                        <li>• Government actions or sanctions</li>
-                        <li>• Labor strikes or disputes</li>
-                        <li>• Transportation disruptions</li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <p className="text-forest-600">
-                    The affected party must promptly notify the other party and
-                    use reasonable efforts to minimize the impact of such
-                    events.
-                  </p>
-                </div>
-              </div>
-
-              {/* Governing Law */}
-              <div>
-                <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  9. Governing Law and Dispute Resolution
-                </h2>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Applicable Law
-                    </h3>
-                    <p className="text-forest-600">
-                      These Terms shall be governed by and construed in
-                      accordance with the laws of Vietnam, without regard to its
-                      conflict of law provisions.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="mb-3 text-xl font-semibold text-forest-900">
-                      Dispute Resolution
-                    </h3>
-                    <div className="space-y-4">
-                      <p className="text-forest-600">
-                        Any disputes arising from these Terms or our services
-                        shall be resolved through:
-                      </p>
-
-                      <ol className="ml-6 space-y-2 text-forest-600">
-                        <li>
-                          1. <strong>Negotiation:</strong> Good faith
-                          discussions between parties
-                        </li>
-                        <li>
-                          2. <strong>Mediation:</strong> Neutral third-party
-                          mediation if negotiation fails
-                        </li>
-                        <li>
-                          3. <strong>Arbitration:</strong> Binding arbitration
-                          under ICC Rules in Singapore
-                        </li>
-                      </ol>
-
-                      <p className="text-forest-600">
-                        The arbitration shall be conducted in English, and the
-                        decision shall be final and binding on both parties.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Termination */}
-              <div>
-                <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  10. Termination
-                </h2>
-                <div className="space-y-4">
-                  <p className="text-forest-600">
-                    Either party may terminate this agreement with 30 days
-                    written notice. We may terminate immediately if you:
-                  </p>
-
-                  <ul className="ml-6 space-y-2 text-forest-600">
-                    <li>• Breach any material term of this agreement</li>
-                    <li>• Fail to make payments when due</li>
-                    <li>• Engage in fraudulent or illegal activities</li>
-                    <li>• Violate applicable laws or regulations</li>
+                <div className="mt-4">
+                  <ul className="space-y-2 text-forest-800">
+                    <li>
+                      • This license shall automatically terminate if you
+                      violate any of these restrictions and may be terminated by
+                      The Great Beans at any time.
+                    </li>
+                    <li>
+                      • Upon terminating your viewing of these materials or upon
+                      the termination of this license, you must destroy any
+                      downloaded materials in your possession whether in
+                      electronic or printed format.
+                    </li>
                   </ul>
-
-                  <p className="text-forest-600">
-                    Upon termination, all outstanding obligations shall remain
-                    in effect, and you must cease using our services and return
-                    any confidential information.
-                  </p>
                 </div>
+                <p className="text-forest-800">
+                  This license shall automatically terminate if you violate any
+                  of these restrictions and may be terminated by The Great Beans
+                  at any time. Upon terminating your viewing of these materials
+                  or upon the termination of this license, you must destroy any
+                  downloaded materials in your possession whether in electronic
+                  or printed format.
+                </p>
+              </div>
+
+              {/* Disclaimer */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  3. Disclaimer
+                </h2>
+                <p className="mb-4 text-forest-800">
+                  The materials on The Great Beans website are provided on an
+                  &apos;as is&apos; basis. The Great Beans makes no warranties,
+                  expressed or implied, and hereby disclaims and negates all
+                  other warranties including without limitation, implied
+                  warranties or conditions of merchantability, fitness for a
+                  particular purpose, or non-infringement of intellectual
+                  property or other violation of rights.
+                </p>
+                <ul className="ml-6 space-y-2 text-forest-800">
+                  <li>
+                    • The Great Beans does not warrant or make any
+                    representations concerning the accuracy, likely results, or
+                    reliability of the use of the materials on its website or
+                    otherwise relating to such materials or on any sites linked
+                    to this site.
+                  </li>
+                  <li>
+                    • The materials may include technical, typographical, or
+                    photographic errors. The Great Beans does not warrant that
+                    any of the materials on its website are accurate, complete,
+                    or current.
+                  </li>
+                  <li>
+                    • The Great Beans may make changes to the materials
+                    contained on its website at any time without notice.
+                    However, The Great Beans does not make any commitment to
+                    update the materials.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Limitations */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  4. Limitations
+                </h2>
+                <p className="mb-4 text-forest-800">
+                  In no event shall The Great Beans or its suppliers be liable
+                  for any damages (including, without limitation, damages for
+                  loss of data or profit, or due to business interruption)
+                  arising out of the use or inability to use the materials on
+                  The Great Beans website, even if The Great Beans or a The
+                  Great Beans authorized representative has been notified orally
+                  or in writing of the possibility of such damage. Because some
+                  jurisdictions do not allow limitations on implied warranties,
+                  or limitations of liability for consequential or incidental
+                  damages, these limitations may not apply to you.
+                </p>
+                <ul className="ml-6 space-y-2 text-forest-800">
+                  <li>
+                    • The Great Beans total liability to you for all damages,
+                    losses, and causes of action (whether in contract, tort, or
+                    otherwise) will not exceed the amount paid by you, if any,
+                    for accessing this site.
+                  </li>
+                  <li>
+                    • The Great Beans will not be liable for any indirect,
+                    special, incidental, or consequential damages arising out of
+                    or in connection with your use of the website or services.
+                  </li>
+                  <li>
+                    • Some jurisdictions do not allow the exclusion or
+                    limitation of incidental or consequential damages, so the
+                    above limitation or exclusion may not apply to you.
+                  </li>
+                  <li>
+                    • The Great Beans reserves the right to modify these
+                    limitations at any time with or without notice.
+                  </li>
+                  <li>
+                    • If any provision of these limitations is found to be
+                    unenforceable, the remainder will remain in full force and
+                    effect.
+                  </li>
+                  <li>
+                    • These limitations will survive any termination of your
+                    account or use of the services.
+                  </li>
+                  <li>
+                    • The Great Beans liability is limited to the maximum extent
+                    permitted by applicable law.
+                  </li>
+                  <li>
+                    • You acknowledge that you have read this limitation of
+                    liability and understand its contents.
+                  </li>
+                  <li>
+                    • You agree that the limitations of liability set forth
+                    herein are reasonable and reflect a reasonable allocation of
+                    risk.
+                  </li>
+                  <li>
+                    • The limitations of liability set forth herein will apply
+                    even if The Great Beans has been advised of the possibility
+                    of such damages.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Accuracy of Materials */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  5. Accuracy of Materials
+                </h2>
+                <p className="text-forest-800">
+                  The materials appearing on The Great Beans website could
+                  include technical, typographical, or photographic errors. The
+                  Great Beans does not warrant that any of the materials on its
+                  website are accurate, complete, or current. The Great Beans
+                  may make changes to the materials contained on its website at
+                  any time without notice. However, The Great Beans does not
+                  make any commitment to update the materials.
+                </p>
+                <ul className="ml-6 space-y-2 text-forest-800">
+                  <li>
+                    • Product specifications, prices, and availability are
+                    subject to change without notice.
+                  </li>
+                  <li>
+                    • Coffee quality grades and certifications are based on
+                    industry standards and may vary.
+                  </li>
+                  <li>
+                    • Shipping information and delivery times are estimates and
+                    may be affected by external factors.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Links */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  6. Links
+                </h2>
+                <p className="text-forest-800">
+                  The Great Beans has not reviewed all of the sites linked to
+                  our website and is not responsible for the contents of any
+                  such linked site. The inclusion of any link does not imply
+                  endorsement by The Great Beans of the site. Use of any such
+                  linked website is at the user&apos;s own risk.
+                </p>
+                <div className="mt-4">
+                  <h3 className="mb-2 text-lg font-semibold text-forest-900">
+                    External Links Policy
+                  </h3>
+                  <ul className="space-y-1 text-forest-800">
+                    <li>
+                      • We are not responsible for external website content
+                    </li>
+                    <li>• External links are provided for convenience only</li>
+                    <li>
+                      • We do not endorse external website products or services
+                    </li>
+                    <li>
+                      • External websites have their own terms and privacy
+                      policies
+                    </li>
+                  </ul>
+                </div>
+                <div className="mt-4">
+                  <h3 className="mb-2 text-lg font-semibold text-forest-900">
+                    Linking to Our Site
+                  </h3>
+                  <ul className="space-y-1 text-forest-800">
+                    <li>
+                      • You may link to our homepage with prior written consent
+                    </li>
+                    <li>
+                      • Deep linking to specific pages requires permission
+                    </li>
+                    <li>• Commercial linking requires a formal agreement</li>
+                    <li>
+                      • We reserve the right to request removal of any link
+                    </li>
+                  </ul>
+                </div>
+                <p className="text-forest-800">
+                  If you would like to link to our website, please contact us
+                  for permission and guidelines.
+                </p>
               </div>
 
               {/* Modifications */}
               <div>
                 <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  11. Modifications to Terms
+                  7. Modifications
                 </h2>
-                <div className="space-y-4">
-                  <p className="text-forest-600">
-                    We reserve the right to modify these Terms at any time.
-                    Material changes will be communicated through:
-                  </p>
-
-                  <ul className="ml-6 space-y-2 text-forest-600">
-                    <li>• Email notification to registered users</li>
-                    <li>• Prominent notice on our website</li>
-                    <li>
-                      • Updated &ldquo;Last modified&rdquo; date on this page
-                    </li>
-                  </ul>
-
-                  <p className="text-forest-600">
-                    Continued use of our services after modifications
-                    constitutes acceptance of the updated Terms.
-                  </p>
-                </div>
+                <p className="text-forest-800">
+                  The Great Beans may revise these terms of service for its
+                  website at any time without notice. By using this website, you
+                  are agreeing to be bound by the then current version of these
+                  terms of service.
+                </p>
+                <ul className="ml-6 space-y-2 text-forest-800">
+                  <li>
+                    • We will notify users of significant changes via email or
+                    website notice
+                  </li>
+                  <li>
+                    • Continued use of the website constitutes acceptance of
+                    modified terms
+                  </li>
+                  <li>
+                    • Users are responsible for regularly reviewing these terms
+                  </li>
+                  <li>
+                    • If you disagree with modifications, you must discontinue
+                    use of the website
+                  </li>
+                </ul>
               </div>
 
-              {/* Miscellaneous */}
+              {/* Governing Law */}
               <div>
                 <h2 className="mb-6 text-2xl font-bold text-forest-900">
-                  12. Miscellaneous
+                  8. Governing Law
                 </h2>
-                <div className="space-y-4">
-                  <div className="grid gap-6 md:grid-cols-2">
-                    <div>
-                      <h4 className="mb-2 font-semibold text-forest-900">
-                        Severability
-                      </h4>
-                      <p className="text-forest-600">
-                        If any provision of these Terms is found to be
-                        unenforceable, the remaining provisions shall remain in
-                        full force and effect.
-                      </p>
-                    </div>
+                <p className="mb-4 text-forest-800">
+                  These terms and conditions are governed by and construed in
+                  accordance with the laws of Vietnam and you irrevocably submit
+                  to the exclusive jurisdiction of the courts in that State or
+                  location.
+                </p>
+                <ul className="ml-6 space-y-2 text-forest-800">
+                  <li>• Any disputes will be resolved in Vietnamese courts</li>
+                  <li>
+                    • Vietnamese law applies to all aspects of these terms
+                  </li>
+                  <li>
+                    • International trade disputes may be subject to arbitration
+                  </li>
+                  <li>
+                    • Force majeure events are governed by Vietnamese commercial
+                    law
+                  </li>
+                </ul>
+              </div>
 
-                    <div>
-                      <h4 className="mb-2 font-semibold text-forest-900">
-                        Entire Agreement
-                      </h4>
-                      <p className="text-forest-600">
-                        These Terms constitute the entire agreement between you
-                        and The Great Beans regarding the use of our services.
-                      </p>
-                    </div>
+              {/* Privacy Policy */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  9. Privacy Policy
+                </h2>
+                <p className="mb-4 text-forest-800">
+                  Your privacy is important to us. Our Privacy Policy explains
+                  how we collect, use, and protect your information when you use
+                  our service. By using our service, you agree to the collection
+                  and use of information in accordance with our Privacy Policy.
+                </p>
+                <ul className="ml-6 space-y-2 text-forest-800">
+                  <li>
+                    • We collect information necessary to provide our services
+                  </li>
+                  <li>
+                    • Personal data is protected according to international
+                    standards
+                  </li>
+                  <li>
+                    • We do not sell or share personal information with third
+                    parties
+                  </li>
+                  <li>
+                    • Users have rights to access, modify, and delete their data
+                  </li>
+                </ul>
+              </div>
 
-                    <div>
-                      <h4 className="mb-2 font-semibold text-forest-900">
-                        Assignment
-                      </h4>
-                      <p className="text-forest-600">
-                        You may not assign your rights under these Terms without
-                        our written consent. We may assign our rights at any
-                        time.
-                      </p>
-                    </div>
+              {/* Account Terms */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  10. Account Terms
+                </h2>
+                <p className="text-forest-800">
+                  When you create an account with us, you must provide
+                  information that is accurate, complete, and current at all
+                  times. You are responsible for safeguarding the password and
+                  for all activities that occur under your account.
+                </p>
+              </div>
 
-                    <div>
-                      <h4 className="mb-2 font-semibold text-forest-900">
-                        Waiver
-                      </h4>
-                      <p className="text-forest-600">
-                        No waiver of any term shall be deemed a further or
-                        continuing waiver of such term or any other term.
-                      </p>
-                    </div>
-                  </div>
-                </div>
+              {/* Prohibited Uses */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  11. Prohibited Uses
+                </h2>
+                <p className="text-forest-800">
+                  You may not use our service for any illegal or unauthorized
+                  purpose. You must not, in the use of the service, violate any
+                  laws in your jurisdiction.
+                </p>
+              </div>
+
+              {/* Products and Services */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  12. Products and Services
+                </h2>
+                <p className="text-forest-800">
+                  Certain products or services may be available exclusively
+                  online through the website. These products or services may
+                  have limited quantities and are subject to return or exchange
+                  only according to our Return Policy.
+                </p>
+                <ul className="ml-6 space-y-2 text-forest-800">
+                  <li>• Product availability is subject to stock levels</li>
+                  <li>• Prices are subject to change without notice</li>
+                  <li>• Quality specifications are guaranteed as described</li>
+                  <li>
+                    • Custom orders may have different terms and conditions
+                  </li>
+                </ul>
+              </div>
+
+              {/* Billing and Account Information */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  13. Billing and Account Information
+                </h2>
+                <p className="text-forest-800">
+                  We reserve the right to refuse any order you place with us. We
+                  may, in our sole discretion, limit or cancel quantities
+                  purchased per person, per household, or per order.
+                </p>
+              </div>
+
+              {/* Optional Tools */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  14. Optional Tools
+                </h2>
+                <p className="text-forest-800">
+                  We may provide you with access to third-party tools over which
+                  we neither monitor nor have any control nor input. You
+                  acknowledge and agree that we provide access to such tools
+                  &ldquo;as is&rdquo; and &ldquo;as available&rdquo; without any
+                  warranties, representations, or conditions of any kind.
+                </p>
+              </div>
+
+              {/* Third-Party Links */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  15. Third-Party Links
+                </h2>
+                <p className="text-forest-800">
+                  Certain content, products, and services available via our
+                  service may include materials from third parties. Third-party
+                  links on this site may direct you to third-party websites that
+                  are not affiliated with us.
+                </p>
+              </div>
+
+              {/* User Comments and Feedback */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  16. User Comments, Feedback and Other Submissions
+                </h2>
+                <p className="text-forest-800">
+                  If, at our request, you send certain specific submissions or,
+                  without a request from us, you send creative ideas,
+                  suggestions, proposals, plans, or other materials, whether
+                  online, by email, by postal mail, or otherwise, you agree that
+                  we may, at any time, without restriction, edit, copy, publish,
+                  distribute, translate and otherwise use in any medium any
+                  comments that you forward to us.
+                </p>
+              </div>
+
+              {/* Personal Information */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  17. Personal Information
+                </h2>
+                <p className="text-forest-800">
+                  Your submission of personal information through the store is
+                  governed by our Privacy Policy, which is incorporated into
+                  these Terms of Service by reference.
+                </p>
+              </div>
+
+              {/* Errors and Inaccuracies */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  18. Errors, Inaccuracies and Omissions
+                </h2>
+                <p className="text-forest-800">
+                  Occasionally there may be information on our site or in the
+                  service that contains typographical errors, inaccuracies, or
+                  omissions that may relate to product descriptions, pricing,
+                  promotions, offers, product shipping charges, transit times,
+                  and availability.
+                </p>
+              </div>
+
+              {/* Prohibited Uses Detail */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  19. Prohibited Uses (Detailed)
+                </h2>
+                <p className="text-forest-800">
+                  In addition to other prohibitions as set forth in the Terms of
+                  Service, you are prohibited from using the site or its content
+                  for the following purposes:
+                </p>
+                <ol className="ml-6 space-y-2 text-forest-800">
+                  <li>
+                    1. For any unlawful purpose or to solicit others to perform
+                    unlawful acts
+                  </li>
+                  <li>
+                    2. To violate any international, federal, provincial, or
+                    state regulations, rules, laws, or local ordinances
+                  </li>
+                  <li>
+                    3. To infringe upon or violate our intellectual property
+                    rights or the intellectual property rights of others
+                  </li>
+                  <li>
+                    4. To harass, abuse, insult, harm, defame, slander,
+                    disparage, intimidate, or discriminate
+                  </li>
+                  <li>5. To submit false or misleading information</li>
+                </ol>
+              </div>
+
+              {/* Disclaimer of Warranties */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  20. Disclaimer of Warranties; Limitation of Liability
+                </h2>
+                <p className="text-forest-800">
+                  We do not guarantee, represent, or warrant that your use of
+                  our service will be uninterrupted, timely, secure, or
+                  error-free. We do not warrant that the results that may be
+                  obtained from the use of the service will be accurate or
+                  reliable.
+                </p>
+                <ul className="ml-6 space-y-2 text-forest-800">
+                  <li>
+                    • The service is provided on an &ldquo;as is&rdquo; and
+                    &ldquo;as available&rdquo; basis
+                  </li>
+                  <li>• We disclaim all warranties, express or implied</li>
+                  <li>
+                    • We are not liable for any interruptions or technical
+                    issues
+                  </li>
+                </ul>
+                <p className="text-forest-800">
+                  You agree that from time to time we may remove the service for
+                  indefinite periods of time or cancel the service at any time,
+                  without notice to you.
+                </p>
+              </div>
+
+              {/* Indemnification */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  21. Indemnification
+                </h2>
+                <p className="text-forest-800">
+                  You agree to indemnify, defend, and hold harmless The Great
+                  Beans and our parent, subsidiaries, affiliates, partners,
+                  officers, directors, agents, contractors, licensors, service
+                  providers, subcontractors, suppliers, interns, and employees,
+                  harmless from any claim or demand, including reasonable
+                  attorneys&apos; fees, made by any third party due to or
+                  arising out of your breach of these Terms of Service or the
+                  documents they incorporate by reference, or your violation of
+                  any law or the rights of a third party.
+                </p>
+                <ul className="ml-6 space-y-2 text-forest-800">
+                  <li>
+                    • You are responsible for your actions and their
+                    consequences
+                  </li>
+                  <li>
+                    • Legal costs may be recovered from users who breach terms
+                  </li>
+                  <li>
+                    • This indemnification survives termination of your account
+                  </li>
+                </ul>
+              </div>
+
+              {/* Severability */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  22. Severability
+                </h2>
+                <p className="text-forest-800">
+                  In the event that any provision of these Terms of Service is
+                  determined to be unlawful, void, or unenforceable, such
+                  provision shall nonetheless be enforceable to the fullest
+                  extent permitted by applicable law, and the unenforceable
+                  portion shall be deemed to be severed from these Terms of
+                  Service.
+                </p>
+              </div>
+
+              {/* Termination */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  23. Termination
+                </h2>
+                <p className="text-forest-800">
+                  The obligations and liabilities of the parties incurred prior
+                  to the termination date shall survive the termination of this
+                  agreement for all purposes. These Terms of Service are
+                  effective unless and until terminated by either you or us.
+                </p>
+              </div>
+
+              {/* Entire Agreement */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  24. Entire Agreement
+                </h2>
+                <p className="text-forest-800">
+                  The failure of us to exercise or enforce any right or
+                  provision of these Terms of Service shall not constitute a
+                  waiver of such right or provision. These Terms of Service and
+                  any policies or operating rules posted by us on this site or
+                  in respect to the service constitutes the entire agreement and
+                  understanding between you and us.
+                </p>
+              </div>
+
+              {/* Changes to Terms */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  25. Changes to Terms of Service
+                </h2>
+                <p className="text-forest-800">
+                  You can review the most current version of the Terms of
+                  Service at any time at this page. We reserve the right, at our
+                  sole discretion, to update, change, or replace any part of
+                  these Terms of Service by posting updates and changes to our
+                  website.
+                </p>
+              </div>
+
+              {/* Contact Information */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-forest-900">
+                  26. Contact Information
+                </h2>
+                <p className="text-forest-800">
+                  Questions about the Terms of Service should be sent to us at
+                  legal@thegreatbeans.com or through our contact page.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Information */}
-      <section className="py-20">
+      {/* Contact Section */}
+      <section className="bg-slate-50 py-20">
         <div className="container">
-          <div className="mx-auto max-w-4xl">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3">
-                  <Globe className="h-6 w-6 text-blue-600" />
-                  Legal and Contract Inquiries
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-forest-600">
-                  For questions about these Terms of Service, contract
-                  negotiations, or legal matters, please contact our legal
-                  department:
-                </p>
-
-                <div className="grid gap-6 md:grid-cols-2">
-                  <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">
-                      Legal Department
-                    </h4>
-                    <p className="text-forest-600">
-                      Email: legal@thegreatbeans.com
-                      <br />
-                      Phone: +84 (0) 123 456 789
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="mb-2 font-semibold text-forest-900">
-                      Business Address
-                    </h4>
-                    <p className="text-forest-600">
-                      The Great Beans Coffee Export
-                      <br />
-                      Legal Department
-                      <br />
-                      Ho Chi Minh City, Vietnam
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 pt-4">
-                  <Button asChild>
-                    <Link href={`/${locale}/contact`}>
-                      Contact Legal Team
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline">
-                    <Link href={`/${locale}/privacy`}>
-                      View Privacy Policy
-                    </Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="mb-6 text-3xl font-bold text-forest-900">
+              Questions About Our Terms?
+            </h2>
+            <p className="mb-8 text-lg text-forest-800">
+              Our legal team is here to help clarify any questions you may have
+              about our terms of service.
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+              <Button asChild size="lg">
+                <Link href="/contact">Contact Legal Team</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link href="/privacy">Privacy Policy</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

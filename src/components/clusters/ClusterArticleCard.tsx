@@ -1,6 +1,6 @@
 'use client';
 
-import {  Calendar, Clock, ArrowRight, Tag  } from '@/components/ui/dynamic-icons';
+import { Calendar, Clock, ArrowRight, Tag } from '@/components/ui/icons';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -56,16 +56,19 @@ export function ClusterArticleCard({
           src={article.image}
           alt={article.title}
           fill
+          loading="lazy"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-300 hover:scale-105"
+          unoptimized={article.image.endsWith('.svg')}
         />
         {article.isFeatured && (
-          <Badge className="absolute left-3 top-3 bg-coffee-600 text-white">
+          <Badge className="absolute left-1 top-1 bg-gradient-to-r from-gold-500 to-gold-600 text-forest-900 font-semibold shadow-lg border-0">
             Featured
           </Badge>
         )}
         <Badge
           variant="secondary"
-          className="absolute right-3 top-3 bg-white/90 text-coffee-800"
+          className="absolute right-1 top-1 bg-gradient-to-r from-forest-600 to-forest-700 text-white font-semibold shadow-lg border-0"
         >
           {article.category}
         </Badge>
@@ -132,7 +135,10 @@ export function ClusterArticleCard({
 
       <CardContent className="pt-0">
         <Link href={article.url} className="block">
-          <Button variant="ghost" size="sm" className="group w-full sm:w-auto">
+          <Button 
+            size="sm" 
+            className="group w-full sm:w-auto bg-gradient-to-r from-gold-500 to-gold-600 text-forest-900 font-semibold shadow-md hover:from-gold-400 hover:to-gold-500 hover:shadow-lg transition-all duration-300 border-0"
+          >
             Read Article
             <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
           </Button>

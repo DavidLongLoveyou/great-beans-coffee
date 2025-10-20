@@ -1,5 +1,5 @@
 import { type Metadata } from 'next';
-import {  Shield, Eye, Lock, Users, Mail  } from '@/components/ui/dynamic-icons';
+import { Shield, Eye, Lock, Users, Mail } from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -576,9 +576,7 @@ export default async function PrivacyPage({ params }: Props) {
                     </Link>
                   </Button>
                   <Button asChild variant="outline">
-                    <Link href={`/${locale}/terms`}>
-                      View Terms of Service
-                    </Link>
+                    <Link href={`/${locale}/terms`}>View Terms of Service</Link>
                   </Button>
                 </div>
               </CardContent>

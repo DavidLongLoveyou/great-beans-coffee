@@ -1,6 +1,20 @@
 'use client';
 
-import {  Edit, Plus, Trash2, Save, X, Shield, Eye, Key, Download, Camera, User, Crown, UserCheck  } from '@/components/ui/dynamic-icons';
+import {
+  Edit,
+  Plus,
+  Trash2,
+  Save,
+  X,
+  Shield,
+  Eye,
+  Key,
+  Download,
+  Camera,
+  User,
+  Crown,
+  UserCheck,
+} from '@/components/ui/icons';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 

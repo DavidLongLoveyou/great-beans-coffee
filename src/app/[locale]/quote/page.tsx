@@ -1,6 +1,15 @@
 'use client';
 
-import {  Coffee, Building2, Package, CreditCard, FileText, ChevronLeft, ChevronRight, CheckCircle  } from '@/components/ui/dynamic-icons';
+import {
+  Coffee,
+  Building2,
+  Package,
+  CreditCard,
+  FileText,
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle,
+} from '@/components/ui/icons';
 import React, { use } from 'react';
 
 import { LogisticsCostEstimator } from '@/components/ui/LogisticsCostEstimator';
@@ -186,7 +195,11 @@ export default function QuotePage({
         // Recurring Order
         isRecurringOrder: formData.isRecurringOrder,
         recurringFrequency: formData.isRecurringOrder
-          ? (formData.recurringFrequency as any)
+          ? (formData.recurringFrequency as
+              | 'MONTHLY'
+              | 'QUARTERLY'
+              | 'SEMI_ANNUAL'
+              | 'ANNUAL')
           : undefined,
 
         // Payment Terms
@@ -226,7 +239,7 @@ export default function QuotePage({
         <div className="container mx-auto max-w-2xl px-4">
           <Card className="text-center shadow-forest">
             <CardContent className="pb-16 pt-16">
-              <CheckCircle className="mx-auto mb-6 h-16 w-16 text-forest-600" />
+              <CheckCircle className="mx-auto mb-6 h-16 w-16 text-forest-800" />
               <h1 className="mb-4 text-3xl font-bold text-gray-900">
                 Quote Request Submitted Successfully!
               </h1>
@@ -236,7 +249,7 @@ export default function QuotePage({
                 hours.
               </p>
               <div className="mb-6 rounded-lg border border-forest-200 bg-forest-50 p-4">
-                <p className="text-sm text-forest-600">Reference Number</p>
+                <p className="text-sm text-forest-800">Reference Number</p>
                 <p className="font-mono text-xl font-bold text-forest-800">
                   {rfqNumber || fallbackRfqNumber}
                 </p>

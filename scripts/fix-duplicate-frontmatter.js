@@ -9,11 +9,11 @@ function fixDuplicateFrontmatter() {
 
   function scanDirectory(dir) {
     const items = fs.readdirSync(dir);
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item);
       const stat = fs.statSync(fullPath);
-      
+
       if (stat.isDirectory()) {
         scanDirectory(fullPath);
       } else if (item.endsWith('.mdx')) {
@@ -36,13 +36,13 @@ function fixDuplicateFrontmatter() {
       const frontmatterRegex = /---\n([\s\S]*?)\n---/g;
       const matches = [];
       let match;
-      
+
       while ((match = frontmatterRegex.exec(content)) !== null) {
         matches.push({
           fullMatch: match[0],
           yamlContent: match[1],
           startIndex: match.index,
-          endIndex: match.index + match[0].length
+          endIndex: match.index + match[0].length,
         });
       }
 
@@ -50,7 +50,9 @@ function fixDuplicateFrontmatter() {
         return false; // No duplicate frontmatter
       }
 
-      console.log(`🔧 Fixing duplicate frontmatter in ${relativePath} (${matches.length} blocks found)`);
+      console.log(
+        `🔧 Fixing duplicate frontmatter in ${relativePath} (${matches.length} blocks found)`
+      );
 
       // Parse all YAML blocks
       const parsedBlocks = [];
@@ -61,7 +63,9 @@ function fixDuplicateFrontmatter() {
             parsedBlocks.push(parsed);
           }
         } catch (error) {
-          console.log(`⚠️ Error parsing YAML block ${i + 1} in ${relativePath}: ${error.message}`);
+          console.log(
+            `⚠️ Error parsing YAML block ${i + 1} in ${relativePath}: ${error.message}`
+          );
         }
       }
 
@@ -78,13 +82,14 @@ function fixDuplicateFrontmatter() {
 
       // Remove all existing frontmatter blocks
       let cleanContent = content;
-      
+
       // Sort matches by start index in descending order to remove from end to beginning
       matches.sort((a, b) => b.startIndex - a.startIndex);
-      
+
       for (const match of matches) {
-        cleanContent = cleanContent.substring(0, match.startIndex) + 
-                     cleanContent.substring(match.endIndex);
+        cleanContent =
+          cleanContent.substring(0, match.startIndex) +
+          cleanContent.substring(match.endIndex);
       }
 
       // Remove any leading whitespace/newlines
@@ -96,7 +101,7 @@ function fixDuplicateFrontmatter() {
         noRefs: true,
         quotingType: '"',
         forceQuotes: false,
-        sortKeys: false
+        sortKeys: false,
       });
 
       // Reconstruct the file
@@ -105,9 +110,8 @@ function fixDuplicateFrontmatter() {
       // Write the fixed content
       fs.writeFileSync(filePath, newContent, 'utf8');
       console.log(`✅ Fixed ${relativePath}`);
-      
-      return true;
 
+      return true;
     } catch (error) {
       console.log(`❌ Error processing ${relativePath}: ${error.message}`);
       return false;
@@ -115,7 +119,7 @@ function fixDuplicateFrontmatter() {
   }
 
   scanDirectory(contentDir);
-  
+
   console.log(`\n📊 Summary:`);
   console.log(`  Total files checked: ${totalFiles}`);
   console.log(`  Files with duplicate frontmatter fixed: ${fixedFiles}`);

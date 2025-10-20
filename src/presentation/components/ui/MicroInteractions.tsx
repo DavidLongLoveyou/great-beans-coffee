@@ -288,6 +288,9 @@ export function AnimatedCard({
 // Floating Animation for Decorative Elements
 interface FloatingElementProps extends HTMLMotionProps<'div'> {
   children: ReactNode;
+  amplitude?: number;
+  frequency?: number;
+  delay?: number;
   duration?: number;
   yOffset?: number;
   className?: string;
@@ -295,19 +298,28 @@ interface FloatingElementProps extends HTMLMotionProps<'div'> {
 
 export function FloatingElement({
   children,
-  duration = 3,
-  yOffset = 10,
+  amplitude = 10,
+  frequency = 3,
+  delay = 0,
+  duration,
+  yOffset,
   className,
   ...props
 }: FloatingElementProps) {
+  // Use amplitude if provided, otherwise fall back to yOffset for backward compatibility
+  const floatDistance = amplitude || yOffset || 10;
+  // Calculate duration from frequency if provided, otherwise use duration or default
+  const animationDuration = duration || (frequency ? (1 / frequency) * 6 : 3);
+
   return (
     <motion.div
       animate={{
-        y: [-yOffset, yOffset, -yOffset],
+        y: [-floatDistance, floatDistance, -floatDistance],
         transition: {
-          duration,
+          duration: animationDuration,
           repeat: Infinity,
           ease: [0.42, 0, 0.58, 1],
+          delay,
         },
       }}
       className={className}
@@ -511,6 +523,56 @@ export function PageTransition({ children, className }: PageTransitionProps) {
         ease: 'easeOut',
       }}
       className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Magnetic Hover Effect
+interface MagneticHoverProps extends HTMLMotionProps<'div'> {
+  children: ReactNode;
+  strength?: number;
+  className?: string;
+}
+
+export function MagneticHover({
+  children,
+  strength = 0.2,
+  className,
+  ...props
+}: MagneticHoverProps) {
+  const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const deltaX = (e.clientX - centerX) * strength;
+    const deltaY = (e.clientY - centerY) * strength;
+    setMousePosition({ x: deltaX, y: deltaY });
+  };
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setMousePosition({ x: 0, y: 0 });
+      }}
+      animate={{
+        x: isHovered ? mousePosition.x : 0,
+        y: isHovered ? mousePosition.y : 0,
+      }}
+      transition={{
+        type: 'spring',
+        stiffness: 300,
+        damping: 30,
+      }}
+      className={className}
+      {...props}
     >
       {children}
     </motion.div>

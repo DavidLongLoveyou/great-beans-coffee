@@ -1,6 +1,6 @@
 'use client';
 
-import {  Download, FileText, Loader2  } from '@/components/ui/dynamic-icons';
+import { Download, FileText, Loader2 } from '@/components/ui/icons';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 

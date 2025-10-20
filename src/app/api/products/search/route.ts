@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 const prisma = new PrismaClient();
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     // Build where clause
-    const where: any = {
+    const where: Prisma.CoffeeProductWhereInput = {
       isActive: true,
     };
 
@@ -89,25 +89,21 @@ export async function POST(request: NextRequest) {
         {
           sku: {
             contains: q,
-            mode: 'insensitive',
           },
         },
         {
           origin: {
             contains: q,
-            mode: 'insensitive',
           },
         },
         {
           region: {
             contains: q,
-            mode: 'insensitive',
           },
         },
         {
           farm: {
             contains: q,
-            mode: 'insensitive',
           },
         },
         {
@@ -118,19 +114,16 @@ export async function POST(request: NextRequest) {
                 {
                   name: {
                     contains: q,
-                    mode: 'insensitive',
                   },
                 },
                 {
                   description: {
                     contains: q,
-                    mode: 'insensitive',
                   },
                 },
                 {
-                  flavorProfile: {
+                  tastingNotes: {
                     contains: q,
-                    mode: 'insensitive',
                   },
                 },
               ],
@@ -211,7 +204,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Build orderBy clause
-    let orderBy: any = {};
+    let orderBy: Prisma.CoffeeProductOrderByWithRelationInput = {};
     switch (sortBy) {
       case 'name':
         orderBy = {

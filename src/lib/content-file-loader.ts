@@ -34,20 +34,21 @@ class FileContentLoader {
     locale: Locale
   ): Promise<ContentItem[]> {
     const cacheKey = this.getCacheKey(contentType, locale);
-    
+
     if (this.contentCache.has(cacheKey)) {
       return this.contentCache.get(cacheKey);
     }
 
     try {
       const contentTypeDir = path.join(this.contentDir, contentType);
-      
+
       if (!fs.existsSync(contentTypeDir)) {
         console.warn(`Content directory not found: ${contentTypeDir}`);
         return [];
       }
 
-      const files = fs.readdirSync(contentTypeDir)
+      const files = fs
+        .readdirSync(contentTypeDir)
         .filter(file => file.endsWith('.mdx') || file.endsWith('.md'));
 
       const content: ContentItem[] = [];
@@ -72,7 +73,8 @@ class FileContentLoader {
             title: data.title || slug,
             description: data.description || '',
             excerpt: data.excerpt,
-            publishedAt: data.publishedAt || data.date || new Date().toISOString(),
+            publishedAt:
+              data.publishedAt || data.date || new Date().toISOString(),
             updatedAt: data.updatedAt,
             locale: data.locale || locale,
             featured: data.featured || false,
@@ -80,7 +82,8 @@ class FileContentLoader {
             tags: data.tags || [],
             coverImage: data.coverImage,
             author: data.author,
-            readingTime: data.readingTime || this.calculateReadingTime(mdxContent),
+            readingTime:
+              data.readingTime || this.calculateReadingTime(mdxContent),
             content: mdxContent,
           };
 
@@ -91,12 +94,18 @@ class FileContentLoader {
       }
 
       // Sort by publishedAt (newest first)
-      content.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+      content.sort(
+        (a, b) =>
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+      );
 
       this.contentCache.set(cacheKey, content);
       return content;
     } catch (error) {
-      console.error(`Error loading ${contentType} content for ${locale}:`, error);
+      console.error(
+        `Error loading ${contentType} content for ${locale}:`,
+        error
+      );
       return [];
     }
   }
@@ -112,12 +121,18 @@ class FileContentLoader {
     return this.loadContentFromFiles('blog', locale);
   }
 
-  static async getFeaturedBlogPosts(locale: Locale, limit = 3): Promise<ContentItem[]> {
+  static async getFeaturedBlogPosts(
+    locale: Locale,
+    limit = 3
+  ): Promise<ContentItem[]> {
     const posts = await this.getBlogPosts(locale);
     return posts.filter(post => post.featured).slice(0, limit);
   }
 
-  static async getBlogPostBySlug(slug: string, locale: Locale): Promise<ContentItem | undefined> {
+  static async getBlogPostBySlug(
+    slug: string,
+    locale: Locale
+  ): Promise<ContentItem | undefined> {
     const posts = await this.getBlogPosts(locale);
     return posts.find(post => post.slug === slug);
   }
@@ -138,12 +153,18 @@ class FileContentLoader {
     return this.loadContentFromFiles('market-reports', locale);
   }
 
-  static async getFeaturedMarketReports(locale: Locale, limit = 3): Promise<ContentItem[]> {
+  static async getFeaturedMarketReports(
+    locale: Locale,
+    limit = 3
+  ): Promise<ContentItem[]> {
     const reports = await this.getMarketReports(locale);
     return reports.filter(report => report.featured).slice(0, limit);
   }
 
-  static async getMarketReportBySlug(slug: string, locale: Locale): Promise<ContentItem | undefined> {
+  static async getMarketReportBySlug(
+    slug: string,
+    locale: Locale
+  ): Promise<ContentItem | undefined> {
     const reports = await this.getMarketReports(locale);
     return reports.find(report => report.slug === slug);
   }
@@ -158,7 +179,10 @@ class FileContentLoader {
     return pages.filter(page => page.featured);
   }
 
-  static async getServicePageBySlug(slug: string, locale: Locale): Promise<ContentItem | undefined> {
+  static async getServicePageBySlug(
+    slug: string,
+    locale: Locale
+  ): Promise<ContentItem | undefined> {
     const pages = await this.getServicePages(locale);
     return pages.find(page => page.slug === slug);
   }
@@ -168,12 +192,18 @@ class FileContentLoader {
     return this.loadContentFromFiles('origin-stories', locale);
   }
 
-  static async getFeaturedOriginStories(locale: Locale, limit = 3): Promise<ContentItem[]> {
+  static async getFeaturedOriginStories(
+    locale: Locale,
+    limit = 3
+  ): Promise<ContentItem[]> {
     const stories = await this.getOriginStories(locale);
     return stories.filter(story => story.featured).slice(0, limit);
   }
 
-  static async getOriginStoryBySlug(slug: string, locale: Locale): Promise<ContentItem | undefined> {
+  static async getOriginStoryBySlug(
+    slug: string,
+    locale: Locale
+  ): Promise<ContentItem | undefined> {
     const stories = await this.getOriginStories(locale);
     return stories.find(story => story.slug === slug);
   }
@@ -183,19 +213,23 @@ class FileContentLoader {
     return this.loadContentFromFiles('legal', locale);
   }
 
-  static async getLegalPageBySlug(slug: string, locale: Locale): Promise<ContentItem | undefined> {
+  static async getLegalPageBySlug(
+    slug: string,
+    locale: Locale
+  ): Promise<ContentItem | undefined> {
     const pages = await this.getLegalPages(locale);
     return pages.find(page => page.slug === slug);
   }
 
   // Search functionality
   static async searchContent(locale: Locale, query: string): Promise<any[]> {
-    const [blogPosts, marketReports, servicePages, originStories] = await Promise.all([
-      this.getBlogPosts(locale),
-      this.getMarketReports(locale),
-      this.getServicePages(locale),
-      this.getOriginStories(locale),
-    ]);
+    const [blogPosts, marketReports, servicePages, originStories] =
+      await Promise.all([
+        this.getBlogPosts(locale),
+        this.getMarketReports(locale),
+        this.getServicePages(locale),
+        this.getOriginStories(locale),
+      ]);
 
     const searchTerm = query.toLowerCase();
     const results: any[] = [];
@@ -207,7 +241,8 @@ class FileContentLoader {
         post.description.toLowerCase().includes(searchTerm) ||
         (post.excerpt && post.excerpt.toLowerCase().includes(searchTerm)) ||
         (post.category && post.category.toLowerCase().includes(searchTerm)) ||
-        (post.tags && post.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
+        (post.tags &&
+          post.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
       ) {
         results.push({
           id: post._id,

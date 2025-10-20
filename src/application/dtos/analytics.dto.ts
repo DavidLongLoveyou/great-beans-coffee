@@ -12,7 +12,7 @@ export interface AnalyticsEventDto {
     | 'PERFORMANCE';
 
   // Event Data
-  properties: Record<string, any>;
+  properties: Record<string, unknown>;
 
   // User Context
   userId?: string;
@@ -52,7 +52,7 @@ export interface AnalyticsEventDto {
 export interface CreateAnalyticsEventDto {
   eventName: string;
   eventCategory: AnalyticsEventDto['eventCategory'];
-  properties: Record<string, any>;
+  properties: Record<string, unknown>;
   userId?: string;
   sessionId: string;
   anonymousId?: string;
@@ -102,7 +102,7 @@ export interface AnalyticsDashboardDto {
     configuration: {
       metrics: string[];
       dimensions?: string[];
-      filters?: Record<string, any>;
+      filters?: Record<string, unknown>;
       timeRange: {
         type: 'RELATIVE' | 'ABSOLUTE';
         value: string | { start: Date; end: Date };
@@ -160,7 +160,7 @@ export interface AnalyticsReportDto {
       | 'LESS_THAN'
       | 'IN'
       | 'NOT_IN';
-    value: any;
+    value: unknown;
   }>;
 
   timeRange: {
@@ -171,8 +171,8 @@ export interface AnalyticsReportDto {
   // Report Data
   data?: {
     headers: string[];
-    rows: any[][];
-    summary: Record<string, any>;
+    rows: unknown[][];
+    summary: Record<string, unknown>;
     metadata: {
       totalRows: number;
       samplingLevel?: number;
@@ -215,7 +215,7 @@ export interface AnalyticsSegmentDto {
       | 'LESS_THAN'
       | 'IN'
       | 'NOT_IN';
-    value: any;
+    value: unknown;
     logicalOperator?: 'AND' | 'OR';
   }>;
 
@@ -250,7 +250,7 @@ export interface AnalyticsFunnelDto {
     conditions?: Array<{
       property: string;
       operator: string;
-      value: any;
+      value: unknown;
     }>;
     order: number;
   }>;
@@ -291,7 +291,7 @@ export interface AnalyticsGoalDto {
     eventName?: string;
     property?: string;
     operator: string;
-    value: any;
+    value: unknown;
   }>;
 
   // Goal Value
@@ -325,7 +325,7 @@ export interface AnalyticsQueryDto {
   filters?: Array<{
     dimension: string;
     operator: string;
-    value: any;
+    value: unknown;
   }>;
   timeRange: {
     start: Date;
@@ -341,8 +341,8 @@ export interface AnalyticsQueryDto {
 
 export interface AnalyticsResultDto {
   headers: string[];
-  rows: any[][];
-  summary: Record<string, any>;
+  rows: unknown[][];
+  summary: Record<string, unknown>;
   metadata: {
     totalRows: number;
     queryTime: number;

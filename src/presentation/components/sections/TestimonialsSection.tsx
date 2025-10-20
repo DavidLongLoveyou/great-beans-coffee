@@ -1,6 +1,15 @@
 'use client';
 
-import {  Star, Quote, Building, MapPin, Users, Award, ArrowLeft, ArrowRight  } from '@/components/ui/dynamic-icons';
+import {
+  Star,
+  Quote,
+  Building,
+  MapPin,
+  Users,
+  Award,
+  ArrowLeft,
+  ArrowRight,
+} from '@/components/ui/icons';
 import { useInView } from 'framer-motion';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
@@ -16,9 +25,11 @@ import { EnhancedButton } from '@/presentation/components/ui/EnhancedButton';
 import {
   ScrollReveal,
   StaggeredChildren,
+} from '@/presentation/components/ui/ScrollAnimations';
+import {
   MagneticHover,
   FloatingElement,
-} from '@/presentation/components/ui/ScrollAnimations';
+} from '@/presentation/components/ui/MicroInteractions';
 
 interface TestimonialsSectionProps {
   locale: string;
@@ -49,7 +60,7 @@ const testimonials: Testimonial[] = [
     rating: 5,
     content:
       'The Great Beans has been our trusted partner for premium Vietnamese Robusta for over 3 years. Their consistency in quality and reliability in delivery has helped us expand our European market significantly.',
-    avatar: '/images/testimonials/marcus-weber.jpg',
+    avatar: '/images/testimonials/marcus-weber.svg',
     companyLogo: '/images/companies/alpine-coffee.svg',
     orderVolume: '50+ tons/year',
     partnership: '3+ years',
@@ -212,7 +223,7 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
         <ScrollReveal direction="up" duration={0.8}>
           <div className="mb-16 text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-forest-200 bg-forest-100/50 px-6 py-3">
-              <Award className="h-5 w-5 text-forest-600" />
+              <Award className="h-5 w-5 text-forest-800" />
               <span className="font-medium text-forest-700">
                 {t('trustBadge')}
               </span>
@@ -222,7 +233,7 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
               {t('title')}
             </h2>
 
-            <p className="mx-auto max-w-3xl text-xl leading-relaxed text-forest-600">
+            <p className="mx-auto max-w-3xl text-xl leading-relaxed text-forest-800">
               {t('subtitle')}
             </p>
           </div>
@@ -252,7 +263,7 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
                         className={`text-xs ${
                           selectedCategory === category.key
                             ? 'bg-white/20 text-white'
-                            : 'bg-forest-100 text-forest-600'
+                            : 'bg-forest-100 text-forest-800'
                         }`}
                       >
                         {category.count}
@@ -288,7 +299,13 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
                               currentTestimonial?.name || 'Testimonial avatar'
                             }
                             fill
+                            loading="lazy"
+                            sizes="96px"
                             className="object-cover transition-transform duration-300 hover:scale-110"
+                            unoptimized={
+                              currentTestimonial?.avatar?.endsWith('.svg') ||
+                              false
+                            }
                           />
                         </div>
                         <div className="absolute -bottom-2 -right-2 rounded-full bg-emerald-500 p-2">
@@ -301,7 +318,7 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
                       <h3 className="text-xl font-bold text-forest-900">
                         {currentTestimonial?.name}
                       </h3>
-                      <p className="text-forest-600">
+                      <p className="text-forest-800">
                         {currentTestimonial?.position}
                       </p>
                       <div className="flex items-center gap-2 text-forest-500">
@@ -324,7 +341,7 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
                         <div className="mb-2 text-2xl font-bold text-forest-800">
                           {currentTestimonial?.orderVolume}
                         </div>
-                        <div className="text-sm text-forest-600">
+                        <div className="text-sm text-forest-800">
                           {t('stats.annualVolume')}
                         </div>
                       </div>
@@ -335,7 +352,7 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
                         <div className="mb-2 text-2xl font-bold text-forest-800">
                           {currentTestimonial?.partnership}
                         </div>
-                        <div className="text-sm text-forest-600">
+                        <div className="text-sm text-forest-800">
                           {t('stats.partnership')}
                         </div>
                       </div>
@@ -443,7 +460,7 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
               <h3 className="mb-4 text-2xl font-bold text-forest-900">
                 {t('trustIndicators.title')}
               </h3>
-              <p className="text-forest-600">{t('trustIndicators.subtitle')}</p>
+              <p className="text-forest-800">{t('trustIndicators.subtitle')}</p>
             </div>
 
             <StaggeredChildren staggerDelay={0.1} childDelay={0.2}>
@@ -456,7 +473,10 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
                           src={testimonial.companyLogo}
                           alt={testimonial.company}
                           fill
+                          loading="lazy"
+                          sizes="48px"
                           className="object-contain opacity-60 transition-opacity duration-300 group-hover:opacity-100"
+                          unoptimized={testimonial.companyLogo.endsWith('.svg')}
                         />
                       </div>
                       <div className="text-center">
@@ -500,7 +520,7 @@ export function TestimonialsSection({}: TestimonialsSectionProps) {
                   <EnhancedButton
                     variant="outline"
                     size="lg"
-                    className="border-white text-white hover:bg-white hover:text-forest-800"
+                    className="border-2 border-white bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-forest-800 hover:shadow-lg"
                   >
                     {t('cta.requestQuote')}
                   </EnhancedButton>

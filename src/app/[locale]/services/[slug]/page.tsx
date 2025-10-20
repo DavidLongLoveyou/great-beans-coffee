@@ -1,4 +1,22 @@
-import {  ArrowLeft, Package, Truck, Coffee, Factory, CheckCircle, Clock, DollarSign, Users, Shield, FileText, Download, Star, Globe, Calendar, AlertCircle, Settings  } from '@/components/ui/dynamic-icons';
+import {
+  ArrowLeft,
+  Package,
+  Truck,
+  Coffee,
+  Factory,
+  CheckCircle,
+  Clock,
+  DollarSign,
+  Users,
+  Shield,
+  FileText,
+  Download,
+  Star,
+  Globe,
+  Calendar,
+  AlertCircle,
+  Settings,
+} from '@/components/ui/icons';
 import { type Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -232,9 +250,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
             {/* Certifications */}
             {service.certifications.length > 0 && (
               <div className="mt-6 flex flex-wrap justify-center gap-2">
-                {service.certifications.map((cert, index) => (
+                {service.certifications.map(cert => (
                   <CertificationBadge
-                    key={`cert-${cert}-${index}`}
+                    key={`cert-${cert}`}
                     certification={mapCertificationToDesignSystem(cert)}
                   />
                 ))}
@@ -272,9 +290,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
             <TabsContent value="capabilities" className="mt-6">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                {service.capabilities.map((capability, index) => (
+                {service.capabilities.map(capability => (
                   <Card
-                    key={`capability-${capability.name.en}-${index}`}
+                    key={`capability-${capability.name.en}`}
                     className="shadow-md"
                   >
                     <CardHeader>
@@ -328,17 +346,15 @@ export default async function ServicePage({ params }: ServicePageProps) {
                             Specifications:
                           </h4>
                           <ul className="space-y-1">
-                            {capability.specifications.map(
-                              (spec, specIndex) => (
-                                <li
-                                  key={specIndex}
-                                  className="flex items-start text-sm text-gray-700"
-                                >
-                                  <CheckCircle className="mr-2 mt-0.5 h-3 w-3 flex-shrink-0 text-green-600" />
-                                  {spec}
-                                </li>
-                              )
-                            )}
+                            {capability.specifications.map(spec => (
+                              <li
+                                key={spec}
+                                className="flex items-start text-sm text-gray-700"
+                              >
+                                <CheckCircle className="mr-2 mt-0.5 h-3 w-3 flex-shrink-0 text-green-600" />
+                                {spec}
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       )}
@@ -405,21 +421,19 @@ export default async function ServicePage({ params }: ServicePageProps) {
                             Volume Discounts:
                           </h4>
                           <div className="space-y-2">
-                            {service.pricing.discountTiers.map(
-                              (tier, index) => (
-                                <div
-                                  key={`tier-${tier.minQuantity}-${tier.discountPercent}-${index}`}
-                                  className="flex items-center justify-between rounded bg-gray-50 p-2"
-                                >
-                                  <span className="text-sm text-gray-600">
-                                    {tier.minQuantity.toLocaleString()}+ units
-                                  </span>
-                                  <Badge variant="outline">
-                                    {tier.discountPercent}% off
-                                  </Badge>
-                                </div>
-                              )
-                            )}
+                            {service.pricing.discountTiers.map(tier => (
+                              <div
+                                key={`tier-${tier.minQuantity}-${tier.discountPercent}`}
+                                className="flex items-center justify-between rounded bg-gray-50 p-2"
+                              >
+                                <span className="text-sm text-gray-600">
+                                  {tier.minQuantity.toLocaleString()}+ units
+                                </span>
+                                <Badge variant="outline">
+                                  {tier.discountPercent}% off
+                                </Badge>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       )}
@@ -440,9 +454,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
             <TabsContent value="deliverables" className="mt-6">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {service.deliverables.map((deliverable, index) => (
+                {service.deliverables.map(deliverable => (
                   <Card
-                    key={`deliverable-${deliverable.name.en}-${index}`}
+                    key={`deliverable-${deliverable.name.en}`}
                     className="shadow-md"
                   >
                     <CardHeader>
@@ -472,11 +486,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
                               Dependencies:
                             </h5>
                             <ul className="space-y-1">
-                              {deliverable.dependencies.map((dep, depIndex) => (
-                                <li
-                                  key={depIndex}
-                                  className="text-xs text-gray-600"
-                                >
+                              {deliverable.dependencies.map(dep => (
+                                <li key={dep} className="text-xs text-gray-600">
                                   • {dep}
                                 </li>
                               ))}
@@ -491,9 +502,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
             <TabsContent value="requirements" className="mt-6">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {service.requirements.map((requirement, index) => (
+                {service.requirements.map(requirement => (
                   <Card
-                    key={`requirement-${requirement.name.en}-${index}`}
+                    key={`requirement-${requirement.name.en}`}
                     className="shadow-md"
                   >
                     <CardHeader>
@@ -536,9 +547,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {service.documents.map((doc, index) => (
+                  {service.documents.map(doc => (
                     <div
-                      key={`doc-${doc.name.en}-${doc.type}-${index}`}
+                      key={`doc-${doc.name.en}-${doc.type}`}
                       className="flex items-center justify-between rounded-lg border p-4"
                     >
                       <div className="flex items-center">

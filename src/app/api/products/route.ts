@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 const prisma = new PrismaClient();
 
-// Utility function to convert undefined to null for Prisma compatibility
-function convertUndefinedToNull<T extends Record<string, any>>(obj: T): any {
-  const result: any = {};
+// Utility function to remove undefined fields for Prisma compatibility
+function removeUndefinedFields<T extends Record<string, any>>(
+  obj: T
+): Partial<T> {
+  const result: Partial<T> = {};
   for (const key in obj) {
-    if (obj[key] === undefined) {
-      result[key] = null;
-    } else {
+    if (obj[key] !== undefined) {
       result[key] = obj[key];
     }
   }
@@ -116,7 +116,7 @@ export async function GET(request: NextRequest) {
     const skip = (pageNum - 1) * limitNum;
 
     // Build where clause
-    const where: any = {
+    const where: Prisma.CoffeeProductWhereInput = {
       isActive: true,
     };
 
@@ -127,25 +127,25 @@ export async function GET(request: NextRequest) {
             some: {
               locale,
               OR: [
-                { name: { contains: search, mode: 'insensitive' } },
-                { description: { contains: search, mode: 'insensitive' } },
-                { tastingNotes: { contains: search, mode: 'insensitive' } },
+                { name: { contains: search } },
+                { description: { contains: search } },
+                { tastingNotes: { contains: search } },
               ],
             },
           },
         },
-        { sku: { contains: search, mode: 'insensitive' } },
-        { origin: { contains: search, mode: 'insensitive' } },
-        { region: { contains: search, mode: 'insensitive' } },
-        { farm: { contains: search, mode: 'insensitive' } },
+        { sku: { contains: search } },
+        { origin: { contains: search } },
+        { region: { contains: search } },
+        { farm: { contains: search } },
       ];
     }
 
     if (coffeeType) where.coffeeType = coffeeType;
     if (grade) where.grade = grade;
     if (processing) where.processing = processing;
-    if (origin) where.origin = { contains: origin, mode: 'insensitive' };
-    if (region) where.region = { contains: region, mode: 'insensitive' };
+    if (origin) where.origin = { contains: origin };
+    if (region) where.region = { contains: region };
     if (inStock === 'true') where.inStock = true;
     if (isFeatured === 'true') where.isFeatured = true;
 
@@ -168,7 +168,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Build orderBy
-    const orderBy: any = {};
+    const orderBy: Prisma.CoffeeProductOrderByWithRelationInput = {};
     if (sortBy === 'name') {
       orderBy.translations = {
         _count: 'desc',
@@ -275,10 +275,10 @@ export async function POST(request: NextRequest) {
     const validatedData = CreateProductSchema.parse(body);
 
     const product = await prisma.coffeeProduct.create({
-      data: convertUndefinedToNull({
+      data: removeUndefinedFields({
         ...validatedData,
         updatedBy: validatedData.createdBy,
-      }),
+      }) as any,
       include: {
         translations: true,
         certifications: {

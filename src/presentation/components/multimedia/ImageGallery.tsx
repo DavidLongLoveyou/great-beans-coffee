@@ -1,6 +1,16 @@
 'use client';
 
-import {  ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Download, Share2, X, Maximize2, RotateCw  } from '@/components/ui/dynamic-icons';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  ZoomOut,
+  Download,
+  Share2,
+  X,
+  Maximize2,
+  RotateCw,
+} from '@/components/ui/icons';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
@@ -187,6 +197,9 @@ export function ImageGallery({
                 src={currentImage.src}
                 alt={currentImage.alt}
                 fill
+                loading="lazy"
+                unoptimized={currentImage.src.endsWith('.svg') || false}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
                 className="cursor-pointer object-cover transition-transform hover:scale-105"
                 onClick={() => openLightbox(currentIndex)}
               />
@@ -312,6 +325,9 @@ export function ImageGallery({
                 src={image.src}
                 alt={image.alt}
                 fill
+                loading="lazy"
+                unoptimized={image.src.endsWith('.svg') || false}
+                sizes="120px"
                 className="object-cover"
               />
             </button>
@@ -327,7 +343,7 @@ export function ImageGallery({
             <Button
               variant="secondary"
               size="icon"
-              className="absolute right-4 top-4 z-10 bg-white/20 text-white hover:bg-white/30"
+              className="absolute right-4 top-4 z-10 border-2 border-white bg-black/60 text-white transition-all duration-200 hover:bg-black/80"
               onClick={closeLightbox}
             >
               <X className="h-4 w-4" />
@@ -338,7 +354,7 @@ export function ImageGallery({
               <Button
                 variant="secondary"
                 size="icon"
-                className="bg-white/20 text-white hover:bg-white/30"
+                className="border-2 border-white bg-black/60 text-white transition-all duration-200 hover:bg-black/80"
                 onClick={() => setZoom(Math.max(0.5, zoom - 0.25))}
               >
                 <ZoomOut className="h-4 w-4" />
@@ -346,7 +362,7 @@ export function ImageGallery({
               <Button
                 variant="secondary"
                 size="icon"
-                className="bg-white/20 text-white hover:bg-white/30"
+                className="border-2 border-white bg-black/60 text-white transition-all duration-200 hover:bg-black/80"
                 onClick={() => setZoom(Math.min(3, zoom + 0.25))}
               >
                 <ZoomIn className="h-4 w-4" />
@@ -354,7 +370,7 @@ export function ImageGallery({
               <Button
                 variant="secondary"
                 size="icon"
-                className="bg-white/20 text-white hover:bg-white/30"
+                className="border-2 border-white bg-black/60 text-white transition-all duration-200 hover:bg-black/80"
                 onClick={() => setRotation((rotation + 90) % 360)}
               >
                 <RotateCw className="h-4 w-4" />
@@ -367,7 +383,7 @@ export function ImageGallery({
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 transform bg-white/20 text-white hover:bg-white/30"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 transform border-2 border-white bg-black/60 text-white transition-all duration-200 hover:bg-black/80"
                   onClick={goToPrevious}
                   aria-label="Previous image"
                 >
@@ -376,7 +392,7 @@ export function ImageGallery({
                 <Button
                   variant="secondary"
                   size="icon"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 transform bg-white/20 text-white hover:bg-white/30"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 transform border-2 border-white bg-black/60 text-white transition-all duration-200 hover:bg-black/80"
                   onClick={goToNext}
                   aria-label="Next image"
                 >
@@ -391,6 +407,9 @@ export function ImageGallery({
               alt={currentImage.alt}
               width={800}
               height={600}
+              loading="lazy"
+              unoptimized={currentImage.src.endsWith('.svg') || false}
+              sizes="(max-width: 768px) 100vw, 800px"
               className="max-h-full max-w-full object-contain transition-transform"
               style={{
                 transform: `scale(${zoom}) rotate(${rotation}deg)`,

@@ -165,6 +165,7 @@ const mdxComponents = {
         width={800}
         height={600}
         className="mb-4 h-auto max-w-full rounded-lg shadow-md"
+        unoptimized={src.endsWith('.svg')}
         {...props}
       />
     );

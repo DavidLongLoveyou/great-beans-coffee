@@ -1,6 +1,6 @@
 'use client';
 
-import {  Search, Filter, X, SlidersHorizontal  } from '@/components/ui/dynamic-icons';
+import { Search, Filter, X, SlidersHorizontal } from '@/components/ui/icons';
 import { useTranslations } from 'next-intl';
 import { useState, useCallback } from 'react';
 
@@ -241,7 +241,7 @@ export function ProductFilters({
               variant="ghost"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="text-forest-600 hover:text-forest-800"
+              className="text-forest-800 hover:text-forest-900"
             >
               <SlidersHorizontal className="mr-1 h-4 w-4" />
               {isExpanded ? 'Hide' : 'Show'} Filters
@@ -253,13 +253,14 @@ export function ProductFilters({
       <CardContent className="p-6">
         {/* Search Bar - Always Visible */}
         <div className="mb-6">
-          <Label
-            htmlFor="search"
-            className="mb-2 block text-sm font-medium text-forest-700"
-          >
-            Search Products
-          </Label>
-          <div className="relative">
+          <div className="flex flex-col">
+            <Label
+              htmlFor="search"
+              className="block text-sm font-medium text-forest-700"
+            >
+              Search Products
+            </Label>
+            <div className="relative mt-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-forest-400" />
             <Input
               id="search"
@@ -275,11 +276,12 @@ export function ProductFilters({
                 variant="ghost"
                 size="sm"
                 onClick={() => updateFilter('search', '')}
-                className="absolute right-2 top-1/2 h-6 w-6 -translate-y-1/2 p-0 text-forest-400 hover:text-forest-600"
+                className="absolute right-2 top-1/2 h-6 w-6 -translate-y-1/2 p-0 text-forest-800 hover:text-forest-900"
               >
                 <X className="h-4 w-4" />
               </Button>
             )}
+            </div>
           </div>
         </div>
 
@@ -289,178 +291,190 @@ export function ProductFilters({
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
               {/* Coffee Type */}
               <div>
-                <Label className="mb-2 block text-sm font-medium text-forest-700">
-                  Coffee Type
-                </Label>
-                <Select
-                  value={filters.coffeeType}
-                  onValueChange={value => updateFilter('coffeeType', value)}
-                  disabled={loading}
-                >
-                  <SelectTrigger
-                    className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 disabled:opacity-50"
-                    aria-label="Select coffee type"
+                <div className="flex flex-col">
+                  <Label className="block text-sm font-medium text-forest-700">
+                    Coffee Type
+                  </Label>
+                  <Select
+                    value={filters.coffeeType}
+                    onValueChange={value => updateFilter('coffeeType', value)}
+                    disabled={loading}
                   >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {coffeeTypes.map(type => (
-                      <SelectItem key={type.value} value={type.value}>
-                        {type.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                    <SelectTrigger
+                      className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 disabled:opacity-50 mt-1"
+                      aria-label="Select coffee type"
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {coffeeTypes.map(type => (
+                        <SelectItem key={type.value} value={type.value}>
+                          {type.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               {/* Grade */}
               <div>
-                <Label className="mb-2 block text-sm font-medium text-forest-700">
-                  Grade
-                </Label>
-                <Select
-                  value={filters.grade}
-                  onValueChange={value => updateFilter('grade', value)}
-                >
-                  <SelectTrigger
-                    className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
-                    aria-label="Select coffee grade"
+                <div className="flex flex-col">
+                  <Label className="block text-sm font-medium text-forest-700">
+                    Grade
+                  </Label>
+                  <Select
+                    value={filters.grade}
+                    onValueChange={value => updateFilter('grade', value)}
                   >
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {grades.map(grade => (
-                      <SelectItem key={grade.value} value={grade.value}>
-                        {grade.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                    <SelectTrigger
+                      className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                      aria-label="Select coffee grade"
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {grades.map(grade => (
+                        <SelectItem key={grade.value} value={grade.value}>
+                          {grade.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               {/* Processing Method */}
               <div>
-                <Label className="mb-2 block text-sm font-medium text-forest-700">
-                  Processing Method
-                </Label>
-                <Select
-                  value={filters.processingMethod}
-                  onValueChange={value =>
-                    updateFilter('processingMethod', value)
-                  }
-                >
-                  <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {processingMethods.map(method => (
-                      <SelectItem key={method.value} value={method.value}>
-                        {method.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="flex flex-col">
+                  <Label className="block text-sm font-medium text-forest-700">
+                    Processing Method
+                  </Label>
+                  <Select
+                    value={filters.processingMethod}
+                    onValueChange={value =>
+                      updateFilter('processingMethod', value)
+                    }
+                  >
+                    <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {processingMethods.map(method => (
+                        <SelectItem key={method.value} value={method.value}>
+                          {method.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               {/* Certification */}
               <div>
-                <Label className="mb-2 block text-sm font-medium text-forest-700">
-                  Certification
-                </Label>
-                <Select
-                  value={filters.certification}
-                  onValueChange={value => updateFilter('certification', value)}
-                >
-                  <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {certifications.map(cert => (
-                      <SelectItem key={cert.value} value={cert.value}>
-                        {cert.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="flex flex-col">
+                  <Label className="block text-sm font-medium text-forest-700">
+                    Certification
+                  </Label>
+                  <Select
+                    value={filters.certification}
+                    onValueChange={value => updateFilter('certification', value)}
+                  >
+                    <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {certifications.map(cert => (
+                        <SelectItem key={cert.value} value={cert.value}>
+                          {cert.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
 
             {/* Price Range */}
             <div>
-              <Label className="mb-2 block text-sm font-medium text-forest-700">
-                Price Range (USD per MT)
-              </Label>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="minPrice" className="text-xs text-forest-600">
-                    Min Price
-                  </Label>
-                  <Input
-                    id="minPrice"
-                    type="number"
-                    placeholder="0"
-                    value={filters.priceRange.min || ''}
-                    onChange={e =>
-                      updateFilter('priceRange', {
-                        ...filters.priceRange,
-                        min: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="maxPrice" className="text-xs text-forest-600">
-                    Max Price
-                  </Label>
-                  <Input
-                    id="maxPrice"
-                    type="number"
-                    placeholder="10000"
-                    value={filters.priceRange.max || ''}
-                    onChange={e =>
-                      updateFilter('priceRange', {
-                        ...filters.priceRange,
-                        max: parseInt(e.target.value) || 10000,
-                      })
-                    }
-                    className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
-                  />
+              <div className="flex flex-col">
+                <Label className="block text-sm font-medium text-forest-700">
+                  Price Range (USD per MT)
+                </Label>
+                <div className="grid grid-cols-2 gap-4 mt-1">
+                  <div>
+                    <Label htmlFor="minPrice" className="text-xs text-forest-800">
+                      Min Price
+                    </Label>
+                    <Input
+                      id="minPrice"
+                      type="number"
+                      placeholder="0"
+                      value={filters.priceRange.min || ''}
+                      onChange={e =>
+                        updateFilter('priceRange', {
+                          ...filters.priceRange,
+                          min: parseInt(e.target.value) || 0,
+                        })
+                      }
+                      className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="maxPrice" className="text-xs text-forest-800">
+                      Max Price
+                    </Label>
+                    <Input
+                      id="maxPrice"
+                      type="number"
+                      placeholder="10000"
+                      value={filters.priceRange.max || ''}
+                      onChange={e =>
+                        updateFilter('priceRange', {
+                          ...filters.priceRange,
+                          max: parseInt(e.target.value) || 10000,
+                        })
+                      }
+                      className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Stock Status */}
             <div>
-              <Label className="mb-2 block text-sm font-medium text-forest-700">
-                Availability
-              </Label>
-              <Select
-                value={
-                  filters.inStock === null
-                    ? 'ALL'
-                    : filters.inStock
-                      ? 'IN_STOCK'
-                      : 'OUT_OF_STOCK'
-                }
-                onValueChange={value =>
-                  updateFilter(
-                    'inStock',
-                    value === 'ALL' ? null : value === 'IN_STOCK'
-                  )
-                }
-              >
-                <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {stockOptions.map(option => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="flex flex-col">
+                <Label className="block text-sm font-medium text-forest-700">
+                  Availability
+                </Label>
+                <Select
+                  value={
+                    filters.inStock === null
+                      ? 'ALL'
+                      : filters.inStock
+                        ? 'IN_STOCK'
+                        : 'OUT_OF_STOCK'
+                  }
+                  onValueChange={value =>
+                    updateFilter(
+                      'inStock',
+                      value === 'ALL' ? null : value === 'IN_STOCK'
+                    )
+                  }
+                >
+                  <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {stockOptions.map(option => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             {/* Advanced B2B Filters */}
@@ -471,225 +485,237 @@ export function ProductFilters({
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {/* Origin */}
                 <div>
-                  <Label className="mb-2 block text-sm font-medium text-forest-700">
-                    Origin
-                  </Label>
-                  <Select
-                    value={filters.origin}
-                    onValueChange={value => updateFilter('origin', value)}
-                  >
-                    <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {origins.map(origin => (
-                        <SelectItem key={origin.value} value={origin.value}>
-                          {origin.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="flex flex-col">
+                    <Label className="block text-sm font-medium text-forest-700">
+                      Origin
+                    </Label>
+                    <Select
+                      value={filters.origin}
+                      onValueChange={value => updateFilter('origin', value)}
+                    >
+                      <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {origins.map(origin => (
+                          <SelectItem key={origin.value} value={origin.value}>
+                            {origin.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 {/* Harvest Season */}
                 <div>
-                  <Label className="mb-2 block text-sm font-medium text-forest-700">
-                    Harvest Season
-                  </Label>
-                  <Select
-                    value={filters.harvestSeason}
-                    onValueChange={value =>
-                      updateFilter('harvestSeason', value)
-                    }
-                  >
-                    <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {harvestSeasons.map(season => (
-                        <SelectItem key={season.value} value={season.value}>
-                          {season.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="flex flex-col">
+                    <Label className="block text-sm font-medium text-forest-700">
+                      Harvest Season
+                    </Label>
+                    <Select
+                      value={filters.harvestSeason}
+                      onValueChange={value =>
+                        updateFilter('harvestSeason', value)
+                      }
+                    >
+                      <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {harvestSeasons.map(season => (
+                          <SelectItem key={season.value} value={season.value}>
+                            {season.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 {/* Incoterms */}
                 <div>
-                  <Label className="mb-2 block text-sm font-medium text-forest-700">
-                    Incoterms
-                  </Label>
-                  <Select
-                    value={filters.incoterms}
-                    onValueChange={value => updateFilter('incoterms', value)}
-                  >
-                    <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {incotermsOptions.map(term => (
-                        <SelectItem key={term.value} value={term.value}>
-                          {term.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="flex flex-col">
+                    <Label className="block text-sm font-medium text-forest-700">
+                      Incoterms
+                    </Label>
+                    <Select
+                      value={filters.incoterms}
+                      onValueChange={value => updateFilter('incoterms', value)}
+                    >
+                      <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {incotermsOptions.map(term => (
+                          <SelectItem key={term.value} value={term.value}>
+                            {term.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 {/* Minimum Order Range */}
                 <div>
-                  <Label className="mb-2 block text-sm font-medium text-forest-700">
-                    Minimum Order (MT)
-                  </Label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <Label
-                        htmlFor="minOrder"
-                        className="text-xs text-forest-600"
-                      >
-                        Min
-                      </Label>
-                      <Input
-                        id="minOrder"
-                        type="number"
-                        placeholder="0"
-                        value={filters.minimumOrderRange.min || ''}
-                        onChange={e =>
-                          updateFilter('minimumOrderRange', {
-                            ...filters.minimumOrderRange,
-                            min: parseInt(e.target.value) || 0,
-                          })
-                        }
-                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
-                      />
-                    </div>
-                    <div>
-                      <Label
-                        htmlFor="maxOrder"
-                        className="text-xs text-forest-600"
-                      >
-                        Max
-                      </Label>
-                      <Input
-                        id="maxOrder"
-                        type="number"
-                        placeholder="1000"
-                        value={filters.minimumOrderRange.max || ''}
-                        onChange={e =>
-                          updateFilter('minimumOrderRange', {
-                            ...filters.minimumOrderRange,
-                            max: parseInt(e.target.value) || 1000,
-                          })
-                        }
-                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
-                      />
+                  <div className="flex flex-col">
+                    <Label className="block text-sm font-medium text-forest-700">
+                      Minimum Order (MT)
+                    </Label>
+                    <div className="grid grid-cols-2 gap-2 mt-1">
+                      <div>
+                        <Label
+                          htmlFor="minOrder"
+                          className="text-xs text-forest-800"
+                        >
+                          Min
+                        </Label>
+                        <Input
+                          id="minOrder"
+                          type="number"
+                          placeholder="0"
+                          value={filters.minimumOrderRange.min || ''}
+                          onChange={e =>
+                            updateFilter('minimumOrderRange', {
+                              ...filters.minimumOrderRange,
+                              min: parseInt(e.target.value) || 0,
+                            })
+                          }
+                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label
+                          htmlFor="maxOrder"
+                          className="text-xs text-forest-800"
+                        >
+                          Max
+                        </Label>
+                        <Input
+                          id="maxOrder"
+                          type="number"
+                          placeholder="1000"
+                          value={filters.minimumOrderRange.max || ''}
+                          onChange={e =>
+                            updateFilter('minimumOrderRange', {
+                              ...filters.minimumOrderRange,
+                              max: parseInt(e.target.value) || 1000,
+                            })
+                          }
+                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Cupping Score Range */}
                 <div>
-                  <Label className="mb-2 block text-sm font-medium text-forest-700">
-                    Cupping Score
-                  </Label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <Label
-                        htmlFor="minCupping"
-                        className="text-xs text-forest-600"
-                      >
-                        Min
-                      </Label>
-                      <Input
-                        id="minCupping"
-                        type="number"
-                        placeholder="0"
-                        min="0"
-                        max="100"
-                        value={filters.cuppingScoreRange.min || ''}
-                        onChange={e =>
-                          updateFilter('cuppingScoreRange', {
-                            ...filters.cuppingScoreRange,
-                            min: parseInt(e.target.value) || 0,
-                          })
-                        }
-                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
-                      />
-                    </div>
-                    <div>
-                      <Label
-                        htmlFor="maxCupping"
-                        className="text-xs text-forest-600"
-                      >
-                        Max
-                      </Label>
-                      <Input
-                        id="maxCupping"
-                        type="number"
-                        placeholder="100"
-                        min="0"
-                        max="100"
-                        value={filters.cuppingScoreRange.max || ''}
-                        onChange={e =>
-                          updateFilter('cuppingScoreRange', {
-                            ...filters.cuppingScoreRange,
-                            max: parseInt(e.target.value) || 100,
-                          })
-                        }
-                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
-                      />
+                  <div className="flex flex-col">
+                    <Label className="block text-sm font-medium text-forest-700">
+                      Cupping Score
+                    </Label>
+                    <div className="grid grid-cols-2 gap-2 mt-1">
+                      <div>
+                        <Label
+                          htmlFor="minCupping"
+                          className="text-xs text-forest-800"
+                        >
+                          Min
+                        </Label>
+                        <Input
+                          id="minCupping"
+                          type="number"
+                          placeholder="0"
+                          min="0"
+                          max="100"
+                          value={filters.cuppingScoreRange.min || ''}
+                          onChange={e =>
+                            updateFilter('cuppingScoreRange', {
+                              ...filters.cuppingScoreRange,
+                              min: parseInt(e.target.value) || 0,
+                            })
+                          }
+                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label
+                          htmlFor="maxCupping"
+                          className="text-xs text-forest-800"
+                        >
+                          Max
+                        </Label>
+                        <Input
+                          id="maxCupping"
+                          type="number"
+                          placeholder="100"
+                          min="0"
+                          max="100"
+                          value={filters.cuppingScoreRange.max || ''}
+                          onChange={e =>
+                            updateFilter('cuppingScoreRange', {
+                              ...filters.cuppingScoreRange,
+                              max: parseInt(e.target.value) || 100,
+                            })
+                          }
+                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Altitude Range */}
                 <div>
-                  <Label className="mb-2 block text-sm font-medium text-forest-700">
-                    Altitude (MASL)
-                  </Label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <Label
-                        htmlFor="minAltitude"
-                        className="text-xs text-forest-600"
-                      >
-                        Min
-                      </Label>
-                      <Input
-                        id="minAltitude"
-                        type="number"
-                        placeholder="0"
-                        value={filters.altitudeRange.min || ''}
-                        onChange={e =>
-                          updateFilter('altitudeRange', {
-                            ...filters.altitudeRange,
-                            min: parseInt(e.target.value) || 0,
-                          })
-                        }
-                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
-                      />
-                    </div>
-                    <div>
-                      <Label
-                        htmlFor="maxAltitude"
-                        className="text-xs text-forest-600"
-                      >
-                        Max
-                      </Label>
-                      <Input
-                        id="maxAltitude"
-                        type="number"
-                        placeholder="2000"
-                        value={filters.altitudeRange.max || ''}
-                        onChange={e =>
-                          updateFilter('altitudeRange', {
-                            ...filters.altitudeRange,
-                            max: parseInt(e.target.value) || 2000,
-                          })
-                        }
-                        className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
-                      />
+                  <div className="flex flex-col">
+                    <Label className="block text-sm font-medium text-forest-700">
+                      Altitude (MASL)
+                    </Label>
+                    <div className="grid grid-cols-2 gap-2 mt-1">
+                      <div>
+                        <Label
+                          htmlFor="minAltitude"
+                          className="text-xs text-forest-800"
+                        >
+                          Min
+                        </Label>
+                        <Input
+                          id="minAltitude"
+                          type="number"
+                          placeholder="0"
+                          value={filters.altitudeRange.min || ''}
+                          onChange={e =>
+                            updateFilter('altitudeRange', {
+                              ...filters.altitudeRange,
+                              min: parseInt(e.target.value) || 0,
+                            })
+                          }
+                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label
+                          htmlFor="maxAltitude"
+                          className="text-xs text-forest-800"
+                        >
+                          Max
+                        </Label>
+                        <Input
+                          id="maxAltitude"
+                          type="number"
+                          placeholder="2000"
+                          value={filters.altitudeRange.max || ''}
+                          onChange={e =>
+                            updateFilter('altitudeRange', {
+                              ...filters.altitudeRange,
+                              max: parseInt(e.target.value) || 2000,
+                            })
+                          }
+                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -697,36 +723,38 @@ export function ProductFilters({
 
               {/* Multiple Certifications */}
               <div className="mt-6">
-                <Label className="mb-3 block text-sm font-medium text-forest-700">
-                  Certifications (Multiple Selection)
-                </Label>
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-                  {certifications.map(cert => (
-                    <div
-                      key={cert.value}
-                      className="flex items-center space-x-2"
-                    >
-                      <Checkbox
-                        id={`cert-${cert.value}`}
-                        checked={filters.certifications.includes(cert.value)}
-                        onCheckedChange={checked => {
-                          const newCertifications = checked
-                            ? [...filters.certifications, cert.value]
-                            : filters.certifications.filter(
-                                c => c !== cert.value
-                              );
-                          updateFilter('certifications', newCertifications);
-                        }}
-                        className="border-forest-300 data-[state=checked]:border-emerald-600 data-[state=checked]:bg-emerald-600"
-                      />
-                      <Label
-                        htmlFor={`cert-${cert.value}`}
-                        className="cursor-pointer text-sm text-forest-700"
+                <div className="flex flex-col">
+                  <Label className="block text-sm font-medium text-forest-700">
+                    Certifications (Multiple Selection)
+                  </Label>
+                  <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 mt-1">
+                    {certifications.map(cert => (
+                      <div
+                        key={cert.value}
+                        className="flex items-center space-x-2"
                       >
-                        {cert.label}
-                      </Label>
-                    </div>
-                  ))}
+                        <Checkbox
+                          id={`cert-${cert.value}`}
+                          checked={filters.certifications.includes(cert.value)}
+                          onCheckedChange={checked => {
+                            const newCertifications = checked
+                              ? [...filters.certifications, cert.value]
+                              : filters.certifications.filter(
+                                  c => c !== cert.value
+                                );
+                            updateFilter('certifications', newCertifications);
+                          }}
+                          className="border-forest-300 data-[state=checked]:border-emerald-600 data-[state=checked]:bg-emerald-600"
+                        />
+                        <Label
+                          htmlFor={`cert-${cert.value}`}
+                          className="cursor-pointer text-sm text-forest-700"
+                        >
+                          {cert.label}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -735,7 +763,7 @@ export function ProductFilters({
 
         {/* Results Summary and Actions */}
         <div className="mt-6 flex items-center justify-between border-t border-forest-100 pt-4">
-          <div className="text-sm text-forest-600">
+          <div className="text-sm text-forest-800">
             Showing{' '}
             <span className="font-semibold text-forest-800">
               {filteredProducts}
@@ -752,7 +780,7 @@ export function ProductFilters({
                 variant="outline"
                 size="sm"
                 onClick={resetFilters}
-                className="border-forest-200 text-forest-600 hover:bg-forest-50"
+                className="border-forest-200 text-forest-800 hover:bg-forest-50"
               >
                 <X className="mr-1 h-4 w-4" />
                 Reset Filters

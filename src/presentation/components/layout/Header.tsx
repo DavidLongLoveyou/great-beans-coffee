@@ -1,7 +1,8 @@
 'use client';
 
-import {  Coffee, Globe, Award, Truck, Menu, X  } from '@/components/ui/dynamic-icons';
+import { Coffee, Globe, Award, Truck, Menu, X } from '@/components/ui/icons';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { type Locale } from '@/i18n';
 import LanguageSwitcher from '@/presentation/components/LanguageSwitcher';
@@ -14,6 +15,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/presentation/components/ui/hydration-safe-navigation-menu';
+import { StaggeredMenu } from '@/presentation/components/ui/StaggeredMenu';
 import { useHydrationSafeBooleanState } from '@/shared/hooks/useHydrationSafeState';
 import { useTranslation } from '@/shared/hooks/useTranslation';
 
@@ -35,20 +37,18 @@ export default function Header({ locale }: Props) {
         {/* Logo */}
         <Link
           href={`/${locale}`}
-          className="group flex items-center space-x-3"
+          className="group flex min-w-0 flex-shrink-0 items-center transition-all duration-200 hover:scale-105"
           aria-label="The Great Beans - Home"
         >
-          <div className="relative">
-            <Coffee className="h-9 w-9 text-forest-600 transition-colors duration-200 group-hover:text-forest-700" />
-            <div className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-emerald-500 opacity-80"></div>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-xl font-bold text-forest-800 transition-colors duration-200 group-hover:text-forest-900">
-              The Great Beans
-            </span>
-            <span className="text-xs font-medium tracking-wide text-forest-600">
-              Premium Coffee Export
-            </span>
+          <div className="relative h-8 w-24 transition-all duration-300 group-hover:drop-shadow-lg sm:h-10 sm:w-32 md:h-12 md:w-40">
+            <Image
+              src="/images/logo.svg"
+              alt="The Great Beans Coffee"
+              fill
+              className="object-contain"
+              priority
+              unoptimized
+            />
           </div>
         </Link>
 
@@ -113,7 +113,7 @@ export default function Header({ locale }: Props) {
                         <div className="text-sm font-semibold leading-none text-forest-800">
                           Vietnamese Robusta
                         </div>
-                        <p className="line-clamp-2 text-sm leading-snug text-forest-600">
+                        <p className="line-clamp-2 text-sm leading-snug text-forest-800">
                           Premium Robusta beans with bold flavor profile
                         </p>
                         <div className="text-xs font-medium text-emerald-600">
@@ -129,7 +129,7 @@ export default function Header({ locale }: Props) {
                         <div className="text-sm font-semibold leading-none text-forest-800">
                           Highland Arabica
                         </div>
-                        <p className="line-clamp-2 text-sm leading-snug text-forest-600">
+                        <p className="line-clamp-2 text-sm leading-snug text-forest-800">
                           High-altitude specialty Arabica with full traceability
                         </p>
                         <div className="text-xs font-medium text-emerald-600">
@@ -160,7 +160,7 @@ export default function Header({ locale }: Props) {
                             Vietnam Robusta Export
                           </div>
                         </div>
-                        <p className="line-clamp-2 text-sm leading-snug text-forest-600">
+                        <p className="line-clamp-2 text-sm leading-snug text-forest-800">
                           Direct farm sourcing with guaranteed quality and
                           logistics
                         </p>
@@ -180,7 +180,7 @@ export default function Header({ locale }: Props) {
                             Specialty Arabica Sourcing
                           </div>
                         </div>
-                        <p className="line-clamp-2 text-sm leading-snug text-forest-600">
+                        <p className="line-clamp-2 text-sm leading-snug text-forest-800">
                           Highland specialty coffee with full farm traceability
                         </p>
                         <div className="text-xs font-medium text-emerald-600">
@@ -199,7 +199,7 @@ export default function Header({ locale }: Props) {
                             Private Label Manufacturing
                           </div>
                         </div>
-                        <p className="line-clamp-2 text-sm leading-snug text-forest-600">
+                        <p className="line-clamp-2 text-sm leading-snug text-forest-800">
                           Complete OEM/ODM solutions for your coffee brand
                         </p>
                         <div className="text-xs font-medium text-emerald-600">
@@ -316,141 +316,131 @@ export default function Header({ locale }: Props) {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      {isMounted && isMobileMenuOpen && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-[9998] bg-black/30 backdrop-blur-md lg:hidden"
-            onClick={() => setIsMobileMenuOpen(false)}
-            aria-hidden="true"
-          />
+      {/* Mobile Menu with Staggered Animation */}
+      <StaggeredMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        direction="down"
+        staggerDelay={0.1}
+        className="fixed right-2 top-20 z-[9999] w-72 max-w-[calc(100vw-1rem)] sm:right-4 sm:w-80 sm:max-w-[calc(100vw-2rem)] lg:hidden"
+      >
+        <div className="rounded-2xl border border-forest-200/60 bg-white/95 shadow-2xl ring-1 ring-forest-100/30 backdrop-blur-lg">
+          <div className="flex max-h-[calc(100vh-6rem)] flex-col overflow-hidden">
+            {/* Mobile menu header */}
+            <div className="flex items-center justify-between border-b border-forest-200 px-4 py-3">
+              <span className="text-lg font-semibold text-forest-800">
+                Menu
+              </span>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-forest-700 transition-colors hover:bg-forest-100"
+                aria-label="Close mobile menu"
+                type="button"
+              >
+                <X className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
 
-          {/* Mobile Menu Popup */}
-          <div
-            id="mobile-menu"
-            className="fixed right-4 top-20 z-[9999] w-80 max-w-[calc(100vw-2rem)] rounded-2xl border border-forest-200/60 bg-white/95 shadow-2xl ring-1 ring-forest-100/30 backdrop-blur-lg lg:hidden"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mobile navigation menu"
-          >
-            <div className="flex max-h-[calc(100vh-6rem)] flex-col overflow-hidden">
-              {/* Mobile menu header */}
-              <div className="flex items-center justify-between border-b border-forest-200 px-4 py-3">
-                <span className="text-lg font-semibold text-forest-800">
-                  Menu
-                </span>
-                <button
+            <nav
+              className="flex-1 space-y-2 overflow-y-auto px-4 py-4"
+              role="navigation"
+              aria-label="Mobile navigation"
+            >
+              <Link
+                href={`/${locale}`}
+                className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('home')}
+              </Link>
+
+              <div className="space-y-1">
+                <div className="rounded-md bg-forest-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-forest-800">
+                  {t('products')}
+                </div>
+                <Link
+                  href={`/${locale}/products`}
+                  className="block rounded-md px-4 py-2 text-sm text-forest-800 transition-colors hover:bg-forest-50 hover:text-forest-700"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg text-forest-700 transition-colors hover:bg-forest-100"
-                  aria-label="Close mobile menu"
-                  type="button"
                 >
-                  <X className="h-5 w-5" aria-hidden="true" />
-                </button>
+                  All Products
+                </Link>
+                <Link
+                  href={`/${locale}/products/robusta`}
+                  className="block rounded-md px-4 py-2 text-sm text-forest-800 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Vietnamese Robusta
+                </Link>
+                <Link
+                  href={`/${locale}/products/arabica`}
+                  className="block rounded-md px-4 py-2 text-sm text-forest-800 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Highland Arabica
+                </Link>
               </div>
 
-              <nav
-                className="flex-1 space-y-2 overflow-y-auto px-4 py-4"
-                role="navigation"
-                aria-label="Mobile navigation"
+              <div className="space-y-1">
+                <div className="rounded-md bg-forest-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-forest-800">
+                  {t('solutions')}
+                </div>
+                <Link
+                  href={`/${locale}/solutions/vietnam-robusta-export`}
+                  className="block rounded-md px-4 py-2 text-sm text-forest-800 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Vietnam Robusta Export
+                </Link>
+                <Link
+                  href={`/${locale}/solutions/specialty-arabica-sourcing`}
+                  className="block rounded-md px-4 py-2 text-sm text-forest-800 transition-colors hover:bg-forest-50 hover:text-forest-700"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Specialty Arabica Sourcing
+                </Link>
+              </div>
+
+              <Link
+                href={`/${locale}/services`}
+                className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
-                <Link
-                  href={`/${locale}`}
-                  className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                {t('services')}
+              </Link>
+
+              <Link
+                href={`/${locale}/about`}
+                className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('about')}
+              </Link>
+
+              <Link
+                href={`/${locale}/contact`}
+                className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('contact')}
+              </Link>
+            </nav>
+
+            {/* Mobile menu footer */}
+            <div className="bg-forest-25 border-t border-forest-100 px-4 py-4">
+              <div className="flex flex-col space-y-3">
+                <LanguageSwitcher />
+                <Button
+                  asChild
+                  className="h-10 w-full bg-forest-600 text-sm font-medium text-white shadow-md hover:bg-forest-700"
                 >
-                  {t('home')}
-                </Link>
-
-                <div className="space-y-1">
-                  <div className="rounded-md bg-forest-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-forest-600">
-                    {t('products')}
-                  </div>
-                  <Link
-                    href={`/${locale}/products`}
-                    className="block rounded-md px-4 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    All Products
-                  </Link>
-                  <Link
-                    href={`/${locale}/products/robusta`}
-                    className="block rounded-md px-4 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Vietnamese Robusta
-                  </Link>
-                  <Link
-                    href={`/${locale}/products/arabica`}
-                    className="block rounded-md px-4 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Highland Arabica
-                  </Link>
-                </div>
-
-                <div className="space-y-1">
-                  <div className="rounded-md bg-forest-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-forest-600">
-                    {t('solutions')}
-                  </div>
-                  <Link
-                    href={`/${locale}/solutions/vietnam-robusta-export`}
-                    className="block rounded-md px-4 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Vietnam Robusta Export
-                  </Link>
-                  <Link
-                    href={`/${locale}/solutions/specialty-arabica-sourcing`}
-                    className="block rounded-md px-4 py-2 text-sm text-forest-600 transition-colors hover:bg-forest-50 hover:text-forest-700"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Specialty Arabica Sourcing
-                  </Link>
-                </div>
-
-                <Link
-                  href={`/${locale}/services`}
-                  className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('services')}
-                </Link>
-
-                <Link
-                  href={`/${locale}/about`}
-                  className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('about')}
-                </Link>
-
-                <Link
-                  href={`/${locale}/contact`}
-                  className="block rounded-lg px-3 py-3 text-sm font-medium text-forest-700 transition-colors hover:bg-forest-50 hover:text-forest-800"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t('contact')}
-                </Link>
-              </nav>
-
-              {/* Mobile menu footer */}
-              <div className="bg-forest-25 border-t border-forest-100 px-4 py-4">
-                <div className="flex flex-col space-y-3">
-                  <LanguageSwitcher />
-                  <Button
-                    asChild
-                    className="h-10 w-full bg-forest-600 text-sm font-medium text-white shadow-md hover:bg-forest-700"
-                  >
-                    <Link href={`/${locale}/contact`}>{t('requestQuote')}</Link>
-                  </Button>
-                </div>
+                  <Link href={`/${locale}/contact`}>{t('requestQuote')}</Link>
+                </Button>
               </div>
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </StaggeredMenu>
     </header>
   );
 }

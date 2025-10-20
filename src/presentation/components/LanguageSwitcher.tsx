@@ -1,6 +1,6 @@
 'use client';
 
-import {  Globe  } from '@/components/ui/dynamic-icons';
+import { Globe } from '@/components/ui/icons';
 import { useRouter, usePathname } from 'next/navigation';
 
 import type { Locale } from '@/i18n';

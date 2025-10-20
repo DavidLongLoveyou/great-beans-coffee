@@ -1,5 +1,13 @@
 import { type Metadata } from 'next';
-import {  MapPin, Shield, Truck, Users, CheckCircle, Globe, Coffee  } from '@/components/ui/dynamic-icons';
+import {
+  MapPin,
+  Shield,
+  Truck,
+  Users,
+  CheckCircle,
+  Globe,
+  Coffee,
+} from '@/components/ui/icons';
 
 import Link from 'next/link';
 
@@ -61,14 +69,10 @@ export default async function SourcingPage({ params }: Props) {
                 size="lg"
                 className="bg-emerald-600 hover:bg-emerald-700"
               >
-                <Link href={`/${locale}/quote`}>
-                  Source Premium Coffee
-                </Link>
+                <Link href={`/${locale}/quote`}>Source Premium Coffee</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/contact`}>
-                  Sourcing Consultation
-                </Link>
+                <Link href={`/${locale}/contact`}>Sourcing Consultation</Link>
               </Button>
             </div>
           </div>
@@ -83,7 +87,7 @@ export default async function SourcingPage({ params }: Props) {
               <h2 className="mb-4 text-3xl font-bold text-forest-900 md:text-4xl">
                 Professional Coffee Sourcing
               </h2>
-              <p className="text-lg text-forest-600">
+              <p className="text-lg text-forest-800">
                 14+ years of expertise in sourcing premium coffee from the
                 world&rsquo;s best origins
               </p>
@@ -713,14 +717,10 @@ export default async function SourcingPage({ params }: Props) {
                 size="lg"
                 className="bg-emerald-600 hover:bg-emerald-700"
               >
-                <Link href={`/${locale}/quote`}>
-                  Request Sourcing Quote
-                </Link>
+                <Link href={`/${locale}/quote`}>Request Sourcing Quote</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/${locale}/contact`}>
-                  Discuss Your Needs
-                </Link>
+                <Link href={`/${locale}/contact`}>Discuss Your Needs</Link>
               </Button>
             </div>
           </div>

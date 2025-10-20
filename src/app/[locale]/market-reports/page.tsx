@@ -1,4 +1,4 @@
-import {  CalendarDays, TrendingUp, Globe  } from '@/components/ui/dynamic-icons';
+import { CalendarDays, TrendingUp, Globe } from '@/components/ui/icons';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -62,7 +62,10 @@ export default async function MarketReportsPage({
   const t = await getTranslations('marketReports');
   const tCommon = await getTranslations('common');
 
-  const featuredReports = await FileContentLoader.getFeaturedMarketReports(locale, 3);
+  const featuredReports = await FileContentLoader.getFeaturedMarketReports(
+    locale,
+    3
+  );
   const allReports = await FileContentLoader.getMarketReports(locale);
   const regularReports = allReports.filter(report => !report.featured);
 
@@ -120,6 +123,7 @@ export default async function MarketReportsPage({
                         alt={report.title}
                         fill
                         className="object-cover"
+                        unoptimized={report.coverImage.endsWith('.svg')}
                       />
                     </div>
                   )}

@@ -1,6 +1,16 @@
 'use client';
 
-import {  ChevronLeft, ChevronRight, Play, Image as ImageIcon, Video, Download, Share2, Maximize2, Grid3X3  } from '@/components/ui/dynamic-icons';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Image as ImageIcon,
+  Video,
+  Download,
+  Share2,
+  Maximize2,
+  Grid3X3,
+} from '@/components/ui/icons';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
@@ -198,10 +208,10 @@ export function MediaCarousel({
               className="capitalize"
             >
               {type === 'image' ? (
-                  <ImageIcon className="mr-1 h-4 w-4" />
-                ) : (
-                  <Video className="mr-1 h-4 w-4" />
-                )}
+                <ImageIcon className="mr-1 h-4 w-4" />
+              ) : (
+                <Video className="mr-1 h-4 w-4" />
+              )}
               {type} ({items.filter(item => item.type === type).length})
             </Button>
           ))}
@@ -246,6 +256,9 @@ export function MediaCarousel({
                     src={item.src || ''}
                     alt={item.alt || item.title || ''}
                     fill
+                    loading="lazy"
+                    unoptimized={item.src?.endsWith('.svg') || false}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover"
                   />
                 ) : (
@@ -254,13 +267,16 @@ export function MediaCarousel({
                       src={item.poster || '/placeholder-video.jpg'}
                       alt={item.title || ''}
                       fill
+                      loading="lazy"
+                      unoptimized={item.poster?.endsWith('.svg') || false}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                       <Button
                         variant="secondary"
                         size="icon"
-                        className="h-12 w-12 bg-white/20 text-white hover:bg-white/30 sm:h-14 sm:w-14"
+                        className="h-12 w-12 border-2 border-white bg-black/60 text-white transition-all duration-200 hover:bg-black/80 sm:h-14 sm:w-14"
                         onClick={() => {
                           setCurrentIndex(index);
                           setViewMode('carousel');
@@ -275,13 +291,13 @@ export function MediaCarousel({
                 {/* Type Badge */}
                 <Badge
                   variant="secondary"
-                  className="absolute left-2 top-2 bg-black/50 text-xs text-white"
+                  className="absolute left-2 top-2 bg-black/80 text-xs text-white backdrop-blur-sm border-0"
                 >
                   {item.type === 'image' ? (
-                      <ImageIcon className="mr-1 h-3 w-3" />
-                    ) : (
-                      <Video className="mr-1 h-3 w-3" />
-                    )}
+                    <ImageIcon className="mr-1 h-3 w-3" />
+                  ) : (
+                    <Video className="mr-1 h-3 w-3" />
+                  )}
                   {item.type}
                 </Badge>
 
@@ -534,14 +550,20 @@ export function MediaCarousel({
                 }
                 alt={item.title || item.alt || ''}
                 fill
+                loading="lazy"
+                sizes="120px"
                 className="object-cover"
+                unoptimized={(item.type === 'image'
+                  ? item.src || '/placeholder-image.jpg'
+                  : item.poster || '/placeholder-video.jpg'
+                ).endsWith('.svg')}
               />
               {/* Type indicator */}
-              <div className="absolute right-1 top-1">
+              <div className="absolute right-1 top-1 rounded-full bg-black/60 p-1 backdrop-blur-sm">
                 {item.type === 'image' ? (
-                  <ImageIcon className="h-3 w-3 text-white drop-shadow" />
+                  <ImageIcon className="h-3 w-3 text-white" />
                 ) : (
-                  <Video className="h-3 w-3 text-white drop-shadow" />
+                  <Video className="h-3 w-3 text-white" />
                 )}
               </div>
             </button>

@@ -362,8 +362,8 @@ test.describe('SEO Optimization', () => {
       await page.goto('/');
 
       // Check for render-blocking CSS
-      const cssResponses = responses.filter(
-        r => r.headers['content-type']?.includes('text/css')
+      const cssResponses = responses.filter(r =>
+        r.headers['content-type']?.includes('text/css')
       );
 
       // Should minimize blocking CSS

@@ -1,6 +1,16 @@
 'use client';
 
-import {  Eye, ShoppingCart, ArrowUpDown, Grid3X3, List, ChevronLeft, ChevronRight, Scale, X  } from '@/components/ui/dynamic-icons';
+import {
+  Eye,
+  ShoppingCart,
+  ArrowUpDown,
+  Grid3X3,
+  List,
+  ChevronLeft,
+  ChevronRight,
+  Scale,
+  X,
+} from '@/components/ui/icons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useState, useMemo } from 'react';
@@ -181,9 +191,16 @@ export function ProductGrid({
       return firstMonth ? monthMap[firstMonth] || 0 : 0;
     };
 
+    // Helper function for safe string comparison
+    const safeLocaleCompare = (a: Product, b: Product): number => {
+      const nameA = a.name || '';
+      const nameB = b.name || '';
+      return nameA.localeCompare(nameB);
+    };
+
     switch (sortBy) {
       case 'name':
-        return sorted.sort((a, b) => a.name.localeCompare(b.name));
+        return sorted.sort((a, b) => safeLocaleCompare(a, b));
 
       case 'price-asc':
         return sorted.sort((a, b) => a.pricing.basePrice - b.pricing.basePrice);
@@ -195,7 +212,7 @@ export function ProductGrid({
         return sorted.sort((a, b) => {
           if (a.isFeatured && !b.isFeatured) return -1;
           if (!a.isFeatured && b.isFeatured) return 1;
-          return a.name.localeCompare(b.name);
+          return safeLocaleCompare(a, b);
         });
 
       case 'grade-desc':
@@ -203,7 +220,7 @@ export function ProductGrid({
           const gradeA = getGradePriority(a.grade);
           const gradeB = getGradePriority(b.grade);
           if (gradeA !== gradeB) return gradeB - gradeA; // Higher grade first
-          return a.name.localeCompare(b.name); // Secondary sort by name
+          return safeLocaleCompare(a, b); // Secondary sort by name
         });
 
       case 'grade-asc':
@@ -211,7 +228,7 @@ export function ProductGrid({
           const gradeA = getGradePriority(a.grade);
           const gradeB = getGradePriority(b.grade);
           if (gradeA !== gradeB) return gradeA - gradeB; // Lower grade first
-          return a.name.localeCompare(b.name); // Secondary sort by name
+          return safeLocaleCompare(a, b); // Secondary sort by name
         });
 
       case 'availability':
@@ -225,7 +242,7 @@ export function ProductGrid({
             if (stockDiff !== 0) return stockDiff;
             return a.availability.leadTime - b.availability.leadTime; // Shorter lead time first
           }
-          return a.name.localeCompare(b.name);
+          return safeLocaleCompare(a, b);
         });
 
       case 'harvest-season':
@@ -237,7 +254,7 @@ export function ProductGrid({
             b.availability.harvestSeason
           );
           if (seasonA !== seasonB) return seasonA - seasonB;
-          return a.name.localeCompare(b.name);
+          return safeLocaleCompare(a, b);
         });
 
       case 'cupping-score-desc':
@@ -245,7 +262,7 @@ export function ProductGrid({
           const scoreA = a.specifications.cuppingScore || 0;
           const scoreB = b.specifications.cuppingScore || 0;
           if (scoreA !== scoreB) return scoreB - scoreA; // Higher score first
-          return a.name.localeCompare(b.name);
+          return safeLocaleCompare(a, b);
         });
 
       case 'cupping-score-asc':
@@ -253,7 +270,7 @@ export function ProductGrid({
           const scoreA = a.specifications.cuppingScore || 0;
           const scoreB = b.specifications.cuppingScore || 0;
           if (scoreA !== scoreB) return scoreA - scoreB; // Lower score first
-          return a.name.localeCompare(b.name);
+          return safeLocaleCompare(a, b);
         });
 
       case 'altitude-desc':
@@ -261,7 +278,7 @@ export function ProductGrid({
           const altA = a.origin.altitude;
           const altB = b.origin.altitude;
           if (altA !== altB) return altB - altA; // Higher altitude first
-          return a.name.localeCompare(b.name);
+          return safeLocaleCompare(a, b);
         });
 
       case 'altitude-asc':
@@ -269,11 +286,11 @@ export function ProductGrid({
           const altA = a.origin.altitude;
           const altB = b.origin.altitude;
           if (altA !== altB) return altA - altB; // Lower altitude first
-          return a.name.localeCompare(b.name);
+          return safeLocaleCompare(a, b);
         });
 
       case 'newest':
-        return sorted.sort((a, b) => a.name.localeCompare(b.name)); // Mock sorting by newest
+        return sorted.sort((a, b) => safeLocaleCompare(a, b)); // Mock sorting by newest
 
       default:
         return sorted;
@@ -315,17 +332,12 @@ export function ProductGrid({
             />
           </div>
         )}
+        {/* Only show featured badge if product is featured */}
         {product.isFeatured && (
-          <Badge className="absolute right-2 top-2 bg-emerald-500 text-white shadow-emerald-soft">
+          <Badge className="absolute right-2 top-1 bg-emerald-500 text-white shadow-emerald-soft">
             Featured
           </Badge>
         )}
-        <Badge
-          variant={product.availability.inStock ? 'default' : 'destructive'}
-          className="absolute left-2 top-2"
-        >
-          {product.availability.inStock ? 'In Stock' : 'Out of Stock'}
-        </Badge>
       </div>
       <CardHeader>
         <div className="mb-2 flex flex-wrap gap-2">
@@ -336,7 +348,7 @@ export function ProductGrid({
         <CardTitle className="text-lg text-forest-800 transition-colors group-hover:text-emerald-700">
           {product.name}
         </CardTitle>
-        <CardDescription className="text-forest-600">
+        <CardDescription className="text-forest-800">
           {product.shortDescription}
         </CardDescription>
       </CardHeader>
@@ -348,30 +360,38 @@ export function ProductGrid({
             ))}
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="rounded border border-forest-100 bg-forest-50 p-2">
-              <span className="font-medium text-forest-700">Moisture:</span>{' '}
-              <span className="text-forest-600">
+            <div className="rounded border border-forest-100 bg-forest-50 px-2 py-1">
+              <div className="font-medium leading-tight text-forest-700">
+                Moisture:
+              </div>
+              <div className="text-forest-800">
                 {product.specifications.moisture}%
-              </span>
+              </div>
             </div>
-            <div className="rounded border border-forest-100 bg-forest-50 p-2">
-              <span className="font-medium text-forest-700">Screen:</span>{' '}
-              <span className="text-forest-600">
+            <div className="rounded border border-forest-100 bg-forest-50 px-2 py-1">
+              <div className="font-medium leading-tight text-forest-700">
+                Screen:
+              </div>
+              <div className="text-forest-800">
                 {product.specifications.screenSize}
-              </span>
+              </div>
             </div>
-            <div className="rounded border border-forest-100 bg-forest-50 p-2">
-              <span className="font-medium text-forest-700">Defects:</span>{' '}
-              <span className="text-forest-600">
+            <div className="rounded border border-forest-100 bg-forest-50 px-2 py-1">
+              <div className="font-medium leading-tight text-forest-700">
+                Defects:
+              </div>
+              <div className="text-forest-800">
                 {product.specifications.defectRate}%
-              </span>
+              </div>
             </div>
             {product.specifications.cuppingScore && (
-              <div className="rounded border border-sage-100 bg-sage-50 p-2">
-                <span className="font-medium text-sage-700">Cupping:</span>{' '}
-                <span className="text-sage-600">
+              <div className="rounded border border-forest-100 bg-white px-2 py-1">
+                <div className="font-medium leading-tight text-forest-700">
+                  Cupping:
+                </div>
+                <div className="text-forest-800">
                   {product.specifications.cuppingScore}
-                </span>
+                </div>
               </div>
             )}
           </div>
@@ -385,7 +405,7 @@ export function ProductGrid({
                 variant="outline"
                 size="sm"
                 asChild
-                className="border-forest-200 text-forest-600 hover:bg-forest-50 hover:shadow-forest-medium"
+                className="border-forest-200 text-forest-800 hover:bg-forest-50 hover:shadow-forest-medium"
               >
                 <Link href={`/${locale}/products/${product.id}`}>
                   <Eye className="mr-1 h-4 w-4" />
@@ -448,7 +468,7 @@ export function ProductGrid({
               <h3 className="text-xl font-semibold text-forest-800 transition-colors group-hover:text-emerald-700">
                 {product.name}
               </h3>
-              <p className="text-forest-600">{product.shortDescription}</p>
+              <p className="text-forest-800">{product.shortDescription}</p>
             </div>
 
             <div className="flex flex-wrap gap-1">
@@ -460,26 +480,26 @@ export function ProductGrid({
             <div className="grid grid-cols-4 gap-4 text-sm">
               <div>
                 <span className="font-medium text-forest-700">Moisture:</span>{' '}
-                <span className="text-forest-600">
+                <span className="text-forest-800">
                   {product.specifications.moisture}%
                 </span>
               </div>
               <div>
                 <span className="font-medium text-forest-700">Screen:</span>{' '}
-                <span className="text-forest-600">
+                <span className="text-forest-800">
                   {product.specifications.screenSize}
                 </span>
               </div>
               <div>
                 <span className="font-medium text-forest-700">Defects:</span>{' '}
-                <span className="text-forest-600">
+                <span className="text-forest-800">
                   {product.specifications.defectRate}%
                 </span>
               </div>
               {product.specifications.cuppingScore && (
                 <div>
-                  <span className="font-medium text-sage-700">Cupping:</span>{' '}
-                  <span className="text-sage-600">
+                  <span className="font-medium text-forest-700">Cupping:</span>{' '}
+                  <span className="text-forest-800">
                     {product.specifications.cuppingScore}
                   </span>
                 </div>
@@ -498,7 +518,7 @@ export function ProductGrid({
                 variant="outline"
                 size="sm"
                 asChild
-                className="border-forest-200 text-forest-600 hover:bg-forest-50 hover:shadow-forest-medium"
+                className="border-forest-200 text-forest-800 hover:bg-forest-50 hover:shadow-forest-medium"
               >
                 <Link href={`/${locale}/products/${product.id}`}>
                   <Eye className="mr-1 h-4 w-4" />
@@ -531,7 +551,7 @@ export function ProductGrid({
         <h3 className="mb-2 text-xl font-semibold text-forest-700">
           No products found
         </h3>
-        <p className="text-forest-600">
+        <p className="text-forest-800">
           Try adjusting your filters to see more results.
         </p>
       </div>
@@ -546,7 +566,7 @@ export function ProductGrid({
           <div className="container mx-auto px-4 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Scale className="h-5 w-5 text-amber-600" />
+                <Scale className="h-5 w-5 text-amber-700" />
                 <span className="text-sm font-medium text-forest-700">
                   {selectedProductsArray.length} products selected for
                   comparison
@@ -573,7 +593,7 @@ export function ProductGrid({
                   }}
                   variant="outline"
                   size="sm"
-                  className="border-forest-200 text-forest-600 hover:bg-forest-50"
+                  className="border-forest-200 text-forest-800 hover:bg-forest-50"
                 >
                   <X className="mr-2 h-4 w-4" />
                   Clear
@@ -587,7 +607,7 @@ export function ProductGrid({
       {/* Toolbar */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <span className="text-sm text-forest-600">
+          <span className="text-sm text-forest-800">
             Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)}{' '}
             of {sortedProducts.length} products
           </span>
@@ -596,7 +616,7 @@ export function ProductGrid({
         <div className="flex items-center gap-4">
           {/* Sort */}
           <div className="flex items-center gap-2">
-            <ArrowUpDown className="h-4 w-4 text-forest-600" />
+            <ArrowUpDown className="h-4 w-4 text-forest-800" />
             <Select
               value={sortBy}
               onValueChange={(value: SortOption) => setSortBy(value)}
@@ -640,13 +660,13 @@ export function ProductGrid({
 
       {/* Products */}
       {viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {currentProducts.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {currentProducts.map(product => (
             <ProductListItem key={product.id} product={product} />
           ))}
@@ -661,7 +681,7 @@ export function ProductGrid({
             size="sm"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="border-forest-200 text-forest-600 hover:bg-forest-50"
+            className="border-forest-200 text-forest-800 hover:bg-forest-50"
           >
             <ChevronLeft className="mr-1 h-4 w-4" />
             Previous
@@ -677,7 +697,7 @@ export function ProductGrid({
                 className={
                   page === currentPage
                     ? 'bg-emerald-600 hover:bg-emerald-700'
-                    : 'border-forest-200 text-forest-600 hover:bg-forest-50'
+                    : 'border-forest-200 text-forest-800 hover:bg-forest-50'
                 }
               >
                 {page}
@@ -690,7 +710,7 @@ export function ProductGrid({
             size="sm"
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="border-forest-200 text-forest-600 hover:bg-forest-50"
+            className="border-forest-200 text-forest-800 hover:bg-forest-50"
           >
             Next
             <ChevronRight className="ml-1 h-4 w-4" />

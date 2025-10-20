@@ -1,4 +1,11 @@
-import {  CalendarDays, User, Clock, Tag, ArrowLeft, Share2  } from '@/components/ui/dynamic-icons';
+import {
+  CalendarDays,
+  User,
+  Clock,
+  Tag,
+  ArrowLeft,
+  Share2,
+} from '@/components/ui/icons';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -180,7 +187,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Content */}
         <div className="mx-auto max-w-4xl">
-          <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+          <div
+            className="prose prose-lg max-w-none"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
         </div>
 
         {/* Tags */}
@@ -221,6 +231,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         alt={relatedPost.title}
                         fill
                         className="object-cover"
+                        unoptimized={relatedPost.coverImage.endsWith('.svg')}
                       />
                     </div>
                   )}

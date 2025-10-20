@@ -1,4 +1,4 @@
-import {  MapPin, Mountain, Coffee, CalendarDays  } from '@/components/ui/dynamic-icons';
+import { MapPin, Mountain, Coffee, CalendarDays } from '@/components/ui/icons';
 import { type Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -123,6 +123,8 @@ export default async function OriginStoriesPage({
                         src={story.coverImage}
                         alt={story.title}
                         fill
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover"
                       />
                     </div>

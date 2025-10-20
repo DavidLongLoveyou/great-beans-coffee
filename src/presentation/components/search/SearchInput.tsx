@@ -1,6 +1,6 @@
 'use client';
 
-import {  Search, X, Clock, TrendingUp, Sparkles  } from '@/components/ui/dynamic-icons';
+import { Search, X, Clock, TrendingUp, Sparkles } from '@/components/ui/icons';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
@@ -82,10 +82,10 @@ export function SearchInput({
 
   // Call onSearch when debounced value changes
   useEffect(() => {
-    if (onSearch && debouncedValue !== value) {
+    if (onSearch && debouncedValue) {
       onSearch(debouncedValue);
     }
-  }, [debouncedValue, onSearch, value]);
+  }, [debouncedValue, onSearch]);
 
   // Generate combined suggestions
   const combinedSuggestions = useCallback(() => {

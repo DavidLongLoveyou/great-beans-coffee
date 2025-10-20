@@ -1,6 +1,12 @@
 'use client';
 
-import {  Globe, Coffee, TrendingUp, Users, MapPin  } from '@/components/ui/dynamic-icons';
+import {
+  Globe,
+  Coffee,
+  TrendingUp,
+  Users,
+  MapPin,
+} from '@/components/ui/icons';
 import React, { useState } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';

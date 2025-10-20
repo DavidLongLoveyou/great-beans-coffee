@@ -1,7 +1,14 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import {  Upload, X, Image as ImageIcon, Coffee, AlertCircle, Check  } from '@/components/ui/dynamic-icons';
+import {
+  Upload,
+  X,
+  Image as ImageIcon,
+  Coffee,
+  AlertCircle,
+  Check,
+} from '@/components/ui/icons';
 
 import { Button } from '@/presentation/components/ui/button';
 import {

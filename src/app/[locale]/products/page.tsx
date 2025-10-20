@@ -1,26 +1,64 @@
 'use client';
 
-import {  ShoppingCart, Filter, Search, Download, FileText, Package, Loader2, Coffee  } from '@/components/ui/dynamic-icons';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect, useCallback } from 'react';
-import { CoffeeProduct } from '@/domain/entities/coffee-product.entity';
+import dynamic from 'next/dynamic';
 import type {
   CoffeeGrade,
   ProcessingMethod,
+  CoffeeCertification,
 } from '@/shared/components/design-system/types';
 import { downloadCSV } from '@/shared/utils/download';
 
-import type { CoffeeCertification } from '@/shared/components/design-system/types';
+// Dynamic imports for heavy components
+const ProductFilters = dynamic(
+  () =>
+    import('@/presentation/components/catalog/ProductFilters').then(mod => ({
+      default: mod.ProductFilters,
+    })),
+  {
+    loading: () => (
+      <div className="h-64 animate-pulse rounded-lg bg-gray-100" />
+    ),
+    ssr: false,
+  }
+);
 
+const ProductGrid = dynamic(
+  () =>
+    import('@/presentation/components/catalog/ProductGrid').then(mod => ({
+      default: mod.ProductGrid,
+    })),
+  {
+    loading: () => (
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div
+            key={`skeleton-${i}`}
+            className="h-96 animate-pulse rounded-lg bg-gray-100"
+          />
+        ))}
+      </div>
+    ),
+    ssr: false,
+  }
+);
+
+// Static imports for lightweight components
 import {
-  ProductFilters,
-  type ProductFilters as ProductFiltersType,
-} from '@/presentation/components/catalog/ProductFilters';
-import { ProductGrid } from '@/presentation/components/catalog/ProductGrid';
+  ShoppingCart,
+  Filter,
+  Search,
+  Download,
+  FileText,
+  Package,
+  Loader2,
+  Coffee,
+} from '@/components/ui/icons';
+import type { ProductFilters as ProductFiltersType } from '@/presentation/components/catalog/ProductFilters';
 import type { Product } from '@/presentation/components/catalog/ProductGrid';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
 import { ContentSection } from '@/presentation/components/layout/ContentSection';
-
 import { ServerButton } from '@/presentation/components/ui/server-button';
 import { Button } from '@/presentation/components/ui/button';
 import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
@@ -94,7 +132,9 @@ const mapApiGradeToDesignSystemGrade = (apiGrade: string): CoffeeGrade => {
   }
 };
 
-const mapApiProcessingToDesignSystemProcessing = (apiProcessing: string): ProcessingMethod => {
+const mapApiProcessingToDesignSystemProcessing = (
+  apiProcessing: string
+): ProcessingMethod => {
   switch (apiProcessing.toUpperCase()) {
     case 'NATURAL':
       return 'natural';
@@ -110,23 +150,6 @@ const mapApiProcessingToDesignSystemProcessing = (apiProcessing: string): Proces
       return 'natural'; // fallback
   }
 };
-
-interface ApiResponse {
-  products: ApiProduct[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
-  filters?: {
-    coffeeTypes: string[];
-    grades: string[];
-    processingMethods: string[];
-    origins: string[];
-    certifications: string[];
-  };
-}
 
 // Convert API product to grid product format
 const convertApiToGridProduct = (
@@ -180,7 +203,9 @@ const convertApiToGridProduct = (
     shortDescription: localizedDescription,
     type: apiProduct.coffeeType,
     grade: mapApiGradeToDesignSystemGrade(apiProduct.grade || 'COMMERCIAL'),
-    processingMethod: mapApiProcessingToDesignSystemProcessing(apiProduct.processing || 'NATURAL'),
+    processingMethod: mapApiProcessingToDesignSystemProcessing(
+      apiProduct.processing || 'NATURAL'
+    ),
     origin: {
       region: apiProduct.origin,
       province: apiProduct.origin,
@@ -266,61 +291,91 @@ export default function ProductsPage() {
       setLoading(true);
       setError(null);
 
-      // Build query parameters
-      const params = new URLSearchParams({
-        page: pagination.page.toString(),
-        limit: pagination.limit.toString(),
-      });
+      // Build request body for POST request
+      const requestBody: {
+        page: number;
+        limit: number;
+        locale: string;
+        q?: string;
+        coffeeType?: string[];
+        grade?: string[];
+        processing?: string[];
+        origin?: string[];
+        inStock?: boolean;
+        priceMin?: number;
+        priceMax?: number;
+        cuppingScoreMin?: number;
+        cuppingScoreMax?: number;
+        certifications?: string[];
+      } = {
+        page: pagination.page,
+        limit: pagination.limit,
+        locale: 'en',
+      };
 
-      // Add filters to query
-      if (filters.search) params.append('search', filters.search);
-      if (filters.coffeeType !== 'ALL')
-        params.append('coffeeType', filters.coffeeType);
-      if (filters.grade !== 'ALL') params.append('grade', filters.grade);
-      if (filters.processingMethod !== 'ALL')
-        params.append('processing', filters.processingMethod);
-      if (filters.origin !== 'ALL') params.append('origin', filters.origin);
-      if (filters.inStock !== null)
-        params.append('inStock', filters.inStock.toString());
-      if (filters.priceRange.min > 0)
-        params.append('minPrice', filters.priceRange.min.toString());
-      if (filters.priceRange.max < 10000)
-        params.append('maxPrice', filters.priceRange.max.toString());
-      if (filters.cuppingScoreRange.min > 0)
-        params.append(
-          'minCuppingScore',
-          filters.cuppingScoreRange.min.toString()
-        );
-      if (filters.cuppingScoreRange.max < 100)
-        params.append(
-          'maxCuppingScore',
-          filters.cuppingScoreRange.max.toString()
-        );
-      if (filters.altitudeRange.min > 0)
-        params.append('minAltitude', filters.altitudeRange.min.toString());
-      if (filters.altitudeRange.max < 2000)
-        params.append('maxAltitude', filters.altitudeRange.max.toString());
+      // Add filters to request body
+      if (filters.search) requestBody.q = filters.search;
+      if (filters.coffeeType !== 'ALL') {
+        requestBody.coffeeType = [filters.coffeeType];
+      }
+      if (filters.grade !== 'ALL') {
+        requestBody.grade = [filters.grade];
+      }
+      if (filters.processingMethod !== 'ALL') {
+        requestBody.processing = [filters.processingMethod];
+      }
+      if (filters.origin !== 'ALL') {
+        requestBody.origin = [filters.origin];
+      }
+      if (filters.inStock !== null) {
+        requestBody.inStock = filters.inStock;
+      }
+      if (filters.priceRange.min > 0) {
+        requestBody.priceMin = filters.priceRange.min;
+      }
+      if (filters.priceRange.max < 10000) {
+        requestBody.priceMax = filters.priceRange.max;
+      }
+      if (filters.cuppingScoreRange.min > 0) {
+        requestBody.cuppingScoreMin = filters.cuppingScoreRange.min;
+      }
+      if (filters.cuppingScoreRange.max < 100) {
+        requestBody.cuppingScoreMax = filters.cuppingScoreRange.max;
+      }
       if (filters.certifications.length > 0) {
-        filters.certifications.forEach(cert =>
-          params.append('certifications', cert)
-        );
+        requestBody.certifications = filters.certifications;
       }
 
-      const response = await fetch(`/api/products/search?${params.toString()}`);
+      const response = await fetch('/api/products/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
 
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
 
-      const data: ApiResponse = await response.json();
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to fetch products');
+      }
 
       // Convert API products to grid format
-      const convertedProducts = data.products.map(product =>
-        convertApiToGridProduct(product, 'en')
+      const convertedProducts = result.data.products.map(
+        (product: ApiProduct) => convertApiToGridProduct(product, 'en')
       );
 
       setProducts(convertedProducts);
-      setPagination(data.pagination);
+      setPagination({
+        page: result.data.pagination.page,
+        limit: result.data.pagination.limit,
+        total: result.data.pagination.totalCount,
+        totalPages: result.data.pagination.totalPages,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -444,7 +499,7 @@ export default function ProductsPage() {
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <ServerButton
                 size="lg"
-                className="bg-amber-600 text-white hover:bg-amber-700"
+                className="bg-forest-600 text-white hover:bg-forest-700"
               >
                 <Filter className="mr-2 h-5 w-5" />
                 Filter Products
@@ -452,7 +507,7 @@ export default function ProductsPage() {
               <ServerButton
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-forest-600"
+                className="border-2 border-white bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-forest-600 hover:shadow-lg"
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
                 Request Quote
@@ -480,11 +535,11 @@ export default function ProductsPage() {
             <div className="lg:col-span-3">
               {/* Bulk Actions Toolbar */}
               {showBulkActions && (
-                <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-4">
+                <div className="mb-6 rounded-lg border border-forest-200 bg-forest-50 p-4">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-2">
-                      <Package className="h-5 w-5 text-amber-600" />
-                      <span className="font-medium text-amber-800">
+                      <Package className="h-5 w-5 text-forest-700" />
+                      <span className="font-medium text-forest-900">
                         {selectedProducts.size} product
                         {selectedProducts.size !== 1 ? 's' : ''} selected
                       </span>
@@ -492,7 +547,7 @@ export default function ProductsPage() {
                     <div className="flex flex-wrap gap-2">
                       <Button
                         onClick={requestBulkQuote}
-                        className="bg-amber-600 text-white hover:bg-amber-700"
+                        className="bg-forest-600 text-white hover:bg-forest-700"
                         size="sm"
                       >
                         <ShoppingCart className="mr-2 h-4 w-4" />
@@ -502,7 +557,7 @@ export default function ProductsPage() {
                         onClick={exportToCSV}
                         variant="outline"
                         size="sm"
-                        className="border-amber-600 text-amber-600 hover:bg-amber-50"
+                        className="border-forest-700 text-forest-800 hover:bg-forest-50"
                       >
                         <Download className="mr-2 h-4 w-4" />
                         Export CSV
@@ -514,7 +569,7 @@ export default function ProductsPage() {
                         }}
                         variant="ghost"
                         size="sm"
-                        className="text-amber-600 hover:bg-amber-50"
+                        className="text-forest-800 hover:bg-forest-50"
                       >
                         Clear Selection
                       </Button>
@@ -736,7 +791,7 @@ export default function ProductsPage() {
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <ServerButton
               size="lg"
-              className="bg-amber-600 text-white hover:bg-amber-700"
+              className="bg-forest-600 text-white hover:bg-forest-700"
             >
               <Search className="mr-2 h-5 w-5" />
               Custom Sourcing
@@ -744,7 +799,7 @@ export default function ProductsPage() {
             <ServerButton
               size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-forest-600"
+              className="border-2 border-white bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-forest-600 hover:shadow-lg"
             >
               <ShoppingCart className="mr-2 h-5 w-5" />
               Contact Sales Team

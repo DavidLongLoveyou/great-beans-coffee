@@ -33,17 +33,25 @@ class LazyContentManager {
 
   static async getMarketReports(locale: Locale): Promise<MarketReport[]> {
     const { allMarketReports } = await this.loadContent();
-    return allMarketReports.filter((report: MarketReport) => report.locale === locale);
+    return allMarketReports.filter(
+      (report: MarketReport) => report.locale === locale
+    );
   }
 
-  static async getFeaturedMarketReports(locale: Locale, limit = 3): Promise<MarketReport[]> {
+  static async getFeaturedMarketReports(
+    locale: Locale,
+    limit = 3
+  ): Promise<MarketReport[]> {
     const reports = await this.getMarketReports(locale);
     return reports
       .filter((report: MarketReport) => report.featured)
       .slice(0, limit);
   }
 
-  static async getMarketReportBySlug(slug: string, locale: Locale): Promise<MarketReport | undefined> {
+  static async getMarketReportBySlug(
+    slug: string,
+    locale: Locale
+  ): Promise<MarketReport | undefined> {
     const { allMarketReports } = await this.loadContent();
     return allMarketReports.find(
       (report: MarketReport) => report.slug === slug && report.locale === locale
@@ -52,17 +60,25 @@ class LazyContentManager {
 
   static async getOriginStories(locale: Locale): Promise<OriginStory[]> {
     const { allOriginStories } = await this.loadContent();
-    return allOriginStories.filter((story: OriginStory) => story.locale === locale);
+    return allOriginStories.filter(
+      (story: OriginStory) => story.locale === locale
+    );
   }
 
-  static async getFeaturedOriginStories(locale: Locale, limit = 3): Promise<OriginStory[]> {
+  static async getFeaturedOriginStories(
+    locale: Locale,
+    limit = 3
+  ): Promise<OriginStory[]> {
     const stories = await this.getOriginStories(locale);
     return stories
       .filter((story: OriginStory) => story.featured)
       .slice(0, limit);
   }
 
-  static async getOriginStoryBySlug(slug: string, locale: Locale): Promise<OriginStory | undefined> {
+  static async getOriginStoryBySlug(
+    slug: string,
+    locale: Locale
+  ): Promise<OriginStory | undefined> {
     const { allOriginStories } = await this.loadContent();
     return allOriginStories.find(
       (story: OriginStory) => story.slug === slug && story.locale === locale
@@ -71,7 +87,9 @@ class LazyContentManager {
 
   static async getServicePages(locale: Locale): Promise<ServicePage[]> {
     const { allServicePages } = await this.loadContent();
-    return allServicePages.filter((page: ServicePage) => page.locale === locale);
+    return allServicePages.filter(
+      (page: ServicePage) => page.locale === locale
+    );
   }
 
   static async getFeaturedServicePages(locale: Locale): Promise<ServicePage[]> {
@@ -79,7 +97,10 @@ class LazyContentManager {
     return pages.filter((page: ServicePage) => page.featured);
   }
 
-  static async getServicePageBySlug(slug: string, locale: Locale): Promise<ServicePage | undefined> {
+  static async getServicePageBySlug(
+    slug: string,
+    locale: Locale
+  ): Promise<ServicePage | undefined> {
     const { allServicePages } = await this.loadContent();
     return allServicePages.find(
       (page: ServicePage) => page.slug === slug && page.locale === locale
@@ -91,14 +112,18 @@ class LazyContentManager {
     return allBlogPosts.filter((post: BlogPost) => post.locale === locale);
   }
 
-  static async getFeaturedBlogPosts(locale: Locale, limit = 3): Promise<BlogPost[]> {
+  static async getFeaturedBlogPosts(
+    locale: Locale,
+    limit = 3
+  ): Promise<BlogPost[]> {
     const posts = await this.getBlogPosts(locale);
-    return posts
-      .filter((post: BlogPost) => post.featured)
-      .slice(0, limit);
+    return posts.filter((post: BlogPost) => post.featured).slice(0, limit);
   }
 
-  static async getBlogPostBySlug(slug: string, locale: Locale): Promise<BlogPost | undefined> {
+  static async getBlogPostBySlug(
+    slug: string,
+    locale: Locale
+  ): Promise<BlogPost | undefined> {
     const { allBlogPosts } = await this.loadContent();
     return allBlogPosts.find(
       (post: BlogPost) => post.slug === slug && post.locale === locale
@@ -121,7 +146,10 @@ class LazyContentManager {
     return allLegalPages.filter((page: LegalPage) => page.locale === locale);
   }
 
-  static async getLegalPageBySlug(slug: string, locale: Locale): Promise<LegalPage | undefined> {
+  static async getLegalPageBySlug(
+    slug: string,
+    locale: Locale
+  ): Promise<LegalPage | undefined> {
     const { allLegalPages } = await this.loadContent();
     return allLegalPages.find(
       (page: LegalPage) => page.slug === slug && page.locale === locale
@@ -130,12 +158,13 @@ class LazyContentManager {
 
   // Search functionality
   static async searchContent(locale: Locale, query: string): Promise<any[]> {
-    const [blogPosts, marketReports, servicePages, originStories] = await Promise.all([
-      this.getBlogPosts(locale),
-      this.getMarketReports(locale),
-      this.getServicePages(locale),
-      this.getOriginStories(locale),
-    ]);
+    const [blogPosts, marketReports, servicePages, originStories] =
+      await Promise.all([
+        this.getBlogPosts(locale),
+        this.getMarketReports(locale),
+        this.getServicePages(locale),
+        this.getOriginStories(locale),
+      ]);
 
     const searchTerm = query.toLowerCase();
     const results: any[] = [];
@@ -147,7 +176,8 @@ class LazyContentManager {
         post.description.toLowerCase().includes(searchTerm) ||
         (post.excerpt && post.excerpt.toLowerCase().includes(searchTerm)) ||
         (post.category && post.category.toLowerCase().includes(searchTerm)) ||
-        (post.tags && post.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
+        (post.tags &&
+          post.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
       ) {
         results.push({
           id: post._id,

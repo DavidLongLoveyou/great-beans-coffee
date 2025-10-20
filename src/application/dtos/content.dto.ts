@@ -108,7 +108,7 @@ export interface ContentDto {
     };
     canonicalUrl?: string;
     ogImage?: string;
-    structuredData?: Record<string, any>;
+    structuredData?: Record<string, unknown>;
   };
 
   // Categorization
@@ -163,7 +163,7 @@ export interface ContentDto {
 
     // For product pages
     productId?: string;
-    specifications?: Record<string, any>;
+    specifications?: Record<string, unknown>;
     certifications?: string[];
   };
 }
@@ -236,8 +236,8 @@ export interface ContentRevisionDto {
   version: number;
   changes: Array<{
     field: string;
-    oldValue: any;
-    newValue: any;
+    oldValue: unknown;
+    newValue: unknown;
   }>;
   createdBy: string;
   createdAt: Date;
