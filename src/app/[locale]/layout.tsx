@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display, JetBrains_Mono } from 'next/font/google';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
 import '../globals.css';
+import '../../styles/fonts.css';
 import { type Locale } from '@/i18n';
 import Footer from '@/presentation/components/layout/Footer';
 import Header from '@/presentation/components/layout/Header';
@@ -18,12 +19,7 @@ const inter = Inter({
   preload: true,
 });
 
-const playfairDisplay = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
-  preload: true,
-});
+// Playfair Display is now loaded locally via fonts.css
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -217,14 +213,28 @@ export default async function RootLayout({
           type="image/jpeg"
         />
 
+        {/* Font preloading for better performance */}
+        <link
+          rel="preload"
+          href="/fonts/playfair-display-v40-latin-regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/playfair-display-v40-latin-700.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+
         {/* Resource hints for better performance */}
         <link rel="prefetch" href="/en/services" />
         <link rel="prefetch" href="/en/blog" />
         <link rel="prefetch" href="/en/market-reports" />
       </head>
-      <body
-        className={`font-sans ${inter.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable}`}
-      >
+      <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable}`}>
         <PerformanceInitializer />
         <NextIntlClientProvider messages={messages} locale={locale}>
           {/* Skip navigation links for accessibility */}

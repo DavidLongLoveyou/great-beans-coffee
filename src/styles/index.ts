@@ -44,9 +44,9 @@ export const themeConfig = {
     },
   },
   fontFamily: {
-    sans: ['Inter', 'system-ui', 'sans-serif'],
-    serif: ['Playfair Display', 'Georgia', 'serif'],
-    mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+    sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+    serif: ['var(--font-playfair)', 'Playfair Display', 'Georgia', 'serif'],
+    mono: ['var(--font-jetbrains)', 'JetBrains Mono', 'Consolas', 'monospace'],
   },
   spacing: {
     '18': '4.5rem',
