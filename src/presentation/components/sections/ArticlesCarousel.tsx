@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ChevronLeft,
   ChevronRight,
@@ -45,7 +46,7 @@ interface MarketInsight {
   value: string;
   change: string;
   trend: 'up' | 'down' | 'stable';
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 // Sample articles data - in real app, this would come from CMS
@@ -53,7 +54,8 @@ const sampleArticles: Article[] = [
   {
     id: '1',
     title: 'Sustainable Coffee Sourcing in Vietnam',
-    description: 'Exploring sustainable practices in Vietnamese coffee farms and their impact on global supply chains.',
+    description:
+      'Exploring sustainable practices in Vietnamese coffee farms and their impact on global supply chains.',
     type: 'blog',
     slug: 'sustainable-coffee-sourcing-vietnam',
     author: 'Dr. Sarah Chen',
@@ -66,7 +68,8 @@ const sampleArticles: Article[] = [
   {
     id: '2',
     title: 'Global Coffee Market Trends 2024',
-    description: 'Comprehensive analysis of global coffee market trends, pricing, and demand patterns for 2024.',
+    description:
+      'Comprehensive analysis of global coffee market trends, pricing, and demand patterns for 2024.',
     type: 'market-report',
     slug: 'global-coffee-market-trends-2024',
     author: 'Maria Rodriguez',
@@ -79,7 +82,8 @@ const sampleArticles: Article[] = [
   {
     id: '3',
     title: 'Vietnam Coffee Export Trends 2024',
-    description: 'Latest insights into Vietnam coffee export performance and market opportunities.',
+    description:
+      'Latest insights into Vietnam coffee export performance and market opportunities.',
     type: 'blog',
     slug: 'vietnam-coffee-export-trends-2024',
     author: 'Dr. Pham Minh Duc',
@@ -92,7 +96,8 @@ const sampleArticles: Article[] = [
   {
     id: '4',
     title: 'Coffee Processing Methods Guide',
-    description: 'Understanding different coffee processing methods and their impact on flavor profiles.',
+    description:
+      'Understanding different coffee processing methods and their impact on flavor profiles.',
     type: 'blog',
     slug: 'coffee-processing-methods-2024',
     author: 'Elena Rodriguez',
@@ -180,10 +185,6 @@ export function ArticlesCarousel() {
     setIsAutoPlaying(false);
   };
 
-  const getTypeIcon = (type: string) => {
-    return type === 'blog' ? BookOpen : BarChart3;
-  };
-
   const getTypeColor = (type: string) => {
     return type === 'blog'
       ? 'bg-emerald-100 text-emerald-800'
@@ -219,7 +220,8 @@ export function ArticlesCarousel() {
             Industry Knowledge Hub
           </h2>
           <p className="mx-auto max-w-2xl text-xl text-forest-600">
-            Stay informed with our latest blog posts, market reports, and real-time industry insights
+            Stay informed with our latest blog posts, market reports, and
+            real-time industry insights
           </p>
         </div>
 
@@ -241,16 +243,22 @@ export function ArticlesCarousel() {
                       <div className="grid grid-cols-1 md:grid-cols-2">
                         {/* Article Image */}
                         <div className="relative h-64 md:h-full">
-                          <img
-                            src={currentArticle?.coverImage}
-                            alt={currentArticle?.title}
-                            className="h-full w-full object-cover"
+                          <Image
+                            src={
+                              currentArticle?.coverImage ||
+                              '/images/placeholder.jpg'
+                            }
+                            alt={currentArticle?.title || 'Article cover'}
+                            fill
+                            className="object-cover"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                           <Badge
                             className={`absolute left-4 top-4 ${getTypeColor(currentArticle?.type || 'blog')}`}
                           >
-                            {currentArticle?.type === 'blog' ? 'Blog' : 'Market Report'}
+                            {currentArticle?.type === 'blog'
+                              ? 'Blog'
+                              : 'Market Report'}
                           </Badge>
                         </div>
 
@@ -260,7 +268,9 @@ export function ArticlesCarousel() {
                             <div className="mb-4 flex items-center gap-4 text-sm text-forest-600">
                               <div className="flex items-center gap-1">
                                 <Calendar className="h-4 w-4" />
-                                {new Date(currentArticle?.publishedAt || '').toLocaleDateString()}
+                                {new Date(
+                                  currentArticle?.publishedAt || ''
+                                ).toLocaleDateString()}
                               </div>
                               <div className="flex items-center gap-1">
                                 <Clock className="h-4 w-4" />
@@ -317,9 +327,9 @@ export function ArticlesCarousel() {
 
               {/* Slide Indicators */}
               <div className="mt-6 flex justify-center gap-2">
-                {sampleArticles.map((_, index) => (
+                {sampleArticles.map((article, index) => (
                   <button
-                    key={index}
+                    key={article.id}
                     onClick={() => goToSlide(index)}
                     className={`h-3 w-3 rounded-full transition-all duration-200 ${
                       index === currentIndex
@@ -356,9 +366,10 @@ export function ArticlesCarousel() {
                     >
                       <div className="mb-4 flex justify-center">
                         <div className="rounded-full bg-gradient-to-br from-gold-100 to-forest-100 p-3">
-                          {React.createElement(currentInsight?.icon, {
-                            className: 'h-6 w-6 text-forest-600',
-                          })}
+                          {currentInsight?.icon &&
+                            React.createElement(currentInsight.icon, {
+                              className: 'h-6 w-6 text-forest-600',
+                            })}
                         </div>
                       </div>
                       <h3 className="mb-2 font-semibold text-forest-900">
@@ -367,7 +378,9 @@ export function ArticlesCarousel() {
                       <div className="mb-2 text-2xl font-bold text-forest-900">
                         {currentInsight?.value}
                       </div>
-                      <div className={`text-sm font-semibold ${getTrendColor(currentInsight?.trend || 'stable')}`}>
+                      <div
+                        className={`text-sm font-semibold ${getTrendColor(currentInsight?.trend || 'stable')}`}
+                      >
                         {currentInsight?.change}
                       </div>
                     </motion.div>
@@ -375,9 +388,9 @@ export function ArticlesCarousel() {
 
                   {/* Market Insights Indicators */}
                   <div className="mt-4 flex justify-center gap-1">
-                    {marketInsights.map((_, index) => (
+                    {marketInsights.map((insight, index) => (
                       <div
-                        key={index}
+                        key={insight.id}
                         className={`h-1.5 w-1.5 rounded-full transition-all duration-200 ${
                           index === marketInsightIndex
                             ? 'bg-gold-600'

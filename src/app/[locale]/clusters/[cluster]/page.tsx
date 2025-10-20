@@ -156,17 +156,20 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
       <HeroSection className="bg-gradient-to-r from-forest-900 to-forest-700 py-20 text-white">
         <ContentContainer>
           <div className="mx-auto max-w-4xl text-center">
-            <SectionHeading size="xl" className="mb-6 bg-gradient-to-r from-gold-300 via-gold-200 to-gold-400 bg-clip-text text-transparent">
+            <SectionHeading
+              size="xl"
+              className="mb-6 bg-gradient-to-r from-gold-300 via-gold-200 to-gold-400 bg-clip-text text-transparent"
+            >
               {cluster.title}
             </SectionHeading>
-            <p className="mb-8 text-xl leading-relaxed bg-gradient-to-r from-gold-200 via-gold-100 to-gold-300 bg-clip-text text-transparent">
+            <p className="mb-8 bg-gradient-to-r from-gold-200 via-gold-100 to-gold-300 bg-clip-text text-xl leading-relaxed text-transparent">
               {cluster.description}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <CoffeeButton variant="forest" size="lg">{t('requestQuote')}</CoffeeButton>
+              <CoffeeButton size="lg">{t('requestQuote')}</CoffeeButton>
               <CoffeeButton
                 size="lg"
-                className="bg-gradient-to-r from-gold-500 to-gold-600 text-forest-900 font-semibold shadow-lg shadow-gold-500/25 transition-all duration-300 hover:from-gold-400 hover:to-gold-500 hover:shadow-xl hover:shadow-gold-500/40 border-0"
+                className="border-0 bg-gradient-to-r from-gold-500 to-gold-600 font-semibold text-forest-900 shadow-lg shadow-gold-500/25 transition-all duration-300 hover:from-gold-400 hover:to-gold-500 hover:shadow-xl hover:shadow-gold-500/40"
               >
                 {t('downloadCatalog')}
               </CoffeeButton>
@@ -242,11 +245,9 @@ export default async function ClusterPage({ params }: ClusterPageProps) {
             <SectionHeading size="xl" className="mb-6 text-white">
               {t('cta.title')}
             </SectionHeading>
-            <p className="mb-8 text-xl text-white">
-              {cluster.description}
-            </p>
+            <p className="mb-8 text-xl text-white">{cluster.description}</p>
             <div className="flex flex-wrap justify-center gap-4">
-              <CoffeeButton variant="forest" size="lg">{t('cta.primaryAction')}</CoffeeButton>
+              <CoffeeButton size="lg">{t('cta.primaryAction')}</CoffeeButton>
               <CoffeeButton
                 size="lg"
                 className="border-2 border-white bg-white/10 text-white backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-forest-900 hover:shadow-lg"

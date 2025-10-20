@@ -72,7 +72,7 @@ const nextConfig: NextConfig = {
   },
 
   // Webpack optimizations
-  webpack: (config, { _dev, _isServer }) => {
+  webpack: (config, { dev: _dev, isServer: _isServer }) => {
     // Optimize SVG handling
     config.module.rules.push({
       test: /\.svg$/,
