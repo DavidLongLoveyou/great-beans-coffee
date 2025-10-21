@@ -21,24 +21,25 @@ const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
 
 const mockToast = toast as jest.Mocked<typeof toast>;
 
-// Helper function to create mock Response
-const createMockResponse = (data: any, ok: boolean = true): Response => {
+// Helper function to create mock Response objects
+const createMockResponse = (data: unknown, options: { ok?: boolean; status?: number } = {}) => {
+  const { ok = true, status = 200 } = options;
   return {
     ok,
-    status: ok ? 200 : 400,
-    statusText: ok ? 'OK' : 'Bad Request',
+    status,
     headers: new Headers(),
-    redirected: false,
-    type: 'basic',
-    url: '',
-    clone: jest.fn(),
+    json: async () => data,
+    text: async () => JSON.stringify(data),
+    blob: async () => new Blob([JSON.stringify(data)]),
+    arrayBuffer: async () => new ArrayBuffer(0),
+    formData: async () => new FormData(),
+    clone: () => createMockResponse(data, { ok, status }),
     body: null,
     bodyUsed: false,
-    arrayBuffer: jest.fn(),
-    blob: jest.fn(),
-    formData: jest.fn(),
-    text: jest.fn(),
-    json: jest.fn().mockResolvedValue(data),
+    redirected: false,
+    type: 'basic' as ResponseType,
+    url: '',
+    statusText: ok ? 'OK' : 'Error',
   } as Response;
 };
 

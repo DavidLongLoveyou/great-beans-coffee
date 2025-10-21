@@ -9,6 +9,12 @@ jest.mock('next-auth/react', () => ({
   useSession: jest.fn(),
 }));
 
+// Mock the i18n configuration
+jest.mock('@/i18n', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
 jest.mock('next-intl', () => ({
   useTranslations: jest.fn(),
 }));

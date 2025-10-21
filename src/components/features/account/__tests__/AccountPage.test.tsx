@@ -7,6 +7,12 @@ import { useTranslations } from 'next-intl';
 import AccountPageSimple from '@/components/features/account/AccountPageSimple';
 import { createWrapper, mockUser } from '@/test/utils';
 
+// Mock the i18n configuration
+jest.mock('@/i18n', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
 // Mock dependencies
 jest.mock('sonner', () => ({
   toast: {

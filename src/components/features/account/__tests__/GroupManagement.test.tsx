@@ -3,6 +3,25 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { toast } from 'sonner';
 
+// Mock icons
+jest.mock('@/components/ui/icons', () => ({
+  Crown: () => <span data-testid="crown-icon">Crown</span>,
+  Shield: () => <span data-testid="shield-icon">Shield</span>,
+  UserCheck: () => <span data-testid="user-check-icon">UserCheck</span>,
+  Eye: () => <span data-testid="eye-icon">Eye</span>,
+  Plus: () => <span data-testid="plus-icon">Plus</span>,
+  Trash: () => <span data-testid="trash-icon">Trash</span>,
+  Mail: () => <span data-testid="mail-icon">Mail</span>,
+}));
+
+// Mock toast
+jest.mock('sonner', () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}));
+
 // Helper function to create mock Response objects
 const createMockResponse = (data: any, options: { ok?: boolean; status?: number } = {}) => {
   const { ok = true, status = 200 } = options;
@@ -26,7 +45,7 @@ const createMockResponse = (data: any, options: { ok?: boolean; status?: number 
 };
 
 // Mock the UI components
-jest.mock('@/components/ui/card', () => ({
+jest.mock('@/presentation/components/ui/card', () => ({
   Card: ({ children, ...props }: any) => (
     <div data-testid="card" {...props}>
       {children}
@@ -54,7 +73,7 @@ jest.mock('@/components/ui/card', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/button', () => ({
+jest.mock('@/presentation/components/ui/button', () => ({
   Button: ({
     children,
     onClick,
@@ -78,7 +97,7 @@ jest.mock('@/components/ui/button', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/dialog', () => ({
+jest.mock('@/presentation/components/ui/dialog', () => ({
   Dialog: ({ children, open, onOpenChange }: any) => (
     <div
       data-testid="dialog"
@@ -108,7 +127,7 @@ jest.mock('@/components/ui/dialog', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/table', () => ({
+jest.mock('@/presentation/components/ui/table', () => ({
   Table: ({ children }: any) => <table data-testid="table">{children}</table>,
   TableHeader: ({ children }: any) => (
     <thead data-testid="table-header">{children}</thead>
@@ -125,7 +144,7 @@ jest.mock('@/components/ui/table', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/input', () => ({
+jest.mock('@/presentation/components/ui/input', () => ({
   Input: ({
     value,
     onChange,
@@ -148,7 +167,7 @@ jest.mock('@/components/ui/input', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/label', () => ({
+jest.mock('@/presentation/components/ui/label', () => ({
   Label: ({ children, htmlFor }: any) => (
     <label htmlFor={htmlFor} data-testid="label">
       {children}
@@ -156,7 +175,7 @@ jest.mock('@/components/ui/label', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/select', () => ({
+jest.mock('@/presentation/components/ui/select', () => ({
   Select: ({ children, value, onValueChange, disabled }: any) => (
     <div data-testid="select" data-value={value} data-disabled={disabled}>
       <button
@@ -182,7 +201,7 @@ jest.mock('@/components/ui/select', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/badge', () => ({
+jest.mock('@/presentation/components/ui/badge', () => ({
   Badge: ({ children, variant }: any) => (
     <span data-testid="badge" data-variant={variant}>
       {children}
@@ -190,7 +209,7 @@ jest.mock('@/components/ui/badge', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/avatar', () => ({
+jest.mock('@/presentation/components/ui/avatar', () => ({
   Avatar: ({ children, className }: any) => (
     <div data-testid="avatar" className={className}>
       {children}
@@ -313,7 +332,7 @@ const GroupManagement: React.FC = () => {
     }
   };
 
-  const handleRoleChange = async (
+  const _handleRoleChange = async (
     memberId: string,
     newRole: TeamMember['role']
   ) => {
