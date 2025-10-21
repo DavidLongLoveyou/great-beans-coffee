@@ -18,6 +18,8 @@ import {
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
+import PersonalProfile from '@/components/features/account/PersonalProfile';
+
 import { type Locale } from '@/i18n';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
 import { ContentSection } from '@/presentation/components/layout/ContentSection';
@@ -70,6 +72,7 @@ import {
 } from '@/presentation/components/ui/tabs';
 import { Textarea } from '@/presentation/components/ui/textarea';
 import { CoffeeHeading } from '@/shared/components/typography/CoffeeHeading';
+import SecuritySettings from '@/components/features/account/SecuritySettings';
 
 interface AccountPageProps {
   params: Promise<{
@@ -256,14 +259,21 @@ export default function AccountPage({ params: _params }: AccountPageProps) {
           </div>
         </div>
 
-        <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+        <Tabs defaultValue="personal" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="personal">{t('tabs.personal')}</TabsTrigger>
             <TabsTrigger value="profile">{t('tabs.profile')}</TabsTrigger>
             <TabsTrigger value="team">{t('tabs.team')}</TabsTrigger>
             <TabsTrigger value="preferences">
               {t('tabs.preferences')}
             </TabsTrigger>
+            <TabsTrigger value="security">{t('tabs.security')}</TabsTrigger>
           </TabsList>
+
+          {/* Personal Profile Tab */}
+          <TabsContent value="personal" className="space-y-6">
+            <PersonalProfile />
+          </TabsContent>
 
           {/* Company Profile Tab */}
           <TabsContent value="profile" className="space-y-6">
@@ -843,6 +853,11 @@ export default function AccountPage({ params: _params }: AccountPageProps) {
                 </Button>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Security Tab */}
+          <TabsContent value="security" className="space-y-6">
+            <SecuritySettings />
           </TabsContent>
         </Tabs>
       </ContentSection>

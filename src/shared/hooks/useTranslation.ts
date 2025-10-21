@@ -7,11 +7,11 @@ import { getLocaleFromPathname } from '@/shared/utils/locale';
 /**
  * Simple translation function that loads JSON directly
  */
-function getTranslationData(locale: string) {
+function getTranslationData(_locale: string) {
   try {
     // Use require for synchronous loading
-    return require(`../../../messages/${locale}.json`);
-  } catch (error) {
+    return require(`../../../messages/${_locale}.json`);
+  } catch (_error) {
     // Fallback to English
     try {
       return require(`../../../messages/en.json`);
@@ -38,7 +38,7 @@ export function useTranslation(namespace: string = '') {
       }
 
       return translation[key] || key;
-    } catch (error) {
+    } catch (_error) {
       return key;
     }
   };

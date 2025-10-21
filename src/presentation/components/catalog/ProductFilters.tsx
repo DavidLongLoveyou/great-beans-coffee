@@ -261,26 +261,26 @@ export function ProductFilters({
               Search Products
             </Label>
             <div className="relative mt-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-forest-400" />
-            <Input
-              id="search"
-              type="text"
-              placeholder="Search by name, origin, or description..."
-              value={filters.search}
-              onChange={e => updateFilter('search', e.target.value)}
-              disabled={loading}
-              className="border-forest-200 pl-10 focus:border-emerald-400 focus:ring-emerald-400 disabled:opacity-50"
-            />
-            {filters.search && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => updateFilter('search', '')}
-                className="absolute right-2 top-1/2 h-6 w-6 -translate-y-1/2 p-0 text-forest-800 hover:text-forest-900"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-forest-400" />
+              <Input
+                id="search"
+                type="text"
+                placeholder="Search by name, origin, or description..."
+                value={filters.search}
+                onChange={e => updateFilter('search', e.target.value)}
+                disabled={loading}
+                className="border-forest-200 pl-10 focus:border-emerald-400 focus:ring-emerald-400 disabled:opacity-50"
+              />
+              {filters.search && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => updateFilter('search', '')}
+                  className="absolute right-2 top-1/2 h-6 w-6 -translate-y-1/2 p-0 text-forest-800 hover:text-forest-900"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -301,7 +301,7 @@ export function ProductFilters({
                     disabled={loading}
                   >
                     <SelectTrigger
-                      className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 disabled:opacity-50 mt-1"
+                      className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 disabled:opacity-50"
                       aria-label="Select coffee type"
                     >
                       <SelectValue />
@@ -328,7 +328,7 @@ export function ProductFilters({
                     onValueChange={value => updateFilter('grade', value)}
                   >
                     <SelectTrigger
-                      className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                      className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
                       aria-label="Select coffee grade"
                     >
                       <SelectValue />
@@ -356,7 +356,7 @@ export function ProductFilters({
                       updateFilter('processingMethod', value)
                     }
                   >
-                    <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                    <SelectTrigger className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -378,9 +378,11 @@ export function ProductFilters({
                   </Label>
                   <Select
                     value={filters.certification}
-                    onValueChange={value => updateFilter('certification', value)}
+                    onValueChange={value =>
+                      updateFilter('certification', value)
+                    }
                   >
-                    <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                    <SelectTrigger className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -401,9 +403,12 @@ export function ProductFilters({
                 <Label className="block text-sm font-medium text-forest-700">
                   Price Range (USD per MT)
                 </Label>
-                <div className="grid grid-cols-2 gap-4 mt-1">
+                <div className="mt-1 grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="minPrice" className="text-xs text-forest-800">
+                    <Label
+                      htmlFor="minPrice"
+                      className="text-xs text-forest-800"
+                    >
                       Min Price
                     </Label>
                     <Input
@@ -417,11 +422,14 @@ export function ProductFilters({
                           min: parseInt(e.target.value) || 0,
                         })
                       }
-                      className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                      className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="maxPrice" className="text-xs text-forest-800">
+                    <Label
+                      htmlFor="maxPrice"
+                      className="text-xs text-forest-800"
+                    >
                       Max Price
                     </Label>
                     <Input
@@ -435,7 +443,7 @@ export function ProductFilters({
                           max: parseInt(e.target.value) || 10000,
                         })
                       }
-                      className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                      className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
                     />
                   </div>
                 </div>
@@ -463,7 +471,7 @@ export function ProductFilters({
                     )
                   }
                 >
-                  <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                  <SelectTrigger className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -493,7 +501,7 @@ export function ProductFilters({
                       value={filters.origin}
                       onValueChange={value => updateFilter('origin', value)}
                     >
-                      <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                      <SelectTrigger className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -519,7 +527,7 @@ export function ProductFilters({
                         updateFilter('harvestSeason', value)
                       }
                     >
-                      <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                      <SelectTrigger className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -543,7 +551,7 @@ export function ProductFilters({
                       value={filters.incoterms}
                       onValueChange={value => updateFilter('incoterms', value)}
                     >
-                      <SelectTrigger className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1">
+                      <SelectTrigger className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -563,7 +571,7 @@ export function ProductFilters({
                     <Label className="block text-sm font-medium text-forest-700">
                       Minimum Order (MT)
                     </Label>
-                    <div className="grid grid-cols-2 gap-2 mt-1">
+                    <div className="mt-1 grid grid-cols-2 gap-2">
                       <div>
                         <Label
                           htmlFor="minOrder"
@@ -582,7 +590,7 @@ export function ProductFilters({
                               min: parseInt(e.target.value) || 0,
                             })
                           }
-                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                          className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
                         />
                       </div>
                       <div>
@@ -603,7 +611,7 @@ export function ProductFilters({
                               max: parseInt(e.target.value) || 1000,
                             })
                           }
-                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                          className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
                         />
                       </div>
                     </div>
@@ -616,7 +624,7 @@ export function ProductFilters({
                     <Label className="block text-sm font-medium text-forest-700">
                       Cupping Score
                     </Label>
-                    <div className="grid grid-cols-2 gap-2 mt-1">
+                    <div className="mt-1 grid grid-cols-2 gap-2">
                       <div>
                         <Label
                           htmlFor="minCupping"
@@ -637,7 +645,7 @@ export function ProductFilters({
                               min: parseInt(e.target.value) || 0,
                             })
                           }
-                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                          className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
                         />
                       </div>
                       <div>
@@ -660,7 +668,7 @@ export function ProductFilters({
                               max: parseInt(e.target.value) || 100,
                             })
                           }
-                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                          className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
                         />
                       </div>
                     </div>
@@ -673,7 +681,7 @@ export function ProductFilters({
                     <Label className="block text-sm font-medium text-forest-700">
                       Altitude (MASL)
                     </Label>
-                    <div className="grid grid-cols-2 gap-2 mt-1">
+                    <div className="mt-1 grid grid-cols-2 gap-2">
                       <div>
                         <Label
                           htmlFor="minAltitude"
@@ -692,7 +700,7 @@ export function ProductFilters({
                               min: parseInt(e.target.value) || 0,
                             })
                           }
-                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                          className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
                         />
                       </div>
                       <div>
@@ -713,7 +721,7 @@ export function ProductFilters({
                               max: parseInt(e.target.value) || 2000,
                             })
                           }
-                          className="border-forest-200 focus:border-emerald-400 focus:ring-emerald-400 mt-1"
+                          className="mt-1 border-forest-200 focus:border-emerald-400 focus:ring-emerald-400"
                         />
                       </div>
                     </div>
@@ -727,7 +735,7 @@ export function ProductFilters({
                   <Label className="block text-sm font-medium text-forest-700">
                     Certifications (Multiple Selection)
                   </Label>
-                  <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 mt-1">
+                  <div className="mt-1 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
                     {certifications.map(cert => (
                       <div
                         key={cert.value}

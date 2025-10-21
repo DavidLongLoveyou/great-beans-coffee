@@ -170,18 +170,11 @@ export function EnhancedSEOHead({
       ))}
 
       {/* DNS prefetch for external resources */}
-      <link rel="dns-prefetch" href="//fonts.googleapis.com" />
       <link rel="dns-prefetch" href="//www.google-analytics.com" />
       <link rel="dns-prefetch" href="//www.googletagmanager.com" />
       <link rel="dns-prefetch" href="//res.cloudinary.com" />
 
       {/* Preconnect to critical third-party origins */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossOrigin="anonymous"
-      />
       <link rel="preconnect" href="https://res.cloudinary.com" />
 
       {/* Structured Data - JSON-LD */}

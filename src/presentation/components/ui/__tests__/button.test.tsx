@@ -9,7 +9,7 @@ describe('Button Component', () => {
 
     const button = screen.getByRole('button', { name: /click me/i });
     expect(button).toBeInTheDocument();
-    expect(button).toHaveClass('inline-flex', 'items-center', 'justify-center');
+    expect(button).toHaveClass('inline-flex items-center justify-center');
   });
 
   it('renders with different variants', () => {
@@ -20,7 +20,7 @@ describe('Button Component', () => {
     expect(screen.getByRole('button')).toHaveClass('bg-destructive');
 
     rerender(<Button variant="outline">Outline</Button>);
-    expect(screen.getByRole('button')).toHaveClass('border', 'border-input');
+    expect(screen.getByRole('button')).toHaveClass('border border-input');
 
     rerender(<Button variant="secondary">Secondary</Button>);
     expect(screen.getByRole('button')).toHaveClass('bg-secondary');
@@ -30,27 +30,22 @@ describe('Button Component', () => {
 
     rerender(<Button variant="link">Link</Button>);
     expect(screen.getByRole('button')).toHaveClass(
-      'text-primary',
-      'underline-offset-4'
+      'text-primary underline-offset-4'
     );
   });
 
   it('renders with different sizes', () => {
     const { rerender } = render(<Button size="default">Default</Button>);
-    expect(screen.getByRole('button')).toHaveClass('h-10', 'px-4', 'py-2');
+    expect(screen.getByRole('button')).toHaveClass('h-10 px-4 py-2');
 
     rerender(<Button size="sm">Small</Button>);
-    expect(screen.getByRole('button')).toHaveClass('h-9', 'rounded-md', 'px-3');
+    expect(screen.getByRole('button')).toHaveClass('h-9 rounded-md px-3');
 
     rerender(<Button size="lg">Large</Button>);
-    expect(screen.getByRole('button')).toHaveClass(
-      'h-11',
-      'rounded-md',
-      'px-8'
-    );
+    expect(screen.getByRole('button')).toHaveClass('h-11 rounded-md px-8');
 
     rerender(<Button size="icon">Icon</Button>);
-    expect(screen.getByRole('button')).toHaveClass('h-10', 'w-10');
+    expect(screen.getByRole('button')).toHaveClass('h-10 w-10');
   });
 
   it('handles click events', () => {
@@ -69,8 +64,7 @@ describe('Button Component', () => {
     const button = screen.getByRole('button', { name: /disabled button/i });
     expect(button).toBeDisabled();
     expect(button).toHaveClass(
-      'disabled:pointer-events-none',
-      'disabled:opacity-50'
+      'disabled:pointer-events-none disabled:opacity-50'
     );
   });
 
@@ -98,7 +92,7 @@ describe('Button Component', () => {
     const link = screen.getByRole('link', { name: /link button/i });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute('href', 'https://example.com');
-    expect(link).toHaveClass('inline-flex', 'items-center', 'justify-center');
+    expect(link).toHaveClass('inline-flex items-center justify-center');
   });
 
   it('applies custom className', () => {

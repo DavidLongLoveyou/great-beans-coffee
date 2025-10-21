@@ -2,8 +2,8 @@
 
 import {
   SearchIcon,
-  SortAscIcon,
-  SortDescIcon,
+  SortAsc,
+  SortDesc,
   GridIcon,
   ListIcon,
   LoaderIcon,
@@ -169,9 +169,9 @@ export function ContentSearch({
               className="px-2"
             >
               {sorting.sortOrder === 'asc' ? (
-                <SortAscIcon className="h-4 w-4" />
+                <SortAsc className="h-4 w-4" />
               ) : (
-                <SortDescIcon className="h-4 w-4" />
+                <SortDesc className="h-4 w-4" />
               )}
             </Button>
           </div>

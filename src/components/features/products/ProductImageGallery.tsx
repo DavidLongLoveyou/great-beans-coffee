@@ -15,6 +15,7 @@ import { Button } from '@/presentation/components/ui/button';
 import { Card, CardContent } from '@/presentation/components/ui/card';
 import { Badge } from '@/presentation/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { getProductImageUrl } from '@/shared/utils/image-utils';
 
 export interface ProductImage {
   id: string;
@@ -99,7 +100,8 @@ export function ProductImageGallery({
     if (!currentImage || !enableDownload) return;
 
     try {
-      const response = await fetch(currentImage.url);
+      const imageUrl = getProductImageUrl(currentImage.url);
+      const response = await fetch(imageUrl);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');

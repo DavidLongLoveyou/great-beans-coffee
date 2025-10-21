@@ -18,11 +18,41 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String
+  firstName String?
+  lastName  String?
   role      UserRole @default(USER)
   avatar    String?
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Authentication fields
+  password          String?
+  emailVerified     DateTime?
+  image             String?
+  companyName       String?
+  companyType       String?
+  country           String?
+  phone             String?
+  position          String?
+  department        String?
+  bio               String?
+  location          String?
+  timezone          String?
+  language          String?
+  twoFactorEnabled  Boolean  @default(false)
+  twoFactorSecret   String?
+  backupCodes       Json?    // Array of backup codes for 2FA
+  lastLoginAt       DateTime?
+  loginAttempts     Int      @default(0)
+  lockedUntil       DateTime?
+  passwordChangedAt DateTime?
+
+  // Notification preferences
+  emailNotifications    Boolean @default(true)
+  marketingEmails       Boolean @default(false)
+  securityAlerts        Boolean @default(true)
+  rfqNotifications      Boolean @default(true)
 
   // Relationships
   createdCoffeeProducts CoffeeProduct[] @relation("CreatedBy")
@@ -31,8 +61,57 @@ model User {
   updatedServices       BusinessService[] @relation("ServiceUpdatedBy")
   assignedRFQs          RFQ[] @relation("AssignedTo")
   createdRFQs           RFQ[] @relation("RFQCreatedBy")
+  securityEvents        SecurityEvent[]
+  
+  // NextAuth.js relationships
+  accounts Account[]
+  sessions Session[]
 
   @@map("users")
+}
+
+// NextAuth.js required models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  ipAddress    String?
+  userAgent    String?
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
 }
 
 enum UserRole {
@@ -933,4 +1012,38 @@ model ClusterContent {
   @@unique([clusterId, locale])
   @@unique([locale, slug])
   @@map("cluster_content")
+}
+
+// ============================================================================
+// SECURITY & AUDIT
+// ============================================================================
+
+model SecurityEvent {
+  id          String   @id @default(cuid())
+  userId      String
+  eventType   SecurityEventType
+  description String
+  ipAddress   String?
+  userAgent   String?
+  metadata    Json?    // Additional event-specific data
+  createdAt   DateTime @default(now())
+  
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("security_events")
+}
+
+enum SecurityEventType {
+  LOGIN_SUCCESS
+  LOGIN_FAILED
+  PASSWORD_CHANGED
+  TWO_FACTOR_ENABLED
+  TWO_FACTOR_DISABLED
+  TWO_FACTOR_BACKUP_USED
+  ACCOUNT_LOCKED
+  ACCOUNT_UNLOCKED
+  PROFILE_UPDATED
+  EMAIL_CHANGED
+  SUSPICIOUS_ACTIVITY
 }

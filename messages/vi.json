@@ -1193,6 +1193,7 @@
       "sendInvitation": "[VI] Send Invitation",
       "member": "[VI] Member",
       "role": "[VI] Role",
+      "status": "[VI] Status",
       "lastLogin": "[VI] Last Login",
       "actions": "[VI] Actions"
     },

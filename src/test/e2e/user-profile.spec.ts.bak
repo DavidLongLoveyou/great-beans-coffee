@@ -1,0 +1,523 @@
+import { test, expect, Page } from '@playwright/test';
+
+// Test data
+const testUser = {
+  email: 'test.user@greatbeans.com',
+  password: 'TestPassword123!',
+  firstName: 'Test',
+  lastName: 'User',
+  jobTitle: 'Coffee Buyer',
+  company: 'Test Coffee Company',
+  phoneNumber: '+1234567890',
+};
+
+const updatedProfile = {
+  firstName: 'Updated',
+  lastName: 'Profile',
+  jobTitle: 'Senior Coffee Buyer',
+  company: 'Updated Coffee Company',
+  phoneNumber: '+9876543210',
+  bio: 'Updated bio with more details about coffee expertise.',
+};
+
+// Helper functions
+async function loginUser(page: Page) {
+  await page.goto('/auth/login');
+  await page.fill('[data-testid="email-input"]', testUser.email);
+  await page.fill('[data-testid="password-input"]', testUser.password);
+  await page.click('[data-testid="login-button"]');
+  await page.waitForURL('/dashboard');
+}
+
+async function navigateToProfile(page: Page) {
+  await page.click('[data-testid="user-menu"]');
+  await page.click('[data-testid="profile-link"]');
+  await page.waitForURL('/dashboard/account');
+}
+
+async function navigateToSecurity(page: Page) {
+  await page.click('[data-testid="security-tab"]');
+  await page.waitForSelector('[data-testid="security-settings"]');
+}
+
+test.describe('User Profile E2E Tests', () => {
+  test.beforeEach(async ({ page }) => {
+    // Setup test environment
+    await page.goto('/');
+    
+    // Mock API responses for consistent testing
+    await page.route('**/api/user/profile', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            success: true,
+            data: testUser,
+          }),
+        });
+      } else if (route.request().method() === 'PUT') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            success: true,
+            data: { ...testUser, ...updatedProfile },
+          }),
+        });
+      }
+    });
+
+    await page.route('**/api/security/**', async (route) => {
+      const url = route.request().url();
+      
+      if (url.includes('/security/data')) {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            success: true,
+            data: {
+              twoFactorEnabled: false,
+              lastPasswordChange: '2024-01-15T10:30:00Z',
+              activeSessions: [
+                {
+                  id: 'session-1',
+                  device: 'Chrome on Windows',
+                  location: 'New York, US',
+                  lastActive: '2024-01-20T14:30:00Z',
+                  current: true,
+                },
+              ],
+              recentActivity: [
+                {
+                  id: 'event-1',
+                  type: 'login',
+                  description: 'Successful login from Chrome on Windows',
+                  timestamp: '2024-01-20T14:30:00Z',
+                  location: 'New York, US',
+                  riskLevel: 'low',
+                },
+              ],
+            },
+          }),
+        });
+      } else if (url.includes('/security/password')) {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            success: true,
+            message: 'Password changed successfully',
+          }),
+        });
+      }
+    });
+  });
+
+  test.describe('Profile Management', () => {
+    test('should display user profile information correctly', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Verify profile information is displayed
+      await expect(page.locator('[data-testid="first-name-display"]')).toHaveText(testUser.firstName);
+      await expect(page.locator('[data-testid="last-name-display"]')).toHaveText(testUser.lastName);
+      await expect(page.locator('[data-testid="email-display"]')).toHaveText(testUser.email);
+      await expect(page.locator('[data-testid="job-title-display"]')).toHaveText(testUser.jobTitle);
+      await expect(page.locator('[data-testid="company-display"]')).toHaveText(testUser.company);
+    });
+
+    test('should allow editing profile information', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Enter edit mode
+      await page.click('[data-testid="edit-profile-button"]');
+      await expect(page.locator('[data-testid="save-profile-button"]')).toBeVisible();
+
+      // Update profile fields
+      await page.fill('[data-testid="first-name-input"]', updatedProfile.firstName);
+      await page.fill('[data-testid="last-name-input"]', updatedProfile.lastName);
+      await page.fill('[data-testid="job-title-input"]', updatedProfile.jobTitle);
+      await page.fill('[data-testid="company-input"]', updatedProfile.company);
+      await page.fill('[data-testid="bio-input"]', updatedProfile.bio);
+
+      // Save changes
+      await page.click('[data-testid="save-profile-button"]');
+
+      // Verify success message
+      await expect(page.locator('[data-testid="toast-success"]')).toContainText('Profile updated successfully');
+
+      // Verify updated information is displayed
+      await expect(page.locator('[data-testid="first-name-display"]')).toHaveText(updatedProfile.firstName);
+      await expect(page.locator('[data-testid="last-name-display"]')).toHaveText(updatedProfile.lastName);
+    });
+
+    test('should validate required fields', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Enter edit mode
+      await page.click('[data-testid="edit-profile-button"]');
+
+      // Clear required fields
+      await page.fill('[data-testid="first-name-input"]', '');
+      await page.fill('[data-testid="last-name-input"]', '');
+      await page.fill('[data-testid="email-input"]', '');
+
+      // Try to save
+      await page.click('[data-testid="save-profile-button"]');
+
+      // Verify validation errors
+      await expect(page.locator('[data-testid="first-name-error"]')).toContainText('First name is required');
+      await expect(page.locator('[data-testid="last-name-error"]')).toContainText('Last name is required');
+      await expect(page.locator('[data-testid="email-error"]')).toContainText('Email is required');
+    });
+
+    test('should validate email format', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Enter edit mode
+      await page.click('[data-testid="edit-profile-button"]');
+
+      // Enter invalid email
+      await page.fill('[data-testid="email-input"]', 'invalid-email');
+
+      // Try to save
+      await page.click('[data-testid="save-profile-button"]');
+
+      // Verify validation error
+      await expect(page.locator('[data-testid="email-error"]')).toContainText('Invalid email format');
+    });
+
+    test('should cancel editing and revert changes', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Enter edit mode
+      await page.click('[data-testid="edit-profile-button"]');
+
+      // Make changes
+      await page.fill('[data-testid="first-name-input"]', 'Changed');
+      await page.fill('[data-testid="job-title-input"]', 'Changed Title');
+
+      // Cancel changes
+      await page.click('[data-testid="cancel-profile-button"]');
+
+      // Verify original values are restored
+      await expect(page.locator('[data-testid="first-name-display"]')).toHaveText(testUser.firstName);
+      await expect(page.locator('[data-testid="job-title-display"]')).toHaveText(testUser.jobTitle);
+    });
+
+    test('should handle avatar upload', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Mock file upload
+      const fileChooserPromise = page.waitForEvent('filechooser');
+      await page.click('[data-testid="avatar-upload-button"]');
+      const fileChooser = await fileChooserPromise;
+      
+      // Create a test file
+      await fileChooser.setFiles({
+        name: 'avatar.jpg',
+        mimeType: 'image/jpeg',
+        buffer: Buffer.from('fake-image-data'),
+      });
+
+      // Verify upload success message
+      await expect(page.locator('[data-testid="toast-success"]')).toContainText('Avatar updated successfully');
+    });
+  });
+
+  test.describe('Security Settings', () => {
+    test('should display security information correctly', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+      await navigateToSecurity(page);
+
+      // Verify security sections are displayed
+      await expect(page.locator('[data-testid="password-security-section"]')).toBeVisible();
+      await expect(page.locator('[data-testid="two-factor-section"]')).toBeVisible();
+      await expect(page.locator('[data-testid="active-sessions-section"]')).toBeVisible();
+      await expect(page.locator('[data-testid="recent-activity-section"]')).toBeVisible();
+
+      // Verify 2FA status
+      await expect(page.locator('[data-testid="2fa-status"]')).toContainText('Disabled');
+
+      // Verify active sessions
+      await expect(page.locator('[data-testid="session-device"]')).toContainText('Chrome on Windows');
+      await expect(page.locator('[data-testid="current-session-badge"]')).toBeVisible();
+    });
+
+    test('should allow password change', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+      await navigateToSecurity(page);
+
+      // Open password change dialog
+      await page.click('[data-testid="change-password-button"]');
+      await expect(page.locator('[data-testid="password-change-dialog"]')).toBeVisible();
+
+      // Fill password form
+      await page.fill('[data-testid="current-password-input"]', testUser.password);
+      await page.fill('[data-testid="new-password-input"]', 'NewPassword123!');
+      await page.fill('[data-testid="confirm-password-input"]', 'NewPassword123!');
+
+      // Submit password change
+      await page.click('[data-testid="update-password-button"]');
+
+      // Verify success message
+      await expect(page.locator('[data-testid="toast-success"]')).toContainText('Password changed successfully');
+
+      // Verify dialog is closed
+      await expect(page.locator('[data-testid="password-change-dialog"]')).not.toBeVisible();
+    });
+
+    test('should validate password change form', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+      await navigateToSecurity(page);
+
+      // Open password change dialog
+      await page.click('[data-testid="change-password-button"]');
+
+      // Try to submit without filling fields
+      await page.click('[data-testid="update-password-button"]');
+
+      // Verify validation errors
+      await expect(page.locator('[data-testid="current-password-error"]')).toContainText('Current password is required');
+      await expect(page.locator('[data-testid="new-password-error"]')).toContainText('New password is required');
+    });
+
+    test('should validate password strength', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+      await navigateToSecurity(page);
+
+      // Open password change dialog
+      await page.click('[data-testid="change-password-button"]');
+
+      // Enter weak password
+      await page.fill('[data-testid="new-password-input"]', '123');
+
+      // Verify strength indicator
+      await expect(page.locator('[data-testid="password-strength"]')).toContainText('Weak');
+      await expect(page.locator('[data-testid="password-error"]')).toContainText('Password must be at least 8 characters');
+    });
+
+    test('should validate password confirmation', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+      await navigateToSecurity(page);
+
+      // Open password change dialog
+      await page.click('[data-testid="change-password-button"]');
+
+      // Enter mismatched passwords
+      await page.fill('[data-testid="new-password-input"]', 'NewPassword123!');
+      await page.fill('[data-testid="confirm-password-input"]', 'DifferentPassword123!');
+
+      // Try to submit
+      await page.click('[data-testid="update-password-button"]');
+
+      // Verify validation error
+      await expect(page.locator('[data-testid="confirm-password-error"]')).toContainText('Passwords do not match');
+    });
+
+    test('should enable two-factor authentication', async ({ page }) => {
+      // Mock 2FA setup API
+      await page.route('**/api/security/2fa/enable', async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            success: true,
+            data: {
+              qrCode: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+              backupCodes: ['123456', '789012', '345678'],
+            },
+          }),
+        });
+      });
+
+      await page.route('**/api/security/2fa/verify', async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            success: true,
+            message: '2FA enabled successfully',
+          }),
+        });
+      });
+
+      await loginUser(page);
+      await navigateToProfile(page);
+      await navigateToSecurity(page);
+
+      // Click enable 2FA
+      await page.click('[data-testid="enable-2fa-button"]');
+      await expect(page.locator('[data-testid="2fa-setup-dialog"]')).toBeVisible();
+
+      // Verify QR code is displayed
+      await expect(page.locator('[data-testid="qr-code"]')).toBeVisible();
+      await expect(page.locator('[data-testid="backup-codes"]')).toBeVisible();
+
+      // Enter verification code
+      await page.fill('[data-testid="verification-code-input"]', '123456');
+
+      // Verify and enable 2FA
+      await page.click('[data-testid="verify-2fa-button"]');
+
+      // Verify success message
+      await expect(page.locator('[data-testid="toast-success"]')).toContainText('2FA enabled successfully');
+
+      // Verify 2FA status is updated
+      await expect(page.locator('[data-testid="2fa-status"]')).toContainText('Enabled');
+    });
+
+    test('should display recent security activity', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+      await navigateToSecurity(page);
+
+      // Verify recent activity is displayed
+      await expect(page.locator('[data-testid="activity-item"]')).toBeVisible();
+      await expect(page.locator('[data-testid="activity-description"]')).toContainText('Successful login from Chrome on Windows');
+      await expect(page.locator('[data-testid="activity-timestamp"]')).toBeVisible();
+      await expect(page.locator('[data-testid="activity-location"]')).toContainText('New York, US');
+    });
+  });
+
+  test.describe('Accessibility', () => {
+    test('should be keyboard navigable', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Test keyboard navigation through form fields
+      await page.keyboard.press('Tab'); // Focus on edit button
+      await expect(page.locator('[data-testid="edit-profile-button"]')).toBeFocused();
+
+      await page.keyboard.press('Enter'); // Activate edit mode
+      await expect(page.locator('[data-testid="first-name-input"]')).toBeFocused();
+
+      await page.keyboard.press('Tab'); // Move to next field
+      await expect(page.locator('[data-testid="last-name-input"]')).toBeFocused();
+
+      await page.keyboard.press('Tab'); // Move to next field
+      await expect(page.locator('[data-testid="email-input"]')).toBeFocused();
+    });
+
+    test('should have proper ARIA labels', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Check ARIA labels
+      await expect(page.locator('[data-testid="profile-form"]')).toHaveAttribute('aria-label', 'Personal profile form');
+      await expect(page.locator('[data-testid="first-name-input"]')).toHaveAttribute('aria-label', 'First name');
+      await expect(page.locator('[data-testid="email-input"]')).toHaveAttribute('aria-label', 'Email address');
+    });
+
+    test('should announce form validation errors', async ({ page }) => {
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Enter edit mode
+      await page.click('[data-testid="edit-profile-button"]');
+
+      // Clear required field
+      await page.fill('[data-testid="first-name-input"]', '');
+
+      // Try to save
+      await page.click('[data-testid="save-profile-button"]');
+
+      // Verify error has proper ARIA attributes
+      await expect(page.locator('[data-testid="first-name-error"]')).toHaveAttribute('role', 'alert');
+      await expect(page.locator('[data-testid="first-name-error"]')).toHaveAttribute('aria-live', 'polite');
+    });
+  });
+
+  test.describe('Responsive Design', () => {
+    test('should work correctly on mobile devices', async ({ page }) => {
+      // Set mobile viewport
+      await page.setViewportSize({ width: 375, height: 667 });
+
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Verify mobile layout
+      await expect(page.locator('[data-testid="profile-container"]')).toHaveCSS('flex-direction', 'column');
+      
+      // Verify form fields are properly sized
+      await expect(page.locator('[data-testid="first-name-input"]')).toHaveCSS('width', /100%|auto/);
+    });
+
+    test('should work correctly on tablet devices', async ({ page }) => {
+      // Set tablet viewport
+      await page.setViewportSize({ width: 768, height: 1024 });
+
+      await loginUser(page);
+      await navigateToProfile(page);
+
+      // Verify tablet layout
+      await expect(page.locator('[data-testid="profile-container"]')).toBeVisible();
+      
+      // Verify navigation tabs are accessible
+      await expect(page.locator('[data-testid="security-tab"]')).toBeVisible();
+    });
+  });
+
+  test.describe('Performance', () => {
+    test('should load profile data within acceptable time', async ({ page }) => {
+      const startTime = Date.now();
+      
+      await loginUser(page);
+      await navigateToProfile(page);
+      
+      // Wait for profile data to load
+      await expect(page.locator('[data-testid="first-name-display"]')).toBeVisible();
+      
+      const loadTime = Date.now() - startTime;
+      expect(loadTime).toBeLessThan(3000); // Should load within 3 seconds
+    });
+
+    test('should handle large amounts of security activity data', async ({ page }) => {
+      // Mock large dataset
+      const largeActivityData = Array.from({ length: 100 }, (_, i) => ({
+        id: `event-${i}`,
+        type: 'login',
+        description: `Login event ${i}`,
+        timestamp: new Date(Date.now() - i * 86400000).toISOString(),
+        location: 'Test Location',
+        riskLevel: 'low',
+      }));
+
+      await page.route('**/api/security/data', async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            success: true,
+            data: {
+              twoFactorEnabled: false,
+              lastPasswordChange: '2024-01-15T10:30:00Z',
+              activeSessions: [],
+              recentActivity: largeActivityData,
+            },
+          }),
+        });
+      });
+
+      await loginUser(page);
+      await navigateToProfile(page);
+      await navigateToSecurity(page);
+
+      // Verify virtualization or pagination is working
+      const visibleItems = await page.locator('[data-testid="activity-item"]').count();
+      expect(visibleItems).toBeLessThanOrEqual(20); // Should limit visible items
+    });
+  });
+});

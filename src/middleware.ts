@@ -1,8 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
+import { UserRole } from '@prisma/client';
 
 import { locales } from './i18n';
 
-export function middleware(request: NextRequest) {
+// Define protected routes that require authentication
+const protectedRoutes = [
+  '/dashboard',
+  '/admin',
+  '/profile',
+  '/account',
+  '/orders',
+  '/rfq',
+  '/inventory',
+  '/analytics',
+  '/settings',
+];
+
+// Define admin-only routes
+const adminRoutes = ['/admin', '/analytics', '/inventory', '/settings'];
+
+// Define public routes that don't require authentication
+const publicRoutes = [
+  '/',
+  '/about',
+  '/products',
+  '/services',
+  '/blog',
+  '/market-reports',
+  '/origin-stories',
+  '/contact',
+  '/legal',
+  '/auth',
+];
+
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Skip middleware for static files and API routes
@@ -40,7 +72,62 @@ export function middleware(request: NextRequest) {
     );
   }
 
-  // Continue with the request if locale is present
+  // Extract locale and path without locale
+  const locale = locales.find(
+    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  );
+  const pathWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
+
+  // Check if the route is protected
+  const isProtectedRoute = protectedRoutes.some(route =>
+    pathWithoutLocale.startsWith(route)
+  );
+
+  const isAdminRoute = adminRoutes.some(route =>
+    pathWithoutLocale.startsWith(route)
+  );
+
+  // If it's a protected route, check authentication
+  if (isProtectedRoute) {
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET || 'fallback-secret',
+    });
+
+    // If no token, redirect to login
+    if (!token) {
+      const loginUrl = new URL(`/${locale}/auth/login`, request.url);
+      loginUrl.searchParams.set('callbackUrl', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    // Check if user has required role for admin routes
+    if (isAdminRoute && token.role !== UserRole.ADMIN) {
+      const unauthorizedUrl = new URL(`/${locale}/unauthorized`, request.url);
+      return NextResponse.redirect(unauthorizedUrl);
+    }
+
+    // Check if user account is active
+    if (!token.isActive) {
+      const suspendedUrl = new URL(`/${locale}/account-suspended`, request.url);
+      return NextResponse.redirect(suspendedUrl);
+    }
+  }
+
+  // If user is authenticated and trying to access auth pages, redirect to dashboard
+  if (pathWithoutLocale.startsWith('/auth')) {
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET || 'fallback-secret',
+    });
+
+    if (token && token.isActive) {
+      const dashboardUrl = new URL(`/${locale}/dashboard`, request.url);
+      return NextResponse.redirect(dashboardUrl);
+    }
+  }
+
+  // Continue with the request if all checks pass
   return NextResponse.next();
 }
 

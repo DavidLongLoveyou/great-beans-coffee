@@ -1,0 +1,42 @@
+/* Montserrat Font - Local Loading */
+/* This file provides local font loading for Montserrat */
+/* For production, replace @import with actual local font files */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+/* Alternative: Local font face declarations */
+/* Uncomment and add actual font files when available */
+
+/*
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./montserrat-v25-latin-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./montserrat-v25-latin-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./montserrat-v25-latin-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./montserrat-v25-latin-700.woff2') format('woff2');
+}
+*/

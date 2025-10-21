@@ -273,7 +273,7 @@ export function ServerHeroSection({
 
             {/* Subtitle */}
             <motion.p
-              className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed bg-gradient-to-r from-gold-200 via-gold-100 to-gold-300 bg-clip-text text-transparent md:text-xl lg:text-2xl lg:mx-0"
+              className="mx-auto mb-8 max-w-2xl bg-gradient-to-r from-gold-200 via-gold-100 to-gold-300 bg-clip-text text-lg leading-relaxed text-transparent md:text-xl lg:mx-0 lg:text-2xl"
               variants={itemVariants}
             >
               {subtitle}

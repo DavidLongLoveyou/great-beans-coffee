@@ -9,6 +9,7 @@ import type {
   CoffeeCertification,
 } from '@/shared/components/design-system/types';
 import { downloadCSV } from '@/shared/utils/download';
+import { getProductImageUrl } from '@/shared/utils/image-utils';
 
 // Dynamic imports for heavy components
 const ProductFilters = dynamic(
@@ -224,7 +225,7 @@ const convertApiToGridProduct = (
     },
     certifications: certifications,
     images: (apiProduct.images || []).map((img: string, index: number) => ({
-      url: img,
+      url: getProductImageUrl(img),
       alt: `${localizedName} - Image ${index + 1}`,
       isPrimary: index === 0,
     })),

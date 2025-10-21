@@ -291,7 +291,7 @@ export function MediaCarousel({
                 {/* Type Badge */}
                 <Badge
                   variant="secondary"
-                  className="absolute left-2 top-2 bg-black/80 text-xs text-white backdrop-blur-sm border-0"
+                  className="absolute left-2 top-2 border-0 bg-black/80 text-xs text-white backdrop-blur-sm"
                 >
                   {item.type === 'image' ? (
                     <ImageIcon className="mr-1 h-3 w-3" />

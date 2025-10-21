@@ -1181,6 +1181,7 @@
       "sendInvitation": "[ES] Send Invitation",
       "member": "[ES] Member",
       "role": "[ES] Role",
+      "status": "[ES] Status",
       "lastLogin": "[ES] Last Login",
       "actions": "[ES] Actions"
     },

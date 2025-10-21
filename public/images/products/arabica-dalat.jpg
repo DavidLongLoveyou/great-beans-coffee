@@ -1,0 +1,53 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="coffeeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#A0522D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D2691E;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="beanGradient" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#CD853F;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#coffeeGradient)"/>
+  
+  <!-- Coffee beans scattered -->
+  <ellipse cx="80" cy="80" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(25 80 80)"/>
+  <ellipse cx="150" cy="60" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(-15 150 60)"/>
+  <ellipse cx="220" cy="90" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(45 220 90)"/>
+  <ellipse cx="320" cy="70" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(-30 320 70)"/>
+  
+  <ellipse cx="60" cy="150" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(60 60 150)"/>
+  <ellipse cx="180" cy="140" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(-45 180 140)"/>
+  <ellipse cx="280" cy="160" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(15 280 160)"/>
+  <ellipse cx="350" cy="180" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(-60 350 180)"/>
+  
+  <ellipse cx="100" cy="220" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(30 100 220)"/>
+  <ellipse cx="200" cy="240" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(-20 200 240)"/>
+  <ellipse cx="300" cy="230" rx="12" ry="18" fill="url(#beanGradient)" transform="rotate(50 300 230)"/>
+  
+  <!-- Bean cracks -->
+  <line x1="75" y1="80" x2="85" y2="80" stroke="#654321" stroke-width="1"/>
+  <line x1="145" y1="60" x2="155" y2="60" stroke="#654321" stroke-width="1"/>
+  <line x1="215" y1="90" x2="225" y2="90" stroke="#654321" stroke-width="1"/>
+  <line x1="315" y1="70" x2="325" y2="70" stroke="#654321" stroke-width="1"/>
+  
+  <!-- Product label -->
+  <rect x="50" y="250" width="300" height="40" fill="rgba(0,0,0,0.7)" rx="5"/>
+  <text x="200" y="275" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">
+    Arabica Dalat Premium
+  </text>
+  
+  <!-- Origin badge -->
+  <circle cx="350" cy="50" r="25" fill="rgba(255,255,255,0.9)"/>
+  <text x="350" y="45" text-anchor="middle" fill="#8B4513" font-family="Arial, sans-serif" font-size="8" font-weight="bold">
+    DALAT
+  </text>
+  <text x="350" y="55" text-anchor="middle" fill="#8B4513" font-family="Arial, sans-serif" font-size="8">
+    VIETNAM
+  </text>
+</svg>

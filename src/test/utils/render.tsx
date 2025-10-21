@@ -49,6 +49,9 @@ export * from '@testing-library/react';
 // Override render method
 export { customRender as render };
 
+// Export wrapper component for manual use
+export const createWrapper = () => AllTheProviders;
+
 // Additional custom render functions for specific scenarios
 
 // Render with specific locale

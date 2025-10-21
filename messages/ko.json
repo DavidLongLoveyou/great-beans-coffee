@@ -1181,6 +1181,7 @@
       "sendInvitation": "[KO] Send Invitation",
       "member": "[KO] Member",
       "role": "[KO] Role",
+      "status": "[KO] Status",
       "lastLogin": "[KO] Last Login",
       "actions": "[KO] Actions"
     },

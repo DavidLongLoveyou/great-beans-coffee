@@ -408,4 +408,5 @@ export const VolumeTable: React.FC<
   return <DataTable {...props} columns={columns} />;
 };
 
+export type { Column };
 export default DataTable;

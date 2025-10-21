@@ -183,7 +183,7 @@ module.exports = {
       fontFamily: {
         // Use CSS variables for font families with comprehensive fallbacks
         sans: [
-          'var(--font-inter)',
+          'var(--font-montserrat)',
           '-apple-system',
           'BlinkMacSystemFont',
           'Segoe UI',
@@ -225,7 +225,7 @@ module.exports = {
           'serif',
         ], // For headings
         body: [
-          'var(--font-inter)',
+          'var(--font-montserrat)',
           '-apple-system',
           'BlinkMacSystemFont',
           'Segoe UI',

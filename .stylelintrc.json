@@ -1,0 +1,48 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-tailwindcss"],
+  "rules": {
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "tailwind",
+          "apply",
+          "variants",
+          "responsive",
+          "screen",
+          "layer"
+        ]
+      }
+    ],
+
+    "no-descending-specificity": null,
+    "function-no-unknown": [
+      true,
+      {
+        "ignoreFunctions": ["theme", "screen"]
+      }
+    ],
+    "rule-empty-line-before": null,
+    "comment-empty-line-before": null,
+    "keyframes-name-pattern": null,
+    "color-function-notation": null,
+    "alpha-value-notation": null,
+    "color-function-alias-notation": null,
+    "declaration-empty-line-before": null,
+    "at-rule-empty-line-before": null,
+    "font-family-name-quotes": null,
+    "value-keyword-case": null,
+    "no-duplicate-selectors": null,
+    "property-no-deprecated": null,
+    "media-feature-name-value-no-unknown": null
+  },
+  "ignoreFiles": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "node_modules/**/*",
+    "dist/**/*",
+    ".next/**/*"
+  ]
+}

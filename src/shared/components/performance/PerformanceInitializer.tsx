@@ -47,8 +47,6 @@ export function PerformanceInitializer() {
 
     // Preconnect to critical external domains
     const criticalDomains = [
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
       'https://res.cloudinary.com',
       'https://images.unsplash.com',
     ];

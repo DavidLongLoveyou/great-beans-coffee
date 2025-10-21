@@ -4,6 +4,11 @@ const config = {
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
   },
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.test.json',
+    },
+  },
   transformIgnorePatterns: ['node_modules/(?!(@faker-js/faker|next-intl)/)'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',

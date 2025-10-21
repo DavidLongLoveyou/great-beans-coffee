@@ -1,32 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
 import '../globals.css';
 import '../../styles/fonts.css';
+import '../../../public/fonts/montserrat.css';
 import { type Locale } from '@/i18n';
 import Footer from '@/presentation/components/layout/Footer';
 import Header from '@/presentation/components/layout/Header';
 import { PerformanceInitializer } from '@/shared/components/performance/PerformanceInitializer';
 import { PerformanceMonitor } from '@/shared/components/performance/PerformanceMonitor';
-
-// Configure fonts with Next.js optimization
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-  preload: true,
-});
-
-// Playfair Display is now loaded locally via fonts.css
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains',
-  display: 'swap',
-  preload: false, // Only preload if used above the fold
-});
+import { Providers } from '@/presentation/components/providers/Providers';
 
 export const metadata: Metadata = {
   title: {
@@ -195,10 +179,8 @@ export default async function RootLayout({
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
-          crossOrigin=""
+          crossOrigin="anonymous"
         />
-        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
@@ -213,7 +195,14 @@ export default async function RootLayout({
           type="image/jpeg"
         />
 
+        {/* Google Fonts */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+
         {/* Font preloading for better performance */}
+        {/* Playfair Display font preloading */}
         <link
           rel="preload"
           href="/fonts/playfair-display-v40-latin-regular.woff2"
@@ -234,30 +223,32 @@ export default async function RootLayout({
         <link rel="prefetch" href="/en/blog" />
         <link rel="prefetch" href="/en/market-reports" />
       </head>
-      <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="font-sans">
         <PerformanceInitializer />
-        <NextIntlClientProvider messages={messages} locale={locale}>
-          {/* Skip navigation links for accessibility */}
-          <a
-            href="#main"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            Skip to main content
-          </a>
-          <a
-            href="#navigation"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-40 focus:top-4 focus:z-50 focus:rounded-md focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            Skip to navigation
-          </a>
-          <div className="flex min-h-screen flex-col">
-            <Header locale={locale as Locale} />
-            <main id="main" className="flex-1" role="main" tabIndex={-1}>
-              {children}
-            </main>
-            <Footer locale={locale as Locale} />
-          </div>
-        </NextIntlClientProvider>
+        <Providers>
+          <NextIntlClientProvider messages={messages} locale={locale}>
+            {/* Skip navigation links for accessibility */}
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Skip to main content
+            </a>
+            <a
+              href="#navigation"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-40 focus:top-4 focus:z-50 focus:rounded-md focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Skip to navigation
+            </a>
+            <div className="flex min-h-screen flex-col">
+              <Header locale={locale as Locale} />
+              <main id="main" className="flex-1" role="main" tabIndex={-1}>
+                {children}
+              </main>
+              <Footer locale={locale as Locale} />
+            </div>
+          </NextIntlClientProvider>
+        </Providers>
         <PerformanceMonitor />
       </body>
     </html>

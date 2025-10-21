@@ -156,6 +156,7 @@ import {
 } from '@/shared/components/design-system/Typography/Heading';
 import { ProductSpecDownloadButton } from '@/shared/components/pdf';
 import { generateB2BProductSchema } from '@/shared/utils/enhanced-structured-data';
+import { getProductImageUrl } from '@/shared/utils/image-utils';
 import {
   generateMetadata as generateSEOMetadata,
   generateOrganizationSchema,
@@ -859,7 +860,7 @@ export default async function ProductDetailPage({
                   images={product.images.map(
                     (image, index): ProductImage => ({
                       id: image.id || `${product.id}-${index}`,
-                      url: image.url,
+                      url: getProductImageUrl(image.url),
                       cloudinaryId: image.cloudinaryId || '',
                       alt: image.alt || `${productName} - Image ${index + 1}`,
                       caption: image.caption || '',
@@ -2123,7 +2124,7 @@ export default async function ProductDetailPage({
                     name: relatedProduct.name,
                     shortDescription: productDescription,
                     images: relatedProduct.images.map(img => ({
-                      url: img.url,
+                      url: getProductImageUrl(img.url),
                       alt: img.alt || '',
                       isPrimary: img.isPrimary || false,
                     })),

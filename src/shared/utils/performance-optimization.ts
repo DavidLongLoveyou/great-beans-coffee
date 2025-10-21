@@ -268,17 +268,15 @@ export const performanceOptimizer = new PerformanceOptimizer();
 export const CRITICAL_RESOURCES = {
   // External domains to preconnect
   EXTERNAL_DOMAINS: [
-    'https://fonts.googleapis.com',
-    'https://fonts.gstatic.com',
     'https://res.cloudinary.com',
     'https://images.unsplash.com',
     'https://api.vercel.com',
   ],
 
-  // Critical fonts to preload (using Google Fonts)
+  // Critical fonts to preload (now using local fonts)
   CRITICAL_FONTS: [
-    'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2',
-    'https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtXK-F2qO0isEw.woff2',
+    '/fonts/playfair-display-v40-latin-regular.woff2',
+    '/fonts/playfair-display-v40-latin-700.woff2',
   ],
 
   // Critical images for above-the-fold content

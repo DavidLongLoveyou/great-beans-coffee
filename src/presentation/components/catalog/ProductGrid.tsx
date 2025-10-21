@@ -17,6 +17,7 @@ import { useState, useMemo } from 'react';
 
 import { Badge } from '@/presentation/components/ui/badge';
 import { Button } from '@/presentation/components/ui/button';
+import { getPrimaryImageUrl } from '@/shared/utils/image-utils';
 import {
   Card,
   CardContent,
@@ -315,7 +316,10 @@ export function ProductGrid({
     >
       <div className="relative aspect-video bg-forest-50">
         <CardImage
-          src="/images/coffee-placeholder.svg"
+          src={
+            getPrimaryImageUrl(product.images) ||
+            '/images/coffee-placeholder.svg'
+          }
           alt={product.name}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -395,31 +399,39 @@ export function ProductGrid({
               </div>
             )}
           </div>
-          <div className="flex items-center justify-between border-t border-forest-100 pt-2">
-            <span className="text-xl font-bold text-forest-800">
-              ${product.pricing.basePrice.toLocaleString()}/
-              {product.pricing.unit}
-            </span>
-            <div className="flex gap-2">
+          <div className="space-y-3 border-t border-forest-100 pt-3">
+            <div className="flex items-center justify-center">
+              <span className="text-xl font-bold text-forest-800">
+                ${product.pricing.basePrice.toLocaleString()}/
+                {product.pricing.unit}
+              </span>
+            </div>
+            <div className="flex gap-3">
               <ServerButton
                 variant="outline"
                 size="sm"
                 asChild
-                className="border-forest-200 text-forest-800 hover:bg-forest-50 hover:shadow-forest-medium"
+                className="min-h-[36px] flex-1 border-forest-200 text-forest-800 transition-all duration-200 hover:bg-forest-50 hover:shadow-forest-medium"
               >
-                <Link href={`/${locale}/products/${product.id}`}>
-                  <Eye className="mr-1 h-4 w-4" />
-                  View
+                <Link
+                  href={`/${locale}/products/${product.id}`}
+                  className="flex items-center justify-center"
+                >
+                  <Eye className="mr-1.5 h-4 w-4" />
+                  <span className="text-sm font-medium">View</span>
                 </Link>
               </ServerButton>
               <ServerButton
                 size="sm"
                 asChild
-                className="bg-emerald-600 shadow-emerald-soft hover:bg-emerald-700"
+                className="min-h-[36px] flex-1 bg-emerald-600 shadow-emerald-soft transition-all duration-200 hover:bg-emerald-700"
               >
-                <Link href={`/${locale}/quote?product=${product.id}`}>
-                  <ShoppingCart className="mr-1 h-4 w-4" />
-                  Quote
+                <Link
+                  href={`/${locale}/quote?product=${product.id}`}
+                  className="flex items-center justify-center"
+                >
+                  <ShoppingCart className="mr-1.5 h-4 w-4" />
+                  <span className="text-sm font-medium">Quote</span>
                 </Link>
               </ServerButton>
             </div>
@@ -436,7 +448,10 @@ export function ProductGrid({
           {/* Product Image */}
           <div className="relative h-32 w-48 flex-shrink-0 overflow-hidden rounded-lg bg-forest-50">
             <CardImage
-              src="/images/coffee-placeholder.svg"
+              src={
+                getPrimaryImageUrl(product.images) ||
+                '/images/coffee-placeholder.svg'
+              }
               alt={product.name}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -513,26 +528,32 @@ export function ProductGrid({
               ${product.pricing.basePrice.toLocaleString()}/
               {product.pricing.unit}
             </span>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <ServerButton
                 variant="outline"
                 size="sm"
                 asChild
-                className="border-forest-200 text-forest-800 hover:bg-forest-50 hover:shadow-forest-medium"
+                className="min-h-[40px] border-forest-200 px-4 text-forest-800 transition-all duration-200 hover:bg-forest-50 hover:shadow-forest-medium"
               >
-                <Link href={`/${locale}/products/${product.id}`}>
-                  <Eye className="mr-1 h-4 w-4" />
-                  View Details
+                <Link
+                  href={`/${locale}/products/${product.id}`}
+                  className="flex items-center justify-center"
+                >
+                  <Eye className="mr-2 h-4 w-4" />
+                  <span className="font-medium">View Details</span>
                 </Link>
               </ServerButton>
               <ServerButton
                 size="sm"
                 asChild
-                className="bg-emerald-600 shadow-emerald-soft hover:bg-emerald-700"
+                className="min-h-[40px] bg-emerald-600 px-4 shadow-emerald-soft transition-all duration-200 hover:bg-emerald-700"
               >
-                <Link href={`/${locale}/quote?product=${product.id}`}>
-                  <ShoppingCart className="mr-1 h-4 w-4" />
-                  Request Quote
+                <Link
+                  href={`/${locale}/quote?product=${product.id}`}
+                  className="flex items-center justify-center"
+                >
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  <span className="font-medium">Request Quote</span>
                 </Link>
               </ServerButton>
             </div>

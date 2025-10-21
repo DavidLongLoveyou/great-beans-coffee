@@ -704,15 +704,17 @@ export class EnhancedSEOService {
       }
     }
 
-    // Add font preloading
+    // Add font preloading (using local fonts)
     if (options.enableCriticalResourcePreload !== false) {
       resources.push(
         {
-          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-          as: 'style',
+          href: '/fonts/playfair-display-v40-latin-regular.woff2',
+          as: 'font',
+          type: 'font/woff2',
+          crossOrigin: 'anonymous',
         },
         {
-          href: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2',
+          href: '/fonts/playfair-display-v40-latin-700.woff2',
           as: 'font',
           type: 'font/woff2',
           crossOrigin: 'anonymous',

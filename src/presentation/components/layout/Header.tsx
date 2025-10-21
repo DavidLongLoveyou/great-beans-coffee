@@ -18,6 +18,7 @@ import {
 import { StaggeredMenu } from '@/presentation/components/ui/StaggeredMenu';
 import { useHydrationSafeBooleanState } from '@/shared/hooks/useHydrationSafeState';
 import { useTranslation } from '@/shared/hooks/useTranslation';
+import { UserMenuButton } from '@/presentation/components/auth/UserMenuButton';
 
 type Props = {
   locale: Locale;
@@ -294,6 +295,11 @@ export default function Header({ locale }: Props) {
             <Link href={`/${locale}/quote`}>{t('requestQuote')}</Link>
           </Button>
 
+          {/* User Menu Button */}
+          <div className="hidden md:flex">
+            <UserMenuButton />
+          </div>
+
           {/* Mobile menu button */}
           {isMounted && (
             <button
@@ -429,7 +435,10 @@ export default function Header({ locale }: Props) {
             {/* Mobile menu footer */}
             <div className="bg-forest-25 border-t border-forest-100 px-4 py-4">
               <div className="flex flex-col space-y-3">
-                <LanguageSwitcher />
+                <div className="flex items-center justify-between">
+                  <LanguageSwitcher />
+                  <UserMenuButton />
+                </div>
                 <Button
                   asChild
                   className="h-10 w-full bg-forest-600 text-sm font-medium text-white shadow-md hover:bg-forest-700"

@@ -47,6 +47,7 @@ import {
 } from '@/presentation/components/ui/tooltip';
 import { CardImage } from '@/shared/components/performance/OptimizedImage';
 import { cn } from '@/shared/utils/cn';
+import { getPrimaryImageUrl } from '@/shared/utils/image-utils';
 
 interface RelatedProduct {
   id: string;
@@ -214,8 +215,6 @@ export function EnhancedRelatedProducts({
   };
 
   const ProductCard = ({ product }: { product: RelatedProduct }) => {
-    const primaryImage =
-      product.images.find(img => img.isPrimary) || product.images[0];
     const quantity = bulkQuantities[product.id] || 1;
     const bulkPrice = calculateBulkPrice(product.pricing.basePrice, quantity);
     const reason = getRecommendationReason(product);
@@ -243,8 +242,11 @@ export function EnhancedRelatedProducts({
         {/* Product Image */}
         <div className="relative aspect-video bg-coffee-50">
           <CardImage
-            src={primaryImage?.url || '/images/coffee-beans-placeholder.jpg'}
-            alt={primaryImage?.alt || product.name}
+            src={
+              getPrimaryImageUrl(product.images) ||
+              '/images/coffee-placeholder.svg'
+            }
+            alt={product.name}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

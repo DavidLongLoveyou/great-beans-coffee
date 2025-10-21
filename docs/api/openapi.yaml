@@ -1,0 +1,1635 @@
+openapi: 3.0.3
+info:
+  title: The Great Beans Coffee Export Platform API
+  description: |
+    The Great Beans Coffee Export Platform API provides comprehensive access to our B2B coffee export services.
+
+    ## Features
+    - Browse and search premium coffee products
+    - Submit and manage Requests for Quote (RFQ)
+    - Access market insights and content
+    - Generate product specifications and documentation
+    - Real-time inventory and pricing information
+
+    ## Authentication
+    All API endpoints require authentication using a Bearer token in the Authorization header.
+    Contact our business development team to obtain your API key.
+
+    ## Rate Limiting
+    - Standard Plan: 1,000 requests per hour
+    - Business Plan: 10,000 requests per hour
+    - Enterprise Plan: Custom limits
+
+    ## Support
+    - Technical Support: api-support@greatbeans.com
+    - Business Development: partnerships@greatbeans.com
+    - Documentation: https://developers.greatbeans.com
+
+  version: 1.0.0
+  contact:
+    name: The Great Beans API Support
+    email: api-support@greatbeans.com
+    url: https://developers.greatbeans.com
+  license:
+    name: Proprietary
+    url: https://greatbeans.com/terms
+  termsOfService: https://greatbeans.com/terms
+
+servers:
+  - url: https://greatbeans.com/api
+    description: Production server
+  - url: https://staging.greatbeans.com/api
+    description: Staging server
+  - url: http://localhost:3000/api
+    description: Development server
+
+security:
+  - BearerAuth: []
+
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      summary: List coffee products
+      description: |
+        Retrieve a paginated list of coffee products with optional filtering and sorting.
+        Supports advanced filtering by coffee type, origin, grade, processing method, and certifications.
+      operationId: listProducts
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of products per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: coffeeType
+          in: query
+          description: Filter by coffee type
+          required: false
+          schema:
+            type: string
+            enum: [arabica, robusta, blend]
+        - name: origin
+          in: query
+          description: Filter by coffee origin country
+          required: false
+          schema:
+            type: string
+            enum:
+              [
+                colombia,
+                brazil,
+                ethiopia,
+                guatemala,
+                costa_rica,
+                honduras,
+                peru,
+                nicaragua,
+              ]
+        - name: grade
+          in: query
+          description: Filter by coffee grade
+          required: false
+          schema:
+            type: string
+            enum:
+              [
+                high_grown,
+                strictly_hard_bean,
+                hard_bean,
+                prime_washed,
+                extra_prime_washed,
+              ]
+        - name: processing
+          in: query
+          description: Filter by processing method
+          required: false
+          schema:
+            type: string
+            enum: [washed, natural, honey, semi_washed]
+        - name: certifications
+          in: query
+          description: Filter by certifications (comma-separated)
+          required: false
+          schema:
+            type: string
+            example: 'organic,fair_trade'
+        - name: sort
+          in: query
+          description: Sort field
+          required: false
+          schema:
+            type: string
+            enum: [name, price, origin, grade, created_at]
+            default: name
+        - name: order
+          in: query
+          description: Sort order
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+        - name: inStock
+          in: query
+          description: Filter by stock availability
+          required: false
+          schema:
+            type: boolean
+        - name: locale
+          in: query
+          description: Language for localized content
+          required: false
+          schema:
+            type: string
+            enum: [en, es, pt, fr]
+            default: en
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /products/{id}:
+    get:
+      tags:
+        - Products
+      summary: Get product details
+      description: Retrieve detailed information about a specific coffee product including pricing, availability, and specifications.
+      operationId: getProduct
+      parameters:
+        - name: id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: string
+            example: 'prod_colombia_001'
+        - name: includeInventory
+          in: query
+          description: Include detailed inventory information
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: includeQuality
+          in: query
+          description: Include quality specifications and certifications
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: locale
+          in: query
+          description: Language for localized content
+          required: false
+          schema:
+            type: string
+            enum: [en, es, pt, fr]
+            default: en
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /products/search:
+    get:
+      tags:
+        - Products
+      summary: Search coffee products
+      description: |
+        Advanced search functionality for coffee products with full-text search,
+        faceted filtering, and intelligent suggestions.
+      operationId: searchProducts
+      parameters:
+        - name: q
+          in: query
+          description: Search query
+          required: true
+          schema:
+            type: string
+            example: 'colombian arabica organic'
+        - name: facets
+          in: query
+          description: Include faceted search results
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: suggestions
+          in: query
+          description: Include search suggestions
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of results per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: coffeeType
+          in: query
+          description: Filter by coffee type
+          required: false
+          schema:
+            type: string
+            enum: [arabica, robusta, blend]
+        - name: origin
+          in: query
+          description: Filter by origin
+          required: false
+          schema:
+            type: string
+        - name: priceMin
+          in: query
+          description: Minimum price filter
+          required: false
+          schema:
+            type: number
+            format: float
+        - name: priceMax
+          in: query
+          description: Maximum price filter
+          required: false
+          schema:
+            type: number
+            format: float
+        - name: locale
+          in: query
+          description: Language for localized content
+          required: false
+          schema:
+            type: string
+            enum: [en, es, pt, fr]
+            default: en
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductSearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /rfq:
+    get:
+      tags:
+        - RFQ
+      summary: List RFQs
+      description: Retrieve a list of Requests for Quote with filtering and pagination.
+      operationId: listRFQs
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of RFQs per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: status
+          in: query
+          description: Filter by RFQ status
+          required: false
+          schema:
+            type: string
+            enum:
+              [
+                submitted,
+                under_review,
+                quoted,
+                negotiating,
+                accepted,
+                rejected,
+                expired,
+              ]
+        - name: companyName
+          in: query
+          description: Filter by company name
+          required: false
+          schema:
+            type: string
+        - name: dateFrom
+          in: query
+          description: Filter RFQs from this date (ISO 8601)
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          description: Filter RFQs to this date (ISO 8601)
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFQListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags:
+        - RFQ
+      summary: Submit RFQ
+      description: Submit a new Request for Quote for coffee products.
+      operationId: submitRFQ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RFQSubmission'
+      responses:
+        '201':
+          description: RFQ created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFQResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /rfq/{id}:
+    get:
+      tags:
+        - RFQ
+      summary: Get RFQ details
+      description: Retrieve detailed information about a specific RFQ.
+      operationId: getRFQ
+      parameters:
+        - name: id
+          in: path
+          description: RFQ ID
+          required: true
+          schema:
+            type: string
+            example: 'rfq_abc123'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFQDetailResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /rfq/{id}/status:
+    get:
+      tags:
+        - RFQ
+      summary: Get RFQ status
+      description: Retrieve the current status and status history of an RFQ.
+      operationId: getRFQStatus
+      parameters:
+        - name: id
+          in: path
+          description: RFQ ID
+          required: true
+          schema:
+            type: string
+            example: 'rfq_abc123'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFQStatusResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /rfq/{id}/communications:
+    get:
+      tags:
+        - RFQ
+      summary: Get RFQ communications
+      description: Retrieve communication history for an RFQ.
+      operationId: getRFQCommunications
+      parameters:
+        - name: id
+          in: path
+          description: RFQ ID
+          required: true
+          schema:
+            type: string
+            example: 'rfq_abc123'
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of communications per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFQCommunicationsResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /search:
+    get:
+      tags:
+        - Search
+      summary: Global search
+      description: |
+        Search across all content types including products, blog posts, market reports, and services.
+        Provides unified search results with content type filtering and relevance scoring.
+      operationId: globalSearch
+      parameters:
+        - name: q
+          in: query
+          description: Search query
+          required: true
+          schema:
+            type: string
+            example: 'coffee market trends'
+        - name: type
+          in: query
+          description: Filter by content type
+          required: false
+          schema:
+            type: string
+            enum: [all, products, blog, market_reports, services]
+            default: all
+        - name: category
+          in: query
+          description: Filter by category
+          required: false
+          schema:
+            type: string
+        - name: locale
+          in: query
+          description: Language for localized content
+          required: false
+          schema:
+            type: string
+            enum: [en, es, pt, fr]
+            default: en
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of results per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: sort
+          in: query
+          description: Sort order
+          required: false
+          schema:
+            type: string
+            enum: [relevance, date, title]
+            default: relevance
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GlobalSearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /cms/content/{id}:
+    get:
+      tags:
+        - CMS
+      summary: Get CMS content
+      description: Retrieve specific CMS content by ID with optional content inclusion.
+      operationId: getCMSContent
+      parameters:
+        - name: id
+          in: path
+          description: Content ID
+          required: true
+          schema:
+            type: string
+            example: 'content_123'
+        - name: includeContent
+          in: query
+          description: Include full content body
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: locale
+          in: query
+          description: Language for localized content
+          required: false
+          schema:
+            type: string
+            enum: [en, es, pt, fr]
+            default: en
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMSContentResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /analytics/web-vitals:
+    post:
+      tags:
+        - Analytics
+      summary: Submit web vitals
+      description: Submit Core Web Vitals metrics for performance monitoring.
+      operationId: submitWebVitals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebVitalsSubmission'
+      responses:
+        '200':
+          description: Metrics submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /pdf/product-spec:
+    post:
+      tags:
+        - PDF Generation
+      summary: Generate product specification PDF
+      description: Generate a PDF document containing detailed product specifications.
+      operationId: generateProductSpecPDF
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - productId
+              properties:
+                productId:
+                  type: string
+                  description: Product ID to generate specification for
+                  example: 'prod_colombia_001'
+                includeQuality:
+                  type: boolean
+                  description: Include quality specifications
+                  default: true
+                includePricing:
+                  type: boolean
+                  description: Include pricing information
+                  default: false
+                locale:
+                  type: string
+                  enum: [en, es, pt, fr]
+                  default: en
+      responses:
+        '200':
+          description: PDF generated successfully
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        API key authentication using Bearer token.
+        Include your API key in the Authorization header: `Authorization: Bearer YOUR_API_KEY`
+
+  schemas:
+    # Common schemas
+    SuccessResponse:
+      type: object
+      required:
+        - success
+        - meta
+      properties:
+        success:
+          type: boolean
+          example: true
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+
+    ErrorResponse:
+      type: object
+      required:
+        - success
+        - error
+        - meta
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+
+    ErrorDetails:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: 'VALIDATION_ERROR'
+        message:
+          type: string
+          example: 'Invalid request parameters'
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: 'companyInfo.email'
+              message:
+                type: string
+                example: 'Invalid email format'
+
+    ResponseMeta:
+      type: object
+      required:
+        - timestamp
+        - requestId
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          example: '2024-01-20T10:30:00Z'
+        requestId:
+          type: string
+          example: 'req_abc123'
+
+    Pagination:
+      type: object
+      required:
+        - page
+        - limit
+        - total
+        - totalPages
+      properties:
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 20
+        total:
+          type: integer
+          example: 156
+        totalPages:
+          type: integer
+          example: 8
+
+    # Product schemas
+    Product:
+      type: object
+      required:
+        - id
+        - sku
+        - coffeeType
+        - origin
+        - grade
+        - processing
+        - translations
+        - pricing
+        - availability
+      properties:
+        id:
+          type: string
+          example: 'prod_colombia_001'
+        sku:
+          type: string
+          example: 'COL-HG-001'
+        coffeeType:
+          type: string
+          enum: [arabica, robusta, blend]
+          example: 'arabica'
+        origin:
+          type: string
+          example: 'colombia'
+        grade:
+          type: string
+          enum:
+            [
+              high_grown,
+              strictly_hard_bean,
+              hard_bean,
+              prime_washed,
+              extra_prime_washed,
+            ]
+          example: 'high_grown'
+        processing:
+          type: string
+          enum: [washed, natural, honey, semi_washed]
+          example: 'washed'
+        certifications:
+          type: array
+          items:
+            type: string
+            enum: [organic, fair_trade, rainforest_alliance, utz, bird_friendly]
+          example: ['organic', 'fair_trade']
+        translations:
+          $ref: '#/components/schemas/ProductTranslations'
+        pricing:
+          $ref: '#/components/schemas/ProductPricing'
+        availability:
+          $ref: '#/components/schemas/ProductAvailability'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductImage'
+        quality:
+          $ref: '#/components/schemas/ProductQuality'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ProductTranslations:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+          example: 'Colombian High Grown Arabica'
+        description:
+          type: string
+          example: 'Premium Colombian coffee from high altitude regions'
+        shortDescription:
+          type: string
+          example: 'Premium Colombian coffee'
+
+    ProductPricing:
+      type: object
+      required:
+        - basePrice
+        - currency
+        - unit
+      properties:
+        basePrice:
+          type: number
+          format: float
+          example: 4.25
+        currency:
+          type: string
+          example: 'USD'
+        unit:
+          type: string
+          example: 'lb'
+        priceBreaks:
+          type: array
+          items:
+            type: object
+            properties:
+              quantity:
+                type: integer
+                example: 1000
+              price:
+                type: number
+                format: float
+                example: 4.10
+
+    ProductAvailability:
+      type: object
+      required:
+        - inStock
+        - stockLevel
+      properties:
+        inStock:
+          type: boolean
+          example: true
+        stockLevel:
+          type: string
+          enum: [high, medium, low, out_of_stock]
+          example: 'high'
+        minimumOrder:
+          type: integer
+          example: 100
+        leadTime:
+          type: string
+          example: '2-3 weeks'
+
+    ProductImage:
+      type: object
+      required:
+        - url
+        - alt
+      properties:
+        url:
+          type: string
+          format: uri
+          example: 'https://cdn.greatbeans.com/products/colombia-001.jpg'
+        alt:
+          type: string
+          example: 'Colombian High Grown Arabica Coffee Beans'
+        isPrimary:
+          type: boolean
+          example: true
+
+    ProductQuality:
+      type: object
+      properties:
+        cupping:
+          type: object
+          properties:
+            score:
+              type: number
+              format: float
+              example: 85.5
+            notes:
+              type: string
+              example: 'Bright acidity, chocolate notes, medium body'
+        moisture:
+          type: number
+          format: float
+          example: 11.5
+        density:
+          type: number
+          format: float
+          example: 0.72
+        screenSize:
+          type: string
+          example: '17/18'
+
+    ProductListResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - products
+                - pagination
+              properties:
+                products:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'
+                pagination:
+                  $ref: '#/components/schemas/Pagination'
+                facets:
+                  type: object
+                  properties:
+                    coffeeTypes:
+                      type: array
+                      items:
+                        type: string
+                    origins:
+                      type: array
+                      items:
+                        type: string
+                    grades:
+                      type: array
+                      items:
+                        type: string
+
+    ProductDetailResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - product
+              properties:
+                product:
+                  $ref: '#/components/schemas/Product'
+
+    ProductSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - products
+                - pagination
+              properties:
+                products:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'
+                pagination:
+                  $ref: '#/components/schemas/Pagination'
+                facets:
+                  type: object
+                suggestions:
+                  type: array
+                  items:
+                    type: string
+
+    # RFQ schemas
+    RFQSubmission:
+      type: object
+      required:
+        - companyInfo
+        - productRequirements
+        - quantityRequirements
+        - timeline
+      properties:
+        companyInfo:
+          $ref: '#/components/schemas/CompanyInfo'
+        productRequirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductRequirement'
+        quantityRequirements:
+          $ref: '#/components/schemas/QuantityRequirements'
+        timeline:
+          $ref: '#/components/schemas/Timeline'
+        additionalNotes:
+          type: string
+          example: 'Looking for long-term partnership'
+
+    CompanyInfo:
+      type: object
+      required:
+        - companyName
+        - contactPerson
+        - email
+        - phone
+        - address
+        - businessType
+      properties:
+        companyName:
+          type: string
+          example: 'Premium Coffee Importers'
+        contactPerson:
+          type: string
+          example: 'John Smith'
+        email:
+          type: string
+          format: email
+          example: 'john@premiumcoffee.com'
+        phone:
+          type: string
+          example: '+1-555-0123'
+        address:
+          $ref: '#/components/schemas/Address'
+        businessType:
+          type: string
+          enum: [importer, distributor, roaster, retailer, other]
+          example: 'importer'
+        yearsInBusiness:
+          type: integer
+          example: 10
+
+    Address:
+      type: object
+      required:
+        - street
+        - city
+        - country
+      properties:
+        street:
+          type: string
+          example: '123 Coffee Street'
+        city:
+          type: string
+          example: 'Coffee City'
+        state:
+          type: string
+          example: 'CA'
+        postalCode:
+          type: string
+          example: '90210'
+        country:
+          type: string
+          example: 'United States'
+
+    ProductRequirement:
+      type: object
+      required:
+        - coffeeType
+        - origin
+      properties:
+        coffeeType:
+          type: string
+          enum: [arabica, robusta, blend]
+          example: 'arabica'
+        origin:
+          type: string
+          example: 'colombia'
+        grade:
+          type: string
+          enum:
+            [
+              high_grown,
+              strictly_hard_bean,
+              hard_bean,
+              prime_washed,
+              extra_prime_washed,
+            ]
+          example: 'high_grown'
+        processing:
+          type: string
+          enum: [washed, natural, honey, semi_washed]
+          example: 'washed'
+        certifications:
+          type: array
+          items:
+            type: string
+            enum: [organic, fair_trade, rainforest_alliance, utz, bird_friendly]
+          example: ['organic', 'fair_trade']
+
+    QuantityRequirements:
+      type: object
+      required:
+        - quantity
+        - unit
+        - frequency
+      properties:
+        quantity:
+          type: integer
+          example: 1000
+        unit:
+          type: string
+          enum: [bags, containers, tons]
+          example: 'bags'
+        frequency:
+          type: string
+          enum: [one_time, monthly, quarterly, annually]
+          example: 'monthly'
+        contractDuration:
+          type: string
+          enum: [3_months, 6_months, 12_months, 24_months, open_ended]
+          example: '12_months'
+
+    Timeline:
+      type: object
+      required:
+        - urgency
+      properties:
+        urgency:
+          type: string
+          enum: [urgent, standard, flexible]
+          example: 'standard'
+        preferredDelivery:
+          type: string
+          format: date
+          example: '2024-06-01'
+
+    RFQ:
+      type: object
+      required:
+        - id
+        - rfqNumber
+        - status
+        - companyInfo
+        - productRequirements
+        - quantityRequirements
+        - timeline
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: 'rfq_abc123'
+        rfqNumber:
+          type: string
+          example: 'RFQ-2024-001'
+        status:
+          type: string
+          enum:
+            [
+              submitted,
+              under_review,
+              quoted,
+              negotiating,
+              accepted,
+              rejected,
+              expired,
+            ]
+          example: 'submitted'
+        companyInfo:
+          $ref: '#/components/schemas/CompanyInfo'
+        productRequirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductRequirement'
+        quantityRequirements:
+          $ref: '#/components/schemas/QuantityRequirements'
+        timeline:
+          $ref: '#/components/schemas/Timeline'
+        additionalNotes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    RFQListResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - rfqs
+                - pagination
+              properties:
+                rfqs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/RFQ'
+                pagination:
+                  $ref: '#/components/schemas/Pagination'
+
+    RFQResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - rfq
+              properties:
+                rfq:
+                  $ref: '#/components/schemas/RFQ'
+
+    RFQDetailResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - rfq
+              properties:
+                rfq:
+                  $ref: '#/components/schemas/RFQ'
+
+    RFQStatusResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: object
+                  required:
+                    - current
+                    - history
+                  properties:
+                    current:
+                      type: string
+                      enum:
+                        [
+                          submitted,
+                          under_review,
+                          quoted,
+                          negotiating,
+                          accepted,
+                          rejected,
+                          expired,
+                        ]
+                    history:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          status:
+                            type: string
+                          timestamp:
+                            type: string
+                            format: date-time
+                          note:
+                            type: string
+
+    RFQCommunicationsResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - communications
+                - pagination
+              properties:
+                communications:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum: [message, quote, document, status_update]
+                      content:
+                        type: string
+                      sender:
+                        type: string
+                      timestamp:
+                        type: string
+                        format: date-time
+                pagination:
+                  $ref: '#/components/schemas/Pagination'
+
+    # Search schemas
+    GlobalSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - results
+                - pagination
+              properties:
+                results:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum: [product, blog, market_report, service]
+                      title:
+                        type: string
+                      excerpt:
+                        type: string
+                      url:
+                        type: string
+                      relevanceScore:
+                        type: number
+                        format: float
+                      publishedAt:
+                        type: string
+                        format: date-time
+                pagination:
+                  $ref: '#/components/schemas/Pagination'
+
+    # CMS schemas
+    CMSContentResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    type:
+                      type: string
+                    title:
+                      type: string
+                    slug:
+                      type: string
+                    excerpt:
+                      type: string
+                    content:
+                      type: string
+                    publishedAt:
+                      type: string
+                      format: date-time
+                    updatedAt:
+                      type: string
+                      format: date-time
+
+    # Analytics schemas
+    WebVitalsSubmission:
+      type: object
+      required:
+        - metrics
+      properties:
+        metrics:
+          type: object
+          required:
+            - url
+            - timestamp
+          properties:
+            url:
+              type: string
+              format: uri
+              example: 'https://greatbeans.com/products'
+            timestamp:
+              type: string
+              format: date-time
+            cls:
+              type: number
+              format: float
+              description: 'Cumulative Layout Shift'
+            fcp:
+              type: number
+              format: float
+              description: 'First Contentful Paint (ms)'
+            fid:
+              type: number
+              format: float
+              description: 'First Input Delay (ms)'
+            lcp:
+              type: number
+              format: float
+              description: 'Largest Contentful Paint (ms)'
+            ttfb:
+              type: number
+              format: float
+              description: 'Time to First Byte (ms)'
+        userAgent:
+          type: string
+        connectionType:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: 'VALIDATION_ERROR'
+              message: 'Invalid request parameters'
+              details:
+                - field: 'companyInfo.email'
+                  message: 'Invalid email format'
+            meta:
+              timestamp: '2024-01-20T10:30:00Z'
+              requestId: 'req_error_123'
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: 'UNAUTHORIZED'
+              message: 'Invalid or missing API key'
+            meta:
+              timestamp: '2024-01-20T10:30:00Z'
+              requestId: 'req_error_124'
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: 'FORBIDDEN'
+              message: 'Insufficient permissions'
+            meta:
+              timestamp: '2024-01-20T10:30:00Z'
+              requestId: 'req_error_125'
+
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: 'NOT_FOUND'
+              message: 'Resource not found'
+            meta:
+              timestamp: '2024-01-20T10:30:00Z'
+              requestId: 'req_error_126'
+
+    TooManyRequests:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: 'RATE_LIMIT_EXCEEDED'
+              message: 'Rate limit exceeded. Please try again later.'
+            meta:
+              timestamp: '2024-01-20T10:30:00Z'
+              requestId: 'req_error_127'
+      headers:
+        X-RateLimit-Limit:
+          description: Request limit per hour
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: Remaining requests in current window
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          description: Time when rate limit resets (Unix timestamp)
+          schema:
+            type: integer
+
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: 'INTERNAL_SERVER_ERROR'
+              message: 'An unexpected error occurred'
+            meta:
+              timestamp: '2024-01-20T10:30:00Z'
+              requestId: 'req_error_128'
+
+tags:
+  - name: Products
+    description: Coffee product catalog and search operations
+  - name: RFQ
+    description: Request for Quote management
+  - name: Search
+    description: Global search across all content types
+  - name: CMS
+    description: Content Management System operations
+  - name: Analytics
+    description: Analytics and performance monitoring
+  - name: PDF Generation
+    description: Document generation services

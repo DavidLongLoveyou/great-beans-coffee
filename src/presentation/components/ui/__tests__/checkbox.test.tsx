@@ -63,8 +63,7 @@ describe('Checkbox Component', () => {
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).toBeDisabled();
     expect(checkbox).toHaveClass(
-      'disabled:cursor-not-allowed',
-      'disabled:opacity-50'
+      'disabled:cursor-not-allowed disabled:opacity-50'
     );
   });
 
@@ -131,7 +130,7 @@ describe('Checkbox Component', () => {
     const checkbox = screen.getByRole('checkbox');
     const checkIcon = checkbox.querySelector('svg');
     expect(checkIcon).toBeInTheDocument();
-    expect(checkIcon).toHaveClass('h-4', 'w-4');
+    expect(checkIcon).toHaveClass('h-4 w-4');
   });
 
   it('works with form labels', async () => {
@@ -158,10 +157,7 @@ describe('Checkbox Component', () => {
 
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).toHaveClass(
-      'focus-visible:outline-none',
-      'focus-visible:ring-2',
-      'focus-visible:ring-ring',
-      'focus-visible:ring-offset-2'
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
     );
   });
 

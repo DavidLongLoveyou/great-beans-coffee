@@ -1,0 +1,548 @@
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { toast } from 'sonner';
+
+import { PersonalProfile } from '@/presentation/components/account/PersonalProfile';
+import { SecuritySettings } from '@/presentation/components/account/SecuritySettings';
+import { mockUser, createWrapper } from '@/test/utils';
+
+// Mock all API modules
+jest.mock('@/infrastructure/api/user-api');
+jest.mock('@/infrastructure/api/security-api');
+jest.mock('sonner');
+
+jest.mock('@/shared/contexts/AuthContext', () => ({
+  useAuth: () => ({
+    user: mockUser(),
+    isAuthenticated: true,
+    isLoading: false,
+  }),
+}));
+
+const mockUserApi = jest.requireMock('@/infrastructure/api/user-api');
+const mockSecurityApi = jest.requireMock('@/infrastructure/api/security-api');
+const mockAuthApi = jest.requireMock('@/infrastructure/api/auth-api');
+const mockToast = toast as jest.Mocked<typeof toast>;
+
+describe('User Profile Integration Tests', () => {
+  const user = userEvent.setup();
+
+  const mockProfileData = {
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'john.doe@example.com',
+    phoneNumber: '+1234567890',
+    jobTitle: 'Coffee Buyer',
+    company: 'Great Beans Coffee',
+    address: {
+      street: '123 Coffee Street',
+      city: 'Bean City',
+      state: 'Coffee State',
+      postalCode: '12345',
+      country: 'Coffee Land',
+    },
+    bio: 'Passionate coffee buyer with 10 years of experience.',
+    website: 'https://johndoe.coffee',
+    linkedIn: 'https://linkedin.com/in/johndoe',
+    twitter: '@johndoe',
+  };
+
+  const mockSecurityData = {
+    twoFactorEnabled: false,
+    lastPasswordChange: '2024-01-15T10:30:00Z',
+    activeSessions: [
+      {
+        id: 'session-1',
+        device: 'Chrome on Windows',
+        location: 'New York, US',
+        lastActive: '2024-01-20T14:30:00Z',
+        current: true,
+      },
+    ],
+    recentActivity: [
+      {
+        id: 'event-1',
+        type: 'login',
+        description: 'Successful login from Chrome on Windows',
+        timestamp: '2024-01-20T14:30:00Z',
+        location: 'New York, US',
+        riskLevel: 'low',
+      },
+    ],
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    
+    // Setup default API responses
+    mockUserApi.getUserProfile.mockResolvedValue({
+      success: true,
+      data: mockProfileData,
+    });
+    
+    mockSecurityApi.getSecurityData.mockResolvedValue({
+      success: true,
+      data: mockSecurityData,
+    });
+    
+    mockSecurityApi.getActiveSessions.mockResolvedValue({
+      success: true,
+      data: mockSecurityData.activeSessions,
+    });
+    
+    mockSecurityApi.getSecurityEvents.mockResolvedValue({
+      success: true,
+      data: mockSecurityData.recentActivity,
+    });
+  });
+
+  describe('Complete Profile Management Workflow', () => {
+    it('allows user to view and update their complete profile', async () => {
+      // Mock successful profile update
+      mockUserApi.updateUserProfile.mockResolvedValue({
+        success: true,
+        data: { ...mockProfileData, firstName: 'Jane' },
+      });
+
+      render(<PersonalProfile />, { wrapper: createWrapper() });
+
+      // Wait for profile to load
+      await waitFor(() => {
+        expect(screen.getByDisplayValue('John')).toBeInTheDocument();
+      });
+
+      // Verify all profile sections are displayed
+      expect(screen.getByText('Personal Information')).toBeInTheDocument();
+      expect(screen.getByDisplayValue('john.doe@example.com')).toBeInTheDocument();
+      expect(screen.getByDisplayValue('Coffee Buyer')).toBeInTheDocument();
+      expect(screen.getByDisplayValue('Great Beans Coffee')).toBeInTheDocument();
+
+      // Enter edit mode
+      const editButton = screen.getByRole('button', { name: /edit/i });
+      await user.click(editButton);
+
+      // Update multiple fields
+      const firstNameInput = screen.getByLabelText(/first name/i);
+      const jobTitleInput = screen.getByLabelText(/job title/i);
+      const bioInput = screen.getByLabelText(/bio/i);
+
+      await user.clear(firstNameInput);
+      await user.type(firstNameInput, 'Jane');
+      
+      await user.clear(jobTitleInput);
+      await user.type(jobTitleInput, 'Senior Coffee Buyer');
+      
+      await user.clear(bioInput);
+      await user.type(bioInput, 'Senior coffee buyer with 15 years of experience in specialty coffee sourcing.');
+
+      // Save changes
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      await user.click(saveButton);
+
+      // Verify API call with updated data
+      await waitFor(() => {
+        expect(mockUserApi.updateUserProfile).toHaveBeenCalledWith({
+          ...mockProfileData,
+          firstName: 'Jane',
+          jobTitle: 'Senior Coffee Buyer',
+          bio: 'Senior coffee buyer with 15 years of experience in specialty coffee sourcing.',
+        });
+      });
+
+      expect(mockToast.success).toHaveBeenCalledWith('Profile updated successfully');
+    });
+
+    it('handles profile update with validation errors', async () => {
+      render(<PersonalProfile />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByDisplayValue('John')).toBeInTheDocument();
+      });
+
+      // Enter edit mode
+      const editButton = screen.getByRole('button', { name: /edit/i });
+      await user.click(editButton);
+
+      // Clear required fields
+      const firstNameInput = screen.getByLabelText(/first name/i);
+      const emailInput = screen.getByLabelText(/email/i);
+
+      await user.clear(firstNameInput);
+      await user.clear(emailInput);
+      await user.type(emailInput, 'invalid-email');
+
+      // Try to save
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      await user.click(saveButton);
+
+      // Verify validation errors
+      await waitFor(() => {
+        expect(screen.getByText(/first name is required/i)).toBeInTheDocument();
+        expect(screen.getByText(/invalid email format/i)).toBeInTheDocument();
+      });
+
+      // Verify API was not called
+      expect(mockUserApi.updateUserProfile).not.toHaveBeenCalled();
+    });
+
+    it('handles network errors gracefully during profile update', async () => {
+      mockUserApi.updateUserProfile.mockRejectedValue(
+        new Error('Network error: Unable to connect to server')
+      );
+
+      render(<PersonalProfile />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByDisplayValue('John')).toBeInTheDocument();
+      });
+
+      // Enter edit mode and make changes
+      const editButton = screen.getByRole('button', { name: /edit/i });
+      await user.click(editButton);
+
+      const firstNameInput = screen.getByLabelText(/first name/i);
+      await user.clear(firstNameInput);
+      await user.type(firstNameInput, 'Jane');
+
+      // Save changes
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      await user.click(saveButton);
+
+      // Verify error handling
+      await waitFor(() => {
+        expect(mockToast.error).toHaveBeenCalledWith('Network error: Unable to connect to server');
+      });
+
+      // Verify form remains in edit mode
+      expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
+    });
+  });
+
+  describe('Complete Security Management Workflow', () => {
+    it('allows user to change password and enable 2FA in sequence', async () => {
+      // Mock successful password change
+      mockSecurityApi.changePassword.mockResolvedValue({
+        success: true,
+        message: 'Password changed successfully',
+      });
+
+      // Mock 2FA setup
+      const qrCodeData = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+      mockSecurityApi.enable2FA.mockResolvedValue({
+        success: true,
+        data: { qrCode: qrCodeData, backupCodes: ['123456', '789012'] },
+      });
+
+      mockSecurityApi.verify2FA.mockResolvedValue({
+        success: true,
+        message: '2FA enabled successfully',
+      });
+
+      render(<SecuritySettings />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByText('Security Settings')).toBeInTheDocument();
+      });
+
+      // Step 1: Change password
+      const changePasswordButton = screen.getByRole('button', { name: /change password/i });
+      await user.click(changePasswordButton);
+
+      await user.type(screen.getByLabelText(/current password/i), 'CurrentPassword123!');
+      await user.type(screen.getByLabelText(/new password/i), 'NewStrongPassword123!');
+      await user.type(screen.getByLabelText(/confirm new password/i), 'NewStrongPassword123!');
+
+      const updatePasswordButton = screen.getByRole('button', { name: /update password/i });
+      await user.click(updatePasswordButton);
+
+      await waitFor(() => {
+        expect(mockSecurityApi.changePassword).toHaveBeenCalledWith({
+          currentPassword: 'CurrentPassword123!',
+          newPassword: 'NewStrongPassword123!',
+        });
+      });
+
+      expect(mockToast.success).toHaveBeenCalledWith('Password changed successfully');
+
+      // Step 2: Enable 2FA
+      const enable2FAButton = screen.getByRole('button', { name: /enable 2fa/i });
+      await user.click(enable2FAButton);
+
+      await waitFor(() => {
+        expect(screen.getByText('Set Up Two-Factor Authentication')).toBeInTheDocument();
+        expect(screen.getByAltText('QR Code')).toBeInTheDocument();
+      });
+
+      // Enter verification code
+      const codeInput = screen.getByLabelText(/verification code/i);
+      await user.type(codeInput, '123456');
+
+      const verifyButton = screen.getByRole('button', { name: /verify and enable/i });
+      await user.click(verifyButton);
+
+      await waitFor(() => {
+        expect(mockSecurityApi.verify2FA).toHaveBeenCalledWith('123456');
+      });
+
+      expect(mockToast.success).toHaveBeenCalledWith('2FA enabled successfully');
+    });
+
+    it('handles session management after security changes', async () => {
+      // Mock session revocation
+      mockSecurityApi.revokeSession.mockResolvedValue({
+        success: true,
+        message: 'Session revoked successfully',
+      });
+
+      // Mock updated sessions after revocation
+      mockSecurityApi.getActiveSessions.mockResolvedValueOnce({
+        success: true,
+        data: [mockSecurityData.activeSessions[0]], // Only current session remains
+      });
+
+      render(<SecuritySettings />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByText('Active Sessions')).toBeInTheDocument();
+      });
+
+      // Add a second session for testing
+      const additionalSession = {
+        id: 'session-2',
+        device: 'Safari on iPhone',
+        location: 'Los Angeles, US',
+        lastActive: '2024-01-19T09:15:00Z',
+        current: false,
+      };
+
+      mockSecurityApi.getActiveSessions.mockResolvedValueOnce({
+        success: true,
+        data: [...mockSecurityData.activeSessions, additionalSession],
+      });
+
+      // Refresh to show additional session
+      const refreshButton = screen.getByRole('button', { name: /refresh/i });
+      if (refreshButton) {
+        await user.click(refreshButton);
+      }
+
+      await waitFor(() => {
+        expect(screen.getByText('Safari on iPhone')).toBeInTheDocument();
+      });
+
+      // Revoke the additional session
+      const revokeButtons = screen.getAllByRole('button', { name: /revoke/i });
+      await user.click(revokeButtons[0]);
+
+      // Confirm revocation
+      const confirmButton = screen.getByRole('button', { name: /revoke session/i });
+      await user.click(confirmButton);
+
+      await waitFor(() => {
+        expect(mockSecurityApi.revokeSession).toHaveBeenCalledWith('session-2');
+      });
+
+      expect(mockToast.success).toHaveBeenCalledWith('Session revoked successfully');
+    });
+  });
+
+  describe('Cross-Component Data Consistency', () => {
+    it('maintains data consistency between profile and security components', async () => {
+      // Mock profile update that affects security data
+      mockUserApi.updateUserProfile.mockResolvedValue({
+        success: true,
+        data: { ...mockProfileData, email: 'newemail@example.com' },
+      });
+
+      // Mock security event for email change
+      const updatedSecurityEvents = [
+        ...mockSecurityData.recentActivity,
+        {
+          id: 'event-new',
+          type: 'email_change',
+          description: 'Email address changed',
+          timestamp: new Date().toISOString(),
+          location: 'New York, US',
+          riskLevel: 'medium',
+        },
+      ];
+
+      mockSecurityApi.getSecurityEvents.mockResolvedValueOnce({
+        success: true,
+        data: updatedSecurityEvents,
+      });
+
+      // Render both components
+      const { rerender } = render(<PersonalProfile />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByDisplayValue('john.doe@example.com')).toBeInTheDocument();
+      });
+
+      // Update email in profile
+      const editButton = screen.getByRole('button', { name: /edit/i });
+      await user.click(editButton);
+
+      const emailInput = screen.getByLabelText(/email/i);
+      await user.clear(emailInput);
+      await user.type(emailInput, 'newemail@example.com');
+
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      await user.click(saveButton);
+
+      await waitFor(() => {
+        expect(mockUserApi.updateUserProfile).toHaveBeenCalled();
+      });
+
+      // Switch to security component to verify event was logged
+      rerender(<SecuritySettings />);
+
+      await waitFor(() => {
+        expect(screen.getByText('Recent Activity')).toBeInTheDocument();
+      });
+
+      expect(screen.getByText('Email address changed')).toBeInTheDocument();
+    });
+
+    it('handles concurrent updates gracefully', async () => {
+      // Simulate concurrent profile and security updates
+      const profileUpdatePromise = new Promise((resolve) => {
+        setTimeout(() => resolve({
+          success: true,
+          data: { ...mockProfileData, firstName: 'Jane' },
+        }), 100);
+      });
+
+      const passwordChangePromise = new Promise((resolve) => {
+        setTimeout(() => resolve({
+          success: true,
+          message: 'Password changed successfully',
+        }), 150);
+      });
+
+      mockUserApi.updateUserProfile.mockReturnValue(profileUpdatePromise);
+      mockSecurityApi.changePassword.mockReturnValue(passwordChangePromise);
+
+      // Render profile component
+      const { rerender } = render(<PersonalProfile />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByDisplayValue('John')).toBeInTheDocument();
+      });
+
+      // Start profile update
+      const editButton = screen.getByRole('button', { name: /edit/i });
+      await user.click(editButton);
+
+      const firstNameInput = screen.getByLabelText(/first name/i);
+      await user.clear(firstNameInput);
+      await user.type(firstNameInput, 'Jane');
+
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      await user.click(saveButton);
+
+      // Switch to security component and start password change
+      rerender(<SecuritySettings />);
+
+      await waitFor(() => {
+        expect(screen.getByText('Security Settings')).toBeInTheDocument();
+      });
+
+      const changePasswordButton = screen.getByRole('button', { name: /change password/i });
+      await user.click(changePasswordButton);
+
+      await user.type(screen.getByLabelText(/current password/i), 'CurrentPassword123!');
+      await user.type(screen.getByLabelText(/new password/i), 'NewPassword123!');
+      await user.type(screen.getByLabelText(/confirm new password/i), 'NewPassword123!');
+
+      const updatePasswordButton = screen.getByRole('button', { name: /update password/i });
+      await user.click(updatePasswordButton);
+
+      // Wait for both operations to complete
+      await waitFor(() => {
+        expect(mockToast.success).toHaveBeenCalledWith('Profile updated successfully');
+        expect(mockToast.success).toHaveBeenCalledWith('Password changed successfully');
+      }, { timeout: 3000 });
+    });
+  });
+
+  describe('Error Recovery and Resilience', () => {
+    it('recovers from temporary network failures', async () => {
+      // First call fails, second succeeds
+      mockUserApi.updateUserProfile
+        .mockRejectedValueOnce(new Error('Network timeout'))
+        .mockResolvedValueOnce({
+          success: true,
+          data: { ...mockProfileData, firstName: 'Jane' },
+        });
+
+      render(<PersonalProfile />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByDisplayValue('John')).toBeInTheDocument();
+      });
+
+      // Enter edit mode and make changes
+      const editButton = screen.getByRole('button', { name: /edit/i });
+      await user.click(editButton);
+
+      const firstNameInput = screen.getByLabelText(/first name/i);
+      await user.clear(firstNameInput);
+      await user.type(firstNameInput, 'Jane');
+
+      // First save attempt fails
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      await user.click(saveButton);
+
+      await waitFor(() => {
+        expect(mockToast.error).toHaveBeenCalledWith('Network timeout');
+      });
+
+      // Retry save - should succeed
+      await user.click(saveButton);
+
+      await waitFor(() => {
+        expect(mockToast.success).toHaveBeenCalledWith('Profile updated successfully');
+      });
+    });
+
+    it('maintains form state during error recovery', async () => {
+      mockUserApi.updateUserProfile.mockRejectedValue(
+        new Error('Validation failed')
+      );
+
+      render(<PersonalProfile />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByDisplayValue('John')).toBeInTheDocument();
+      });
+
+      // Enter edit mode and make changes
+      const editButton = screen.getByRole('button', { name: /edit/i });
+      await user.click(editButton);
+
+      const firstNameInput = screen.getByLabelText(/first name/i);
+      const jobTitleInput = screen.getByLabelText(/job title/i);
+
+      await user.clear(firstNameInput);
+      await user.type(firstNameInput, 'Jane');
+      await user.clear(jobTitleInput);
+      await user.type(jobTitleInput, 'Senior Buyer');
+
+      // Save fails
+      const saveButton = screen.getByRole('button', { name: /save/i });
+      await user.click(saveButton);
+
+      await waitFor(() => {
+        expect(mockToast.error).toHaveBeenCalledWith('Validation failed');
+      });
+
+      // Verify form state is preserved
+      expect(screen.getByDisplayValue('Jane')).toBeInTheDocument();
+      expect(screen.getByDisplayValue('Senior Buyer')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
+    });
+  });
+});

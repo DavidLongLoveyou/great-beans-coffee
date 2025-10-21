@@ -43,7 +43,7 @@ export const SectionHeading = forwardRef<
         <Component
           ref={ref}
           className={cn(
-            'font-serif tracking-tight',
+            'font-display tracking-tight',
             sizeClasses[size],
             variantClasses[variant],
             className

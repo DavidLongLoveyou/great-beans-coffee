@@ -235,7 +235,7 @@ export function RFQListFilters({
                 value={tempFilters.status}
                 onValueChange={value => handleFilterChange('status', value)}
               >
-                <SelectTrigger className="h-9 text-sm sm:h-10 mt-1">
+                <SelectTrigger className="mt-1 h-9 text-sm sm:h-10">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -259,7 +259,7 @@ export function RFQListFilters({
                 value={tempFilters.priority}
                 onValueChange={value => handleFilterChange('priority', value)}
               >
-                <SelectTrigger className="h-9 text-sm sm:h-10 mt-1">
+                <SelectTrigger className="mt-1 h-9 text-sm sm:h-10">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -359,7 +359,7 @@ export function RFQListFilters({
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="h-9 w-full justify-start text-left text-xs font-normal sm:h-10 sm:text-sm mt-1"
+                        className="mt-1 h-9 w-full justify-start text-left text-xs font-normal sm:h-10 sm:text-sm"
                       >
                         <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                         {filters.dateFrom
@@ -391,7 +391,7 @@ export function RFQListFilters({
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="h-9 w-full justify-start text-left text-xs font-normal sm:h-10 sm:text-sm mt-1"
+                        className="mt-1 h-9 w-full justify-start text-left text-xs font-normal sm:h-10 sm:text-sm"
                       >
                         <Calendar className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                         {filters.dateTo
@@ -429,7 +429,7 @@ export function RFQListFilters({
                         e.target.value ? Number(e.target.value) : undefined
                       )
                     }
-                    className="h-9 text-sm sm:h-10 mt-1"
+                    className="mt-1 h-9 text-sm sm:h-10"
                   />
                 </div>
               </div>
@@ -450,7 +450,7 @@ export function RFQListFilters({
                         e.target.value ? Number(e.target.value) : undefined
                       )
                     }
-                    className="h-9 text-sm sm:h-10 mt-1"
+                    className="mt-1 h-9 text-sm sm:h-10"
                   />
                 </div>
               </div>
@@ -467,7 +467,7 @@ export function RFQListFilters({
                     onChange={e =>
                       handleFilterChange('assignedTo', e.target.value)
                     }
-                    className="h-9 text-sm sm:h-10 mt-1"
+                    className="mt-1 h-9 text-sm sm:h-10"
                   />
                 </div>
               </div>

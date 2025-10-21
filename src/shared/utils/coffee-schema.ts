@@ -183,10 +183,10 @@ export function generateEnhancedCoffeeProductSchema(
       practices: string[];
     };
   },
-  locale: Locale
+  _locale: Locale
 ): CoffeeProductSchema {
   const baseUrl = seoConfig.siteUrl;
-  const productUrl = `${baseUrl}/${locale}/products/${product.id}`;
+  const productUrl = `${baseUrl}/${_locale}/products/${product.id}`;
 
   // Build coffee-specific properties
   const additionalProperties = [
@@ -401,10 +401,10 @@ export function generateCoffeeOriginSchema(
     rainfall?: string;
     temperature?: string;
   },
-  locale: Locale
+  _locale: Locale
 ): CoffeeOriginSchema {
   const baseUrl = seoConfig.siteUrl;
-  const originUrl = `${baseUrl}/${locale}/origins/${origin.id}`;
+  const originUrl = `${baseUrl}/${_locale}/origins/${origin.id}`;
 
   const additionalProperties = [
     {
@@ -495,10 +495,10 @@ export function generateCoffeeCertificationSchema(
     validFrom: string;
     validUntil?: string;
   },
-  locale: Locale
+  _locale: Locale
 ): CoffeeCertificationSchema {
   const baseUrl = seoConfig.siteUrl;
-  const certUrl = `${baseUrl}/${locale}/certifications/${certification.id}`;
+  const certUrl = `${baseUrl}/${_locale}/certifications/${certification.id}`;
 
   const categoryMap = {
     Quality: 'Quality Certification' as const,

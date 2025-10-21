@@ -144,12 +144,6 @@ export function SEOHead({
           </>
         )}
         {/* Preconnect to external domains for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
 
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="//www.google-analytics.com" />

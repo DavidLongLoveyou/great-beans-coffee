@@ -419,10 +419,6 @@ export function WebVitalsProvider({
     // Initialize Web Vitals tracking
     coreWebVitalsOptimizer.preloadCriticalResources([
       {
-        href: 'https://fonts.googleapis.com',
-        as: 'style',
-      },
-      {
         href: 'https://res.cloudinary.com',
         as: 'image',
       },

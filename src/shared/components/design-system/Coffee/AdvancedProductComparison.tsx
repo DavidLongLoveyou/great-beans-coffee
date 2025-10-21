@@ -20,6 +20,7 @@ import { useTranslations } from 'next-intl';
 import React, { useState, useMemo, Fragment, ReactNode } from 'react';
 
 import { downloadFile } from '@/shared/utils/download';
+import { getPrimaryImageUrl } from '@/shared/utils/image-utils';
 
 import type { Product } from '@/presentation/components/catalog/ProductGrid';
 import { Badge } from '@/presentation/components/ui/badge';
@@ -293,9 +294,8 @@ export function AdvancedProductComparison({
           <div className="relative mx-auto h-20 w-20">
             <CardImage
               src={
-                product.images.find(img => img.isPrimary)?.url ||
-                product.images[0]?.url ||
-                ''
+                getPrimaryImageUrl(product.images) ||
+                '/images/coffee-placeholder.svg'
               }
               alt={product.name}
               className="rounded-lg object-cover"
@@ -899,10 +899,8 @@ export function AdvancedProductComparison({
                           <div className="relative h-12 w-12">
                             <CardImage
                               src={
-                                product.images.find(img => img.isPrimary)
-                                  ?.url ||
-                                product.images[0]?.url ||
-                                ''
+                                getPrimaryImageUrl(product.images) ||
+                                '/images/coffee-placeholder.svg'
                               }
                               alt={product.name}
                               className="rounded object-cover"

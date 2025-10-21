@@ -230,12 +230,6 @@ export function EnhancedSEOHead({
 
         {/* Additional meta tags for enhanced SEO */}
         {/* Preconnect to external domains for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
         <link rel="preconnect" href="https://res.cloudinary.com" />
 
         {/* DNS prefetch for external resources */}

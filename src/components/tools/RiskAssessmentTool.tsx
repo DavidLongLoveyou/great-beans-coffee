@@ -665,16 +665,14 @@ export const RiskAssessmentTool = memo<RiskAssessmentToolProps>(
                             parseInt(e.target.value)
                           )
                         }
-                        className="w-full mt-1"
+                        className="mt-1 w-full"
                       />
                       <span className="text-gray-500">
                         {factor.probability}%
                       </span>
                     </div>
                     <div className="flex flex-col">
-                      <label className="block text-gray-600">
-                        Impact (%)
-                      </label>
+                      <label className="block text-gray-600">Impact (%)</label>
                       <input
                         type="range"
                         min="0"
@@ -687,7 +685,7 @@ export const RiskAssessmentTool = memo<RiskAssessmentToolProps>(
                             parseInt(e.target.value)
                           )
                         }
-                        className="w-full mt-1"
+                        className="mt-1 w-full"
                       />
                       <span className="text-gray-500">{factor.impact}%</span>
                     </div>
@@ -707,7 +705,7 @@ export const RiskAssessmentTool = memo<RiskAssessmentToolProps>(
                             parseInt(e.target.value)
                           )
                         }
-                        className="w-full mt-1"
+                        className="mt-1 w-full"
                       />
                       <span className="text-gray-500">{factor.weight}/10</span>
                     </div>

@@ -1370,9 +1370,39 @@
     "save": "Save",
     "cancel": "Cancel",
     "tabs": {
+      "personal": "Personal Profile",
       "profile": "Company Profile",
       "team": "Team Management",
       "preferences": "Preferences"
+    },
+    "personalProfile": {
+      "title": "Personal Information",
+      "description": "Manage your personal details and preferences",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "position": "Position",
+      "department": "Department",
+      "bio": "Bio",
+      "bioPlaceholder": "Tell us about yourself...",
+      "location": "Location",
+      "locationPlaceholder": "City, Country",
+      "timezone": "Timezone",
+      "language": "Language",
+      "contactInfo": "Contact Information",
+      "professionalInfo": "Professional Information",
+      "preferences": "Preferences",
+      "accountInfo": "Account Information",
+      "memberSince": "Member Since",
+      "lastLogin": "Last Login",
+      "updateAvatar": "Update Avatar",
+      "avatarPreview": "Preview your new avatar and confirm the upload",
+      "uploading": "Uploading...",
+      "uploadSuccess": "Avatar updated successfully",
+      "uploadError": "Failed to upload avatar",
+      "fileSizeError": "File size must be less than 5MB",
+      "fileTypeError": "Please select a valid image file"
     },
     "companyProfile": {
       "title": "Company Profile",
@@ -1400,6 +1430,7 @@
       "sendInvitation": "Send Invitation",
       "member": "Member",
       "role": "Role",
+      "status": "Status",
       "lastLogin": "Last Login",
       "actions": "Actions"
     },
@@ -1671,6 +1702,186 @@
       "subtitle": "Get personalized market reports and analysis tailored to your business needs",
       "contactUs": "Contact Our Analysts",
       "requestCustomReport": "Request Custom Report"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In to Your Account",
+      "subtitle": "Access your coffee trading dashboard",
+      "email": "Email Address",
+      "password": "Password",
+      "signIn": "Sign In",
+      "signInWithGoogle": "Sign in with Google",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up here",
+      "rememberMe": "Remember me",
+      "errors": {
+        "invalidCredentials": "Invalid email or password",
+        "accountLocked": "Account is locked. Please contact support.",
+        "accountInactive": "Account is inactive. Please contact support.",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least 8 characters",
+        "signInFailed": "Sign in failed. Please try again.",
+        "oauthError": "OAuth sign in failed. Please try again."
+      },
+      "success": {
+        "signedIn": "Successfully signed in",
+        "redirecting": "Redirecting to dashboard..."
+      }
+    },
+    "register": {
+      "title": "Create Your Account",
+      "subtitle": "Join our global coffee trading platform",
+      "personalInfo": "Personal Information",
+      "companyInfo": "Company Information",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "companyName": "Company Name",
+      "companyType": "Company Type",
+      "country": "Country",
+      "phone": "Phone Number",
+      "website": "Website (Optional)",
+      "createAccount": "Create Account",
+      "signUpWithGoogle": "Sign up with Google",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in here",
+      "termsAccept": "I agree to the Terms of Service and Privacy Policy",
+      "errors": {
+        "firstNameRequired": "First name is required",
+        "lastNameRequired": "Last name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "emailExists": "Email already exists",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least 8 characters",
+        "passwordMismatch": "Passwords do not match",
+        "companyNameRequired": "Company name is required",
+        "companyTypeRequired": "Company type is required",
+        "countryRequired": "Country is required",
+        "phoneRequired": "Phone number is required",
+        "phoneInvalid": "Please enter a valid phone number",
+        "termsRequired": "You must accept the terms and conditions",
+        "registrationFailed": "Registration failed. Please try again."
+      },
+      "success": {
+        "registered": "Account created successfully",
+        "verificationSent": "Verification email sent to your address",
+        "redirecting": "Redirecting to verification page..."
+      }
+    },
+    "unauthorized": {
+      "title": "Access Denied",
+      "description": "You don't have permission to access this page",
+      "message": "This page requires administrator privileges. Please contact your system administrator if you believe this is an error.",
+      "goBack": "Go Back",
+      "goHome": "Go to Homepage"
+    },
+    "suspended": {
+      "title": "Account Suspended",
+      "description": "Your account has been temporarily suspended",
+      "reason": "Your account access has been restricted due to policy violations or security concerns.",
+      "message": "If you believe this is an error, please contact our support team for assistance.",
+      "appeal": "You can appeal this decision by contacting our support team.",
+      "contactSupport": "Contact Support",
+      "phoneSupport": "Or call us directly:",
+      "signOut": "Sign Out"
+    },
+    "verifyEmail": {
+      "title": "Verify Your Email",
+      "description": "We've sent a verification link to your email address",
+      "verifying": "Verifying Email...",
+      "verifyingDescription": "Please wait while we verify your email address",
+      "emailSentTo": "Verification email sent to",
+      "checkInbox": "Please check your inbox and click the verification link",
+      "checkSpam": "Don't forget to check your spam folder",
+      "resendEmail": "Resend Verification Email",
+      "resending": "Resending...",
+      "resendIn": "Resend in",
+      "continueToLogin": "Continue to Login",
+      "backToLogin": "Back to Login",
+      "backToRegister": "Back to Register",
+      "invalidAccess": "Invalid Access",
+      "invalidAccessDescription": "This page requires a valid email verification link",
+      "success": {
+        "title": "Email Verified Successfully",
+        "description": "Your email has been verified. You can now sign in to your account.",
+        "redirecting": "Redirecting to login page..."
+      },
+      "error": {
+        "title": "Verification Failed",
+        "description": "We couldn't verify your email address"
+      },
+      "errors": {
+        "verificationFailed": "Email verification failed. Please try again.",
+        "resendFailed": "Failed to resend verification email. Please try again.",
+        "tokenExpired": "Verification link has expired. Please request a new one.",
+        "tokenInvalid": "Invalid verification link. Please request a new one."
+      }
+    },
+    "forgotPassword": {
+      "title": "Reset Your Password",
+      "subtitle": "Enter your email address and we'll send you a link to reset your password",
+      "email": "Email Address",
+      "sendResetLink": "Send Reset Link",
+      "sending": "Sending...",
+      "backToLogin": "Back to Login",
+      "emailSent": "Reset Link Sent",
+      "emailSentDescription": "We've sent a password reset link to your email address",
+      "checkInbox": "Please check your inbox and click the reset link",
+      "checkSpam": "Don't forget to check your spam folder",
+      "resendLink": "Resend Reset Link",
+      "resending": "Resending...",
+      "resendIn": "Resend in",
+      "errors": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "emailNotFound": "No account found with this email address",
+        "sendFailed": "Failed to send reset link. Please try again.",
+        "rateLimited": "Too many requests. Please wait before trying again."
+      },
+      "success": {
+        "emailSent": "Password reset link sent successfully",
+        "checkEmail": "Please check your email for reset instructions"
+      }
+    },
+    "resetPassword": {
+      "title": "Set New Password",
+      "subtitle": "Enter your new password below",
+      "password": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "resetPassword": "Reset Password",
+      "resetting": "Resetting...",
+      "backToLogin": "Back to Login",
+      "success": {
+        "title": "Password Reset Successfully",
+        "description": "Your password has been reset. You can now sign in with your new password.",
+        "redirecting": "Redirecting to login page..."
+      },
+      "error": {
+        "title": "Reset Failed",
+        "description": "We couldn't reset your password"
+      },
+      "errors": {
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least 8 characters",
+        "passwordMismatch": "Passwords do not match",
+        "tokenExpired": "Reset link has expired. Please request a new one.",
+        "tokenInvalid": "Invalid reset link. Please request a new one.",
+        "resetFailed": "Password reset failed. Please try again.",
+        "userNotFound": "User not found. Please request a new reset link."
+      }
+    },
+    "common": {
+      "loading": "Loading...",
+      "or": "or",
+      "backToLogin": "Back to Login",
+      "backToRegister": "Back to Register"
     }
   }
 }

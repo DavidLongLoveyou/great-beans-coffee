@@ -71,11 +71,7 @@ export const seoConfig = {
 
   // Performance and Security
   performance: {
-    preconnect: [
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
-      'https://res.cloudinary.com',
-    ],
+    preconnect: ['https://res.cloudinary.com'],
     dnsPrefetch: [
       'https://www.google-analytics.com',
       'https://www.googletagmanager.com',
