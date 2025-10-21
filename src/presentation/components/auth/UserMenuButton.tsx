@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/shared/contexts/AuthContext';
-import { useTranslations } from 'next-intl';
+
 import { useRouter, usePathname } from 'next/navigation';
 import { User, LogIn, UserPlus } from '@/components/ui/icons';
 import { navigationStorage } from '@/shared/utils/sessionStorage';
@@ -20,7 +20,7 @@ interface UserMenuButtonProps {
 
 export function UserMenuButton({ className = '' }: UserMenuButtonProps) {
   const { isAuthenticated, user } = useAuth();
-  const t = useTranslations('auth');
+
   const router = useRouter();
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
@@ -98,10 +98,10 @@ export function UserMenuButton({ className = '' }: UserMenuButtonProps) {
             <div className="p-4">
               <div className="mb-3">
                 <h3 className="text-sm font-semibold text-forest-800">
-                  {t('common.getStarted')}
+                  Truy cập hệ thống
                 </h3>
                 <p className="mt-1 text-xs text-forest-600">
-                  Đăng nhập để truy cập dashboard và quản lý đơn hàng
+                  Đăng nhập để quản lý đơn hàng và theo dõi giao dịch
                 </p>
               </div>
 
@@ -115,7 +115,7 @@ export function UserMenuButton({ className = '' }: UserMenuButtonProps) {
                 >
                   <LogIn className="mr-2 h-4 w-4 text-forest-600" />
                   <span className="font-medium text-forest-700">
-                    {t('login.title')}
+                    Đăng nhập
                   </span>
                 </Button>
 
@@ -126,7 +126,7 @@ export function UserMenuButton({ className = '' }: UserMenuButtonProps) {
                   className="h-10 w-full justify-start bg-forest-600 text-white shadow-sm transition-all duration-200 hover:bg-forest-700"
                 >
                   <UserPlus className="mr-2 h-4 w-4" />
-                  <span className="font-medium">{t('register.title')}</span>
+                  <span className="font-medium">Đăng ký</span>
                 </Button>
               </div>
 
@@ -135,7 +135,7 @@ export function UserMenuButton({ className = '' }: UserMenuButtonProps) {
 
               {/* Additional Info */}
               <div className="text-center text-xs text-forest-500">
-                Tham gia cộng đồng xuất khẩu cà phê hàng đầu Việt Nam
+                Dành cho khách hàng, nhân viên và đối tác kinh doanh
               </div>
             </div>
 

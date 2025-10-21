@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/shared/contexts/AuthContext';
 import { navigationStorage } from '@/shared/utils/sessionStorage';
-import { useTranslations } from 'next-intl';
+
 import { useRouter, usePathname } from 'next/navigation';
 import { LogIn, UserPlus } from '@/components/ui/icons';
 
@@ -30,7 +30,7 @@ export function LoginButton({
   className = '',
 }: LoginButtonProps) {
   const { isAuthenticated } = useAuth();
-  const t = useTranslations('auth');
+
   const router = useRouter();
   const pathname = usePathname();
 
@@ -72,7 +72,7 @@ export function LoginButton({
         className={className}
       >
         <LogIn className="mr-2 h-4 w-4" />
-        {t('login.title')}
+        Đăng nhập
       </Button>
     );
   }
@@ -82,12 +82,12 @@ export function LoginButton({
       <DropdownMenuTrigger asChild>
         <Button variant={variant} size={size} className={className}>
           <LogIn className="mr-2 h-4 w-4" />
-          {t('common.signIn')}
+          Đăng nhập
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>{t('common.getStarted')}</DropdownMenuLabel>
+        <DropdownMenuLabel>Truy cập hệ thống</DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 
@@ -96,7 +96,7 @@ export function LoginButton({
           onClick={handleLogin}
         >
           <LogIn className="mr-2 h-4 w-4" />
-          {t('login.title')}
+          Đăng nhập
         </DropdownMenuItem>
 
         <DropdownMenuItem
@@ -104,7 +104,7 @@ export function LoginButton({
           onClick={handleRegister}
         >
           <UserPlus className="mr-2 h-4 w-4" />
-          {t('register.title')}
+          Đăng ký
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -605,7 +605,6 @@ The main dashboard provides a comprehensive overview with the following componen
 - **User Training**: Comprehensive training materials available
 - **API Documentation**: For system integrations
 - **Video Tutorials**: Step-by-step guidance
-- **Community Forum**: User community and discussions
 
 ### Contact Information
 
