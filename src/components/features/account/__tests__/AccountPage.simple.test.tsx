@@ -54,7 +54,9 @@ jest.mock('@/presentation/components/layout/ContentSection', () => ({
 }));
 
 const mockUseSession = useSession as jest.MockedFunction<typeof useSession>;
-const mockUseTranslations = useTranslations as jest.MockedFunction<typeof useTranslations>;
+const mockUseTranslations = useTranslations as jest.MockedFunction<
+  typeof useTranslations
+>;
 
 describe('AccountPage Simple Test', () => {
   beforeEach(() => {
@@ -69,12 +71,19 @@ describe('AccountPage Simple Test', () => {
       status: 'authenticated',
     } as any);
 
-    mockUseTranslations.mockReturnValue((key: string) => key);
+    mockUseTranslations.mockReturnValue(
+      Object.assign((key: string) => key, {
+        rich: (key: string) => key,
+        markup: (key: string) => key,
+        raw: (key: string) => key,
+        has: (key: string) => true,
+      }) as any
+    );
   });
 
   it('should render without crashing', () => {
     expect(() => {
-      render(<AccountPage />);
+      render(<AccountPage params={Promise.resolve({ locale: 'en' as any })} />);
     }).not.toThrow();
   });
 });

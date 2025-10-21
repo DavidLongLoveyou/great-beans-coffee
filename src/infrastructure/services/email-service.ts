@@ -50,9 +50,12 @@ class EmailService {
     }
   }
 
-  async sendPasswordResetEmail(email: string, resetToken: string): Promise<boolean> {
+  async sendPasswordResetEmail(
+    email: string,
+    resetToken: string
+  ): Promise<boolean> {
     const resetUrl = `${process.env.NEXTAUTH_URL}/auth/reset-password?token=${resetToken}`;
-    
+
     const template: EmailTemplate = {
       subject: 'Password Reset Request - Great Beans Coffee',
       html: `
@@ -73,11 +76,11 @@ class EmailService {
       subject: template.subject,
       html: template.html,
     };
-    
+
     if (template.text) {
       emailOptions.text = template.text;
     }
-    
+
     return this.sendEmail(emailOptions);
   }
 
@@ -107,11 +110,11 @@ class EmailService {
       subject: template.subject,
       html: template.html,
     };
-    
+
     if (template.text) {
       emailOptions.text = template.text;
     }
-    
+
     return this.sendEmail(emailOptions);
   }
 }

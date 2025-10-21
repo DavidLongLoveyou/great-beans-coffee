@@ -23,7 +23,10 @@ jest.mock('sonner', () => ({
 }));
 
 // Helper function to create mock Response objects
-const createMockResponse = (data: any, options: { ok?: boolean; status?: number } = {}) => {
+const createMockResponse = (
+  data: any,
+  options: { ok?: boolean; status?: number } = {}
+): Response => {
   const { ok = true, status = 200 } = options;
   return {
     ok,
@@ -853,7 +856,7 @@ describe('GroupManagement', () => {
       expect(screen.getByText('Jane Smith')).toBeInTheDocument();
 
       const trashButtons = screen.getAllByTestId('trash-icon');
-      await user.click(trashButtons[1]); // Remove Jane Smith
+      await user.click(trashButtons[1]!); // Remove Jane Smith
 
       await waitFor(() => {
         expect(toast.success).toHaveBeenCalledWith(
@@ -872,7 +875,7 @@ describe('GroupManagement', () => {
       render(<GroupManagement />);
 
       const trashButtons = screen.getAllByTestId('trash-icon');
-      await user.click(trashButtons[0]);
+      await user.click(trashButtons[0]!);
 
       await waitFor(() => {
         expect(toast.error).toHaveBeenCalledWith(

@@ -1,6 +1,13 @@
 // Optimized icons.ts - only exports actually used icons
 
-import { Coffee, Loader2, Mail, Key, AlertTriangle, CheckCircle } from 'lucide-react';
+import {
+  Coffee,
+  Loader2,
+  Mail,
+  Key,
+  AlertTriangle,
+  CheckCircle,
+} from 'lucide-react';
 
 export { Activity } from 'lucide-react';
 export { AlertCircle } from 'lucide-react';

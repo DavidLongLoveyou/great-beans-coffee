@@ -18,7 +18,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import PersonalProfile from '@/components/features/account/PersonalProfile';
+import { PersonalProfile } from '@/components/features/account/PersonalProfile';
 
 import { type Locale } from '@/i18n';
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';

@@ -15,6 +15,19 @@ jest.mock('sonner', () => ({
   },
 }));
 
+jest.mock('next-auth/react', () => ({
+  useSession: jest.fn(() => ({
+    data: {
+      user: {
+        id: '1',
+        email: 'test@example.com',
+        name: 'Test User',
+      },
+    },
+    status: 'authenticated',
+  })),
+}));
+
 // Mock fetch
 global.fetch = jest.fn();
 const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
@@ -22,7 +35,10 @@ const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
 const mockToast = toast as jest.Mocked<typeof toast>;
 
 // Helper function to create mock Response objects
-const createMockResponse = (data: unknown, options: { ok?: boolean; status?: number } = {}) => {
+const createMockResponse = (
+  data: unknown,
+  options: { ok?: boolean; status?: number } = {}
+): Response => {
   const { ok = true, status = 200 } = options;
   return {
     ok,
@@ -91,17 +107,42 @@ describe('SecuritySettings Component', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockFetch.mockResolvedValue({
-      ok: true,
-      json: async () => mockSecurityData,
-    } as Response);
+
+    // Mock different responses for different endpoints
+    mockFetch.mockImplementation((input: string | URL | Request) => {
+      const url = typeof input === 'string' ? input : input.toString();
+
+      if (url === '/api/user/security') {
+        return Promise.resolve(
+          createMockResponse({
+            twoFactorEnabled: mockSecurityData.twoFactorEnabled,
+            lastPasswordChange: mockSecurityData.lastPasswordChange,
+          })
+        );
+      }
+
+      if (url === '/api/user/sessions') {
+        return Promise.resolve(
+          createMockResponse({
+            sessions: mockSecurityData.activeSessions,
+            recentActivity: mockSecurityData.recentActivity,
+          })
+        );
+      }
+
+      return Promise.resolve(createMockResponse({}));
+    });
   });
 
   describe('Rendering', () => {
     it('renders security settings interface', async () => {
       render(<SecuritySettings />, { wrapper: createWrapper() });
 
-      expect(screen.getByText('Security Settings')).toBeInTheDocument();
+      // Wait for the component to load data and render content
+      await waitFor(() => {
+        expect(screen.getByText('Security Settings')).toBeInTheDocument();
+      });
+
       expect(screen.getByText('Password Management')).toBeInTheDocument();
       expect(screen.getByText('Two-Factor Authentication')).toBeInTheDocument();
       expect(screen.getByText('Active Sessions')).toBeInTheDocument();
@@ -322,13 +363,12 @@ describe('SecuritySettings Component', () => {
 
     it('verifies 2FA setup with verification code', async () => {
       mockFetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({
+        .mockResolvedValueOnce(
+          createMockResponse({
             qrCode: 'data:image/png;base64,test',
             secret: 'JBSWY3DPEHPK3PXP',
-          }),
-        })
+          })
+        )
         .mockResolvedValueOnce(createMockResponse({ success: true }));
 
       const enableButton = screen.getByText('Enable Two-Factor Authentication');

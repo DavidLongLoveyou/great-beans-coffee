@@ -6,7 +6,10 @@ import { PersonalProfile } from '../PersonalProfile';
 import { createWrapper } from '@/test/utils';
 
 // Helper function to create mock Response objects
-const createMockResponse = (data: any, options: { ok?: boolean; status?: number } = {}) => {
+const createMockResponse = (
+  data: any,
+  options: { ok?: boolean; status?: number } = {}
+): Response => {
   const { ok = true, status = 200 } = options;
   return {
     ok,
@@ -375,10 +378,15 @@ describe('PersonalProfile Component', () => {
     });
 
     it('handles server validation errors', async () => {
-      mockFetch.mockResolvedValueOnce(createMockResponse({
-        success: false,
-        error: 'Phone number already exists',
-      }, { ok: false, status: 400 }));
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse(
+          {
+            success: false,
+            error: 'Phone number already exists',
+          },
+          { ok: false, status: 400 }
+        )
+      );
 
       const saveButton = screen.getByText('Save Changes');
       await user.click(saveButton);

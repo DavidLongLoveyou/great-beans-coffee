@@ -28,18 +28,18 @@ class RateLimitService {
 
   constructor() {
     // Clean up expired entries every 5 minutes
-    this.cleanupInterval = setInterval(() => {
-      this.cleanup();
-    }, 5 * 60 * 1000);
+    this.cleanupInterval = setInterval(
+      () => {
+        this.cleanup();
+      },
+      5 * 60 * 1000
+    );
   }
 
   /**
    * Check if a request is allowed based on rate limiting rules
    */
-  checkRateLimit(
-    identifier: string,
-    config: RateLimitConfig
-  ): RateLimitResult {
+  checkRateLimit(identifier: string, config: RateLimitConfig): RateLimitResult {
     const now = Date.now();
     const key = this.generateKey(identifier, config);
     const entry = this.store.get(key);
@@ -63,7 +63,7 @@ class RateLimitService {
     // Check if the request exceeds the limit
     if (entry.count >= config.maxRequests) {
       const retryAfter = Math.ceil((entry.resetTime - now) / 1000);
-      
+
       logger.warn(`Rate limit exceeded for ${identifier}`, {
         count: entry.count,
         maxRequests: config.maxRequests,
@@ -185,11 +185,11 @@ class RateLimitService {
       remaining,
       resetTime: entry.resetTime,
     };
-    
+
     if (!allowed) {
       result.retryAfter = Math.ceil((entry.resetTime - now) / 1000);
     }
-    
+
     return result;
   }
 

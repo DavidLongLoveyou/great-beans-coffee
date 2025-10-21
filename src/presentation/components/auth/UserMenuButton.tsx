@@ -63,7 +63,10 @@ export function UserMenuButton({ className = '' }: UserMenuButtonProps) {
           aria-label="Go to Dashboard"
         >
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user.avatar || ''} alt={user.fullName || 'User'} />
+            <AvatarImage
+              src={user.avatar || ''}
+              alt={user.fullName || 'User'}
+            />
             <AvatarFallback className="bg-forest-500 text-sm font-medium text-white">
               {user.fullName ? user.fullName.charAt(0).toUpperCase() : 'U'}
             </AvatarFallback>

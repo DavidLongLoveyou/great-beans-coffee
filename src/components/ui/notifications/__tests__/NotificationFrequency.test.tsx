@@ -112,7 +112,9 @@ describe('NotificationFrequency Component', () => {
         { wrapper: createWrapper() }
       );
 
-      const quietHoursSwitch = screen.getByRole('switch', { name: /quiet hours/i });
+      const quietHoursSwitch = screen.getByRole('switch', {
+        name: /quiet hours/i,
+      });
       await user.click(quietHoursSwitch);
 
       expect(mockOnChange).toHaveBeenCalledWith({

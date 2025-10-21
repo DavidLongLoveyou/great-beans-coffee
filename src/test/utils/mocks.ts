@@ -342,7 +342,7 @@ export const getTranslations = jest.fn(() => (key: string) => key);
 export const getLocale = jest.fn(() => 'en');
 export const getMessages = jest.fn(() => ({}));
 export const unstable_setRequestLocale = jest.fn();
-export const getRequestConfig = jest.fn((_configFn) => {
+export const getRequestConfig = jest.fn(_configFn => {
   // Return a mock configuration that mimics the real behavior
   return async ({ locale = 'en' } = {}) => {
     return {
@@ -356,7 +356,7 @@ export const getRequestConfig = jest.fn((_configFn) => {
 export const useTranslations = jest.fn(() => (key: string) => key);
 export const useLocale = jest.fn(() => 'en');
 export const useMessages = jest.fn(() => ({}));
-export const useNow = jest.fn((_date) => new Date());
+export const useNow = jest.fn(_date => new Date());
 export const useTimeZone = jest.fn(() => 'UTC');
 export const useFormatter = jest.fn(() => ({
   dateTime: (date: Date) => date.toISOString(),

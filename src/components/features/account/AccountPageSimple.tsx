@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import PersonalProfile from '@/components/features/account/PersonalProfile';
+import { PersonalProfile } from '@/components/features/account/PersonalProfile';
 import SecuritySettings from '@/components/features/account/SecuritySettings';
 
 import { ContentContainer } from '@/presentation/components/layout/ContentContainer';
@@ -74,26 +74,28 @@ export default function AccountPageSimple() {
             <Card>
               <CardHeader>
                 <CardTitle>{t('profile.title')}</CardTitle>
-                <CardDescription>
-                  {t('profile.description')}
-                </CardDescription>
+                <CardDescription>{t('profile.description')}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="companyName">{t('profile.companyName')}</Label>
+                    <Label htmlFor="companyName">
+                      {t('profile.companyName')}
+                    </Label>
                     <Input
                       id="companyName"
                       value={companyName}
-                      onChange={(e) => setCompanyName(e.target.value)}
+                      onChange={e => setCompanyName(e.target.value)}
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="businessType">{t('profile.businessType')}</Label>
+                    <Label htmlFor="businessType">
+                      {t('profile.businessType')}
+                    </Label>
                     <Input
                       id="businessType"
                       value={businessType}
-                      onChange={(e) => setBusinessType(e.target.value)}
+                      onChange={e => setBusinessType(e.target.value)}
                     />
                   </div>
                   <div className="space-y-2">
@@ -101,7 +103,7 @@ export default function AccountPageSimple() {
                     <Input
                       id="website"
                       value={website}
-                      onChange={(e) => setWebsite(e.target.value)}
+                      onChange={e => setWebsite(e.target.value)}
                     />
                   </div>
                 </div>
@@ -115,9 +117,7 @@ export default function AccountPageSimple() {
             <Card>
               <CardHeader>
                 <CardTitle>{t('team.title')}</CardTitle>
-                <CardDescription>
-                  {t('team.description')}
-                </CardDescription>
+                <CardDescription>{t('team.description')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Button>{t('team.addMember')}</Button>

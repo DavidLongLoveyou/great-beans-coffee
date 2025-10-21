@@ -6,7 +6,10 @@ import { AvatarUpload } from '../AvatarUpload';
 import { createWrapper } from '@/test/utils';
 
 // Helper function to create mock Response objects
-const createMockResponse = (data: any, options: { ok?: boolean; status?: number } = {}) => {
+const createMockResponse = (
+  data: any,
+  options: { ok?: boolean; status?: number } = {}
+): Response => {
   const { ok = true, status = 200 } = options;
   return {
     ok,
@@ -371,10 +374,12 @@ describe('AvatarUpload Component', () => {
     });
 
     it('uploads file successfully', async () => {
-      mockFetch.mockResolvedValueOnce(createMockResponse({
-        success: true,
-        data: { avatarUrl: 'https://example.com/new-avatar.jpg' },
-      }));
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse({
+          success: true,
+          data: { avatarUrl: 'https://example.com/new-avatar.jpg' },
+        })
+      );
 
       const uploadButton = screen.getByText('Upload');
       await user.click(uploadButton);
@@ -686,10 +691,12 @@ describe('AvatarUpload Component', () => {
           new Promise(resolve =>
             setTimeout(
               () =>
-                resolve(createMockResponse({
-                  success: true,
-                  data: { avatarUrl: 'https://example.com/new-avatar.jpg' },
-                })),
+                resolve(
+                  createMockResponse({
+                    success: true,
+                    data: { avatarUrl: 'https://example.com/new-avatar.jpg' },
+                  })
+                ),
               300
             )
           )

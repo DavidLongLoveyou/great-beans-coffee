@@ -114,7 +114,7 @@ class AuditService {
     try {
       // Store in memory (in production, this would go to a database)
       this.events.push(auditEvent);
-      
+
       // Keep only the most recent events
       if (this.events.length > this.maxEvents) {
         this.events = this.events.slice(-this.maxEvents);
@@ -134,7 +134,6 @@ class AuditService {
       // 1. Store in audit database
       // 2. Send to SIEM system
       // 3. Trigger alerts for critical events
-      
     } catch (error) {
       logger.error('Failed to log audit event:', error);
     }
@@ -297,43 +296,60 @@ class AuditService {
 
     // Apply filters
     if (query.userId) {
-      filteredEvents = filteredEvents.filter(event => event.userId === query.userId);
+      filteredEvents = filteredEvents.filter(
+        event => event.userId === query.userId
+      );
     }
 
     if (query.action) {
-      filteredEvents = filteredEvents.filter(event => event.action === query.action);
+      filteredEvents = filteredEvents.filter(
+        event => event.action === query.action
+      );
     }
 
     if (query.resource) {
-      filteredEvents = filteredEvents.filter(event => event.resource === query.resource);
+      filteredEvents = filteredEvents.filter(
+        event => event.resource === query.resource
+      );
     }
 
     if (query.startDate) {
-      filteredEvents = filteredEvents.filter(event => event.timestamp >= query.startDate!);
+      filteredEvents = filteredEvents.filter(
+        event => event.timestamp >= query.startDate!
+      );
     }
 
     if (query.endDate) {
-      filteredEvents = filteredEvents.filter(event => event.timestamp <= query.endDate!);
+      filteredEvents = filteredEvents.filter(
+        event => event.timestamp <= query.endDate!
+      );
     }
 
     if (query.success !== undefined) {
-      filteredEvents = filteredEvents.filter(event => event.success === query.success);
+      filteredEvents = filteredEvents.filter(
+        event => event.success === query.success
+      );
     }
 
     // Sort by timestamp (newest first)
-    filteredEvents.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+    filteredEvents.sort(
+      (a, b) => b.timestamp.getTime() - a.timestamp.getTime()
+    );
 
     // Apply pagination
     const offset = query.offset || 0;
     const limit = query.limit || 100;
-    
+
     return filteredEvents.slice(offset, offset + limit);
   }
 
   /**
    * Get audit statistics
    */
-  async getStatistics(startDate?: Date, endDate?: Date): Promise<Record<string, any>> {
+  async getStatistics(
+    startDate?: Date,
+    endDate?: Date
+  ): Promise<Record<string, any>> {
     let events = [...this.events];
 
     if (startDate) {
@@ -357,11 +373,13 @@ class AuditService {
     // Calculate breakdowns
     events.forEach(event => {
       // Action breakdown
-      stats.actionBreakdown[event.action] = (stats.actionBreakdown[event.action] || 0) + 1;
-      
+      stats.actionBreakdown[event.action] =
+        (stats.actionBreakdown[event.action] || 0) + 1;
+
       // Resource breakdown
-      stats.resourceBreakdown[event.resource] = (stats.resourceBreakdown[event.resource] || 0) + 1;
-      
+      stats.resourceBreakdown[event.resource] =
+        (stats.resourceBreakdown[event.resource] || 0) + 1;
+
       // Hourly breakdown
       const hour = event.timestamp.getHours();
       stats.hourlyBreakdown[hour] = (stats.hourlyBreakdown[hour] || 0) + 1;
@@ -383,7 +401,10 @@ class AuditService {
   /**
    * Get user activity timeline
    */
-  async getUserActivity(userId: string, limit: number = 100): Promise<AuditEvent[]> {
+  async getUserActivity(
+    userId: string,
+    limit: number = 100
+  ): Promise<AuditEvent[]> {
     return this.events
       .filter(event => event.userId === userId)
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
@@ -399,7 +420,9 @@ class AuditService {
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
 
     // Get recent events
-    const recentEvents = this.events.filter(event => event.timestamp >= oneHourAgo);
+    const recentEvents = this.events.filter(
+      event => event.timestamp >= oneHourAgo
+    );
 
     // Group by IP address
     const ipGroups = new Map<string, AuditEvent[]>();
@@ -415,10 +438,10 @@ class AuditService {
     // Check for suspicious patterns
     ipGroups.forEach((events, ip) => {
       // Multiple failed login attempts
-      const failedLogins = events.filter(e => 
-        e.action === AuditAction.LOGIN_FAILED && !e.success
+      const failedLogins = events.filter(
+        e => e.action === AuditAction.LOGIN_FAILED && !e.success
       );
-      
+
       if (failedLogins.length >= 5) {
         suspiciousEvents.push(...failedLogins);
       }
@@ -435,32 +458,48 @@ class AuditService {
   /**
    * Export audit events
    */
-  async exportEvents(query: AuditQuery, format: 'json' | 'csv' = 'json'): Promise<string> {
+  async exportEvents(
+    query: AuditQuery,
+    format: 'json' | 'csv' = 'json'
+  ): Promise<string> {
     const events = await this.queryEvents(query);
 
     if (format === 'csv') {
       const headers = [
-        'ID', 'Timestamp', 'User ID', 'User Email', 'Action', 'Resource', 
-        'Resource ID', 'Success', 'IP Address', 'User Agent', 'Details'
+        'ID',
+        'Timestamp',
+        'User ID',
+        'User Email',
+        'Action',
+        'Resource',
+        'Resource ID',
+        'Success',
+        'IP Address',
+        'User Agent',
+        'Details',
       ];
-      
+
       const csvRows = [
         headers.join(','),
-        ...events.map(event => [
-          event.id,
-          event.timestamp.toISOString(),
-          event.userId || '',
-          event.userEmail || '',
-          event.action,
-          event.resource,
-          event.resourceId || '',
-          event.success,
-          event.ipAddress || '',
-          event.userAgent || '',
-          JSON.stringify(event.details || {})
-        ].map(field => `"${field}"`).join(','))
+        ...events.map(event =>
+          [
+            event.id,
+            event.timestamp.toISOString(),
+            event.userId || '',
+            event.userEmail || '',
+            event.action,
+            event.resource,
+            event.resourceId || '',
+            event.success,
+            event.ipAddress || '',
+            event.userAgent || '',
+            JSON.stringify(event.details || {}),
+          ]
+            .map(field => `"${field}"`)
+            .join(',')
+        ),
       ];
-      
+
       return csvRows.join('\n');
     }
 
@@ -474,7 +513,7 @@ class AuditService {
     const initialCount = this.events.length;
     this.events = this.events.filter(event => event.timestamp >= olderThan);
     const removedCount = initialCount - this.events.length;
-    
+
     logger.info(`Cleared ${removedCount} old audit events`);
     return removedCount;
   }

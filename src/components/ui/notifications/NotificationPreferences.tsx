@@ -229,9 +229,10 @@ export function NotificationPreferences({
               {notificationTypes.map((type, index) => {
                 const TypeIcon = type.icon;
                 const channelSettings = settings[channel.key];
-                const isEnabled = channelSettings && type.key in channelSettings 
-                  ? (channelSettings as any)[type.key] 
-                  : false;
+                const isEnabled =
+                  channelSettings && type.key in channelSettings
+                    ? (channelSettings as any)[type.key]
+                    : false;
 
                 // Skip SMS for marketing and system notifications
                 if (

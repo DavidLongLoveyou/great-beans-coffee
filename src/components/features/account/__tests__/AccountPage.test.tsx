@@ -39,7 +39,9 @@ jest.mock('@/components/features/account/PersonalProfile', () => {
 
 jest.mock('@/components/features/account/SecuritySettings', () => {
   return function MockSecuritySettings() {
-    return <div data-testid="security-settings">Security Settings Component</div>;
+    return (
+      <div data-testid="security-settings">Security Settings Component</div>
+    );
   };
 });
 
@@ -78,10 +80,13 @@ global.fetch = jest.fn().mockResolvedValue({
   formData: jest.fn().mockResolvedValue(new FormData()),
   text: jest.fn().mockResolvedValue('{"success": true}'),
   json: jest.fn().mockResolvedValue({ success: true }),
+  bytes: jest.fn().mockResolvedValue(new Uint8Array()),
 } as Response);
 
 const mockUseSession = useSession as jest.MockedFunction<typeof useSession>;
-const mockUseTranslations = useTranslations as jest.MockedFunction<typeof useTranslations>;
+const mockUseTranslations = useTranslations as jest.MockedFunction<
+  typeof useTranslations
+>;
 const mockToast = toast as jest.Mocked<typeof toast>;
 
 describe('AccountPage', () => {
@@ -136,7 +141,7 @@ describe('AccountPage', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     mockUseSession.mockReturnValue({
       data: {
         user: {
@@ -149,9 +154,9 @@ describe('AccountPage', () => {
       status: 'authenticated',
     } as any);
 
-    mockUseTranslations.mockReturnValue((key: string) => {
+    mockUseTranslations.mockReturnValue(((key: string) => {
       return mockTranslations[key as keyof typeof mockTranslations] || key;
-    });
+    }) as any);
   });
 
   describe('Basic Rendering', () => {
@@ -162,12 +167,18 @@ describe('AccountPage', () => {
 
     it('renders all tabs', () => {
       render(<AccountPageSimple />, { wrapper: createWrapper() });
-      
-      expect(screen.getByRole('tab', { name: /personal/i })).toBeInTheDocument();
+
+      expect(
+        screen.getByRole('tab', { name: /personal/i })
+      ).toBeInTheDocument();
       expect(screen.getByRole('tab', { name: /profile/i })).toBeInTheDocument();
       expect(screen.getByRole('tab', { name: /team/i })).toBeInTheDocument();
-      expect(screen.getByRole('tab', { name: /preferences/i })).toBeInTheDocument();
-      expect(screen.getByRole('tab', { name: /security/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('tab', { name: /preferences/i })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('tab', { name: /security/i })
+      ).toBeInTheDocument();
     });
 
     it('renders personal profile component by default', () => {
@@ -179,19 +190,19 @@ describe('AccountPage', () => {
   describe('Tab Navigation', () => {
     it('switches to profile tab when clicked', async () => {
       render(<AccountPageSimple />, { wrapper: createWrapper() });
-      
+
       const profileTab = screen.getByRole('tab', { name: /profile/i });
       await user.click(profileTab);
-      
+
       expect(screen.getByText('Company Profile')).toBeInTheDocument();
     });
 
     it('switches to security tab when clicked', async () => {
       render(<AccountPageSimple />, { wrapper: createWrapper() });
-      
+
       const securityTab = screen.getByRole('tab', { name: /security/i });
       await user.click(securityTab);
-      
+
       expect(screen.getByTestId('security-settings')).toBeInTheDocument();
     });
   });
@@ -214,7 +225,7 @@ describe('AccountPage', () => {
       const companyNameInput = screen.getByLabelText('Company Name');
       await user.clear(companyNameInput);
       await user.type(companyNameInput, 'New Company Name');
-      
+
       expect(companyNameInput).toHaveValue('New Company Name');
     });
   });
@@ -234,7 +245,7 @@ describe('AccountPage', () => {
     it('opens add member dialog when add button is clicked', async () => {
       const addButton = screen.getByText('Add Member');
       await user.click(addButton);
-      
+
       // Note: Simple version doesn't have dialog functionality
       expect(addButton).toBeInTheDocument();
     });
@@ -254,11 +265,13 @@ describe('AccountPage', () => {
     });
 
     it('allows toggling notification settings', async () => {
-      const emailToggle = screen.getByRole('switch', { name: /email notifications/i });
+      const emailToggle = screen.getByRole('switch', {
+        name: /email notifications/i,
+      });
       const initialState = emailToggle.getAttribute('aria-checked');
-      
+
       await user.click(emailToggle);
-      
+
       await waitFor(() => {
         expect(emailToggle.getAttribute('aria-checked')).not.toBe(initialState);
       });
@@ -280,19 +293,19 @@ describe('AccountPage', () => {
   describe('Form Interactions', () => {
     it('shows profile tab content when clicked', async () => {
       render(<AccountPageSimple />, { wrapper: createWrapper() });
-      
+
       const profileTab = screen.getByRole('tab', { name: /profile/i });
       await user.click(profileTab);
-      
+
       expect(screen.getByText('Company Profile')).toBeInTheDocument();
     });
 
     it('shows team tab content when clicked', async () => {
       render(<AccountPageSimple />, { wrapper: createWrapper() });
-      
+
       const teamTab = screen.getByRole('tab', { name: /team/i });
       await user.click(teamTab);
-      
+
       expect(screen.getByText('Team Management')).toBeInTheDocument();
     });
   });
@@ -300,12 +313,12 @@ describe('AccountPage', () => {
   describe('Accessibility', () => {
     it('supports keyboard navigation', async () => {
       render(<AccountPageSimple />, { wrapper: createWrapper() });
-      
+
       const firstTab = screen.getByRole('tab', { name: /personal/i });
       firstTab.focus();
-      
+
       await user.keyboard('{ArrowRight}');
-      
+
       const profileTab = screen.getByRole('tab', { name: /profile/i });
       expect(profileTab).toHaveFocus();
     });

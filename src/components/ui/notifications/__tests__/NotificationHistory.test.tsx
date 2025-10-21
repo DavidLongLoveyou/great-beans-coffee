@@ -62,12 +62,12 @@ describe('NotificationHistory Component', () => {
   describe('Rendering', () => {
     it('renders notification history interface', () => {
       render(
-        <NotificationHistory 
+        <NotificationHistory
           notifications={mockNotifications}
           onResendNotification={mockOnResend}
           onDeleteNotification={mockOnDelete}
           onMarkAsRead={mockOnMarkAsRead}
-        />, 
+        />,
         { wrapper: createWrapper() }
       );
 
@@ -76,12 +76,12 @@ describe('NotificationHistory Component', () => {
 
     it('displays all notifications', () => {
       render(
-        <NotificationHistory 
+        <NotificationHistory
           notifications={mockNotifications}
           onResendNotification={mockOnResend}
           onDeleteNotification={mockOnDelete}
           onMarkAsRead={mockOnMarkAsRead}
-        />, 
+        />,
         { wrapper: createWrapper() }
       );
 
@@ -92,12 +92,12 @@ describe('NotificationHistory Component', () => {
 
     it('shows notification status correctly', () => {
       render(
-        <NotificationHistory 
+        <NotificationHistory
           notifications={mockNotifications}
           onResendNotification={mockOnResend}
           onDeleteNotification={mockOnDelete}
           onMarkAsRead={mockOnMarkAsRead}
-        />, 
+        />,
         { wrapper: createWrapper() }
       );
 
@@ -110,12 +110,12 @@ describe('NotificationHistory Component', () => {
   describe('Filtering', () => {
     it('filters notifications by status', async () => {
       render(
-        <NotificationHistory 
+        <NotificationHistory
           notifications={mockNotifications}
           onResendNotification={mockOnResend}
           onDeleteNotification={mockOnDelete}
           onMarkAsRead={mockOnMarkAsRead}
-        />, 
+        />,
         { wrapper: createWrapper() }
       );
 
@@ -131,12 +131,12 @@ describe('NotificationHistory Component', () => {
   describe('Actions', () => {
     it('calls onResendNotification when resend button is clicked', async () => {
       render(
-        <NotificationHistory 
+        <NotificationHistory
           notifications={mockNotifications}
           onResendNotification={mockOnResend}
           onDeleteNotification={mockOnDelete}
           onMarkAsRead={mockOnMarkAsRead}
-        />, 
+        />,
         { wrapper: createWrapper() }
       );
 
@@ -149,12 +149,12 @@ describe('NotificationHistory Component', () => {
 
     it('calls onDeleteNotification when delete button is clicked', async () => {
       render(
-        <NotificationHistory 
+        <NotificationHistory
           notifications={mockNotifications}
           onResendNotification={mockOnResend}
           onDeleteNotification={mockOnDelete}
           onMarkAsRead={mockOnMarkAsRead}
-        />, 
+        />,
         { wrapper: createWrapper() }
       );
 
@@ -169,12 +169,12 @@ describe('NotificationHistory Component', () => {
   describe('Empty State', () => {
     it('shows empty state when no notifications', () => {
       render(
-        <NotificationHistory 
+        <NotificationHistory
           notifications={[]}
           onResendNotification={mockOnResend}
           onDeleteNotification={mockOnDelete}
           onMarkAsRead={mockOnMarkAsRead}
-        />, 
+        />,
         { wrapper: createWrapper() }
       );
 

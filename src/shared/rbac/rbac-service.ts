@@ -314,16 +314,18 @@ export class RBACService {
         return resourceValue !== conditionValue;
 
       case 'in':
-        return (
-          Array.isArray(conditionValue) &&
-          conditionValue.includes(resourceValue)
-        );
+        return Array.isArray(conditionValue)
+          ? (conditionValue as (string | number)[]).includes(
+              resourceValue as string | number
+            )
+          : false;
 
       case 'not_in':
-        return (
-          Array.isArray(conditionValue) &&
-          !conditionValue.includes(resourceValue)
-        );
+        return Array.isArray(conditionValue)
+          ? !(conditionValue as (string | number)[]).includes(
+              resourceValue as string | number
+            )
+          : true;
 
       case 'greater_than':
         return Number(resourceValue) > Number(conditionValue);

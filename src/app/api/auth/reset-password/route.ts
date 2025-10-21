@@ -5,7 +5,10 @@ import { prisma } from '@/lib/prisma';
 import { tokenService } from '@/infrastructure/services/token-service';
 import { passwordService } from '@/infrastructure/services/password-service';
 import { logger } from '@/infrastructure/services/logger-service';
-import { auditService, AuditAction } from '@/infrastructure/services/audit-service';
+import {
+  auditService,
+  AuditAction,
+} from '@/infrastructure/services/audit-service';
 
 // Validation schema
 const resetPasswordSchema = z.object({
@@ -42,7 +45,10 @@ export async function POST(request: NextRequest) {
     let resetTokenRecord = null;
     let userId = null;
     for (const record of resetTokenRecords) {
-      const isTokenValid = tokenService.verifyPasswordResetToken(token, record.token);
+      const isTokenValid = tokenService.verifyPasswordResetToken(
+        token,
+        record.token
+      );
       if (isTokenValid) {
         resetTokenRecord = record;
         // Extract userId from identifier: "password-reset:userId"
@@ -177,9 +183,10 @@ export async function POST(request: NextRequest) {
           timestamp: new Date().toISOString(),
         },
         {
-          ip: request.headers.get('x-forwarded-for') ||
-              request.headers.get('x-real-ip') ||
-              'unknown',
+          ip:
+            request.headers.get('x-forwarded-for') ||
+            request.headers.get('x-real-ip') ||
+            'unknown',
           userAgent: request.headers.get('user-agent') || 'unknown',
           userId: user.id,
         }
@@ -259,7 +266,10 @@ export async function GET(request: NextRequest) {
     let resetTokenRecord = null;
     let userId = null;
     for (const record of resetTokenRecords) {
-      const isTokenValid = tokenService.verifyPasswordResetToken(token, record.token);
+      const isTokenValid = tokenService.verifyPasswordResetToken(
+        token,
+        record.token
+      );
       if (isTokenValid) {
         resetTokenRecord = record;
         // Extract userId from identifier: "password-reset:userId"

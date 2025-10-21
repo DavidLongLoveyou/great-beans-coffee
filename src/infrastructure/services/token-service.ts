@@ -21,7 +21,8 @@ export interface PasswordResetToken {
 }
 
 class TokenService {
-  private readonly JWT_SECRET: string = process.env.JWT_SECRET || 'fallback-secret-key';
+  private readonly JWT_SECRET: string =
+    process.env.JWT_SECRET || 'fallback-secret-key';
   private readonly RESET_TOKEN_EXPIRY = 60 * 60 * 1000; // 1 hour
   private readonly VERIFICATION_TOKEN_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
 
@@ -35,7 +36,10 @@ class TokenService {
   /**
    * Generate a JWT token
    */
-  generateJWT(payload: Omit<TokenPayload, 'expiresAt'>, expiresIn: string = '1h'): string {
+  generateJWT(
+    payload: Omit<TokenPayload, 'expiresAt'>,
+    expiresIn: string = '1h'
+  ): string {
     try {
       const jwtPayload = {
         userId: payload.userId,
@@ -66,7 +70,7 @@ class TokenService {
   /**
    * Generate a password reset token
    */
-  generatePasswordResetToken(userId: string): {
+  generatePasswordResetToken(_userId: string): {
     token: string;
     hashedToken: string;
     expiresAt: Date;
@@ -123,7 +127,10 @@ class TokenService {
   /**
    * Generate access and refresh tokens
    */
-  generateAuthTokens(userId: string, email: string): {
+  generateAuthTokens(
+    userId: string,
+    email: string
+  ): {
     accessToken: string;
     refreshToken: string;
   } {
@@ -150,7 +157,7 @@ class TokenService {
    */
   refreshAccessToken(refreshToken: string): string | null {
     const payload = this.verifyJWT(refreshToken);
-    
+
     if (!payload || payload.type !== 'refresh') {
       return null;
     }
@@ -170,11 +177,11 @@ class TokenService {
   generateOTP(length: number = 6): string {
     const digits = '0123456789';
     let otp = '';
-    
+
     for (let i = 0; i < length; i++) {
       otp += digits[crypto.randomInt(0, digits.length)];
     }
-    
+
     return otp;
   }
 
@@ -185,14 +192,15 @@ class TokenService {
     const time = Math.floor(Date.now() / 1000 / window);
     const hmac = crypto.createHmac('sha1', secret);
     hmac.update(Buffer.from(time.toString(16).padStart(16, '0'), 'hex'));
-    
+
     const hash = hmac.digest();
     const offset = (hash[hash.length - 1] ?? 0) & 0xf;
-    const code = (((hash[offset] ?? 0) & 0x7f) << 24) |
-                 (((hash[offset + 1] ?? 0) & 0xff) << 16) |
-                 (((hash[offset + 2] ?? 0) & 0xff) << 8) |
-                 ((hash[offset + 3] ?? 0) & 0xff);
-    
+    const code =
+      (((hash[offset] ?? 0) & 0x7f) << 24) |
+      (((hash[offset + 1] ?? 0) & 0xff) << 16) |
+      (((hash[offset + 2] ?? 0) & 0xff) << 8) |
+      ((hash[offset + 3] ?? 0) & 0xff);
+
     return (code % 1000000).toString().padStart(6, '0');
   }
 }

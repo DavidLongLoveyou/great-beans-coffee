@@ -85,9 +85,7 @@ describe('NotificationToast Component', () => {
   describe('Rendering', () => {
     it('renders notification toast with basic information', () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -101,9 +99,7 @@ describe('NotificationToast Component', () => {
 
     it('displays correct icon for notification type', () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -118,9 +114,7 @@ describe('NotificationToast Component', () => {
       };
 
       render(
-        <NotificationToast
-          {...getNotificationProps(recentNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(recentNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -148,9 +142,7 @@ describe('NotificationToast Component', () => {
 
     it('shows unread indicator for unread notifications', () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -164,9 +156,7 @@ describe('NotificationToast Component', () => {
       };
 
       render(
-        <NotificationToast
-          {...getNotificationProps(readNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(readNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -216,12 +206,9 @@ describe('NotificationToast Component', () => {
           title: `${type} notification`,
         };
 
-        render(
-          <NotificationToast
-            {...getNotificationProps(notification)}
-          />,
-          { wrapper: createWrapper() }
-        );
+        render(<NotificationToast {...getNotificationProps(notification)} />, {
+          wrapper: createWrapper(),
+        });
 
         const icon = screen.getByTestId('notification-icon');
         expect(icon).toHaveClass(expectedColor);
@@ -237,9 +224,7 @@ describe('NotificationToast Component', () => {
       }));
 
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -262,9 +247,7 @@ describe('NotificationToast Component', () => {
       });
 
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -291,9 +274,7 @@ describe('NotificationToast Component', () => {
       };
 
       render(
-        <NotificationToast
-          {...getNotificationProps(customNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(customNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -353,9 +334,7 @@ describe('NotificationToast Component', () => {
   describe('Dismiss Functionality', () => {
     it('calls onDismiss when close button is clicked', async () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -446,9 +425,7 @@ describe('NotificationToast Component', () => {
   describe('Animations', () => {
     it('applies enter animation on mount', () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -458,9 +435,7 @@ describe('NotificationToast Component', () => {
 
     it('applies exit animation on dismiss', async () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -500,9 +475,7 @@ describe('NotificationToast Component', () => {
   describe('Accessibility', () => {
     it('has proper ARIA attributes', () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -514,9 +487,7 @@ describe('NotificationToast Component', () => {
 
     it('has proper ARIA label for close button', () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -526,9 +497,7 @@ describe('NotificationToast Component', () => {
 
     it('supports keyboard navigation', async () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -543,9 +512,7 @@ describe('NotificationToast Component', () => {
 
     it('handles Enter key for action buttons', async () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -563,9 +530,7 @@ describe('NotificationToast Component', () => {
 
     it('handles Escape key for dismissing', async () => {
       render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -621,9 +586,7 @@ describe('NotificationToast Component', () => {
       };
 
       render(
-        <NotificationToast
-          {...getNotificationProps(longNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(longNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -670,9 +633,7 @@ describe('NotificationToast Component', () => {
   describe('Performance', () => {
     it('memoizes action handlers to prevent unnecessary re-renders', () => {
       const { rerender } = render(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />,
+        <NotificationToast {...getNotificationProps(defaultNotification)} />,
         { wrapper: createWrapper() }
       );
 
@@ -681,9 +642,7 @@ describe('NotificationToast Component', () => {
 
       // Re-render with same props
       rerender(
-        <NotificationToast
-          {...getNotificationProps(defaultNotification)}
-        />
+        <NotificationToast {...getNotificationProps(defaultNotification)} />
       );
 
       const rerenderedActionButton = screen.getByText('View Order');

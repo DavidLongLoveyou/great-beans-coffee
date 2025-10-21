@@ -74,9 +74,7 @@ export async function POST(request: NextRequest) {
     if (user && user.isActive && user.emailVerified) {
       try {
         // Generate password reset token
-        const resetToken = tokenService.generatePasswordResetToken(
-          user.id
-        );
+        const resetToken = tokenService.generatePasswordResetToken(user.id);
 
         // Store reset token in database using VerificationToken
         await prisma.verificationToken.create({

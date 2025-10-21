@@ -518,7 +518,8 @@ export function NotificationFrequency({
                 <Slider
                   value={[settings.push.batchInterval]}
                   onValueChange={([value]) =>
-                    value !== undefined && updatePushSettings({ batchInterval: value })
+                    value !== undefined &&
+                    updatePushSettings({ batchInterval: value })
                   }
                   max={60}
                   min={5}
@@ -571,7 +572,8 @@ export function NotificationFrequency({
                   <Slider
                     value={[settings.push.sound.volume]}
                     onValueChange={([value]) =>
-                      value !== undefined && updatePushSettings({
+                      value !== undefined &&
+                      updatePushSettings({
                         sound: { ...settings.push.sound, volume: value },
                       })
                     }

@@ -56,7 +56,7 @@ class PasswordService {
     try {
       const salt = await bcrypt.genSalt(this.saltRounds);
       const hashedPassword = await bcrypt.hash(password, salt);
-      
+
       logger.debug('Password hashed successfully');
       return hashedPassword;
     } catch (error) {
@@ -68,16 +68,19 @@ class PasswordService {
   /**
    * Verify a password against its hash
    */
-  async verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
+  async verifyPassword(
+    password: string,
+    hashedPassword: string
+  ): Promise<boolean> {
     try {
       const isValid = await bcrypt.compare(password, hashedPassword);
-      
+
       if (isValid) {
         logger.debug('Password verification successful');
       } else {
         logger.debug('Password verification failed');
       }
-      
+
       return isValid;
     } catch (error) {
       logger.error('Failed to verify password:', error);
@@ -98,14 +101,18 @@ class PasswordService {
 
     // Check minimum length
     if (password.length < activePolicy.minLength) {
-      errors.push(`Password must be at least ${activePolicy.minLength} characters long`);
+      errors.push(
+        `Password must be at least ${activePolicy.minLength} characters long`
+      );
     } else {
       score += 20;
     }
 
     // Check maximum length
     if (activePolicy.maxLength && password.length > activePolicy.maxLength) {
-      errors.push(`Password must not exceed ${activePolicy.maxLength} characters`);
+      errors.push(
+        `Password must not exceed ${activePolicy.maxLength} characters`
+      );
     }
 
     // Check uppercase requirement
@@ -130,7 +137,10 @@ class PasswordService {
     }
 
     // Check special characters requirement
-    if (activePolicy.requireSpecialChars && !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+    if (
+      activePolicy.requireSpecialChars &&
+      !/[!@#$%^&*(),.?":{}|<>]/.test(password)
+    ) {
       errors.push('Password must contain at least one special character');
     } else if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
       score += 15;
@@ -138,13 +148,16 @@ class PasswordService {
 
     // Check against common passwords
     if (activePolicy.forbidCommonPasswords && this.isCommonPassword(password)) {
-      errors.push('Password is too common. Please choose a more unique password');
+      errors.push(
+        'Password is too common. Please choose a more unique password'
+      );
     }
 
     // Additional scoring for complexity
     if (password.length >= 12) score += 10;
     if (password.length >= 16) score += 10;
-    if (/[!@#$%^&*(),.?":{}|<>].*[!@#$%^&*(),.?":{}|<>]/.test(password)) score += 5; // Multiple special chars
+    if (/[!@#$%^&*(),.?":{}|<>].*[!@#$%^&*(),.?":{}|<>]/.test(password))
+      score += 5; // Multiple special chars
     if (/\d.*\d/.test(password)) score += 5; // Multiple numbers
 
     // Cap the score at 100
@@ -172,7 +185,7 @@ class PasswordService {
     const lowercase = 'abcdefghijklmnopqrstuvwxyz';
     const numbers = '0123456789';
     const specialChars = '!@#$%^&*(),.?":{}|<>';
-    
+
     const allChars = uppercase + lowercase + numbers + specialChars;
     let password = '';
 
@@ -188,7 +201,10 @@ class PasswordService {
     }
 
     // Shuffle the password
-    return password.split('').sort(() => Math.random() - 0.5).join('');
+    return password
+      .split('')
+      .sort(() => Math.random() - 0.5)
+      .join('');
   }
 
   /**
@@ -228,13 +244,14 @@ class PasswordService {
    * Generate password reset token
    */
   generatePasswordResetToken(): string {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let token = '';
-    
+
     for (let i = 0; i < 32; i++) {
       token += chars[Math.floor(Math.random() * chars.length)];
     }
-    
+
     return token;
   }
 
@@ -244,16 +261,20 @@ class PasswordService {
   estimateCrackTime(password: string): string {
     const charsetSize = this.getCharsetSize(password);
     const combinations = Math.pow(charsetSize, password.length);
-    
+
     // Assume 1 billion guesses per second
     const secondsToCrack = combinations / (2 * 1000000000);
-    
+
     if (secondsToCrack < 60) return 'Less than a minute';
-    if (secondsToCrack < 3600) return `${Math.ceil(secondsToCrack / 60)} minutes`;
-    if (secondsToCrack < 86400) return `${Math.ceil(secondsToCrack / 3600)} hours`;
-    if (secondsToCrack < 31536000) return `${Math.ceil(secondsToCrack / 86400)} days`;
-    if (secondsToCrack < 31536000000) return `${Math.ceil(secondsToCrack / 31536000)} years`;
-    
+    if (secondsToCrack < 3600)
+      return `${Math.ceil(secondsToCrack / 60)} minutes`;
+    if (secondsToCrack < 86400)
+      return `${Math.ceil(secondsToCrack / 3600)} hours`;
+    if (secondsToCrack < 31536000)
+      return `${Math.ceil(secondsToCrack / 86400)} days`;
+    if (secondsToCrack < 31536000000)
+      return `${Math.ceil(secondsToCrack / 31536000)} years`;
+
     return 'Centuries';
   }
 
@@ -262,12 +283,12 @@ class PasswordService {
    */
   private getCharsetSize(password: string): number {
     let size = 0;
-    
+
     if (/[a-z]/.test(password)) size += 26;
     if (/[A-Z]/.test(password)) size += 26;
     if (/\d/.test(password)) size += 10;
     if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) size += 32;
-    
+
     return size;
   }
 }
